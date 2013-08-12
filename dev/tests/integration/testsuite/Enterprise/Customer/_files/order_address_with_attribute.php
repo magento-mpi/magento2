@@ -45,8 +45,8 @@ $attribute = Mage::getModel('Magento_Customer_Model_Attribute',
 $attribute->setAttributeCode('fixture_address_attribute');
 $attribute->save();
 
-$addressData = include(__DIR__ . '/../../../Mage/Sales/_files/address_data.php');
-$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => $addressData));
+$addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
+$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');
 $billingAddress->save();

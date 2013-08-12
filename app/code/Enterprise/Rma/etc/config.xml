@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Customer/>
-                <Mage_Sales/>
+                <Magento_Sales/>
             </depends>
         </Enterprise_Rma>
     </modules>

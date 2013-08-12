@@ -22,8 +22,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block
         parent::_construct();
         $this->setId('checkout_manage_container');
 
-        if ($this->_authorization->isAllowed('Mage_Sales::create')) {
-            $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Create Order'));
+        if ($this->_authorization->isAllowed('Magento_Sales::create')) {
+            $this->_updateButton('save', 'label', Mage::helper('Magento_Sales_Helper_Data')->__('Create Order'));
             $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
         } else {
             $this->_removeButton('save');

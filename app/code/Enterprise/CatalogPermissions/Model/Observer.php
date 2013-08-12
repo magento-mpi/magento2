@@ -257,7 +257,7 @@ class Enterprise_CatalogPermissions_Model_Observer
             } else {
                 $parentItem = false;
             }
-            /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+            /* @var $quoteItem Magento_Sales_Model_Quote_Item */
             if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
                 $quote->removeItem($quoteItem->getId());
                 if ($parentItem) {
@@ -302,7 +302,7 @@ class Enterprise_CatalogPermissions_Model_Observer
             $parentItem = false;
         }
 
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
@@ -322,7 +322,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Initialize permissions for quote items
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _initPermissionsOnQuoteItems($quote)

@@ -171,7 +171,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct extends Magento_Pay
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)

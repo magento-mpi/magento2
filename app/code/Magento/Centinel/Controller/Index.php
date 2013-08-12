@@ -52,7 +52,7 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
     /**
      * Return payment model
      *
-     * @return Mage_Sales_Model_Quote_Payment
+     * @return Magento_Sales_Model_Quote_Payment
      */
     private function _getPayment()
     {

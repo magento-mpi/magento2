@@ -229,7 +229,7 @@ class Enterprise_GiftCardAccount_Model_Observer
      */
     public function paymentDataImport(Magento_Event_Observer $observer)
     {
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getPayment()->getQuote();
         if (!$quote || !$quote->getCustomerId()) {
             return $this;
@@ -380,7 +380,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         }
 
         if ($order->isCanceled() ||
-            $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
+            $order->getState() === Magento_Sales_Model_Order::STATE_CLOSED ) {
             return $this;
         }
 
@@ -449,10 +449,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   Mage_Sales_Model_Order $order
+     * @param   Magento_Sales_Model_Order $order
      * @return  Enterprise_GiftCardAccount_Model_Observer
      */
-    protected function _revertGiftCardsForOrder(Mage_Sales_Model_Order $order)
+    protected function _revertGiftCardsForOrder(Magento_Sales_Model_Order $order)
     {
         $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
         if (is_array($cards)) {
@@ -507,7 +507,7 @@ class Enterprise_GiftCardAccount_Model_Observer
      */
     public function returnFundsToStoreCredit(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Sales_Model_Order $order */
+        /** @var Magento_Sales_Model_Order $order */
         $order = $observer->getEvent()->getOrder();
 
         $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);

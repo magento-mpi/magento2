@@ -16,7 +16,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
+class Enterprise_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
     /**
      * Prepare RMA item attribute values to save in additional table

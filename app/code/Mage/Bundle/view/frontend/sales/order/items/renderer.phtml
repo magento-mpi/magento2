@@ -169,20 +169,20 @@
                 (!$_item->getParentItem() && !$this->isChildCalculated())): ?>
             <span class="nobr">
             <?php if ($_item->getQtyOrdered() > 0): ?>
-                <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong><br />
+                <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyShipped() > 0 && !$this->isShipmentSeparately()): ?>
-                <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong><br />
+                <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyCanceled() > 0): ?>
-                <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong><br />
+                <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyRefunded() > 0): ?>
-                <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
+                <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
             <?php endif; ?>
             </span>
         <?php elseif ($_item->getQtyShipped() > 0 && $_item->getParentItem() && $this->isShipmentSeparately()): ?>
-            <span class="nobr"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong></span>
+            <span class="nobr"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong></span>
         <?php else: ?>
             &nbsp;
         <?php endif; ?>
@@ -348,7 +348,7 @@
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
         <?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
-            <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>" data-item-id="<?php echo $parentItem->getId()?>"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Gift Message') ?></a>
+            <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>" data-item-id="<?php echo $parentItem->getId()?>"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Gift Message') ?></a>
         <?php endif; ?>
     </td>
     <td>&nbsp;</td>

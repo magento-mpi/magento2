@@ -29,8 +29,8 @@ class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = Mage::getModel('Mage_Sales_Model_Quote')->setItemCount(true);
-            $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
+            $quote = Mage::getModel('Magento_Sales_Model_Quote')->setItemCount(true);
+            $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();

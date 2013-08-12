@@ -28,26 +28,26 @@ class Magento_Adminhtml_Block_Report_Sales_Refunded_Grid extends Magento_Adminht
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_refunded')
-            ? 'Mage_Sales_Model_Resource_Report_Refunded_Collection_Refunded'
-            : 'Mage_Sales_Model_Resource_Report_Refunded_Collection_Order';
+            ? 'Magento_Sales_Model_Resource_Report_Refunded_Collection_Refunded'
+            : 'Magento_Sales_Model_Resource_Report_Refunded_Collection_Order';
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Interval'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Interval'),
             'index'         => 'period',
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'  => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
+            'totals_label'  => Mage::helper('Magento_Sales_Helper_Data')->__('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Refunded Orders'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Refunded Orders'),
             'index'     => 'orders_count',
             'type'      => 'number',
             'total'     => 'sum',
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Report_Sales_Refunded_Grid extends Magento_Adminht
         $rate = $this->getRate($currencyCode);
 
         $this->addColumn('refunded', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Refunded'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Total Refunded'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'refunded',
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Report_Sales_Refunded_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('online_refunded', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Online Refunds'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Online Refunds'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'online_refunded',
@@ -87,7 +87,7 @@ class Magento_Adminhtml_Block_Report_Sales_Refunded_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('offline_refunded', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Offline Refunds'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Offline Refunds'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'offline_refunded',

@@ -16,7 +16,7 @@
                 <name_in_layout>sale.reorder.sidebar</name_in_layout>
                 <class>Enterprise_Persistent_Model_Observer</class>
                 <method>initReorderSidebar</method>
-                <block_type>Mage_Sales_Block_Reorder_Sidebar</block_type>
+                <block_type>Magento_Sales_Block_Reorder_Sidebar</block_type>
             </reorder_sidebar>
             <viewed_products>
                 <name_in_layout>left.reports.product.viewed</name_in_layout>

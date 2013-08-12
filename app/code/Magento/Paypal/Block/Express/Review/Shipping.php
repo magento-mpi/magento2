@@ -20,7 +20,7 @@ class Magento_Paypal_Block_Express_Review_Shipping extends Magento_Checkout_Bloc
     /**
      * Return Sales Quote Address model (shipping address)
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getAddress()
     {
@@ -28,7 +28,7 @@ class Magento_Paypal_Block_Express_Review_Shipping extends Magento_Checkout_Bloc
             if ($this->isCustomerLoggedIn() || $this->getQuote()->getShippingAddress()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
             }
         }
 

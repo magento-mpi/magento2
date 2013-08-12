@@ -517,7 +517,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         // delete an item from cart
         $deleteItemId = $this->getRequest()->getPost('delete');
         if ($deleteItemId) {
-            $quote = Mage::getModel('Mage_Sales_Model_Quote')
+            $quote = Mage::getModel('Magento_Sales_Model_Quote')
                 ->setWebsite(Mage::app()->getWebsite($websiteId))
                 ->loadByCustomer(Mage::registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);

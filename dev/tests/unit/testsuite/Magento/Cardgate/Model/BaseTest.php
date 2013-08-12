@@ -45,7 +45,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
     protected $_transFactoryMock;
 
     /**
-     * @var Mage_Sales_Model_OrderFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Sales_Model_OrderFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_orderFactoryMock;
 
@@ -71,7 +71,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $this->_loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_transFactoryMock =
             $this->getMock('Magento_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
-        $this->_orderFactoryMock = $this->getMock('Mage_Sales_Model_OrderFactory', array('create'), array(), '', false);
+        $this->_orderFactoryMock = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
         $this->_helperMock = $this->getMock('Magento_Cardgate_Helper_Data', array(), array(), '', false);
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 
@@ -115,14 +115,14 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         );
         $this->_baseModel->setCallbackData($callbackData);
 
-        $order = $this->getMock('Mage_Sales_Model_Order',
+        $order = $this->getMock('Magento_Sales_Model_Order',
             array('getState', 'getStatus', 'getEmailSent', 'loadByIncrementId', 'getBaseTotalDue', 'sendNewOrderEmail',
                 'getStatusHistoryCollection', 'addStatusToHistory', 'setState', 'canInvoice', 'getInvoiceCollection',
                 'prepareInvoice', 'save'),
             array(), '', false);
-        $invoiceCollection = $this->getMock('Mage_Sales_Model_Resource_Order_Invoice_Collection', array(), array(),
+        $invoiceCollection = $this->getMock('Magento_Sales_Model_Resource_Order_Invoice_Collection', array(), array(),
             '', false);
-        $invoice = $this->getMock('Mage_Sales_Model_Order_Invoice',
+        $invoice = $this->getMock('Magento_Sales_Model_Order_Invoice',
             array('getIncrementId', 'save', 'sendEmail', 'getOrder', 'register', 'setRequestedCaptureCase',
                 'setEmailSent'),
             array(), '', false);
@@ -139,7 +139,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $order->expects($this->once())->method('sendNewOrderEmail');
 
         $order->expects($this->any())->method('getState')
-            ->will($this->returnValue(Mage_Sales_Model_Order::STATE_NEW));
+            ->will($this->returnValue(Magento_Sales_Model_Order::STATE_NEW));
         $order->expects($this->any())->method('getStatus')->will($this->returnValue(''));
 
         $order->expects($this->once())->method('getStatusHistoryCollection')->will($this->returnValue(array()));
@@ -167,7 +167,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
                 $this->equalTo('Invoice #%s created and send to customer.'), $this->equalTo(true));
 
         $order->expects($this->once())->method('setState')
-            ->with($this->equalTo(Mage_Sales_Model_Order::STATE_PROCESSING), $this->equalTo('complete_status'),
+            ->with($this->equalTo(Magento_Sales_Model_Order::STATE_PROCESSING), $this->equalTo('complete_status'),
                 $this->equalTo('Payment complete.'));
 
         $order->expects($this->once())->method('save');
@@ -197,7 +197,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         );
         $this->_baseModel->setCallbackData($callbackData);
 
-        $order = $this->getMock('Mage_Sales_Model_Order',
+        $order = $this->getMock('Magento_Sales_Model_Order',
             array('getState', 'getStatus', 'getEmailSent', 'loadByIncrementId', 'getBaseTotalDue', 'sendNewOrderEmail',
                 'getStatusHistoryCollection', 'addStatusToHistory', 'setState', 'canInvoice', 'getInvoiceCollection',
                 'prepareInvoice', 'save'),
@@ -214,7 +214,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $order->expects($this->once())->method('sendNewOrderEmail');
 
         $order->expects($this->any())->method('getState')
-            ->will($this->returnValue(Mage_Sales_Model_Order::STATE_CLOSED));
+            ->will($this->returnValue(Magento_Sales_Model_Order::STATE_CLOSED));
         $order->expects($this->any())->method('getStatus')->will($this->returnValue(''));
 
         $order->expects($this->once())->method('getStatusHistoryCollection')->will($this->returnValue(array()));
@@ -252,7 +252,7 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         );
         $this->_baseModel->setCallbackData($callbackData);
 
-        $order = $this->getMock('Mage_Sales_Model_Order',
+        $order = $this->getMock('Magento_Sales_Model_Order',
             array('getStatus','loadByIncrementId', 'getBaseTotalDue', 'addStatusToHistory', 'prepareInvoice', 'save'),
             array(), '', false);
 

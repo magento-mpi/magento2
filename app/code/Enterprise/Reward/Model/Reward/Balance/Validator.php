@@ -48,10 +48,10 @@ class Enterprise_Reward_Model_Reward_Balance_Validator
     /**
      * Check reward points balance
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @throws Enterprise_Reward_Model_Reward_Balance_Exception
      */
-    public function validate(Mage_Sales_Model_Order $order)
+    public function validate(Magento_Sales_Model_Order $order)
     {
         if ($order->getRewardPointsBalance() > 0) {
             $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();

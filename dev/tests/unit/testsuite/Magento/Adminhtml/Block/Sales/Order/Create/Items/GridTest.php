@@ -9,7 +9,7 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Sales_Helper_Data
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Helper_Data
      */
     protected $_helperMock;
 
@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
      */
     public function setUp()
     {
-        $this->_helperMock = $this->getMockBuilder('Mage_Sales_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Magento_Sales_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();
@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->setMethods(array('getQuote'))
             ->getMock();
-        $quoteMock = $this->getMockBuilder('Mage_Sales_Model_Quote')
+        $quoteMock = $this->getMockBuilder('Magento_Sales_Model_Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMock();
@@ -124,7 +124,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
     /**
      * @param array|int $tierPrices
      * @param string $productType
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Sales_Model_Quote_Item
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Quote_Item
      */
     protected function _prepareItem($tierPrices, $productType)
     {
@@ -135,7 +135,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
         $product->expects($this->once())
             ->method('getTierPrice')
             ->will($this->returnValue($tierPrices));
-        $item = $this->getMockBuilder('Mage_Sales_Model_Quote_Item')
+        $item = $this->getMockBuilder('Magento_Sales_Model_Quote_Item')
             ->disableOriginalConstructor()
             ->setMethods(array('getProduct', 'getProductType'))
             ->getMock();

@@ -70,7 +70,7 @@
             </customers>
             <sales>
                 <class>Magento_Adminhtml_Model_Search_Order</class>
-                <acl>Mage_Sales::sales</acl>
+                <acl>Magento_Sales::sales</acl>
             </sales>
         </global_search>
         <translate>

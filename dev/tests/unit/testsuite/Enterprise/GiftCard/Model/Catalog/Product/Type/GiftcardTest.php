@@ -42,7 +42,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
     protected $_store;
 
     /**
-     * @var Mage_Sales_Model_Quote_Item_Option
+     * @var Magento_Sales_Model_Quote_Item_Option
      */
     protected $_quoteItemOption;
 
@@ -134,7 +134,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
             $this->_product->addOption($option);
         }
 
-        $this->_quoteItemOption = $this->getMock('Mage_Sales_Model_Quote_Item_Option', array(), array(), '', false);
+        $this->_quoteItemOption = $this->getMock('Magento_Sales_Model_Quote_Item_Option', array(), array(), '', false);
 
         $this->_customOptions['info_buyRequest'] = $this->_quoteItemOption;
 

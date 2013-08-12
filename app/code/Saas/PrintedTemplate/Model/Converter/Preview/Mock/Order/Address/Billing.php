@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Billing extends Mage_Sales_Model_Order_Address
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Billing extends Magento_Sales_Model_Order_Address
 {
     /**
      * Initialize order billing address with mock data

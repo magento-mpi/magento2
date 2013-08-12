@@ -20,7 +20,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magen
     /**
      * Get order item
      *
-     * @return Mage_Sales_Model_Quote_Item
+     * @return Magento_Sales_Model_Quote_Item
      */
     public function getItem()
     {

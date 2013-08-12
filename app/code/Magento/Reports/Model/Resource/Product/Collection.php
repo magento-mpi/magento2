@@ -261,7 +261,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
 
         $orderJoinCondition   = array(
             $orderTableAliasName . '.entity_id = order_items.order_id',
-            $adapter->quoteInto("{$orderTableAliasName}.state <> ?", Mage_Sales_Model_Order::STATE_CANCELED),
+            $adapter->quoteInto("{$orderTableAliasName}.state <> ?", Magento_Sales_Model_Order::STATE_CANCELED),
 
         );
 

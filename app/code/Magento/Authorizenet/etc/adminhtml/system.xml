@@ -39,7 +39,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="test" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Test Mode</label>

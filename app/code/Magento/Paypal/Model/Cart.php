@@ -27,8 +27,8 @@ class Magento_Paypal_Model_Cart
     /**
      * Order or quote instance
      *
-     * @var Mage_Sales_Model_Order
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Order
+     * @var Magento_Sales_Model_Quote
      */
     protected $_salesEntity = null;
 
@@ -102,7 +102,7 @@ class Magento_Paypal_Model_Cart
     {
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
-            && (($salesEntity instanceof Mage_Sales_Model_Order) || ($salesEntity instanceof Mage_Sales_Model_Quote))) {
+            && (($salesEntity instanceof Magento_Sales_Model_Order) || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
             $this->_salesEntity = $salesEntity;
         } else {
             throw new Exception('Invalid sales entity provided.');
@@ -112,8 +112,8 @@ class Magento_Paypal_Model_Cart
     /**
      * Getter for the current sales entity
      *
-     * @return Mage_Sales_Model_Order
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Order
+     * @return Magento_Sales_Model_Quote
      */
     public function getSalesEntity()
     {
@@ -275,7 +275,7 @@ class Magento_Paypal_Model_Cart
 
         // regular totals
         $shippingDescription = '';
-        if ($this->_salesEntity instanceof Mage_Sales_Model_Order) {
+        if ($this->_salesEntity instanceof Magento_Sales_Model_Order) {
             $shippingDescription = $this->_salesEntity->getShippingDescription();
             $this->_totals = array(
                 self::TOTAL_SUBTOTAL => $this->_salesEntity->getBaseSubtotal(),
@@ -303,7 +303,7 @@ class Magento_Paypal_Model_Cart
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {
-            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%s)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
+            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = Mage::helper('Magento_Sales_Helper_Data')->__('Discount (%s)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
         }
 
         // discount, shipping as items
@@ -407,7 +407,7 @@ class Magento_Paypal_Model_Cart
      */
     protected function _addRegularItem(Magento_Object $salesItem)
     {
-        if ($this->_salesEntity instanceof Mage_Sales_Model_Order) {
+        if ($this->_salesEntity instanceof Magento_Sales_Model_Order) {
             $qty = (int) $salesItem->getQtyOrdered();
             $amount = (float) $salesItem->getBasePrice();
             // TODO: nominal item for order

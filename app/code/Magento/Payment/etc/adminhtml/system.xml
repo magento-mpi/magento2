@@ -29,7 +29,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_New</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_New</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -87,7 +87,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_New</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_New</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -127,7 +127,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Newprocessing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Newprocessing</source_model>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Automatically Invoice All Items</label>
@@ -162,7 +162,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_New</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_New</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -199,7 +199,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_New</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_New</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -234,7 +234,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_New</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_New</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>

@@ -64,7 +64,7 @@ class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
      *
      * @param String $entityId
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return stdClass
      */
     protected function _setGiftMessage($entityId, $request, $quote)

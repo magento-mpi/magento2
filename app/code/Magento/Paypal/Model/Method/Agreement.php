@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract
+class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
     implements Magento_Payment_Model_Billing_Agreement_MethodInterface
 {
     /**
@@ -149,7 +149,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
             $api->callUpdateBillingAgreement();
         } catch (Magento_Core_Exception $e) {
             // when BA was already canceled, just pretend that the operation succeeded
-            if (!(Mage_Sales_Model_Billing_Agreement::STATUS_CANCELED == $targetStatus
+            if (!(Magento_Sales_Model_Billing_Agreement::STATUS_CANCELED == $targetStatus
                 && $api->getIsBillingAgreementAlreadyCancelled())) {
                 throw $e;
             }
@@ -172,7 +172,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Void payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function void(Magento_Object $payment)
@@ -184,7 +184,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Capture payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
@@ -199,7 +199,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Refund capture
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
@@ -212,7 +212,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Cancel payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function cancel(Magento_Object $payment)
@@ -224,7 +224,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Whether payment can be reviewed
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -235,7 +235,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Attempt to accept a pending payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -247,7 +247,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Attempt to deny a pending payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)
@@ -271,16 +271,16 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Place an order with authorization or capture action
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
-    protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
+    protected function _placeOrder(Magento_Sales_Model_Order_Payment $payment, $amount)
     {
         $order = $payment->getOrder();
-        $billingAgreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load(
+        $billingAgreement = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load(
             $payment->getAdditionalInformation(
-                Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID
+                Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID
             )
         );
 
@@ -322,7 +322,7 @@ class Magento_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Met
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Mage_Sales_Model_Payment::place()
+     * @see Magento_Sales_Model_Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()

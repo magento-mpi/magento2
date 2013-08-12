@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Product_Option_Observer
      */
     public function copyQuoteFilesToOrderFiles($observer)
     {
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
         $quoteItem = $observer->getEvent()->getItem();
 
         if (is_array($quoteItem->getOptions())) {

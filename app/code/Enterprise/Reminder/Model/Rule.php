@@ -158,8 +158,8 @@ class Enterprise_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
                 continue;
             }
 
-            /* @var $coupon Mage_SalesRule_Model_Coupon */
-            $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon')->load($recipient['coupon_id']);
+            /* @var $coupon Magento_SalesRule_Model_Coupon */
+            $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon')->load($recipient['coupon_id']);
 
             $templateVars = array(
                 'store'          => $store,
@@ -207,8 +207,8 @@ class Enterprise_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
             $this->_getResource()->deactivateMatchedCustomers($rule->getId());
 
             if ($rule->getSalesruleId()) {
-                /* @var $salesRule Mage_SalesRule_Model_Rule */
-                $salesRule = Mage::getSingleton('Mage_SalesRule_Model_Rule')->load($rule->getSalesruleId());
+                /* @var $salesRule Magento_SalesRule_Model_Rule */
+                $salesRule = Mage::getSingleton('Magento_SalesRule_Model_Rule')->load($rule->getSalesruleId());
                 $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
             } else {
                 $salesRule = null;

@@ -18,11 +18,11 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
     /**
      * Initialize payment transaction model
      *
-     * @return Mage_Sales_Model_Order_Payment_Transaction | bool
+     * @return Magento_Sales_Model_Order_Payment_Transaction | bool
      */
     protected function _initTransaction()
     {
-        $txn = Mage::getModel('Mage_Sales_Model_Order_Payment_Transaction')->load(
+        $txn = Mage::getModel('Magento_Sales_Model_Order_Payment_Transaction')->load(
             $this->getRequest()->getParam('txn_id')
         );
 
@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
         $this->_title($this->__('Transactions'));
 
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Sales::sales_transactions')
+            ->_setActiveMenu('Magento_Sales::sales_transactions')
             ->renderLayout();
     }
 
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
              ->_title(sprintf("#%s", $txn->getTxnId()));
 
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Sales::sales_transactions')
+            ->_setActiveMenu('Magento_Sales::sales_transactions')
             ->renderLayout();
     }
 
@@ -114,10 +114,10 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
     {
         switch ($this->getRequest()->getActionName()) {
             case 'fetch':
-                return $this->_authorization->isAllowed('Mage_Sales::transactions_fetch');
+                return $this->_authorization->isAllowed('Magento_Sales::transactions_fetch');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Sales::transactions');
+                return $this->_authorization->isAllowed('Magento_Sales::transactions');
                 break;
         }
     }

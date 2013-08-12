@@ -15,7 +15,7 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Sales/>
+                <Magento_Sales/>
                 <Magento_Payment/>
             </depends>
         </Magento_Ogone>

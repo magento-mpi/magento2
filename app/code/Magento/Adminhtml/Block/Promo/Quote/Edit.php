@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit extends Magento_Adminhtml_Block_W
 
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
-            'label'   => Mage::helper('Mage_SalesRule_Helper_Data')->__('Save and Continue Edit'),
+            'label'   => Mage::helper('Magento_SalesRule_Helper_Data')->__('Save and Continue Edit'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
@@ -47,10 +47,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit extends Magento_Adminhtml_Block_W
     {
         $rule = Mage::registry('current_promo_quote_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('Mage_SalesRule_Helper_Data')->__("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
+            return Mage::helper('Magento_SalesRule_Helper_Data')->__("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
         }
         else {
-            return Mage::helper('Mage_SalesRule_Helper_Data')->__('New Rule');
+            return Mage::helper('Magento_SalesRule_Helper_Data')->__('New Rule');
         }
     }
 

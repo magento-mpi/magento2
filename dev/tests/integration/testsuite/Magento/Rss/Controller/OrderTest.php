@@ -26,7 +26,7 @@ class Magento_Rss_Controller_OrderTest extends Magento_Test_TestCase_ControllerA
     }
 
     /**
-     * @magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testNewAction()
     {

@@ -22,7 +22,7 @@ class Magento_Paypal_Block_Express_Review_Details extends Magento_Checkout_Block
     /**
      * Return review shipping address
      *
-     * @return Mage_Sales_Model_Order_Address
+     * @return Magento_Sales_Model_Order_Address
      */
     public function getAddress()
     {

@@ -26,9 +26,9 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
         /** @var $model Magento_Checkout_Model_Type_Onepage */
         $model = Mage::getModel('Magento_Checkout_Model_Type_Onepage');
 
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
-        /** @var Mage_Sales_Model_Quote $quote */
+        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
+        /** @var Magento_Sales_Model_Quote $quote */
         $quote = $quoteCollection->getFirstItem();
 
         $model->setQuote($quote);
@@ -38,8 +38,8 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
 
         $model->saveOrder();
 
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        /** @var $order Magento_Sales_Model_Order */
+        $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId($model->getLastOrderId());
 
         $this->assertNotEmpty($quote->getShippingAddress()->getCustomerAddressId(),
@@ -64,12 +64,12 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare Quote
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      */
     protected function _prepareQuote($quote)
     {
-        /** @var $rate Mage_Sales_Model_Quote_Address_Rate */
-        $rate = Mage::getModel('Mage_Sales_Model_Quote_Address_Rate');
+        /** @var $rate Magento_Sales_Model_Quote_Address_Rate */
+        $rate = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate');
         $rate->setCode('freeshipping_freeshipping');
         $rate->getPrice(1);
 

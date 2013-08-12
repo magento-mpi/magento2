@@ -169,13 +169,13 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                 $options = $item->getProductOptions();
 
                 switch ($requiredStatus) {
-                    case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
+                    case Magento_Sales_Model_Order_Item::STATUS_INVOICED:
                         $paidInvoiceItems = isset($options['giftcard_paid_invoice_items'])
                             ? $options['giftcard_paid_invoice_items']
                             : array();
                         // find invoice for this order item
                         $invoiceItemCollection = Mage::getResourceModel(
-                            'Mage_Sales_Model_Resource_Order_Invoice_Item_Collection'
+                            'Magento_Sales_Model_Resource_Order_Invoice_Item_Collection'
                         )->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
@@ -183,11 +183,11 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
+                                $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
-                            if ($invoice->getState() == Mage_Sales_Model_Order_Invoice::STATE_PAID &&
+                            if ($invoice->getState() == Magento_Sales_Model_Order_Invoice::STATE_PAID &&
                                 !in_array($invoiceItem->getId(), $paidInvoiceItems)
                             ) {
                                 $qty += $invoiceItem->getQty();

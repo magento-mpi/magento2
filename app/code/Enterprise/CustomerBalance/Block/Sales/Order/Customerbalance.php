@@ -17,7 +17,7 @@ class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Magen
     /**
      * Retrieve current order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

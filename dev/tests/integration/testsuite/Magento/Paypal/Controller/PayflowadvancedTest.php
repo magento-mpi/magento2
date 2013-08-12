@@ -7,7 +7,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Sales/_files/order.php
+ * @magentoDataFixture Magento/Sales/_files/order.php
  */
 class Magento_Paypal_Controller_PayflowadvancedTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -15,11 +15,11 @@ class Magento_Paypal_Controller_PayflowadvancedTest extends Magento_Test_TestCas
     {
         parent::setUp();
 
-        $order = $this->_objectManager->create('Mage_Sales_Model_Order');
+        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED);
 
-        $quote = Mage::getModel('Mage_Sales_Model_Quote')
+        $quote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 
@@ -81,10 +81,10 @@ class Magento_Paypal_Controller_PayflowadvancedTest extends Magento_Test_TestCas
      */
     public function testCancelAction()
     {
-        $order = $this->_objectManager->create('Mage_Sales_Model_Order');
+        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
         $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
 
-        $quote = $this->_objectManager->create('Mage_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
         $quote->load('test02', 'reserved_order_id');
         $order->load('100000001', 'increment_id')
             ->setQuoteId($quote->getId())

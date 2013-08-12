@@ -54,8 +54,8 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         $storeId = $this->_getStoreId($store);
 
         try {
-            /*@var $quote Mage_Sales_Model_Quote*/
-            $quote = Mage::getModel('Mage_Sales_Model_Quote');
+            /*@var $quote Magento_Sales_Model_Quote*/
+            $quote = Mage::getModel('Magento_Sales_Model_Quote');
             $quote->setStoreId($storeId)
                     ->setIsActive(false)
                     ->setIsMultiShipping(false)
@@ -128,7 +128,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
      * Check whether we can use this payment method with current quote
      *
      * @param Magento_Payment_Model_Method_Abstract $method
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      */
     protected function _canUsePaymentMethod($method, $quote)
@@ -196,7 +196,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     /**
      * Convert quote to order and return order increment id
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return string
      */
     protected function _placeOrder($quote)
@@ -217,8 +217,8 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
 
         try {
             $quote->collectTotals();
-            /** @var $service Mage_Sales_Model_Service_Quote */
-            $service = Mage::getModel('Mage_Sales_Model_Service_Quote', array('quote' => $quote));
+            /** @var $service Magento_Sales_Model_Service_Quote */
+            $service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
             $service->submitAll();
 
             if ($isNewCustomer) {
@@ -254,7 +254,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     /**
      * Set payment data
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @param string|int $store
      * @param array $paymentData
      */

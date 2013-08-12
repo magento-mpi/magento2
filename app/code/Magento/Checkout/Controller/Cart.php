@@ -63,7 +63,7 @@ class Magento_Checkout_Controller_Cart
     /**
      * Get current active quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
@@ -239,11 +239,11 @@ class Magento_Checkout_Controller_Cart
     {
         $orderItemIds = $this->getRequest()->getParam('order_items', array());
         if (is_array($orderItemIds)) {
-            $itemsCollection = Mage::getModel('Mage_Sales_Model_Order_Item')
+            $itemsCollection = Mage::getModel('Magento_Sales_Model_Order_Item')
                 ->getCollection()
                 ->addIdFilter($orderItemIds)
                 ->load();
-            /* @var $itemsCollection Mage_Sales_Model_Resource_Order_Item_Collection */
+            /* @var $itemsCollection Magento_Sales_Model_Resource_Order_Item_Collection */
             $cart = $this->_getCart();
             foreach ($itemsCollection as $item) {
                 try {

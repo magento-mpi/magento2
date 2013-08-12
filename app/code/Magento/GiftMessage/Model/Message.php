@@ -35,13 +35,13 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
      * @var array
      */
     static protected $_allowedEntityTypes = array(
-        'order'         => 'Mage_Sales_Model_Order',
-        'order_item'    => 'Mage_Sales_Model_Order_Item',
-        'order_address' => 'Mage_Sales_Model_Order_Address',
-        'quote'         => 'Mage_Sales_Model_Quote',
-        'quote_item'    => 'Mage_Sales_Model_Quote_Item',
-        'quote_address' => 'Mage_Sales_Model_Quote_Address',
-        'quote_address_item' => 'Mage_Sales_Model_Quote_Address_Item'
+        'order'         => 'Magento_Sales_Model_Order',
+        'order_item'    => 'Magento_Sales_Model_Order_Item',
+        'order_address' => 'Magento_Sales_Model_Order_Address',
+        'quote'         => 'Magento_Sales_Model_Quote',
+        'quote_item'    => 'Magento_Sales_Model_Quote_Item',
+        'quote_address' => 'Magento_Sales_Model_Quote_Address',
+        'quote_address_item' => 'Magento_Sales_Model_Quote_Address_Item'
     );
 
     protected function _construct()

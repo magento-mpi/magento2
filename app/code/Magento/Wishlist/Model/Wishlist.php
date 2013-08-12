@@ -160,7 +160,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
     /**
      * Save related items
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _afterSave()
     {

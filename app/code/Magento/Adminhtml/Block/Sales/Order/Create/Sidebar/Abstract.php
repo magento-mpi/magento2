@@ -130,9 +130,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
             foreach($items as $key => $item) {
                 if ($item instanceof Magento_Catalog_Model_Product) {
                     $type = $item->getTypeId();
-                } else if ($item instanceof Mage_Sales_Model_Order_Item) {
+                } else if ($item instanceof Magento_Sales_Model_Order_Item) {
                     $type = $item->getProductType();
-                } else if ($item instanceof Mage_Sales_Model_Quote_Item) {
+                } else if ($item instanceof Magento_Sales_Model_Quote_Item) {
                     $type = $item->getProductType();
                 } else {
                     $type = '';

@@ -43,7 +43,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     public function displayPrices($dataObject, $basePrice, $price, $strong = false, $separator = '<br/>')
     {
         $order = false;
-        if ($dataObject instanceof Mage_Sales_Model_Order) {
+        if ($dataObject instanceof Magento_Sales_Model_Order) {
             $order = $dataObject;
         } else {
             $order = $dataObject->getOrder();
@@ -81,9 +81,9 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
         foreach($collection->getItems() as $key => $item) {
             if ($item instanceof Magento_Catalog_Model_Product) {
                 $type = $item->getTypeId();
-            } else if ($item instanceof Mage_Sales_Model_Order_Item) {
+            } else if ($item instanceof Magento_Sales_Model_Order_Item) {
                 $type = $item->getProductType();
-            } else if ($item instanceof Mage_Sales_Model_Quote_Item) {
+            } else if ($item instanceof Magento_Sales_Model_Quote_Item) {
                 $type = $item->getProductType();
             } else {
                 $type = '';

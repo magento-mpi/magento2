@@ -16,7 +16,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
+class Mage_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
     /**
      * Load Tax Table Data

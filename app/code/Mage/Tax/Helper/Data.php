@@ -772,7 +772,7 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      *  )
      * )
      *
-     * @param Mage_Sales_Model_Order $source
+     * @param Magento_Sales_Model_Order $source
      * @return array
      */
     public function getCalculatedTaxes($source)
@@ -842,7 +842,7 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      *  )
      * )
      *
-     * @param Mage_Sales_Model_Order $source
+     * @param Magento_Sales_Model_Order $source
      * @return array
      */
     public function getShippingTax($source)

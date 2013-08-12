@@ -21,7 +21,7 @@ class Magento_Paypal_Model_Hostedpro_Request extends Magento_Object
     /**
      * Request's order model
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
 
@@ -91,7 +91,7 @@ class Magento_Paypal_Model_Hostedpro_Request extends Magento_Object
     /**
      * Append order data to request
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Magento_Paypal_Model_Hostedpro_Request
      */
     public function setOrder($order)
@@ -134,10 +134,10 @@ class Magento_Paypal_Model_Hostedpro_Request extends Magento_Object
     /**
      * Get order request data as array
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return array
      */
-    protected function _getOrderData(Mage_Sales_Model_Order $order)
+    protected function _getOrderData(Magento_Sales_Model_Order $order)
     {
         $request = array(
             'subtotal'      => $this->_formatPrice(

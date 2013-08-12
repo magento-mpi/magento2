@@ -82,7 +82,7 @@ class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_A
     protected function _loadValidRma($entityId = null)
     {
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
-            && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()
+            && !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()
         ) {
             return;
         }
@@ -136,7 +136,7 @@ class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_A
                     $pdf = new Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__("We don't recognize or support the file extension in shipment %s.", $shipping->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Magento_Sales_Helper_Data')->__("We don't recognize or support the file extension in shipment %s.", $shipping->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -153,7 +153,7 @@ class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_A
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('Something went wrong creating a shipping label.'));
+                ->addError(Mage::helper('Magento_Sales_Helper_Data')->__('Something went wrong creating a shipping label.'));
         }
         $this->norouteAction();
         return;
@@ -174,7 +174,7 @@ class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_A
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         if ($model) {
-            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
+            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
                         Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )

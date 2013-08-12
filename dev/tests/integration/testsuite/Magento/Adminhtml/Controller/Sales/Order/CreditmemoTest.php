@@ -26,8 +26,8 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Mage_Backe
         $this->assertEquals(95, $stockItem->getStockQty());
         $stockItem = null;
 
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        /** @var $order Magento_Sales_Model_Order */
+        $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
 
         $items = $order->getCreditmemosCollection()->getItems();

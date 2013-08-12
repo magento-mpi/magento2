@@ -17,7 +17,7 @@
                         <var_name>store_ids</var_name>
                     </action>
                 </block>
-                <block type="Mage_Sales_Block_Adminhtml_Report_Filter_Form" name="grid.filter.form">
+                <block type="Magento_Sales_Block_Adminhtml_Report_Filter_Form" name="grid.filter.form">
                     <action method="setFieldVisibility">
                         <field>report_type</field>
                         <visibility>0</visibility>

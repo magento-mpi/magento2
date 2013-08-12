@@ -46,7 +46,7 @@ class Magento_Cardgate_Model_Base extends Magento_Object
     /**
      * Sales Order factory
      *
-     * @var Mage_Sales_Model_OrderFactory
+     * @var Magento_Sales_Model_OrderFactory
      */
     protected $_orderFactory;
 
@@ -114,7 +114,7 @@ class Magento_Cardgate_Model_Base extends Magento_Object
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource_Transaction_Factory $transactionFactory
-     * @param Mage_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Cardgate_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param array $data
@@ -125,7 +125,7 @@ class Magento_Cardgate_Model_Base extends Magento_Object
         Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource_Transaction_Factory $transactionFactory,
-        Mage_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Cardgate_Helper_Data $helper,
         Magento_Filesystem $filesystem,
         array $data = array()
@@ -269,14 +269,14 @@ class Magento_Cardgate_Model_Base extends Magento_Object
     /**
      * Create and mail invoice
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return boolean
      */
-    protected function _createInvoice(Mage_Sales_Model_Order $order)
+    protected function _createInvoice(Magento_Sales_Model_Order $order)
     {
         if ($order->canInvoice() && !$order->getInvoiceCollection()->getSize()) {
             $invoice = $order->prepareInvoice();
-            $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
+            $invoice->setRequestedCaptureCase(Magento_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
             $invoice->register();
             $invoice->save();
 
@@ -309,10 +309,10 @@ class Magento_Cardgate_Model_Base extends Magento_Object
      * Returns true if the amounts match
      *
      * @throws RuntimeException
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return boolean
      */
-    protected function _validateAmount(Mage_Sales_Model_Order $order)
+    protected function _validateAmount(Magento_Sales_Model_Order $order)
     {
         $amountInCents = (int)sprintf('%.0f', $order->getBaseTotalDue() * 100);
         $callbackAmount = (int)$this->getCallbackData('amount');
@@ -334,17 +334,17 @@ class Magento_Cardgate_Model_Base extends Magento_Object
     /**
      * Check whether the order can be updated
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return bool
      */
-    protected function _isOrderUpdatable(Mage_Sales_Model_Order $order)
+    protected function _isOrderUpdatable(Magento_Sales_Model_Order $order)
     {
         // Update only certain states
         $canUpdate = false;
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW ||
-            $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT ||
-            $order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING ||
-            $order->getState() == Mage_Sales_Model_Order::STATE_CANCELED) {
+        if ($order->getState() == Magento_Sales_Model_Order::STATE_NEW ||
+            $order->getState() == Magento_Sales_Model_Order::STATE_PENDING_PAYMENT ||
+            $order->getState() == Magento_Sales_Model_Order::STATE_PROCESSING ||
+            $order->getState() == Magento_Sales_Model_Order::STATE_CANCELED) {
             $canUpdate = true;
         }
 
@@ -361,10 +361,10 @@ class Magento_Cardgate_Model_Base extends Magento_Object
     /**
      * Sends new order email if it wasn't send earlier
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return void
      */
-    protected function _sendOrderEmail(Mage_Sales_Model_Order $order)
+    protected function _sendOrderEmail(Magento_Sales_Model_Order $order)
     {
         // Send new order e-mail
         if (!$order->getEmailSent()) {
@@ -376,19 +376,19 @@ class Magento_Cardgate_Model_Base extends Magento_Object
     /**
      * Update the order status if changed
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @param string $newState
      * @param string $newStatus
      * @param string $statusMessage
      * @return void
      */
-    protected function _updateOrderState(Mage_Sales_Model_Order $order, $newState, $newStatus, $statusMessage)
+    protected function _updateOrderState(Magento_Sales_Model_Order $order, $newState, $newStatus, $statusMessage)
     {
         if ($this->_isOrderUpdatable($order) &&
             (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
         ) {
             // Create an invoice when the payment is completed
-            if ($newState == Mage_Sales_Model_Order::STATE_PROCESSING && $this->getConfigData("autocreate_invoice")) {
+            if ($newState == Magento_Sales_Model_Order::STATE_PROCESSING && $this->getConfigData("autocreate_invoice")) {
                 $this->_createInvoice($order);
                 $this->log("Creating invoice for order ID: " . $order->getId() . ".");
             }
@@ -411,7 +411,7 @@ class Magento_Cardgate_Model_Base extends Magento_Object
             $orderId = $matches[1];
         }
 
-        /** @var Mage_Sales_Model_Order $order */
+        /** @var Magento_Sales_Model_Order $order */
         $order = $this->_orderFactory->create();
         $order->loadByIncrementId($orderId);
 
@@ -432,19 +432,19 @@ class Magento_Cardgate_Model_Base extends Magento_Object
 
         switch ($this->getCallbackData('status')) {
             case "200":
-                $newState = Mage_Sales_Model_Order::STATE_PROCESSING;
+                $newState = Magento_Sales_Model_Order::STATE_PROCESSING;
                 $newStatus = $statusComplete;
                 $statusMessage = $this->_helper->__("Payment complete.");
                 // send new email
                 $this->_sendOrderEmail($order);
                 break;
             case "300":
-                $newState = Mage_Sales_Model_Order::STATE_CANCELED;
+                $newState = Magento_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFailed;
                 $statusMessage = $this->_helper->__("Payment failed or canceled by user.");
                 break;
             case "301":
-                $newState = Mage_Sales_Model_Order::STATE_CANCELED;
+                $newState = Magento_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFraud;
                 $statusMessage = $this->_helper->__("Transaction failed, payment is fraud.");
                 break;

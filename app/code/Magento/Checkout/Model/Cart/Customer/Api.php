@@ -99,12 +99,12 @@ class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Ap
         foreach ($customerAddressData as $addressItem) {
 //            switch($addressItem['mode']) {
 //            case self::ADDRESS_BILLING:
-                /** @var $address Mage_Sales_Model_Quote_Address */
-                $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+                /** @var $address Magento_Sales_Model_Quote_Address */
+                $address = Mage::getModel('Magento_Sales_Model_Quote_Address');
 //                break;
 //            case self::ADDRESS_SHIPPING:
-//                /** @var $address Mage_Sales_Model_Quote_Address */
-//                $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+//                /** @var $address Magento_Sales_Model_Quote_Address */
+//                $address = Mage::getModel('Magento_Sales_Model_Quote_Address');
 //                break;
 //            }
             $addressMode = $addressItem['mode'];

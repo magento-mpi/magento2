@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Magento
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Magento
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     public function getSource()
     {
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form extends Magento
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Mage_Sales_Model_Creditmemo
+     * @return Magento_Sales_Model_Creditmemo
      */
     public function getCreditmemo()
     {

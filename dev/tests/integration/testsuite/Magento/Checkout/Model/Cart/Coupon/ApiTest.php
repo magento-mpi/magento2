@@ -13,9 +13,9 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
 {
     /** @var Magento_Catalog_Model_Product */
     protected $_product;
-    /** @var Mage_Sales_Model_Quote */
+    /** @var Magento_Sales_Model_Quote */
     protected $_quote;
-    /** @var Mage_SalesRule_Model_Rule */
+    /** @var Magento_SalesRule_Model_Rule */
     protected $_salesRule;
 
     /**
@@ -24,8 +24,8 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
     protected function _init()
     {
         $this->_product = Mage::getModel('Magento_Catalog_Model_Product')->load(1);
-        $this->_quote = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection')->getFirstItem();
-        $this->_salesRule = Mage::getModel('Mage_SalesRule_Model_Rule')->load('Test Coupon', 'name');
+        $this->_quote = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection')->getFirstItem();
+        $this->_salesRule = Mage::getModel('Magento_SalesRule_Model_Rule')->load('Test Coupon', 'name');
     }
 
     /**
@@ -45,7 +45,7 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
         );
 
         $this->assertTrue($soapResult, 'Coupon code was not applied');
-        /** @var $discountedQuote Mage_Sales_Model_Quote */
+        /** @var $discountedQuote Magento_Sales_Model_Quote */
         $discountedQuote = $this->_quote->load($this->_quote->getId());
         $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - 10 / 100));
 
@@ -77,7 +77,7 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
 
         $this->assertTrue($soapResult, 'Coupon code was not removed');
 
-        /** @var $quoteWithoutDiscount Mage_Sales_Model_Quote */
+        /** @var $quoteWithoutDiscount Magento_Sales_Model_Quote */
         $quoteWithoutDiscount = $this->_quote->load($this->_quote->getId());
 
         $this->assertEquals(

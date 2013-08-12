@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Adminhtml/>
-                <Mage_Sales/>
+                <Magento_Sales/>
             </depends>
         </Enterprise_AdminGws>
     </modules>
@@ -263,12 +263,12 @@
                     <website_level>
                     </website_level>
                     <store_level>
-                        <sales_order_create>Mage_Sales::create</sales_order_create>
+                        <sales_order_create>Magento_Sales::create</sales_order_create>
                         <customer_attributes>Enterprise_Customer::attributes</customer_attributes>
                     </store_level>
                 </acl_deny>
                 <collection_load_before>
-                    <mage_sales_model_resource_report_bestsellers_collection>limitBestsellersCollection</mage_sales_model_resource_report_bestsellers_collection>
+                    <magento_sales_model_resource_report_bestsellers_collection>limitBestsellersCollection</magento_sales_model_resource_report_bestsellers_collection>
                     <magento_reports_model_resource_product_collection>limitProductReports</magento_reports_model_resource_product_collection>
                     <magento_reports_model_resource_report_product_viewed_collection>limitMostViewedCollection</magento_reports_model_resource_report_product_viewed_collection>
                     <magento_core_model_resource_store_collection>limitStores</magento_core_model_resource_store_collection>
@@ -277,7 +277,7 @@
                     <magento_cms_model_resource_page_collection>addStoreFilter</magento_cms_model_resource_page_collection>
                     <magento_cms_model_resource_block_collection>addStoreFilter</magento_cms_model_resource_block_collection>
                     <magento_poll_model_resource_poll_collection>addStoreFilterNoAdmin</magento_poll_model_resource_poll_collection>
-                    <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
+                    <magento_sales_model_resource_order_collection>addStoreAttributeToFilter</magento_sales_model_resource_order_collection>
                     <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
                     <magento_customer_model_resource_customer_collection>limitCustomers</magento_customer_model_resource_customer_collection>
                     <magento_review_model_resource_review_collection>limitReviews</magento_review_model_resource_review_collection>
@@ -292,9 +292,9 @@
                     <magento_rating_model_resource_rating_collection>limitRatings</magento_rating_model_resource_rating_collection>
                     <magento_googleShopping_model_resource_item_collection>addStoreFilter</magento_googleShopping_model_resource_item_collection>
                     <magento_sitemap_model_resource_sitemap_collection>addStoreFilter</magento_sitemap_model_resource_sitemap_collection>
-                    <mage_sales_model_resource_order_invoice_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_invoice_collection>
-                    <mage_sales_model_resource_order_shipment_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_shipment_collection>
-                    <mage_sales_model_resource_order_creditmemo_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_creditmemo_collection>
+                    <magento_sales_model_resource_order_invoice_collection>addStoreAttributeToFilter</magento_sales_model_resource_order_invoice_collection>
+                    <magento_sales_model_resource_order_shipment_collection>addStoreAttributeToFilter</magento_sales_model_resource_order_shipment_collection>
+                    <magento_sales_model_resource_order_creditmemo_collection>addStoreAttributeToFilter</magento_sales_model_resource_order_creditmemo_collection>
                     <magento_checkout_model_resource_agreement_collection>limitCheckoutAgreements</magento_checkout_model_resource_agreement_collection>
                     <magento_newsletter_model_resource_queue_collection>addStoreFilter</magento_newsletter_model_resource_queue_collection>
                     <magento_newsletter_model_resource_subscriber_collection>addStoreFilter</magento_newsletter_model_resource_subscriber_collection>
@@ -305,7 +305,7 @@
                     <mage_user_model_resource_role_user_collection>limitAdminPermissionUsers</mage_user_model_resource_role_user_collection>
                     <magento_reports_model_resource_quote_collection>addStoreFilter</magento_reports_model_resource_quote_collection>
                     <mage_widget_model_resource_widget_instance_collection>addStoreFilter</mage_widget_model_resource_widget_instance_collection>
-                    <mage_sales_model_resource_order_payment_transaction_collection>addStoreFilter</mage_sales_model_resource_order_payment_transaction_collection>
+                    <magento_sales_model_resource_order_payment_transaction_collection>addStoreFilter</magento_sales_model_resource_order_payment_transaction_collection>
                     <enterprise_banner_model_resource_banner_collection>addStoreFilter</enterprise_banner_model_resource_banner_collection>
                     <enterprise_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</enterprise_reward_model_resource_reward_history_collection>
                     <enterprise_reward_model_resource_reward_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_collection>
@@ -316,7 +316,7 @@
                     <magento_review_model_resource_review_product_collection>limitProductReviews</magento_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
                     <magento_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</magento_catalogRule_model_resource_rule_collection>
-                    <mage_salesRule_model_resource_rule_collection>limitRuleEntityCollection</mage_salesRule_model_resource_rule_collection>
+                    <magento_salesRule_model_resource_rule_collection>limitRuleEntityCollection</magento_salesRule_model_resource_rule_collection>
                     <enterprise_reminder_model_resource_rule_collection>limitRuleEntityCollection</enterprise_reminder_model_resource_rule_collection>
                     <enterprise_customerSegment_model_resource_segment_collection>limitRuleEntityCollection</enterprise_customerSegment_model_resource_segment_collection>
                 </collection_load_before>
@@ -325,11 +325,11 @@
                     <magento_cms_model_block>cmsBlockSaveBefore</magento_cms_model_block>
                     <magento_poll_model_poll>pollSaveBefore</magento_poll_model_poll>
                     <magento_rule_model_abstract>ruleSaveBefore</magento_rule_model_abstract>
-                    <mage_sales_model_order>salesOrderSaveBefore</mage_sales_model_order>
-                    <mage_sales_model_order_invoice>salesOrderEntitySaveBefore</mage_sales_model_order_invoice>
-                    <mage_sales_model_order_shipment>salesOrderEntitySaveBefore</mage_sales_model_order_shipment>
-                    <mage_sales_model_order_creditmemo>salesOrderEntitySaveBefore</mage_sales_model_order_creditmemo>
-                    <mage_sales_model_order_payment_transaction>salesOrderTransactionSaveBefore</mage_sales_model_order_payment_transaction>
+                    <magento_sales_model_order>salesOrderSaveBefore</magento_sales_model_order>
+                    <magento_sales_model_order_invoice>salesOrderEntitySaveBefore</magento_sales_model_order_invoice>
+                    <magento_sales_model_order_shipment>salesOrderEntitySaveBefore</magento_sales_model_order_shipment>
+                    <magento_sales_model_order_creditmemo>salesOrderEntitySaveBefore</magento_sales_model_order_creditmemo>
+                    <magento_sales_model_order_payment_transaction>salesOrderTransactionSaveBefore</magento_sales_model_order_payment_transaction>
                     <magento_newsletter_model_queue>newsletterQueueSaveBefore</magento_newsletter_model_queue>
                     <magento_catalog_model_product>catalogProductSaveBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategorySaveBefore</magento_catalog_model_category>
@@ -381,8 +381,8 @@
                     <enterprise_catalogEvent_model_event>catalogEventLoadAfter</enterprise_catalogEvent_model_event>
                     <magento_catalog_model_category>catalogCategoryLoadAfter</magento_catalog_model_category>
                     <magento_customer_model_customer>customerLoadAfter</magento_customer_model_customer>
-                    <mage_sales_model_order>salesOrderLoadAfter</mage_sales_model_order>
-                    <mage_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</mage_sales_model_order_payment_transaction>
+                    <magento_sales_model_order>salesOrderLoadAfter</magento_sales_model_order>
+                    <magento_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</magento_sales_model_order_payment_transaction>
                     <magento_rule_model_abstract>ruleLoadAfter</magento_rule_model_abstract>
                     <magento_core_model_website>coreWebsiteLoadAfter</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupLoadAfter</magento_core_model_store_group>

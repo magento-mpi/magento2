@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getShipment()
     {
@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getSource()
     {
@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         return $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Create Shipping Label...'),
+                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Create Shipping Label...'),
                 'onclick' => 'packaging.showWindow();',
             ))
             ->toHtml();
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         return $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Print Shipping Label'),
+                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         return $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Show Packages'),
+                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Show Packages'),
                 'onclick' => 'showPackedWindow();'
             ))
             ->toHtml();

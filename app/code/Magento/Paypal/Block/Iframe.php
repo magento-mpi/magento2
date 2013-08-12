@@ -27,7 +27,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Order object
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
 
@@ -94,13 +94,13 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     /**
      * Get order object
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     protected function _getOrder()
     {
         if (!$this->_order) {
             $incrementId = $this->_getCheckout()->getLastRealOrderId();
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order')
+            $this->_order = Mage::getModel('Magento_Sales_Model_Order')
                 ->loadByIncrementId($incrementId);
         }
         return $this->_order;

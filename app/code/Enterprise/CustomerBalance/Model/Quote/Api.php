@@ -49,7 +49,7 @@ class Enterprise_CustomerBalance_Model_Quote_Api extends Magento_Checkout_Model_
      */
     protected function _setUseStoreCreditForQuote($quoteId, $store = null, $shouldUseCustomerBalance = true)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
         if (!$quote->getCustomerId()) {
             $this->_fault('guest_quote');

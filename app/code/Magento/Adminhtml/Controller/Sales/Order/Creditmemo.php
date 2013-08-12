@@ -37,7 +37,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
 
     /**
      * Check if creditmeno can be created for order
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return bool
      */
     protected function _canCreditmemo($order)
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')
+            $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
     /**
      * Initialize creditmemo model instance
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     protected function _initCreditmemo($update = false)
     {
@@ -91,10 +91,10 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($creditmemoId) {
-            $creditmemo = $this->_objectManager->create('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId);
+            $creditmemo = $this->_objectManager->create('Magento_Sales_Model_Order_Creditmemo')->load($creditmemoId);
         } elseif ($orderId) {
             $data   = $this->getRequest()->getParam('creditmemo');
-            $order  = $this->_objectManager->create('Mage_Sales_Model_Order')->load($orderId);
+            $order  = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
             $invoice = $this->_initInvoice($order);
 
             if (!$this->_canCreditmemo($order)) {
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
             }
             $data['qtys'] = $qtys;
 
-            $service = $this->_objectManager->create('Mage_Sales_Model_Service_Order', array('order' => $order));
+            $service = $this->_objectManager->create('Magento_Sales_Model_Service_Order', array('order' => $order));
             if ($invoice) {
                 $creditmemo = $service->prepareInvoiceCreditmemo($invoice, $data);
             } else {
@@ -151,7 +151,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
 
     /**
      * Save creditmemo and related order, invoice in one transaction
-     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
      */
     protected function _saveCreditmemo($creditmemo)
     {
@@ -182,7 +182,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
             $this->loadLayout();
             $this->getLayout()->getBlock('sales_creditmemo_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->_setActiveMenu('Mage_Sales::sales_creditmemo')
+            $this->_setActiveMenu('Magento_Sales::sales_creditmemo')
                 ->renderLayout();
         } else {
             $this->_forward('noRoute');
@@ -217,7 +217,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
             }
 
             $this->loadLayout()
-                ->_setActiveMenu('Mage_Sales::sales_order')
+                ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
             $this->_forward('noRoute');

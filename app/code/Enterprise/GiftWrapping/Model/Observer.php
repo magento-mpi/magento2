@@ -156,7 +156,7 @@ class Enterprise_GiftWrapping_Model_Observer
         $totalCard = 0;
         if ($paypalCart) {
             $salesEntity = $paypalCart->getSalesEntity();
-            if ($salesEntity instanceof Mage_Sales_Model_Order) {
+            if ($salesEntity instanceof Magento_Sales_Model_Order) {
                 foreach ($salesEntity->getAllItems() as $_item) {
                     if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
                         $totalWrapping += $_item->getGwBasePrice();
@@ -254,7 +254,7 @@ class Enterprise_GiftWrapping_Model_Observer
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {
-        // @var $orderItem Mage_Sales_Model_Order_Item
+        // @var $orderItem Magento_Sales_Model_Order_Item
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftwrapping data if order is reordered or GW is not available for items
         $order = $orderItem->getOrder();

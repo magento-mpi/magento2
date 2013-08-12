@@ -29,10 +29,10 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
     public function render(Magento_Object $row)
     {
         $this->_actions = array();
-        if (Mage::helper('Mage_Sales_Helper_Reorder')->canReorder($row)) {
+        if (Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($row)) {
             $reorderAction = array(
                 '@' => array('href' => $this->getUrl('*/sales_order_create/reorder', array('order_id'=>$row->getId()))),
-                '#' =>  Mage::helper('Mage_Sales_Helper_Data')->__('Reorder')
+                '#' =>  Mage::helper('Magento_Sales_Helper_Data')->__('Reorder')
             );
             $this->addToActions($reorderAction);
         }

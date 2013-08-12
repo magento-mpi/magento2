@@ -15,7 +15,7 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_Abstract
+class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_Items_Abstract
 {
     /**
      * Get multishipping checkout model

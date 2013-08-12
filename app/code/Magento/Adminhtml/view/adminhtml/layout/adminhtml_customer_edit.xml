@@ -39,11 +39,11 @@
         <reference name="customer_edit_tabs">
             <action method="addTab">
                 <name>customer_edit_tab_agreements</name>
-                <block>Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement</block>
+                <block>Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement</block>
             </action>
             <action method="addTab">
                 <name>customer_edit_tab_recurring_profile</name>
-                <block>Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile</block>
+                <block>Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile</block>
             </action>
         </reference>
     </adminhtml_customer_edit>

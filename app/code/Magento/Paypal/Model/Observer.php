@@ -57,7 +57,7 @@ class Magento_Paypal_Model_Observer
      */
     public function saveOrderAfterSubmit(Magento_Event_Observer $observer)
     {
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
         Mage::register('hss_order', $order, true);
 
@@ -72,7 +72,7 @@ class Magento_Paypal_Model_Observer
      */
     public function setResponseAfterSaveOrder(Magento_Event_Observer $observer)
     {
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $order = Mage::registry('hss_order');
 
         if ($order && $order->getId()) {

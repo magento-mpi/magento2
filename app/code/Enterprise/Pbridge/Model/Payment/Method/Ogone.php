@@ -71,7 +71,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Mode
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote|null $quote
+     * @param Magento_Sales_Model_Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)

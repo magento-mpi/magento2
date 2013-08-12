@@ -29,7 +29,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
     /**
      * Sales Order factory
      *
-     * @var Mage_Sales_Model_OrderFactory
+     * @var Magento_Sales_Model_OrderFactory
      */
     protected $_orderFactory;
 
@@ -120,7 +120,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
      * Constructor
      *
      * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Mage_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Core_Model_Url $urlGenerator
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Cardgate_Model_Base $base
@@ -128,7 +128,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
      */
     public function __construct(
         Magento_Checkout_Model_Session $checkoutSession,
-        Mage_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Url $urlGenerator,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Cardgate_Model_Base $base,
@@ -157,7 +157,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
     /**
      * Get current quote
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -167,11 +167,11 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
     /**
      * Get current order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
-        /** @var Mage_Sales_Model_Order $order */
+        /** @var Magento_Sales_Model_Order $order */
         $order = $this->_orderFactory->create();
         $order->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
         return $order;
@@ -180,7 +180,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
     /**
      * Magento tries to set the order from payment/, instead of cardgate/
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return void
      *
      * Suppress this rule as $order parameter is a part of method signature
@@ -270,7 +270,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
         $order = $this->getOrder();
         $customer = $order->getBillingAddress();
         // Change order status
-        $newState = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        $newState = Magento_Sales_Model_Order::STATE_PENDING_PAYMENT;
         $newStatus = $this->getConfigData('initialized_status');
         $statusMessage = $this->_helper->__('Transaction started, waiting for payment.');
         $order->setState($newState, $newStatus, $statusMessage);

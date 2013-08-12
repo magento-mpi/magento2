@@ -18,7 +18,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
     {
         $quote = $this->_getQuote();
         $quoteItems = $quote->getAllItems();
-        /** @var Mage_Sales_Model_Quote_Item $quoteItem */
+        /** @var Magento_Sales_Model_Quote_Item $quoteItem */
         $quoteItem = reset($quoteItems);
         $this->assertEquals(1, $quoteItem->getQty(), 'Quote item should have qty = 1.');
 
@@ -38,11 +38,11 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         );
 
         $this->assertTrue($soapResult, 'Error during product update in cart via API call');
-        /** @var Mage_Sales_Model_Quote $quoteAfterUpdate */
-        $quoteAfterUpdate = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var Magento_Sales_Model_Quote $quoteAfterUpdate */
+        $quoteAfterUpdate = Mage::getModel('Magento_Sales_Model_Quote');
         $quoteAfterUpdate->load($quote->getId());
         $quoteItemsUpdated = $quoteAfterUpdate->getAllItems();
-        /** @var Mage_Sales_Model_Quote_Item $quoteItem */
+        /** @var Magento_Sales_Model_Quote_Item $quoteItem */
         $quoteItemUpdated = reset($quoteItemsUpdated);
         $this->assertEquals($qtyToUpdate, $quoteItemUpdated->getQty(), 'Incorrect quote item quantity after update.');
     }
@@ -71,8 +71,8 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         );
 
         $this->assertTrue($soapResult, 'Error during product remove from cart via API call');
-        /** @var Mage_Sales_Model_Quote $quoteAfterUpdate */
-        $quoteAfterUpdate = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var Magento_Sales_Model_Quote $quoteAfterUpdate */
+        $quoteAfterUpdate = Mage::getModel('Magento_Sales_Model_Quote');
         $quoteAfterUpdate->load($quote->getId());
         $this->assertCount(0, $quoteAfterUpdate->getAllItems(), 'Quote item was not deleted.');
     }
@@ -91,7 +91,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         $inactiveQuote = $this->_getQuote();
         $this->assertCount(1, $inactiveQuote->getAllItems(), 'Quote should have exactly 1 item.');
         $inactiveQuote->setIsActive(0)->setCustomerId(1)->save();
-        $activeQuote = Mage::getModel('Mage_Sales_Model_Quote');
+        $activeQuote = Mage::getModel('Magento_Sales_Model_Quote');
         $activeQuote->setData(array(
             'store_id' => 1,
             'is_active' => 1,
@@ -116,10 +116,10 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
         $this->assertTrue($isSuccessful, "Product was not moved from inactive quote to active one.");
 
         /** Ensure that data was saved to DB correctly. */
-        /** @var Mage_Sales_Model_Quote $quoteAfterMove */
-        $quoteAfterMove = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var Magento_Sales_Model_Quote $quoteAfterMove */
+        $quoteAfterMove = Mage::getModel('Magento_Sales_Model_Quote');
         $quoteAfterMove->load($activeQuote->getId());
-        /** @var Mage_Sales_Model_Resource_Quote_Item_Collection $itemsCollection */
+        /** @var Magento_Sales_Model_Resource_Quote_Item_Collection $itemsCollection */
         $itemsCollection = $quoteAfterMove->getItemsCollection(false);
         $this->assertCount(1, $itemsCollection->getItems(), 'Product was not moved from inactive quote to active one.');
     }

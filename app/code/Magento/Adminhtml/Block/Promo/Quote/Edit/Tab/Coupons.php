@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Manage Coupon Codes');
+        return Mage::helper('Magento_SalesRule_Helper_Data')->__('Manage Coupon Codes');
     }
 
     /**
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Manage Coupon Codes');
+        return Mage::helper('Magento_SalesRule_Helper_Data')->__('Manage Coupon Codes');
     }
 
     /**

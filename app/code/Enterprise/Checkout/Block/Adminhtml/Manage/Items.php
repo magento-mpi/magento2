@@ -142,7 +142,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
     /**
      * Return current quote from registry
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function getQuote()
     {
@@ -172,7 +172,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
     /**
      * Generate configure button html
      *
-     * @param  Mage_Sales_Model_Quote_Item $item
+     * @param  Magento_Sales_Model_Quote_Item $item
      * @return string
      */
     public function getConfigureButtonHtml($item)
@@ -189,14 +189,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
             '<button type="button" class="scalable %s" %s><span><span><span>%s</span></span></span></button>',
             $class,
             $addAttributes,
-            Mage::helper('Mage_Sales_Helper_Data')->__('Configure')
+            Mage::helper('Magento_Sales_Helper_Data')->__('Configure')
         );
     }
 
     /**
      * Returns whether moving to wishlist is allowed for this item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function isMoveToWishlistAllowed($item)

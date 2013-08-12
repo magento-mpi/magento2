@@ -145,7 +145,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     public function removeAddressItem($addressId, $itemId)
     {
         $address = $this->getQuote()->getAddressById($addressId);
-        /* @var $address Mage_Sales_Model_Quote_Address */
+        /* @var $address Magento_Sales_Model_Quote_Address */
         if ($address) {
             $item = $address->getValidItemById($itemId);
             if ($item) {
@@ -290,7 +290,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
             $address = $this->getCustomer()->getAddressById($addressId);
             if ($address->getId()) {
                 if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId())) {
-                    $quoteAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')->importCustomerAddress($address);
+                    $quoteAddress = Mage::getModel('Magento_Sales_Model_Quote_Address')->importCustomerAddress($address);
                     $this->getQuote()->addShippingAddress($quoteAddress);
                 }
 
@@ -389,18 +389,18 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     /**
      * Prepare order based on quote address
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Mage_Sales_Model_Order
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @return  Magento_Sales_Model_Order
      * @throws  Magento_Checkout_Exception
      */
-    protected function _prepareOrder(Mage_Sales_Model_Quote_Address $address)
+    protected function _prepareOrder(Magento_Sales_Model_Quote_Address $address)
     {
         $quote = $this->getQuote();
         $quote->unsReservedOrderId();
         $quote->reserveOrderId();
         $quote->collectTotals();
 
-        $convertQuote = Mage::getSingleton('Mage_Sales_Model_Convert_Quote');
+        $convertQuote = Mage::getSingleton('Magento_Sales_Model_Convert_Quote');
         $order = $convertQuote->addressToOrder($address);
         $order->setQuote($quote);
         $order->setBillingAddress(

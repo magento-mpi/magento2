@@ -9,15 +9,15 @@
  */
 
 
-class Magento_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_Total_Abstract
+class Magento_Weee_Model_Total_Invoice_Weee extends Magento_Sales_Model_Order_Invoice_Total_Abstract
 {
     /**
      * Weee tax collector
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Invoice $invoice
      * @return Magento_Weee_Model_Total_Invoice_Weee
      */
-    public function collect(Mage_Sales_Model_Order_Invoice $invoice)
+    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
     {
         $store = $invoice->getStore();
 

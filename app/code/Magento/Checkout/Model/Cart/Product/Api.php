@@ -118,7 +118,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
                 continue;
             }
 
-            /** @var $quoteItem Mage_Sales_Model_Quote_Item */
+            /** @var $quoteItem Magento_Sales_Model_Quote_Item */
             $quoteItem = $this->_getQuoteItemByProduct(
                 $quote,
                 $productByItem,
@@ -179,7 +179,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             }
 
             try {
-                /** @var $quoteItem Mage_Sales_Model_Quote_Item */
+                /** @var $quoteItem Magento_Sales_Model_Quote_Item */
                 $quoteItem = $this->_getQuoteItemByProduct(
                     $quote,
                     $productByItem,
@@ -227,7 +227,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
 
         $productsResult = array();
         foreach ($quote->getAllItems() as $item) {
-            /** @var $item Mage_Sales_Model_Quote_Item */
+            /** @var $item Magento_Sales_Model_Quote_Item */
             $product = $item->getProduct();
             $productsResult[] = array( // Basic product data
                 'product_id' => $product->getId(),
@@ -262,8 +262,8 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             $this->_fault('customer_not_set_for_quote');
         }
 
-        /** @var $customerQuote Mage_Sales_Model_Quote */
-        $customerQuote = Mage::getModel('Mage_Sales_Model_Quote')
+        /** @var $customerQuote Magento_Sales_Model_Quote */
+        $customerQuote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setStoreId($store)
             ->loadByCustomer($customer);
 
@@ -293,7 +293,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             }
 
             try {
-                /** @var $quoteItem Mage_Sales_Model_Quote_Item */
+                /** @var $quoteItem Magento_Sales_Model_Quote_Item */
                 $quoteItem = $this->_getQuoteItemByProduct(
                     $quote,
                     $productByItem,

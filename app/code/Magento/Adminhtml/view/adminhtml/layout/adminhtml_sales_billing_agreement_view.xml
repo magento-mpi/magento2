@@ -13,7 +13,7 @@
         <reference name="sales.order.grid">
             <arguments>
                 <dataSource>
-                    <updater>Mage_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                    <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
                 </dataSource>
                 <grid_url>
                     <path>*/*/ordersgrid</path>
@@ -23,15 +23,15 @@
         <remove name="sales.order.grid.export"/>
         <remove name="sales.order.grid.massaction"/>
         <reference name="content">
-            <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View" name="sales.billing.agreement.view"/>
+            <block type="Magento_Sales_Block_Adminhtml_Billing_Agreement_View" name="sales.billing.agreement.view"/>
         </reference>
         <reference name="left">
-            <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
+            <block type="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
                 <action method="addTab">
                     <name>billing_agreement_info</name>
-                    <block>Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</block>
+                    <block>Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</block>
                 </action>
-                <block name="sales_order.grid.container" type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders"/>
+                <block name="sales_order.grid.container" type="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders"/>
                 <action method="addTab">
                     <name>billing_agreement_orders</name>
                     <block>sales_order.grid.container</block>

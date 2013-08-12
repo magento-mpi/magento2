@@ -17,17 +17,17 @@ class Magento_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
     protected $_session;
 
     /**
-     * @var Mage_Sales_Model_QuoteFactory
+     * @var Magento_Sales_Model_QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
      * @param Magento_Checkout_Model_Session $session
-     * @param Mage_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      */
     public function __construct(
         Magento_Checkout_Model_Session $session,
-        Mage_Sales_Model_QuoteFactory $quoteFactory
+        Magento_Sales_Model_QuoteFactory $quoteFactory
     ) {
         $this->_session = $session;
         $this->_quoteFactory = $quoteFactory;
@@ -64,7 +64,7 @@ class Magento_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
     public function cancelCurrentOrder($comment)
     {
         $order = $this->_session->getLastRealOrder();
-        if ($order->getId() && $order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
+        if ($order->getId() && $order->getState() != Magento_Sales_Model_Order::STATE_CANCELED) {
             $order->registerCancellation($comment)->save();
             return true;
         }

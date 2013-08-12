@@ -71,9 +71,9 @@ class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
     public function getIsDisabled()
     {
         $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         foreach ($quote->getAllVisibleItems() as $item) {
-            /* @var $item Mage_Sales_Model_Quote_Item */
+            /* @var $item Magento_Sales_Model_Quote_Item */
             if (!$item->getProduct()->getEnableGooglecheckout()) {
                 return true;
             }

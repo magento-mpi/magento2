@@ -47,7 +47,7 @@ class Saas_PrintedTemplate_Model_Converter_CreditmemoTest extends PHPUnit_Framew
 
     protected function _prepareCreditMemo($billingAddress, $shippingAddress, $payment)
     {
-        $orderMock = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $orderMock = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getPayment'))
             ->getMock();
@@ -55,7 +55,7 @@ class Saas_PrintedTemplate_Model_Converter_CreditmemoTest extends PHPUnit_Framew
             ->method('getPayment')
             ->will($this->returnValue($payment));
 
-        $creditMemoMock = $this->getMockBuilder('Mage_Sales_Model_Order_Creditmemo')
+        $creditMemoMock = $this->getMockBuilder('Magento_Sales_Model_Order_Creditmemo')
             ->disableOriginalConstructor()
             ->setMethods(array('getOrder', 'getBillingAddress', 'getShippingAddress'))
             ->getMock();

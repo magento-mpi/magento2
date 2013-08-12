@@ -355,7 +355,7 @@ class Enterprise_Logging_Model_Processor
      * @example
      * Array
      *     (
-     *          [Mage_Sales_Model_Order] => Array
+     *          [Magento_Sales_Model_Order] => Array
      *             (
      *                 [68] => Array
      *                     (

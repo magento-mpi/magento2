@@ -21,7 +21,7 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
      */
     protected function _construct()
     {
-        $this->setUsedModuleName('Mage_Sales');
+        $this->setUsedModuleName('Magento_Sales');
     }
 
     /**
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Sales::sales_creditmemo')
+            ->_setActiveMenu('Magento_Sales::sales_creditmemo')
             ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
             ->_addBreadcrumb($this->__('Credit Memos'),$this->__('Credit Memos'));
         return $this;
@@ -66,16 +66,16 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
     public function emailAction()
     {
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            if ($creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId)) {
+            if ($creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($creditmemoId)) {
                 $creditmemo->sendEmail();
-                $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
-                    ->getUnnotifiedForInstance($creditmemo, Mage_Sales_Model_Order_Creditmemo::HISTORY_ENTITY_NAME);
+                $historyItem = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_History_Collection')
+                    ->getUnnotifiedForInstance($creditmemo, Magento_Sales_Model_Order_Creditmemo::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
 
-                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('We sent the message.'));
+                $this->_getSession()->addSuccess(Mage::helper('Magento_Sales_Helper_Data')->__('We sent the message.'));
                 $this->_redirect('*/sales_order_creditmemo/view', array(
                     'creditmemo_id' => $creditmemoId
                 ));
@@ -86,14 +86,14 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
     public function pdfcreditmemosAction(){
         $creditmemosIds = $this->getRequest()->getPost('creditmemo_ids');
         if (!empty($creditmemosIds)) {
-            $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
+            $invoices = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $creditmemosIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($invoices);
+                $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Creditmemo')->getPdf($invoices);
             } else {
-                $pages = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf($invoices);
+                $pages = Mage::getModel('Magento_Sales_Model_Order_Pdf_Creditmemo')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
@@ -107,8 +107,8 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
     {
         /** @see Magento_Adminhtml_Controller_Sales_Order_Invoice */
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            if ($creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId)) {
-                $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf(array($creditmemo));
+            if ($creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($creditmemoId)) {
+                $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Creditmemo')->getPdf(array($creditmemo));
                 $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
                     '.pdf', $pdf->render(), 'application/pdf');
             }
@@ -120,6 +120,6 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Sales::sales_creditmemo');
+        return $this->_authorization->isAllowed('Magento_Sales::sales_creditmemo');
     }
 }

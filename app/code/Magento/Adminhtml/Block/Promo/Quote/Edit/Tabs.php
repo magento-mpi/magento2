@@ -24,6 +24,6 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Magento_Adminhtml_Bl
         parent::_construct();
         $this->setId('promo_catalog_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_SalesRule_Helper_Data')->__('Shopping Cart Price Rule'));
+        $this->setTitle(Mage::helper('Magento_SalesRule_Helper_Data')->__('Shopping Cart Price Rule'));
     }
 }

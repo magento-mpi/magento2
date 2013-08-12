@@ -77,7 +77,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
             if(!is_array($items) || empty($items)) {
                 return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
-            if($entity instanceof Mage_Sales_Model_Quote) {
+            if($entity instanceof Magento_Sales_Model_Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
             }
             else {

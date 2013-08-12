@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Mage_Sales_TotalDeclarationTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Sales_TotalDeclarationTest extends PHPUnit_Framework_TestCase
 {
     public function testTotalDeclarations()
     {
@@ -16,6 +16,6 @@ class Integrity_Mage_Sales_TotalDeclarationTest extends PHPUnit_Framework_TestCa
                 'after'  => empty($row['after']) ? array() : explode(',', $row['after']),
             );
         }
-        Mage_Sales_Model_Config_Ordered::validateCollectorDeclarations($config);
+        Magento_Sales_Model_Config_Ordered::validateCollectorDeclarations($config);
     }
 }

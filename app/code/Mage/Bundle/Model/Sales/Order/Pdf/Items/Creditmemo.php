@@ -12,7 +12,7 @@
  * Sales Order Creditmemo Pdf default items renderer
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract

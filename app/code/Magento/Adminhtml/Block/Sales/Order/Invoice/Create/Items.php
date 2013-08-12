@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
         $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
         $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'class'     => 'update-button',
-            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Update Qty\'s'),
+            'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Update Qty\'s'),
             'onclick'   => $onclick,
         ));
         $this->_disableSubmitButton = true;
@@ -46,9 +46,9 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
             }
         }
         if ($this->getOrder()->getForcedShipmentWithInvoice()) {
-            $_submitLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Submit Invoice and Shipment');
+            $_submitLabel = Mage::helper('Magento_Sales_Helper_Data')->__('Submit Invoice and Shipment');
         } else {
-            $_submitLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Submit Invoice');
+            $_submitLabel = Mage::helper('Magento_Sales_Helper_Data')->__('Submit Invoice');
         }
         $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'     => $_submitLabel,
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     public function getSource()
     {
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve invoice model instance
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     public function getInvoice()
     {
@@ -119,11 +119,11 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     {
         $totalbarData = array();
         $this->setPriceDataObject($this->getInvoice()->getOrder());
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
 
         return $totalbarData;
     }
@@ -172,7 +172,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
      */
     public function isCaptureAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Sales::capture');
+        return $this->_authorization->isAllowed('Magento_Sales::capture');
     }
 
     /**
@@ -195,6 +195,6 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
 
     public function canSendInvoiceEmail()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
     }
 }

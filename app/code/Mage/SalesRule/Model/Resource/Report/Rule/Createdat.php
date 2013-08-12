@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Rule report resource model with aggregation by created at
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Reports_Model_Resource_Report_Abstract
+class Magento_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Reports_Model_Resource_Report_Abstract
 {
     /**
      * Resource Report Rule constructor
@@ -32,7 +32,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Report
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_SalesRule_Model_Resource_Report_Rule_Createdat
+     * @return Magento_SalesRule_Model_Resource_Report_Rule_Createdat
      */
     public function aggregate($from = null, $to = null)
     {
@@ -46,7 +46,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Report
      * @param string $aggregationField
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_SalesRule_Model_Resource_Report_Rule_Createdat
+     * @return Magento_SalesRule_Model_Resource_Report_Rule_Createdat
      */
     protected function _aggregateByOrder($aggregationField, $from, $to)
     {

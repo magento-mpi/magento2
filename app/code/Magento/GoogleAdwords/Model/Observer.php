@@ -15,7 +15,7 @@ class Magento_GoogleAdwords_Model_Observer
     protected $_helper;
 
     /**
-     * @var Mage_Sales_Model_Resource_Order_Collection
+     * @var Magento_Sales_Model_Resource_Order_Collection
      */
     protected $_collection;
 
@@ -24,12 +24,12 @@ class Magento_GoogleAdwords_Model_Observer
      *
      * @param Magento_GoogleAdwords_Helper_Data $helper
      * @param Magento_Core_Model_Registry $registry
-     * @param Mage_Sales_Model_Resource_Order_Collection $collection
+     * @param Magento_Sales_Model_Resource_Order_Collection $collection
      */
     public function __construct(
         Magento_GoogleAdwords_Helper_Data $helper,
         Magento_Core_Model_Registry $registry,
-        Mage_Sales_Model_Resource_Order_Collection $collection
+        Magento_Sales_Model_Resource_Order_Collection $collection
     ) {
         $this->_helper = $helper;
         $this->_collection = $collection;
@@ -53,7 +53,7 @@ class Magento_GoogleAdwords_Model_Observer
         }
         $this->_collection->addFieldToFilter('entity_id', array('in' => $orderIds));
         $conversionValue = 0;
-        /** @var $order Mage_Sales_Model_Order */
+        /** @var $order Magento_Sales_Model_Order */
         foreach ($this->_collection as $order) {
             $conversionValue += $order->getBaseGrandTotal();
         }

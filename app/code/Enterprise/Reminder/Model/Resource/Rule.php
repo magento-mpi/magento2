@@ -216,7 +216,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * If customer was added earlier, update is_active column.
      *
      * @param Enterprise_Reminder_Model_Rule $rule
-     * @param Mage_SalesRule_Model_Rule $salesRule
+     * @param Magento_SalesRule_Model_Rule $salesRule
      * @param int $websiteId
      * @param int $threshold
      * @return Enterprise_Reminder_Model_Resource_Rule

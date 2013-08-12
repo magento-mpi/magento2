@@ -90,7 +90,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     /**
      * Check ability to display gift wrapping for quote item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function getDisplayGiftWrappingForItem($item)

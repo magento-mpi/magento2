@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _construct()
     {
-        $this->setUsedModuleName('Mage_Sales');
+        $this->setUsedModuleName('Magento_Sales');
 
         // During order creation in the backend admin has ability to add any products to order
         Mage::helper('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
@@ -42,7 +42,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     /**
      * Retrieve quote object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
@@ -316,7 +316,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $this->_initSession();
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Sales::sales_order')
+        $this->_setActiveMenu('Magento_Sales::sales_order')
             ->renderLayout();
     }
 
@@ -325,8 +325,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
-        if (!Mage::helper('Mage_Sales_Helper_Reorder')->canReorder($order)) {
+        $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+        if (!Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
 
@@ -479,7 +479,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
 
             $this->_getSession()->clear();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You created the order.'));
-            if ($this->_authorization->isAllowed('Mage_Sales::actions_view')) {
+            if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
             } else {
                 $this->_redirect('*/sales_order/index');
@@ -515,16 +515,16 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         switch ($action) {
             case 'index':
             case 'save':
-                $aclResource = 'Mage_Sales::create';
+                $aclResource = 'Magento_Sales::create';
                 break;
             case 'reorder':
-                $aclResource = 'Mage_Sales::reorder';
+                $aclResource = 'Magento_Sales::reorder';
                 break;
             case 'cancel':
-                $aclResource = 'Mage_Sales::cancel';
+                $aclResource = 'Magento_Sales::cancel';
                 break;
             default:
-                $aclResource = 'Mage_Sales::actions';
+                $aclResource = 'Magento_Sales::actions';
                 break;
         }
         return $this->_authorization->isAllowed($aclResource);
@@ -570,13 +570,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
                 Mage::throwException($this->__('Quote item id is not received.'));
             }
 
-            $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
                 Mage::throwException($this->__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 

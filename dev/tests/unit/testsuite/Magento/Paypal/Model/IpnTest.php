@@ -25,10 +25,10 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     protected function _prepareIpnOrderProperty($ipn)
     {
         // Create payment and order mocks
-        $payment = $this->getMockBuilder('Mage_Sales_Model_Order_Payment')
+        $payment = $this->getMockBuilder('Magento_Sales_Model_Order_Payment')
             ->disableOriginalConstructor()
             ->getMock();
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->getMock();
         $order->expects($this->any())
@@ -95,7 +95,7 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
         $order->getPayment()->expects($this->once())
             ->method('registerPaymentReviewAction')
             ->with(
-                $this->equalTo(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE),
+                $this->equalTo(Magento_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE),
                 $this->equalTo(true)
             );
 

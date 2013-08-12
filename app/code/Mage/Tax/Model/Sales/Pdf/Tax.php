@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Tax_Model_Sales_Pdf_Tax extends Mage_Sales_Model_Order_Pdf_Total_Default
+class Mage_Tax_Model_Sales_Pdf_Tax extends Magento_Sales_Model_Order_Pdf_Total_Default
 {
     /**
      * Check if tax amount should be included to grandtotal block

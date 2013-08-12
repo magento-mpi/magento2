@@ -31,8 +31,8 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedStatus, (array)$status, 'Gift message was not added to the quote.');
 
         /** Ensure that messages were actually added and saved to DB. */
-        /** @var Mage_Sales_Model_Quote $updatedQuote */
-        $updatedQuote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
+        /** @var Magento_Sales_Model_Quote $updatedQuote */
+        $updatedQuote = Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId);
         $this->assertGreaterThan(0, (int)$updatedQuote->getGiftMessageId(), "Gift message was not added.");
         $this->_checkCreatedGiftMessage($updatedQuote->getGiftMessageId(), $this->_getGiftMessageData());
     }
@@ -48,7 +48,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** Prepare data. */
         $quoteItems = $this->_getQuote()->getAllItems();
-        /** @var Mage_Sales_Model_Quote_Item $quoteItem */
+        /** @var Magento_Sales_Model_Quote_Item $quoteItem */
         $quoteItem = reset($quoteItems);
 
         /** Call tested method. */
@@ -61,8 +61,8 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedStatus, (array)$status, 'Gift message was not added to the quote.');
 
         /** Ensure that messages were actually added and saved to DB. */
-        /** @var Mage_Sales_Model_Quote_Item $updatedQuoteItem */
-        $updatedQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItem->getId());
+        /** @var Magento_Sales_Model_Quote_Item $updatedQuoteItem */
+        $updatedQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItem->getId());
         $this->assertGreaterThan(0, (int)$updatedQuoteItem->getGiftMessageId(), "Gift message was not added.");
         $this->_checkCreatedGiftMessage($updatedQuoteItem->getGiftMessageId(), $this->_getGiftMessageData());
 
@@ -79,7 +79,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** Prepare data. */
         $quoteItems = $this->_getQuote()->getAllItems();
-        /** @var Mage_Sales_Model_Quote_Item $quoteItem */
+        /** @var Magento_Sales_Model_Quote_Item $quoteItem */
         $quoteItem = reset($quoteItems);
 
         /** Call tested method. */
@@ -100,8 +100,8 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedStatus, $status, 'Gift message was not added to the quote.');
 
         /** Ensure that messages were actually added and saved to DB. */
-        /** @var Mage_Sales_Model_Quote_Item $updatedQuoteItem */
-        $updatedQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItem->getId());
+        /** @var Magento_Sales_Model_Quote_Item $updatedQuoteItem */
+        $updatedQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItem->getId());
         $this->assertGreaterThan(0, (int)$updatedQuoteItem->getGiftMessageId(), "Gift message was not added.");
         $this->_checkCreatedGiftMessage($updatedQuoteItem->getGiftMessageId(), $this->_getGiftMessageData());
     }
@@ -138,13 +138,13 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Retrieve quote created in fixture.
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
         /** @var $session Magento_Checkout_Model_Session */
         $session = Mage::getModel('Magento_Checkout_Model_Session');
-        /** @var Mage_Sales_Model_Quote $quote */
+        /** @var Magento_Sales_Model_Quote $quote */
         $quote = $session->getQuote();
         return $quote;
     }

@@ -21,7 +21,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Mage_SalesRule::config_promo" module="Enterprise_Reminder" title="Promo Section" sortOrder="10" />
+                            <resource id="Magento_SalesRule::config_promo" module="Enterprise_Reminder" title="Promo Section" sortOrder="10" />
                         </resource>
                     </resource>
                 </resource>

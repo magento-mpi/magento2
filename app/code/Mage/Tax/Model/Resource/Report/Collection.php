@@ -16,7 +16,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resource_Report_Collection_Abstract
+class Mage_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
 {
     /**
      * @var Zend_Db_Expr
@@ -41,7 +41,7 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Sales_Model_Resource_Report $resource
+        Magento_Sales_Model_Resource_Report $resource
     ) {
         $resource->init($this->_aggregationTable);
         parent::__construct($fetchStrategy, $resource);

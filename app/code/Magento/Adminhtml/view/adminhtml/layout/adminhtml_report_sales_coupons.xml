@@ -17,7 +17,7 @@
                         <var_name>store_ids</var_name>
                     </action>
                 </block>
-                <block type="Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon" name="grid.filter.form">
+                <block type="Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>

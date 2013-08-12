@@ -109,12 +109,12 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
      *
      * @param int $quoteId
      * @param string|int $store
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote($quoteId, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var $quote Magento_Sales_Model_Quote */
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
 
         if (!(is_string($store) || is_integer($store))) {
             $quote->loadByIdWithoutStore($quoteId);
@@ -139,8 +139,8 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
      */
     protected function _getStoreIdFromQuote($quoteId)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('Mage_Sales_Model_Quote')
+        /** @var $quote Magento_Sales_Model_Quote */
+        $quote = Mage::getModel('Magento_Sales_Model_Quote')
             ->loadByIdWithoutStore($quoteId);
 
         return $quote->getStoreId();

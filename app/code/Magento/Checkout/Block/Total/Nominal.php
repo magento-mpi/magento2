@@ -25,10 +25,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for a quote item name
      *
-     * @param Mage_Sales_Model_Quote_Item_Abstract $quoteItem
+     * @param Magento_Sales_Model_Quote_Item_Abstract $quoteItem
      * @return string
      */
-    public function getItemName(Mage_Sales_Model_Quote_Item_Abstract $quoteItem)
+    public function getItemName(Magento_Sales_Model_Quote_Item_Abstract $quoteItem)
     {
         return $quoteItem->getName();
     }
@@ -36,10 +36,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for a quote item row total
      *
-     * @param Mage_Sales_Model_Quote_Item_Abstract $quoteItem
+     * @param Magento_Sales_Model_Quote_Item_Abstract $quoteItem
      * @return float
      */
-    public function getItemRowTotal(Mage_Sales_Model_Quote_Item_Abstract $quoteItem)
+    public function getItemRowTotal(Magento_Sales_Model_Quote_Item_Abstract $quoteItem)
     {
         return $quoteItem->getNominalRowTotal();
     }
@@ -47,10 +47,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for nominal total item details
      *
-     * @param Mage_Sales_Model_Quote_Item_Abstract $quoteItem
+     * @param Magento_Sales_Model_Quote_Item_Abstract $quoteItem
      * @return array
      */
-    public function getTotalItemDetails(Mage_Sales_Model_Quote_Item_Abstract $quoteItem)
+    public function getTotalItemDetails(Magento_Sales_Model_Quote_Item_Abstract $quoteItem)
     {
         return $quoteItem->getNominalTotalDetails();
     }

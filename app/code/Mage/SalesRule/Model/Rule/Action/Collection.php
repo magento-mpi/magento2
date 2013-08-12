@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Rule_Action_Collection extends Magento_Rule_Model_Action_Collection
+class Magento_SalesRule_Model_Rule_Action_Collection extends Magento_Rule_Model_Action_Collection
 {
     /**
      * @param Magento_Core_Model_View_Url $viewUrl
@@ -18,7 +18,7 @@ class Mage_SalesRule_Model_Rule_Action_Collection extends Magento_Rule_Model_Act
     public function __construct(Magento_Core_Model_View_Url $viewUrl, array $data = array())
     {
         parent::__construct($viewUrl, $data);
-        $this->setType('Mage_SalesRule_Model_Rule_Action_Collection');
+        $this->setType('Magento_SalesRule_Model_Rule_Action_Collection');
     }
 
     /**
@@ -28,8 +28,8 @@ class Mage_SalesRule_Model_Rule_Action_Collection extends Magento_Rule_Model_Act
     {
         $actions = parent::getNewChildSelectOptions();
         $actions = array_merge_recursive($actions, array(array(
-            'value' => 'Mage_SalesRule_Model_Rule_Action_Product',
-            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Update the Product'))
+            'value' => 'Magento_SalesRule_Model_Rule_Action_Product',
+            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Update the Product'))
         ));
         return $actions;
     }

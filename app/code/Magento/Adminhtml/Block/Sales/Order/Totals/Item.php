@@ -78,7 +78,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
     /**
      * Source order getter
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getSource()
     {

@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_ViewTest extends PHPUnit_Frame
     public function testIsPaymentReview($canReviewPayment, $canFetchUpdate, $expectedResult)
     {
         // Create order mock
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->getMock();
         $order->expects($this->any())
@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_ViewTest extends PHPUnit_Frame
             ->will($this->returnValue($canFetchUpdate));
 
         // Create invoice mock
-        $invoice = $this->getMockBuilder('Mage_Sales_Model_Order_Invoice')
+        $invoice = $this->getMockBuilder('Magento_Sales_Model_Order_Invoice')
             ->disableOriginalConstructor()
             ->setMethods(array('getOrder'))
             ->getMock();

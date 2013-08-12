@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
      */
     protected function _getCollectionClass()
     {
-        return 'Mage_Sales_Model_Resource_Order_Invoice_Grid_Collection';
+        return 'Magento_Sales_Model_Resource_Order_Invoice_Grid_Collection';
     }
 
     protected function _prepareCollection()
@@ -59,21 +59,21 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoice'),
             'index'     => 'increment_id',
             'header_css_class'  => 'col-invoice-number',
             'column_css_class'  => 'col-invoice-number'
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Bill-to Name'),
             'index' => 'billing_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice Date'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
@@ -81,10 +81,10 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('Mage_Sales_Model_Order_Invoice')->getStates(),
+            'options'   => Mage::getModel('Magento_Sales_Model_Order_Invoice')->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -104,7 +104,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -132,12 +132,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Invoices');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Invoices');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Invoices');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Invoices');
     }
 
     public function canShowTab()

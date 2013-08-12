@@ -21,14 +21,14 @@ class Magento_Paypal_Model_Ipn
     const DEFAULT_LOG_FILE = 'paypal_unknown_ipn.log';
 
     /*
-     * @param Mage_Sales_Model_Order
+     * @param Magento_Sales_Model_Order
      */
     protected $_order = null;
 
     /*
      * Recurring profile instance
      *
-     * @var Mage_Sales_Model_Recurring_Profile
+     * @var Magento_Sales_Model_Recurring_Profile
      */
     protected $_recurringProfile = null;
 
@@ -140,7 +140,7 @@ class Magento_Paypal_Model_Ipn
      * Load and validate order, instantiate proper configuration
      *
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      * @throws Exception
      */
     protected function _getOrder()
@@ -148,7 +148,7 @@ class Magento_Paypal_Model_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->_request['invoice'];
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($id);
+            $this->_order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($id);
             if (!$this->_order->getId()) {
                 $this->_debugData['exception'] = sprintf('Wrong order ID: "%s".', $id);
                 $this->_debug();
@@ -173,7 +173,7 @@ class Magento_Paypal_Model_Ipn
     /**
      * Load recurring profile
      *
-     * @return Mage_Sales_Model_Recurring_Profile
+     * @return Magento_Sales_Model_Recurring_Profile
      * @throws Exception
      */
     protected function _getRecurringProfile()
@@ -181,7 +181,7 @@ class Magento_Paypal_Model_Ipn
         if (empty($this->_recurringProfile)) {
             // get proper recurring profile
             $internalReferenceId = $this->_request['rp_invoice_id'];
-            $this->_recurringProfile = Mage::getModel('Mage_Sales_Model_Recurring_Profile')
+            $this->_recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')
                 ->loadByInternalReferenceId($internalReferenceId);
             if (!$this->_recurringProfile->getId()) {
                 throw new Exception(
@@ -419,9 +419,9 @@ class Magento_Paypal_Model_Ipn
         $productItemInfo = new Magento_Object;
         $type = trim($this->getRequestData('period_type'));
         if ($type == 'Trial') {
-            $productItemInfo->setPaymentType(Mage_Sales_Model_Recurring_Profile::PAYMENT_TYPE_TRIAL);
+            $productItemInfo->setPaymentType(Magento_Sales_Model_Recurring_Profile::PAYMENT_TYPE_TRIAL);
         } elseif ($type == 'Regular') {
-            $productItemInfo->setPaymentType(Mage_Sales_Model_Recurring_Profile::PAYMENT_TYPE_REGULAR);
+            $productItemInfo->setPaymentType(Magento_Sales_Model_Recurring_Profile::PAYMENT_TYPE_REGULAR);
         }
         $productItemInfo->setTaxAmount($this->getRequestData('tax'));
         $productItemInfo->setShippingAmount($this->getRequestData('shipping'));
@@ -488,7 +488,7 @@ class Magento_Paypal_Model_Ipn
             ->setTransactionId($this->getRequestData('txn_id'))
             ->setNotificationResult(true)
             ->setIsTransactionClosed(true)
-            ->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_DENY, false);
+            ->registerPaymentReviewAction(Magento_Sales_Model_Order_Payment::REVIEW_ACTION_DENY, false);
         $this->_order->save();
     }
 
@@ -548,7 +548,7 @@ class Magento_Paypal_Model_Ipn
         }
 
         // case when was placed using PayPal standard
-        if (Mage_Sales_Model_Order::STATE_PENDING_PAYMENT == $this->_order->getState()) {
+        if (Magento_Sales_Model_Order::STATE_PENDING_PAYMENT == $this->_order->getState()) {
             $this->_registerPaymentCapture();
             return;
         }
@@ -559,7 +559,7 @@ class Magento_Paypal_Model_Ipn
             ->setPreparedMessage($this->_createIpnComment($this->_info->explainPendingReason($reason)))
             ->setTransactionId($this->getRequestData('txn_id'))
             ->setIsTransactionClosed(0)
-            ->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, false);
+            ->registerPaymentReviewAction(Magento_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, false);
         $this->_order->save();
     }
 
@@ -568,10 +568,10 @@ class Magento_Paypal_Model_Ipn
      */
     protected function _registerPaymentAuthorization()
     {
-        /** @var $payment Mage_Sales_Model_Order_Payment */
+        /** @var $payment Magento_Sales_Model_Order_Payment */
         $payment = $this->_order->getPayment();
         if ($this->_order->canFetchPaymentReviewUpdate()) {
-            $payment->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, true);
+            $payment->registerPaymentReviewAction(Magento_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, true);
         } else {
             $this->_importPaymentInformation();
             $payment
@@ -621,7 +621,7 @@ class Magento_Paypal_Model_Ipn
      *
      * @param string $comment
      * @param bool $addToHistory
-     * @return string|Mage_Sales_Model_Order_Status_History
+     * @return string|Magento_Sales_Model_Order_Status_History
      */
     protected function _createIpnComment($comment = '', $addToHistory = false)
     {

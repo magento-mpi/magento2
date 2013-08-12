@@ -18,14 +18,14 @@
 class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
 {
     /**
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote;
 
     /**
      * Currently selected shipping rate
      *
-     * @var Mage_Sales_Model_Quote_Address_Rate
+     * @var Magento_Sales_Model_Quote_Address_Rate
      */
     protected $_currentShippingRate = null;
 
@@ -39,10 +39,10 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Quote object setter
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Magento_Paypal_Block_Express_Review
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -51,7 +51,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Return quote billing address
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getBillingAddress()
     {
@@ -61,7 +61,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Return quote shipping address
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getShippingAddress()
     {
@@ -74,7 +74,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Get HTML output for specified address
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @return string
      */
     public function renderAddress($address)
@@ -142,7 +142,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Getter for current shipping rate
      *
-     * @return Mage_Sales_Model_Quote_Address_Rate
+     * @return Magento_Sales_Model_Quote_Address_Rate
      */
     public function getCurrentShippingRate()
     {

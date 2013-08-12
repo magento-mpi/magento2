@@ -58,10 +58,10 @@ class Magento_Paypal_Model_PayflowlinkTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->getMock();
-        $payment = $this->getMockBuilder('Mage_Sales_Model_Order_Payment')
+        $payment = $this->getMockBuilder('Magento_Sales_Model_Order_Payment')
             ->disableOriginalConstructor()
             ->setMethods(array('getOrder'))
             ->getMock();

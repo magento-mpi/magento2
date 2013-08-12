@@ -68,7 +68,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve url for remove product from cart
      *
-     * @param   Mage_Sales_Quote_Item $item
+     * @param   Magento_Sales_Quote_Item $item
      * @return  string
      */
     public function getRemoveUrl($item)
@@ -93,7 +93,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve current quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

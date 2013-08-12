@@ -89,8 +89,8 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
      */
     public function testGetSalesRuleRelatedBannerIds()
     {
-        /** @var Mage_SalesRule_Model_Rule $rule */
-        $rule = Mage::getModel('Mage_SalesRule_Model_Rule');
+        /** @var Magento_SalesRule_Model_Rule $rule */
+        $rule = Mage::getModel('Magento_SalesRule_Model_Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
         /** @var Enterprise_Banner_Model_Banner $banner */

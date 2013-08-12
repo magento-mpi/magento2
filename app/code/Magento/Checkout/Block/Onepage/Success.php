@@ -55,10 +55,10 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
     {
         $orderId = Mage::getSingleton('Magento_Checkout_Model_Session')->getLastOrderId();
         if ($orderId) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+            $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
             if ($order->getId()) {
                 $isVisible = !in_array($order->getState(),
-                    Mage::getSingleton('Mage_Sales_Model_Order_Config')->getInvisibleOnFrontStates());
+                    Mage::getSingleton('Magento_Sales_Model_Order_Config')->getInvisibleOnFrontStates());
                 $this->addData(array(
                     'is_order_visible' => $isVisible,
                     'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
@@ -79,7 +79,7 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
         $agreementId = Mage::getSingleton('Magento_Checkout_Model_Session')->getLastBillingAgreementId();
         $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         if ($agreementId && $customerId) {
-            $agreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($agreementId);
+            $agreement = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load($agreementId);
             if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
                 $this->addData(array(
                     'agreement_ref_id' => $agreement->getReferenceId(),
@@ -98,7 +98,7 @@ class Magento_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
     {
         $profileIds = Mage::getSingleton('Magento_Checkout_Model_Session')->getLastRecurringProfileIds();
         if ($profileIds && is_array($profileIds)) {
-            $collection = Mage::getModel('Mage_Sales_Model_Recurring_Profile')->getCollection()
+            $collection = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->getCollection()
                 ->addFieldToFilter('profile_id', array('in' => $profileIds))
             ;
             $profiles = array();

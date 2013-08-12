@@ -435,7 +435,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     /**
      * Add Shipment Information
      *
-     * @param Mage_Sales_Model_Order_Shipment $data
+     * @param Magento_Sales_Model_Order_Shipment $data
      * @return Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page
      * @throws InvalidArgumentException
      */

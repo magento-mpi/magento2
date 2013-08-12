@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Paygate />
                 <Magento_Checkout />
-                <Mage_Sales />
+                <Magento_Sales />
             </depends>
         </Magento_Paypal>
     </modules>

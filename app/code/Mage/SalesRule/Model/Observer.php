@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Observer
+class Magento_SalesRule_Model_Observer
 {
     protected $_validator;
 
@@ -33,14 +33,14 @@ class Mage_SalesRule_Model_Observer
             if (!$ruleId) {
                 continue;
             }
-            $rule = Mage::getModel('Mage_SalesRule_Model_Rule');
+            $rule = Mage::getModel('Magento_SalesRule_Model_Rule');
             $rule->load($ruleId);
             if ($rule->getId()) {
                 $rule->setTimesUsed($rule->getTimesUsed() + 1);
                 $rule->save();
 
                 if ($customerId) {
-                    $ruleCustomer = Mage::getModel('Mage_SalesRule_Model_Rule_Customer');
+                    $ruleCustomer = Mage::getModel('Magento_SalesRule_Model_Rule_Customer');
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
                     if ($ruleCustomer->getId()) {
@@ -57,14 +57,14 @@ class Mage_SalesRule_Model_Observer
             }
         }
 
-        $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
-        /** @var Mage_SalesRule_Model_Coupon */
+        $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
+        /** @var Magento_SalesRule_Model_Coupon */
         $coupon->load($order->getCouponCode(), 'code');
         if ($coupon->getId()) {
             $coupon->setTimesUsed($coupon->getTimesUsed() + 1);
             $coupon->save();
             if ($customerId) {
-                $couponUsage = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Usage');
+                $couponUsage = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Usage');
                 $couponUsage->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
             }
         }
@@ -74,14 +74,14 @@ class Mage_SalesRule_Model_Observer
      * Refresh sales coupons report statistics for last day
      *
      * @param Magento_Cron_Model_Schedule $schedule
-     * @return Mage_SalesRule_Model_Observer
+     * @return Magento_SalesRule_Model_Observer
      */
     public function aggregateSalesReportCouponsData($schedule)
     {
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule')->aggregate($date);
+        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -91,19 +91,19 @@ class Mage_SalesRule_Model_Observer
      * If rules were found they will be set to inactive and notice will be add to admin session
      *
      * @param string $attributeCode
-     * @return Mage_SalesRule_Model_Observer
+     * @return Magento_SalesRule_Model_Observer
      */
     protected function _checkSalesRulesAvailability($attributeCode)
     {
-        /* @var $collection Mage_SalesRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule_Collection')
+        /* @var $collection Magento_SalesRule_Model_Resource_Rule_Collection */
+        $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Rule_Collection')
             ->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
         foreach ($collection as $rule) {
-            /* @var $rule Mage_SalesRule_Model_Rule */
+            /* @var $rule Magento_SalesRule_Model_Rule */
             $rule->setIsActive(0);
-            /* @var $rule->getConditions() Mage_SalesRule_Model_Rule_Condition_Combine */
+            /* @var $rule->getConditions() Magento_SalesRule_Model_Rule_Condition_Combine */
             $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
             $this->_removeAttributeFromConditions($rule->getActions(), $attributeCode);
             $rule->save();
@@ -113,7 +113,7 @@ class Mage_SalesRule_Model_Observer
 
         if ($disabledRulesCount) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(
-                Mage::helper('Mage_SalesRule_Helper_Data')->__('%d Shopping Cart Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+                Mage::helper('Magento_SalesRule_Helper_Data')->__('%d Shopping Cart Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
         return $this;
@@ -132,7 +132,7 @@ class Mage_SalesRule_Model_Observer
             if ($condition instanceof Magento_Rule_Model_Condition_Combine) {
                 $this->_removeAttributeFromConditions($condition, $attributeCode);
             }
-            if ($condition instanceof Mage_SalesRule_Model_Rule_Condition_Product) {
+            if ($condition instanceof Magento_SalesRule_Model_Rule_Condition_Product) {
                 if ($condition->getAttribute() == $attributeCode) {
                     unset($conditions[$conditionId]);
                 }
@@ -145,7 +145,7 @@ class Mage_SalesRule_Model_Observer
      * After save attribute if it is not used for promo rules already check rules for containing this attribute
      *
      * @param Magento_Event_Observer $observer
-     * @return Mage_SalesRule_Model_Observer
+     * @return Magento_SalesRule_Model_Observer
      */
     public function catalogAttributeSaveAfter(Magento_Event_Observer $observer)
     {
@@ -162,7 +162,7 @@ class Mage_SalesRule_Model_Observer
      * If rules was found they will seted to inactive and added notice to admin session
      *
      * @param Magento_Event_Observer $observer
-     * @return Mage_SalesRule_Model_Observer
+     * @return Magento_SalesRule_Model_Observer
      */
     public function catalogAttributeDeleteAfter(Magento_Event_Observer $observer)
     {
@@ -178,14 +178,14 @@ class Mage_SalesRule_Model_Observer
      * Append sales rule product attributes to select by quote item collection
      *
      * @param Magento_Event_Observer $observer
-     * @return Mage_SalesRule_Model_Observer
+     * @return Magento_SalesRule_Model_Observer
      */
     public function addProductAttributes(Magento_Event_Observer $observer)
     {
         // @var Magento_Object
         $attributesTransfer = $observer->getEvent()->getAttributes();
 
-        $attributes = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule')
+        $attributes = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Rule')
             ->getActiveAttributes(
                 Mage::app()->getWebsite()->getId(),
                 Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getGroupId()
@@ -202,7 +202,7 @@ class Mage_SalesRule_Model_Observer
      * Add coupon's rule name to order data
      *
      * @param Magento_Event_Observer $observer
-     * @return Mage_SalesRule_Model_Observer
+     * @return Magento_SalesRule_Model_Observer
      */
     public function addSalesRuleNameToOrder($observer)
     {
@@ -214,9 +214,9 @@ class Mage_SalesRule_Model_Observer
         }
 
         /**
-         * @var Mage_SalesRule_Model_Coupon $couponModel
+         * @var Magento_SalesRule_Model_Coupon $couponModel
          */
-        $couponModel = Mage::getModel('Mage_SalesRule_Model_Coupon');
+        $couponModel = Mage::getModel('Magento_SalesRule_Model_Coupon');
         $couponModel->loadByCode($couponCode);
 
         $ruleId = $couponModel->getRuleId();
@@ -226,9 +226,9 @@ class Mage_SalesRule_Model_Observer
         }
 
         /**
-         * @var Mage_SalesRule_Model_Rule $ruleModel
+         * @var Magento_SalesRule_Model_Rule $ruleModel
          */
-        $ruleModel = Mage::getModel('Mage_SalesRule_Model_Rule');
+        $ruleModel = Mage::getModel('Magento_SalesRule_Model_Rule');
         $ruleModel->load($ruleId);
 
         $order->setCouponRuleName($ruleModel->getName());

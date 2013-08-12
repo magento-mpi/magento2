@@ -39,15 +39,15 @@ interface Magento_Checkout_Model_Cart_Interface
      * Associate quote with the cart
      *
      * @abstract
-     * @param $quote Mage_Sales_Model_Quote
+     * @param $quote Magento_Sales_Model_Quote
      * @return Magento_Checkout_Model_Cart_Interface
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote);
+    public function setQuote(Magento_Sales_Model_Quote $quote);
 
     /**
      * Get quote object associated with cart
      * @abstract
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote();
 }

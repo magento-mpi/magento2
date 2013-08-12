@@ -39,7 +39,7 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
     /**
      * Retrieves item qty available for return
      *
-     * @param  $item | Mage_Sales_Model_Order_Item
+     * @param  $item | Magento_Sales_Model_Order_Item
      * @return int
      */
     public function getAvailableQty($item)

@@ -113,7 +113,7 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof Mage_Sales_Model_Quote_Item_Option
+            if ($productTypeOpt instanceof Magento_Sales_Model_Quote_Item_Option
                 && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
@@ -137,7 +137,7 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     /**
      * Get quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

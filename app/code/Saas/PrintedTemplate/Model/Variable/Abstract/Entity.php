@@ -96,7 +96,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
     /**
      * Retrive item taxes array
      *
-     * @param Mage_Sales_Model_Order_(Invoice/Creditmemo/Shipping)_Item
+     * @param Magento_Sales_Model_Order_(Invoice/Creditmemo/Shipping)_Item
      * @return array Of Saas_PrintedTemplate_Model_Tax_Order_Item
      */
     protected function _getItemTaxes($item)
@@ -310,13 +310,13 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
         $itemsTaxes = Mage::getResourceModel('Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection');
         $shippingTaxes = Mage::getResourceModel('Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection');
 
-        if ($this->_value instanceof Mage_Sales_Model_Order) {
+        if ($this->_value instanceof Magento_Sales_Model_Order) {
             $itemsTaxes->addFilterByOrder($this->_value);
             $shippingTaxes->addFilterByOrder($this->_value);
-        } else if ($this->_value instanceof Mage_Sales_Model_Order_Invoice) {
+        } else if ($this->_value instanceof Magento_Sales_Model_Order_Invoice) {
             $itemsTaxes->addFilterByInvoice($this->_value);
             $shippingTaxes->addFilterByInvoice($this->_value);
-        } else if ($this->_value instanceof Mage_Sales_Model_Order_Creditmemo) {
+        } else if ($this->_value instanceof Magento_Sales_Model_Order_Creditmemo) {
             $itemsTaxes->addFilterByCreditmemo($this->_value);
             $shippingTaxes->addFilterByCreditmemo($this->_value);
         }

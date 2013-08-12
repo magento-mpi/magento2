@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Coupons extends Magento_Adminht
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Coupons');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Coupons');
     }
 
     public function getHeaderCssClass()

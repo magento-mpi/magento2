@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Sales_Invoice extends Magento_Adminhtml_Block_Widg
     protected function _construct()
     {
         $this->_controller = 'sales_invoice';
-        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Invoices');
+        $this->_headerText = Mage::helper('Magento_Sales_Helper_Data')->__('Invoices');
         parent::_construct();
         $this->_removeButton('add');
     }

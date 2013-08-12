@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
     {
         $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'id'      => 'submit_comment_button',
-            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Submit Comment'),
+            'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Submit Comment'),
             'class'   => 'save'
         ));
 
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
 
     public function canSendCommentEmail()
     {
-        $helper = Mage::helper('Mage_Sales_Helper_Data');
+        $helper = Mage::helper('Magento_Sales_Helper_Data');
         switch ($this->getParentType()) {
             case 'invoice':
                 return $helper->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());

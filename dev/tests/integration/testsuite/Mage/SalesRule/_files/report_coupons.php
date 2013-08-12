@@ -7,8 +7,8 @@
  */
 
 // refresh report statistics
-/** @var Mage_SalesRule_Model_Resource_Report_Rule $reportResource */
-$reportResource = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule');
+/** @var Magento_SalesRule_Model_Resource_Report_Rule $reportResource */
+$reportResource = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule');
 $reportResource->beginTransaction(); // prevent table truncation by incrementing the transaction nesting level counter
 try {
     $reportResource->aggregate();

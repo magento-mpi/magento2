@@ -35,7 +35,7 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed_Collection
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Sales_Model_Resource_Report $resource
+        Magento_Sales_Model_Resource_Report $resource
     ) {
         $resource->init(Magento_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY);
         parent::__construct($fetchStrategy, $resource);

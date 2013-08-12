@@ -101,7 +101,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote
+     * @param Magento_Sales_Model_Quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -117,7 +117,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Mage_Sales_Model_Payment::place()
+     * @see Magento_Sales_Model_Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()
@@ -133,7 +133,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Authorize payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -160,7 +160,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Capture payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function capture(Magento_Object $payment, $amount)
@@ -197,7 +197,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Void payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function void(Magento_Object $payment)
@@ -231,7 +231,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Refund capture
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function refund(Magento_Object $payment, $amount)
@@ -384,7 +384,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      /**
       * Return request object with information for 'authorization' or 'sale' action
       *
-      * @param Mage_Sales_Model_Order_Payment $payment
+      * @param Magento_Sales_Model_Order_Payment $payment
       * @param float $amount
       * @return Magento_Object
       */
@@ -439,7 +439,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      /**
       * Return request object with basic information for gateway request
       *
-      * @param Mage_Sales_Model_Order_Payment $payment
+      * @param Magento_Sales_Model_Order_Payment $payment
       * @return Magento_Object
       */
     protected function _buildBasicRequest(Magento_Object $payment)

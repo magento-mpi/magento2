@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Customer_Edit extends Magento_Adminhtml_Block_Widg
         $this->_controller = 'customer';
 
         if ($this->getCustomerId() &&
-            $this->_authorization->isAllowed('Mage_Sales::create')) {
+            $this->_authorization->isAllowed('Magento_Sales::create')) {
             $this->_addButton('order', array(
                 'label' => Mage::helper('Magento_Customer_Helper_Data')->__('Create Order'),
                 'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',

@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Newsletter extends Magento_Admi
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Newsletter Subscription');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Newsletter Subscription');
     }
 
     public function getHeaderCssClass()

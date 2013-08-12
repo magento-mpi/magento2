@@ -15,7 +15,7 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends Mage_Sales_Block_Order_Item_Renderer_Default
+class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends Magento_Sales_Block_Order_Item_Renderer_Default
 {
     protected $_purchasedLinks = null;
 

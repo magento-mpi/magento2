@@ -133,7 +133,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_Paypa
      * Import capture results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -148,7 +148,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_Paypa
      * Import refund results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp $api
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)

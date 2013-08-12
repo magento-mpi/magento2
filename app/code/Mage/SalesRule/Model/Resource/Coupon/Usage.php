@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * SalesRule Model Resource Coupon_Usage
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Constructor
@@ -74,7 +74,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_Reso
      * @param Magento_Object $object
      * @param unknown_type $customerId
      * @param unknown_type $couponId
-     * @return Mage_SalesRule_Model_Resource_Coupon_Usage
+     * @return Magento_SalesRule_Model_Resource_Coupon_Usage
      */
     public function loadByCustomerCoupon(Magento_Object $object, $customerId, $couponId)
     {

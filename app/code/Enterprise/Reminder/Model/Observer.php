@@ -107,7 +107,7 @@ class Enterprise_Reminder_Model_Observer
         $couponType = $rule->getCouponType();
         $autoGeneration = $rule->getUseAutoGeneration();
 
-        if ($couponType == Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
+        if ($couponType == Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
             $model = Mage::getModel('Enterprise_Reminder_Model_Rule');
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);

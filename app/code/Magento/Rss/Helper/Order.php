@@ -31,7 +31,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
     /**
      * Retrieve order status history url
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return string
      */
     public function getStatusHistoryRssUrl($order)
@@ -44,7 +44,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
     /**
      * Retrieve order status url key
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return string
      */
     public function getStatusUrlKey($order)
@@ -62,7 +62,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
      * Retrieve order instance by specified status url key
      *
      * @param string $key
-     * @return Mage_Sales_Model_Order|null
+     * @return Magento_Sales_Model_Order|null
      */
     public function getOrderByStatusUrlKey($key)
     {
@@ -73,8 +73,8 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
             return null;
         }
 
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('Mage_Sales_Model_Order')->load($data['order_id']);
+        /** @var $order Magento_Sales_Model_Order */
+        $order = Mage::getModel('Magento_Sales_Model_Order')->load($data['order_id']);
         if ($order->getId()
             && $order->getIncrementId() == $data['increment_id']
             && $order->getCustomerId() == $data['customer_id']

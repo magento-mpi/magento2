@@ -53,7 +53,7 @@
                     <?php $package = new Magento_Object($package) ?>
                     <?php $params = new Magento_Object($package->getParams()) ?>
                     <div class="package-number popup-fieldset-title">
-                        <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></span>
+                        <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></span>
                     </div>
                     <div class="package-info">
                         <table class="package-options" cellspacing="0">
@@ -70,7 +70,7 @@
                                         <?php endif; ?>
                                     </td>
                                     <?php if ($params->getDeliveryConfirmation() != null): ?>
-                                        <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Signature Confirmation') ?></th>
+                                        <th><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Signature Confirmation') ?></th>
                                         <td><?php echo $this->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation()) ?></td>
                                     <?php else: ?>
                                         <th>&nbsp;</th>
@@ -190,7 +190,7 @@
         </div>
         <div class="popup-window-buttons-set">
             <?php echo $this->getPrintButton() ?>
-            <button type="button" class="action-ok SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
+            <button type="button" class="action-ok SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
                 <span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('OK') ?></span>
             </button>
         </div>

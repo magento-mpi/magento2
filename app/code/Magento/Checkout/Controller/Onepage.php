@@ -21,7 +21,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
     );
 
     /**
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
 
@@ -447,13 +447,13 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
     /**
      * Get Order by quoteId
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      * @throws Magento_Payment_Model_Info_Exception
      */
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order');
+            $this->_order = Mage::getModel('Magento_Sales_Model_Order');
             $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new Magento_Payment_Model_Info_Exception(
@@ -467,7 +467,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
     /**
      * Create invoice
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     protected function _initInvoice()
     {
@@ -475,8 +475,8 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
         foreach ($this->_getOrder()->getAllItems() as $item) {
             $items[$item->getId()] = $item->getQtyOrdered();
         }
-        /* @var $invoice Mage_Sales_Model_Service_Order */
-        $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $this->_getOrder()))
+        /* @var $invoice Magento_Sales_Model_Service_Order */
+        $invoice = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $this->_getOrder()))
             ->prepareInvoice($items);
         $invoice->setEmailSent(true)->register();
 

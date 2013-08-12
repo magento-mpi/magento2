@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * SalesRule Resource Coupon
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Coupon extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_SalesRule_Model_Resource_Coupon extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Constructor adds unique fields
@@ -26,7 +26,7 @@ class Mage_SalesRule_Model_Resource_Coupon extends Magento_Core_Model_Resource_D
         $this->_init('salesrule_coupon', 'coupon_id');
         $this->addUniqueField(array(
             'field' => 'code',
-            'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon with the same code')
+            'title' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Coupon with the same code')
         ));
     }
 
@@ -54,15 +54,15 @@ class Mage_SalesRule_Model_Resource_Coupon extends Magento_Core_Model_Resource_D
      * Load primary coupon (is_primary = 1) for specified rule
      *
      *
-     * @param Mage_SalesRule_Model_Coupon $object
-     * @param Mage_SalesRule_Model_Rule|int $rule
+     * @param Magento_SalesRule_Model_Coupon $object
+     * @param Magento_SalesRule_Model_Rule|int $rule
      * @return unknown
      */
-    public function loadPrimaryByRule(Mage_SalesRule_Model_Coupon $object, $rule)
+    public function loadPrimaryByRule(Magento_SalesRule_Model_Coupon $object, $rule)
     {
         $read = $this->_getReadAdapter();
 
-        if ($rule instanceof Mage_SalesRule_Model_Rule) {
+        if ($rule instanceof Magento_SalesRule_Model_Rule) {
             $ruleId = $rule->getId();
         } else {
             $ruleId = (int)$rule;
@@ -106,10 +106,10 @@ class Mage_SalesRule_Model_Resource_Coupon extends Magento_Core_Model_Resource_D
     /**
      * Update auto generated Specific Coupon if it's rule changed
      *
-     * @param Mage_SalesRule_Model_Rule $rule
-     * @return Mage_SalesRule_Model_Resource_Coupon
+     * @param Magento_SalesRule_Model_Rule $rule
+     * @return Magento_SalesRule_Model_Resource_Coupon
      */
-    public function updateSpecificCoupons(Mage_SalesRule_Model_Rule $rule)
+    public function updateSpecificCoupons(Magento_SalesRule_Model_Rule $rule)
     {
         if (!$rule || !$rule->getId() || !$rule->hasDataChanges()) {
             return $this;

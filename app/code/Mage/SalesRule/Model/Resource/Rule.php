@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Sales Rule resource model
  *
  * @category Mage
- * @package Mage_SalesRule
+ * @package Magento_SalesRule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
+class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
 {
     /**
      * Store associated with rule entities information map
@@ -49,7 +49,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
      *
      * @param Magento_Core_Model_Abstract $object
      *
-     * @return Mage_SalesRule_Model_Resource_Rule
+     * @return Magento_SalesRule_Model_Resource_Rule
      */
     protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
@@ -65,7 +65,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
      *
      * @param Magento_Core_Model_Abstract $object
      *
-     * @return Mage_SalesRule_Model_Resource_Rule
+     * @return Magento_SalesRule_Model_Resource_Rule
      */
     public function _beforeSave(Magento_Core_Model_Abstract $object)
     {
@@ -84,7 +84,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
      *
      * @param Magento_Core_Model_Abstract $object
      *
-     * @return Mage_SalesRule_Model_Resource_Rule
+     * @return Magento_SalesRule_Model_Resource_Rule
      */
     protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
@@ -119,7 +119,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
 
         // Update auto geterated specific coupons if exists
         if ($object->getUseAutoGeneration() && $object->hasDataChanges()) {
-            Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon')->updateSpecificCoupons($object);
+            Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon')->updateSpecificCoupons($object);
         }
         return parent::_afterSave($object);
     }
@@ -127,7 +127,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
     /**
      * Retrieve coupon/rule uses for specified customer
      *
-     * @param Mage_SalesRule_Model_Rule $rule
+     * @param Magento_SalesRule_Model_Rule $rule
      * @param int $customerId
      *
      * @return string
@@ -147,7 +147,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
      * @param int $ruleId
      * @param array $labels
      *
-     * @return Mage_SalesRule_Model_Resource_Rule
+     * @return Magento_SalesRule_Model_Resource_Rule
      */
     public function saveStoreLabels($ruleId, $labels)
     {
@@ -241,9 +241,9 @@ class Mage_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abs
     /**
      * Save product attributes currently used in conditions and actions of rule
      *
-     * @param Mage_SalesRule_Model_Rule $rule
+     * @param Magento_SalesRule_Model_Rule $rule
      * @param mixed $attributes
-     * @return Mage_SalesRule_Model_Resource_Rule
+     * @return Magento_SalesRule_Model_Resource_Rule
      */
     public function setActualProductAttributes($rule, $attributes)
     {

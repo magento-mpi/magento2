@@ -63,10 +63,10 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Tax_Block_Sale
      */
     public function getFullTaxInfo()
     {
-        /** @var $source Mage_Sales_Model_Order */
+        /** @var $source Magento_Sales_Model_Order */
         $source = $this->getOrder();
         $taxClassAmount = array();
-        if ($source instanceof Mage_Sales_Model_Order) {
+        if ($source instanceof Magento_Sales_Model_Order) {
             $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($source);
             $shippingTax    = $this->_taxHelper->getShippingTax($source);
             $taxClassAmount = array_merge($taxClassAmount, $shippingTax);

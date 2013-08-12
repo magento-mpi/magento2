@@ -9,6 +9,6 @@
 -->
 <layout version="0.1.0">
     <adminhtml_sales_billing_agreement_grid>
-        <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid" name="sales.billing.agreement.grid" output="1"/>
+        <block type="Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid" name="sales.billing.agreement.grid" output="1"/>
     </adminhtml_sales_billing_agreement_grid>
 </layout>

@@ -70,7 +70,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     /**
      * Retrieve sales quote model
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

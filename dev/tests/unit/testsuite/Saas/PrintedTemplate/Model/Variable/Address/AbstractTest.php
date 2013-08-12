@@ -50,7 +50,7 @@ class Saas_PrintedTemplate_Model_Variable_Address_AbstractTest extends PHPUnit_F
             ->method('_getCountryModel')
             ->will($this->returnValue($countryModel));
 
-        $valueModel = $this->getMockBuilder('Mage_Sales_Model_Order_Address')
+        $valueModel = $this->getMockBuilder('Magento_Sales_Model_Order_Address')
             ->disableOriginalConstructor()
             ->setMethods(array('getCountryId'))
             ->getMock();
@@ -97,7 +97,7 @@ class Saas_PrintedTemplate_Model_Variable_Address_AbstractTest extends PHPUnit_F
         $entity->expects($this->any())
             ->method('_setListsFromConfig');
 
-        $valueModel = $this->getMockBuilder('Mage_Sales_Model_Order_Address')
+        $valueModel = $this->getMockBuilder('Magento_Sales_Model_Order_Address')
             ->disableOriginalConstructor()
             ->setMethods(array('getStreet'))
             ->getMock();

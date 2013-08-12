@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $address Mage_Sales_Model_Order_Address */
-$address = Mage::getModel('Mage_Sales_Model_Order_Address');
+/** @var $address Magento_Sales_Model_Order_Address */
+$address = Mage::getModel('Magento_Sales_Model_Order_Address');
 $address->load('admin@example.com', 'email');
 $address->delete();
 

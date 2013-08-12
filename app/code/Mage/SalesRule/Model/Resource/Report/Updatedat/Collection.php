@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +13,11 @@
  * Sales report coupons collection
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
-    extends Mage_SalesRule_Model_Resource_Report_Collection
+class Magento_SalesRule_Model_Resource_Report_Updatedat_Collection
+    extends Magento_SalesRule_Model_Resource_Report_Collection
 {
     /**
      * Aggregated Data Table

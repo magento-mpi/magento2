@@ -95,7 +95,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Get quote object associated with cart. By default it is current customer session quote
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -108,10 +108,10 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Set quote object associated with the cart
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Magento_Checkout_Model_Cart
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->setData('quote', $quote);
         return $this;
@@ -142,13 +142,13 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Convert order item to quote item
      *
-     * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param Magento_Sales_Model_Order_Item $orderItem
      * @param mixed $qtyFlag if is null set product qty like in order
      * @return Magento_Checkout_Model_Cart
      */
     public function addOrderItem($orderItem, $qtyFlag=null)
     {
-        /* @var $orderItem Mage_Sales_Model_Order_Item */
+        /* @var $orderItem Magento_Sales_Model_Order_Item */
         if (is_null($orderItem->getParentItem())) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
@@ -538,9 +538,9 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * @param int $itemId
      * @param int|array|Magento_Object $requestInfo
      * @param null|array|Magento_Object $updatingParams
-     * @return Mage_Sales_Model_Quote_Item|string
+     * @return Magento_Sales_Model_Quote_Item|string
      *
-     * @see Mage_Sales_Model_Quote::updateItem()
+     * @see Magento_Sales_Model_Quote::updateItem()
      */
     public function updateItem($itemId, $requestInfo = null, $updatingParams = null)
     {

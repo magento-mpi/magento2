@@ -20,7 +20,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_ConfigurableT
             ->method('__')
             ->will($this->returnArgument(0));
 
-        $mockItem = $this->getMockBuilder('Mage_Sales_Model_Order_Item')
+        $mockItem = $this->getMockBuilder('Magento_Sales_Model_Order_Item')
             ->disableOriginalConstructor()
             ->setMethods(array('getId', 'unsetData'))
             ->getMock();
@@ -36,7 +36,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_ConfigurableT
             ->method('getModel')
             ->will($this->returnValue($mockItem));
 
-        $resource = $this->getMock('Mage_Sales_Model_Resource_Order_Item', array(), array(), '', false);
+        $resource = $this->getMock('Magento_Sales_Model_Resource_Order_Item', array(), array(), '', false);
         $model->expects($this->any())->method('_getResource')->will($this->returnValue($resource));
 
         $this->assertEmpty($model->getData());

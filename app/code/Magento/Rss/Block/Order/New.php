@@ -19,7 +19,7 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
 {
     protected function _toHtml()
     {
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        $order = Mage::getModel('Magento_Sales_Model_Order');
         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
         $newurl = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(

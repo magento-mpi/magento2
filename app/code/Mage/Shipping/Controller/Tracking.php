@@ -12,7 +12,7 @@
  * Sales orders controller
  *
  * @category   Mage
- * @package    Mage_Sales
+ * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -62,13 +62,13 @@ class Mage_Shipping_Controller_Tracking extends Magento_Core_Controller_Front_Ac
     /**
      * Initialize order model instance
      *
-     * @return Mage_Sales_Model_Order || false
+     * @return Magento_Sales_Model_Order || false
      */
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
 
-        $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+        $order = Mage::getModel('Magento_Sales_Model_Order')->load($id);
         $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
 
         if (!$order->getId() || !$customerId || $order->getCustomerId() != $customerId) {

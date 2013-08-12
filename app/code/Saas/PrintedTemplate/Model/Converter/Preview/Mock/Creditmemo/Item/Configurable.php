@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_Configurable
-    extends Mage_Sales_Model_Order_Creditmemo_Item
+    extends Magento_Sales_Model_Order_Creditmemo_Item
 {
     /**
      * @var Saas_PrintedTemplate_Helper_Data
@@ -40,7 +40,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_Configur
     public function getChildrenItemMocks()
     {
         return array (
-            Mage::getModel('Mage_Sales_Model_Order_Creditmemo_Item')->setData($this->_getChildMockData())
+            Mage::getModel('Magento_Sales_Model_Order_Creditmemo_Item')->setData($this->_getChildMockData())
         );
     }
 

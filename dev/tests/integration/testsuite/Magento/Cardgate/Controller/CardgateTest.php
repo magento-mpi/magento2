@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Sales/_files/order.php
+ * @magentoDataFixture Magento/Sales/_files/order.php
  */
 class Magento_Cardgate_Controller_CardgateTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -18,11 +18,11 @@ class Magento_Cardgate_Controller_CardgateTest extends Magento_Test_TestCase_Con
     {
         parent::setUp();
 
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod('cardgate_creditcard');
 
-        $quote = Mage::getModel('Mage_Sales_Model_Quote')
+        $quote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 
@@ -77,7 +77,7 @@ class Magento_Cardgate_Controller_CardgateTest extends Magento_Test_TestCase_Con
         $data['currency'] = 'USD';
         $data['amount'] = $amount;
         $data['ref'] = '100000001';
-        $data['status'] = Mage_Sales_Model_Order::STATE_PROCESSING;
+        $data['status'] = Magento_Sales_Model_Order::STATE_PROCESSING;
         $data['hash'] =  md5('TEST' . $data['transaction_id'] . $data['currency'] . $data['amount'] . $data['ref']
         . $data['status'] . '263748');
 

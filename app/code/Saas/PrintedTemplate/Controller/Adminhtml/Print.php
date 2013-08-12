@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
         }
 
         try {
-            $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
+            $entity = Mage::getModel(uc_words("Magento_Sales_Model_Order_$type"));
             if (!$entity) {
                 Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
             }
@@ -77,7 +77,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
             return;
         }
 
-        $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
+        $entity = Mage::getModel(uc_words("Magento_Sales_Model_Order_$type"));
         if (!$entity) {
             Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
         }
@@ -155,13 +155,13 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
     {
         $collection = array();
         foreach ($orderIds as $orderId) {
-            $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
+            $invoices = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Invoice_Collection')
                 ->setOrderFilter($orderId)
                 ->getItems();
-            $creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
+            $creditmemos = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Collection')
                 ->setOrderFilter($orderId)
                 ->getItems();
-            $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
+            $shipments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Shipment_Collection')
                 ->setOrderFilter($orderId)
                 ->getItems();
 

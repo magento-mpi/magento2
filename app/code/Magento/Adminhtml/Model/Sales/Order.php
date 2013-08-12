@@ -27,7 +27,7 @@ class Magento_Adminhtml_Model_Sales_Order
         return Mage::getSingleton('Magento_Adminhtml_Model_Session');
     }
 
-    public function checkRelation(Mage_Sales_Model_Order $order)
+    public function checkRelation(Magento_Sales_Model_Order $order)
     {
         /**
          * Check customer existing

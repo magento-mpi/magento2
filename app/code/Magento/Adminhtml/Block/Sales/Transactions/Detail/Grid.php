@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     protected function _prepareColumns()
     {
         $this->addColumn('key', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Key'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Key'),
             'index'     => 'key',
             'sortable'  => false,
             'type'      => 'text',
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
         ));
 
         $this->addColumn('value', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Value'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Value'),
             'index'     => 'value',
             'sortable'  => false,
             'type'      => 'text',
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     public function getTransactionAdditionalInfo()
     {
         $info = Mage::registry('current_transaction')->getAdditionalInformation(
-            Mage_Sales_Model_Order_Payment_Transaction::RAW_DETAILS
+            Magento_Sales_Model_Order_Payment_Transaction::RAW_DETAILS
         );
         return (is_array($info)) ? $info : array();
     }

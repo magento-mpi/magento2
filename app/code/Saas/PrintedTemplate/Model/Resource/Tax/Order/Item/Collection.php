@@ -101,10 +101,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Add filter by order
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByOrder(Mage_Sales_Model_Order $order)
+    public function addFilterByOrder(Magento_Sales_Model_Order $order)
     {
         return $this->_joinItems($order->getItemsCollection(), 'item_id')
                     ->addFieldToFilter('parent_id', $order->getId())
@@ -114,10 +114,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Add filter by invoice
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Invoice $invoice
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByInvoice(Mage_Sales_Model_Order_Invoice $invoice)
+    public function addFilterByInvoice(Magento_Sales_Model_Order_Invoice $invoice)
     {
         return $this->_joinItems($invoice->getItemsCollection(), 'order_item_id')
                     ->addFieldToFilter('parent_id', $invoice->getId());
@@ -126,10 +126,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Add filter by creditmemo
      *
-     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByCreditmemo(Mage_Sales_Model_Order_Creditmemo $creditmemo)
+    public function addFilterByCreditmemo(Magento_Sales_Model_Order_Creditmemo $creditmemo)
     {
         return $this->_joinItems($creditmemo->getItemsCollection(), 'order_item_id')
                     ->addFieldToFilter('parent_id', $creditmemo->getId());

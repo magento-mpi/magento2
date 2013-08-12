@@ -27,6 +27,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Store extends Magento_Adminhtml
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Please select a store.');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Please select a store.');
     }
 }

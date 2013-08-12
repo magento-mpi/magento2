@@ -372,7 +372,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit bestsellers collection
      *
-     * @param Mage_Sales_Model_Resource_Report_Bestsellers_Collection $collection
+     * @param Magento_Sales_Model_Resource_Report_Bestsellers_Collection $collection
      */
     public function limitBestsellersCollection($collection)
     {

@@ -136,7 +136,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Firstdata extends Magento_Payment_
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
@@ -248,8 +248,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Firstdata extends Magento_Payment_
 
     /**
      * Set capture transaction ID to invoice for informational purposes
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Payment_Model_Method_Abstract
      */
     public function processInvoice($invoice, $payment)

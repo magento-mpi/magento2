@@ -59,9 +59,9 @@
         <saas_printedtemplate>
             <locator>
                 <modelTypes>
-                    <invoice>Mage_Sales_Model_Order_Invoice</invoice>
-                    <creditmemo>Mage_Sales_Model_Order_Creditmemo</creditmemo>
-                    <shipment>Mage_Sales_Model_Order_Shipment</shipment>
+                    <invoice>Magento_Sales_Model_Order_Invoice</invoice>
+                    <creditmemo>Magento_Sales_Model_Order_Creditmemo</creditmemo>
+                    <shipment>Magento_Sales_Model_Order_Shipment</shipment>
                 </modelTypes>
                 <pdf_renderer>
                     <class>Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf</class>

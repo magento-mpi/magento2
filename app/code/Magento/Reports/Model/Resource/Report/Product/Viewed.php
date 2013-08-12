@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Model_Resource_Report_Abstract
+class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales_Model_Resource_Report_Abstract
 {
     /**
      * Aggregation key daily
@@ -47,7 +47,7 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Mo
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Sales_Model_Resource_Report_Bestsellers
+     * @return Magento_Sales_Model_Resource_Report_Bestsellers
      */
     public function aggregate($from = null, $to = null)
     {

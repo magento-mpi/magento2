@@ -25,7 +25,7 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     }
 
 // CHECKOUT
-    public function checkout(Mage_Sales_Model_Quote $quote)
+    public function checkout(Magento_Sales_Model_Quote $quote)
     {
         $api = $this->_getApi('checkout')
             ->setQuote($quote)

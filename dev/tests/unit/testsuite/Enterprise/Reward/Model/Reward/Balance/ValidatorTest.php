@@ -46,7 +46,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
         $this->_sessionMock = $this->getMock('Magento_Checkout_Model_Session',
             array('setUpdateSection', 'setGotoSection'), array(), '', false);
         $this->_orderMock =
-            $this->getMock('Mage_Sales_Model_Order', array('getRewardPointsBalance'), array(), '', false);
+            $this->getMock('Magento_Sales_Model_Order', array('getRewardPointsBalance'), array(), '', false);
         $this->_model = new Enterprise_Reward_Model_Reward_Balance_Validator(
             $this->_storeManagerMock,
             $this->_helperMock,

@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_SalesRule_Model_Resource_Rule_Quote_Collection extends Mage_SalesRule_Model_Resource_Rule_Collection
+class Magento_SalesRule_Model_Resource_Rule_Quote_Collection extends Magento_SalesRule_Model_Resource_Rule_Collection
 {
     /**
      * Add websites for load
      *
-     * @return Mage_SalesRule_Model_Resource_Rule_Quote_GridCollection
+     * @return Magento_SalesRule_Model_Resource_Rule_Quote_GridCollection
      */
 
     public function _initSelect()

@@ -62,7 +62,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

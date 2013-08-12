@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
     /**
      * Sales entity collection
      *
-     * @var Mage_Sales_Model_Resource_Sale_Collection
+     * @var Magento_Sales_Model_Resource_Sale_Collection
      */
     protected $_collection;
 
@@ -47,9 +47,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
             ->load(Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
         ;
 
-        $this->_collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Sale_Collection')
+        $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Sale_Collection')
             ->setCustomerFilter(Mage::registry('current_customer'))
-            ->setOrderStateFilter(Mage_Sales_Model_Order::STATE_CANCELED, true)
+            ->setOrderStateFilter(Magento_Sales_Model_Order::STATE_CANCELED, true)
             ->load()
         ;
 

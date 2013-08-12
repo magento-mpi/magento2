@@ -13,19 +13,19 @@ class Magento_Paypal_Controller_StandardTest extends Magento_Test_TestCase_Contr
     protected $_session;
 
     /**
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_order = $this->_objectManager->create('Mage_Sales_Model_Order');
+        $this->_order = $this->_objectManager->create('Magento_Sales_Model_Order');
         $this->_session = $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
-     * @magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testRedirectActionIsContentGenerated()
     {
@@ -52,7 +52,7 @@ class Magento_Paypal_Controller_StandardTest extends Magento_Test_TestCase_Contr
      */
     public function testCancelAction()
     {
-        $quote = $this->_objectManager->create('Mage_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         $this->_session->setQuoteId($quote->getId());
         $this->_session->setPaypalStandardQuoteId($quote->getId())

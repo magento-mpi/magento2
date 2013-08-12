@@ -15,7 +15,7 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_Abstract
+class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_Items_Abstract
 {
     /**
      * Initialize default item renderer for row-level items output
@@ -124,7 +124,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Ite
         $totals = $address->getTotals();
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
-                if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_BILLING) {
+                if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_BILLING) {
                     $total->setTitle($this->__('Total'));
                 }
                 else {
@@ -207,7 +207,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Ite
     /**
      * Retrieve quote
      *
-     * @return Mage_Sales_Model_Qoute
+     * @return Magento_Sales_Model_Qoute
      */
     public function getQuote()
     {

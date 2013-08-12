@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Totals extends Magento_Adminht
     /**
      * Initialize order totals array
      *
-     * @return Mage_Sales_Block_Order_Totals
+     * @return Magento_Sales_Block_Order_Totals
      */
     protected function _initTotals()
     {

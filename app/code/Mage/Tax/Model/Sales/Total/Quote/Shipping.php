@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Tax calculation model
@@ -53,10 +53,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
     /**
      * Collect totals information about shipping
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Mage_Sales_Model_Quote_Address_Total_Shipping
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @return  Magento_Sales_Model_Quote_Address_Total_Shipping
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
         $calc               = $this->_calculator;

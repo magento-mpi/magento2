@@ -23,7 +23,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_InvoiceTest extends PHPUnit_Frame
             $valueModel->setData($key, $setting);
         }
 
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
             ->getMock();

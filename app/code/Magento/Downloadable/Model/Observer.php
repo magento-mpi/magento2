@@ -168,7 +168,7 @@ class Magento_Downloadable_Model_Observer
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
-                /* @var $item Mage_Sales_Model_Order_Item */
+                /* @var $item Magento_Sales_Model_Order_Item */
                 if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
                 || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
                 || $item->getProductOptionByCode('is_downloadable'))
@@ -196,7 +196,7 @@ class Magento_Downloadable_Model_Observer
             return $this;
         }
 
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $status = '';
         $linkStatuses = array(
             'pending'         => Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING,
@@ -211,15 +211,15 @@ class Magento_Downloadable_Model_Observer
             Magento_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
         );
 
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
+        if ($order->getState() == Magento_Sales_Model_Order::STATE_HOLDED) {
             $status = $linkStatuses['pending'];
         } elseif ($order->isCanceled()
-                  || $order->getState() == Mage_Sales_Model_Order::STATE_CLOSED
-                  || $order->getState() == Mage_Sales_Model_Order::STATE_COMPLETE
+                  || $order->getState() == Magento_Sales_Model_Order::STATE_CLOSED
+                  || $order->getState() == Magento_Sales_Model_Order::STATE_COMPLETE
         ) {
             $expiredStatuses = array(
-                Mage_Sales_Model_Order_Item::STATUS_CANCELED,
-                Mage_Sales_Model_Order_Item::STATUS_REFUNDED,
+                Magento_Sales_Model_Order_Item::STATUS_CANCELED,
+                Magento_Sales_Model_Order_Item::STATUS_REFUNDED,
             );
             foreach ($order->getAllItems() as $item) {
                 if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
@@ -232,20 +232,20 @@ class Magento_Downloadable_Model_Observer
                     }
                 }
             }
-        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+        } elseif ($order->getState() == Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
             $status = $linkStatuses['payment_pending'];
-        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW) {
+        } elseif ($order->getState() == Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW) {
             $status = $linkStatuses['payment_review'];
         } else {
-            $availableStatuses = array($orderItemStatusToEnable, Mage_Sales_Model_Order_Item::STATUS_INVOICED);
+            $availableStatuses = array($orderItemStatusToEnable, Magento_Sales_Model_Order_Item::STATUS_INVOICED);
             foreach ($order->getAllItems() as $item) {
                 if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
                     || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
                 ) {
-                    if ($item->getStatusId() == Mage_Sales_Model_Order_Item::STATUS_BACKORDERED &&
-                        $orderItemStatusToEnable == Mage_Sales_Model_Order_Item::STATUS_PENDING &&
-                        !in_array(Mage_Sales_Model_Order_Item::STATUS_BACKORDERED, $availableStatuses, true) ) {
-                        $availableStatuses[] = Mage_Sales_Model_Order_Item::STATUS_BACKORDERED;
+                    if ($item->getStatusId() == Magento_Sales_Model_Order_Item::STATUS_BACKORDERED &&
+                        $orderItemStatusToEnable == Magento_Sales_Model_Order_Item::STATUS_PENDING &&
+                        !in_array(Magento_Sales_Model_Order_Item::STATUS_BACKORDERED, $availableStatuses, true) ) {
+                        $availableStatuses[] = Magento_Sales_Model_Order_Item::STATUS_BACKORDERED;
                     }
 
                     if (in_array($item->getStatusId(), $availableStatuses)) {
@@ -288,7 +288,7 @@ class Magento_Downloadable_Model_Observer
     public function isAllowedGuestCheckout(Magento_Event_Observer $observer)
     {
         $quote  = $observer->getEvent()->getQuote();
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $store  = $observer->getEvent()->getStore();
         $result = $observer->getEvent()->getResult();
 

@@ -143,7 +143,7 @@ class Enterprise_CatalogEvent_Model_Observer
         $product = $observer->getEvent()->getProduct();
         /* @var $product Magento_Catalog_Model_Product */
         $quoteItem = $observer->getEvent()->getQuoteItem();
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
 
         $this->_applyEventToProduct($product);
 
@@ -169,7 +169,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $item = $observer->getEvent()->getItem();
-        /* @var $item Mage_Sales_Model_Quote_Item */
+        /* @var $item Magento_Sales_Model_Quote_Item */
         if ($item->getQuote()) {
             $this->_initializeEventsForQuoteItems($item->getQuote());
         }
@@ -313,10 +313,10 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Initialize events for quote items
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_CatalogEvent_Model_Observer
      */
-    protected function _initializeEventsForQuoteItems(Mage_Sales_Model_Quote $quote)
+    protected function _initializeEventsForQuoteItems(Magento_Sales_Model_Quote $quote)
     {
         if (!$quote->getEventInitialized()) {
              $quote->setEventInitialized(true);

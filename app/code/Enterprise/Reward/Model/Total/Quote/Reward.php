@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     public function __construct()
     {
@@ -26,12 +26,12 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
     /**
      * Collect reward totals
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @return Enterprise_Reward_Model_Total_Quote_Reward
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $quote = $address->getQuote();
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
             return $this;
@@ -92,10 +92,10 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
     /**
      * Retrieve reward total data and set it to quote address
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @return Enterprise_Reward_Model_Total_Quote_Reward
      */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         $websiteId = $address->getQuote()->getStore()->getWebsiteId();
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {

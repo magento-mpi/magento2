@@ -151,7 +151,7 @@ class Enterprise_GiftRegistry_Model_Observer
         $orderItem = $observer->getEvent()->getOrderItem();
         $item = $observer->getEvent()->getItem();
 
-        if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
             $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
         } else {
             $registryItemId = $item->getGiftregistryItemId();

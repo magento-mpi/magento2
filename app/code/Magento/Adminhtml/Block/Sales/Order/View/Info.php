@@ -133,7 +133,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     /**
      * Get link to edit order address page
      *
-     * @param Mage_Sales_Model_Order_Address $address
+     * @param Magento_Sales_Model_Order_Address $address
      * @param string $label
      * @return string
      */

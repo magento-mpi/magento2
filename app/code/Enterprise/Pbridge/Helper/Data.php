@@ -99,12 +99,12 @@ class Enterprise_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Getter
      *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return Mage_Sales_Model_Quote | null
+     * @param Magento_Sales_Model_Quote $quote
+     * @return Magento_Sales_Model_Quote | null
      */
     protected function _getQuote($quote = null)
     {
-        if ($quote && $quote instanceof Mage_Sales_Model_Quote) {
+        if ($quote && $quote instanceof Magento_Sales_Model_Quote) {
             return $quote;
         }
         return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
@@ -182,7 +182,7 @@ class Enterprise_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
      * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return string
      */
     public function getGatewayFormUrl(array $params = array(), $quote = null)

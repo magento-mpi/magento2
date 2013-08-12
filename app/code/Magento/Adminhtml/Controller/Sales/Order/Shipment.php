@@ -34,7 +34,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Initialize shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment|bool
+     * @return Magento_Sales_Model_Order_Shipment|bool
      */
     protected function _initShipment()
     {
@@ -44,9 +44,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($shipmentId) {
-            $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId);
+            $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($shipmentId);
         } elseif ($orderId) {
-            $order      = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+            $order      = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
 
             /**
              * Check order existing
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $shipment = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+            $shipment = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
                 ->prepareShipment($savedQtys);
 
             $tracks = $this->getRequest()->getPost('tracking');
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     if (empty($data['number'])) {
                         Mage::throwException($this->__('Please enter a tracking number.'));
                     }
-                    $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
+                    $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')
                         ->addData($data);
                     $shipment->addTrack($track);
                 }
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Save shipment and order in one transaction
      *
-     * @param Mage_Sales_Model_Order_Shipment $shipment
+     * @param Magento_Sales_Model_Order_Shipment $shipment
      * @return Magento_Adminhtml_Controller_Sales_Order_Shipment
      */
     protected function _saveShipment($shipment)
@@ -118,7 +118,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             $this->loadLayout();
             $this->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->_setActiveMenu('Mage_Sales::sales_order')
+            $this->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
             $this->_forward('noRoute');
@@ -150,7 +150,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             }
 
             $this->loadLayout()
-                ->_setActiveMenu('Mage_Sales::sales_order')
+                ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
             $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
@@ -225,7 +225,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(
-                    Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
+                    Mage::helper('Magento_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
             } else {
                 $this->_getSession()->addError($this->__('Cannot save shipment.'));
                 $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
@@ -250,8 +250,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
-                $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
-                    ->getUnnotifiedForInstance($shipment, Mage_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
+                $historyItem = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_History_Collection')
+                    ->getUnnotifiedForInstance($shipment, Magento_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
@@ -285,7 +285,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             }
             $shipment = $this->_initShipment();
             if ($shipment) {
-                $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
+                $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')
                     ->setNumber($number)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -324,7 +324,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($trackId);
+        $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($trackId);
         if ($track->getId()) {
             try {
                 if ($this->_initShipment()) {
@@ -363,7 +363,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($trackId);
+        $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($trackId);
         if ($track->getId()) {
             try {
                 $response = $track->getNumberDetail();
@@ -439,10 +439,10 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Create shipping label for specific shipment with validation.
      *
-     * @param Mage_Sales_Model_Order_Shipment $shipment
+     * @param Magento_Sales_Model_Order_Shipment $shipment
      * @return bool
      */
-    protected function _createShippingLabel(Mage_Sales_Model_Order_Shipment $shipment)
+    protected function _createShippingLabel(Magento_Sales_Model_Order_Shipment $shipment)
     {
         if (!$shipment) {
             return false;
@@ -474,7 +474,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
-                $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
+                $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')
                         ->setNumber($trackingNumber)
                         ->setCarrierCode($carrierCode)
                         ->setTitle($carrierTitle);
@@ -495,7 +495,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You created the shipping label.'));
+                $this->_getSession()->addSuccess(Mage::helper('Magento_Sales_Helper_Data')->__('You created the shipping label.'));
                 $response->setOk(true);
             }
         } catch (Magento_Core_Exception $e) {
@@ -504,7 +504,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
+            $response->setMessage(Mage::helper('Magento_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -527,7 +527,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t recognize or support the file extension in this shipment: %s.', $shipment->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('Magento_Sales_Helper_Data')->__('We don\'t recognize or support the file extension in this shipment: %s.', $shipment->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -544,7 +544,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
+                ->addError(Mage::helper('Magento_Sales_Helper_Data')->__('An error occurred while creating shipping label.'));
        }
        $this->_redirect('*/sales_order_shipment/view', array(
            'shipment_id' => $this->getRequest()->getParam('shipment_id')
@@ -561,7 +561,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
+            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
             $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                 $pdf->render(), 'application/pdf'
             );
@@ -589,7 +589,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $ids = $request->getParam('shipment_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
+                    $shipments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Shipment_Collection')
                         ->addFieldToFilter('entity_id', array('in' => $ids));
                 }
                 break;
@@ -597,7 +597,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $ids = $request->getParam('order_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
+                    $shipments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Shipment_Collection')
                         ->setOrderFilter(array('in' => $ids));
                 }
                 break;
@@ -620,11 +620,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
 
         if ($createdFromOrders) {
             $this->_getSession()
-                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('There are no shipping labels related to selected orders.'));
+                ->addError(Mage::helper('Magento_Sales_Helper_Data')->__('There are no shipping labels related to selected orders.'));
             $this->_redirect('*/sales_order/index');
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('There are no shipping labels related to selected shipments.'));
+                ->addError(Mage::helper('Magento_Sales_Helper_Data')->__('There are no shipping labels related to selected shipments.'));
             $this->_redirect('*/sales_order_shipment/index');
         }
     }

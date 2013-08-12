@@ -22,7 +22,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Quote model object
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote   = null;
 
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Order model object
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order   = null;
 
@@ -58,12 +58,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve quote model object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
         if (is_null($this->_quote)) {
-            $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
+            $this->_quote = Mage::getModel('Magento_Sales_Model_Quote');
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->load($this->getQuoteId());
@@ -133,12 +133,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve order model object
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order');
+            $this->_order = Mage::getModel('Magento_Sales_Model_Order');
             if ($this->getOrderId()) {
                 $this->_order->load($this->getOrderId());
             }

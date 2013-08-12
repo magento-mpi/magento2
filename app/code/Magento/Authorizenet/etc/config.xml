@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Paygate />
-                <Mage_Sales />
+                <Magento_Sales />
                 <Magento_Checkout />
             </depends>
         </Magento_Authorizenet>

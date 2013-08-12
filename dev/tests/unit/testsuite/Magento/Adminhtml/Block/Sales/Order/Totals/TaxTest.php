@@ -57,11 +57,11 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
     }
 
     /**
-     * @return Mage_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getSalesOrderMock()
     {
-        $orderMock = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $orderMock = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->setMethods(array('getItemsCollection'))
             ->disableOriginalConstructor()
             ->getMock();

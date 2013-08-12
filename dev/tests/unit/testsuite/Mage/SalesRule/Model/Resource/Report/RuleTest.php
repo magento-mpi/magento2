@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_TestCase
+class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test table name
@@ -55,7 +55,7 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $model = new Mage_SalesRule_Model_Resource_Report_Rule($resourceMock);
+        $model = new Magento_SalesRule_Model_Resource_Report_Rule($resourceMock);
 
         $expectedRuleNames = array();
         foreach ($this->_rules as $rule) {

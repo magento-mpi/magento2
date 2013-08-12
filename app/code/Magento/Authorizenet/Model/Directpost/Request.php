@@ -100,11 +100,11 @@ class Magento_Authorizenet_Model_Directpost_Request extends Magento_Object
     /**
      * Set entity data to request
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @param Magento_Authorizenet_Model_Directpost $paymentMethod
      * @return Magento_Authorizenet_Model_Directpost_Request
      */
-    public function setDataFromOrder(Mage_Sales_Model_Order $order, Magento_Authorizenet_Model_Directpost $paymentMethod)
+    public function setDataFromOrder(Magento_Sales_Model_Order $order, Magento_Authorizenet_Model_Directpost $paymentMethod)
     {
         $payment = $order->getPayment();
 

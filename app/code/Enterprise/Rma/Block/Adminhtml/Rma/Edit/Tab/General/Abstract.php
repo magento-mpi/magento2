@@ -85,7 +85,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magen
     /**
      * Get Order, RMA Attached to
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

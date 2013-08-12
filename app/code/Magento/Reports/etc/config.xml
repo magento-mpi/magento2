@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Customer />
                 <Magento_Catalog />
-                <Mage_Sales />
+                <Magento_Sales />
                 <Magento_Cms />
             </depends>
         </Magento_Reports>

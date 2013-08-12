@@ -366,7 +366,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
           * to validate payment method is allowed for billing country or not
           */
          $paymentInfo = $this->getInfoInstance();
-         if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+         if ($paymentInfo instanceof Magento_Sales_Model_Order_Payment) {
              $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
          } else {
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
@@ -431,8 +431,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      *
      * Candidate to be deprecated
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Payment_Model_Method_Abstract
      */
     public function processInvoice($invoice, $payment)
@@ -446,8 +446,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * Candidate to be deprecated:
      * there can be multiple refunds per payment, thus payment.refund_transaction_id doesn't make big sense
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Payment_Model_Method_Abstract
      */
     public function processBeforeRefund($invoice, $payment)
@@ -474,8 +474,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
 
     /**
      * Set transaction ID into creditmemo for informational purposes
-     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Payment_Model_Method_Abstract
      */
     public function processCreditmemo($creditmemo, $payment)
@@ -612,7 +612,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      *
      * TODO: payment method instance is not supposed to know about quote
      *
-     * @param Mage_Sales_Model_Quote|null $quote
+     * @param Magento_Sales_Model_Quote|null $quote
      *
      * @return bool
      */
@@ -638,7 +638,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * Check whether payment method is applicable to quote
      * Purposed to allow use in controllers some logic that was implemented in blocks only before
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @param int|null $checksBitMask
      * @return bool
      */

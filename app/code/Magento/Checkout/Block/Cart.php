@@ -33,7 +33,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Mage_Sales_Model_Quote_Item */
+        /* @var $item Magento_Sales_Model_Quote_Item */
         foreach ($this->getItems() as $item) {
             $product    = $item->getProduct();
             $option     = $item->getOptionByCode('product_type');

@@ -112,7 +112,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote
+     * @param Magento_Sales_Model_Quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -149,7 +149,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
                 $order = $payment->getOrder();
                 $order->setCanSendNewEmailFlag(false);
 
-                $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setState(Magento_Sales_Model_Order::STATE_PENDING_PAYMENT);
                 $stateObject->setStatus('pending_payment');
                 $stateObject->setIsNotified(false);
                 break;
@@ -227,9 +227,9 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
      * Operate with order using information from silent post
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      */
-    protected function _processOrder(Mage_Sales_Model_Order $order)
+    protected function _processOrder(Magento_Sales_Model_Order $order)
     {
         $response = $this->getResponse();
         $payment = $order->getPayment();
@@ -269,7 +269,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
             if ($canSendNewOrderEmail) {
                 $order->sendNewOrderEmail();
             }
-            Mage::getModel('Mage_Sales_Model_Quote')
+            Mage::getModel('Magento_Sales_Model_Quote')
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();
@@ -297,14 +297,14 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
      * Check response from Payflow gateway.
      *
-     * @return Mage_Sales_Model_Order in case of validation passed
+     * @return Magento_Sales_Model_Order in case of validation passed
      * @throws Magento_Core_Exception in other cases
      */
     protected function _getOrderFromResponse()
     {
         $response = $this->getResponse();
 
-        $order = Mage::getModel('Mage_Sales_Model_Order')
+        $order = Mage::getModel('Magento_Sales_Model_Order')
                 ->loadByIncrementId($response->getInvnum());
 
         if ($this->_getSecureSilentPostHash($order->getPayment()) != $response->getUser2()
@@ -317,7 +317,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
             && $response->getResult() != self::RESPONSE_CODE_DECLINED_BY_FILTER
             && $response->getResult() != self::RESPONSE_CODE_APPROVED
         ) {
-            if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
+            if ($order->getState() != Magento_Sales_Model_Order::STATE_CANCELED) {
                 $order->registerCancellation($response->getRespmsg())->save();
             }
             Mage::throwException($response->getRespmsg());
@@ -325,7 +325,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
 
         $amountCompared = ($response->getAmt() == $order->getPayment()->getBaseAmountAuthorized()) ? true : false;
         if (!$order->getId()
-            || $order->getState() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT
+            || $order->getState() != Magento_Sales_Model_Order::STATE_PENDING_PAYMENT
             || !$amountCompared
         ) {
             Mage::throwException($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Order'));
@@ -342,10 +342,10 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
      * Build request for getting token
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Object
      */
-    protected function _buildTokenRequest(Mage_Sales_Model_Order_Payment $payment)
+    protected function _buildTokenRequest(Magento_Sales_Model_Order_Payment $payment)
     {
         $request = $this->_buildBasicRequest($payment);
         $request->setCreatesecuretoken('Y')
@@ -486,7 +486,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
       * Set token data in payment object
       *
       * @param Magento_Object $response
-      * @param Mage_Sales_Model_Order_Payment $payment
+      * @param Magento_Sales_Model_Order_Payment $payment
       * @throws Magento_Core_Exception
       */
     protected function _processTokenErrors($response, $payment)
@@ -504,7 +504,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
      * Return secure hash value for silent post request
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return string
      */
     protected function _getSecureSilentPostHash($payment)
@@ -515,7 +515,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     /**
      * Generate end return new secure hash value
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return string
      */
     protected function _generateSecureSilentPostHash($payment)
@@ -603,7 +603,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * Check response from Payflow gateway.
      *
      * @deprecated since 1.6.2.0
-     * @return Mage_Sales_Model_Abstract in case of validation passed
+     * @return Magento_Sales_Model_Abstract in case of validation passed
      * @throws Magento_Core_Exception in other cases
      */
     protected function _getDocumentFromResponse()

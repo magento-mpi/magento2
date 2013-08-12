@@ -126,7 +126,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Magento
     /**
      * Validate if qoute customer is assigned to role segments
      *
-     * @param   Mage_Sales_Model_Quote_Address $object
+     * @param   Magento_Sales_Model_Quote_Address $object
      * @return  bool
      */
     public function validate(Magento_Object $object)

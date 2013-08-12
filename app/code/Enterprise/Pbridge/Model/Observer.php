@@ -65,7 +65,7 @@ class Enterprise_Pbridge_Model_Observer
     public function isPaymentMethodAvailable(Magento_Event_Observer $observer)
     {
         $method = $observer->getEvent()->getData('method_instance');
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getData('quote');
         $result = $observer->getEvent()->getData('result');
         $storeId = $quote ? $quote->getStoreId() : null;

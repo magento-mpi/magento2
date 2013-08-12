@@ -18,7 +18,7 @@
                 <Magento_Adminhtml/>
                 <Magento_Catalog/>
                 <Magento_CatalogSearch/>
-                <Mage_Sales/>
+                <Magento_Sales/>
                 <Magento_Checkout/>
                 <Enterprise_WebsiteRestriction/>
             </depends>

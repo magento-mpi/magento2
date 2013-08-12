@@ -90,7 +90,7 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
 
         $api = Mage::getModel('Magento_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->charge($payment->getOrder()->getExtOrderId(), $amount);
-        $payment->setForcedState(Mage_Sales_Model_Order_Invoice::STATE_OPEN);
+        $payment->setForcedState(Magento_Sales_Model_Order_Invoice::STATE_OPEN);
 
         return $this;
     }
@@ -167,8 +167,8 @@ class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_
      */
     public function canVoid(Magento_Object $payment)
     {
-        if ($payment instanceof Mage_Sales_Model_Order_Invoice
-            || $payment instanceof Mage_Sales_Model_Order_Creditmemo
+        if ($payment instanceof Magento_Sales_Model_Order_Invoice
+            || $payment instanceof Magento_Sales_Model_Order_Creditmemo
         ) {
             return false;
         }

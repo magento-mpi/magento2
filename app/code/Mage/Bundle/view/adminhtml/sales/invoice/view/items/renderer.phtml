@@ -49,7 +49,7 @@
         <td class="col-product">
             <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
             <div>
-                <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
+                <strong><?php echo $this->helper('Magento_Sales_Helper_Data')->__('SKU') ?>:</strong>
                 <?php echo implode('<br />', Mage::helper('Magento_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         <?php else: ?>

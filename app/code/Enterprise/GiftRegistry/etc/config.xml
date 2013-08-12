@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Adminhtml/>
-                <Mage_Sales />
+                <Magento_Sales />
             </depends>
         </Enterprise_GiftRegistry>
     </modules>

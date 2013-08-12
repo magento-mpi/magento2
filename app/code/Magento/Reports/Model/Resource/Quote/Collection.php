@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Resource_Quote_Collection
+class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Model_Resource_Quote_Collection
 {
 
     const SELECT_COUNT_SQL_TYPE_CART = 1;

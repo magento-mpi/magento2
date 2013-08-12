@@ -46,12 +46,12 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Collect Weee taxes amount and prepare items prices for taxation and discount
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  Magento_Weee_Model_Total_Quote_Weee
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
-        Mage_Sales_Model_Quote_Address_Total_Abstract::collect($address);
+        Magento_Sales_Model_Quote_Address_Total_Abstract::collect($address);
         $this->_isTaxAffected = false;
         $items = $this->_getAddressItems($address);
         if (!count($items)) {
@@ -89,11 +89,11 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Calculate item fixed tax and prepare information for discount and recular taxation
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @return  Magento_Weee_Model_Total_Quote_Weee
      */
-    protected function _process(Mage_Sales_Model_Quote_Address $address, $item)
+    protected function _process(Magento_Sales_Model_Quote_Address $address, $item)
     {
         if (!$this->_helper->isEnabled($this->_store)) {
             return $this;
@@ -181,7 +181,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Check if discount should be applied to weee and add weee to discounted price
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @param   float $value
      * @param   float $baseValue
      * @return  Magento_Weee_Model_Total_Quote_Weee
@@ -189,7 +189,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     protected function _processDiscountSettings($item, $value, $baseValue)
     {
         if ($this->_helper->isDiscounted($this->_store)) {
-            Mage::helper('Mage_SalesRule_Helper_Data')->addItemDiscountPrices($item, $baseValue, $value);
+            Mage::helper('Magento_SalesRule_Helper_Data')->addItemDiscountPrices($item, $baseValue, $value);
         }
         return $this;
     }
@@ -197,7 +197,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Add extra amount which should be taxable by regular tax
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @param   float $value
      * @param   float $baseValue
      * @param   float $rowValue
@@ -225,7 +225,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Proces row amount based on FPT total amount configuration setting
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @param   float $rowValue
      * @param   float $baseRowValue
      * @return  Magento_Weee_Model_Total_Quote_Weee
@@ -246,10 +246,10 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Recalculate parent item amounts based on children results
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @return  Magento_Weee_Model_Total_Quote_Weee
      */
-    protected function _recalculateParent(Mage_Sales_Model_Quote_Item_Abstract $item)
+    protected function _recalculateParent(Magento_Sales_Model_Quote_Item_Abstract $item)
     {
 
     }
@@ -257,7 +257,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Reset information about FPT for shopping cart item
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @return  Magento_Weee_Model_Total_Quote_Weee
      */
     protected function _resetItemData($item)
@@ -280,10 +280,10 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Fetch FPT data to address object for display in totals block
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  Magento_Weee_Model_Total_Quote_Weee
      */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         return $this;
     }

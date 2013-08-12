@@ -286,15 +286,15 @@ $CONFIG['translates'] = array(
     'Magento_Rule' => array(
         'app/code/Magento/Rule/',
     ),
-    'Mage_Sales' => array(
-        'app/code/Mage/Sales/',
+    'Magento_Sales' => array(
+        'app/code/Magento/Sales/',
         'app/design/frontend/base/default/template/email/order/',
         'app/design/frontend/base/default/template/sales/',
         'app/design/frontend/base/default/layout/sales.xml',
         'app/design/frontend/default/modern/layout/sales.xml',
     ),
-    'Mage_SalesRule' => array(
-        'app/code/Mage/SalesRule/',
+    'Magento_SalesRule' => array(
+        'app/code/Magento/SalesRule/',
     ),
     'Magento_Sendfriend' => array(
         'app/code/Magento/Sendfriend/',
@@ -619,8 +619,8 @@ $CONFIG['helpers']  = array(
     'review'            => 'Magento_Review',
     'rss'               => 'Magento_Rss',
     'rule'              => 'Magento_Rule',
-    'sales'             => 'Mage_Sales',
-    'salesrule'         => 'Mage_SalesRule',
+    'sales'             => 'Magento_Sales',
+    'salesrule'         => 'Magento_SalesRule',
     'sendfriend'        => 'Magento_Sendfriend',
     'shipping'          => 'Mage_Shipping',
     'sitemap'           => 'Magento_Sitemap',

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,66 +12,66 @@
 /**
  * Shopping Cart Rule data model
  *
- * @method Mage_SalesRule_Model_Resource_Rule _getResource()
- * @method Mage_SalesRule_Model_Resource_Rule getResource()
+ * @method Magento_SalesRule_Model_Resource_Rule _getResource()
+ * @method Magento_SalesRule_Model_Resource_Rule getResource()
  * @method string getName()
- * @method Mage_SalesRule_Model_Rule setName(string $value)
+ * @method Magento_SalesRule_Model_Rule setName(string $value)
  * @method string getDescription()
- * @method Mage_SalesRule_Model_Rule setDescription(string $value)
+ * @method Magento_SalesRule_Model_Rule setDescription(string $value)
  * @method string getFromDate()
- * @method Mage_SalesRule_Model_Rule setFromDate(string $value)
+ * @method Magento_SalesRule_Model_Rule setFromDate(string $value)
  * @method string getToDate()
- * @method Mage_SalesRule_Model_Rule setToDate(string $value)
+ * @method Magento_SalesRule_Model_Rule setToDate(string $value)
  * @method int getUsesPerCustomer()
- * @method Mage_SalesRule_Model_Rule setUsesPerCustomer(int $value)
+ * @method Magento_SalesRule_Model_Rule setUsesPerCustomer(int $value)
  * @method int getUsesPerCoupon()
- * @method Mage_SalesRule_Model_Rule setUsesPerCoupon(int $value)
+ * @method Magento_SalesRule_Model_Rule setUsesPerCoupon(int $value)
  * @method string getCustomerGroupIds()
- * @method Mage_SalesRule_Model_Rule setCustomerGroupIds(string $value)
+ * @method Magento_SalesRule_Model_Rule setCustomerGroupIds(string $value)
  * @method int getIsActive()
- * @method Mage_SalesRule_Model_Rule setIsActive(int $value)
+ * @method Magento_SalesRule_Model_Rule setIsActive(int $value)
  * @method string getConditionsSerialized()
- * @method Mage_SalesRule_Model_Rule setConditionsSerialized(string $value)
+ * @method Magento_SalesRule_Model_Rule setConditionsSerialized(string $value)
  * @method string getActionsSerialized()
- * @method Mage_SalesRule_Model_Rule setActionsSerialized(string $value)
+ * @method Magento_SalesRule_Model_Rule setActionsSerialized(string $value)
  * @method int getStopRulesProcessing()
- * @method Mage_SalesRule_Model_Rule setStopRulesProcessing(int $value)
+ * @method Magento_SalesRule_Model_Rule setStopRulesProcessing(int $value)
  * @method int getIsAdvanced()
- * @method Mage_SalesRule_Model_Rule setIsAdvanced(int $value)
+ * @method Magento_SalesRule_Model_Rule setIsAdvanced(int $value)
  * @method string getProductIds()
- * @method Mage_SalesRule_Model_Rule setProductIds(string $value)
+ * @method Magento_SalesRule_Model_Rule setProductIds(string $value)
  * @method int getSortOrder()
- * @method Mage_SalesRule_Model_Rule setSortOrder(int $value)
+ * @method Magento_SalesRule_Model_Rule setSortOrder(int $value)
  * @method string getSimpleAction()
- * @method Mage_SalesRule_Model_Rule setSimpleAction(string $value)
+ * @method Magento_SalesRule_Model_Rule setSimpleAction(string $value)
  * @method float getDiscountAmount()
- * @method Mage_SalesRule_Model_Rule setDiscountAmount(float $value)
+ * @method Magento_SalesRule_Model_Rule setDiscountAmount(float $value)
  * @method float getDiscountQty()
- * @method Mage_SalesRule_Model_Rule setDiscountQty(float $value)
+ * @method Magento_SalesRule_Model_Rule setDiscountQty(float $value)
  * @method int getDiscountStep()
- * @method Mage_SalesRule_Model_Rule setDiscountStep(int $value)
+ * @method Magento_SalesRule_Model_Rule setDiscountStep(int $value)
  * @method int getSimpleFreeShipping()
- * @method Mage_SalesRule_Model_Rule setSimpleFreeShipping(int $value)
+ * @method Magento_SalesRule_Model_Rule setSimpleFreeShipping(int $value)
  * @method int getApplyToShipping()
- * @method Mage_SalesRule_Model_Rule setApplyToShipping(int $value)
+ * @method Magento_SalesRule_Model_Rule setApplyToShipping(int $value)
  * @method int getTimesUsed()
- * @method Mage_SalesRule_Model_Rule setTimesUsed(int $value)
+ * @method Magento_SalesRule_Model_Rule setTimesUsed(int $value)
  * @method int getIsRss()
- * @method Mage_SalesRule_Model_Rule setIsRss(int $value)
+ * @method Magento_SalesRule_Model_Rule setIsRss(int $value)
  * @method string getWebsiteIds()
- * @method Mage_SalesRule_Model_Rule setWebsiteIds(string $value)
+ * @method Magento_SalesRule_Model_Rule setWebsiteIds(string $value)
  * @method int getCouponType()
- * @method Mage_SalesRule_Model_Rule setCouponType(int $value)
+ * @method Magento_SalesRule_Model_Rule setCouponType(int $value)
  * @method int getUseAutoGeneration()
- * @method Mage_SalesRule_Model_Rule setUseAutoGeneration(int $value)
+ * @method Magento_SalesRule_Model_Rule setUseAutoGeneration(int $value)
  * @method string getCouponCode()
- * @method Mage_SalesRule_Model_Rule setCouponCode(string $value)
+ * @method Magento_SalesRule_Model_Rule setCouponCode(string $value)
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
+class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
      * Free Shipping option "For matching items only"
@@ -103,7 +103,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Store coupon code generator instance
      *
-     * @var Mage_SalesRule_Model_Coupon_CodegeneratorInterface
+     * @var Magento_SalesRule_Model_Coupon_CodegeneratorInterface
      */
     protected static $_couponCodeGenerator;
 
@@ -135,14 +135,14 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Rule's primary coupon
      *
-     * @var Mage_SalesRule_Model_Coupon
+     * @var Magento_SalesRule_Model_Coupon
      */
     protected $_primaryCoupon;
 
     /**
      * Rule's subordinate coupons
      *
-     * @var array of Mage_SalesRule_Model_Coupon
+     * @var array of Magento_SalesRule_Model_Coupon
      */
     protected $_coupons;
 
@@ -166,24 +166,24 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Mage_SalesRule_Model_Resource_Rule');
+        $this->_init('Magento_SalesRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
     }
 
     /**
      * Returns code mass generator instance for auto generated specific coupons
      *
-     * @return Mage_SalesRule_Model_Coupon_MassgneratorInterface
+     * @return Magento_SalesRule_Model_Coupon_MassgneratorInterface
      */
     public static function getCouponMassGenerator()
     {
-        return Mage::getSingleton('Mage_SalesRule_Model_Coupon_Massgenerator');
+        return Mage::getSingleton('Magento_SalesRule_Model_Coupon_Massgenerator');
     }
 
     /**
      * Set coupon code and uses per coupon
      *
-     * @return Mage_SalesRule_Model_Rule
+     * @return Magento_SalesRule_Model_Rule
      */
     protected function _afterLoad()
     {
@@ -197,7 +197,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Save/delete coupon
      *
-     * @return Mage_SalesRule_Model_Rule
+     * @return Magento_SalesRule_Model_Rule
      */
     protected function _afterSave()
     {
@@ -226,7 +226,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param array $data
      *
-     * @return Mage_SalesRule_Model_Rule
+     * @return Magento_SalesRule_Model_Rule
      */
     public function loadPost(array $data)
     {
@@ -242,32 +242,32 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Get rule condition combine model instance
      *
-     * @return Mage_SalesRule_Model_Rule_Condition_Combine
+     * @return Magento_SalesRule_Model_Rule_Condition_Combine
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Mage_SalesRule_Model_Rule_Condition_Combine');
+        return Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Combine');
     }
 
     /**
      * Get rule condition product combine model instance
      *
-     * @return Mage_SalesRule_Model_Rule_Condition_Product_Combine
+     * @return Magento_SalesRule_Model_Rule_Condition_Product_Combine
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Mage_SalesRule_Model_Rule_Condition_Product_Combine');
+        return Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Product_Combine');
     }
 
     /**
      * Returns code generator instance for auto generated coupons
      *
-     * @return Mage_SalesRule_Model_Coupon_CodegeneratorInterface
+     * @return Magento_SalesRule_Model_Coupon_CodegeneratorInterface
      */
     public static function getCouponCodeGenerator()
     {
         if (!self::$_couponCodeGenerator) {
-            return Mage::getModel('Mage_SalesRule_Model_Coupon_Codegenerator',
+            return Mage::getModel('Magento_SalesRule_Model_Coupon_Codegenerator',
                 array('data' => array('length' => 16)));
         }
         return self::$_couponCodeGenerator;
@@ -276,9 +276,9 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Set code generator instance for auto generated coupons
      *
-     * @param Mage_SalesRule_Model_Coupon_CodegeneratorInterface
+     * @param Magento_SalesRule_Model_Coupon_CodegeneratorInterface
      */
-    public static function setCouponCodeGenerator(Mage_SalesRule_Model_Coupon_CodegeneratorInterface $codeGenerator)
+    public static function setCouponCodeGenerator(Magento_SalesRule_Model_Coupon_CodegeneratorInterface $codeGenerator)
     {
         self::$_couponCodeGenerator = $codeGenerator;
     }
@@ -286,12 +286,12 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Retrieve rule's primary coupon
      *
-     * @return Mage_SalesRule_Model_Coupon
+     * @return Magento_SalesRule_Model_Coupon
      */
     public function getPrimaryCoupon()
     {
         if ($this->_primaryCoupon === null) {
-            $this->_primaryCoupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
+            $this->_primaryCoupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
             $this->_primaryCoupon->loadPrimaryByRule($this->getId());
             $this->_primaryCoupon->setRule($this)->setIsPrimary(true);
         }
@@ -351,13 +351,13 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Retrieve subordinate coupons
      *
-     * @return array of Mage_SalesRule_Model_Coupon
+     * @return array of Magento_SalesRule_Model_Coupon
      */
     public function getCoupons()
     {
         if ($this->_coupons === null) {
-            $collection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Collection');
-            /** @var Mage_SalesRule_Model_Resource_Coupon_Collection */
+            $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Collection');
+            /** @var Magento_SalesRule_Model_Resource_Coupon_Collection */
             $collection->addRuleToFilter($this);
             $this->_coupons = $collection->getItems();
         }
@@ -373,8 +373,8 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     {
         if ($this->_couponTypes === null) {
             $this->_couponTypes = array(
-                Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('Mage_SalesRule_Helper_Data')->__('No Coupon'),
-                Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('Mage_SalesRule_Helper_Data')->__('Specific Coupon'),
+                Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('Magento_SalesRule_Helper_Data')->__('No Coupon'),
+                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('Magento_SalesRule_Helper_Data')->__('Specific Coupon'),
             );
             $transport = new Magento_Object(array(
                 'coupon_types'                => $this->_couponTypes,
@@ -383,7 +383,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
             Mage::dispatchEvent('salesrule_rule_get_coupon_types', array('transport' => $transport));
             $this->_couponTypes = $transport->getCouponTypes();
             if ($transport->getIsCouponTypeAutoVisible()) {
-                $this->_couponTypes[Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = Mage::helper('Mage_SalesRule_Helper_Data')->__('Auto');
+                $this->_couponTypes[Magento_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = Mage::helper('Magento_SalesRule_Helper_Data')->__('Auto');
             }
         }
         return $this->_couponTypes;
@@ -395,7 +395,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param bool $saveNewlyCreated Whether or not to save newly created coupon
      * @param int $saveAttemptCount Number of attempts to save newly created coupon
      *
-     * @return Mage_SalesRule_Model_Coupon|null
+     * @return Magento_SalesRule_Model_Coupon|null
      */
     public function acquireCoupon($saveNewlyCreated = true, $saveAttemptCount = 10)
     {
@@ -405,8 +405,8 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
         if ($this->getCouponType() == self::COUPON_TYPE_SPECIFIC) {
             return $this->getPrimaryCoupon();
         }
-        /** @var Mage_SalesRule_Model_Coupon $coupon */
-        $coupon = Mage::getModel('Mage_SalesRule_Model_Coupon');
+        /** @var Magento_SalesRule_Model_Coupon $coupon */
+        $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
         $coupon->setRule($this)
             ->setIsPrimary(false)
             ->setUsageLimit($this->getUsesPerCoupon() ? $this->getUsesPerCoupon() : null)
@@ -439,7 +439,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
             }
         }
         if (!$ok) {
-            Mage::throwException(Mage::helper('Mage_SalesRule_Helper_Data')->__('Can\'t acquire coupon.'));
+            Mage::throwException(Mage::helper('Magento_SalesRule_Helper_Data')->__('Can\'t acquire coupon.'));
         }
 
         return $coupon;
@@ -448,7 +448,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Check cached validation result for specific address
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  bool
      */
     public function hasIsValidForAddress($address)
@@ -460,9 +460,9 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Set validation result for specific address to results cache
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @param   bool $validationResult
-     * @return  Mage_SalesRule_Model_Rule
+     * @return  Magento_SalesRule_Model_Rule
      */
     public function setIsValidForAddress($address, $validationResult)
     {
@@ -474,7 +474,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Get cached validation result for specific address
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  bool
      */
     public function getIsValidForAddress($address)
@@ -486,11 +486,11 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Return id for address
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  string
      */
     private function _getAddressId($address) {
-        if($address instanceof Mage_Sales_Model_Quote_Address) {
+        if($address instanceof Magento_Sales_Model_Quote_Address) {
             return $address->getId();
         }
         return $address;
@@ -503,7 +503,7 @@ class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Collect all product attributes used in serialized rule's action or condition
      *
-     * @deprecated after 1.6.2.0 use Mage_SalesRule_Model_Resource_Rule::getProductAttributes() instead
+     * @deprecated after 1.6.2.0 use Magento_SalesRule_Model_Resource_Rule::getProductAttributes() instead
      *
      * @param string $serializedString
      *

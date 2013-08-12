@@ -27,7 +27,7 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     /**
      * Get quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
@@ -37,7 +37,7 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

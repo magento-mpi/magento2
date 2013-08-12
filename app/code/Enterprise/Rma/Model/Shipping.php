@@ -78,8 +78,8 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         $shipmentStoreId    = $this->getRma()->getStoreId();
         $storeInfo          = new Magento_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
-        /** @var $order Mage_Sales_Model_Order */
-        $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());
+        /** @var $order Magento_Sales_Model_Order */
+        $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
         $recipientAddress   = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
 

@@ -59,7 +59,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Checkout extends Magento_GoogleChecko
     public function checkout()
     {
         $quote = $this->getQuote();
-        if (!($quote instanceof Mage_Sales_Model_Quote)) {
+        if (!($quote instanceof Magento_Sales_Model_Quote)) {
             Mage::throwException('Invalid quote');
         }
 
@@ -225,7 +225,7 @@ EOT;
     /**
      * Convert quote item to private item XML
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return string
      */
     protected function _getMerchantPrivateItemDataXml($item)

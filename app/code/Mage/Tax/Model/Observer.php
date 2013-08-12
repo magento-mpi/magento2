@@ -192,7 +192,7 @@ class Mage_Tax_Model_Observer
      */
     public function quoteCollectTotalsBefore(Magento_Event_Observer $observer)
     {
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getQuote();
         foreach ($quote->getAllAddresses() as $address) {
             $address->setExtraTaxAmount(0);

@@ -140,7 +140,7 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
-                $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($params['x_invoice_num']);
+                $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 return $this->getAdminUrl($route, $param);
 
@@ -166,9 +166,9 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
      * Update all child and parent order's edit increment numbers.
      * Needed for Admin area.
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      */
-    public function updateOrderEditIncrements(Mage_Sales_Model_Order $order)
+    public function updateOrderEditIncrements(Magento_Sales_Model_Order $order)
     {
         if ($order->getId() && $order->getOriginalIncrementId()) {
             $collection = $order->getCollection();

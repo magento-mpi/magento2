@@ -33,7 +33,7 @@ class Magento_Adminhtml_Model_Search_Order extends Magento_Object
 
         $query = $this->getQuery();
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
             ->addAttributeToSelect('*')
             ->addAttributeToSearchFilter(array(
                 array('attribute' => 'increment_id',       'like'=>$query.'%'),

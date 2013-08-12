@@ -62,8 +62,8 @@
                 <directory>../app/code/Mage/Cybersource</directory>
                 <file>../app/code/Mage/Captcha/Model/Captcha.php</file>
                 <file>../app/code/Magento/Payment/Model/Paygate/Request.php</file>
-                <file>../app/code/Mage/Sales/Model/Mysql4/Report/Abstract.php</file>
-                <file>../app/code/Mage/Sales/Model/Mysql4/Abstract.php</file>
+                <file>../app/code/Magento/Sales/Model/Mysql4/Report/Abstract.php</file>
+                <file>../app/code/Magento/Sales/Model/Mysql4/Abstract.php</file>
                 <file>../app/code/Magento/Adminhtml/Model/Extension.php</file>
                 <file>../app/code/Magento/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
                 <file>../app/code/Magento/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>

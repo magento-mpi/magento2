@@ -126,7 +126,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Blo
     protected function _populateItemWithProductData($item)
     {
         if ($this->getProductId()) {
-            $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')->load($this->getProductId());
+            $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
                 $item->setProductAdminName(Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($orderItem));
             }

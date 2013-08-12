@@ -282,7 +282,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         if (intval($quoteId) <= 0) {
             return $this;
         }
-        $data->setQuoteData(Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId));
+        $data->setQuoteData(Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId));
         return $this;
     }
 

@@ -48,7 +48,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controll
         }
 
         if ($orderId) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+            $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
             if (!$order->getId()) {
                 Mage::throwException($this->__('This is the wrong RMA order ID.'));
             }
@@ -69,7 +69,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controll
         $orderId = $this->getRequest()->getParam('order_id');
         $model->setOrderId($orderId);
         if ($orderId) {
-            $order =  Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+            $order =  Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
             $model->setCustomerId($order->getCustomerId());
             $model->setStoreId($order->getStoreId());
         }
@@ -1191,7 +1191,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controll
             ->getShippingLabelByRma($model);
 
         if ($shipment) {
-            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
+            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
                         Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )

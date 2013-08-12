@@ -185,12 +185,12 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns applied weee taxes
      *
-     * @param Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param Magento_Sales_Model_Quote_Item_Abstract $item
      * @return array
      */
     public function getApplied($item)
     {
-        if ($item instanceof Mage_Sales_Model_Quote_Item_Abstract) {
+        if ($item instanceof Magento_Sales_Model_Quote_Item_Abstract) {
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 $result = array();
                 foreach ($item->getChildren() as $child) {
@@ -217,7 +217,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Sets applied weee taxes
      *
-     * @param Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param Magento_Sales_Model_Quote_Item_Abstract $item
      * @param array                                $value
      * @return Magento_Weee_Helper_Data
      */

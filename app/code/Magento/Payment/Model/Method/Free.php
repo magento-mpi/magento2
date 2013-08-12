@@ -41,7 +41,7 @@ class Magento_Payment_Model_Method_Free extends Magento_Payment_Model_Method_Abs
     /**
      * Check whether method is available
      *
-     * @param Mage_Sales_Model_Quote|null $quote
+     * @param Magento_Sales_Model_Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)

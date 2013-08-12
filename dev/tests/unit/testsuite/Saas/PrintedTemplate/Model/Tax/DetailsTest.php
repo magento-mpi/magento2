@@ -135,7 +135,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                 $nonNominalItems[] = $addressItem;
             }
 
-            $quoteAddress = $this->getMockBuilder('Mage_Sales_Model_Quote_Address')
+            $quoteAddress = $this->getMockBuilder('Magento_Sales_Model_Quote_Address')
                 ->setMethods(array('getAllNonNominalItems'))
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -299,7 +299,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param array $childrenData
      * @param bool $isChildrenCalculated
      *
-     * @return Mage_Sales_Model_Quote_Address_Item
+     * @return Magento_Sales_Model_Quote_Address_Item
      */
     protected function _prepareAddressItem($parentItemId, $addressId, $addressProduct, $childrenData = array(),
         $isChildrenCalculated = false
@@ -321,7 +321,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
 
         $addressProductItem = new Magento_Object($addressProduct);
 
-        $addressItem = $this->getMockBuilder('Mage_Sales_Model_Quote_Address_Item')
+        $addressItem = $this->getMockBuilder('Magento_Sales_Model_Quote_Address_Item')
             ->disableOriginalConstructor()
             ->setMethods(array(
                 'getParentItemId', 'getId', 'getProduct', 'getHasChildren', 'isChildrenCalculated', 'getChildren')
@@ -390,11 +390,11 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      *
      * @param null $quoteAddresses
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _prepareQuoteMock($quoteAddresses = null)
     {
-        $quote = $this->getMockBuilder('Mage_Sales_Model_Quote')
+        $quote = $this->getMockBuilder('Magento_Sales_Model_Quote')
             ->setMethods(array('getCustomer', 'getShippingAddress', 'getBillingAddress', 'getCustomerTaxClassId',
                 'getStore', 'getAllAddresses')
             )->disableOriginalConstructor()
@@ -408,7 +408,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $address = $this->getMockBuilder('Mage_Sales_Model_Quote_Address')
+        $address = $this->getMockBuilder('Magento_Sales_Model_Quote_Address')
             ->disableOriginalConstructor()
             ->getMock();
 

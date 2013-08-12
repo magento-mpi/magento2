@@ -40,7 +40,7 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Abstract extends Magen
     /**
      * Retrieve quote model object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

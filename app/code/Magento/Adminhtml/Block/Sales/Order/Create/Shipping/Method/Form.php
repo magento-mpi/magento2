@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     /**
      * Retrieve quote shipping address model
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getAddress()
     {
@@ -99,7 +99,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     /**
      * Retrieve rate of active shipping method
      *
-     * @return Mage_Sales_Model_Quote_Address_Rate || false
+     * @return Magento_Sales_Model_Quote_Address_Rate || false
      */
     public function getActiveMethodRate()
     {

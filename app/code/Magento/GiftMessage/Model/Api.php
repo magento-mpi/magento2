@@ -36,7 +36,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      *
      * @param String $entityId
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return AssociativeArray
      */
     protected function _setGiftMessage($entityId, $request, $quote)
@@ -70,7 +70,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      */
     public function setForQuote($quoteId, $giftMessage, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         $giftMessage = $this->_prepareData($giftMessage);
@@ -96,7 +96,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      */
     public function setForQuoteProduct($quoteId, $productsAndMessages, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         $productsAndMessages = $this->_prepareData($productsAndMessages);
@@ -149,13 +149,13 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      */
     public function setForQuoteItem($quoteItemId, $giftMessage, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote_Item */
-        $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItemId);
+        /** @var $quote Magento_Sales_Model_Quote_Item */
+        $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
         if (is_null($quoteItem->getId())) {
             $this->_fault("quote_item_not_exists");
         }
 
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteItem->getQuoteId(), $store);
 
         $giftMessage = $this->_prepareData($giftMessage);

@@ -94,7 +94,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         $this->addColumn(
             'id',
             array(
-                'header' => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
+                'header' => Mage::helper('Magento_Sales_Helper_Data')->__('ID'),
                 'index' => 'entity_id',
                 'renderer' => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
                 'type' => 'skip-list'
@@ -102,20 +102,20 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         );
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Product'),
             'index'     => 'name',
             'header_css_class'=> 'col-name',
             'column_css_class'=> 'name col-name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
             'header_css_class'=> 'col-sku',
             'column_css_class'=> 'sku col-sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),

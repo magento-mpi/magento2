@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Shipment for shipment variable
+ * Container for Magento_Sales_Model_Order_Shipment for shipment variable
  *
  * Container that can restrict access to properties and method
  * with black list or white list.
@@ -32,9 +32,9 @@ class Saas_PrintedTemplate_Model_Variable_Shipment extends Saas_PrintedTemplate_
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order_Shipment $value
+     * @param Magento_Sales_Model_Order_Shipment $value
      */
-    public function __construct(Mage_Sales_Model_Order_Shipment $value)
+    public function __construct(Magento_Sales_Model_Order_Shipment $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig($this->_type);

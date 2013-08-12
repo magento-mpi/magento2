@@ -25,7 +25,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
 

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,17 +11,17 @@
 /**
  * SalesRule data helper
  */
-class Mage_SalesRule_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_SalesRule_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Set store and base price which will be used during discount calculation to item object
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @param   float $basePrice
      * @param   float $price
-     * @return  Mage_SalesRule_Helper_Data
+     * @return  Magento_SalesRule_Helper_Data
      */
-    public function setItemDiscountPrices(Mage_Sales_Model_Quote_Item_Abstract $item, $basePrice, $price)
+    public function setItemDiscountPrices(Magento_Sales_Model_Quote_Item_Abstract $item, $basePrice, $price)
     {
         $item->setDiscountCalculationPrice($price);
         $item->setBaseDiscountCalculationPrice($basePrice);
@@ -31,12 +31,12 @@ class Mage_SalesRule_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Add additional amounts to discount calculation prices
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
      * @param   float $basePrice
      * @param   float $price
-     * @return  Mage_SalesRule_Helper_Data
+     * @return  Magento_SalesRule_Helper_Data
      */
-    public function addItemDiscountPrices(Mage_Sales_Model_Quote_Item_Abstract $item, $basePrice, $price)
+    public function addItemDiscountPrices(Magento_Sales_Model_Quote_Item_Abstract $item, $basePrice, $price)
     {
         $discountPrice      = $item->getDiscountCalculationPrice();
         $baseDiscountPrice  = $item->getBaseDiscountCalculationPrice();

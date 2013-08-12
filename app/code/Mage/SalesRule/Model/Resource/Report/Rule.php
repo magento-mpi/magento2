@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Rule report resource model
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
+class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
 {
     /**
      * Resource Report Rule constructor
@@ -32,12 +32,12 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Re
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_SalesRule_Model_Resource_Report_Rule
+     * @return Magento_SalesRule_Model_Resource_Report_Rule
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
-        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Updatedat')->aggregate($from, $to);
+        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
+        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule_Updatedat')->aggregate($from, $to);
         $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;

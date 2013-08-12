@@ -38,7 +38,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      *  $index => Magento_Simplexml_Element
      *
      * @param mixed $store
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return array
      */
     public function getStoreMethods($store = null, $quote = null)
@@ -143,7 +143,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * Retrieve available billing agreement methods
      *
      * @param mixed $store
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return array
      */
     public function getBillingAgreementMethods($store = null, $quote = null)

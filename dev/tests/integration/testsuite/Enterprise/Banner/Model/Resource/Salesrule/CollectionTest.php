@@ -39,8 +39,8 @@ class Enterprise_Banner_Model_Resource_Salesrule_CollectionTest extends PHPUnit_
 
     public function testAddRuleIdsFilter()
     {
-        /** @var Mage_SalesRule_Model_Rule $rule */
-        $rule = Mage::getModel('Mage_SalesRule_Model_Rule');
+        /** @var Magento_SalesRule_Model_Rule $rule */
+        $rule = Mage::getModel('Magento_SalesRule_Model_Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
         $this->_collection->addRuleIdsFilter(array($rule->getId()));

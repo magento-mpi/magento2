@@ -177,7 +177,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     {
         $skippedItems = 0;
         if (is_array($itemsIds)) {
-            $quote = Mage::getModel('Mage_Sales_Model_Quote');
+            $quote = Mage::getModel('Magento_Sales_Model_Quote');
             $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
             $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId()));
 
@@ -197,14 +197,14 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Add new product to registry
      *
-     * @param int|Mage_Sales_Model_Quote_Item $itemToAdd
+     * @param int|Magento_Sales_Model_Quote_Item $itemToAdd
      * @param null|Magento_Object $request
      * @return false|Enterprise_GiftRegistry_Model_Item
      * @throws Magento_Core_Exception
      */
     public function addItem($itemToAdd, $request = null)
     {
-        if ($itemToAdd instanceof Mage_Sales_Model_Quote_Item) {
+        if ($itemToAdd instanceof Magento_Sales_Model_Quote_Item) {
             $productId = $itemToAdd->getProductId();
             $qty = $itemToAdd->getQty();
         } else {
@@ -214,11 +214,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $product = $this->getProduct($productId);
 
         if ($product->getTypeInstance()->hasRequiredOptions($product)
-            && (!$request && !($itemToAdd instanceof Mage_Sales_Model_Quote_Item))) {
+            && (!$request && !($itemToAdd instanceof Magento_Sales_Model_Quote_Item))) {
             throw new Magento_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
-        if ($itemToAdd instanceof Mage_Sales_Model_Quote_Item) {
+        if ($itemToAdd instanceof Magento_Sales_Model_Quote_Item) {
             $cartCandidate = $itemToAdd->getProduct();
             $cartCandidate->setCustomOptions($itemToAdd->getOptionsByCode());
             $cartCandidates = array($cartCandidate);

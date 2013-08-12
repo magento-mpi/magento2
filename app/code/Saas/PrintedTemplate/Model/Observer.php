@@ -41,7 +41,7 @@ class Saas_PrintedTemplate_Model_Observer
         'Magento_Catalog_Block_Category_Widget_Link',
         'Magento_Reports_Block_Product_Widget_Viewed',
         'Magento_Reports_Block_Product_Widget_Compared',
-        'Mage_Sales_Block_Widget_Guest_Form',
+        'Magento_Sales_Block_Widget_Guest_Form',
         'Enterprise_Cms_Block_Widget_Node',
         'Enterprise_Banner_Block_Widget_Banner',
     );

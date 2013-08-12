@@ -92,7 +92,7 @@ class Mage_Bundle_Block_Adminhtml_Sales_Order_View_Items_Renderer
     }
 
     public function getSelectionAttributes($item) {
-        if ($item instanceof Mage_Sales_Model_Order_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Item) {
             $options = $item->getProductOptions();
         } else {
             $options = $item->getOrderItem()->getProductOptions();

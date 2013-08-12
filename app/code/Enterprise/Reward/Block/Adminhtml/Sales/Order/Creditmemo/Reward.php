@@ -22,7 +22,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     public function getCreditmemo()
     {

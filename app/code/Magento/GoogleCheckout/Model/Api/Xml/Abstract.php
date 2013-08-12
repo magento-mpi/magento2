@@ -217,7 +217,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
      * Recalculate amount to store currency
      *
      * @param float $amount
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return float
      */
     protected function _reCalculateToStoreCurrency($amount, $quote)
@@ -232,7 +232,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
     /**
      * Get Tax Class for Shipping option
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return mixed
      */
     protected function _getTaxClassForShipping($quote)

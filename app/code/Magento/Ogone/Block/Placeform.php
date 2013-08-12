@@ -35,14 +35,14 @@ class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
     /**
      * Return order instance with loaded onformation by increment id
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     protected function _getOrder()
     {
         if ($this->getOrder()) {
             $order = $this->getOrder();
         } else if ($this->getCheckout()->getLastRealOrderId()) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         } else {
             return null;
         }

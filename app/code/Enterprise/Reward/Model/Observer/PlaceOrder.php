@@ -64,7 +64,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrder
             return;
         }
 
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getBaseRewardCurrencyAmount() > 0) {

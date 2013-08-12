@@ -82,7 +82,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
      */
     public function getSelectionAttributes($item)
     {
-        $options = ($item instanceof Mage_Sales_Model_Order_Item)
+        $options = ($item instanceof Magento_Sales_Model_Order_Item)
             ? $item->getProductOptions()
             : $item->getOrderItem()->getProductOptions();
 

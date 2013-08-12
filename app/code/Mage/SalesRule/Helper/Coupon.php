@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Helper for coupon codes creating and managing
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
+class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
 {
     /**
      * Constants which defines all possible coupon codes formats
@@ -126,6 +126,6 @@ class Mage_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCodeSeparator()
     {
-        return (string)Mage::app()->getConfig()->getNode(Mage_SalesRule_Helper_Coupon::XML_CHARSET_SEPARATOR);
+        return (string)Mage::app()->getConfig()->getNode(Magento_SalesRule_Helper_Coupon::XML_CHARSET_SEPARATOR);
     }
 }

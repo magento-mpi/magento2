@@ -35,18 +35,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Last Ordered Items');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Last Ordered Items');
     }
 
     /**
      * Retrieve last order on current website
      *
-     * @return Mage_Sales_Model_Order|false
+     * @return Magento_Sales_Model_Order|false
      */
     public function getLastOrder()
     {
         $storeIds = $this->getQuote()->getStore()->getWebsite()->getStoreIds();
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
             ->addFieldToFilter('customer_id', $this->getCustomerId())
             ->addFieldToFilter('store_id', array('in' => $storeIds))
             ->setOrder('created_at', 'desc')

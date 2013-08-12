@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sales_Items_Column_Default extends Magento_Adminht
 {
     public function getItem()
     {
-        if ($this->_getData('item') instanceof Mage_Sales_Model_Order_Item) {
+        if ($this->_getData('item') instanceof Magento_Sales_Model_Order_Item) {
             return $this->_getData('item');
         } else {
             return $this->_getData('item')->getOrderItem();

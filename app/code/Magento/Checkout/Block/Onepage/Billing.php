@@ -21,7 +21,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Sales Qoute Billing Address instance
      *
-     * @var Mage_Sales_Model_Quote_Address
+     * @var Magento_Sales_Model_Quote_Address
      */
     protected $_address;
 
@@ -81,7 +81,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Return Sales Quote Address model
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getAddress()
     {
@@ -95,7 +95,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
             }
         }
 

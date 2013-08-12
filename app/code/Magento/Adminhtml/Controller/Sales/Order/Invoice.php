@@ -34,7 +34,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     /**
      * Initialize invoice model instance
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     protected function _initInvoice($update = false)
     {
@@ -45,13 +45,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
+            $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
             if (!$invoice->getId()) {
                 $this->_getSession()->addError($this->__('The invoice no longer exists.'));
                 return false;
             }
         } elseif ($orderId) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+            $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
             /**
              * Check order existing
              */
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+            $invoice = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
                 ->prepareInvoice($savedQtys);
             if (!$invoice->getTotalQty()) {
                 Mage::throwException($this->__('Cannot create an invoice without products.'));
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     /**
      * Save data for invoice and related order
      *
-     * @param   Mage_Sales_Model_Order_Invoice $invoice
+     * @param   Magento_Sales_Model_Order_Invoice $invoice
      * @return  Magento_Adminhtml_Controller_Sales_Order_Invoice
      */
     protected function _saveInvoice($invoice)
@@ -98,13 +98,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     /**
      * Prepare shipment
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @return Mage_Sales_Model_Order_Shipment
+     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @return Magento_Sales_Model_Order_Shipment
      */
     protected function _prepareShipment($invoice)
     {
         $savedQtys = $this->_getItemQtys();
-        $shipment = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $invoice->getOrder()))
+        $shipment = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $invoice->getOrder()))
             ->prepareShipment($savedQtys);
         if (!$shipment->getTotalQty()) {
             return false;
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $tracks = $this->getRequest()->getPost('tracking');
         if ($tracks) {
             foreach ($tracks as $data) {
-                $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
+                $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')
                     ->addData($data);
                 $shipment->addTrack($track);
             }
@@ -133,7 +133,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             $this->_title(sprintf("#%s", $invoice->getIncrementId()));
 
             $this->loadLayout()
-                ->_setActiveMenu('Mage_Sales::sales_order');
+                ->_setActiveMenu('Magento_Sales::sales_order');
             $this->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->renderLayout();
@@ -169,7 +169,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             }
 
             $this->loadLayout()
-                ->_setActiveMenu('Mage_Sales::sales_order')
+                ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
             $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));

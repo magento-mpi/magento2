@@ -39,7 +39,7 @@ class Mage_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
      * Retrieve tracking url with params
      *
      * @param  string $key
-     * @param  Mage_Sales_Model_Order|Mage_Sales_Model_Order_Shipment|Mage_Sales_Model_Order_Shipment_Track $model
+     * @param  Magento_Sales_Model_Order|Magento_Sales_Model_Order_Shipment|Magento_Sales_Model_Order_Shipment_Track $model
      * @param  string $method Optional - method of a model to get id
      * @return string
      */
@@ -56,16 +56,16 @@ class Mage_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Shipping tracking popup URL getter
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      * @return string
      */
     public function getTrackingPopupUrlBySalesModel($model)
     {
-        if ($model instanceof Mage_Sales_Model_Order) {
+        if ($model instanceof Magento_Sales_Model_Order) {
             return $this->_getTrackingUrl('order_id', $model);
-        } elseif ($model instanceof Mage_Sales_Model_Order_Shipment) {
+        } elseif ($model instanceof Magento_Sales_Model_Order_Shipment) {
             return $this->_getTrackingUrl('ship_id', $model);
-        } elseif ($model instanceof Mage_Sales_Model_Order_Shipment_Track) {
+        } elseif ($model instanceof Magento_Sales_Model_Order_Shipment_Track) {
             return $this->_getTrackingUrl('track_id', $model, 'getEntityId');
         }
         return '';

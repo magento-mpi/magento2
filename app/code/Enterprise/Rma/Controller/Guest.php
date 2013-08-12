@@ -16,12 +16,12 @@ class Enterprise_Rma_Controller_Guest extends Magento_Core_Controller_Front_Acti
     public function returnsAction()
     {
         if (!Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled()
-            || !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+            || !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             $this->_forward('noRoute');
             return;
         }
         $this->loadLayout();
-        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
+        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -51,7 +51,7 @@ class Enterprise_Rma_Controller_Guest extends Magento_Core_Controller_Front_Acti
         }
 
         $this->loadLayout();
-        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
+        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->getLayout()
             ->getBlock('head')
             ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
@@ -67,7 +67,7 @@ class Enterprise_Rma_Controller_Guest extends Magento_Core_Controller_Front_Acti
     protected function _loadValidRma($entityId = null)
     {
         if (!Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled() ||
-            !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+            !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
 
@@ -96,7 +96,7 @@ class Enterprise_Rma_Controller_Guest extends Magento_Core_Controller_Front_Acti
      */
     public function createAction()
     {
-        if (!Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
         $order      = Mage::registry('current_order');

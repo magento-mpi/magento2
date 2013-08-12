@@ -27,7 +27,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
     /**
      * Order object, RMA attached to
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order = null;
 
@@ -60,7 +60,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
      * Get Order object
      *
      * @param null|int $orderId
-     * @return Mage_Sales_Model_Order|null
+     * @return Magento_Sales_Model_Order|null
      */
     public function getOrder($orderId = null)
     {
@@ -70,7 +70,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                $order = Mage::getModel('Mage_Sales_Model_Order');
+                $order = Mage::getModel('Magento_Sales_Model_Order');
                 $order->load($orderId);
                 $this->_order = $order;
             }

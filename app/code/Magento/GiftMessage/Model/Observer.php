@@ -79,7 +79,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     {
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
         $quote = $observer->getEvent()->getQuote();
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         if(is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
@@ -171,7 +171,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {
-        /** @var $orderItem Mage_Sales_Model_Order_Item */
+        /** @var $orderItem Magento_Sales_Model_Order_Item */
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftmessage data if order is reordered
         $order = $orderItem->getOrder();
@@ -188,7 +188,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        /** @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
             $giftMessage = Mage::getModel('Magento_GiftMessage_Model_Message')->load($giftMessageId)

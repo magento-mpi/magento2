@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_A
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_A
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     public function getSource()
     {
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Magento_A
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getShipment()
     {

@@ -13,13 +13,13 @@ abstract class Magento_Checkout_Model_Cart_AbstractTest extends PHPUnit_Framewor
     /**
      * Retrieve quote created in fixture.
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
         /** @var Magento_Checkout_Model_Session $session */
         $session = Mage::getModel('Magento_Checkout_Model_Session');
-        /** @var Mage_Sales_Model_Quote $quote */
+        /** @var Magento_Sales_Model_Quote $quote */
         $quote = $session->getQuote();
         return $quote;
     }

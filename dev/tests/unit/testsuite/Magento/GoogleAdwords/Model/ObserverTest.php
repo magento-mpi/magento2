@@ -41,7 +41,7 @@ class Magento_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCas
     {
         $this->_helperMock = $this->getMock('Magento_GoogleAdwords_Helper_Data', array(), array(), '', false);
         $this->_registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', true);
-        $this->_collectionMock = $this->getMock('Mage_Sales_Model_Resource_Order_Collection', array(), array(), '',
+        $this->_collectionMock = $this->getMock('Magento_Sales_Model_Resource_Order_Collection', array(), array(), '',
             false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_eventMock = $this->getMock('Magento_Event', array('getOrderIds'), array(), '', false);

@@ -90,6 +90,6 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Sales::sales_order');
+        return $this->_authorization->isAllowed('Magento_Sales::sales_order');
     }
 }

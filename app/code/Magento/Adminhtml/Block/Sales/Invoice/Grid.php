@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
      */
     protected function _getCollectionClass()
     {
-        return 'Mage_Sales_Model_Resource_Order_Invoice_Grid_Collection';
+        return 'Magento_Sales_Model_Resource_Order_Invoice_Grid_Collection';
     }
 
     protected function _prepareCollection()
@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoice'),
             'index'     => 'increment_id',
             'type'      => 'text',
             'header_css_class'  => 'col-invoice-number',
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice Date'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Order'),
             'index'     => 'order_increment_id',
             'type'      => 'text',
             'header_css_class'  => 'col-order-number',
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
         ));
 
         $this->addColumn('order_created_at', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Date'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
@@ -78,17 +78,17 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Bill-to Name'),
             'index' => 'billing_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('Mage_Sales_Model_Order_Invoice')->getStates(),
+            'options'   => Mage::getModel('Magento_Sales_Model_Order_Invoice')->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -105,13 +105,13 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
+                'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('Mage_Sales_Helper_Data')->__('View'),
+                        'caption' => Mage::helper('Magento_Sales_Helper_Data')->__('View'),
                         'url'     => array('base'=>'*/sales_invoice/view'),
                         'field'   => 'invoice_id'
                     )
@@ -123,8 +123,8 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
                 'column_css_class'  => 'col-actions'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Sales_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('Mage_Sales_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Magento_Sales_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('Magento_Sales_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }
@@ -136,7 +136,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
         $this->getMassactionBlock()->setUseSelectAll(false);
 
         $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
-             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('PDF Invoices'),
+             'label'=> Mage::helper('Magento_Sales_Helper_Data')->__('PDF Invoices'),
              'url'  => $this->getUrl('*/sales_invoice/pdfinvoices'),
         ));
 

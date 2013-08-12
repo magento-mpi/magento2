@@ -31,7 +31,7 @@ class Mage_Shipping_Model_Shipping
     /**
      * Cached result
      *
-     * @var Mage_Sales_Model_Shipping_Method_Result
+     * @var Magento_Sales_Model_Shipping_Method_Result
      */
     protected $_result = null;
 
@@ -410,10 +410,10 @@ class Mage_Shipping_Model_Shipping
     /**
      * Prepare and do request to shipment
      *
-     * @param Mage_Sales_Model_Order_Shipment $orderShipment
+     * @param Magento_Sales_Model_Order_Shipment $orderShipment
      * @return Magento_Object
      */
-    public function requestToShipment(Mage_Sales_Model_Order_Shipment $orderShipment)
+    public function requestToShipment(Magento_Sales_Model_Order_Shipment $orderShipment)
     {
         $admin = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
         $order = $orderShipment->getOrder();
@@ -442,7 +442,7 @@ class Mage_Shipping_Model_Shipping
             || !Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
             Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
+                Mage::helper('Magento_Sales_Helper_Data')->__('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
             );
         }
 

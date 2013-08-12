@@ -52,7 +52,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

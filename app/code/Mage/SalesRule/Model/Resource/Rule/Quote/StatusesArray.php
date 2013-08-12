@@ -7,19 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_SalesRule_Model_Resource_Rule_Quote_StatusesArray implements Magento_Core_Model_Option_ArrayInterface
+class Magento_SalesRule_Model_Resource_Rule_Quote_StatusesArray implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * SalesRule Helper
      *
-     * @var Mage_SalesRule_Helper_Data
+     * @var Magento_SalesRule_Helper_Data
      */
     protected $_helper;
 
     /**
-     * @param Mage_SalesRule_Helper_Data $salesRuleHelper
+     * @param Magento_SalesRule_Helper_Data $salesRuleHelper
      */
-    public function __construct(Mage_SalesRule_Helper_Data $salesRuleHelper)
+    public function __construct(Magento_SalesRule_Helper_Data $salesRuleHelper)
     {
         $this->_helper = $salesRuleHelper;
     }

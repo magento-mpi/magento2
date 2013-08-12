@@ -67,7 +67,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
         $i = 0;
         $allItems = array_reverse($this->getItems());
         foreach ($allItems as $item) {
-            /* @var $item Mage_Sales_Model_Quote_Item */
+            /* @var $item Magento_Sales_Model_Quote_Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
                 $products  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')

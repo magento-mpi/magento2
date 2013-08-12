@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * SalesRule Rule Customer Model Resource
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Rule_Customer extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_SalesRule_Model_Resource_Rule_Customer extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * constructor
@@ -30,10 +30,10 @@ class Mage_SalesRule_Model_Resource_Rule_Customer extends Magento_Core_Model_Res
     /**
      * Get rule usage record for a customer
      *
-     * @param Mage_SalesRule_Model_Rule_Customer $rule
+     * @param Magento_SalesRule_Model_Rule_Customer $rule
      * @param int $customerId
      * @param int $ruleId
-     * @return Mage_SalesRule_Model_Resource_Rule_Customer
+     * @return Magento_SalesRule_Model_Resource_Rule_Customer
      */
     public function loadByCustomerRule($rule, $customerId, $ruleId)
     {

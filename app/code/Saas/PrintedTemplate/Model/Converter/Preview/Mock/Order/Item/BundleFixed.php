@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed extends Mage_Sales_Model_Order_Item
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed extends Magento_Sales_Model_Order_Item
 {
     /**
      * Initialize order item with mock data
@@ -26,7 +26,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
         $this->setData($this->_getMockData());
 
         foreach ($this->_getChildrenMockData() as $data) {
-            $this->getModel('Mage_Sales_Model_Order_Item')
+            $this->getModel('Magento_Sales_Model_Order_Item')
                 ->setData($data)
                 ->setParentItem($this);
         }

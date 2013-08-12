@@ -35,7 +35,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
     /**
      * EC PE won't be available if the EC is available
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -57,7 +57,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      * Import payment info to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importToPayment($api, $payment)
     {
@@ -76,7 +76,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      * Checkout redirect URL getter for onepage checkout (hardcode)
      *
      * @see Magento_Checkout_Controller_Onepage::savePaymentAction()
-     * @see Mage_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
+     * @see Magento_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
      * @return string
      */
     public function getCheckoutRedirectUrl()

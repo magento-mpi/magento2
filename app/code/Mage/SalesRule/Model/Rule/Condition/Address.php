@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_Condition_Abstract
+class Magento_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_Condition_Abstract
 {
     public function loadAttributeOptions()
     {
         $attributes = array(
-            'base_subtotal' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Subtotal'),
-            'total_qty' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Total Items Quantity'),
-            'weight' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Total Weight'),
-            'payment_method' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Payment Method'),
-            'shipping_method' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Method'),
-            'postcode' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Postcode'),
-            'region' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Region'),
-            'region_id' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping State/Province'),
-            'country_id' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Country'),
+            'base_subtotal' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Subtotal'),
+            'total_qty' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Total Items Quantity'),
+            'weight' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Total Weight'),
+            'payment_method' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Payment Method'),
+            'shipping_method' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Shipping Method'),
+            'postcode' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Shipping Postcode'),
+            'region' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Shipping Region'),
+            'region_id' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Shipping State/Province'),
+            'country_id' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Shipping Country'),
         );
 
         $this->setAttributeOption($attributes);
@@ -99,7 +99,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_Con
     public function validate(Magento_Object $object)
     {
         $address = $object;
-        if (!$address instanceof Mage_Sales_Model_Quote_Address) {
+        if (!$address instanceof Magento_Sales_Model_Quote_Address) {
             if ($object->getQuote()->isVirtual()) {
                 $address = $object->getQuote()->getBillingAddress();
             }

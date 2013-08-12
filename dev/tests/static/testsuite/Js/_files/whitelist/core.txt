@@ -17,6 +17,6 @@ app/code/Magento/Adminhtml
 app/code/Magento/Payment
 app/code/Magento/Paypal
 app/code/Magento/GiftMessage
-app/code/Mage/Sales
+app/code/Magento/Sales
 app/code/Magento/Authorizenet
 app/code/Magento/Paygate

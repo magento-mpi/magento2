@@ -15,7 +15,7 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Billing_Items extends Mage_Sales_Block_Items_Abstract
+class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_Block_Items_Abstract
 {
     /**
      * Get multishipping checkout model
@@ -30,7 +30,7 @@ class Magento_Checkout_Block_Multishipping_Billing_Items extends Mage_Sales_Bloc
     /**
      * Retrieve quote model object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

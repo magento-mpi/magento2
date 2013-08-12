@@ -209,10 +209,10 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
     /**
      * Check whether balance completely covers specified quote
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      */
-    public function isFullAmountCovered(Mage_Sales_Model_Quote $quote, $isEstimation = false)
+    public function isFullAmountCovered(Magento_Sales_Model_Quote $quote, $isEstimation = false)
     {
         if (!$isEstimation && !$quote->getUseCustomerBalance()) {
             return false;

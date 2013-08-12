@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Rule_Condition_Product_Found
-    extends Mage_SalesRule_Model_Rule_Condition_Product_Combine
+class Magento_SalesRule_Model_Rule_Condition_Product_Found
+    extends Magento_SalesRule_Model_Rule_Condition_Product_Combine
 {
     /**
      * @param Magento_Rule_Model_Condition_Context $context
@@ -19,19 +19,19 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Found');
+        $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Found');
     }
 
     /**
      * Load value options
      *
-     * @return Mage_SalesRule_Model_Rule_Condition_Product_Found
+     * @return Magento_SalesRule_Model_Rule_Condition_Product_Found
      */
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            1 => Mage::helper('Mage_SalesRule_Helper_Data')->__('FOUND'),
-            0 => Mage::helper('Mage_SalesRule_Helper_Data')->__('NOT FOUND')
+            1 => Mage::helper('Magento_SalesRule_Helper_Data')->__('FOUND'),
+            0 => Mage::helper('Magento_SalesRule_Helper_Data')->__('NOT FOUND')
         ));
         return $this;
     }
@@ -39,7 +39,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml()
-            . Mage::helper('Mage_SalesRule_Helper_Data')->__("If an item is %s in the cart with %s of these conditions true:", $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
+            . Mage::helper('Magento_SalesRule_Helper_Data')->__("If an item is %s in the cart with %s of these conditions true:", $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }

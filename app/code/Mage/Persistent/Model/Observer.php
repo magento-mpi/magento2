@@ -171,7 +171,7 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getQuote();
         if (!$quote) {
             return;
@@ -354,11 +354,11 @@ class Mage_Persistent_Model_Observer
     /**
      * Return current active quote for persistent customer
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->loadByCustomer($this->_getPersistentCustomer());
         return $quote;
     }
@@ -410,7 +410,7 @@ class Mage_Persistent_Model_Observer
      */
     public function setQuoteGuest($checkQuote = false)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
         if ($quote && $quote->getId()) {
             if ($checkQuote

@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_CatalogRule/>
-                <Mage_SalesRule/>
+                <Magento_SalesRule/>
             </depends>
         </Enterprise_PromotionPermissions>
     </modules>

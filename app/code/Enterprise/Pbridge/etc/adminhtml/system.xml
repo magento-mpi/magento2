@@ -56,7 +56,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -108,7 +108,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -147,7 +147,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Debug</label>
@@ -218,7 +218,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>

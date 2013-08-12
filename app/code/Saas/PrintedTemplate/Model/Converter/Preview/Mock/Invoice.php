@@ -15,15 +15,15 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice extends Mage_Sales_Model_Order_Invoice
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice extends Magento_Sales_Model_Order_Invoice
 {
     /**
      * Initialize order with mock data
      *
-     * @param   Mage_Sales_Model_Order $order
+     * @param   Magento_Sales_Model_Order $order
      * @return  Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice
      */
-    public function setOrder(Mage_Sales_Model_Order $order)
+    public function setOrder(Magento_Sales_Model_Order $order)
     {
         parent::setOrder($order);
         $cacheKey = Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY;

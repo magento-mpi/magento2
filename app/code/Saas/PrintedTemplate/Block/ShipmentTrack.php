@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  *
- * @method Mage_Sales_Model_Resource_Order_Shipment_Track_Collection getTracks() Returns collection or empty array
+ * @method Magento_Sales_Model_Resource_Order_Shipment_Track_Collection getTracks() Returns collection or empty array
  */
 class Saas_PrintedTemplate_Block_ShipmentTrack extends Mage_Backend_Block_Template
 {
@@ -33,9 +33,9 @@ class Saas_PrintedTemplate_Block_ShipmentTrack extends Mage_Backend_Block_Templa
     /**
      * Set tracks
      *
-     * @param Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection
+     * @param Magento_Sales_Model_Resource_Order_Shipment_Track_Collection $collection
      */
-    public function setTracks( Mage_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
+    public function setTracks( Magento_Sales_Model_Resource_Order_Shipment_Track_Collection $collection)
     {
         return $this->setData('tracks', $collection);
     }

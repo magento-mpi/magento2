@@ -77,7 +77,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     {
         $this->setValueOption(array_merge(
             array(self::VALUE_ANY => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Any')),
-            Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses())
+            Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses())
         );
         return $this;
     }

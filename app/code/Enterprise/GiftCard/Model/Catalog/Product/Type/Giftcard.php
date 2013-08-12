@@ -411,7 +411,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Ca
     {
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
-        if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+        if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             $buyRequest = new Magento_Object(unserialize($option->getValue()));
             $this->_validate($buyRequest, $product, self::PROCESS_MODE_FULL);
         }

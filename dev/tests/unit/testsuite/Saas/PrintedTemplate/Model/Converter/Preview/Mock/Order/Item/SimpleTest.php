@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_SimpleTest ex
             ->method('_getHelper')
             ->will($this->returnValue($helper));
 
-        $resource = $this->getMock('Mage_Sales_Model_Resource_Order_Item', array(), array(), '', false);
+        $resource = $this->getMock('Magento_Sales_Model_Resource_Order_Item', array(), array(), '', false);
         $model->expects($this->any())->method('_getResource')->will($this->returnValue($resource));
 
         $this->assertEmpty($model->getData());

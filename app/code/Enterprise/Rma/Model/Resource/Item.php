@@ -186,14 +186,14 @@ class Enterprise_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstra
      * Gets order items collection
      *
      * @param int $orderId
-     * @return Mage_Sales_Model_Resource_Order_Item_Collection
+     * @return Magento_Sales_Model_Resource_Order_Item_Collection
      */
     public function getOrderItemsCollection($orderId)
     {
         $adapter = $this->getReadConnection();
         $expression = new Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
             . $adapter->quoteIdentifier('qty_returned') . ')');
-        return Mage::getModel('Mage_Sales_Model_Order_Item')
+        return Mage::getModel('Magento_Sales_Model_Order_Item')
             ->getCollection()
             ->addExpressionFieldToSelect(
                 'available_qty',
@@ -210,13 +210,13 @@ class Enterprise_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstra
      *
      * @param  int $orderId
      * @param  int|bool $parentId if need retrieves only bundle and its children
-     * @return Mage_Sales_Model_Resource_Order_Item_Collection
+     * @return Magento_Sales_Model_Resource_Order_Item_Collection
      */
     public function getOrderItems($orderId, $parentId = false)
     {
         $getItemsIdsByOrder     = $this->getItemsIdsByOrder($orderId);
 
-        /** @var $orderItemsCollection Mage_Sales_Model_Resource_Order_Item_Collection */
+        /** @var $orderItemsCollection Magento_Sales_Model_Resource_Order_Item_Collection */
         $orderItemsCollection   = $this->getOrderItemsCollection($orderId);
 
 
@@ -319,7 +319,7 @@ class Enterprise_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstra
     /**
      * Gets Product Name
      *
-     * @param $item Mage_Sales_Model_Order_Item
+     * @param $item Magento_Sales_Model_Order_Item
      * @return string
      */
     public function getProductName($item)

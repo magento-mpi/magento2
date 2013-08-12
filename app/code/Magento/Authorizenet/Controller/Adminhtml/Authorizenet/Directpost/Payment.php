@@ -82,7 +82,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
             try {
                 //do not cancel old order.
                 $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
-                $oldOrder->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false);
+                $oldOrder->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_CANCEL, false);
 
                 $order = $this->_getOrderCreateModel()
                     ->setIsValidate(true)
@@ -158,8 +158,8 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
             //cancel old order
             $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
             if ($oldOrder->getId()) {
-                /* @var $order Mage_Sales_Model_Order */
-                $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($redirectParams['x_invoice_num']);
+                /* @var $order Magento_Sales_Model_Order */
+                $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()) {
                     $oldOrder->cancel()
                         ->save();
@@ -206,11 +206,11 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
             $this->_getDirectPostSession()
                 ->isCheckoutOrderIncrementIdExist($incrementId)
         ) {
-            /* @var $order Mage_Sales_Model_Order */
-            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($incrementId);
+            /* @var $order Magento_Sales_Model_Order */
+            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
-                if ($cancelOrder && $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                if ($cancelOrder && $order->getState() == Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->registerCancellation($errorMsg)->save();
                 }
             }

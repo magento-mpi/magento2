@@ -17,28 +17,28 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
     protected $_model;
 
     /**
-     * @var Mage_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_order;
 
     /**
-     * @var Mage_Sales_Model_Order_Pdf_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Sales_Model_Order_Pdf_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pdf;
 
     protected function setUp()
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-        $modelConstructorArgs = $objectManager->getConstructArguments('Mage_Sales_Model_Order');
+        $modelConstructorArgs = $objectManager->getConstructArguments('Magento_Sales_Model_Order');
 
-        $this->_order = $this->getMock('Mage_Sales_Model_Order', array('formatPriceTxt'), $modelConstructorArgs);
+        $this->_order = $this->getMock('Magento_Sales_Model_Order', array('formatPriceTxt'), $modelConstructorArgs);
         $this->_order
             ->expects($this->any())
             ->method('formatPriceTxt')
             ->will($this->returnCallback(array($this, 'formatPrice')))
         ;
 
-        $this->_pdf = $this->getMock('Mage_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'));
+        $this->_pdf = $this->getMock('Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'));
 
         $this->_model = $this->getMock(
             'Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo',

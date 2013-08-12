@@ -24,7 +24,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
     {
         $session = Mage::getSingleton('Magento_Checkout_Model_Session');
         $api = Mage::getModel('Magento_GoogleCheckout_Model_Api');
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $quote = $session->getQuote();
 
         if (!$quote->hasItems()) {
@@ -32,7 +32,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
             $api->setError(true);
         }
 
-        $storeQuote = Mage::getModel('Mage_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
+        $storeQuote = Mage::getModel('Magento_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
         $storeQuote->merge($quote);
         $storeQuote
             ->setItemsCount($quote->getItemsCount())
@@ -128,7 +128,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
         $session = Mage::getSingleton('Magento_Checkout_Model_Session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {
-            $quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId)
+            $quote = Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId)
                 ->setIsActive(false)->save();
         }
         $session->clear();

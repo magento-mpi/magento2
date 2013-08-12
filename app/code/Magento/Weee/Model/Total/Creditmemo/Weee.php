@@ -9,9 +9,9 @@
  */
 
 
-class Magento_Weee_Model_Total_Creditmemo_Weee extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract
+class Magento_Weee_Model_Total_Creditmemo_Weee extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
 {
-    public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
     {
         $store = $creditmemo->getStore();
 

@@ -33,7 +33,7 @@ class Magento_Paypal_Model_Express_Checkout
     const PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT = 'paypal_ec_create_ba';
 
     /**
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote = null;
 
@@ -107,14 +107,14 @@ class Magento_Paypal_Model_Express_Checkout
     /**
      * Billing agreement that might be created during order placing
      *
-     * @var Mage_Sales_Model_Billing_Agreement
+     * @var Magento_Sales_Model_Billing_Agreement
      */
     protected $_billingAgreement = null;
 
     /**
      * Order
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_order = null;
 
@@ -145,7 +145,7 @@ class Magento_Paypal_Model_Express_Checkout
             throw new Exception('Config instance is required.');
         }
 
-        if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
+        if (isset($params['quote']) && $params['quote'] instanceof Magento_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
         } else {
             throw new Exception('Quote instance is required.');
@@ -230,8 +230,8 @@ class Magento_Paypal_Model_Express_Checkout
      * Setter for customer with billing and shipping address changing ability
      *
      * @param  Magento_Customer_Model_Customer   $customer
-     * @param  Mage_Sales_Model_Quote_Address $billingAddress
-     * @param  Mage_Sales_Model_Quote_Address $shippingAddress
+     * @param  Magento_Sales_Model_Quote_Address $billingAddress
+     * @param  Magento_Sales_Model_Quote_Address $shippingAddress
      * @return Magento_Paypal_Model_Express_Checkout
      */
     public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
@@ -547,7 +547,7 @@ class Magento_Paypal_Model_Express_Checkout
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
-        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $parameters);
+        $service = Mage::getModel('Magento_Sales_Model_Service_Quote', $parameters);
         $service->submitAll();
         $this->_quote->save();
 
@@ -577,13 +577,13 @@ class Magento_Paypal_Model_Express_Checkout
 
         switch ($order->getState()) {
             // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money
-            case Mage_Sales_Model_Order::STATE_PENDING_PAYMENT:
+            case Magento_Sales_Model_Order::STATE_PENDING_PAYMENT:
                 // TODO
                 break;
             // regular placement, when everything is ok
-            case Mage_Sales_Model_Order::STATE_PROCESSING:
-            case Mage_Sales_Model_Order::STATE_COMPLETE:
-            case Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW:
+            case Magento_Sales_Model_Order::STATE_PROCESSING:
+            case Magento_Sales_Model_Order::STATE_COMPLETE:
+            case Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW:
                 $order->sendNewOrderEmail();
                 break;
         }
@@ -627,7 +627,7 @@ class Magento_Paypal_Model_Express_Checkout
     /**
      * Get created billing agreement
      *
-     * @return Mage_Sales_Model_Billing_Agreement|null
+     * @return Magento_Sales_Model_Billing_Agreement|null
      */
     public function getBillingAgreement()
     {
@@ -637,7 +637,7 @@ class Magento_Paypal_Model_Express_Checkout
     /**
      * Return order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -667,7 +667,7 @@ class Magento_Paypal_Model_Express_Checkout
     /**
      * Sets address data from exported address
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @param array $exportedAddress
      */
     protected function _setExportedAddressData($address, $exportedAddress)
@@ -709,7 +709,7 @@ class Magento_Paypal_Model_Express_Checkout
             return $this;
         }
 
-        if (!Mage::getModel('Mage_Sales_Model_Billing_Agreement')->needToCreateForCustomer($this->_customerId)) {
+        if (!Mage::getModel('Magento_Sales_Model_Billing_Agreement')->needToCreateForCustomer($this->_customerId)) {
             return $this;
         }
         $this->_api->setBillingType($this->_api->getBillingAgreementType());
@@ -732,12 +732,12 @@ class Magento_Paypal_Model_Express_Checkout
      * Returns empty array if it was impossible to obtain any shipping rate
      * If there are shipping rates obtained, the method must return one of them as default.
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @param bool $mayReturnEmpty
      * @return array|false
      */
     protected function _prepareShippingOptions(
-        Mage_Sales_Model_Quote_Address $address,
+        Magento_Sales_Model_Quote_Address $address,
         $mayReturnEmpty = false, $calculateTax = false
     ) {
         $options = array(); $i = 0; $iMin = false; $min = false;
@@ -827,11 +827,11 @@ class Magento_Paypal_Model_Express_Checkout
      * If in future the issue is fixed, we don't need to attempt to match it. It would be enough to set the method code
      * before collecting shipping rates
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @param string $selectedCode
      * @return string
      */
-    protected function _matchShippingMethodCode(Mage_Sales_Model_Quote_Address $address, $selectedCode)
+    protected function _matchShippingMethodCode(Magento_Sales_Model_Quote_Address $address, $selectedCode)
     {
         $options = $this->_prepareShippingOptions($address, false);
         foreach ($options as $option) {

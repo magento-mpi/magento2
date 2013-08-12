@@ -214,7 +214,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
                 foreach ($source['source_ordered'] as $orderItemId => $qty) {
-                    $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')->load($orderItemId);
+                    $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($orderItemId);
                     $cart->reorderItem($orderItem, $qty);
                 }
                 unset($source['source_ordered']);
@@ -344,7 +344,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
      */
     public function createOrderAction()
     {
-        if (!$this->_authorization->isAllowed('Mage_Sales::create')) {
+        if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('You do not have access to this.'));
         }
         try {
@@ -523,7 +523,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 Mage::throwException($this->__('Ordered item id is not received.'));
             }
 
-            $item = Mage::getModel('Mage_Sales_Model_Order_Item')
+            $item = Mage::getModel('Magento_Sales_Model_Order_Item')
                 ->load($itemId);
             if (!$item->getId()) {
                 Mage::throwException($this->__('Ordered item is not loaded.'));
@@ -605,13 +605,13 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 Mage::throwException($this->__('Quote item id is not received.'));
             }
 
-            $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
                 Mage::throwException($this->__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
@@ -723,7 +723,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 }
                 break;
             case 'ordered':
-                $item = Mage::getModel('Mage_Sales_Model_Order_Item')
+                $item = Mage::getModel('Magento_Sales_Model_Order_Item')
                     ->load($itemId);
                 if ($item->getId()) {
                     $productId = $item->getProductId();

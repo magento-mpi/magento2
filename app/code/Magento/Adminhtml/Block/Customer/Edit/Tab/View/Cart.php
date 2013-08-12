@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         // set website to quote, if any
         if ($this->getWebsiteId()) {
             $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));

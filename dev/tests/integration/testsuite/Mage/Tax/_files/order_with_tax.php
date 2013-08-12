@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Mage/Sales/_files/order.php';
+require __DIR__ . '/../../../Magento/Sales/_files/order.php';
 
-/** @var Mage_Sales_Model_Order $order */
-$order = Mage::getModel('Mage_Sales_Model_Order');
+/** @var Magento_Sales_Model_Order $order */
+$order = Mage::getModel('Magento_Sales_Model_Order');
 $order->loadByIncrementId('100000001')
     ->setBaseToGlobalRate(2)
     ->save();

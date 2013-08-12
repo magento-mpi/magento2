@@ -19,7 +19,7 @@
                 <Magento_Adminhtml/>
                 <Magento_Checkout/>
                 <Magento_Wishlist/>
-                <Mage_SalesRule/>
+                <Magento_SalesRule/>
                 <Magento_Rule/>
             </depends>
         </Enterprise_Reminder>

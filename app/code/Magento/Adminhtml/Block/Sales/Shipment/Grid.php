@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
      */
     protected function _getCollectionClass()
     {
-        return 'Mage_Sales_Model_Resource_Order_Shipment_Grid_Collection';
+        return 'Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection';
     }
 
     /**
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Shipment'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Shipment'),
             'index' => 'increment_id',
             'type' => 'text',
             'header_css_class' => 'col-shipment-number',
@@ -65,7 +65,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship Date'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Ship Date'),
             'index' => 'created_at',
             'type' => 'datetime',
             'header_css_class' => 'col-period',
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Order'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Order'),
             'index' => 'order_increment_id',
             'type' => 'text',
             'header_css_class' => 'col-order-number',
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('order_created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Order Date'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Order Date'),
             'index' => 'order_created_at',
             'type' => 'datetime',
             'header_css_class' => 'col-period',
@@ -89,14 +89,14 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship-to Name'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Ship-to Name'),
             'index' => 'shipping_name',
             'header_css_class' => 'col-memo',
             'column_css_class' => 'col-memo'
         ));
 
         $this->addColumn('total_qty', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Quantity'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Total Quantity'),
             'index' => 'total_qty',
             'type' => 'number',
             'header_css_class' => 'col-qty',
@@ -105,12 +105,12 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
 
         $this->addColumn('action',
             array(
-                'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
+                'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Action'),
                 'type' => 'action',
                 'getter' => 'getId',
                 'actions' => array(
                     array(
-                        'caption' => Mage::helper('Mage_Sales_Helper_Data')->__('View'),
+                        'caption' => Mage::helper('Magento_Sales_Helper_Data')->__('View'),
                         'url' => array('base' => '*/sales_shipment/view'),
                         'field' => 'shipment_id'
                     )
@@ -122,8 +122,8 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
                 'column_css_class' => 'col-actions'
             ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Sales_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('Mage_Sales_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Magento_Sales_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('Magento_Sales_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }
@@ -159,12 +159,12 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
         $this->getMassactionBlock()->setUseSelectAll(false);
 
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('PDF Packing Slips'),
+            'label' => Mage::helper('Magento_Sales_Helper_Data')->__('PDF Packing Slips'),
             'url' => $this->getUrl('*/sales_shipment/pdfshipments'),
         ));
 
         $this->getMassactionBlock()->addItem('print_shipping_label', array(
-            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Print Shipping Labels'),
+            'label' => Mage::helper('Magento_Sales_Helper_Data')->__('Print Shipping Labels'),
             'url' => $this->getUrl('*/sales_order_shipment/massPrintShippingLabel'),
         ));
 

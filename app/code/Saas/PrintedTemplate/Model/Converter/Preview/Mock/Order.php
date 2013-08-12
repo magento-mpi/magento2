@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales_Model_Order
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Magento_Sales_Model_Order
 {
     /**
      * Constructor
@@ -76,7 +76,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
      * Get order item by its ID
      *
      * @param int $itemId
-     * @return Mage_Sales_Model_Order_Item
+     * @return Magento_Sales_Model_Order_Item
      */
     public function getItemById($itemId)
     {
@@ -119,7 +119,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
      * Create mock object for order items and for specified product type
      *
      * @param string $type
-     * @return Mage_Sales_Model_Order_Item
+     * @return Magento_Sales_Model_Order_Item
      */
     protected function _createItemMock($type = 'simple')
     {

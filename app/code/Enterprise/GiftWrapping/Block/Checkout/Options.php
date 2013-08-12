@@ -59,7 +59,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_
     /**
      * Get quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -71,7 +71,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_
      *
      * @param Magento_Object $item
      * @param mixed $basePrice
-     * @param Mage_Sales_Model_Quote_Address $shippingAddress
+     * @param Magento_Sales_Model_Quote_Address $shippingAddress
      * @param bool $includeTax
      * @return string
      */
@@ -148,7 +148,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_
      * Process items
      *
      * @param array $items
-     * @param Mage_Sales_Model_Quote_Address $shippingAddress
+     * @param Magento_Sales_Model_Quote_Address $shippingAddress
      * @param array $data
      * @return array
      */

@@ -18,7 +18,7 @@ class Magento_Cardgate_Model_Gateway_Dummy extends Magento_Cardgate_Model_Gatewa
     /**
      * Rewrite to make Dummy method always unavailable
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      *
      * Suppress this rule as $order parameter is a part of method signature

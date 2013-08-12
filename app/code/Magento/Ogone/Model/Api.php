@@ -217,7 +217,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Rrepare params array to send it to gateway page via POST
      *
-     * @param Mage_Sales_Model_Order
+     * @param Magento_Sales_Model_Order
      * @return array
      */
     public function getFormFields($order)
@@ -282,9 +282,9 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Debug specified order fields if needed
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      */
-    public function debugOrder(Mage_Sales_Model_Order $order)
+    public function debugOrder(Magento_Sales_Model_Order $order)
     {
         if ($this->getDebugFlag()) {
             $this->debugData(array('request' => $this->getFormFields($order)));
@@ -380,7 +380,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * get formated order description
      *
-     * @param Mage_Sales_Model_Order
+     * @param Magento_Sales_Model_Order
      * @return string
      */
     protected function _getOrderDescription($order)

@@ -104,7 +104,7 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         }
 
         // Back compatibility with quote specific keys to set configuration item options
-        if ($this->_getData('quote_item_option') instanceof Mage_Sales_Model_Quote_Item_Option) {
+        if ($this->_getData('quote_item_option') instanceof Magento_Sales_Model_Quote_Item_Option) {
             return $this->_getData('quote_item_option');
         }
 
@@ -123,7 +123,7 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         }
 
         // Back compatibility with quote specific keys to set configuration item
-        if ($this->_getData('quote_item') instanceof Mage_Sales_Model_Quote_Item) {
+        if ($this->_getData('quote_item') instanceof Magento_Sales_Model_Quote_Item) {
             return $this->_getData('quote_item');
         }
 

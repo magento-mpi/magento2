@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,13 +15,13 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_CatalogRule::promo">
-                        <resource id="Mage_SalesRule::quote" module="Mage_SalesRule" sortOrder="30" title="Cart Price Rules" />
+                        <resource id="Magento_SalesRule::quote" module="Magento_SalesRule" sortOrder="30" title="Cart Price Rules" />
                     </resource>
                 </resource>
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Mage_SalesRule::config_promo" module="Mage_SalesRule" title="Promotion" sortOrder="90"/>
+                            <resource id="Magento_SalesRule::config_promo" module="Magento_SalesRule" title="Promotion" sortOrder="90"/>
                         </resource>
                     </resource>
                 </resource>

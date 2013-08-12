@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     public function getSource()
     {
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getShipment()
     {
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     protected function _beforeToHtml()
     {
         $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Submit Shipment'),
+            'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Submit Shipment'),
             'class'     => 'save submit-button',
             'onclick'   => 'submitShipment(this);',
         ));
@@ -100,7 +100,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
      */
     public function canSendShipmentEmail()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**

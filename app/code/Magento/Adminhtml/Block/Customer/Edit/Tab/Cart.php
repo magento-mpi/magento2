@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         $customer = Mage::registry('current_customer');
         $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
 
-        $quote = Mage::getModel('Mage_Sales_Model_Quote')
+        $quote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setSharedStoreIds($storeIds)
             ->loadByCustomer($customer);
 
@@ -97,7 +97,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         ));
 
         $this->addColumn('total', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Total'),
             'index'         => 'row_total',
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),

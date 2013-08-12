@@ -15,15 +15,15 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment extends Mage_Sales_Model_Order_Shipment
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment extends Magento_Sales_Model_Order_Shipment
 {
     /**
      * Initialize shipment with mock data
      *
-     * @param   Mage_Sales_Model_Order $order
+     * @param   Magento_Sales_Model_Order $order
      * @return  Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment
      */
-    public function setOrder(Mage_Sales_Model_Order $order)
+    public function setOrder(Magento_Sales_Model_Order $order)
     {
         parent::setOrder($order);
 

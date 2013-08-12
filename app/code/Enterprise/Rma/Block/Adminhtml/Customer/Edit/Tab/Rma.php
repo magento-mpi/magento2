@@ -94,7 +94,7 @@ class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

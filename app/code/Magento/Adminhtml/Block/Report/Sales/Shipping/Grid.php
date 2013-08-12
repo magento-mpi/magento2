@@ -29,27 +29,27 @@ class Magento_Adminhtml_Block_Report_Sales_Shipping_Grid extends Magento_Adminht
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_shipment')
-            ? 'Mage_Sales_Model_Resource_Report_Shipping_Collection_Shipment'
-            : 'Mage_Sales_Model_Resource_Report_Shipping_Collection_Order';
+            ? 'Magento_Sales_Model_Resource_Report_Shipping_Collection_Shipment'
+            : 'Magento_Sales_Model_Resource_Report_Shipping_Collection_Order';
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Interval'),
+            'header'            => Mage::helper('Magento_Sales_Helper_Data')->__('Interval'),
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'      => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
-            'subtotals_label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
+            'totals_label'      => Mage::helper('Magento_Sales_Helper_Data')->__('Total'),
+            'subtotals_label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Subtotal'),
             'html_decorators'   => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('shipping_description', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Carrier/Method'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Carrier/Method'),
             'index'     => 'shipping_description',
             'sortable'  => false,
             'header_css_class'  => 'col-method',
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Report_Sales_Shipping_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Orders'),
             'index'     => 'orders_count',
             'total'     => 'sum',
             'type'      => 'number',
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Block_Report_Sales_Shipping_Grid extends Magento_Adminht
         $rate = $this->getRate($currencyCode);
 
         $this->addColumn('total_shipping', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Sales Shipping'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Total Sales Shipping'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_shipping',
@@ -86,7 +86,7 @@ class Magento_Adminhtml_Block_Report_Sales_Shipping_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('total_shipping_actual', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Shipping'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Total Shipping'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'total_shipping_actual',

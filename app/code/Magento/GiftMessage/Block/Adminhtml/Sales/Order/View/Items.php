@@ -27,7 +27,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Items extends Magento
     /**
      * Get Order Item
      *
-     * @return Mage_Sales_Model_Order_Item
+     * @return Magento_Sales_Model_Order_Item
      */
     public function getItem()
     {

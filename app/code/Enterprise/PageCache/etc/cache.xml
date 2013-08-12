@@ -89,7 +89,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </wishlist>
         <orders>
-            <block>Mage_Sales_Block_Reorder_Sidebar</block>
+            <block>Magento_Sales_Block_Reorder_Sidebar</block>
             <placeholder>ORDERS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Orders</container>
             <cache_lifetime>86400</cache_lifetime>

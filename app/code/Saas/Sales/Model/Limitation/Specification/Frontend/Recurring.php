@@ -19,6 +19,6 @@ class Saas_Sales_Model_Limitation_Specification_Frontend_Recurring
     public function isSatisfiedBy(Magento_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'recurring_profile'
-            || $request->getControllerModule() != 'Mage_Sales';
+            || $request->getControllerModule() != 'Magento_Sales';
     }
 }

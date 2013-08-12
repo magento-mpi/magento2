@@ -665,13 +665,13 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     /**
      * Add error to Quote Item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @param string $itemError
      * @param string $quoteError
      * @param string $errorIndex
      * @return Magento_CatalogInventory_Model_Stock_Item
      */
-    protected function _addQuoteItemError(Mage_Sales_Model_Quote_Item $item, $itemError,
+    protected function _addQuoteItemError(Magento_Sales_Model_Quote_Item $item, $itemError,
         $quoteError, $errorIndex='error'
     ) {
         $item->setHasError(true);

@@ -3,34 +3,34 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Discount calculation object
      *
-     * @var Mage_SalesRule_Model_Validator
+     * @var Magento_SalesRule_Model_Validator
      */
     protected $_calculator;
 
     public function __construct()
     {
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('Mage_SalesRule_Model_Validator');
+        $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
     }
 
     /**
      * Collect address discount amount
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Mage_SalesRule_Model_Quote_Discount
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @return  Magento_SalesRule_Model_Quote_Discount
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
@@ -109,8 +109,8 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     /**
      * Aggregate item discount information to address data and related properties
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
-     * @return  Mage_SalesRule_Model_Quote_Discount
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
+     * @return  Magento_SalesRule_Model_Quote_Discount
      */
     protected function _aggregateItemDiscount($item)
     {
@@ -122,8 +122,8 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     /**
      * Recalculate child discount. Separate discount between children
      *
-     * @param   Mage_Sales_Model_Quote_Item_Abstract $child
-     * @return  Mage_SalesRule_Model_Quote_Discount
+     * @param   Magento_Sales_Model_Quote_Item_Abstract $child
+     * @return  Magento_SalesRule_Model_Quote_Discount
      */
     protected function _recalculateChildDiscount($child)
     {
@@ -140,19 +140,19 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     /**
      * Add discount total information to address
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Mage_SalesRule_Model_Quote_Discount
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @return  Magento_SalesRule_Model_Quote_Discount
      */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         $amount = $address->getDiscountAmount();
 
         if ($amount!=0) {
             $description = $address->getDiscountDescription();
             if (strlen($description)) {
-                $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%s)', $description);
+                $title = Mage::helper('Magento_Sales_Helper_Data')->__('Discount (%s)', $description);
             } else {
-                $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount');
+                $title = Mage::helper('Magento_Sales_Helper_Data')->__('Discount');
             }
             $address->addTotal(array(
                 'code'  => $this->getCode(),

@@ -33,7 +33,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve checkout quote model object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -124,7 +124,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Send email id payment was failed
      *
-     * @param Mage_Sales_Model_Quote $checkout
+     * @param Magento_Sales_Model_Quote $checkout
      * @param string $message
      * @param string $checkoutType
      * @return Magento_Checkout_Helper_Data
@@ -175,7 +175,7 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
 
         $items = '';
         foreach ($checkout->getAllVisibleItems() as $_item) {
-            /* @var $_item Mage_Sales_Model_Quote_Item */
+            /* @var $_item Magento_Sales_Model_Quote_Item */
             $items .= $_item->getProduct()->getName() . '  x '. $_item->getQty() . '  '
                     . $checkout->getStoreCurrencyCode() . ' '
                     . $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
@@ -249,11 +249,11 @@ class Magento_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
      * Check is allowed Guest Checkout
      * Use config settings and observer
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @param int|Magento_Core_Model_Store $store
      * @return bool
      */
-    public function isAllowedGuestCheckout(Mage_Sales_Model_Quote $quote, $store = null)
+    public function isAllowedGuestCheckout(Magento_Sales_Model_Quote $quote, $store = null)
     {
         if ($store === null) {
             $store = $quote->getStoreId();

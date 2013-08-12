@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
     /**
      * Order address getter
      *
-     * @return Mage_Sales_Model_Order_Address
+     * @return Magento_Sales_Model_Order_Address
      */
     protected function _getAddress()
     {
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Address Information');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Address Information');
     }
 
     /**

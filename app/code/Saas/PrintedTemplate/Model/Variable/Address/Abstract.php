@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Address for address variable
+ * Container for Magento_Sales_Model_Order_Address for address variable
  *
  * Container that can restrict access to properties and method
  * with white list.

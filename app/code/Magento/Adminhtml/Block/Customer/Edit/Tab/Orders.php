@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('increment_id')
             ->addFieldToSelect('customer_id')
@@ -94,7 +94,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
             ));
         }
 
-        if (Mage::helper('Mage_Sales_Helper_Reorder')->isAllow()) {
+        if (Mage::helper('Magento_Sales_Helper_Reorder')->isAllow()) {
             $this->addColumn('action', array(
                 'header'    => ' ',
                 'filter'    => false,

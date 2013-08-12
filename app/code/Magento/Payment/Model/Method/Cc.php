@@ -251,7 +251,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Check whether there are CC types set in configuration
      *
-     * @param Mage_Sales_Model_Quote|null $quote
+     * @param Magento_Sales_Model_Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -366,9 +366,9 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     private function _isPlaceOrder()
     {
         $info = $this->getInfoInstance();
-        if ($info instanceof Mage_Sales_Model_Quote_Payment) {
+        if ($info instanceof Magento_Sales_Model_Quote_Payment) {
             return false;
-        } elseif ($info instanceof Mage_Sales_Model_Order_Payment) {
+        } elseif ($info instanceof Magento_Sales_Model_Order_Payment) {
             return true;
         }
     }

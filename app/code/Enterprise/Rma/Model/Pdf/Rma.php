@@ -16,7 +16,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
+class Enterprise_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
 {
     /**
      * Variable to store store-depended string values of attributes

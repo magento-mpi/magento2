@@ -357,7 +357,7 @@ class Enterprise_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
         if (is_array($option)) {
             $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option)
                 ->setItem($this);
-        } elseif ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+        } elseif ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             // import data from existing quote item option
             $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setProduct($option->getProduct())
                ->setCode($option->getCode())

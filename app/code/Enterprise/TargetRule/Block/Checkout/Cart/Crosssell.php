@@ -92,7 +92,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     /**
      * Retrieve quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -109,7 +109,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
         if (is_null($this->_products)) {
             $this->_products = array();
             foreach ($this->getQuote()->getAllItems() as $quoteItem) {
-                /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+                /* @var $quoteItem Magento_Sales_Model_Quote_Item */
                 $product = $quoteItem->getProduct();
                 $this->_products[$product->getEntityId()] = $product;
             }
@@ -140,7 +140,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof Mage_Sales_Model_Quote_Item_Option
+            if ($productTypeOpt instanceof Magento_Sales_Model_Quote_Item_Option
                 && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {

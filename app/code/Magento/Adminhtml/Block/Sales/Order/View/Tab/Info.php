@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Info
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Info
     /**
      * Retrieve source model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getSource()
     {
@@ -95,12 +95,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Info
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Information');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Information');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Information');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Information');
     }
 
     public function canShowTab()

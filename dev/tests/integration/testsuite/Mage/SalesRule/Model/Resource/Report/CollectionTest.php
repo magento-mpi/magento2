@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-class Mage_SalesRule_Model_Resource_Report_CollectionTest extends PHPUnit_Framework_TestCase
+class Magento_SalesRule_Model_Resource_Report_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_SalesRule_Model_Resource_Report_Collection
+     * @var Magento_SalesRule_Model_Resource_Report_Collection
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Collection');
+        $this->_collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -24,8 +24,8 @@ class Mage_SalesRule_Model_Resource_Report_CollectionTest extends PHPUnit_Framew
     }
 
     /**
-     * @magentoDataFixture Mage/SalesRule/_files/order_with_coupon.php
-     * @magentoDataFixture Mage/SalesRule/_files/report_coupons.php
+     * @magentoDataFixture Magento/SalesRule/_files/order_with_coupon.php
+     * @magentoDataFixture Magento/SalesRule/_files/report_coupons.php
      */
     public function testGetItems()
     {

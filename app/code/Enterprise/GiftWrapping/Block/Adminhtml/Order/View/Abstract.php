@@ -22,7 +22,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
     /*
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

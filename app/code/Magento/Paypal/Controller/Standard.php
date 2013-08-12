@@ -23,7 +23,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
     /**
      *  Get order
      *
-     *  @return	Mage_Sales_Model_Order
+     *  @return	Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -74,7 +74,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
 
         if ($session->getLastRealOrderId()) {
-            $order = $this->_objectManager->create('Mage_Sales_Model_Order')
+            $order = $this->_objectManager->create('Magento_Sales_Model_Order')
                 ->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 $this->_objectManager->get('Magento_Core_Model_Event_Manager')->dispatch(

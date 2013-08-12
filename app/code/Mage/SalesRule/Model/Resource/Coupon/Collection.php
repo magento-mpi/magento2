@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * SalesRule Model Resource Coupon_Collection
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Constructor
@@ -25,19 +25,19 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Mage_SalesRule_Model_Coupon', 'Mage_SalesRule_Model_Resource_Coupon');
+        $this->_init('Magento_SalesRule_Model_Coupon', 'Magento_SalesRule_Model_Resource_Coupon');
     }
 
     /**
      * Add rule to filter
      *
-     * @param Mage_SalesRule_Model_Rule|int $rule
+     * @param Magento_SalesRule_Model_Rule|int $rule
      *
-     * @return Mage_SalesRule_Model_Resource_Coupon_Collection
+     * @return Magento_SalesRule_Model_Resource_Coupon_Collection
      */
     public function addRuleToFilter($rule)
     {
-        if ($rule instanceof Mage_SalesRule_Model_Rule) {
+        if ($rule instanceof Magento_SalesRule_Model_Rule) {
             $ruleId = $rule->getId();
         } else {
             $ruleId = (int)$rule;
@@ -53,7 +53,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model
      *
      * @param array $ruleIds
      *
-     * @return Mage_SalesRule_Model_Resource_Coupon_Collection
+     * @return Magento_SalesRule_Model_Resource_Coupon_Collection
      */
     public function addRuleIdsToFilter(array $ruleIds)
     {
@@ -64,7 +64,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model
     /**
      * Filter collection to be filled with auto-generated coupons only
      *
-     * @return Mage_SalesRule_Model_Resource_Coupon_Collection
+     * @return Magento_SalesRule_Model_Resource_Coupon_Collection
      */
     public function addGeneratedCouponsFilter()
     {

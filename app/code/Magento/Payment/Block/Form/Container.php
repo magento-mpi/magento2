@@ -11,7 +11,7 @@
 /**
  * Base container block for payment methods forms
  *
- * @method Mage_Sales_Model_Quote getQuote()
+ * @method Magento_Sales_Model_Quote getQuote()
  *
  * @category   Mage
  * @package    Magento_Payment

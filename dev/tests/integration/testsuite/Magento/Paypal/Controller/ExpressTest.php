@@ -9,12 +9,12 @@
 class Magento_Paypal_Controller_ExpressTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/Sales/_files/quote.php
+     * @magentoDataFixture Magento/Sales/_files/quote.php
      * @magentoDataFixture Magento/Paypal/_files/quote_payment.php
      */
     public function testReviewAction()
     {
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         Mage::getSingleton('Magento_Checkout_Model_Session')->setQuoteId($quote->getId());
 
@@ -32,9 +32,9 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_Test_TestCase_Contro
      */
     public function testCancelAction()
     {
-        $quote = $this->_objectManager->create('Mage_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
         $quote->load('test02', 'reserved_order_id');
-        $order = $this->_objectManager->create('Mage_Sales_Model_Order');
+        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
         $order->load('100000002', 'increment_id');
         $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())

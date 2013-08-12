@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Actions');
+        return Mage::helper('Magento_SalesRule_Helper_Data')->__('Actions');
     }
 
     /**
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Actions');
+        return Mage::helper('Magento_SalesRule_Helper_Data')->__('Actions');
     }
 
     /**
@@ -69,62 +69,62 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Update prices using the following information')));
+        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('Magento_SalesRule_Helper_Data')->__('Update prices using the following information')));
 
         $fieldset->addField('simple_action', 'select', array(
-            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply'),
+            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Apply'),
             'name'      => 'simple_action',
             'options'    => array(
-                Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION => Mage::helper('Mage_SalesRule_Helper_Data')->__('Percent of product price discount'),
-                Mage_SalesRule_Model_Rule::BY_FIXED_ACTION => Mage::helper('Mage_SalesRule_Helper_Data')->__('Fixed amount discount'),
-                Mage_SalesRule_Model_Rule::CART_FIXED_ACTION => Mage::helper('Mage_SalesRule_Helper_Data')->__('Fixed amount discount for whole cart'),
-                Mage_SalesRule_Model_Rule::BUY_X_GET_Y_ACTION => Mage::helper('Mage_SalesRule_Helper_Data')->__('Buy X get Y free (discount amount is Y)'),
+                Magento_SalesRule_Model_Rule::BY_PERCENT_ACTION => Mage::helper('Magento_SalesRule_Helper_Data')->__('Percent of product price discount'),
+                Magento_SalesRule_Model_Rule::BY_FIXED_ACTION => Mage::helper('Magento_SalesRule_Helper_Data')->__('Fixed amount discount'),
+                Magento_SalesRule_Model_Rule::CART_FIXED_ACTION => Mage::helper('Magento_SalesRule_Helper_Data')->__('Fixed amount discount for whole cart'),
+                Magento_SalesRule_Model_Rule::BUY_X_GET_Y_ACTION => Mage::helper('Magento_SalesRule_Helper_Data')->__('Buy X get Y free (discount amount is Y)'),
             ),
         ));
         $fieldset->addField('discount_amount', 'text', array(
             'name' => 'discount_amount',
             'required' => true,
             'class' => 'validate-not-negative-number',
-            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Discount Amount'),
+            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Discount Amount'),
         ));
         $model->setDiscountAmount($model->getDiscountAmount()*1);
 
         $fieldset->addField('discount_qty', 'text', array(
             'name' => 'discount_qty',
-            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Maximum Qty Discount is Applied To'),
+            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Maximum Qty Discount is Applied To'),
         ));
         $model->setDiscountQty($model->getDiscountQty()*1);
 
         $fieldset->addField('discount_step', 'text', array(
             'name' => 'discount_step',
-            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Discount Qty Step (Buy X)'),
+            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Discount Qty Step (Buy X)'),
         ));
 
         $fieldset->addField('apply_to_shipping', 'select', array(
-            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply to Shipping Amount'),
-            'title'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply to Shipping Amount'),
+            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Apply to Shipping Amount'),
+            'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Apply to Shipping Amount'),
             'name'      => 'apply_to_shipping',
             'values'    => Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray(),
         ));
 
         $fieldset->addField('simple_free_shipping', 'select', array(
-            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Free Shipping'),
-            'title'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Free Shipping'),
+            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Free Shipping'),
+            'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Free Shipping'),
             'name'      => 'simple_free_shipping',
             'options'    => array(
-                0 => Mage::helper('Mage_SalesRule_Helper_Data')->__('No'),
-                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ITEM => Mage::helper('Mage_SalesRule_Helper_Data')->__('For matching items only'),
-                Mage_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => Mage::helper('Mage_SalesRule_Helper_Data')->__('For shipment with matching items'),
+                0 => Mage::helper('Magento_SalesRule_Helper_Data')->__('No'),
+                Magento_SalesRule_Model_Rule::FREE_SHIPPING_ITEM => Mage::helper('Magento_SalesRule_Helper_Data')->__('For matching items only'),
+                Magento_SalesRule_Model_Rule::FREE_SHIPPING_ADDRESS => Mage::helper('Magento_SalesRule_Helper_Data')->__('For shipment with matching items'),
             ),
         ));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Stop Further Rules Processing'),
-            'title'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Stop Further Rules Processing'),
+            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Stop Further Rules Processing'),
+            'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Stop Further Rules Processing'),
             'name'      => 'stop_rules_processing',
             'options'    => array(
-                '1' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Mage_SalesRule_Helper_Data')->__('No'),
+                '1' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Yes'),
+                '0' => Mage::helper('Magento_SalesRule_Helper_Data')->__('No'),
             ),
         ));
 
@@ -133,13 +133,13 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply the rule only to cart items matching the following conditions (leave blank for all items).')
+            'legend'=>Mage::helper('Magento_SalesRule_Helper_Data')->__('Apply the rule only to cart items matching the following conditions (leave blank for all items).')
         ))->setRenderer($renderer);
 
         $fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply To'),
-            'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply To'),
+            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Apply To'),
+            'title' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Apply To'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
 

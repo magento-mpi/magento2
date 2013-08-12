@@ -11,7 +11,7 @@
 /** @var $this Magento_Adminhtml_Block_Sales_Order_Create_Sidebar */
 ?>
 <div class="customer-current-activity-inner">
-    <h4><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer\'s Current Activities') ?></h4>
+    <h4><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Customer\'s Current Activities') ?></h4>
     <div class="create-order-sidebar-container">
     <?php echo $this->getChildHtml('top_button'); ?>
     <?php foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $_alias => $_child): ?>

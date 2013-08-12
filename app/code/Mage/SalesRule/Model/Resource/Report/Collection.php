@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Sales report coupons collection
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_Resource_Report_Collection_Abstract
+class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
 {
     /**
      * Period format for report (day, month, year)
@@ -52,7 +52,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Sales_Model_Resource_Report $resource
+        Magento_Sales_Model_Resource_Report $resource
     ) {
         $resource->init($this->_aggregationTable);
         parent::__construct($fetchStrategy, $resource);
@@ -106,7 +106,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
     /**
      * Add selected data
      *
-     * @return Mage_SalesRule_Model_Resource_Report_Collection
+     * @return Magento_SalesRule_Model_Resource_Report_Collection
      */
     protected function _initSelect()
     {
@@ -127,7 +127,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
      * Add filtering by rules ids
      *
      * @param array $rulesList
-     * @return Mage_SalesRule_Model_Resource_Report_Collection
+     * @return Magento_SalesRule_Model_Resource_Report_Collection
      */
     public function addRuleFilter($rulesList)
     {
@@ -138,7 +138,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
     /**
      * Apply filtering by rules ids
      *
-     * @return Mage_SalesRule_Model_Resource_Report_Collection
+     * @return Magento_SalesRule_Model_Resource_Report_Collection
      */
     protected function _applyRulesFilter()
     {
@@ -146,7 +146,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
             return $this;
         }
 
-        $rulesList = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
+        $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
 
@@ -166,7 +166,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
     /**
      * Apply collection custom filter
      *
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     protected function _applyCustomFilter()
     {

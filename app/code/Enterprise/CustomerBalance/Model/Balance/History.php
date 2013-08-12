@@ -168,7 +168,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Magento_Core_Mode
     /**
      * Validate order model for balance update
      *
-     * @param Mage_Sales_Model_Order $model
+     * @param Magento_Sales_Model_Order $model
      */
     protected function _checkBalanceModelOrder($model)
     {

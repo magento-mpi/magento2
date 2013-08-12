@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Coupon_Codegenerator extends Magento_Object
-    implements Mage_SalesRule_Model_Coupon_CodegeneratorInterface
+class Magento_SalesRule_Model_Coupon_Codegenerator extends Magento_Object
+    implements Magento_SalesRule_Model_Coupon_CodegeneratorInterface
 {
     /**
      * Retrieve generated code

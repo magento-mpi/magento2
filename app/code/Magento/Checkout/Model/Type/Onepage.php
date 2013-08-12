@@ -38,7 +38,7 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_checkoutSession;
 
     /**
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote = null;
 
@@ -72,7 +72,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Quote object getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -85,10 +85,10 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Declare checkout quote instance
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Magento_Checkout_Model_Type_Onepage
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -686,7 +686,7 @@ class Magento_Checkout_Model_Type_Onepage
                 break;
         }
 
-        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', array('quote' => $this->getQuote()));
+        $service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $this->getQuote()));
         $service->submitAll();
 
         if ($isNewCustomer) {
@@ -783,7 +783,7 @@ class Magento_Checkout_Model_Type_Onepage
         $lastId  = $this->getCheckout()->getLastOrderId();
         $orderId = false;
         if ($lastId) {
-            $order = Mage::getModel('Mage_Sales_Model_Order');
+            $order = Mage::getModel('Magento_Sales_Model_Order');
             $order->load($lastId);
             $orderId = $order->getIncrementId();
         }

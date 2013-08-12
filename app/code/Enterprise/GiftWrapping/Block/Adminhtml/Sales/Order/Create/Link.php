@@ -20,7 +20,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Ma
     /**
      * Get order item from parent block
      *
-     * @return Mage_Sales_Model_Order_Item
+     * @return Magento_Sales_Model_Order_Item
      */
     public function getItem()
     {

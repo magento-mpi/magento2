@@ -18,8 +18,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testProductAddToCart()
     {
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
         $quote = $quoteCollection->getFirstItem();
         $productSku = 'simple-1';
 
@@ -44,8 +44,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testProductAddToCartWithNonExistingProduct()
     {
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
         $quote = $quoteCollection->getFirstItem();
         $productId = "0";
 
@@ -79,8 +79,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Catalog_Model_Product $product */
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
         $quote = $quoteCollection->getFirstItem();
 
         // Find ID of created custom option for future use
@@ -111,8 +111,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($soapResult, 'Error during product with custom options add to cart via API call');
 
-        /** @var $quoteItemOption Mage_Sales_Model_Resource_Quote_Item_Option_Collection */
-        $quoteItemOption = Mage::getResourceModel('Mage_Sales_Model_Resource_Quote_Item_Option_Collection');
+        /** @var $quoteItemOption Magento_Sales_Model_Resource_Quote_Item_Option_Collection */
+        $quoteItemOption = Mage::getResourceModel('Magento_Sales_Model_Resource_Quote_Item_Option_Collection');
         $itemOptionValue = null;
 
         foreach ($quoteItemOption->getOptionsByProduct($product) as $row) {
@@ -141,8 +141,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Catalog_Model_Product $product */
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
         $quote = $quoteCollection->getFirstItem();
 
         $soapResult = Magento_Test_Helper_Api::call(
@@ -222,8 +222,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        /** @var $order Magento_Sales_Model_Order */
+        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
         $this->assertEquals('ccsave', $order->getPayment()->getMethod());
     }
 
@@ -433,13 +433,13 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Retrieve the quote object created in fixture.
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuoteFixture()
     {
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
-        /** @var Mage_Sales_Model_Quote $quote */
+        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
+        /** @var Magento_Sales_Model_Quote $quote */
         $quote = $quoteCollection->getFirstItem();
         return $quote;
     }

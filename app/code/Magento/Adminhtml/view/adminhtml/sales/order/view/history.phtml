@@ -11,9 +11,9 @@
 <div id="order_history_block">
     <?php if ($this->canAddComment()):?>
     <div id="history_form">
-        <div><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Add Order Comments') ?></div>
+        <div><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Add Order Comments') ?></div>
         <div>
-            <label for="history_status"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Status') ?></label>
+            <label for="history_status"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Status') ?></label>
             <select name="history[status]" id="history_status">
             <?php foreach ($this->getStatuses() as $_code=>$_label): ?>
                 <option value="<?php echo $_code ?>"<?php if($_code==$this->getOrder()->getStatus()): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>
@@ -21,15 +21,15 @@
             </select>
         </div>
         <div>
-            <label for="history_comment"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Comment') ?></label>
+            <label for="history_comment"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Comment') ?></label>
             <textarea name="history[comment]" rows="3" cols="5" id="history_comment"></textarea>
         </div>
         <div class="clearfix">
             <div class="order-history-comments-options">
                 <?php if ($this->canSendCommentEmail()): ?>
-                <input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1" /><label for="history_notify"> <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Notify Customer by Email') ?></label><br />
+                <input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1" /><label for="history_notify"> <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Notify Customer by Email') ?></label><br />
                 <?php endif; ?>
-                <input name="history[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label for="history_visible"> <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Visible on Frontend') ?></label>
+                <input name="history[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label for="history_visible"> <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Visible on Frontend') ?></label>
             </div>
             <div class="actions">
                 <?php echo $this->getChildHtml('submit_button') ?>
@@ -44,13 +44,13 @@
             <span class="note-list-time"><?php echo $this->helper('Magento_Core_Helper_Data')->formatTime($_item->getCreatedAtDate(), 'medium') ?></span>
             <span class="note-list-status"><?php echo $_item->getStatusLabel() ?></span>
             <span class="note-list-customer">
-                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
+                <?php echo $this->helper('Magento_Sales_Helper_Data')->__('Customer') ?>
                 <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
-                    <span class="note-list-customer-notapplicable"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?></span>
+                    <span class="note-list-customer-notapplicable"><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Notification Not Applicable') ?></span>
                 <?php elseif ($_item->getIsCustomerNotified()): ?>
-                    <span class="note-list-customer-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?></span>
+                    <span class="note-list-customer-notified"><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Notified') ?></span>
                 <?php else: ?>
-                    <span class="note-list-customer-not-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?></span>
+                    <span class="note-list-customer-not-notified"><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Not Notified') ?></span>
                 <?php endif; ?>
             </span>
             <?php if ($_item->getComment()): ?>

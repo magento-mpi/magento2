@@ -43,10 +43,10 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Set item for render
      *
-     * @param   Mage_Sales_Model_Quote_Item $item
+     * @param   Magento_Sales_Model_Quote_Item $item
      * @return  Magento_Checkout_Block_Cart_Item_Renderer
      */
-    public function setItem(Mage_Sales_Model_Quote_Item_Abstract $item)
+    public function setItem(Magento_Sales_Model_Quote_Item_Abstract $item)
     {
         $this->_item = $item;
         return $this;
@@ -55,7 +55,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get quote item
      *
-     * @return Mage_Sales_Model_Quote_Item
+     * @return Magento_Sales_Model_Quote_Item
      */
     public function getItem()
     {
@@ -402,7 +402,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get html for MAP product enabled
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return string
      */
     public function getMsrpHtml($item)

@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Sales_Order_Items_Renderer extends Mage_Sales_Block_Order_Item_Renderer_Default
+class Mage_Bundle_Block_Sales_Order_Items_Renderer extends Magento_Sales_Block_Order_Item_Renderer_Default
 {
     public function isShipmentSeparately($item = null)
     {
@@ -96,7 +96,7 @@ class Mage_Bundle_Block_Sales_Order_Items_Renderer extends Mage_Sales_Block_Orde
     }
 
     public function getSelectionAttributes($item) {
-        if ($item instanceof Mage_Sales_Model_Order_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Item) {
             $options = $item->getProductOptions();
         } else {
             $options = $item->getOrderItem()->getProductOptions();
@@ -128,11 +128,11 @@ class Mage_Bundle_Block_Sales_Order_Items_Renderer extends Mage_Sales_Block_Orde
     {
         $_itemsArray = array();
 
-        if ($item instanceof Mage_Sales_Model_Order_Invoice_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Invoice_Item) {
             $_items = $item->getInvoice()->getAllItems();
-        } else if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+        } else if ($item instanceof Magento_Sales_Model_Order_Shipment_Item) {
             $_items = $item->getShipment()->getAllItems();
-        } else if ($item instanceof Mage_Sales_Model_Order_Creditmemo_Item) {
+        } else if ($item instanceof Magento_Sales_Model_Order_Creditmemo_Item) {
             $_items = $item->getCreditmemo()->getAllItems();
         }
 

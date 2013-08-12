@@ -34,7 +34,7 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block
         }
 
 
-        if ($item instanceof  Mage_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof  Magento_Sales_Model_Quote_Address_Item) {
             $item = $item->getQuoteItem();
         }
 
@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block
     /**
      * Get gifregistry params by quote item
      *
-     * @param Mage_Sales_Model_Quote_Item $newItem
+     * @param Magento_Sales_Model_Quote_Item $newItem
      * @return Enterprise_GiftRegistry_Block_Cart_Product_Mark
      */
     public function setItem($newItem)

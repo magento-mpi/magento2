@@ -41,13 +41,13 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * Return order instance loaded by increment id'
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     protected function _getOrder()
     {
         if (empty($this->_order)) {
             $orderId = $this->getRequest()->getParam('orderID');
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order');
+            $this->_order = Mage::getModel('Magento_Sales_Model_Order');
             $this->_order->loadByIncrementId($orderId);
         }
         return $this->_order;
@@ -99,11 +99,11 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     {
         $lastIncrementId = $this->_getCheckout()->getLastRealOrderId();
         if ($lastIncrementId) {
-            $order = Mage::getModel('Mage_Sales_Model_Order');
+            $order = Mage::getModel('Magento_Sales_Model_Order');
             $order->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
                 $order->setState(
-                    Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
                     Magento_Ogone_Model_Api::PENDING_OGONE_STATUS,
                     Mage::helper('Magento_Ogone_Helper_Data')->__('Start Ogone Processing')
                 );
@@ -248,23 +248,23 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
         try{
             if ($status ==  Magento_Ogone_Model_Api::OGONE_AUTH_PROCESSING) {
                 $order->setState(
-                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Magento_Sales_Model_Order::STATE_PROCESSING,
                     Magento_Ogone_Model_Api::WAITING_AUTHORIZATION,
                     Mage::helper('Magento_Ogone_Helper_Data')->__('Authorization Waiting from Ogone')
                 );
                 $order->save();
-            }elseif ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+            }elseif ($order->getState()==Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                 if ($status ==  Magento_Ogone_Model_Api::OGONE_AUTHORIZED) {
-                    if ($order->getStatus() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                    if ($order->getStatus() != Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                         $order->setState(
-                            Mage_Sales_Model_Order::STATE_PROCESSING,
+                            Magento_Sales_Model_Order::STATE_PROCESSING,
                             Magento_Ogone_Model_Api::PROCESSING_OGONE_STATUS,
                             Mage::helper('Magento_Ogone_Helper_Data')->__('Processed by Ogone')
                         );
                     }
                 } else {
                     $order->setState(
-                        Mage_Sales_Model_Order::STATE_PROCESSING,
+                        Magento_Sales_Model_Order::STATE_PROCESSING,
                         Magento_Ogone_Model_Api::PROCESSED_OGONE_STATUS,
                         Mage::helper('Magento_Ogone_Helper_Data')->__('Processed by Ogone')
                     );
@@ -273,7 +273,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 if (!$order->getInvoiceCollection()->getSize()) {
                     $invoice = $order->prepareInvoice();
                     $invoice->register();
-                    $invoice->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID);
+                    $invoice->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID);
                     $invoice->getOrder()->setIsInProcess(true);
 
                     $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
@@ -305,17 +305,17 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
         try {
             if ($status ==  Magento_Ogone_Model_Api::OGONE_AUTH_PROCESSING) {
                 $order->setState(
-                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Magento_Sales_Model_Order::STATE_PROCESSING,
                     Magento_Ogone_Model_Api::WAITING_AUTHORIZATION,
                     Mage::helper('Magento_Ogone_Helper_Data')->__('Authorization Waiting from Ogone')
                 );
             } else {
                 //to send new order email only when state is pending payment
-                if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                if ($order->getState()==Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->sendNewOrderEmail();
                 }
                 $order->setState(
-                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Magento_Sales_Model_Order::STATE_PROCESSING,
                     Magento_Ogone_Model_Api::PROCESSED_OGONE_STATUS,
                     Mage::helper('Magento_Ogone_Helper_Data')->__('Processed by Ogone')
                 );
@@ -333,7 +333,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * We get some CC info from ogone, so we must save it
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @param array $ccInfo
      *
      * @return Magento_Ogone_Controller_Api
@@ -394,10 +394,10 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 $this->_prepareCCInfo($order, $params);
                 $order->getPayment()->setLastTransId($params['PAYID']);
                 //to send new order email only when state is pending payment
-                if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                if ($order->getState()==Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->sendNewOrderEmail();
                     $order->setState(
-                        Mage_Sales_Model_Order::STATE_PROCESSING, Magento_Ogone_Model_Api::PROCESSING_OGONE_STATUS,
+                        Magento_Sales_Model_Order::STATE_PROCESSING, Magento_Ogone_Model_Api::PROCESSING_OGONE_STATUS,
                         $exception
                     );
                 } else {
@@ -487,7 +487,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
 
         try{
             $order->cancel();
-            $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, $status, $comment);
+            $order->setState(Magento_Sales_Model_Order::STATE_CANCELED, $status, $comment);
             $order->save();
         }catch(Exception $e) {
             $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('Something went wrong while canceling this order.'));
@@ -500,7 +500,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * Check order payment method
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return bool
      */
     protected function _isOrderValid($order)

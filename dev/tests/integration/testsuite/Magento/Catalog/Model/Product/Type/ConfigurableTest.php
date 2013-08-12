@@ -359,7 +359,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->_model->assignProductToOption('test', $option, $this->_product);
         $this->assertEquals('test', $option->getProduct());
 
-        // other branch of logic depends on Mage_Sales module
+        // other branch of logic depends on Magento_Sales module
     }
 
     public function testGetProductsToPurchaseByReqGroups()

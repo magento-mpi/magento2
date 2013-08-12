@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Sales Rules resource collection model
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
+class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
 {
     /**
      * Store associated with rule entities information map
@@ -41,7 +41,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Mage_SalesRule_Model_Rule', 'Mage_SalesRule_Model_Resource_Rule');
+        $this->_init('Magento_SalesRule_Model_Rule', 'Magento_SalesRule_Model_Resource_Rule');
         $this->_map['fields']['rule_id'] = 'main_table.rule_id';
     }
 
@@ -56,7 +56,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
      * @param string|null $now
      * @use $this->addWebsiteGroupDateFilter()
      *
-     * @return Mage_SalesRule_Model_Resource_Rule_Collection
+     * @return Magento_SalesRule_Model_Resource_Rule_Collection
      */
     public function setValidationFilter($websiteId, $customerGroupId, $couponCode = '', $now = null)
     {
@@ -75,16 +75,16 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
                     'main_table.rule_id = rule_coupons.rule_id ',
                     array('code')
                 );
-            $select->where('(main_table.coupon_type = ? ', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON)
+            $select->where('(main_table.coupon_type = ? ', Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON)
                 ->orWhere('(main_table.coupon_type = ? AND rule_coupons.type = 0',
-                    Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO)
+                    Magento_SalesRule_Model_Rule::COUPON_TYPE_AUTO)
                 ->orWhere('main_table.coupon_type = ? AND main_table.use_auto_generation = 1 ' .
-                    'AND rule_coupons.type = 1', Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                    'AND rule_coupons.type = 1', Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
                 ->orWhere('main_table.coupon_type = ? AND main_table.use_auto_generation = 0 ' .
-                    'AND rule_coupons.type = 0)', Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                    'AND rule_coupons.type = 0)', Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
                 ->where('rule_coupons.code = ?)', $couponCode);
             } else {
-                $this->addFieldToFilter('main_table.coupon_type', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
+                $this->addFieldToFilter('main_table.coupon_type', Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
             }
             $this->setOrder('sort_order', self::SORT_ORDER_ASC);
             $this->setFlag('validation_filter', true);
@@ -103,7 +103,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
      * @param string|null $now
      * @use $this->addWebsiteFilter()
      *
-     * @return Mage_SalesRule_Model_Resource_Rule_Collection
+     * @return Magento_SalesRule_Model_Resource_Rule_Collection
      */
     public function addWebsiteGroupDateFilter($websiteId, $customerGroupId, $now = null)
     {
@@ -141,7 +141,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
     /**
      * Add primary coupon to collection
      *
-     * @return Mage_SalesRule_Model_Resource_Rule_Collection
+     * @return Magento_SalesRule_Model_Resource_Rule_Collection
      */
     public function _initSelect()
     {
@@ -160,7 +160,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
      *
      * @param string $attributeCode
      *
-     * @return Mage_SalesRule_Model_Resource_Rule_Collection
+     * @return Magento_SalesRule_Model_Resource_Rule_Collection
      */
     public function addAttributeInConditionFilter($attributeCode)
     {
@@ -178,7 +178,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_R
     /**
      * Excludes price rules with generated specific coupon codes from collection
      *
-     * @return Mage_SalesRule_Model_Resource_Rule_Collection
+     * @return Magento_SalesRule_Model_Resource_Rule_Collection
      */
     public function addAllowedSalesRulesFilter()
     {

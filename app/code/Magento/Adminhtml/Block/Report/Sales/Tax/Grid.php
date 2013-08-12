@@ -36,20 +36,20 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Interval'),
+            'header'            => Mage::helper('Magento_Sales_Helper_Data')->__('Interval'),
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'      => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
-            'subtotals_label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
+            'totals_label'      => Mage::helper('Magento_Sales_Helper_Data')->__('Total'),
+            'subtotals_label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Subtotal'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('code', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Tax'),
             'index'     => 'code',
             'type'      => 'string',
             'sortable'  => false,
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
         ));
 
         $this->addColumn('percent', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Rate'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Rate'),
             'index'     => 'percent',
             'type'      => 'number',
             'sortable'  => false,
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Orders'),
             'index'     => 'orders_count',
             'total'     => 'sum',
             'type'      => 'number',
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('tax_base_amount_sum', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Tax Amount'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Tax Amount'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'tax_base_amount_sum',
@@ -109,9 +109,9 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
     {
         $filterData = $this->getFilterData();
         if(!$filterData->hasData('order_statuses')) {
-            $orderConfig = Mage::getModel('Mage_Sales_Model_Order_Config');
+            $orderConfig = Mage::getModel('Magento_Sales_Model_Order_Config');
             $statusValues = array();
-            $canceledStatuses = $orderConfig->getStateStatuses(Mage_Sales_Model_Order::STATE_CANCELED);
+            $canceledStatuses = $orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {
                 if (!isset($canceledStatuses[$code])) {
                     $statusValues[] = $code;

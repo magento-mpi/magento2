@@ -11,8 +11,8 @@
 
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
-/** @var $quote Mage_Sales_Model_Quote */
-$quote = Mage::getModel('Mage_Sales_Model_Quote');
+/** @var $quote Magento_Sales_Model_Quote */
+$quote = Mage::getModel('Magento_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
@@ -23,5 +23,5 @@ $quote->getPayment()->setMethod('checkmo');
 $quote->collectTotals();
 $quote->save();
 
-$quoteService = new Mage_Sales_Model_Service_Quote($quote);
+$quoteService = new Magento_Sales_Model_Service_Quote($quote);
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');

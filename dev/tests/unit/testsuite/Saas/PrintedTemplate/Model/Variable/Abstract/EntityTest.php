@@ -21,7 +21,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     public function testFormatCurrency($value, $expectedResult)
     {
         $valueModel = new Magento_Object();
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
             ->getMock();
@@ -54,7 +54,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     public function testFormatEmptyCurrency()
     {
         $valueModel = new Magento_Object();
-        $this->getMockBuilder('Mage_Sales_Model_Order')
+        $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
             ->getMock();
@@ -75,7 +75,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     public function testFormatBaseCurrency($value, $expectedResult)
     {
         $valueModel = new Magento_Object();
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatBasePrice'))
             ->getMock();
@@ -115,7 +115,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
         $getItemsValueMap = array();
         $items = array();
         foreach ($valueItems as $valueItem) {
-            $orderItem = $this->getMockBuilder('Mage_Sales_Model_Order_Item')
+            $orderItem = $this->getMockBuilder('Magento_Sales_Model_Order_Item')
                 ->disableOriginalConstructor()
                 ->setMethods(array('getParentItemId'))
                 ->getMock();
@@ -309,7 +309,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             ->method('getIterator')
             ->will($this->returnValue(new ArrayIterator($shippingTaxes)));
 
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -441,7 +441,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
 
     protected function _prepareTax($settings)
     {
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->getMock();
 

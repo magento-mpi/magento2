@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Magento_Admi
         $this->_removeButton('save');
 
         /*$this->_addButton('submit_creditmemo', array(
-            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Submit Credit Memo'),
+            'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Submit Credit Memo'),
             'class'     => 'save submit-button',
             'onclick'   => '$(\'edit_form\').submit()',
             )
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Magento_Admi
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     public function getCreditmemo()
     {
@@ -51,10 +51,10 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Magento_Admi
     public function getHeaderText()
     {
         if ($this->getCreditmemo()->getInvoice()) {
-            $header = Mage::helper('Mage_Sales_Helper_Data')->__('New Credit Memo for Invoice #%s', $this->getCreditmemo()->getInvoice()->getIncrementId());
+            $header = Mage::helper('Magento_Sales_Helper_Data')->__('New Credit Memo for Invoice #%s', $this->getCreditmemo()->getInvoice()->getIncrementId());
         }
         else {
-            $header = Mage::helper('Mage_Sales_Helper_Data')->__('New Credit Memo for Order #%s', $this->getCreditmemo()->getOrder()->getRealOrderId());
+            $header = Mage::helper('Magento_Sales_Helper_Data')->__('New Credit Memo for Order #%s', $this->getCreditmemo()->getOrder()->getRealOrderId());
         }
 
         return $header;

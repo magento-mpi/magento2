@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+        $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
 
         try {
             if ($order->getId()) {
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
         $this->loadLayout();
 
         $this->_initSession()
-            ->_setActiveMenu('Mage_Sales::sales_order')
+            ->_setActiveMenu('Magento_Sales::sales_order')
             ->renderLayout();
     }
 
@@ -64,6 +64,6 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Sales::actions_edit');
+        return $this->_authorization->isAllowed('Magento_Sales::actions_edit');
     }
 }

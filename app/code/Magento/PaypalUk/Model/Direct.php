@@ -53,7 +53,7 @@ class Magento_PaypalUk_Model_Direct extends Magento_Paypal_Model_Direct
      * Import direct payment results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importResultToPayment($api, $payment)
     {

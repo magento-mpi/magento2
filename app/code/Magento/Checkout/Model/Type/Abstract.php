@@ -35,7 +35,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
     /**
      * Retrieve quote model
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -123,7 +123,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
 
     protected function _createOrderFromAddress($address)
     {
-        $order = Mage::getModel('Mage_Sales_Model_Order')->createFromQuoteAddress($address)
+        $order = Mage::getModel('Magento_Sales_Model_Order')->createFromQuoteAddress($address)
             ->setCustomerId($this->getCustomer()->getId())
             ->setGlobalCurrencyCode('USD')
             ->setBaseCurrencyCode('USD')

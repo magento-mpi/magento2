@@ -154,15 +154,15 @@ class Magento_Checkout_Controller_CartTest extends Magento_Test_TestCase_Control
     }
 
     /**
-     * Gets Mage_Sales_Model_Quote_Item from Mage_Sales_Model_Quote by product id
+     * Gets Magento_Sales_Model_Quote_Item from Magento_Sales_Model_Quote by product id
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @param $productId
-     * @return Mage_Sales_Model_Quote_Item|null
+     * @return Magento_Sales_Model_Quote_Item|null
      */
     private function _getQuoteItemIdByProductId($quote, $productId)
     {
-        /** @var $quoteItems Mage_Sales_Model_Quote_Item[] */
+        /** @var $quoteItems Magento_Sales_Model_Quote_Item[] */
         $quoteItems = $quote->getAllItems();
         foreach ($quoteItems as $quoteItem) {
             if ($productId == $quoteItem->getProductId()) {

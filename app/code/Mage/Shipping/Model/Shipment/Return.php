@@ -9,8 +9,8 @@
  */
 
 /**
- * @method Mage_Shipping_Model_Shipment_Request setOrderShipment(Mage_Sales_Model_Order_Shipment $orderShipment)
- * @method Mage_Sales_Model_Order_Shipment getOrderShipment()
+ * @method Mage_Shipping_Model_Shipment_Request setOrderShipment(Magento_Sales_Model_Order_Shipment $orderShipment)
+ * @method Magento_Sales_Model_Order_Shipment getOrderShipment()
  * @method Mage_Shipping_Model_Shipment_Request setShipperContactPersonName(string $value)
  * @method string getShipperContactPersonName()
  * @method Mage_Shipping_Model_Shipment_Request setShipperContactPersonFirstName(string $value)

@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
             ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
             ->setIsCustomerMode(true);
         $this->setCollection($collection);

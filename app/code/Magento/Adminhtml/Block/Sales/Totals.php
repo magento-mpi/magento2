@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
+class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Totals
 {
     /**
      * Format total value based on order currency
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
     /**
      * Initialize order totals array
      *
-     * @return Mage_Sales_Block_Order_Totals
+     * @return Magento_Sales_Block_Order_Totals
      */
     protected function _initTotals()
     {
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             'code'      => 'subtotal',
             'value'     => $this->getSource()->getSubtotal(),
             'base_value'=> $this->getSource()->getBaseSubtotal(),
-            'label'     => $this->helper('Mage_Sales_Helper_Data')->__('Subtotal')
+            'label'     => $this->helper('Magento_Sales_Helper_Data')->__('Subtotal')
         ));
 
         /**
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
                 'code'      => 'shipping',
                 'value'     => $this->getSource()->getShippingAmount(),
                 'base_value'=> $this->getSource()->getBaseShippingAmount(),
-                'label' => $this->helper('Mage_Sales_Helper_Data')->__('Shipping & Handling')
+                'label' => $this->helper('Magento_Sales_Helper_Data')->__('Shipping & Handling')
             ));
         }
 
@@ -61,9 +61,9 @@ class Magento_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
          */
         if (((float)$this->getSource()->getDiscountAmount()) != 0) {
             if ($this->getSource()->getDiscountDescription()) {
-                $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount (%s)', $this->getSource()->getDiscountDescription());
+                $discountLabel = $this->helper('Magento_Sales_Helper_Data')->__('Discount (%s)', $this->getSource()->getDiscountDescription());
             } else {
-                $discountLabel = $this->helper('Mage_Sales_Helper_Data')->__('Discount');
+                $discountLabel = $this->helper('Magento_Sales_Helper_Data')->__('Discount');
             }
             $this->_totals['discount'] = new Magento_Object(array(
                 'code'      => 'discount',
@@ -78,7 +78,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             'strong'    => true,
             'value'     => $this->getSource()->getGrandTotal(),
             'base_value'=> $this->getSource()->getBaseGrandTotal(),
-            'label'     => $this->helper('Mage_Sales_Helper_Data')->__('Grand Total'),
+            'label'     => $this->helper('Magento_Sales_Helper_Data')->__('Grand Total'),
             'area'      => 'footer'
         ));
 

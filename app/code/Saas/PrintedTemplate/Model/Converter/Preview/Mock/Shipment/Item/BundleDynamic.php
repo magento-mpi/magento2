@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDynamic
-    extends Mage_Sales_Model_Order_Shipment_Item
+    extends Magento_Sales_Model_Order_Shipment_Item
 {
     /**
      * Initialize shipment item with mock data
@@ -45,7 +45,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
     {
         $items = array();
         foreach ($this->_getChildrenMockData() as $data) {
-            $items[] = Mage::getModel('Mage_Sales_Model_Order_Shipment_Item')
+            $items[] = Mage::getModel('Magento_Sales_Model_Order_Shipment_Item')
                 ->setData($data)
                 ->setShipment($this->getShipment());
         }

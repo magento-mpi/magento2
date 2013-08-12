@@ -47,7 +47,7 @@ class Magento_Payment_Model_Observer
             return $this;
         }
 
-        if ($order->isCanceled() || $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED) {
+        if ($order->isCanceled() || $order->getState() === Magento_Sales_Model_Order::STATE_CLOSED) {
             return $this;
         }
         /**
@@ -112,7 +112,7 @@ class Magento_Payment_Model_Observer
      */
     public function beforeOrderPaymentSave(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Sales_Model_Order_Payment $payment */
+        /** @var Magento_Sales_Model_Order_Payment $payment */
         $payment = $observer->getEvent()->getPayment();
         if($payment->getMethod() === Magento_Payment_Model_Method_Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
             $payment->setAdditionalInformation('instructions',
@@ -125,12 +125,12 @@ class Magento_Payment_Model_Observer
      */
     public function updateOrderStatusForPaymentMethods(Magento_Event_Observer $observer)
     {
-        if ($observer->getEvent()->getState() !== Mage_Sales_Model_Order::STATE_NEW) {
+        if ($observer->getEvent()->getState() !== Magento_Sales_Model_Order::STATE_NEW) {
             return;
         }
         $status = $observer->getEvent()->getStatus();
-        $defaultStatus = $this->_objectManager->get('Mage_Sales_Model_Order_Config')
-            ->getStateDefaultStatus(Mage_Sales_Model_Order::STATE_NEW);
+        $defaultStatus = $this->_objectManager->get('Magento_Sales_Model_Order_Config')
+            ->getStateDefaultStatus(Magento_Sales_Model_Order::STATE_NEW);
         $methods = $this->_objectManager->get('Magento_Payment_Model_Config')->getActiveMethods();
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {

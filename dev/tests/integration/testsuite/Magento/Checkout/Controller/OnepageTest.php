@@ -10,14 +10,14 @@
  */
 
 /**
- * @magentoDataFixture Mage/Sales/_files/quote.php
+ * @magentoDataFixture Magento/Sales/_files/quote.php
  */
 class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_ControllerAbstract
 {
     protected function setUp()
     {
         parent::setUp();
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         Mage::getSingleton('Magento_Checkout_Model_Session')->setQuoteId($quote->getId());
     }

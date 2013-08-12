@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Submit Comment'),
+                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Submit Comment'),
                 'class'   => 'save',
                 'onclick' => $onclick
             ));
@@ -39,13 +39,13 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
 
     public function canSendCommentEmail()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Magento_Sales_Helper_Data')->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**
      * Retrieve order model
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
 
     public function canAddComment()
     {
-        return $this->_authorization->isAllowed('Mage_Sales::comment') &&
+        return $this->_authorization->isAllowed('Magento_Sales::comment') &&
                $this->getOrder()->canComment();
     }
 
@@ -66,10 +66,10 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
     /**
      * Customer Notification Applicable check method
      *
-     * @param  Mage_Sales_Model_Order_Status_History $history
+     * @param  Magento_Sales_Model_Order_Status_History $history
      * @return boolean
      */
-    public function isCustomerNotificationNotApplicable(Mage_Sales_Model_Order_Status_History $history)
+    public function isCustomerNotificationNotApplicable(Magento_Sales_Model_Order_Status_History $history)
     {
         return $history->isCustomerNotificationNotApplicable();
     }

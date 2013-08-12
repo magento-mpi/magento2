@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -198,7 +198,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Comments History');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Comments History');
     }
 
     /**
@@ -208,7 +208,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order History');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Order History');
     }
 
     /**
@@ -269,7 +269,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function isCustomerNotificationNotApplicable($historyItem)
     {
-        return $historyItem['notified'] == Mage_Sales_Model_Order_Status_History::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
+        return $historyItem['notified'] == Magento_Sales_Model_Order_Status_History::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
     }
 
     /**

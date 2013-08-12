@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = Mage::getModel('Mage_Sales_Model_Order_Shipment_Item')->getCollection()
+            $collection = Mage::getModel('Magento_Sales_Model_Order_Shipment_Item')->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
         } else{
             $collection = $this->getShipment()->getAllItems();
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getShipment()
     {

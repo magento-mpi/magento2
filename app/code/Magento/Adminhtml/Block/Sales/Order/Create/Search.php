@@ -27,13 +27,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search extends Magento_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Please select products.');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Please select products.');
     }
 
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Add Selected Product(s) to Order'),
+            'label' => Mage::helper('Magento_Sales_Helper_Data')->__('Add Selected Product(s) to Order'),
             'onclick' => 'order.productGridAddSelected()',
             'class' => 'action-add',
         );

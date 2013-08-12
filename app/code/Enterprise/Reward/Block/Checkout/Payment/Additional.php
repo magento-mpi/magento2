@@ -31,7 +31,7 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Magento_Core_B
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Sales
+ * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * ImportExport MySQL resource helper model
  *
  * @category    Magento
- * @package     Mage_Sales
+ * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_ImportExport_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4

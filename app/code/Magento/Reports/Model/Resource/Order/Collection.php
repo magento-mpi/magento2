@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Resource_Order_Collection
+class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Model_Resource_Order_Collection
 {
     /**
      * Is live
@@ -155,8 +155,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
                 'range' => $tzRangeOffsetExpression,
             ))
             ->where('main_table.state NOT IN (?)', array(
-                Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                Mage_Sales_Model_Order::STATE_NEW)
+                Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                Magento_Sales_Model_Order::STATE_NEW)
             )
             ->order('range', Zend_Db_Select::SQL_ASC)
             ->group($tzRangeOffsetExpression);
@@ -198,8 +198,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = Mage::getSingleton('Mage_Sales_Model_Config')
-            ->getOrderStatusesForState(Mage_Sales_Model_Order::STATE_CANCELED);
+        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
+            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -266,7 +266,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
     {
         return str_replace(
             '{{attribute}}',
-            Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Order')
+            Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order')
                     ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
             $this->_getRangeExpression($range)
         );
@@ -437,8 +437,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
             'quantity' => 'COUNT(main_table.entity_id)'
         ))
         ->where('main_table.state NOT IN (?)', array(
-            Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-            Mage_Sales_Model_Order::STATE_NEW)
+            Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
+            Magento_Sales_Model_Order::STATE_NEW)
          );
 
         return $this;
@@ -462,8 +462,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = Mage::getSingleton('Mage_Sales_Model_Config')
-            ->getOrderStatusesForState(Mage_Sales_Model_Order::STATE_CANCELED);
+        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
+            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -482,8 +482,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = Mage::getSingleton('Mage_Sales_Model_Config')
-            ->getOrderStatusesForState(Mage_Sales_Model_Order::STATE_CANCELED);
+        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
+            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -525,8 +525,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
                 ))
                 ->where('main_table.status NOT IN(?)', $statuses)
                 ->where('main_table.state NOT IN(?)', array(
-                    Mage_Sales_Model_Order::STATE_NEW,
-                    Mage_Sales_Model_Order::STATE_PENDING_PAYMENT)
+                    Magento_Sales_Model_Order::STATE_NEW,
+                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT)
                 );
         }
         return $this;
@@ -543,7 +543,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
     {
         $this->_reset()
             ->addFieldToFilter('created_at', array('from' => $fromDate, 'to' => $toDate))
-            ->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
+            ->addFieldToFilter('state', array('neq' => Magento_Sales_Model_Order::STATE_CANCELED))
             ->getSelect()
                 ->columns(array('orders' => 'COUNT(DISTINCT(main_table.entity_id))'))
                 ->group('entity_id');
@@ -636,7 +636,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_R
      */
     public function addOrdersCount()
     {
-        $this->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED));
+        $this->addFieldToFilter('state', array('neq' => Magento_Sales_Model_Order::STATE_CANCELED));
         $this->getSelect()
             ->columns(array('orders_count' => 'COUNT(main_table.entity_id)'));
 

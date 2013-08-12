@@ -58,7 +58,7 @@ class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block
     /**
      * Retrieve billing address
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getAddress()
     {
@@ -73,7 +73,7 @@ class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block
     /**
      * Retrieve quote model object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {

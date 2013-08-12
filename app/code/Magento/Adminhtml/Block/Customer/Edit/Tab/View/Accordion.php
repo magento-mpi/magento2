@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
             $website = Mage::app()->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = Mage::getModel('Mage_Sales_Model_Quote')
+            $cartItemsCount = Mage::getModel('Magento_Sales_Model_Quote')
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))

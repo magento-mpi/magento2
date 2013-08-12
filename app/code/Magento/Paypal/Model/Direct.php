@@ -91,7 +91,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Mage_Sales_Model_Payment::place()
+     * @see Magento_Sales_Model_Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()
@@ -119,7 +119,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
 
     /**
      * Check whether payment method can be used
-     * @param Mage_Sales_Model_Quote
+     * @param Magento_Sales_Model_Quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -154,7 +154,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Authorize payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -165,7 +165,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Void payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function void(Magento_Object $payment)
@@ -177,7 +177,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Capture payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function capture(Magento_Object $payment, $amount)
@@ -191,7 +191,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Refund capture
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function refund(Magento_Object $payment, $amount)
@@ -203,7 +203,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Cancel payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function cancel(Magento_Object $payment)
@@ -216,7 +216,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Whether payment can be reviewed
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -227,7 +227,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Attempt to accept a pending payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -239,7 +239,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Attempt to deny a pending payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)
@@ -277,11 +277,11 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * Place an order with authorization or capture action
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Direct
      */
-    protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
+    protected function _placeOrder(Magento_Sales_Model_Order_Payment $payment, $amount)
     {
         $order = $payment->getOrder();
         $api = $this->_pro->getApi()
@@ -355,7 +355,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * Import direct payment results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importResultToPayment($api, $payment)
     {
@@ -371,8 +371,8 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      */
     public function canVoid(Magento_Object $payment)
     {
-        if ($payment instanceof Mage_Sales_Model_Order_Invoice
-            || $payment instanceof Mage_Sales_Model_Order_Creditmemo
+        if ($payment instanceof Magento_Sales_Model_Order_Invoice
+            || $payment instanceof Magento_Sales_Model_Order_Creditmemo
         ) {
             return false;
         }

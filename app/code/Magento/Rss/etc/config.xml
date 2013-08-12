@@ -17,8 +17,8 @@
              <depends>
                 <Magento_Catalog/>
                 <Magento_CatalogInventory/>
-                <Mage_Sales/>
-                <Mage_SalesRule/>
+                <Magento_Sales/>
+                <Magento_SalesRule/>
                 <Magento_Wishlist/>
              </depends>
         </Magento_Rss>

@@ -209,7 +209,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
      * Remove gift card from quote gift card storage
      *
      * @param bool $saveQuote
-     * @param Mage_Sales_Model_Quote|null $quote
+     * @param Magento_Sales_Model_Quote|null $quote
      * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
      */
     public function removeFromCart($saveQuote = true, $quote = null)

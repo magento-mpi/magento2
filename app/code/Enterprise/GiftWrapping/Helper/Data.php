@@ -268,14 +268,14 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
         $displayCardBothPrices = false;
         $displayCardIncludeTaxPrice = false;
 
-        if ($dataObject instanceof Mage_Sales_Model_Order
-            || $dataObject instanceof Mage_Sales_Model_Order_Invoice
-            || $dataObject instanceof Mage_Sales_Model_Order_Creditmemo) {
+        if ($dataObject instanceof Magento_Sales_Model_Order
+            || $dataObject instanceof Magento_Sales_Model_Order_Invoice
+            || $dataObject instanceof Magento_Sales_Model_Order_Creditmemo) {
             $displayWrappingBothPrices = $this->displaySalesWrappingBothPrices();
             $displayWrappingIncludeTaxPrice = $this->displaySalesWrappingIncludeTaxPrice();
             $displayCardBothPrices = $this->displaySalesCardBothPrices();
             $displayCardIncludeTaxPrice = $this->displaySalesCardIncludeTaxPrice();
-        } elseif ($dataObject instanceof Mage_Sales_Model_Quote_Address_Total) {
+        } elseif ($dataObject instanceof Magento_Sales_Model_Quote_Address_Total) {
             $displayWrappingBothPrices = $this->displayCartWrappingBothPrices();
             $displayWrappingIncludeTaxPrice = $this->displayCartWrappingIncludeTaxPrice();
             $displayCardBothPrices = $this->displayCartCardBothPrices();

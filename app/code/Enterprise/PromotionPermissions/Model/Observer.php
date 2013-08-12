@@ -133,7 +133,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Mage_SalesRule module
+            // Handle blocks related to Magento_SalesRule module
             case 'promo_quote' :
                 if (!$this->_canEditSalesRules) {
                     $block->removeButton('add');

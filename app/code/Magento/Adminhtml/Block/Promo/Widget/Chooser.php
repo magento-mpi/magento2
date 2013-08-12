@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
             ->setUniqId($uniqId);
 
         if ($element->getValue()) {
-            $rule = Mage::getModel('Mage_SalesRule_Model_Rule')->load((int)$element->getValue());
+            $rule = Mage::getModel('Magento_SalesRule_Model_Rule')->load((int)$element->getValue());
             if ($rule->getId()) {
                 $chooser->setLabel($rule->getName());
             }
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_SalesRule_Model_Rule')->getResourceCollection();
+        $collection = Mage::getModel('Magento_SalesRule_Model_Rule')->getResourceCollection();
         $this->setCollection($collection);
 
         Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(
@@ -100,27 +100,27 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
     protected function _prepareColumns()
     {
        $this->addColumn('rule_id', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('ID'),
             'align'     => 'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule'),
+            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Rule'),
             'align'     => 'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon Code'),
+            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Coupon Code'),
             'align'     => 'left',
             'width'     => '150px',
             'index'     => 'code',
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Start on'),
+            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Start on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -128,7 +128,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('End on'),
+            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('End on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -137,7 +137,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

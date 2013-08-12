@@ -28,7 +28,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Variable to contain order items collection for RMA creating
      *
-     * @var Mage_Sales_Model_Resource_Order_Item_Collection
+     * @var Magento_Sales_Model_Resource_Order_Item_Collection
      */
     protected $_orderItems = null;
 
@@ -101,7 +101,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Checks for ability to create RMA
      *
-     * @param  int|Mage_Sales_Model_Order $order
+     * @param  int|Magento_Sales_Model_Order $order
      * @param  bool $forceCreate - set yes when you don't need to check config setting (for admin side)
      * @return bool
      */
@@ -118,14 +118,14 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Gets available order items collection for RMA creating
      *
-     * @param  int|Mage_Sales_Model_Order $orderId
+     * @param  int|Magento_Sales_Model_Order $orderId
      * @param  bool $onlyParents If needs only parent items (only for backend)
      * @throws Magento_Core_Exception
-     * @return Mage_Sales_Model_Resource_Order_Item_Collection
+     * @return Magento_Sales_Model_Resource_Order_Item_Collection
      */
     public function getOrderItems($orderId, $onlyParents = false)
     {
-        if ($orderId instanceof Mage_Sales_Model_Order) {
+        if ($orderId instanceof Magento_Sales_Model_Order) {
             $orderId = $orderId->getId();
         }
         if (!is_numeric($orderId)) {
@@ -154,7 +154,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get url for rma create
      *
-     * @param  Mage_Sales_Model_Order $order
+     * @param  Magento_Sales_Model_Order $order
      * @return string
      */
     public function getReturnCreateUrl($order)
@@ -224,11 +224,11 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      * Get return address model
      *
      * @param int|null $storeId
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getReturnAddressModel($storeId = null)
     {
-        $addressModel = Mage::getModel('Mage_Sales_Model_Quote_Address');
+        $addressModel = Mage::getModel('Magento_Sales_Model_Quote_Address');
         $addressModel->setData($this->getReturnAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
         $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
@@ -485,7 +485,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieves RMA item name for backend
      *
-     * @param Mage_Sales_Model_Order_Item $item
+     * @param Magento_Sales_Model_Order_Item $item
      * @return string
      */
     public function getAdminProductName($item)
@@ -517,7 +517,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieves RMA item sku for backend
      *
-     * @param  Mage_Sales_Model_Order_Item $item
+     * @param  Magento_Sales_Model_Order_Item $item
      * @return string
      */
     public function getAdminProductSku($item)

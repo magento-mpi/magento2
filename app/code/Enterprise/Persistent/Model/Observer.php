@@ -56,7 +56,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function modifyExpiredQuotesCleanup($observer)
     {
-        /** @var $salesObserver Mage_Sales_Model_Observer */
+        /** @var $salesObserver Magento_Sales_Model_Observer */
         $salesObserver = $observer->getEvent()->getSalesObserver();
         $salesObserver->setExpireQuotesAdditionalFilterFields(array(
             'is_persistent' => 0
@@ -261,7 +261,7 @@ class Enterprise_Persistent_Model_Observer
             return;
         }
 
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $observer->getEvent()->getQuote();
         if (!$quote) {
             return;

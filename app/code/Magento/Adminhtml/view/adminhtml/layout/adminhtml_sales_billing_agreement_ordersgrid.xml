@@ -13,7 +13,7 @@
         <reference name="sales.order.grid">
             <arguments>
                 <dataSource>
-                    <updater>Mage_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                    <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
                 </dataSource>
                 <grid_url>
                     <path>*/*/ordersgrid</path>

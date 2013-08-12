@@ -141,7 +141,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
@@ -186,7 +186,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     /**
      * Authorize payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -201,7 +201,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     /**
      * Capture payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function capture(Magento_Object $payment, $amount)
@@ -215,7 +215,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     /**
      * Refund capture
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function refund(Magento_Object $payment, $amount)
@@ -227,7 +227,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     /**
      * Void payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Direct
      */
     public function void(Magento_Object $payment)
@@ -240,7 +240,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
      * Import direct payment results to payment
      *
      * @param Magento_Object $api
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      */
     protected function _importResultToPayment($api, $payment)
     {

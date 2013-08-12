@@ -74,13 +74,13 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Product'),
             'index'     => 'name',
             'column_css_class'=> 'name'
         ));
@@ -109,13 +109,13 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
             'column_css_class'=> 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->_getStore()->getDefaultCurrencyCode(),

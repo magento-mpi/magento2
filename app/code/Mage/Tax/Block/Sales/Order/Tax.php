@@ -9,7 +9,7 @@
  */
 
 /**
- * Tax totals modification block. Can be used just as subblock of Mage_Sales_Block_Order_Totals
+ * Tax totals modification block. Can be used just as subblock of Magento_Sales_Block_Order_Totals
  */
 class Mage_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
 {

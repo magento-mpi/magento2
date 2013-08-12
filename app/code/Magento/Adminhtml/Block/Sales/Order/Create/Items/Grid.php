@@ -150,7 +150,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Retrive quote address
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getQuoteAddress()
     {
@@ -165,7 +165,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Define if specified item has already applied custom price
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function usedCustomPriceForItem($item)
@@ -176,7 +176,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Define if custom price can be applied for specified item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function canApplyCustomPrice($item)
@@ -192,19 +192,19 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
             foreach ($prices as $data) {
                 $qty    = $data['price_qty']*1;
                 $price  = $this->convertPrice($data['price']);
-                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('Buy %s for price %s', $qty, $price);
+                $info[] = $this->helper('Magento_Sales_Helper_Data')->__('Buy %s for price %s', $qty, $price);
             }
             return implode(', ', $info);
         }
         else {
-            return $this->helper('Mage_Sales_Helper_Data')->__('Item ordered qty');
+            return $this->helper('Magento_Sales_Helper_Data')->__('Item ordered qty');
         }
     }
 
     /**
      * Get tier price html
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return string
      */
     public function getTierHtml($item)
@@ -231,7 +231,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
         $info = array();
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
-            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
+            $info[] = $this->helper('Magento_Sales_Helper_Data')->__('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
         }
         return $info;
     }
@@ -248,17 +248,17 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
             $price  = $this->convertPrice($data['price']);
-            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
+            $info[] = $this->helper('Magento_Sales_Helper_Data')->__('%s for %s', $qty, $price);
         }
         return $info;
     }
     /**
      * Get Custom Options of item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return array
      */
-    public function getCustomOptions(Mage_Sales_Model_Quote_Item $item)
+    public function getCustomOptions(Magento_Sales_Model_Quote_Item $item)
     {
         $optionStr = '';
         $this->_moveToCustomerStorage = true;
@@ -320,9 +320,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     public function getInclExclTaxMessage()
     {
         if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($this->getStore())) {
-            return Mage::helper('Mage_Sales_Helper_Data')->__('* - Enter custom price including tax');
+            return Mage::helper('Magento_Sales_Helper_Data')->__('* - Enter custom price including tax');
         } else {
-            return Mage::helper('Mage_Sales_Helper_Data')->__('* - Enter custom price excluding tax');
+            return Mage::helper('Magento_Sales_Helper_Data')->__('* - Enter custom price excluding tax');
         }
     }
 
@@ -341,12 +341,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     {
         $product = $item->getProduct();
 
-        $options = array('label' => Mage::helper('Mage_Sales_Helper_Data')->__('Configure'));
+        $options = array('label' => Mage::helper('Magento_Sales_Helper_Data')->__('Configure'));
         if ($product->canConfigure()) {
             $options['onclick'] = sprintf('order.showQuoteItemConfiguration(%s)', $item->getId());
         } else {
             $options['class'] = ' disabled';
-            $options['title'] = Mage::helper('Mage_Sales_Helper_Data')->__('This product does not have any configurable options');
+            $options['title'] = Mage::helper('Magento_Sales_Helper_Data')->__('This product does not have any configurable options');
         }
 
         return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
@@ -357,7 +357,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Get order item extra info block
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return Magento_Core_Block_Abstract
      */
     public function getItemExtraInfo($item)
@@ -370,7 +370,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Returns whether moving to wishlist is allowed for this item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function isMoveToWishlistAllowed($item)

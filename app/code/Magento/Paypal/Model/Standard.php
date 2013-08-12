@@ -63,7 +63,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     /**
      * Get current quote
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -102,7 +102,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
     public function getStandardCheckoutFormFields()
     {
         $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
-        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
         /* @var $api Magento_Paypal_Model_Api_Standard */
         $api = Mage::getModel('Magento_Paypal_Model_Api_Standard')->setConfigObject($this->getConfig());
         $api->setOrderId($orderIncrementId)
@@ -140,7 +140,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
      */
     public function initialize($paymentAction, $stateObject)
     {
-        $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        $state = Magento_Sales_Model_Order::STATE_PENDING_PAYMENT;
         $stateObject->setState($state);
         $stateObject->setStatus('pending_payment');
         $stateObject->setIsNotified(false);
@@ -164,7 +164,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
 
     /**
      * Check whether payment method can be used
-     * @param Mage_Sales_Model_Quote
+     * @param Magento_Sales_Model_Quote
      * @return bool
      */
     public function isAvailable($quote = null)

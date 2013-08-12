@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Magento_
      */
     protected function _construct()
     {
-        $this->setUsedModuleName('Mage_Sales');
+        $this->setUsedModuleName('Magento_Sales');
     }
 
     public function saveAction()

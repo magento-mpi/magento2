@@ -378,9 +378,9 @@ class Magento_Paypal_Model_Pro
         $api->callCreateRecurringPaymentsProfile();
         $profile->setReferenceId($api->getRecurringProfileId());
         if ($api->getIsProfileActive()) {
-            $profile->setState(Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE);
+            $profile->setState(Magento_Sales_Model_Recurring_Profile::STATE_ACTIVE);
         } elseif ($api->getIsProfilePending()) {
-            $profile->setState(Mage_Sales_Model_Recurring_Profile::STATE_PENDING);
+            $profile->setState(Magento_Sales_Model_Recurring_Profile::STATE_PENDING);
         }
     }
 
@@ -418,15 +418,15 @@ class Magento_Paypal_Model_Pro
         $api = $this->getApi();
         $action = null;
         switch ($profile->getNewState()) {
-            case Mage_Sales_Model_Recurring_Profile::STATE_CANCELED: $action = 'cancel'; break;
-            case Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED: $action = 'suspend'; break;
-            case Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE: $action = 'activate'; break;
+            case Magento_Sales_Model_Recurring_Profile::STATE_CANCELED: $action = 'cancel'; break;
+            case Magento_Sales_Model_Recurring_Profile::STATE_SUSPENDED: $action = 'suspend'; break;
+            case Magento_Sales_Model_Recurring_Profile::STATE_ACTIVE: $action = 'activate'; break;
         }
         $state = $profile->getState();
         $api->setRecurringProfileId($profile->getReferenceId())
-            ->setIsAlreadyCanceled($state == Mage_Sales_Model_Recurring_Profile::STATE_CANCELED)
-            ->setIsAlreadySuspended($state == Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED)
-            ->setIsAlreadyActive($state == Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE)
+            ->setIsAlreadyCanceled($state == Magento_Sales_Model_Recurring_Profile::STATE_CANCELED)
+            ->setIsAlreadySuspended($state == Magento_Sales_Model_Recurring_Profile::STATE_SUSPENDED)
+            ->setIsAlreadyActive($state == Magento_Sales_Model_Recurring_Profile::STATE_ACTIVE)
             ->setAction($action)
             ->callManageRecurringPaymentsProfileStatus()
         ;
@@ -436,7 +436,7 @@ class Magento_Paypal_Model_Pro
      * Import capture results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -448,7 +448,7 @@ class Magento_Paypal_Model_Pro
      * Import refund results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)

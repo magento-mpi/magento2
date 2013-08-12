@@ -61,7 +61,7 @@ $product->setTypeId('simple')
 Enterprise_CustomerBalance_Model_Quote_ApiTest::$product = $product;
 
 //Create shopping cart
-$quote = Mage::getModel('Mage_Sales_Model_Quote');
+$quote = Mage::getModel('Magento_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false);
@@ -77,7 +77,7 @@ $quote->setCustomer($customer)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
 //Create billing/shipping address
-$address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+$address = Mage::getModel('Magento_Sales_Model_Quote_Address');
 $address->setData(
     array(
         'city' => 'New York',
@@ -109,7 +109,7 @@ $quote->collectTotals()
 Enterprise_CustomerBalance_Model_Quote_ApiTest::$quote = $quote;
 
 //Create shopping cart by guest
-$guestQuote = Mage::getModel('Mage_Sales_Model_Quote');
+$guestQuote = Mage::getModel('Magento_Sales_Model_Quote');
 $guestQuote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

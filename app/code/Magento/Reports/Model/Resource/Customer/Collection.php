@@ -68,12 +68,12 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item) {
-            $quote = Mage::getModel('Mage_Sales_Model_Quote')->loadByCustomer($item->getId());
+            $quote = Mage::getModel('Magento_Sales_Model_Quote')->loadByCustomer($item->getId());
 
-            if ($quote instanceof Mage_Sales_Model_Quote) {
+            if ($quote instanceof Magento_Sales_Model_Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quoteItems = Mage::getResourceModel('Mage_Sales_Model_Resource_Quote_Item_Collection')
+                $quoteItems = Mage::getResourceModel('Magento_Sales_Model_Resource_Quote_Item_Collection')
                     ->setQuoteFilter($quote->getId());
                 $quoteItems->load();
                 $item->setItems($quoteItems->count());
@@ -128,7 +128,7 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
     {
         $this->getSelect()
             ->columns(array("orders_count" => "COUNT(orders.entity_id)"))
-            ->where('orders.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED)
+            ->where('orders.state <> ?', Magento_Sales_Model_Order::STATE_CANCELED)
             ->group("e.entity_id");
 
         return $this;
@@ -211,7 +211,7 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
                 'orders_sum_amount' => "SUM({$totalExpr})",
                 'orders_count' => 'COUNT(orders.entity_id)',
                 'customer_id'
-            ))->where('orders.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED)
+            ))->where('orders.state <> ?', Magento_Sales_Model_Order::STATE_CANCELED)
               ->where('orders.customer_id IN(?)', $customerIds)
               ->group('orders.customer_id');
 

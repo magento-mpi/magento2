@@ -508,7 +508,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderViewAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $object = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -532,7 +532,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -556,7 +556,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -580,7 +580,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -600,11 +600,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderCreditmemoCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'Mage_Sales_Model_Order';
+            $className = 'Magento_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = 'Mage_Sales_Model_Order_Invoice';
+            $className = 'Magento_Sales_Model_Order_Invoice';
         } else if ($id = $this->_request->getParam('creditmemo_id')) {
-            $className = 'Mage_Sales_Model_Order_Creditmemo';
+            $className = 'Magento_Sales_Model_Order_Creditmemo';
         } else {
             return true;
         }
@@ -630,9 +630,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderInvoiceCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'Mage_Sales_Model_Order';
+            $className = 'Magento_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = 'Mage_Sales_Model_Order_Invoice';
+            $className = 'Magento_Sales_Model_Order_Invoice';
         } else {
             return true;
         }
@@ -658,9 +658,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateSalesOrderShipmentCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'Mage_Sales_Model_Order';
+            $className = 'Magento_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('shipment_id')) {
-            $className = 'Mage_Sales_Model_Order_Shipment';
+            $className = 'Magento_Sales_Model_Order_Shipment';
         } else {
             return true;
         }
@@ -688,7 +688,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if ($ids = $this->_request->getParam('order_ids', array())) {
             if ($ids && is_array($ids)) {
                 foreach ($ids as $id) {
-                    $object = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+                    $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
                     if ($object && $object->getId()) {
                         $store = $object->getStoreId();
                         if (!$this->_role->hasStoreAccess($store)) {
@@ -711,7 +711,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $id = $this->_request->getParam('order_id');
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -732,7 +732,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $id = $this->_request->getParam('track_id');
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -1087,7 +1087,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 $entityModelClassName = 'Magento_CatalogRule_Model_Rule';
                 break;
             case 'promo_quote':
-                $entityModelClassName = 'Mage_SalesRule_Model_Rule';
+                $entityModelClassName = 'Magento_SalesRule_Model_Rule';
                 break;
             case 'reminder':
                 $entityModelClassName = 'Enterprise_Reminder_Model_Rule';

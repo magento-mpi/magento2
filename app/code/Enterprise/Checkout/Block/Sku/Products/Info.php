@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  *
- * @method Mage_Sales_Model_Quote_Item getItem()
+ * @method Magento_Sales_Model_Quote_Item getItem()
  */
 class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Template
 {

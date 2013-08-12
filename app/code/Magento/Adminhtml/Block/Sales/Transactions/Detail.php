@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
     /**
      * Transaction model
      *
-     * @var Mage_Sales_Model_Order_Payment_Transaction
+     * @var Magento_Sales_Model_Order_Payment_Transaction
      */
     protected $_txn;
 
@@ -39,16 +39,16 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
 
         $backUrl = ($this->_txn->getOrderUrl()) ? $this->_txn->getOrderUrl() : $this->getUrl('*/*/');
         $this->_addButton('back', array(
-            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Back'),
+            'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Back'),
             'onclick' => "setLocation('{$backUrl}')",
             'class'   => 'back'
         ));
 
-        if ($this->_authorization->isAllowed('Mage_Sales::transactions_fetch')
+        if ($this->_authorization->isAllowed('Magento_Sales::transactions_fetch')
             && $this->_txn->getOrderPaymentObject()->getMethodInstance()->canFetchTransactionInfo()) {
             $fetchUrl = $this->getUrl('*/*/fetch' , array('_current' => true));
             $this->_addButton('fetch', array(
-                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Fetch'),
+                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Fetch'),
                 'onclick' => "setLocation('{$fetchUrl}')",
                 'class'   => 'button'
             ));
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__("Transaction # %s | %s", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true));
+        return Mage::helper('Magento_Sales_Helper_Data')->__("Transaction # %s | %s", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true));
     }
 
     protected function _toHtml()
@@ -86,7 +86,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
         );
 
         $this->setIsClosedHtml(
-            ($this->_txn->getIsClosed()) ? Mage::helper('Mage_Sales_Helper_Data')->__('Yes') : Mage::helper('Mage_Sales_Helper_Data')->__('No')
+            ($this->_txn->getIsClosed()) ? Mage::helper('Magento_Sales_Helper_Data')->__('Yes') : Mage::helper('Magento_Sales_Helper_Data')->__('No')
         );
 
         $createdAt = (strtotime($this->_txn->getCreatedAt()))

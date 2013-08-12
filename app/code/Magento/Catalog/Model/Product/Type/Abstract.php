@@ -835,7 +835,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * For example if product which was added to option already removed from catalog.
      *
      * @param Magento_Catalog_Model_Product $optionProduct
-     * @param Mage_Sales_Model_Quote_Item_Option $option
+     * @param Magento_Sales_Model_Quote_Item_Option $option
      * @param Magento_Catalog_Model_Product $product
      * @return Magento_Catalog_Model_Product_Type_Abstract
      */

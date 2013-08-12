@@ -28,11 +28,11 @@ class Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer extends Magento_Adm
     {
         $_itemsArray = array();
 
-        if ($item instanceof Mage_Sales_Model_Order_Invoice_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Invoice_Item) {
             $_items = $item->getInvoice()->getAllItems();
-        } else if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+        } else if ($item instanceof Magento_Sales_Model_Order_Shipment_Item) {
             $_items = $item->getShipment()->getAllItems();
-        } else if ($item instanceof Mage_Sales_Model_Order_Creditmemo_Item) {
+        } else if ($item instanceof Magento_Sales_Model_Order_Creditmemo_Item) {
             $_items = $item->getCreditmemo()->getAllItems();
         }
 
@@ -132,7 +132,7 @@ class Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer extends Magento_Adm
     }
 
     public function getSelectionAttributes($item) {
-        if ($item instanceof Mage_Sales_Model_Order_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Item) {
             $options = $item->getProductOptions();
         } else {
             $options = $item->getOrderItem()->getProductOptions();
@@ -163,7 +163,7 @@ class Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer extends Magento_Adm
 
     public function getOrderItem()
     {
-        if ($this->getItem() instanceof Mage_Sales_Order_Item) {
+        if ($this->getItem() instanceof Magento_Sales_Order_Item) {
             return $this->getItem();
         } else {
             return $this->getItem()->getOrderItem();

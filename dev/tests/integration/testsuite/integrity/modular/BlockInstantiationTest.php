@@ -53,7 +53,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Mage_Oauth_Block_Adminhtml_Oauth_Consumer',
             'Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid',
             'Magento_Paypal_Block_Adminhtml_Settlement_Report',
-            'Mage_Sales_Block_Adminhtml_Billing_Agreement_View',
+            'Magento_Sales_Block_Adminhtml_Billing_Agreement_View',
             'Mage_User_Block_Role_Tab_Edit',
             'Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
             // Fails only in SAAS, could be something wrong list of classes being deleted

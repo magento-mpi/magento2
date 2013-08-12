@@ -31,7 +31,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     protected $_config = null;
 
     /**
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote = false;
 
@@ -123,7 +123,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     {
         try {
             $quoteId = $this->getRequest()->getParam('quote_id');
-            $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId);
+            $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId);
             $this->_initCheckout();
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
@@ -142,7 +142,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             // TODO verify if this logic of order cancellation is deprecated
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? Mage::getModel('Mage_Sales_Model_Order')->load($orderId) : false;
+            $order = ($orderId) ? Mage::getModel('Magento_Sales_Model_Order')->load($orderId) : false;
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
                 $this->_getCheckoutSession()
@@ -459,7 +459,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     /**
      * Return checkout quote object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     private function _getQuote()
     {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Options for Code Format Field in Auto Generated Specific Coupon Codes configuration section
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_System_Config_Source_Coupon_Format
+class Magento_SalesRule_Model_System_Config_Source_Coupon_Format
 {
     /**
      * Options getter
@@ -24,7 +24,7 @@ class Mage_SalesRule_Model_System_Config_Source_Coupon_Format
      */
     public function toOptionArray()
     {
-        $formatsList = Mage::helper('Mage_SalesRule_Helper_Coupon')->getFormatsList();
+        $formatsList = Mage::helper('Magento_SalesRule_Helper_Coupon')->getFormatsList();
         $result = array();
         foreach ($formatsList as $formatId => $formatTitle) {
             $result[] = array(

@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Shopping Cart');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Shopping Cart');
     }
 
     /**
@@ -71,7 +71,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
     /**
      * Retrieve product identifier linked with item
      *
-     * @param   Mage_Sales_Model_Quote_Item $item
+     * @param   Magento_Sales_Model_Quote_Item $item
      * @return  int
      */
     public function getProductId($item)
@@ -88,9 +88,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
      */
     protected function _prepareLayout()
     {
-        $deleteAllConfirmString = Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to delete all items from shopping cart?');
+        $deleteAllConfirmString = Mage::helper('Magento_Sales_Helper_Data')->__('Are you sure you want to delete all items from shopping cart?');
         $this->addChild('empty_customer_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Clear Shopping Cart'),
+            'label' => Mage::helper('Magento_Sales_Helper_Data')->__('Clear Shopping Cart'),
             'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')'
         ));
 

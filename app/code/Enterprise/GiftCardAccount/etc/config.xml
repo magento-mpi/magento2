@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Sales />
+                <Magento_Sales />
                 <Magento_Checkout />
                 <Enterprise_CustomerBalance />
             </depends>

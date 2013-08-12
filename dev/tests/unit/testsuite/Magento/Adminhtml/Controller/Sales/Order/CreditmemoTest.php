@@ -84,14 +84,14 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
             ->method('getParam')->will($this->returnValue(null));
 
         $creditmemoMock = $this->getMock(
-            'Mage_Sales_Model_Order_Creditmemo', array('load', 'getGrandTotal'), array(), '', false
+            'Magento_Sales_Model_Order_Creditmemo', array('load', 'getGrandTotal'), array(), '', false
         );
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());
         $creditmemoMock->expects($this->once())->method('getGrandTotal')->will($this->returnValue('1'));
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Mage_Sales_Model_Order_Creditmemo'))
+            ->with($this->equalTo('Magento_Sales_Model_Order_Creditmemo'))
             ->will($this->returnValue($creditmemoMock));
 
         $this->_setSaveActionExpectationForMageCoreException($data,
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
         $this->_requestMock->expects($this->any())
             ->method('getParam')->will($this->returnValue(null));
 
-        $creditmemoMock = $this->getMock('Mage_Sales_Model_Order_Creditmemo',
+        $creditmemoMock = $this->getMock('Magento_Sales_Model_Order_Creditmemo',
             array('load', 'getGrandTotal', 'getAllowZeroGrandTotal'), array(), '', false);
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());
@@ -123,7 +123,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
         $creditmemoMock->expects($this->once())->method('getAllowZeroGrandTotal')->will($this->returnValue(false));
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Mage_Sales_Model_Order_Creditmemo'))
+            ->with($this->equalTo('Magento_Sales_Model_Order_Creditmemo'))
             ->will($this->returnValue($creditmemoMock));
 
         $this->_setSaveActionExpectationForMageCoreException($data, 'Credit memo\'s total must be positive.');

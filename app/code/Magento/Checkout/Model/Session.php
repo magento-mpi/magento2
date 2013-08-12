@@ -16,7 +16,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Quote instance
      *
-     * @var null|Mage_Sales_Model_Quote
+     * @var null|Magento_Sales_Model_Quote
      */
     protected $_quote;
 
@@ -37,22 +37,22 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Loaded order instance
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
 
     /**
-     * @var Mage_Sales_Model_OrderFactory
+     * @var Magento_Sales_Model_OrderFactory
      */
     protected $_orderFactory;
 
     /**
      * Class constructor. Initialize checkout session namespace
-     * @param Mage_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param string $sessionName
      */
     public function __construct(
-        Mage_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_OrderFactory $orderFactory,
         $sessionName = null
     ) {
         $this->_orderFactory = $orderFactory;
@@ -105,15 +105,15 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Get checkout quote instance by current session
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
         Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
-            /** @var $quote Mage_Sales_Model_Quote */
-            $quote = Mage::getModel('Mage_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
+            /** @var $quote Magento_Sales_Model_Quote */
+            $quote = Mage::getModel('Magento_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
             if ($this->getQuoteId()) {
                 if ($this->_loadInactive) {
                     $quote->load($this->getQuoteId());
@@ -133,7 +133,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                          * We mast to create new quote object, because collectTotals()
                          * can to create links with other objects.
                          */
-                        $quote = Mage::getModel('Mage_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
+                        $quote = Mage::getModel('Magento_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
                         $quote->load($this->getQuoteId());
                     }
                 } else {
@@ -201,7 +201,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 
         Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = Mage::getModel('Mage_Sales_Model_Quote')
+        $customerQuote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
 
@@ -396,7 +396,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Get order instance based on last order ID
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getLastRealOrder()
     {

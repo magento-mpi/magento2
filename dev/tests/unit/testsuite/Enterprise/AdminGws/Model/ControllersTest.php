@@ -167,7 +167,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
             ),
             array(
                 'promo_quote',
-                'Mage_SalesRule_Model_Rule'
+                'Magento_SalesRule_Model_Rule'
             ),
             array(
                 'reminder',

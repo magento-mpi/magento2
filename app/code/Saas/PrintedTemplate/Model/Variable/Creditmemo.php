@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Creditmemo for creditmemo variable
+ * Container for Magento_Sales_Model_Order_Creditmemo for creditmemo variable
  *
  * Container that can restrict access to properties and method
  * with white list.
@@ -32,9 +32,9 @@ class Saas_PrintedTemplate_Model_Variable_Creditmemo extends Saas_PrintedTemplat
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order_Creditmemo $value Creditmemo
+     * @param Magento_Sales_Model_Order_Creditmemo $value Creditmemo
      */
-    public function __construct(Mage_Sales_Model_Order_Creditmemo $value)
+    public function __construct(Magento_Sales_Model_Order_Creditmemo $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig($this->_type);

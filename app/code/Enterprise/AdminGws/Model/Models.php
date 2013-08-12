@@ -568,28 +568,28 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Order validate after load
      *
-     * @param Mage_Sales_Model_Order $model
+     * @param Magento_Sales_Model_Order $model
      * @return void
      */
     public function salesOrderLoadAfter($model)
     {
         if (!in_array($model->getStore()->getWebsiteId(), $this->_role->getWebsiteIds())) {
-            $model->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CREDITMEMO, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_EDIT, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_HOLD, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_INVOICE, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_REORDER, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_SHIP, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_UNHOLD, false)
-                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_COMMENT, false);
+            $model->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_CANCEL, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_CREDITMEMO, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_EDIT, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_HOLD, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_INVOICE, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_REORDER, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_SHIP, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_UNHOLD, false)
+                ->setActionFlag(Magento_Sales_Model_Order::ACTION_FLAG_COMMENT, false);
         }
     }
 
     /**
      * Order validate before save
      *
-     * @param Mage_Sales_Model_Order $model
+     * @param Magento_Sales_Model_Order $model
      * @return void
      */
     public function salesOrderBeforeSave($model)
@@ -907,7 +907,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Check whether order may be saved
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function salesOrderSaveBefore($model)
     {
@@ -919,7 +919,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      *
      * Invoice, shipment, creditmemo (address & item?)
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function salesOrderEntitySaveBefore($model)
     {
@@ -931,7 +931,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Check whether order transaction may be saved
      *
-     * @param Mage_Sales_Model_Order_Payment_Transaction $model
+     * @param Magento_Sales_Model_Order_Payment_Transaction $model
      */
     public function salesOrderTransactionSaveBefore($model)
     {
@@ -944,7 +944,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Check whether order transaction can be loaded
      *
-     * @param Mage_Sales_Model_Order_Payment_Transaction $model
+     * @param Magento_Sales_Model_Order_Payment_Transaction $model
      */
     public function salesOrderTransactionLoadAfter($model)
     {
@@ -956,7 +956,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute save method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function catalogEntityAttributeSaveBefore($model)
     {
@@ -966,7 +966,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute delete method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function catalogEntityAttributeDeleteBefore($model)
     {
@@ -976,7 +976,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute set save method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function eavEntityAttributeSetSaveBefore($model)
     {
@@ -986,7 +986,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute set delete method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function eavEntityAttributeSetDeleteBefore($model)
     {
@@ -996,7 +996,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute option delete method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function eavEntityAttributeOptionDeleteBefore($model)
     {
@@ -1006,7 +1006,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute group delete method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function eavEntityAttributeGroupDeleteBefore($model)
     {
@@ -1016,7 +1016,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute group save method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function eavEntityAttributeGroupSaveBefore($model)
     {
@@ -1026,7 +1026,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow attribute option save method when role scope is not 'all'
      *
-     * @param Mage_Sales_Model_Abstract $model
+     * @param Magento_Sales_Model_Abstract $model
      */
     public function eavEntityAttributeOptionSaveBefore($model)
     {

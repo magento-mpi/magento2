@@ -27,13 +27,13 @@ class Magento_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Magento_Admi
 
     public function getResourceCollectionName()
     {
-        return 'Mage_Sales_Model_Resource_Report_Bestsellers_Collection';
+        return 'Magento_Sales_Model_Resource_Report_Bestsellers_Collection';
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Interval'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Interval'),
             'index'         => 'period',
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Magento_Admi
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Product'),
             'index'     => 'product_name',
             'type'      => 'string',
             'sortable'  => false,
@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Magento_Admi
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('product_price', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
+            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Price'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'product_price',
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Magento_Admi
         ));
 
         $this->addColumn('qty_ordered', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Quantity'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Order Quantity'),
             'index'     => 'qty_ordered',
             'type'      => 'number',
             'total'     => 'sum',

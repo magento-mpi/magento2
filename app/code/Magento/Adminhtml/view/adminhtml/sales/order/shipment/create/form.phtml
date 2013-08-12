@@ -17,22 +17,22 @@
             <!--Billing Address-->
             <div class="fieldset-wrapper">
                 <div class="fieldset-wrapper-title">
-                    <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
+                    <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Payment Information') ?></span>
                 </div>
                 <div><?php echo $this->getPaymentHtml() ?></div>
-                <div class="order-payment-currency"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
+                <div class="order-payment-currency"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
             </div>
         </div>
         <div class="order-shipping-address">
             <!--Shipping Address-->
             <div class="fieldset-wrapper">
                 <div class="fieldset-wrapper-title">
-                    <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
+                    <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Shipping Information') ?></span>
                 </div>
                 <div class="shipping-description-wrapper">
                     <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
                     <div class="shipping-description-content">
-                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+                        <?php echo $this->helper('Magento_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
                         <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                             <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>

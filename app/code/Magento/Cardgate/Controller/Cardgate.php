@@ -41,7 +41,7 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
     /**
      * Sales Order
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_salesOrder;
 
@@ -66,7 +66,7 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
      * @param Magento_Cardgate_Model_Base $base
      * @param Magento_Cardgate_Model_BaseFactory $baseFactory
      * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Mage_Sales_Model_Order $salesOrder
+     * @param Magento_Sales_Model_Order $salesOrder
      * @param Magento_Core_Model_Registry $registry
      * @param string $areaCode
      */
@@ -75,7 +75,7 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
         Magento_Cardgate_Model_Base $base,
         Magento_Cardgate_Model_BaseFactory $baseFactory,
         Magento_Checkout_Model_Session $checkoutSession,
-        Mage_Sales_Model_Order $salesOrder,
+        Magento_Sales_Model_Order $salesOrder,
         Magento_Core_Model_Registry $registry,
         $areaCode = null
     ) {

@@ -191,7 +191,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     /**
      * Display susbtotal price including tax
      *
-     * @param Mage_Sales_Model_Order_Item $item
+     * @param Magento_Sales_Model_Order_Item $item
      * @return string
      */
     public function displaySubtotalInclTax($item)
@@ -205,7 +205,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     /**
      * Display item price including tax
      *
-     * @param Mage_Sales_Model_Order_Item $item
+     * @param Magento_Sales_Model_Order_Item $item
      * @return string
      */
     public function displayPriceInclTax(Magento_Object $item)

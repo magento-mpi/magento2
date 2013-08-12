@@ -144,7 +144,7 @@ class VariableAbstractFake extends Saas_PrintedTemplate_Model_Variable_Abstract
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order_Invoice $value Invoice
+     * @param Magento_Sales_Model_Order_Invoice $value Invoice
      */
     public function __construct(Magento_Object $value, $config)
     {

@@ -31,7 +31,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testGenerateGiftCardAccountsEmailSending()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        $order = Mage::getModel('Magento_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new Magento_Event(array('order' => $order));
@@ -64,7 +64,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Check email sending related gift card product options
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @param bool $expectedEmpty
      */
     protected function _checkOrderItemProductOptions($order, $expectedEmpty)

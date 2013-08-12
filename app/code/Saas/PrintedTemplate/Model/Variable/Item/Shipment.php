@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Shipment_Item for shipment item variable
+ * Container for Magento_Sales_Model_Order_Shipment_Item for shipment item variable
  *
  * Container that can restrict access to properties and method
  * with black list or white list.

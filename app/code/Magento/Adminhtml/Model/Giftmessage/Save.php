@@ -325,7 +325,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Retrieve quote object
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {

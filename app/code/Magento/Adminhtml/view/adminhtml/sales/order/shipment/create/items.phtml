@@ -10,19 +10,19 @@
 ?>
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
-        <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items to Ship') ?></span>
+        <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Items to Ship') ?></span>
     </div>
     <div class="grid">
         <table cellspacing="0" class="data order-tables">
             <thead>
                 <tr class="headings">
-                    <th class="col-product"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
-                    <th class="col-ordered-qty"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
+                    <th class="col-product"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Product') ?></span></th>
+                    <th class="col-ordered-qty"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Qty') ?></span></th>
                     <th class="col-qty<?php if ($this->isShipmentRegular()): ?> last<?php endif; ?>">
-                        <span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty to Ship') ?></span>
+                        <span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Qty to Ship') ?></span>
                     </th>
                     <?php if (!$this->canShipPartiallyItem()): ?>
-                    <th class="col-ship last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Ship') ?></span></th>
+                    <th class="col-ship last"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Ship') ?></span></th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -42,7 +42,7 @@
             <div class="fieldset-wrapper-title"><span class="title"><?php echo $this->__('Shipment Comments') ?></span></div>
             <fieldset>
                 <div id="order-history_form">
-                    <label class="normal" for="shipment_comment_text"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipment Comments') ?></label>
+                    <label class="normal" for="shipment_comment_text"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Shipment Comments') ?></label>
                     <textarea id="shipment_comment_text" name="shipment[comment_text]" rows="3" cols="5"><?php echo $this->getShipment()->getCommentText(); ?></textarea>
                 </div>
             </fieldset>
@@ -56,17 +56,17 @@
                 </div>
               <?php if ($this->canCreateShippingLabel()): ?>
               <div>
-                  <label class="normal" for="create_shipping_label"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Create Shipping Label') ?></label>
+                  <label class="normal" for="create_shipping_label"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Create Shipping Label') ?></label>
                   <input id="create_shipping_label" name="shipment[create_shipping_label]" value="1" type="checkbox"  onclick="toggleCreateLabelCheckbox();" />
               </div>
               <?php endif ?>
               <div>
-                  <label class="normal" for="notify_customer"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Append Comments') ?></label>
+                  <label class="normal" for="notify_customer"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Append Comments') ?></label>
                   <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox" />
               </div>
               <?php if ($this->canSendShipmentEmail()): ?>
               <div>
-                  <label class="normal" for="send_email"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Email Copy of Shipment') ?></label>
+                  <label class="normal" for="send_email"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Email Copy of Shipment') ?></label>
                   <input id="send_email" name="shipment[send_email]" value="1" type="checkbox" />
               </div>
               <?php endif; ?>

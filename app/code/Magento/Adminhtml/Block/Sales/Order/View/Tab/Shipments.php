@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     protected function _getCollectionClass()
     {
-        return 'Mage_Sales_Model_Resource_Order_Shipment_Grid_Collection';
+        return 'Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection';
     }
 
     protected function _prepareCollection()
@@ -53,21 +53,21 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Shipment'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Shipment'),
             'index' => 'increment_id',
             'header_css_class'  => 'col-memo',
             'column_css_class'  => 'col-memo'
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship-to Name'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Ship-to Name'),
             'index' => 'shipping_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship Date'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Ship Date'),
             'index' => 'created_at',
             'type' => 'datetime',
             'header_css_class'  => 'col-period',
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
         ));
 
         $this->addColumn('total_qty', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Quantity'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Total Quantity'),
             'index' => 'total_qty',
             'type'  => 'number',
             'header_css_class'  => 'col-qty',
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -115,12 +115,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Shipments');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Shipments');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Shipments');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Shipments');
     }
 
     public function canShowTab()

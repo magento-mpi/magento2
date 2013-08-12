@@ -43,7 +43,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Quote instance
      *
-     * @var Mage_Sales_Model_Quote|null
+     * @var Magento_Sales_Model_Quote|null
      */
     protected $_quote;
 
@@ -146,7 +146,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Return current active quote for specified customer
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -154,7 +154,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
             return $this->_quote;
         }
 
-        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote');
 
         if ($this->getCustomer() !== null) {
             $this->_quote
@@ -168,10 +168,10 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Sets different quote model
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -180,7 +180,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Return quote instance depending on current area
      *
-     * @return Magento_Adminhtml_Model_Session_Quote|Mage_Sales_Model_Quote
+     * @return Magento_Adminhtml_Model_Session_Quote|Magento_Sales_Model_Quote
      */
     public function getActualQuote()
     {
@@ -223,7 +223,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Create quote by demand or return active customer quote if it exists
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function createQuote()
     {
@@ -351,12 +351,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Add new item to quote based on existing order Item
      *
-     * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param Magento_Sales_Model_Order_Item $orderItem
      * @param int|float $qty
-     * @return Mage_Sales_Model_Quote_Item
+     * @return Magento_Sales_Model_Quote_Item
      * @throws Magento_Core_Exception
      */
-    public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
+    public function reorderItem(Magento_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Something went wrong reordering this product.'));
@@ -524,7 +524,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
      * Move quote item to wishlist.
      * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
-     * @param Mage_Sales_Model_Quote_Item|int $item
+     * @param Magento_Sales_Model_Quote_Item|int $item
      * @param string $moveTo Destination storage
      * @return Enterprise_Checkout_Model_Cart
      */
@@ -567,11 +567,11 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Create duplicate of quote preserving all data (items, addresses, payment etc.)
      *
-     * @param Mage_Sales_Model_Quote $quote Original Quote
+     * @param Magento_Sales_Model_Quote $quote Original Quote
      * @param bool $active Create active quote or not
-     * @return Mage_Sales_Model_Quote New created quote
+     * @return Magento_Sales_Model_Quote New created quote
      */
-    public function copyQuote(Mage_Sales_Model_Quote $quote, $active = false)
+    public function copyQuote(Magento_Sales_Model_Quote $quote, $active = false)
     {
         if (!$quote->getId()) {
             return $quote;
@@ -626,12 +626,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Wrapper for getting quote item
      *
-     * @param Mage_Sales_Model_Quote_Item|int $item
-     * @return Mage_Sales_Model_Quote_Item|bool
+     * @param Magento_Sales_Model_Quote_Item|int $item
+     * @return Magento_Sales_Model_Quote_Item|bool
      */
     protected function _getQuoteItem($item)
     {
-        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+        if ($item instanceof Magento_Sales_Model_Quote_Item) {
             return $item;
         }
         elseif (is_numeric($item)) {
@@ -1226,8 +1226,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
         $quote = $cart->getQuote();
 
         // copy data to temporary quote
-        /** @var $temporaryQuote Mage_Sales_Model_Quote */
-        $temporaryQuote = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var $temporaryQuote Magento_Sales_Model_Quote */
+        $temporaryQuote = Mage::getModel('Magento_Sales_Model_Quote');
         $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;

@@ -44,8 +44,8 @@ class Magento_Rss_Block_Catalog_Salesrule extends Magento_Rss_Block_Abstract
 
         /** @var $rssObject Magento_Rss_Model_Rss */
         $rssObject = Mage::getModel('Magento_Rss_Model_Rss');
-        /** @var $collection Mage_SalesRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getModel('Mage_SalesRule_Model_Rule')->getResourceCollection();
+        /** @var $collection Magento_SalesRule_Model_Resource_Rule_Collection */
+        $collection = Mage::getModel('Magento_SalesRule_Model_Rule')->getResourceCollection();
 
         $data = array(
             'title'       => $title,

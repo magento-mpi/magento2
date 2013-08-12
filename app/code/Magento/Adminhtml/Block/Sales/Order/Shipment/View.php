@@ -32,18 +32,18 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
             return;
         }
 
-        if ($this->_authorization->isAllowed('Mage_Sales::emails')) {
-            $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Send Tracking Information'));
+        if ($this->_authorization->isAllowed('Magento_Sales::emails')) {
+            $this->_updateButton('save', 'label', Mage::helper('Magento_Sales_Helper_Data')->__('Send Tracking Information'));
             $this->_updateButton('save',
                 'onclick', "deleteConfirm('"
-                . Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to send a Shipment email to customer?')
+                . Mage::helper('Magento_Sales_Helper_Data')->__('Are you sure you want to send a Shipment email to customer?')
                 . "', '" . $this->getEmailUrl() . "')"
             );
         }
 
         if ($this->getShipment()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Print'),
+                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getShipment()
     {
@@ -64,12 +64,12 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
-            $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the shipment email was sent');
+            $emailSent = Mage::helper('Magento_Sales_Helper_Data')->__('the shipment email was sent');
         }
         else {
-            $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the shipment email is not sent');
+            $emailSent = Mage::helper('Magento_Sales_Helper_Data')->__('the shipment email is not sent');
         }
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getBackUrl()

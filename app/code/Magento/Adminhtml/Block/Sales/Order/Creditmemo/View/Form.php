@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Magento_A
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Magento_A
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     public function getSource()
     {
@@ -45,14 +45,14 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Magento_A
     public function getOrderTotalData()
     {
         return array(
-            'grand_total_title' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Refund'),
+            'grand_total_title' => Mage::helper('Magento_Sales_Helper_Data')->__('Total Refund'),
         );
     }
 
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     public function getCreditmemo()
     {

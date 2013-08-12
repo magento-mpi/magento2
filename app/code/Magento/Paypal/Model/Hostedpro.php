@@ -106,7 +106,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
 
                 $this->_setPaymentFormUrl($payment);
 
-                $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setState(Magento_Sales_Model_Order::STATE_PENDING_PAYMENT);
                 $stateObject->setStatus('pending_payment');
                 $stateObject->setIsNotified(false);
                 break;

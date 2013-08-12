@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     {
         $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
         $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Update Qty\'s'),
+            'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Update Qty\'s'),
             'class'     => 'update-button',
             'onclick'   => $onclick,
         ));
@@ -36,13 +36,13 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
         if ($this->getCreditmemo()->canRefund()) {
             if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
                 $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                    'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Refund'),
+                    'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Refund'),
                     'class'     => 'save submit-button refund',
                     'onclick'   => 'disableElements(\'submit-button\');submitCreditMemo()',
                 ));
             }
             $this->addChild('submit_offline', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Refund Offline'),
+                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Refund Offline'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
             ));
@@ -50,7 +50,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
         }
         else {
             $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Refund Offline'),
+                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Refund Offline'),
                 'class'     => 'save submit-button',
                 'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
             ));
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Retrieve invoice order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     public function getSource()
     {
@@ -98,11 +98,11 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     {
         $totalbarData = array();
         $this->setPriceDataObject($this->getOrder());
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Paid Amount'), $this->displayPriceAttribute('total_invoiced'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Refund Amount'), $this->displayPriceAttribute('total_refunded'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Amount'), $this->displayPriceAttribute('shipping_invoiced'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
-        $totalbarData[] = array(Mage::helper('Mage_Sales_Helper_Data')->__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Paid Amount'), $this->displayPriceAttribute('total_invoiced'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Refund Amount'), $this->displayPriceAttribute('total_refunded'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Shipping Amount'), $this->displayPriceAttribute('shipping_invoiced'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
+        $totalbarData[] = array(Mage::helper('Magento_Sales_Helper_Data')->__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
 
         return $totalbarData;
     }
@@ -110,7 +110,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Mage_Sales_Model_Creditmemo
+     * @return Magento_Sales_Model_Creditmemo
      */
     public function getCreditmemo()
     {
@@ -173,6 +173,6 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     public function canSendCreditmemoEmail()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
+        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
     }
 }

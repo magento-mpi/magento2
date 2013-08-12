@@ -18,7 +18,7 @@
                 <Magento_Adminhtml />
                 <Magento_Catalog />
                 <Magento_Cms />
-                <Mage_Sales />
+                <Magento_Sales />
                 <Magento_Checkout />
             </depends>
         </Enterprise_CatalogEvent>

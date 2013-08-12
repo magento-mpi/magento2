@@ -63,7 +63,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         if ($helperBlock instanceof Magento_Object) {
             $helperBlock->setConfig($this->getChooserConfig())
                 ->setFieldsetId($fieldset->getId())
-                ->setTranslationHelper(Mage::helper('Mage_SalesRule_Helper_Data'))
+                ->setTranslationHelper(Mage::helper('Magento_SalesRule_Helper_Data'))
                 ->prepareElementHtml($field);
         }
 

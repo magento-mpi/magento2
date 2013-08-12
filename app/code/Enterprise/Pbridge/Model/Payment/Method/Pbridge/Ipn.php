@@ -29,7 +29,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
     const AUTH_STATUS_COMPLETED   = 'Completed';
 
     /*
-     * @param Mage_Sales_Model_Order
+     * @param Magento_Sales_Model_Order
      */
     protected $_order = null;
 
@@ -132,7 +132,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
     /**
      * Load and validate order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      * @throws Exception
      */
     protected function _getOrder()
@@ -140,7 +140,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('invoice');
-            $order = Mage::getModel('Mage_Sales_Model_Order');
+            $order = Mage::getModel('Magento_Sales_Model_Order');
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
@@ -154,10 +154,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
     /**
      * Validate incoming request data, as PayPal recommends
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @throws Magento_Core_Exception
      */
-    protected function _verifyOrder(Mage_Sales_Model_Order $order)
+    protected function _verifyOrder(Magento_Sales_Model_Order $order)
     {
         // verify merchant email intended to receive notification
         $merchantEmail = $this->_config->businessAccount;
@@ -217,7 +217,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                     // refund that was forced by PayPal, returnred back.
                     case self::STATUS_CANCELED_REV:
                         // Magento cannot handle this for now. Just notify admin.
-                        // potentially @see Mage_Sales_Model_Order_Creditmemo::cancel()
+                        // potentially @see Magento_Sales_Model_Order_Creditmemo::cancel()
                         $history = $this->_explainRefundReason()->save();
                         $this->_notifyAdmin($history->getComment());
                         break;
@@ -415,7 +415,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
      *
      * @param string $comment
      * @param bool $addToHistory
-     * @return string|Mage_Sales_Model_Order_Status_History
+     * @return string|Magento_Sales_Model_Order_Status_History
      */
     protected function _createIpnComment($comment = '', $addToHistory = true)
     {
@@ -459,7 +459,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
      * Should be invoked only on refunds
      * @see payment_status at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      *
-     * @return Mage_Sales_Model_Order_Status_History
+     * @return Magento_Sales_Model_Order_Status_History
      */
     private function _explainRefundReason($addToHistory = true)
     {

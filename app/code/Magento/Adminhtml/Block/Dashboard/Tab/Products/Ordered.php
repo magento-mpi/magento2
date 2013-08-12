@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Sales')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Sales')) {
             return $this;
         }
         if ($this->getParam('website')) {
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
             $storeId = (int)$this->getParam('store');
         }
 
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Bestsellers_Collection')
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Bestsellers_Collection')
             ->setModel('Magento_Catalog_Model_Product')
             ->addStoreFilter($storeId)
         ;
@@ -54,13 +54,13 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
     {
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Product'),
             'sortable'  => false,
             'index'     => 'product_name'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Price'),
             'width'     => '120px',
             'type'      => 'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
@@ -69,7 +69,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
         ));
 
         $this->addColumn('ordered_qty', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Quantity'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Order Quantity'),
             'width'     => '120px',
             'align'     => 'right',
             'sortable'  => false,

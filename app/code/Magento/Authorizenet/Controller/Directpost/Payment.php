@@ -166,10 +166,10 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             $this->_getDirectPostSession()
                 ->isCheckoutOrderIncrementIdExist($incrementId)
         ) {
-            /* @var $order Mage_Sales_Model_Order */
-            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($incrementId);
+            /* @var $order Magento_Sales_Model_Order */
+            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = Mage::getModel('Mage_Sales_Model_Quote')
+                $quote = Mage::getModel('Magento_Sales_Model_Quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()) {
                     $quote->setIsActive(1)

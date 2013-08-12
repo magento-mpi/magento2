@@ -216,7 +216,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve available order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -242,13 +242,13 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We cannot get the order instance.'));
+        Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot get the order instance.'));
     }
 
     /**
      * Retrieve price data object
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getPriceDataObject()
     {
@@ -470,7 +470,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
 
     public function canCapture()
     {
-        if ($this->_authorization->isAllowed('Mage_Sales::capture')) {
+        if ($this->_authorization->isAllowed('Magento_Sales::capture')) {
             return $this->getInvoice()->canCapture();
         }
         return false;
@@ -484,7 +484,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve source
      *
-     * @return Mage_Sales_Model_Order_Invoice
+     * @return Magento_Sales_Model_Order_Invoice
      */
     public function getSource()
     {
@@ -494,7 +494,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve invoice model instance
      *
-     * @return Mage_Sales_Model_Invoice
+     * @return Magento_Sales_Model_Invoice
      */
     public function getInvoice()
     {
@@ -516,7 +516,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
 
     /**
      * Whether to show 'Return to stock' checkbox for item
-     * @param Mage_Sales_Model_Order_Creditmemo_Item $item
+     * @param Magento_Sales_Model_Order_Creditmemo_Item $item
      * @return bool
      */
     public function canReturnItemToStock($item=null) {
@@ -537,7 +537,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     }
     /**
      * Whether to show 'Return to stock' column for item parent
-     * @param Mage_Sales_Model_Order_Creditmemo_Item $item
+     * @param Magento_Sales_Model_Order_Creditmemo_Item $item
      * @return bool
      */
     public function canParentReturnToStock($item = null)
@@ -556,12 +556,12 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Return true if can ship partially
      *
-     * @param Mage_Sales_Model_Order|null $order
+     * @param Magento_Sales_Model_Order|null $order
      * @return boolean
      */
     public function canShipPartially($order = null)
     {
-        if (is_null($order) || !$order instanceof Mage_Sales_Model_Order) {
+        if (is_null($order) || !$order instanceof Magento_Sales_Model_Order) {
             $order = Mage::registry('current_shipment')->getOrder();
         }
         $value = $order->getCanShipPartially();
@@ -574,12 +574,12 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Return true if can ship items partially
      *
-     * @param Mage_Sales_Model_Order|null $order
+     * @param Magento_Sales_Model_Order|null $order
      * @return boolean
      */
     public function canShipPartiallyItem($order = null)
     {
-        if (is_null($order) || !$order instanceof Mage_Sales_Model_Order) {
+        if (is_null($order) || !$order instanceof Magento_Sales_Model_Order) {
             $order = Mage::registry('current_shipment')->getOrder();
         }
         $value = $order->getCanShipPartiallyItem();

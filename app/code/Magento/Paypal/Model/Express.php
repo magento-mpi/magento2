@@ -119,7 +119,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Mage_Sales_Model_Payment::place()
+     * @see Magento_Sales_Model_Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()
@@ -129,7 +129,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
 
     /**
      * Check whether payment method can be used
-     * @param Mage_Sales_Model_Quote
+     * @param Magento_Sales_Model_Quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -155,7 +155,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Order payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
@@ -174,26 +174,26 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
 
         $api = $this->_callDoAuthorize($amount, $payment, $payment->getTransactionId());
 
-        $state  = Mage_Sales_Model_Order::STATE_PROCESSING;
+        $state  = Magento_Sales_Model_Order::STATE_PROCESSING;
         $status = true;
 
         $formatedPrice = $order->getBaseCurrency()->formatTxt($amount);
         if ($payment->getIsTransactionPending()) {
             $message = Mage::helper('Magento_Paypal_Helper_Data')->__('The ordering amount of %s is pending approval on the payment gateway.', $formatedPrice);
-            $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
         } else {
             $message = Mage::helper('Magento_Paypal_Helper_Data')->__('Ordered amount of %s', $formatedPrice);
         }
 
-        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER, null, false, $message);
+        $payment->addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER, null, false, $message);
 
         $this->_pro->importPaymentInfo($api, $payment);
 
         if ($payment->getIsTransactionPending()) {
             $message = Mage::helper('Magento_Paypal_Helper_Data')->__('We\'ll authorize the amount of %s as soon as the payment gateway approves it.', $formatedPrice);
-            $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            $state = Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW;
             if ($payment->getIsFraudDetected()) {
-                $status = Mage_Sales_Model_Order::STATUS_FRAUD;
+                $status = Magento_Sales_Model_Order::STATUS_FRAUD;
             }
         } else {
             $message = Mage::helper('Magento_Paypal_Helper_Data')->__('The authorized amount is %s.', $formatedPrice);
@@ -204,7 +204,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
         $payment->setTransactionId($api->getTransactionId());
         $payment->setParentTransactionId($orderTransactionId);
 
-        $transaction = $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null, false,
+        $transaction = $payment->addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null, false,
             $message
         );
 
@@ -217,7 +217,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Authorize payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
@@ -229,7 +229,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Void payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Express
      */
     public function void(Magento_Object $payment)
@@ -239,7 +239,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
             && !$payment->getVoidOnlyAuthorization()
         ) {
             $orderTransaction = $payment->lookupTransaction(
-                false, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+                false, Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
             );
             if ($orderTransaction) {
                 $payment->setParentTransactionId($orderTransaction->getTxnId());
@@ -253,7 +253,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Capture payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
@@ -310,7 +310,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
                     $message = Mage::helper('Magento_Paypal_Helper_Data')->__('The authorized amount is %s.', $formatedPrice);
                 }
 
-                $transaction = $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null,
+                $transaction = $payment->addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null,
                     true, $message
                 );
 
@@ -320,7 +320,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
             //close order transaction if needed
             if ($payment->getShouldCloseParentTransaction()) {
                 $orderTransaction = $payment->lookupTransaction(
-                    false, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+                    false, Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
                 );
 
                 if ($orderTransaction) {
@@ -344,7 +344,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Refund capture
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
@@ -357,7 +357,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Cancel payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Express
      */
     public function cancel(Magento_Object $payment)
@@ -370,7 +370,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Whether payment can be reviewed
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -381,7 +381,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Attempt to accept a pending payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -393,7 +393,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Attempt to deny a pending payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)
@@ -406,7 +406,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * Checkout redirect URL getter for onepage checkout (hardcode)
      *
      * @see Magento_Checkout_Controller_Onepage::savePaymentAction()
-     * @see Mage_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
+     * @see Magento_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
      * @return string
      */
     public function getCheckoutRedirectUrl()
@@ -512,11 +512,11 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Place an order with authorization or capture action
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Express
      */
-    protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
+    protected function _placeOrder(Magento_Sales_Model_Order_Payment $payment, $amount)
     {
         $order = $payment->getOrder();
 
@@ -553,7 +553,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * Import payment info to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importToPayment($api, $payment)
     {
@@ -580,15 +580,15 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      */
     public function canVoid(Magento_Object $payment)
     {
-        if ($payment instanceof Mage_Sales_Model_Order_Invoice
-            || $payment instanceof Mage_Sales_Model_Order_Creditmemo
+        if ($payment instanceof Magento_Sales_Model_Order_Invoice
+            || $payment instanceof Magento_Sales_Model_Order_Creditmemo
         ) {
             return false;
         }
         $info = $this->getInfoInstance();
         if ($info->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
             $orderTransaction = $info->lookupTransaction(
-                false, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+                false, Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
             );
             if ($orderTransaction) {
                 $info->setParentTransactionId($orderTransaction->getTxnId());
@@ -610,7 +610,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
 
         if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
             $orderTransaction = $payment->lookupTransaction(false,
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+                Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
             );
             if ($orderTransaction->getIsClosed()) {
                 return false;
@@ -655,11 +655,11 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
     /**
      * Check transaction for expiration in PST
      *
-     * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
+     * @param Magento_Sales_Model_Order_Payment_Transaction $transaction
      * @param int $period
      * @return boolean
      */
-    protected function _isTransactionExpired(Mage_Sales_Model_Order_Payment_Transaction $transaction, $period)
+    protected function _isTransactionExpired(Magento_Sales_Model_Order_Payment_Transaction $transaction, $period)
     {
         $period = intval($period);
         if (0 == $period) {

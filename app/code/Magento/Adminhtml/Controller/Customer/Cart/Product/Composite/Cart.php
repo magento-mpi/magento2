@@ -27,14 +27,14 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
     /**
      * Quote we're working with
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote = null;
 
     /**
      * Quote item we're working with
      *
-     * @var Mage_Sales_Model_Quote_Item
+     * @var Magento_Sales_Model_Quote_Item
      */
     protected $_quoteItem = null;
 
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
         $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')
+        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setWebsite(Mage::app()->getWebsite($websiteId))
             ->loadByCustomer($this->_customer);
 
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')
+            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')
                 ->getCollection()
                 ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));

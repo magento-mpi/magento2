@@ -113,7 +113,7 @@ abstract class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_T
     /**
      * Get active quote
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -136,10 +136,10 @@ abstract class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_T
     /**
      * Get item row html
      *
-     * @param   Mage_Sales_Model_Quote_Item $item
+     * @param   Magento_Sales_Model_Quote_Item $item
      * @return  string
      */
-    public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
+    public function getItemHtml(Magento_Sales_Model_Quote_Item $item)
     {
         $renderer = $this->getItemRenderer($item->getProductType())->setItem($item);
         return $renderer->toHtml();

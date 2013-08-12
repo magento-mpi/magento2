@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create extends Magento_Adminht
     /**
      * Retrieve invoice model instance
      *
-     * @return Mage_Sales_Model_Invoice
+     * @return Magento_Sales_Model_Invoice
      */
     public function getInvoice()
     {
@@ -48,8 +48,8 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create extends Magento_Adminht
     public function getHeaderText()
     {
         return ($this->getInvoice()->getOrder()->getForcedShipmentWithInvoice())
-            ? Mage::helper('Mage_Sales_Helper_Data')->__('New Invoice and Shipment for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId())
-            : Mage::helper('Mage_Sales_Helper_Data')->__('New Invoice for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId());
+            ? Mage::helper('Magento_Sales_Helper_Data')->__('New Invoice and Shipment for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId())
+            : Mage::helper('Magento_Sales_Helper_Data')->__('New Invoice for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId());
     }
 
     /**

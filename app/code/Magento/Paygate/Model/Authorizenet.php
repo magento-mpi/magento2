@@ -243,7 +243,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         foreach($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $this->getInfoInstance()->getTransaction($card->getLastTransId());
             if ($lastTransaction
-                && $lastTransaction->getTxnType() == Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE
+                && $lastTransaction->getTxnType() == Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE
                 && !$lastTransaction->getIsClosed()
             ) {
                 return true;
@@ -500,11 +500,11 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
 
         switch ($requestType) {
             case self::REQUEST_TYPE_AUTH_ONLY:
-                $newTransactionType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH;
+                $newTransactionType = Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH;
                 $defaultExceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while authorizing the payment.');
                 break;
             case self::REQUEST_TYPE_AUTH_CAPTURE:
-                $newTransactionType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE;
+                $newTransactionType = Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE;
                 $defaultExceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while capturing the payment.');
                 break;
         }
@@ -615,10 +615,10 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
 
         switch ($requestType) {
             case self::REQUEST_TYPE_AUTH_ONLY:
-                $newTransactionType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH;
+                $newTransactionType = Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH;
                 break;
             case self::REQUEST_TYPE_AUTH_CAPTURE:
-                $newTransactionType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE;
+                $newTransactionType = Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE;
                 break;
         }
 
@@ -656,7 +656,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         foreach($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $payment->getTransaction($card->getLastTransId());
             if (!$lastTransaction
-                || $lastTransaction->getTxnType() != Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH
+                || $lastTransaction->getTxnType() != Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH
             ) {
                 return false;
             }
@@ -725,7 +725,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @param Magento_Object $card
-     * @return Mage_Sales_Model_Order_Payment_Transaction
+     * @return Magento_Sales_Model_Order_Payment_Transaction
      */
     protected function _preauthorizeCaptureCardTransaction($payment, $amount, $card)
     {
@@ -748,7 +748,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                     return $this->_addTransaction(
                         $payment,
                         $captureTransactionId,
-                        Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
+                        Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
                         array(
                             'is_transaction_closed' => 0,
                             'parent_transaction_id' => $authTransactionId
@@ -782,7 +782,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      *
      * @param Magento_Payment_Model_Info $payment
      * @param Magento_Object $card
-     * @return Mage_Sales_Model_Order_Payment_Transaction
+     * @return Magento_Sales_Model_Order_Payment_Transaction
      */
     protected function _voidCardTransaction($payment, $card)
     {
@@ -804,7 +804,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                     return $this->_addTransaction(
                         $payment,
                         $voidTransactionId,
-                        Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID,
+                        Magento_Sales_Model_Order_Payment_Transaction::TYPE_VOID,
                         array(
                             'is_transaction_closed' => 1,
                             'should_close_parent_transaction' => 1,
@@ -827,7 +827,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 return $this->_addTransaction(
                     $payment,
                     $voidTransactionId,
-                    Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID,
+                    Magento_Sales_Model_Order_Payment_Transaction::TYPE_VOID,
                     array(
                         'is_transaction_closed' => 1,
                         'should_close_parent_transaction' => 1,
@@ -878,7 +878,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      *
      * @param Magento_Payment_Model_Info $payment
      * @param Magento_Object $card
-     * @return Mage_Sales_Model_Order_Payment_Transaction
+     * @return Magento_Sales_Model_Order_Payment_Transaction
      */
     protected function _refundCardTransaction($payment, $amount, $card)
     {
@@ -914,7 +914,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                     return $this->_addTransaction(
                         $payment,
                         $refundTransactionId,
-                        Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
+                        Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
                         array(
                             'is_transaction_closed' => 1,
                             'should_close_parent_transaction' => $shouldCloseCaptureTransaction,
@@ -987,8 +987,8 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     /**
      * Mock capture transaction id in invoice
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Payment_Model_Method_Abstract
      */
     public function processInvoice($invoice, $payment)
@@ -999,8 +999,8 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
 
     /**
      * Set transaction ID into creditmemo for informational purposes
-     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Payment_Model_Method_Abstract
      */
     public function processCreditmemo($creditmemo, $payment)
@@ -1047,7 +1047,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      * Set split_tender_id to quote payment if neeeded
      *
      * @param Magento_Object $response
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     protected function _processPartialAuthorizationResponse($response, $orderPayment) {
@@ -1343,10 +1343,10 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      * It sets card`s data into additional information of payment model
      *
      * @param Magento_Paygate_Model_Authorizenet_Result $response
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Object
      */
-    protected function _registerCard(Magento_Object $response, Mage_Sales_Model_Order_Payment $payment)
+    protected function _registerCard(Magento_Object $response, Magento_Sales_Model_Order_Payment $payment)
     {
         $cardsStorage = $this->getCardsStorage($payment);
         $card = $cardsStorage->registerCard();
@@ -1394,14 +1394,14 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     /**
      * Add payment transaction
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param string $transactionId
      * @param string $transactionType
      * @param array $transactionDetails
      * @param array $transactionAdditionalInfo
-     * @return null|Mage_Sales_Model_Order_Payment_Transaction
+     * @return null|Magento_Sales_Model_Order_Payment_Transaction
      */
-    protected function _addTransaction(Mage_Sales_Model_Order_Payment $payment, $transactionId, $transactionType,
+    protected function _addTransaction(Magento_Sales_Model_Order_Payment $payment, $transactionId, $transactionType,
         array $transactionDetails = array(), array $transactionAdditionalInfo = array(), $message = false
     ) {
         $payment->setTransactionId($transactionId);
@@ -1468,7 +1468,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
              * load new order object and set information into this object.
              */
             $currentOrderId = $payment->getOrder()->getId();
-            $copyOrder = Mage::getModel('Mage_Sales_Model_Order')->load($currentOrderId);
+            $copyOrder = Mage::getModel('Magento_Sales_Model_Order')->load($currentOrderId);
             $copyOrder->getPayment()->setAdditionalInformation($this->_isGatewayActionsLockedKey, 1);
             foreach($messages as $message) {
                 $copyOrder->addStatusHistoryComment($message);

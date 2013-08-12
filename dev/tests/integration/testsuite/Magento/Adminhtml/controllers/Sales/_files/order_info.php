@@ -32,7 +32,7 @@ $product->load(1);
 
 $addressData = include(__DIR__ . DIRECTORY_SEPARATOR . 'address_data.php');
 
-$billingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address', array('data' => $addressData));
+$billingAddress = Mage::getModel('Magento_Sales_Model_Quote_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -40,8 +40,8 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 $shippingAddress->setShippingMethod('flatrate_flatrate');
 
-/** @var $quote Mage_Sales_Model_Quote */
-$quote = Mage::getModel('Mage_Sales_Model_Quote');
+/** @var $quote Magento_Sales_Model_Quote */
+$quote = Mage::getModel('Magento_Sales_Model_Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setReservedOrderId('test01')
@@ -57,8 +57,8 @@ $quote->getShippingAddress()->collectShippingRates();
 $quote->collectTotals();
 $quote->save();
 
-/** @var $service Mage_Sales_Model_Service_Quote */
-$service = Mage::getModel('Mage_Sales_Model_Service_Quote', array('quote' => $quote));
+/** @var $service Magento_Sales_Model_Service_Quote */
+$service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
 $service->setOrderData(array('increment_id' => '100000001'));
 $service->submitAll();
 
@@ -67,17 +67,17 @@ $order->save();
 
 $orderItems = $order->getAllItems();
 
-/** @var $item Mage_Sales_Model_Order_Item */
+/** @var $item Magento_Sales_Model_Order_Item */
 $item = $orderItems[0];
 
-/** @var $invoice Mage_Sales_Model_Order_Invoice */
-$invoice = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+/** @var $invoice Magento_Sales_Model_Order_Invoice */
+$invoice = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
     ->prepareInvoice(array($item->getId() => 10));
 
 $invoice->register();
 $invoice->save();
 
-$creditmemo = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+$creditmemo = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
     ->prepareInvoiceCreditmemo($invoice, array('qtys' => array($item->getId() => 5)));
 
 foreach ($creditmemo->getAllItems() as $creditmemoItem) {

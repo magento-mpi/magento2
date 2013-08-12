@@ -63,7 +63,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Mage_Sales_Model_Quote_Item */
+        /* @var $item Magento_Sales_Model_Quote_Item */
         foreach ($this->getItems() as $item) {
             if ($item->getProductType() == 'undefined') {
                 continue;
@@ -106,10 +106,10 @@ class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
     /**
      * Get item row html
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return string
      */
-    public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
+    public function getItemHtml(Magento_Sales_Model_Quote_Item $item)
     {
         /** @var $renderer Magento_Checkout_Block_Cart_Item_Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
@@ -132,10 +132,10 @@ class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
     /**
      * Check whether item link should be rendered
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
-    public function showItemLink(Mage_Sales_Model_Quote_Item $item)
+    public function showItemLink(Magento_Sales_Model_Quote_Item $item)
     {
         $product = $item->getProduct();
         if ($product->isComposite()) {

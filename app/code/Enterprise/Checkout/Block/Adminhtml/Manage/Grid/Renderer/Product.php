@@ -29,7 +29,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
         $listType = $this->getColumn()->getGrid()->getListType();
         if ($row instanceof Magento_Catalog_Model_Product) {
             $product = $row;
-        } else if (($row instanceof Magento_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
+        } else if (($row instanceof Magento_Wishlist_Model_Item) || ($row instanceof Magento_Sales_Model_Order_Item)) {
             $product = $row->getProduct();
         }
         if ($product->canConfigure()) {
@@ -40,6 +40,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
             $prodAttributes = 'disabled="disabled"';
         }
         return sprintf('<a href="javascript:void(0)" %s class="action-configure %s">%s</a>',
-            $style, $prodAttributes, Mage::helper('Mage_Sales_Helper_Data')->__('Configure')) . $rendered;
+            $style, $prodAttributes, Mage::helper('Magento_Sales_Helper_Data')->__('Configure')) . $rendered;
     }
 }

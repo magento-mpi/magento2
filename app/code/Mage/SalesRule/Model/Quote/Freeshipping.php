@@ -3,34 +3,34 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_SalesRule_Model_Quote_Freeshipping extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Discount calculation object
      *
-     * @var Mage_SalesRule_Model_Validator
+     * @var Magento_SalesRule_Model_Validator
      */
     protected $_calculator;
 
     public function __construct()
     {
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('Mage_SalesRule_Model_Validator');
+        $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
     }
 
     /**
      * Collect information about free shipping for all address items
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Mage_SalesRule_Model_Quote_Freeshipping
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @return  Magento_SalesRule_Model_Quote_Freeshipping
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
@@ -82,10 +82,10 @@ class Mage_SalesRule_Model_Quote_Freeshipping extends Mage_Sales_Model_Quote_Add
     * Add information about free shipping for all address items to address object
     * By default we not present such information
     *
-    * @param   Mage_Sales_Model_Quote_Address $address
-    * @return  Mage_SalesRule_Model_Quote_Freeshipping
+    * @param   Magento_Sales_Model_Quote_Address $address
+    * @return  Magento_SalesRule_Model_Quote_Freeshipping
     */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         return $this;
     }

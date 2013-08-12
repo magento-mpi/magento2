@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
 
         if (Mage::registry('current_customer')->getId()) {
 
-            if ($this->_authorization->isAllowed('Mage_Sales::actions_view')) {
+            if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->addTab('orders', array(
                     'label'     => Mage::helper('Magento_Customer_Helper_Data')->__('Orders'),
                     'class'     => 'ajax',

@@ -80,7 +80,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
     /**
      * Return payment model
      *
-     * @return Mage_Sales_Model_Quote_Payment
+     * @return Magento_Sales_Model_Quote_Payment
      */
     private function _getPayment()
     {

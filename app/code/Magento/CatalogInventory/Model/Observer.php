@@ -216,7 +216,7 @@ class Magento_CatalogInventory_Model_Observer
     /**
      * Removes error statuses from quote and item, set by this observer
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @param int $code
      * @return Magento_CatalogInventory_Model_Observer
      */
@@ -272,7 +272,7 @@ class Magento_CatalogInventory_Model_Observer
     public function checkQuoteItemQty($observer)
     {
         $quoteItem = $observer->getEvent()->getItem();
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
         if (!$quoteItem || !$quoteItem->getProductId() || !$quoteItem->getQuote()
             || $quoteItem->getQuote()->getIsSuperMode()) {
             return $this;
@@ -344,7 +344,7 @@ class Magento_CatalogInventory_Model_Observer
 
             foreach ($options as $option) {
                 $optionValue = $option->getValue();
-                /* @var $option Mage_Sales_Model_Quote_Item_Option */
+                /* @var $option Magento_Sales_Model_Quote_Item_Option */
                 $optionQty = $qty * $optionValue;
                 $increaseOptionQty = ($quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty) * $optionValue;
 
@@ -610,7 +610,7 @@ class Magento_CatalogInventory_Model_Observer
      *  )
      * )
      *
-     * @param Mage_Sales_Model_Quote_Item $quoteItem
+     * @param Magento_Sales_Model_Quote_Item $quoteItem
      * @param array &$items
      */
     protected function _addItemToQtyArray($quoteItem, &$items)
@@ -709,11 +709,11 @@ class Magento_CatalogInventory_Model_Observer
      */
     public function refundOrderInventory($observer)
     {
-        /* @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
+        /* @var $creditmemo Magento_Sales_Model_Order_Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $items = array();
         foreach ($creditmemo->getAllItems() as $item) {
-            /* @var $item Mage_Sales_Model_Order_Creditmemo_Item */
+            /* @var $item Magento_Sales_Model_Order_Creditmemo_Item */
             $return = false;
             if ($item->hasBackToStock()) {
                 if ($item->getBackToStock() && $item->getQty()) {
@@ -724,7 +724,7 @@ class Magento_CatalogInventory_Model_Observer
             }
             if ($return) {
                 $parentOrderId = $item->getOrderItem()->getParentItemId();
-                /* @var $parentItem Mage_Sales_Model_Order_Creditmemo_Item */
+                /* @var $parentItem Magento_Sales_Model_Order_Creditmemo_Item */
                 $parentItem = $parentOrderId ? $creditmemo->getItemByOrderId($parentOrderId) : false;
                 $qty = $parentItem ? ($parentItem->getQty() * $item->getQty()) : $item->getQty();
                 if (isset($items[$item->getProductId()])) {

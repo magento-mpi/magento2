@@ -11,7 +11,7 @@
 /**
  * Grid widget massaction block
  *
- * @method Mage_Sales_Model_Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
+ * @method Magento_Sales_Model_Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
  * @method boolean getHideFormElement()
  * @category   Mage
  * @package    Mage_Backend

@@ -38,7 +38,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction_Collection
      * CreatedAt filter setter
      *
      * @param string $date
-     * @return Mage_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
      */
     public function addCreatedBeforeFilter($date)
     {

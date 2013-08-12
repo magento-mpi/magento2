@@ -35,7 +35,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Sales Quote instance
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_cart;
 
@@ -98,7 +98,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Quote associated with the model
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote;
 
@@ -132,12 +132,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve quote item
      *
-     * @param   int|Mage_Sales_Model_Quote_Item $item
-     * @return  Mage_Sales_Model_Quote_Item
+     * @param   int|Magento_Sales_Model_Quote_Item $item
+     * @return  Magento_Sales_Model_Quote_Item
      */
     protected function _getQuoteItem($item)
     {
-        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+        if ($item instanceof Magento_Sales_Model_Quote_Item) {
             return $item;
         } elseif (is_numeric($item)) {
             return $this->getSession()->getQuote()->getItemById($item);
@@ -220,7 +220,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve quote object model
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -233,10 +233,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Set quote object
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -245,10 +245,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Initialize creation data from existing order
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function initFromOrder(Mage_Sales_Model_Order $order)
+    public function initFromOrder(Magento_Sales_Model_Order $order)
     {
         $session = $this->getSession();
         $session->setData($order->getReordered() ? 'reordered' : 'order_id', $order->getId());
@@ -263,7 +263,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
             true
         ) as $orderItem) {
-            /* @var $orderItem Mage_Sales_Model_Order_Item */
+            /* @var $orderItem Magento_Sales_Model_Order_Item */
             if (!$orderItem->getParentItem()) {
                 $qty = $orderItem->getQtyOrdered();
                 if (!$order->getReordered()) {
@@ -341,7 +341,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         return $this;
     }
 
-    protected function _initBillingAddressFromOrder(Mage_Sales_Model_Order $order)
+    protected function _initBillingAddressFromOrder(Magento_Sales_Model_Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
         Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
@@ -352,7 +352,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         );
     }
 
-    protected function _initShippingAddressFromOrder(Mage_Sales_Model_Order $order)
+    protected function _initShippingAddressFromOrder(Magento_Sales_Model_Order $order)
     {
         $orderShippingAddress = $order->getShippingAddress();
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
@@ -369,11 +369,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Initialize creation data from existing order Item
      *
-     * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param Magento_Sales_Model_Order_Item $orderItem
      * @param int $qty
-     * @return Mage_Sales_Model_Quote_Item | string
+     * @return Magento_Sales_Model_Quote_Item | string
      */
-    public function initFromOrderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = null)
+    public function initFromOrderItem(Magento_Sales_Model_Order_Item $orderItem, $qty = null)
     {
         if (!$orderItem->getId()) {
             return $this;
@@ -442,7 +442,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve customer cart quote object model
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getCustomerCart()
     {
@@ -450,7 +450,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             return $this->_cart;
         }
 
-        $this->_cart = Mage::getModel('Mage_Sales_Model_Quote');
+        $this->_cart = Mage::getModel('Magento_Sales_Model_Quote');
 
         if ($this->getSession()->getCustomer()->getId()) {
             $this->_cart->setStore($this->getSession()->getStore())
@@ -495,7 +495,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Move quote item to another items list
      *
-     * @param   int|Mage_Sales_Model_Quote_Item $item
+     * @param   int|Magento_Sales_Model_Quote_Item $item
      * @param   string $moveTo
      * @param   int $qty
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
@@ -612,8 +612,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         if (isset($data['add_order_item'])) {
             foreach ($data['add_order_item'] as $orderItemId => $value) {
-                /* @var $orderItem Mage_Sales_Model_Order_Item */
-                $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')->load($orderItemId);
+                /* @var $orderItem Magento_Sales_Model_Order_Item */
+                $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
                 if (is_string($item)) {
                     Mage::throwException($item);
@@ -848,10 +848,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Parse additional options and sync them with product options
      *
-     * @param Mage_Sales_Model_Quote_Item $product
+     * @param Magento_Sales_Model_Quote_Item $product
      * @param array $options
      */
-    protected function _parseOptions(Mage_Sales_Model_Quote_Item $item, $additionalOptions)
+    protected function _parseOptions(Magento_Sales_Model_Quote_Item $item, $additionalOptions)
     {
         $productOptions = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Default')
             ->setProduct($item->getProduct())
@@ -914,10 +914,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Assign options to item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @param array $options
      */
-    protected function _assignOptionsToItem(Mage_Sales_Model_Quote_Item $item, $options)
+    protected function _assignOptionsToItem(Magento_Sales_Model_Quote_Item $item, $options)
     {
         if ($optionIds = $item->getOptionByCode('option_ids')) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
@@ -964,7 +964,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Prepare options array for info buy request
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return array
      */
     protected function _prepareOptionsForRequest($item)
@@ -995,7 +995,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve oreder quote shipping address
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getShippingAddress()
     {
@@ -1036,11 +1036,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Set and validate Quote address
      * All errors added to _errors
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @param array $data
      * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
-    protected function _setQuoteAddress(Mage_Sales_Model_Quote_Address $address, array $data)
+    protected function _setQuoteAddress(Magento_Sales_Model_Quote_Address $address, array $data)
     {
         $addressForm    = $this->_getCustomerAddressForm()
             ->setEntity($address)
@@ -1049,7 +1049,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
         // prepare request
         // save original request structure for files
-        if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+        if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
             $requestData  = array('order' => array('shipping_address' => $data));
             $requestScope = 'order/shipping_address';
         } else {
@@ -1061,7 +1061,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if ($this->getIsValidate()) {
             $errors = $addressForm->validateData($addressData);
             if ($errors !== true) {
-                if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+                if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
                     $typeName = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Shipping Address: ');
                 } else {
                     $typeName = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Billing Address: ');
@@ -1085,15 +1085,15 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book'])
                 && !empty($address['save_in_address_book']);
-            $shippingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
+            $shippingAddress = Mage::getModel('Magento_Sales_Model_Quote_Address')
                 ->setData($address)
-                ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_SHIPPING);
+                ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_SHIPPING);
             if (!$this->getQuote()->isVirtual()) {
                 $this->_setQuoteAddress($shippingAddress, $address);
             }
             $shippingAddress->implodeStreetAddress();
         }
-        if ($address instanceof Mage_Sales_Model_Quote_Address) {
+        if ($address instanceof Magento_Sales_Model_Quote_Address) {
             $shippingAddress = $address;
         }
 
@@ -1120,7 +1120,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve quote billing address
      *
-     * @return Mage_Sales_Model_Quote_Address
+     * @return Magento_Sales_Model_Quote_Address
      */
     public function getBillingAddress()
     {
@@ -1131,9 +1131,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
-            $billingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
+            $billingAddress = Mage::getModel('Magento_Sales_Model_Quote_Address')
                 ->setData($address)
-                ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_BILLING);
+                ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_BILLING);
             $this->_setQuoteAddress($billingAddress, $address);
             $billingAddress->implodeStreetAddress();
         }
@@ -1331,7 +1331,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     public function _prepareCustomer()
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->getQuote();
         if ($quote->getCustomerIsGuest()) {
             return $this;
@@ -1410,7 +1410,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $customer->addAddress($customerBillingAddress);
             }
 
-            /** @var $shippingAddress Mage_Sales_Model_Quote_Address */
+            /** @var $shippingAddress Magento_Sales_Model_Quote_Address */
             $shippingAddress = $this->getShippingAddress();
             if (!$this->getQuote()->isVirtual()
                 && !$shippingAddress->getSameAsBilling()
@@ -1474,7 +1474,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Create new order
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function createOrder()
     {
@@ -1483,8 +1483,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quote = $this->getQuote();
         $this->_prepareQuoteItems();
 
-        /** @var $service Mage_Sales_Model_Service_Quote */
-        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', array('quote' => $quote));
+        /** @var $service Magento_Sales_Model_Service_Quote */
+        $service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
             $originalId = $oldOrder->getOriginalIncrementId();

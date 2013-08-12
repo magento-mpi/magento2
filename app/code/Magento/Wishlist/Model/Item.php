@@ -148,7 +148,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -589,7 +589,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid item option format.'));
+            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());

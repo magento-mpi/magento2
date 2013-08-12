@@ -4,13 +4,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <add id="Mage_SalesRule::promo_quote" title="Cart Price Rules" module="Mage_SalesRule" parent="Magento_CatalogRule::promo" sortOrder="30" action="adminhtml/promo_quote/" dependsOnModule="Mage_Sales" resource="Mage_SalesRule::quote"/>
+        <add id="Magento_SalesRule::promo_quote" title="Cart Price Rules" module="Magento_SalesRule" parent="Magento_CatalogRule::promo" sortOrder="30" action="adminhtml/promo_quote/" dependsOnModule="Magento_Sales" resource="Magento_SalesRule::quote"/>
     </menu>
 </config>

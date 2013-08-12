@@ -135,7 +135,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Fram
      */
     public function testFormatCurrency($value, $expectedResult)
     {
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
             ->getMock();

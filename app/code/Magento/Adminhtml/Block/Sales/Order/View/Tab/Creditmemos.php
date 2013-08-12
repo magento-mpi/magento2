@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     protected function _getCollectionClass()
     {
-        return 'Mage_Sales_Model_Resource_Order_Creditmemo_Grid_Collection';
+        return 'Magento_Sales_Model_Resource_Order_Creditmemo_Grid_Collection';
     }
 
 
@@ -59,21 +59,21 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Credit Memo'),
             'index' => 'increment_id',
             'header_css_class'  => 'col-memo',
             'column_css_class'  => 'col-memo'
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Bill-to Name'),
             'index' => 'billing_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Created'),
+            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Created'),
             'index' => 'created_at',
             'type' => 'datetime',
             'header_css_class'  => 'col-period',
@@ -81,10 +81,10 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->getStates(),
+            'options'   => Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -104,7 +104,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -131,12 +131,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memos');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Credit Memos');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Credit Memos');
+        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Credit Memos');
     }
 
     public function canShowTab()

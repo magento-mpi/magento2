@@ -16,7 +16,7 @@ class Enterprise_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRma()
     {
-        $order = Mage::getModel('Mage_Sales_Model_Order');
+        $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
         $rmaItems = array();

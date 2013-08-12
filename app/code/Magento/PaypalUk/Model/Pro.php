@@ -80,7 +80,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
      * Import capture results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -115,7 +115,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
      * Import refund results to payment
      *
      * @param Magento_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Sales_Model_Order_Payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)

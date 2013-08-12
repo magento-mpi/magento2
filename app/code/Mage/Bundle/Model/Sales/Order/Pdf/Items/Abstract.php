@@ -15,7 +15,7 @@
  * @package    Mage_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sales_Model_Order_Pdf_Items_Abstract
+abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Magento_Sales_Model_Order_Pdf_Items_Abstract
 {
     /**
      * Getting all available childs for Invoice, Shipmen or Creditmemo item
@@ -27,11 +27,11 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
     {
         $_itemsArray = array();
 
-        if ($item instanceof Mage_Sales_Model_Order_Invoice_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Invoice_Item) {
             $_items = $item->getInvoice()->getAllItems();
-        } else if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+        } else if ($item instanceof Magento_Sales_Model_Order_Shipment_Item) {
             $_items = $item->getShipment()->getAllItems();
-        } else if ($item instanceof Mage_Sales_Model_Order_Creditmemo_Item) {
+        } else if ($item instanceof Magento_Sales_Model_Order_Creditmemo_Item) {
             $_items = $item->getCreditmemo()->getAllItems();
         }
 
@@ -174,7 +174,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
      */
     public function getSelectionAttributes($item)
     {
-        if ($item instanceof Mage_Sales_Model_Order_Item) {
+        if ($item instanceof Magento_Sales_Model_Order_Item) {
             $options = $item->getProductOptions();
         } else {
             $options = $item->getOrderItem()->getProductOptions();
@@ -213,11 +213,11 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
     /**
      * Retrieve Order Item
      *
-     * @return Mage_Sales_Order_Item
+     * @return Magento_Sales_Order_Item
      */
     public function getOrderItem()
     {
-        if ($this->getItem() instanceof Mage_Sales_Order_Item) {
+        if ($this->getItem() instanceof Magento_Sales_Order_Item) {
             return $this->getItem();
         } else {
             return $this->getItem()->getOrderItem();
@@ -227,7 +227,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
     /**
      * Retrieve Value HTML
      *
-     * @param Mage_Sales_Order_Item $item
+     * @param Magento_Sales_Order_Item $item
      * @return string
      */
     public function getValueHtml($item)
@@ -251,7 +251,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
     /**
      * Can show price info for item
      *
-     * @param Mage_Sales_Order_Item $item
+     * @param Magento_Sales_Order_Item $item
      * @return bool
      */
     public function canShowPriceInfo($item)

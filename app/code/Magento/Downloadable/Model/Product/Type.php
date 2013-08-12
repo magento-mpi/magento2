@@ -311,7 +311,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     {
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
-        if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+        if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             $buyRequest = new Magento_Object(unserialize($option->getValue()));
             if (!$buyRequest->hasLinks()) {
                 if (!$product->getLinksPurchasedSeparately()) {

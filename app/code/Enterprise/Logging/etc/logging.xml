@@ -808,7 +808,7 @@
     <salesrule translate="label">
         <label>Cart Price Rules</label>
         <expected_models>
-            <Mage_SalesRule_Model_Rule/>
+            <Magento_SalesRule_Model_Rule/>
         </expected_models>
         <actions>
             <adminhtml_promo_quote_edit>
@@ -919,11 +919,11 @@
     <sales_orders translate="label">
         <label>Sales Orders</label>
         <expected_models>
-            <Mage_Sales_Model_Order>
+            <Magento_Sales_Model_Order>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Mage_Sales_Model_Order>
+            </Magento_Sales_Model_Order>
         </expected_models>
         <actions>
 
@@ -946,42 +946,42 @@
             <adminhtml_sales_order_massHold>
                 <action>massUpdate</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_massHold>
 
             <adminhtml_sales_order_massUnhold>
                 <action>massUpdate</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_massUnhold>
 
             <adminhtml_sales_order_massCancel>
                 <action>massUpdate</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_massCancel>
 
             <adminhtml_sales_order_hold>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_hold>
 
             <adminhtml_sales_order_unhold>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_unhold>
 
             <adminhtml_sales_order_cancel>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_cancel>
 
@@ -990,7 +990,7 @@
                 <expected_models extends="merge">
                     <Magento_Customer_Model_Customer/>
                     <Magento_Customer_Model_Address/>
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_create_save>
 
@@ -999,14 +999,14 @@
                 <expected_models extends="merge">
                     <Magento_Customer_Model_Customer/>
                     <Magento_Customer_Model_Address/>
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_edit_save>
 
             <adminhtml_sales_order_email>
                 <action>send</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_email>
 
@@ -1031,7 +1031,7 @@
             <adminhtml_sales_order_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Mage_Sales_Model_Order_Status_History/>
+                    <Magento_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_addComment>
         </actions>
@@ -1040,11 +1040,11 @@
     <sales_invoices translate="label">
         <label>Sales Invoices</label>
         <expected_models>
-            <Mage_Sales_Model_Order_Invoice>
+            <Magento_Sales_Model_Order_Invoice>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Mage_Sales_Model_Order_Invoice>
+            </Magento_Sales_Model_Order_Invoice>
         </expected_models>
         <actions>
             <adminhtml_sales_invoice_view>
@@ -1058,7 +1058,7 @@
             <adminhtml_sales_order_invoice_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Invoice_Comment />
+                    <Magento_Sales_Model_Order_Invoice_Comment />
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_system_config_edit/>
@@ -1069,7 +1069,7 @@
             <adminhtml_sales_order_invoice_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Mage_Sales_Model_Order_Invoice_Comment/>
+                    <Magento_Sales_Model_Order_Invoice_Comment/>
                 </expected_models>
             </adminhtml_sales_order_invoice_addComment>
 
@@ -1092,11 +1092,11 @@
     <sales_shipments translate="label">
         <label>Sales Shipments</label>
         <expected_models>
-            <Mage_Sales_Model_Order_Shipment>
+            <Magento_Sales_Model_Order_Shipment>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Mage_Sales_Model_Order_Shipment>
+            </Magento_Sales_Model_Order_Shipment>
         </expected_models>
         <actions>
             <adminhtml_sales_shipment_view>
@@ -1110,7 +1110,7 @@
             <adminhtml_sales_order_shipment_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Shipment_Comment />
+                    <Magento_Sales_Model_Order_Shipment_Comment />
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
@@ -1120,7 +1120,7 @@
             <adminhtml_sales_order_shipment_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Mage_Sales_Model_Order_Shipment_Comment/>
+                    <Magento_Sales_Model_Order_Shipment_Comment/>
                 </expected_models>
             </adminhtml_sales_order_shipment_addComment>
 
@@ -1141,7 +1141,7 @@
             <adminhtml_sales_order_shipment_addTrack>
                 <action>save</action>
                 <expected_models>
-                    <Mage_Sales_Model_Order_Shipment_Track/>
+                    <Magento_Sales_Model_Order_Shipment_Track/>
                 </expected_models>
             </adminhtml_sales_order_shipment_addTrack>
         </actions>
@@ -1150,11 +1150,11 @@
     <sales_creditmemos translate="label">
         <label>Sales Credit Memos</label>
         <expected_models>
-            <Mage_Sales_Model_Order_Creditmemo>
+            <Magento_Sales_Model_Order_Creditmemo>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Mage_Sales_Model_Order_Creditmemo>
+            </Magento_Sales_Model_Order_Creditmemo>
         </expected_models>
         <actions>
             <adminhtml_sales_creditmemo_view>
@@ -1168,7 +1168,7 @@
             <adminhtml_sales_order_creditmemo_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Sales_Model_Order_Creditmemo_Comment />
+                    <Magento_Sales_Model_Order_Creditmemo_Comment />
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
@@ -1178,7 +1178,7 @@
             <adminhtml_sales_order_creditmemo_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Mage_Sales_Model_Order_Creditmemo_Comment/>
+                    <Magento_Sales_Model_Order_Creditmemo_Comment/>
                 </expected_models>
             </adminhtml_sales_order_creditmemo_addComment>
 
@@ -1687,7 +1687,7 @@
     <adminhtml_sales_recurring_profile translate="label">
         <label>Recurring Billing Profiles</label>
         <expected_models>
-            <Mage_Sales_Model_Recurring_Profile/>
+            <Magento_Sales_Model_Recurring_Profile/>
         </expected_models>
         <actions>
             <adminhtml_sales_recurring_profile_updateProfile>

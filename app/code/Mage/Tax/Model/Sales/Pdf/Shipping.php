@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Tax_Model_Sales_Pdf_Shipping extends Mage_Sales_Model_Order_Pdf_Total_Default
+class Mage_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf_Total_Default
 {
     /**
      * Get array of arrays with totals information for display in PDF
@@ -49,13 +49,13 @@ class Mage_Tax_Model_Sales_Pdf_Shipping extends Mage_Sales_Model_Order_Pdf_Total
         } elseif ($config->displaySalesShippingInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
+                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         } else {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amount,
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
+                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         }

@@ -74,7 +74,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     public function testDispatchIfRewardCurrencyAmountAboveNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Mage_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
         $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
@@ -95,7 +95,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     public function testDispatchIfRewardCurrencyAmountBelowNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Mage_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
         $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
@@ -110,7 +110,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     {
         $data = array('key1' => array('points_delta' => 60), 'key2' => array('points_delta' => 45));
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Mage_Sales_Model_Order',
+        $order = $this->getMock('Magento_Sales_Model_Order',
             array('getBaseRewardCurrencyAmount', 'setRewardSalesrulePoints'), array(), '', false
         );
         $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);

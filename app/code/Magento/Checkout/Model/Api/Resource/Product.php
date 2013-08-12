@@ -65,13 +65,13 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
     /**
      * Get QuoteItem by Product and request info
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @param Magento_Catalog_Model_Product $product
      * @param Magento_Object $requestInfo
-     * @return Mage_Sales_Model_Quote_Item
+     * @return Magento_Sales_Model_Quote_Item
      * @throw Magento_Core_Exception
      */
-    protected function _getQuoteItemByProduct(Mage_Sales_Model_Quote $quote,
+    protected function _getQuoteItemByProduct(Magento_Sales_Model_Quote $quote,
                             Magento_Catalog_Model_Product $product,
                             Magento_Object $requestInfo)
     {
@@ -95,7 +95,7 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
             $cartCandidates = array($cartCandidates);
         }
 
-        /** @var $item Mage_Sales_Model_Quote_Item */
+        /** @var $item Magento_Sales_Model_Quote_Item */
         $item = null;
         foreach ($cartCandidates as $candidate) {
             if ($candidate->getParentProductId()) {
@@ -106,7 +106,7 @@ class Magento_Checkout_Model_Api_Resource_Product extends Magento_Checkout_Model
         }
 
         if (is_null($item)) {
-            $item = Mage::getModel('Mage_Sales_Model_Quote_Item');
+            $item = Mage::getModel('Magento_Sales_Model_Quote_Item');
         }
 
         return $item;

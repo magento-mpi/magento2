@@ -40,7 +40,7 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Rma order object
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order           = null;
 
@@ -161,12 +161,12 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Get rma order object
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
         if (!$this->_order) {
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOrderId());
+            $this->_order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getOrderId());
         }
         return $this->_order;
     }
@@ -749,7 +749,7 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
         ;
 
         if (!empty($rmaItems)) {
-            $quoteItemsCollection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Item_Collection')
+            $quoteItemsCollection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Item_Collection')
                 ->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))
                 ->getData()
             ;
@@ -757,7 +757,7 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
             $quoteItems = array();
             $subtotal   = $weight = $qty = $storeId = 0;
             foreach ($quoteItemsCollection as $item) {
-                $itemModel = Mage::getModel('Mage_Sales_Model_Quote_Item');
+                $itemModel = Mage::getModel('Magento_Sales_Model_Quote_Item');
 
                 $item['qty']                    = $rmaItems[$item['item_id']]['qty'];
                 $item['name']                   = $rmaItems[$item['item_id']]['product_name'];
@@ -778,10 +778,10 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
                 if (!$storeId) {
                     $storeId = $item['store_id'];
-                    /** @var $address Mage_Sales_Model_Order */
-                    $address = Mage::getModel('Mage_Sales_Model_Order')->load($item['order_id'])->getShippingAddress();
+                    /** @var $address Magento_Sales_Model_Order */
+                    $address = Mage::getModel('Magento_Sales_Model_Order')->load($item['order_id'])->getShippingAddress();
                 }
-                $quote = Mage::getModel('Mage_Sales_Model_Quote')
+                $quote = Mage::getModel('Magento_Sales_Model_Quote')
                         ->setStoreId($storeId);
                 $itemModel->setQuote($quote);
             }
@@ -893,7 +893,7 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
                         array_keys(Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers())
                     )
                 ) {
-                    $found[] = Mage::getModel('Mage_Sales_Model_Quote_Address_Rate')->importShippingRate($shippingRate);
+                    $found[] = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate')->importShippingRate($shippingRate);
                 }
             }
         }

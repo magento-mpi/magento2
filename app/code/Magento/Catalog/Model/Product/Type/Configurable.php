@@ -640,7 +640,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     {
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
-        if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+        if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             $buyRequest = new Magento_Object(unserialize($option->getValue()));
             $attributes = $buyRequest->getSuperAttribute();
             if (is_array($attributes)) {
@@ -757,7 +757,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
      * For example if product which was added to option already removed from catalog.
      *
      * @param  Magento_Catalog_Model_Product|null $optionProduct
-     * @param  Mage_Sales_Model_Quote_Item_Option $option
+     * @param  Magento_Sales_Model_Quote_Item_Option $option
      * @param  Magento_Catalog_Model_Product|null $product
      * @return Magento_Catalog_Model_Product_Type_Configurable
      */

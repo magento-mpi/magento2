@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_SalesRule
+ * @package     Magento_SalesRule
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}

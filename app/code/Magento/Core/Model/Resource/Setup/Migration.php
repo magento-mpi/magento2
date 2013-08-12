@@ -747,7 +747,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             'importexport'      => 'Magento_ImportExport',
             'paypaluk'          => 'Magento_PaypalUk',
             'productalert'      => 'Magento_ProductAlert',
-            'salesrule'         => 'Mage_SalesRule',
+            'salesrule'         => 'Magento_SalesRule',
         );
     }
 }

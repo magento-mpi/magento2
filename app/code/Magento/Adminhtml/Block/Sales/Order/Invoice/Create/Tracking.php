@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     protected function _prepareLayout()
     {
         $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Add Tracking Number'),
+            'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Add Tracking Number'),
             'class'   => '',
             'onclick' => 'trackingControl.add()'
         ));
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getShipment()
     {
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     /**
      * Retrieve shipment model instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @return Magento_Sales_Model_Order_Shipment
      */
     public function getInvoice()
     {
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
         $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $this->getInvoice()->getStoreId()
         );
-        $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
+        $carriers['custom'] = Mage::helper('Magento_Sales_Helper_Data')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');

@@ -18,14 +18,14 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     /**
      * Quote model object
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote;
 
     /**
      * Order model object
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
     protected $_store;
@@ -37,8 +37,8 @@ class Magento_Adminhtml_Model_Sales_Order_Random
 
     public function __construct()
     {
-        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote')->save();
-        $this->_order = Mage::getModel('Mage_Sales_Model_Order');
+        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')->save();
+        $this->_order = Mage::getModel('Magento_Sales_Model_Order');
     }
 
     protected function _getStores()

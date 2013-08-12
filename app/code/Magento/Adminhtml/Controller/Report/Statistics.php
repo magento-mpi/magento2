@@ -78,13 +78,13 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
         }
 
         $aliases = array(
-            'sales'       => 'Mage_Sales_Model_Resource_Report_Order',
+            'sales'       => 'Magento_Sales_Model_Resource_Report_Order',
             'tax'         => 'Mage_Tax_Model_Resource_Report_Tax',
-            'shipping'    => 'Mage_Sales_Model_Resource_Report_Shipping',
-            'invoiced'    => 'Mage_Sales_Model_Resource_Report_Invoiced',
-            'refunded'    => 'Mage_Sales_Model_Resource_Report_Refunded',
-            'coupons'     => 'Mage_SalesRule_Model_Resource_Report_Rule',
-            'bestsellers' => 'Mage_Sales_Model_Resource_Report_Bestsellers',
+            'shipping'    => 'Magento_Sales_Model_Resource_Report_Shipping',
+            'invoiced'    => 'Magento_Sales_Model_Resource_Report_Invoiced',
+            'refunded'    => 'Magento_Sales_Model_Resource_Report_Refunded',
+            'coupons'     => 'Magento_SalesRule_Model_Resource_Report_Rule',
+            'bestsellers' => 'Magento_Sales_Model_Resource_Report_Bestsellers',
             'viewed'      => 'Magento_Reports_Model_Resource_Report_Product_Viewed',
         );
         $out = array();

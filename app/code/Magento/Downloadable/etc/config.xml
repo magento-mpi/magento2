@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Catalog />
-                <!--<Mage_Sales />-->
+                <!--<Magento_Sales />-->
             </depends>
         </Magento_Downloadable>
     </modules>

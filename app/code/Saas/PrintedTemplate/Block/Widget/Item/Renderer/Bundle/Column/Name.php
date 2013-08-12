@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle_Column_Name
     /**
      * Retrieve Value HTML
      *
-     * @param Mage_Sales_Order_Item $item
+     * @param Magento_Sales_Order_Item $item
      * @return string
      */
     public function getValueHtml($item)

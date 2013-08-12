@@ -78,7 +78,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -89,7 +89,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
     /**
      * Check if dummy payment method is available
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isDummyMethodAvailable($quote = null)
@@ -280,8 +280,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
             $message = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
-                  Mage_Sales_Model_Order::STATE_PROCESSING,
-                  Mage_Sales_Model_Order::STATUS_FRAUD,
+                  Magento_Sales_Model_Order::STATE_PROCESSING,
+                  Magento_Sales_Model_Order::STATUS_FRAUD,
                   $message
             );
         }
@@ -333,8 +333,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
             $message = Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
-                  Mage_Sales_Model_Order::STATE_PROCESSING,
-                  Mage_Sales_Model_Order::STATUS_FRAUD,
+                  Magento_Sales_Model_Order::STATE_PROCESSING,
+                  Magento_Sales_Model_Order::STATUS_FRAUD,
                   $message
             );
         }
@@ -412,7 +412,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
     /**
      * Create address request data
      *
-     * @param Mage_Sales_Model_Order_Address $address
+     * @param Magento_Sales_Model_Order_Address $address
      * @return array
      */
     protected function _getAddressInfo($address)
@@ -443,7 +443,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
 
     /**
      * Public wrapper for _getAddressInfo
-     * @param  Mage_Sales_Model_Order_Address $address
+     * @param  Magento_Sales_Model_Order_Address $address
      * @return array
      */
     public function getAddressInfo($address)
@@ -475,10 +475,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
      * Transfer API results to payment.
      * Api response must be compatible with payment response expectation
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param array $apiResponse
      */
-    protected function _importResultToPayment(Mage_Sales_Model_Order_Payment $payment, $apiResponse)
+    protected function _importResultToPayment(Magento_Sales_Model_Order_Payment $payment, $apiResponse)
     {
         if (!empty($apiResponse['gateway_transaction_id'])) {
             $payment->setPreparedMessage(
@@ -515,7 +515,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
     {
         $orderId = null;
         $paymentInfo = $this->getInfoInstance();
-        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+        if ($paymentInfo instanceof Magento_Sales_Model_Order_Payment) {
             $orderId = $paymentInfo->getOrder()->getIncrementId();
         } else {
             if (!$paymentInfo->getQuote()->getReservedOrderId()) {

@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order for order variable
+ * Container for Magento_Sales_Model_Order for order variable
  *
  * Container that can restrict access to properties and method
  * with white list.
@@ -31,9 +31,9 @@ class Saas_PrintedTemplate_Model_Variable_Order extends Saas_PrintedTemplate_Mod
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order $value Order
+     * @param Magento_Sales_Model_Order $value Order
      */
-    public function __construct(Mage_Sales_Model_Order $value)
+    public function __construct(Magento_Sales_Model_Order $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig('order');

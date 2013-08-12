@@ -22,13 +22,13 @@ class Saas_PrintedTemplate_Model_Converter_Template_Creditmemo extends Saas_Prin
      *
      * @param array $data Array with arguments and they should be:
      *     Saas_PrintedTemplate_Model_Template $template
-     *     Mage_Sales_Model_Order_Creditmemo $creditmemo
+     *     Magento_Sales_Model_Order_Creditmemo $creditmemo
      */
     public function __construct(array $data = array())
     {
         // Check arguments
         if (isset($data['template']) && $data['template'] instanceof Saas_PrintedTemplate_Model_Template
-            && isset($data['model']) && $data['model'] instanceof Mage_Sales_Model_Order_Creditmemo
+            && isset($data['model']) && $data['model'] instanceof Magento_Sales_Model_Order_Creditmemo
         ) {
             $template = $data['template'];
             $creditmemo = $data['model'];

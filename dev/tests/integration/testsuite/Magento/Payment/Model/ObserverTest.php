@@ -61,8 +61,8 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->setGroups(array('groups' => $data['groups']))
             ->save();
 
-        /** @var Mage_Sales_Model_Order_Status $status */
-        $status = $this->_objectManager->get('Mage_Sales_Model_Order_Status')->load($statusCode);
+        /** @var Magento_Sales_Model_Order_Status $status */
+        $status = $this->_objectManager->get('Magento_Sales_Model_Order_Status')->load($statusCode);
 
         $defaultStatus = (string)Mage::getStoreConfig('payment/checkmo/order_status');
 
@@ -74,7 +74,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $newStatus = Mage::getStoreConfig('payment/checkmo/order_status');
 
-        $status->unassignState(Mage_Sales_Model_Order::STATE_NEW);
+        $status->unassignState(Magento_Sales_Model_Order::STATE_NEW);
 
         $this->_resetConfig();
 
@@ -115,7 +115,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _createEventObserver()
     {
-        $data = array('status' => 'custom_new_status', 'state' => Mage_Sales_Model_Order::STATE_NEW);
+        $data = array('status' => 'custom_new_status', 'state' => Magento_Sales_Model_Order::STATE_NEW);
         $event = $this->_objectManager->create('Magento_Event', array('data' => $data));
         return $this->_objectManager->create('Magento_Event_Observer', array('data' => array('event' => $event)));
     }

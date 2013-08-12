@@ -71,7 +71,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      * Set array of columns that should be aggregated
      *
      * @param array $columns
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function setAggregatedColumns(array $columns)
     {
@@ -94,7 +94,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function setDateRange($from = null, $to = null)
     {
@@ -107,7 +107,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      * Set period
      *
      * @param string $period
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function setPeriod($period)
     {
@@ -118,7 +118,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
     /**
      * Apply date range filter
      *
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     protected function _applyDateRangeFilter()
     {
@@ -137,7 +137,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      * Set store ids
      *
      * @param mixed $storeIds (null, int|string, array, array may contain null)
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function addStoreFilter($storeIds)
     {
@@ -149,7 +149,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      * Apply stores filter to select object
      *
      * @param Zend_Db_Select $select
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     protected function _applyStoresFilterToSelect(Zend_Db_Select $select)
     {
@@ -181,7 +181,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
     /**
      * Apply stores filter
      *
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     protected function _applyStoresFilter()
     {
@@ -192,7 +192,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      * Getter/Setter for isTotals
      *
      * @param null|boolean $flag
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function isTotals($flag = null)
     {
@@ -207,7 +207,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Abstract extends Magento_
      * Getter/Setter for isSubTotals
      *
      * @param null|boolean $flag
-     * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
+     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function isSubTotals($flag = null)
     {

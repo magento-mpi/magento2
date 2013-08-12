@@ -62,12 +62,12 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
 
         $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
                 $allowedOrderStates = array(
-                    Mage_Sales_Model_Order::STATE_PROCESSING,
-                    Mage_Sales_Model_Order::STATE_COMPLETE
+                    Magento_Sales_Model_Order::STATE_PROCESSING,
+                    Magento_Sales_Model_Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
                     $session->unsLastRealOrderId();

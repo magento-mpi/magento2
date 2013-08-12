@@ -90,13 +90,13 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
     /**
      * Load quote from request and make sure the proper payment method is set
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _loadQuote()
     {
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
         $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
-        $quote = Mage::getModel('Mage_Sales_Model_Quote')
+        $quote = Mage::getModel('Magento_Sales_Model_Quote')
             ->setStoreId($storeId)
             ->load($quoteId);
         if ($quote->isVirtual()) {
@@ -325,14 +325,14 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $this->getGResponse()->SendAck();
 
         // LOOK FOR EXISTING ORDER TO AVOID DUPLICATES
-        $orders = Mage::getModel('Mage_Sales_Model_Order')->getCollection()
+        $orders = Mage::getModel('Magento_Sales_Model_Order')->getCollection()
             ->addAttributeToFilter('ext_order_id', $this->getGoogleOrderNumber());
         if (count($orders)) {
             return;
         }
 
         // IMPORT GOOGLE ORDER DATA INTO QUOTE
-        /* @var $quote Mage_Sales_Model_Quote */
+        /* @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_loadQuote();
         $quote->setIsActive(true)->reserveOrderId();
 
@@ -366,9 +366,9 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $taxMessage = $this->_applyCustomTax($quote->getShippingAddress());
 
         // CONVERT QUOTE TO ORDER
-        $convertQuote = Mage::getSingleton('Mage_Sales_Model_Convert_Quote');
+        $convertQuote = Mage::getSingleton('Magento_Sales_Model_Convert_Quote');
 
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $order = $convertQuote->toOrder($quote);
 
         if ($quote->isVirtual()) {
@@ -408,12 +408,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
          * Adding transaction for correct transaction information displaying on order view at back end.
          * It has no influence on api interaction logic.
          */
-        $payment = Mage::getModel('Mage_Sales_Model_Order_Payment')
+        $payment = Mage::getModel('Magento_Sales_Model_Order_Payment')
             ->setMethod('googlecheckout')
             ->setTransactionId($this->getGoogleOrderNumber())
             ->setIsTransactionClosed(false);
         $order->setPayment($payment);
-        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+        $payment->addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
         $order->setCanShipPartiallyItem(false);
 
         $emailAllowed = ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE') === 'true');
@@ -518,7 +518,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         }
 
         if (!$qAddress) {
-            $qAddress = Mage::getModel('Mage_Sales_Model_Quote_Address');
+            $qAddress = Mage::getModel('Magento_Sales_Model_Quote_Address');
         }
         $nameArr = $gAddress->getData('structured-name');
         if ($nameArr) {
@@ -626,11 +626,11 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
      * so it will get in order description properly
      *
      * @param string $code
-     * @return Mage_Sales_Model_Quote_Address_Rate
+     * @return Magento_Sales_Model_Quote_Address_Rate
      */
     protected function _createShippingRate($code, $storeId = null)
     {
-        $rate = Mage::getModel('Mage_Sales_Model_Quote_Address_Rate')
+        $rate = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate')
             ->setCode($code);
 
         $infos = $this->_getShippingInfos($storeId);
@@ -710,12 +710,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
     /**
      * Order getter
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
         if (!$this->hasData('order')) {
-            $order = Mage::getModel('Mage_Sales_Model_Order')
+            $order = Mage::getModel('Magento_Sales_Model_Order')
                 ->loadByAttribute('ext_order_id', $this->getGoogleOrderNumber());
             if (!$order->getId()) {
                 Mage::throwException('Invalid Order: ' . $this->getGoogleOrderNumber());
@@ -811,12 +811,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             $msg .= '<br />' . $this->__('Invoice Auto-Created: %s', '<strong>' . $invoice->getIncrementId() . '</strong>');
         }
 
-        $this->_addChildTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
+        $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
 
-        $open = Mage_Sales_Model_Order_Invoice::STATE_OPEN;
+        $open = Magento_Sales_Model_Order_Invoice::STATE_OPEN;
         foreach ($order->getInvoiceCollection() as $orderInvoice) {
             if ($orderInvoice->getState() == $open && $orderInvoice->getBaseGrandTotal() == $latestCharged) {
-                $orderInvoice->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID)
+                $orderInvoice->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID)
                     ->setTransactionId($this->getGoogleOrderNumber())
                     ->save();
                 break;
@@ -876,7 +876,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
 
         $order = $this->getOrder();
         if ($order->getBaseGrandTotal() == $totalChargeback) {
-            $creditmemo = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+            $creditmemo = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
                 ->prepareCreditmemo()
                 ->setPaymentRefundDisallowed(true)
                 ->setAutomaticallyCreated(true)
@@ -889,8 +889,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $msg .= '<br />' . $this->__('Latest Chargeback: %s', '<strong>' . $this->_formatAmount($latestChargeback) . '</strong>');
         $msg .= '<br />' . $this->__('Total Chargeback: %s', '<strong>' . $this->_formatAmount($totalChargeback) . '</strong>');
 
-        $this->_addChildTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
+        $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
+            Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
 
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
@@ -923,7 +923,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             $adjustment = array('adjustment_negative' => $order->getBaseGrandTotal() - $latestRefunded);
         }
 
-        $creditmemo = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+        $creditmemo = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
             ->prepareCreditmemo($adjustment)
             ->setPaymentRefundDisallowed(true)
             ->setAutomaticallyCreated(true)
@@ -935,8 +935,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $msg .= '<br />' . $this->__('Latest Refund: %s', '<strong>' . $this->_formatAmount($latestRefunded) . '</strong>');
         $msg .= '<br />' . $this->__('Total Refunded: %s', '<strong>' . $this->_formatAmount($totalRefunded) . '</strong>');
 
-        $this->_addChildTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
+        $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
+            Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
 
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
@@ -982,13 +982,13 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
      */
     protected function _addChildTransaction(
         $typeTarget,
-        $typeParent = Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH)
+        $typeParent = Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH)
     {
         $payment                = $this->getOrder()->getPayment();
         $googleOrderId          = $this->getGoogleOrderNumber();
         $parentTransactionId    = $googleOrderId;
 
-        if ($typeParent != Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH) {
+        if ($typeParent != Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH) {
             $parentTransactionId .= '-' . $typeParent;
         } else {
             $payment->setIsTransactionClosed(false);

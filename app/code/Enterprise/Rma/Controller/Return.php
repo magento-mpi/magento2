@@ -53,7 +53,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
     public function createAction()
     {
         $orderId    = (int)$this->getRequest()->getParam('order_id');
-        $order      = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+        $order      = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
         if (empty($orderId)) {
             $this->_redirect('sales/order/history');
             return;
@@ -122,7 +122,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
     /**
      * Check order view availability
      *
-     * @param   Enterprise_Rma_Model_Rma | Mage_Sales_Model_Order $item
+     * @param   Enterprise_Rma_Model_Rma | Magento_Sales_Model_Order $item
      * @return  bool
      */
     protected function _canViewOrder($item)
@@ -190,7 +190,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
             return;
         }
 
-        $order = Mage::getModel('Mage_Sales_Model_Order')->load(
+        $order = Mage::getModel('Magento_Sales_Model_Order')->load(
             Mage::registry('current_rma')->getOrderId()
         );
         Mage::register('current_order', $order);
@@ -217,9 +217,9 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
             return false;
         }
 
-        $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+        $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
 
-        $availableStates = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates();
+        $availableStates = Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, $strict = true)
             ) {
