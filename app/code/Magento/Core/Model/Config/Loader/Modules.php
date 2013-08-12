@@ -229,7 +229,7 @@ class Magento_Core_Model_Config_Loader_Modules implements Magento_Core_Model_Con
             $name = explode(DIRECTORY_SEPARATOR, $v);
             $collection = $name[count($name) - 4];
 
-            if ($collection == 'Mage') {
+            if ($collection == 'Magento') {
                 $collectModuleFiles['mage'][] = $v;
             } else {
                 $collectModuleFiles['custom'][] = $v;
