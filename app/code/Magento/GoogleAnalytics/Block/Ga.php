@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleAnalytics
+ * @category    Magento
+ * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * GoogleAnalitics Page Block
  *
  * @category   Mage
- * @package    Mage_GoogleAnalytics
+ * @package    Magento_GoogleAnalytics
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
+class Magento_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
 {
     /**
      * Get a specific page name (may be customized via layout)
@@ -102,7 +102,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
      */
     protected function _toHtml()
     {
-        if (!Mage::helper('Mage_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
+        if (!Mage::helper('Magento_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
             return '';
         }
 

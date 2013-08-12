@@ -3,8 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleAnalytics
+ * @category    Magento
+ * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Mage_GoogleCheckout::google" module="Mage_GoogleAnalytics" title="Google API" />
+                            <resource id="Mage_GoogleCheckout::google" module="Magento_GoogleAnalytics" title="Google API" />
                         </resource>
                     </resource>
                 </resource>

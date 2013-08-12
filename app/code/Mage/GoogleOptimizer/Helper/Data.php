@@ -25,19 +25,19 @@ class Mage_GoogleOptimizer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeConfig;
 
     /**
-     * @var Mage_GoogleAnalytics_Helper_Data
+     * @var Magento_GoogleAnalytics_Helper_Data
      */
     protected $_analyticsHelper;
 
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
-     * @param Mage_GoogleAnalytics_Helper_Data $analyticsHelper
+     * @param Magento_GoogleAnalytics_Helper_Data $analyticsHelper
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_ConfigInterface $storeConfig,
-        Mage_GoogleAnalytics_Helper_Data $analyticsHelper
+        Magento_GoogleAnalytics_Helper_Data $analyticsHelper
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_analyticsHelper = $analyticsHelper;

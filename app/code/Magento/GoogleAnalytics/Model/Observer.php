@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleAnalytics
+ * @category    Magento
+ * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,9 +13,9 @@
  * Google Analytics module observer
  *
  * @category   Mage
- * @package    Mage_GoogleAnalytics
+ * @package    Magento_GoogleAnalytics
  */
-class Mage_GoogleAnalytics_Model_Observer
+class Magento_GoogleAnalytics_Model_Observer
 {
     /**
      * Whether the google checkout inclusion link was rendered by this observer instance
@@ -53,7 +53,7 @@ class Mage_GoogleAnalytics_Model_Observer
     public function injectAnalyticsInGoogleCheckoutLink(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block || !Mage::helper('Mage_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
+        if (!$block || !Mage::helper('Magento_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
             return;
         }
 

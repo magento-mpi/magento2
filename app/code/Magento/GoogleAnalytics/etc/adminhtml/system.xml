@@ -3,15 +3,15 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleAnalytics
+ * @category    Magento
+ * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <system>
-        <section id="google" translate="label" module="Mage_GoogleAnalytics" type="text" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="google" translate="label" module="Magento_GoogleAnalytics" type="text" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Google API</label>
             <tab>sales</tab>
             <resource>Mage_GoogleCheckout::google</resource>

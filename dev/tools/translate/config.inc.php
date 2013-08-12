@@ -142,8 +142,8 @@ $CONFIG['translates'] = array(
         'app/code/Mage/GiftMessage/',
         'app/design/frontend/base/default/template/giftmessage/'
     ),
-    'Mage_GoogleAnalytics' => array(
-        'app/code/Mage/GoogleAnalytics/',
+    'Magento_GoogleAnalytics' => array(
+        'app/code/Magento/GoogleAnalytics/',
         'app/design/frontend/base/default/layout/googleanalytics.xml'
     ),
     'Mage_GoogleBase' => array(
@@ -590,7 +590,7 @@ $CONFIG['helpers']  = array(
     'eway'              => 'Mage_Eway',
     'flo2cash'          => 'Mage_Flo2Cash',
     'giftmessage'       => 'Mage_GiftMessage',
-    'googleanalytics'   => 'Mage_GoogleAnalytics',
+    'googleanalytics'   => 'Magento_GoogleAnalytics',
     'googlebase'        => 'Mage_GoogleBase',
     'googlecheckout'    => 'Mage_GoogleCheckout',
     'googleoptimizer'   => 'Mage_GoogleOptimizer',

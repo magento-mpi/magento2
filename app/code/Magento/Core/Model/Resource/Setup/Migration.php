@@ -741,7 +741,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             'catalogsearch'     => 'Magento_CatalogSearch',
             'currencysymbol'    => 'Mage_CurrencySymbol',
             'giftmessage'       => 'Mage_GiftMessage',
-            'googleanalytics'   => 'Mage_GoogleAnalytics',
+            'googleanalytics'   => 'Magento_GoogleAnalytics',
             'googlebase'        => 'Mage_GoogleBase',
             'googlecheckout'    => 'Mage_GoogleCheckout',
             'importexport'      => 'Mage_ImportExport',

@@ -13,7 +13,7 @@
             <version>2.0.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_GoogleAnalytics/>
+                <Magento_GoogleAnalytics/>
                 <Magento_Catalog/>
                 <Mage_Cms/>
             </depends>

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleAnalytics
+ * @category    Magento
+ * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,9 +13,9 @@
  * GoogleAnalytics data helper
  *
  * @category   Mage
- * @package    Mage_GoogleAnalytics
+ * @package    Magento_GoogleAnalytics
  */
-class Mage_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Config paths for using throughout the code

@@ -3,37 +3,37 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_GoogleAnalytics
+ * @category    Magento
+ * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <modules>
-        <Mage_GoogleAnalytics>
+        <Magento_GoogleAnalytics>
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
                 <Magento_Core/>
             </depends>
-        </Mage_GoogleAnalytics>
+        </Magento_GoogleAnalytics>
     </modules>
     <frontend>
         <translate>
             <modules>
-                <Mage_GoogleAnalytics>
+                <Magento_GoogleAnalytics>
                     <files>
-                        <default>Mage_GoogleAnalytics.csv</default>
+                        <default>Magento_GoogleAnalytics.csv</default>
                     </files>
-                </Mage_GoogleAnalytics>
+                </Magento_GoogleAnalytics>
             </modules>
         </translate>
         <events>
             <checkout_onepage_controller_success_action>
                 <observers>
                     <googleanalytics_order_success>
-                        <class>Mage_GoogleAnalytics_Model_Observer</class>
+                        <class>Magento_GoogleAnalytics_Model_Observer</class>
                         <method>setGoogleAnalyticsOnOrderSuccessPageView</method>
                     </googleanalytics_order_success>
                 </observers>
@@ -41,7 +41,7 @@
             <checkout_multishipping_controller_success_action>
                 <observers>
                     <googleanalytics_order_success>
-                        <class>Mage_GoogleAnalytics_Model_Observer</class>
+                        <class>Magento_GoogleAnalytics_Model_Observer</class>
                         <method>setGoogleAnalyticsOnOrderSuccessPageView</method>
                     </googleanalytics_order_success>
                 </observers>
@@ -49,7 +49,7 @@
             <googlecheckout_block_link_html_before>
                 <observers>
                     <googleanalytics_googlecheckout_integration>
-                        <class>Mage_GoogleAnalytics_Model_Observer</class>
+                        <class>Magento_GoogleAnalytics_Model_Observer</class>
                         <method>injectAnalyticsInGoogleCheckoutLink</method>
                     </googleanalytics_googlecheckout_integration>
                 </observers>
@@ -59,11 +59,11 @@
     <adminhtml>
         <translate>
             <modules>
-                <Mage_GoogleAnalytics>
+                <Magento_GoogleAnalytics>
                     <files>
-                        <default>Mage_GoogleAnalytics.csv</default>
+                        <default>Magento_GoogleAnalytics.csv</default>
                     </files>
-                </Mage_GoogleAnalytics>
+                </Magento_GoogleAnalytics>
             </modules>
         </translate>
     </adminhtml>
