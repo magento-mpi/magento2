@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_SalesRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_SalesRule::promo_quote" title="Cart Price Rules" module="Magento_SalesRule" parent="Magento_CatalogRule::promo" sortOrder="30" action="adminhtml/promo_quote/" dependsOnModule="Magento_Sales" resource="Magento_SalesRule::quote"/>
+    </menu>
+</config>
