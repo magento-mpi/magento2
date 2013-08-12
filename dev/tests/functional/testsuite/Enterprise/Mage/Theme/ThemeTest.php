@@ -63,7 +63,7 @@ class Enterprise_Mage_Theme_ThemeTest extends Core_Mage_Theme_ThemeTest
             array('Enterprise_css_print.css', 'css_print'),
             array('Enterprise_css_styles-ie.css', 'css_style_ie'),
             array('Enterprise_css_styles.css', 'css_style'),
-            array('Enterprise_Default_Cms__widgets.css', 'mage_cms_widgets'),
+            array('Enterprise_Default_Cms__widgets.css', 'magento_cms_widgets'),
             array('Enterprise_Default_Page__css_tabs.css', 'mage_page_css_tabs'),
             array('Enterprise_Default_Reports__widgets.css', 'magento_reports_widgets'),
             array('Enterprise_Default_Widget__widgets.css', 'mage_widget_widgets'),

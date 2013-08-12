@@ -11,8 +11,8 @@
 /**
  * Block for CMS pages URL rewrites
  *
- * @method Mage_Cms_Model_Page getCmsPage()
- * @method Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit setCmsPage(Mage_Cms_Model_Page $cmsPage)
+ * @method Magento_Cms_Model_Page getCmsPage()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit setCmsPage(Magento_Cms_Model_Page $cmsPage)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -47,12 +47,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
     /**
      * Get or create new instance of CMS page
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     private function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(Mage::getModel('Mage_Cms_Model_Page'));
+            $this->setCmsPage(Mage::getModel('Magento_Cms_Model_Page'));
         }
         return $this->getCmsPage();
     }

@@ -559,10 +559,10 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeRevisionEditButtons($observer)
     {
-        /* @var $model Mage_Cms_Model_Page */
+        /* @var $model Magento_Cms_Model_Page */
         $model = Mage::registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = Mage::getResourceSingleton('Mage_Cms_Model_Resource_Page')
+            $storeIds = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
                 ->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
@@ -583,7 +583,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $model = Mage::registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = Mage::getResourceSingleton('Mage_Cms_Model_Resource_Page')
+            $storeIds = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
                 ->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()

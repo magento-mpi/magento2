@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }

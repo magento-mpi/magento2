@@ -200,7 +200,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsPageSaveAfter(Magento_Event_Observer $observer)
     {
-        /* @var $page Mage_Cms_Model_Page */
+        /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
         // Create new initial version & revision if it
@@ -264,7 +264,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsPageSaveBefore(Magento_Event_Observer $observer)
     {
-        /* @var $page Mage_Cms_Model_Page */
+        /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
         /*
          * All new pages created by user without permission to publish
@@ -436,7 +436,7 @@ class Enterprise_Cms_Model_Observer
     public function modifyPageStatuses(Magento_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, Mage::helper('Enterprise_Cms_Helper_Data')->__('Published'));
+        $statuses->setData(Magento_Cms_Model_Page::STATUS_ENABLED, Mage::helper('Enterprise_Cms_Helper_Data')->__('Published'));
 
         return $this;
     }
@@ -449,7 +449,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsPageDeleteAfter(Magento_Event_Observer $observer)
     {
-        /* @var $page Mage_Cms_Model_Page */
+        /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
         Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Increment')

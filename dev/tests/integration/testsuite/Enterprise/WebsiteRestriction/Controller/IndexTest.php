@@ -16,11 +16,11 @@ class Enterprise_WebsiteRestriction_Controller_IndexTest extends Magento_Test_Te
      * @magentoConfigFixture current_store general/restriction/mode 0
      * @magentoConfigFixture current_store general/restriction/cms_page page_design_blank
      * @magentoConfigFixture current_store general/restriction/http_status 1
-     * @magentoDataFixture Mage/Cms/_files/pages.php
+     * @magentoDataFixture Magento/Cms/_files/pages.php
      */
     public function testStubAction()
     {
-        $page = Mage::getModel('Mage_Cms_Model_Page');
+        $page = Mage::getModel('Magento_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture
 
         $websiteId = Mage::app()->getWebsite('base')->getId(); // fixture, pre-installed

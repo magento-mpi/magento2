@@ -38,7 +38,7 @@ class Magento_GoogleOptimizer_Helper_Code
         $this->_entity = $entity;
 
         $this->_checkEntityIsEmpty();
-        if ($entity instanceof Mage_Cms_Model_Page) {
+        if ($entity instanceof Magento_Cms_Model_Page) {
             $this->_codeModel->loadByEntityIdAndType($entity->getId(), $this->_getEntityType());
         } else {
             $this->_codeModel->loadByEntityIdAndType($entity->getId(), $this->_getEntityType(), $entity->getStoreId());
@@ -80,7 +80,7 @@ class Magento_GoogleOptimizer_Helper_Code
             $type = Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT;
         }
 
-        if ($this->_entity instanceof Mage_Cms_Model_Page) {
+        if ($this->_entity instanceof Magento_Cms_Model_Page) {
             $type = Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE;
         }
         return $type;

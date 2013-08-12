@@ -13,7 +13,7 @@
  * Cms manage pages controller
  *
  * @category   Magento
- * @package    Mage_Cms
+ * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller_Action
@@ -28,9 +28,9 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Cms::cms_page')
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
+            ->_setActiveMenu('Magento_Cms::cms_page')
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('CMS'), Mage::helper('Magento_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -64,14 +64,14 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
-        $model = Mage::getModel('Mage_Cms_Model_Page');
+        $model = Mage::getModel('Magento_Cms_Model_Page');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    Mage::helper('Mage_Cms_Helper_Data')->__('This page no longer exists.'));
+                    Mage::helper('Magento_Cms_Helper_Data')->__('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -91,10 +91,10 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
-                $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
+                $id ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Magento_Cms_Helper_Data')->__('New Page'),
+                $id ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Magento_Cms_Helper_Data')->__('New Page'));
 
         $this->renderLayout();
     }
@@ -108,7 +108,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         if ($data = $this->getRequest()->getPost()) {
             $data = $this->_filterPostData($data);
             //init model and set data
-            $model = Mage::getModel('Mage_Cms_Model_Page');
+            $model = Mage::getModel('Magento_Cms_Model_Page');
 
             if ($id = $this->getRequest()->getParam('page_id')) {
                 $model->load($id);
@@ -131,7 +131,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
 
                 // display success message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Cms_Helper_Data')->__('The page has been saved.'));
+                    Mage::helper('Magento_Cms_Helper_Data')->__('The page has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
                 // check if 'Save and Continue'
@@ -148,7 +148,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Cms_Helper_Data')->__('Something went wrong while saving the page.'));
+                    Mage::helper('Magento_Cms_Helper_Data')->__('Something went wrong while saving the page.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -168,13 +168,13 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('Mage_Cms_Model_Page');
+                $model = Mage::getModel('Magento_Cms_Model_Page');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Cms_Helper_Data')->__('The page has been deleted.'));
+                    Mage::helper('Magento_Cms_Helper_Data')->__('The page has been deleted.'));
                 // go to grid
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
@@ -190,7 +190,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('We can\'t find a page to delete.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Cms_Helper_Data')->__('We can\'t find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -205,13 +205,13 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         switch ($this->getRequest()->getActionName()) {
             case 'new':
             case 'save':
-                return $this->_authorization->isAllowed('Mage_Cms::save');
+                return $this->_authorization->isAllowed('Magento_Cms::save');
                 break;
             case 'delete':
-                return $this->_authorization->isAllowed('Mage_Cms::page_delete');
+                return $this->_authorization->isAllowed('Magento_Cms::page_delete');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Cms::page');
+                return $this->_authorization->isAllowed('Magento_Cms::page');
                 break;
         }
     }

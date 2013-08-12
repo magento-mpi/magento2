@@ -34,8 +34,8 @@ class Saas_PrintedTemplate_Model_Observer
      * @var array
      */
     protected $_widgetsToRemove = array(
-        'Mage_Cms_Block_Widget_Page_Link',
-        'Mage_Cms_Block_Widget_Block',
+        'Magento_Cms_Block_Widget_Page_Link',
+        'Magento_Cms_Block_Widget_Block',
         'Magento_Catalog_Block_Product_Widget_New',
         'Magento_Catalog_Block_Product_Widget_Link',
         'Magento_Catalog_Block_Category_Widget_Link',

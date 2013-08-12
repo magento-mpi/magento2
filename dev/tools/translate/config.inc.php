@@ -67,8 +67,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/chronopay/',
         'app/design/frontend/base/default/layout/chronopay.xml',
     ),
-    'Mage_Cms' => array(
-        'app/code/Mage/Cms/',
+    'Magento_Cms' => array(
+        'app/code/Magento/Cms/',
         'app/design/frontend/base/default/template/cms/',
         'app/design/frontend/base/default/layout/cms.xml'
     ),
@@ -575,7 +575,7 @@ $CONFIG['helpers']  = array(
     'centinel'          => 'Magento_Centinel',
     'checkout'          => 'Mage_Checkout',
     'chronopay'         => 'Mage_Chronopay',
-    'cms'               => 'Mage_Cms',
+    'cms'               => 'Magento_Cms',
     'compiler'          => 'Mage_Compiler',
     'connect'           => 'Mage_Connect',
     'contacts'          => 'Mage_Contacts',

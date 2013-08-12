@@ -51,7 +51,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
 
 
         if ($element->getValue()) {
-            $page = Mage::getModel('Mage_Cms_Model_Page')->load((int)$element->getValue());
+            $page = Mage::getModel('Magento_Cms_Model_Page')->load((int)$element->getValue());
             if ($page->getId()) {
                 $chooser->setLabel($page->getTitle());
             }
@@ -89,8 +89,8 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Cms_Model_Page')->getCollection();
-        /* @var $collection Mage_Cms_Model_Resource_Page_Collection */
+        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
+        /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
 
@@ -105,28 +105,28 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('chooser_id', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('ID'),
             'index'     => 'page_id',
             'header_css_class'  => 'col-id',
             'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('chooser_title', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Title'),
             'index'     => 'title',
             'header_css_class'  => 'col-title',
             'column_css_class'  => 'col-title'
         ));
 
         $this->addColumn('chooser_identifier', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('URL Key'),
             'index'     => 'identifier',
             'header_css_class'  => 'col-url',
             'column_css_class'  => 'col-url'
         ));
 
         $this->addColumn('chooser_root_template', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->getOptions(),
@@ -135,10 +135,10 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
         ));
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getModel('Mage_Cms_Model_Page')->getAvailableStatuses(),
+            'options'   => Mage::getModel('Magento_Cms_Model_Page')->getAvailableStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

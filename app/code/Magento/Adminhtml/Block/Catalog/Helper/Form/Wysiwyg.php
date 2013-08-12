@@ -70,8 +70,8 @@ HTML;
      */
     public function getIsWysiwygEnabled()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Cms')) {
-            return (bool)(Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Cms')) {
+            return (bool)(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }
 

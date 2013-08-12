@@ -39,7 +39,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Magent
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Cms_Model_Page')->getCollection();
+        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
 
         $store = $this->_getStore();
         if ($store->getId()) {

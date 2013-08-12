@@ -21,8 +21,8 @@ class Magento_Adminhtml_Block_Cms_Block extends Magento_Adminhtml_Block_Widget_G
     protected function _construct()
     {
         $this->_controller = 'cms_block';
-        $this->_headerText = Mage::helper('Mage_Cms_Helper_Data')->__('Static Blocks');
-        $this->_addButtonLabel = Mage::helper('Mage_Cms_Helper_Data')->__('Add New Block');
+        $this->_headerText = Mage::helper('Magento_Cms_Helper_Data')->__('Static Blocks');
+        $this->_addButtonLabel = Mage::helper('Magento_Cms_Helper_Data')->__('Add New Block');
         parent::_construct();
     }
 

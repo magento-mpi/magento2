@@ -23,6 +23,6 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tabs extends Magento_Adminhtml_Block
         parent::_construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_Cms_Helper_Data')->__('Page Information'));
+        $this->setTitle(Mage::helper('Magento_Cms_Helper_Data')->__('Page Information'));
     }
 }

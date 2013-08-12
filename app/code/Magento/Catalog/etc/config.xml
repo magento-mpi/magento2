@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Eav />
-                <Mage_Cms />
+                <Magento_Cms />
                 <Magento_Index />
                 <Mage_Customer />
             </depends>

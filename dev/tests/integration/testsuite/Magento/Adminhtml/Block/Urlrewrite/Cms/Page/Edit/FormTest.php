@@ -134,11 +134,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
      * Get CMS page model mock
      *
      * @param $stores
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Cms_Model_Page
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Cms_Model_Page
      */
     protected function _getCmsPageWithStoresMock($stores)
     {
-        $resourceMock = $this->getMockBuilder('Mage_Cms_Model_Resource_Page')
+        $resourceMock = $this->getMockBuilder('Magento_Cms_Model_Resource_Page')
             ->setMethods(array('lookupStoreIds'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -146,7 +146,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
             ->method('lookupStoreIds')
             ->will($this->returnValue($stores));
 
-        $cmsPageMock = $this->getMockBuilder('Mage_Cms_Model_Page')
+        $cmsPageMock = $this->getMockBuilder('Magento_Cms_Model_Page')
             ->setMethods(array('getResource', 'getId'))
             ->disableOriginalConstructor()
             ->getMock();

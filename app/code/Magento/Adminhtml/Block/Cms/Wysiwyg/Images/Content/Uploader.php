@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magent
         parent::_construct();
         $params = $this->getConfig()->getParams();
         $type = $this->_getMediaType();
-        $allowed = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Images_Storage')->getAllowedExtensions($type);
+        $allowed = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getAllowedExtensions($type);
         $labels = array();
         $files = array();
         foreach ($allowed as $ext) {
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magent
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
-                    'label' => $this->helper('Mage_Cms_Helper_Data')->__('Images (%s)', implode(', ', $labels)),
+                    'label' => $this->helper('Magento_Cms_Helper_Data')->__('Images (%s)', implode(', ', $labels)),
                     'files' => $files
                 )
             ));

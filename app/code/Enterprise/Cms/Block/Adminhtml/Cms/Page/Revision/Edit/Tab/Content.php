@@ -28,7 +28,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      */
     protected function _prepareForm()
     {
-        /* @var $model Mage_Cms_Model_Page */
+        /* @var $model Magento_Cms_Model_Page */
         $model = Mage::registry('cms_page');
 
         parent::_prepareForm();
@@ -78,7 +78,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      */
     protected function _isAllowedAction($action)
     {
-        if ($action == 'Mage_Cms::save') {
+        if ($action == 'Magento_Cms::save') {
             $action = 'Enterprise_Cms::save_revision';
         }
         return parent::_isAllowedAction($action);

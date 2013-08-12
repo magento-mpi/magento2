@@ -274,8 +274,8 @@
                     <magento_core_model_resource_store_collection>limitStores</magento_core_model_resource_store_collection>
                     <magento_core_model_resource_website_collection>limitWebsites</magento_core_model_resource_website_collection>
                     <magento_core_model_resource_store_group_collection>limitStoreGroups</magento_core_model_resource_store_group_collection>
-                    <mage_cms_model_resource_page_collection>addStoreFilter</mage_cms_model_resource_page_collection>
-                    <mage_cms_model_resource_block_collection>addStoreFilter</mage_cms_model_resource_block_collection>
+                    <magento_cms_model_resource_page_collection>addStoreFilter</magento_cms_model_resource_page_collection>
+                    <magento_cms_model_resource_block_collection>addStoreFilter</magento_cms_model_resource_block_collection>
                     <mage_poll_model_resource_poll_collection>addStoreFilterNoAdmin</mage_poll_model_resource_poll_collection>
                     <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
                     <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
@@ -321,8 +321,8 @@
                     <enterprise_customerSegment_model_resource_segment_collection>limitRuleEntityCollection</enterprise_customerSegment_model_resource_segment_collection>
                 </collection_load_before>
                 <model_save_before>
-                    <mage_cms_model_page>cmsPageSaveBefore</mage_cms_model_page>
-                    <mage_cms_model_block>cmsBlockSaveBefore</mage_cms_model_block>
+                    <magento_cms_model_page>cmsPageSaveBefore</magento_cms_model_page>
+                    <magento_cms_model_block>cmsBlockSaveBefore</magento_cms_model_block>
                     <mage_poll_model_poll>pollSaveBefore</mage_poll_model_poll>
                     <mage_rule_model_abstract>ruleSaveBefore</mage_rule_model_abstract>
                     <mage_sales_model_order>salesOrderSaveBefore</mage_sales_model_order>
@@ -353,8 +353,8 @@
                     <mage_rating_model_rating>ratingSaveBefore</mage_rating_model_rating>
                 </model_save_before>
                 <model_delete_before>
-                    <mage_cms_model_page>cmsPageDeleteBefore</mage_cms_model_page>
-                    <mage_cms_model_block>cmsBlockDeleteBefore</mage_cms_model_block>
+                    <magento_cms_model_page>cmsPageDeleteBefore</magento_cms_model_page>
+                    <magento_cms_model_block>cmsBlockDeleteBefore</magento_cms_model_block>
                     <mage_poll_model_poll>pollDeleteBefore</mage_poll_model_poll>
                     <mage_rule_model_abstract>ruleDeleteBefore</mage_rule_model_abstract>
                     <magento_catalog_model_product>catalogProductDeleteBefore</magento_catalog_model_product>

@@ -58,7 +58,7 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
 
         $filter = $this->getMockForAbstractClass('Zend_Filter_Interface');
         $filter->expects($this->any())->method('filter')->will($this->returnArgument(0));
-        $cmsHelper = $this->getMock('Mage_Cms_Helper_Data', array('getPageTemplateProcessor'), array(), '', false);
+        $cmsHelper = $this->getMock('Magento_Cms_Helper_Data', array('getPageTemplateProcessor'), array(), '', false);
         $cmsHelper->expects($this->any())->method('getPageTemplateProcessor')->will($this->returnValue($filter));
 
         $currentStore = new Magento_Object(array('id' => 42));

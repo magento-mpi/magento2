@@ -30,7 +30,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_Delete
      */
     public function deleteCmsGoogleExperimentScript($observer)
     {
-        /** @var $cmsPage Mage_Cms_Model_Page */
+        /** @var $cmsPage Magento_Cms_Model_Page */
         $cmsPage = $observer->getEvent()->getObject();
         $this->_modelCode->loadByEntityIdAndType(
             $cmsPage->getId(),

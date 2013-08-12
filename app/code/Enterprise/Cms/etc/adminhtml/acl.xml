@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::content">
                     <resource id="Magento_Adminhtml::content_elements">
-                        <resource id="Mage_Cms::page">
+                        <resource id="Magento_Cms::page">
                             <resource id="Enterprise_Cms::save_revision" module="Enterprise_Cms" title="Save revision and version." sortOrder="17" />
                             <resource id="Enterprise_Cms::delete_revision" module="Enterprise_Cms" title="Delete Revision and Version" sortOrder="25" />
                             <resource id="Enterprise_Cms::publish_revision" module="Enterprise_Cms" title="Publish Revision" sortOrder="30" />

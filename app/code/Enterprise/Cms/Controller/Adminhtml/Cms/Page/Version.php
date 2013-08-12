@@ -28,9 +28,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Cms::cms_page')
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
+            ->_setActiveMenu('Magento_Cms::cms_page')
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('CMS'), Mage::helper('Magento_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -330,7 +330,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
                 return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision();
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Cms::page');
+                return $this->_authorization->isAllowed('Magento_Cms::page');
                 break;
         }
     }

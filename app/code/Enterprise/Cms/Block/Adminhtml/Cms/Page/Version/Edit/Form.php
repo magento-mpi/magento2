@@ -36,7 +36,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_
 
         $form->setUseContainer(true);
 
-        /* @var $model Mage_Cms_Model_Page */
+        /* @var $model Magento_Cms_Model_Page */
         $version = Mage::registry('cms_page_version');
 
         $config = Mage::getSingleton('Enterprise_Cms_Model_Config');

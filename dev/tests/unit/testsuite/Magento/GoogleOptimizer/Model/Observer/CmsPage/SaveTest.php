@@ -48,7 +48,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
         $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
 
-        $this->_pageMock = $this->getMock('Mage_Cms_Model_Page', array(), array(), '', false);
+        $this->_pageMock = $this->getMock('Magento_Cms_Model_Page', array(), array(), '', false);
         $event = $this->getMock('Magento_Event', array('getObject'), array(), '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($this->_pageMock));
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);

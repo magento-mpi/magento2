@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Model_Template_Filter extends Mage_Cms_Model_Template_Filter
+class Mage_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Filter
 {
     /**
      * Generate widget

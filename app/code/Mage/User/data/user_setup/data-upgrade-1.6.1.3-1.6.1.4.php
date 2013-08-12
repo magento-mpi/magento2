@@ -19,7 +19,7 @@ if ($tableName) {
     $connection = $installer->getConnection();
     $remove = array(
         'Magento_Catalog::catalog_attributes',
-        'Mage_Cms::cms',
+        'Magento_Cms::cms',
         'Mage_Newsletter::admin_newsletter',
         'Mage_Review::pending',
         'Mage_Review::reviews',

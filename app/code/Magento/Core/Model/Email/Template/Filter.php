@@ -148,7 +148,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $type = $blockParameters['type'];
             $block = $layout->createBlock($type, null, array('data' => $blockParameters));
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('Mage_Cms_Block_Block');
+            $block = $layout->createBlock('Magento_Cms_Block_Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }

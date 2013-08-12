@@ -35,7 +35,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         $this->assertEquals('cms', $model->determineOmittedNamespace('cms'));
-        $this->assertEquals('Mage_Cms', $model->determineOmittedNamespace('cms', true));
+        $this->assertEquals('Magento_Cms', $model->determineOmittedNamespace('cms', true));
         $this->assertEquals('', $model->determineOmittedNamespace('nonexistent'));
         $this->assertEquals('', $model->determineOmittedNamespace('nonexistent', true));
     }

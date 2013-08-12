@@ -56,7 +56,7 @@
                 </field>
                 <field id="landing_page" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Landing Page</label>
-                    <source_model>Mage_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
                 </field>
             </group>
             <group id="points" translate="label" module="Enterprise_Reward" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">

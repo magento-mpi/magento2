@@ -44,20 +44,20 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header' => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
+            'header' => Mage::helper('Magento_Cms_Helper_Data')->__('Title'),
             'align'  => 'left',
             'index'  => 'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header' => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'header' => Mage::helper('Magento_Cms_Helper_Data')->__('URL Key'),
             'align'  => 'left',
             'index'  => 'identifier'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'                    => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'header'                    => Mage::helper('Magento_Cms_Helper_Data')->__('Store View'),
                 'index'                     => 'store_id',
                 'type'                      => 'store',
                 'store_all'                 => true,
@@ -68,10 +68,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
         }
 
         $this->addColumn('is_active', array(
-            'header'  => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'header'  => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
             'index'   => 'is_active',
             'type'    => 'options',
-            'options' => Mage::getSingleton('Mage_Cms_Model_Page')->getAvailableStatuses()
+            'options' => Mage::getSingleton('Magento_Cms_Model_Page')->getAvailableStatuses()
         ));
 
         return $this;
@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Cms_Model_Page|Magento_Object $row
+     * @param Magento_Cms_Model_Page|Magento_Object $row
      * @return string
      */
     public function getRowUrl($row)

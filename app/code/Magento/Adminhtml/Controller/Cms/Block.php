@@ -27,9 +27,9 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Cms::cms_block')
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Static Blocks'), Mage::helper('Mage_Cms_Helper_Data')->__('Static Blocks'))
+            ->_setActiveMenu('Magento_Cms::cms_block')
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('CMS'), Mage::helper('Magento_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('Static Blocks'), Mage::helper('Magento_Cms_Helper_Data')->__('Static Blocks'))
         ;
         return $this;
     }
@@ -63,13 +63,13 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
-        $model = Mage::getModel('Mage_Cms_Model_Block');
+        $model = Mage::getModel('Magento_Cms_Model_Block');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('This block no longer exists.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Cms_Helper_Data')->__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
 
         // 5. Build edit form
         $this->_initAction()
-            ->_addBreadcrumb($id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Block') : Mage::helper('Mage_Cms_Helper_Data')->__('New Block'), $id ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Block') : Mage::helper('Mage_Cms_Helper_Data')->__('New Block'))
+            ->_addBreadcrumb($id ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Block') : Mage::helper('Magento_Cms_Helper_Data')->__('New Block'), $id ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Block') : Mage::helper('Magento_Cms_Helper_Data')->__('New Block'))
             ->renderLayout();
     }
 
@@ -101,9 +101,9 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
         if ($data = $this->getRequest()->getPost()) {
 
             $id = $this->getRequest()->getParam('block_id');
-            $model = Mage::getModel('Mage_Cms_Model_Block')->load($id);
+            $model = Mage::getModel('Magento_Cms_Model_Block')->load($id);
             if (!$model->getId() && $id) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('This block no longer exists.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Cms_Helper_Data')->__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
                 // save the data
                 $model->save();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Cms_Helper_Data')->__('The block has been saved.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Cms_Helper_Data')->__('The block has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
 
@@ -153,12 +153,12 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('Mage_Cms_Model_Block');
+                $model = Mage::getModel('Magento_Cms_Model_Block');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Cms_Helper_Data')->__('The block has been deleted.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Cms_Helper_Data')->__('The block has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
@@ -172,7 +172,7 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Cms_Helper_Data')->__('We can\'t find a block to delete.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Cms_Helper_Data')->__('We can\'t find a block to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -184,6 +184,6 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Cms::block');
+        return $this->_authorization->isAllowed('Magento_Cms::block');
     }
 }

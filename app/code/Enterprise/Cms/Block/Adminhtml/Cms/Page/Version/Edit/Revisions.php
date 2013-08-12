@@ -146,7 +146,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Returns cms page object from registry
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     public function getPage()
     {

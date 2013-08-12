@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Adminhtml />
-                <Mage_Cms />
+                <Magento_Cms />
                 <Mage_Widget />
             </depends>
         </Enterprise_Cms>

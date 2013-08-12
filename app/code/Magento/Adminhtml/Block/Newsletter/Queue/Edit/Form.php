@@ -131,7 +131,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')
+        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')
             ->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {

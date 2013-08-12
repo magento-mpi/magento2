@@ -32,7 +32,7 @@ class Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active extends M
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::app()->cleanCache(array(Magento_Core_Model_Store::CACHE_TAG, Mage_Cms_Model_Block::CACHE_TAG));
+            Mage::app()->cleanCache(array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG));
         }
         return parent::_afterSave();
     }

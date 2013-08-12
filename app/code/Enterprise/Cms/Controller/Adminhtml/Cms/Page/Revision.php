@@ -28,9 +28,9 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Cms::cms_page')
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
+            ->_setActiveMenu('Magento_Cms::cms_page')
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('CMS'), Mage::helper('Magento_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -250,7 +250,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
         $data = $this->getRequest()->getPost();
         if (!empty($data) && isset($data['page_id'])) {
             // init model and set data
-            $page = Mage::getSingleton('Mage_Cms_Model_Page')
+            $page = Mage::getSingleton('Magento_Cms_Model_Page')
                 ->load($data['page_id']);
             if (!$page->getId()) {
                 $this->_forward('noRoute');
@@ -316,7 +316,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
             // add handles used to render cms page on frontend
             $this->getLayout()->getUpdate()->addHandle('default');
             $this->getLayout()->getUpdate()->addHandle('cms_page_view');
-            Mage::helper('Mage_Cms_Helper_Page')->renderPageExtended($this);
+            Mage::helper('Magento_Cms_Helper_Page')->renderPageExtended($this);
             Mage::app()->getLocale()->revert();
 
         } else {
@@ -385,7 +385,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
                 return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision();
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Cms::page');
+                return $this->_authorization->isAllowed('Magento_Cms::page');
                 break;
         }
     }

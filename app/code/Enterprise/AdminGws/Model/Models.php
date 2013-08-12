@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit CMS page save
      *
-     * @param Mage_Cms_Model_Page $model
+     * @param Magento_Cms_Model_Page $model
      */
     public function cmsPageSaveBefore($model)
     {
@@ -37,7 +37,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit CMS block save
      *
-     * @param Mage_Cms_Model_Block $model
+     * @param Magento_Cms_Model_Block $model
      */
     public function cmsBlockSaveBefore($model)
     {
@@ -480,7 +480,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate cms page before delete
      *
-     * @param Mage_Cms_Model_Page $model
+     * @param Magento_Cms_Model_Page $model
      * @return void
      */
     public function cmsPageDeleteBefore($model)
@@ -494,7 +494,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate cms page before delete
      *
-     * @param Mage_Cms_Model_Page $model
+     * @param Magento_Cms_Model_Page $model
      * @return void
      */
     public function cmsBlockDeleteBefore($model)

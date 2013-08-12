@@ -43,8 +43,8 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtml_Con
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Enterprise_Cms::cms_enterprise_page_page')
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'));
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('CMS'), Mage::helper('Magento_Cms_Helper_Data')->__('CMS'))
+            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'));
 
         $this->_isLayoutLoaded = true;
 
@@ -63,7 +63,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtml_Con
         $this->_title($this->__('Pages'));
 
         $pageId = (int) $this->getRequest()->getParam('page_id');
-        $page = Mage::getModel('Mage_Cms_Model_Page');
+        $page = Mage::getModel('Magento_Cms_Model_Page');
 
         if ($pageId) {
             $page->load($pageId);
@@ -97,10 +97,10 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtml_Con
         $this->_title($page->getId() ? $page->getTitle() : $this->__('New Page'));
 
         $this->_initAction()
-            ->_addBreadcrumb($page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
-                $page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
+            ->_addBreadcrumb($page->getId() ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Magento_Cms_Helper_Data')->__('New Page'),
+                $page->getId() ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Page')
+                    : Mage::helper('Magento_Cms_Helper_Data')->__('New Page'));
 
         $this->renderLayout();
     }

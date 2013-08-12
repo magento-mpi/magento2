@@ -143,7 +143,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Returns cms page object from registry
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     public function getPage()
     {

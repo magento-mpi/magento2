@@ -45,7 +45,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
      */
     public function addPageFilter($page)
     {
-        if ($page instanceof Mage_Cms_Model_Page) {
+        if ($page instanceof Magento_Cms_Model_Page) {
             $page = $page->getId();
         }
 

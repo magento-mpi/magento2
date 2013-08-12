@@ -19,7 +19,7 @@ class Mage_Widget_Controller_Adminhtml_Widget_InstanceTest extends Mage_Backend_
         parent::setUp();
 
         $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
-        $this->getRequest()->setParam('type', 'Mage_Cms_Block_Widget_Page_Link');
+        $this->getRequest()->setParam('type', 'Magento_Cms_Block_Widget_Page_Link');
         $this->getRequest()->setParam('theme_id', $theme->getId());
     }
 
@@ -29,7 +29,7 @@ class Mage_Widget_Controller_Adminhtml_Widget_InstanceTest extends Mage_Backend_
     public function testEditAction()
     {
         $this->dispatch('backend/admin/widget_instance/edit');
-        $this->assertContains('<option value="Mage_Cms_Block_Widget_Page_Link" selected="selected">',
+        $this->assertContains('<option value="Magento_Cms_Block_Widget_Page_Link" selected="selected">',
             $this->getResponse()->getBody()
         );
     }

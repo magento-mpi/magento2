@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="top.container">
-            <block type="Mage_Cms_Block_Block" name="cms.top.callout" before="-">
+            <block type="Magento_Cms_Block_Block" name="cms.top.callout" before="-">
                 <action method="setBlockId">
                     <block_id>top_callout</block_id>
                 </action>

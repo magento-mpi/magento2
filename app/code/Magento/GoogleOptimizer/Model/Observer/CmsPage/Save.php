@@ -10,7 +10,7 @@
 class Magento_GoogleOptimizer_Model_Observer_CmsPage_Save extends Magento_GoogleOptimizer_Model_Observer_SaveAbstract
 {
     /**
-     * @var Mage_Cms_Model_Page
+     * @var Magento_Cms_Model_Page
      */
     protected $_page;
 

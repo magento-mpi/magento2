@@ -14,8 +14,8 @@ $cmsPageId     = 1;
 $rewriteUrl    = 'test_rewrite_path';
 
 // get CMS page
-/** @var $cmsPage Mage_Cms_Model_Page */
-$cmsPage = $objectManager->create('Mage_Cms_Model_Page');
+/** @var $cmsPage Magento_Cms_Model_Page */
+$cmsPage = $objectManager->create('Magento_Cms_Model_Page');
 $cmsPage->load($cmsPageId);
 if ($cmsPage->isObjectNew()) {
     $cmsPage->setId($cmsPageId);

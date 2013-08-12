@@ -31,7 +31,7 @@
                 </field>
                 <field id="cms_page" translate="label" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Landing Page</label>
-                    <source_model>Mage_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
                 </field>
                 <field id="http_status" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>HTTP Response</label>

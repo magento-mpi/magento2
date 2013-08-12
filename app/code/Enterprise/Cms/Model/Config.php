@@ -105,7 +105,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserDeletePage()
     {
-        return $this->_authorization->isAllowed('Mage_Cms::page_delete');
+        return $this->_authorization->isAllowed('Magento_Cms::page_delete');
     }
 
     /**
@@ -115,7 +115,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserSavePage()
     {
-        return $this->_authorization->isAllowed('Mage_Cms::save');
+        return $this->_authorization->isAllowed('Magento_Cms::save');
     }
 
     /**

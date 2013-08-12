@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        if (Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 

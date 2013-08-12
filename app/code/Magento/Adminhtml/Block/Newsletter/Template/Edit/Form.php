@@ -98,7 +98,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
 
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getConfig(array('widget_filters' => $widgetFilters));
         if ($model->isPlain()) {
             $wysiwygConfig->setEnabled(false);
         }

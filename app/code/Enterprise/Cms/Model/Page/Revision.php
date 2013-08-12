@@ -96,7 +96,7 @@ class Enterprise_Cms_Model_Page_Revision extends Magento_Core_Model_Abstract
     {
         $tags = parent::getCacheIdTags();
         if ($tags && $this->getPageId()) {
-            $tags[] = Mage_Cms_Model_Page::CACHE_TAG.'_'.$this->getPageId();
+            $tags[] = Magento_Cms_Model_Page::CACHE_TAG.'_'.$this->getPageId();
         }
         return $tags;
     }

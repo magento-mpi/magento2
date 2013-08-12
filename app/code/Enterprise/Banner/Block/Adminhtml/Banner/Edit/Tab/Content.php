@@ -28,7 +28,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
     /**
      * WYSIWYG config object
      *
-     * @var Mage_Cms_Model_Wysiwyg_Config
+     * @var Magento_Cms_Model_Wysiwyg_Config
      */
     protected $_wysiwygConfigModel;
 
@@ -56,7 +56,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App $app
      * @param Enterprise_Banner_Helper_Data $bannerHelper
@@ -64,7 +64,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App $app,
         Enterprise_Banner_Helper_Data $bannerHelper,

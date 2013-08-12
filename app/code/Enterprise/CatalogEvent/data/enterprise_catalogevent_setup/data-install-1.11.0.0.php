@@ -17,4 +17,4 @@ $cmsBlock = array(
     'stores'        => 0,
 );
 
-Mage::getModel('Mage_Cms_Model_Block')->setData($cmsBlock)->save();
+Mage::getModel('Magento_Cms_Model_Block')->setData($cmsBlock)->save();

@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Frame
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
-        Mage::register('cms_page', Mage::getObjectManager()->create('Mage_Cms_Model_Page'));
+        Mage::register('cms_page', Mage::getObjectManager()->create('Magento_Cms_Model_Page'));
 
         $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design');
         $prepareFormMethod = new ReflectionMethod(

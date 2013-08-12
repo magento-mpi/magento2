@@ -25,8 +25,8 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
      */
     public function getTreeJson()
     {
-        /** @var Mage_Cms_Helper_Wysiwyg_Images $helper */
-        $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');
+        /** @var Magento_Cms_Helper_Wysiwyg_Images $helper */
+        $helper = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images');
         $storageRoot = $helper->getStorageRoot();
         $collection = Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
         $jsonArray = array();
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
      */
     public function getRootNodeName()
     {
-        return $this->helper('Mage_Cms_Helper_Data')->__('Storage Root');
+        return $this->helper('Magento_Cms_Helper_Data')->__('Storage Root');
     }
 
     /**
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
     {
         $treePath = array('root');
         if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
-            $helper = Mage::helper('Mage_Cms_Helper_Wysiwyg_Images');
+            $helper = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images');
             $path = str_replace($helper->getStorageRoot(), '', $path);
             $relative = array();
             foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {

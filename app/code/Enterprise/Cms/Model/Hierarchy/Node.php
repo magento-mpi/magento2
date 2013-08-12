@@ -460,10 +460,10 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
     /**
      * Update rewrite for page (if identifier changed)
      *
-     * @param Mage_Cms_Model_Page $page
+     * @param Magento_Cms_Model_Page $page
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    public function updateRewriteUrls(Mage_Cms_Model_Page $page)
+    public function updateRewriteUrls(Magento_Cms_Model_Page $page)
     {
         $xpaths = $this->_getResource()->getTreeXpathsByPage($page->getId());
         foreach ($xpaths as $xpath) {
@@ -610,7 +610,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
      * Appending passed page as child node for specified nodes and set it specified sort order.
      * Parent nodes specified as array (parentNodeId => sortOrder)
      *
-     * @param Mage_Cms_Model_Page $page
+     * @param Magento_Cms_Model_Page $page
      * @param array $nodes
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */

@@ -29,7 +29,7 @@
                 <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
             </action>
             <action method="addJs">
-                <file>Mage_Cms::js/tiny_mce_form_submit.js</file>
+                <file>Magento_Cms::js/tiny_mce_form_submit.js</file>
             </action>
         </reference>
         <update handle="editor"/>

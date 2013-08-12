@@ -33,7 +33,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     private $_category;
 
     /**
-     * @var Mage_Cms_Model_Page
+     * @var Magento_Cms_Model_Page
      */
     private $_cmsPage;
 
@@ -325,14 +325,14 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      */
     private function _handleCmsPageUrlRewrite($model)
     {
-        /** @var $cmsPage Mage_Cms_Model_Page */
+        /** @var $cmsPage Magento_Cms_Model_Page */
         $cmsPage = $this->_getCmsPage();
         if (!$cmsPage->getId()) {
             return;
         }
 
-        /** @var $cmsPageUrlRewrite Mage_Cms_Model_Page_Urlrewrite */
-        $cmsPageUrlRewrite = Mage::getModel('Mage_Cms_Model_Page_Urlrewrite');
+        /** @var $cmsPageUrlRewrite Magento_Cms_Model_Page_Urlrewrite */
+        $cmsPageUrlRewrite = Mage::getModel('Magento_Cms_Model_Page_Urlrewrite');
         $idPath = $cmsPageUrlRewrite->generateIdPath($cmsPage);
         $model->setIdPath($idPath);
 
@@ -364,14 +364,14 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      */
     private function _handleCmsPageUrlRewriteSave($model)
     {
-        /** @var $cmsPage Mage_Cms_Model_Page */
+        /** @var $cmsPage Magento_Cms_Model_Page */
         $cmsPage = $this->_getCmsPage();
         if (!$cmsPage->getId()) {
             return;
         }
 
-        /** @var $cmsRewrite Mage_Cms_Model_Page_Urlrewrite */
-        $cmsRewrite = Mage::getModel('Mage_Cms_Model_Page_Urlrewrite');
+        /** @var $cmsRewrite Magento_Cms_Model_Page_Urlrewrite */
+        $cmsRewrite = Mage::getModel('Magento_Cms_Model_Page_Urlrewrite');
         $cmsRewrite->load($model->getId(), 'url_rewrite_id');
         if (!$cmsRewrite->getId()) {
             $cmsRewrite->setUrlRewriteId($model->getId());
@@ -460,18 +460,18 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Get CMS page from request
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     private function _getCmsPage()
     {
         if (!$this->_cmsPage) {
-            $this->_cmsPage = Mage::getModel('Mage_Cms_Model_Page');
+            $this->_cmsPage = Mage::getModel('Magento_Cms_Model_Page');
             $cmsPageId = (int) $this->getRequest()->getParam('cms_page', 0);
 
             if (!$cmsPageId && $this->_getUrlRewrite()->getId()) {
                 $urlRewriteId = $this->_getUrlRewrite()->getId();
-                /** @var $cmsUrlRewrite Mage_Cms_Model_Page_Urlrewrite */
-                $cmsUrlRewrite = Mage::getModel('Mage_Cms_Model_Page_Urlrewrite');
+                /** @var $cmsUrlRewrite Magento_Cms_Model_Page_Urlrewrite */
+                $cmsUrlRewrite = Mage::getModel('Magento_Cms_Model_Page_Urlrewrite');
                 $cmsUrlRewrite->load($urlRewriteId, 'url_rewrite_id');
                 $cmsPageId = $cmsUrlRewrite->getCmsPageId();
             }

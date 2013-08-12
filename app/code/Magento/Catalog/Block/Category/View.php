@@ -89,7 +89,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('Mage_Cms_Block_Block')
+            $html = $this->getLayout()->createBlock('Magento_Cms_Block_Block')
                 ->setBlockId($this->getCurrentCategory()->getLandingPage())
                 ->toHtml();
             $this->setData('cms_block_html', $html);

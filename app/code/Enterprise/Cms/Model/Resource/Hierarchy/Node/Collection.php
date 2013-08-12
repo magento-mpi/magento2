@@ -163,13 +163,13 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Magento_Co
      * Join main table on self to discover which nodes
      * have defined page as direct child node.
      *
-     * @param int|Mage_Cms_Model_Page $page
+     * @param int|Magento_Cms_Model_Page $page
      * @return Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection
      */
     public function joinPageExistsNodeInfo($page)
     {
         if (!$this->getFlag('page_exists_joined')) {
-            if ($page instanceof Mage_Cms_Model_Page) {
+            if ($page instanceof Magento_Cms_Model_Page) {
                 $page = $page->getId();
             }
 
@@ -197,7 +197,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Magento_Co
      * defined page in their direct children.
      *
      * @param int|array $nodeIds
-     * @param int|Mage_Cms_Model_Page|null $page
+     * @param int|Magento_Cms_Model_Page|null $page
      * @return Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection
      */
     public function applyPageExistsOrNodeIdFilter($nodeIds, $page = null)

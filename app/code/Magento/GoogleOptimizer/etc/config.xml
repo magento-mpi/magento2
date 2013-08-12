@@ -15,7 +15,7 @@
             <depends>
                 <Magento_GoogleAnalytics/>
                 <Magento_Catalog/>
-                <Mage_Cms/>
+                <Magento_Cms/>
             </depends>
         </Magento_GoogleOptimizer>
     </modules>

@@ -11,8 +11,8 @@
 /**
  * Edit form for CMS page URL rewrites
  *
- * @method Mage_Cms_Model_Page getCmsPage()
- * @method Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form setCmsPage(Mage_Cms_Model_Page $model)
+ * @method Magento_Cms_Model_Page getCmsPage()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form setCmsPage(Magento_Cms_Model_Page $model)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -45,8 +45,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
         $targetPath = $this->getForm()->getElement('target_path');
 
         $model = $this->_getModel();
-        /** @var $cmsPageUrlrewrite Mage_Cms_Model_Page_Urlrewrite */
-        $cmsPageUrlrewrite = Mage::getModel('Mage_Cms_Model_Page_Urlrewrite');
+        /** @var $cmsPageUrlrewrite Magento_Cms_Model_Page_Urlrewrite */
+        $cmsPageUrlrewrite = Mage::getModel('Magento_Cms_Model_Page_Urlrewrite');
         if (!$model->getId()) {
             $idPath->setValue($cmsPageUrlrewrite->generateIdPath($cmsPage));
 
@@ -98,12 +98,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
     /**
      * Get CMS page model instance
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     protected function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(Mage::getModel('Mage_Cms_Model_Page'));
+            $this->setCmsPage(Mage::getModel('Magento_Cms_Model_Page'));
         }
         return $this->getCmsPage();
     }

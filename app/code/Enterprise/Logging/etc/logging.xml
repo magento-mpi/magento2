@@ -319,7 +319,7 @@
     <cms_pages translate="label">
         <label>CMS Pages</label>
         <expected_models>
-            <Mage_Cms_Model_Page/>
+            <Magento_Cms_Model_Page/>
         </expected_models>
         <actions>
             <adminhtml_cms_page_edit>
@@ -342,7 +342,7 @@
     <cms_blocks translate="label">
         <label>CMS Blocks</label>
         <expected_models>
-            <Mage_Cms_Model_Block/>
+            <Magento_Cms_Model_Block/>
         </expected_models>
         <actions>
             <adminhtml_cms_block_edit>

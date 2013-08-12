@@ -26,7 +26,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Source_Page extends Mage
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Mage_Cms_Model_Resource_Block_Collection')
+            $this->_options = Mage::getResourceModel('Magento_Cms_Model_Resource_Block_Collection')
                 ->load()
                 ->toOptionArray();
             array_unshift($this->_options, array('value' => '', 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Please select a static block.')));

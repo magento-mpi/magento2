@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml
     {
         parent::_construct();
         $this->setId('store_delete_form');
-        $this->setTitle(Mage::helper('Mage_Cms_Helper_Data')->__('Block Information'));
+        $this->setTitle(Mage::helper('Magento_Cms_Helper_Data')->__('Block Information'));
     }
 
     protected function _prepareForm()

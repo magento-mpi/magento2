@@ -24,7 +24,7 @@ class Mage_Page_Block_Html_Footer extends Magento_Core_Block_Template
     {
         $this->addData(array(
             'cache_lifetime'=> false,
-            'cache_tags'    => array(Magento_Core_Model_Store::CACHE_TAG, Mage_Cms_Model_Block::CACHE_TAG)
+            'cache_tags'    => array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG)
         ));
     }
 

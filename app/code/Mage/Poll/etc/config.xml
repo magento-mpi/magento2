@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Core/>
-                <Mage_Cms/>
+                <Magento_Cms/>
             </depends>
         </Mage_Poll>
     </modules>

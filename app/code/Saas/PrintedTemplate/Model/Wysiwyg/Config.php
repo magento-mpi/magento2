@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Models
  */
-class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_Config
+class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Magento_Cms_Model_Wysiwyg_Config
 {
     /**
      * Default value for wysiwyg editor available fonts

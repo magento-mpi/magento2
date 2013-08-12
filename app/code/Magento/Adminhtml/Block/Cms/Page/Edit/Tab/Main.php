@@ -22,13 +22,13 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
 {
     protected function _prepareForm()
     {
-        /* @var $model Mage_Cms_Model_Page */
+        /* @var $model Magento_Cms_Model_Page */
         $model = Mage::registry('cms_page');
 
         /*
          * Checking if user have permissions to save information
          */
-        if ($this->_isAllowedAction('Mage_Cms::save')) {
+        if ($this->_isAllowedAction('Magento_Cms::save')) {
             $isElementDisabled = false;
         } else {
             $isElementDisabled = true;
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('Page Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Magento_Cms_Helper_Data')->__('Page Information')));
 
         if ($model->getPageId()) {
             $fieldset->addField('page_id', 'hidden', array(
@@ -49,19 +49,19 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Title'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Title'),
+            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Page Title'),
+            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Page Title'),
             'required'  => true,
             'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('URL Key'),
+            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
-            'note'      => Mage::helper('Mage_Cms_Helper_Data')->__('Relative to Web Site Base URL'),
+            'note'      => Mage::helper('Magento_Cms_Helper_Data')->__('Relative to Web Site Base URL'),
             'disabled'  => $isElementDisabled
         ));
 
@@ -71,8 +71,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
-                'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Store View'),
+                'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
                 'disabled'  => $isElementDisabled,
@@ -89,8 +89,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Status'),
+            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Page Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => $model->getAvailableStatuses(),
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Page Information');
+        return Mage::helper('Magento_Cms_Helper_Data')->__('Page Information');
     }
 
     /**
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Page Information');
+        return Mage::helper('Magento_Cms_Helper_Data')->__('Page Information');
     }
 
     /**

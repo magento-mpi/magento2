@@ -50,7 +50,7 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
 
 
         if ($element->getValue()) {
-            $block = Mage::getModel('Mage_Cms_Model_Block')->load($element->getValue());
+            $block = Mage::getModel('Magento_Cms_Model_Block')->load($element->getValue());
             if ($block->getId()) {
                 $chooser->setLabel($block->getTitle());
             }
@@ -88,8 +88,8 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Cms_Model_Block')->getCollection();
-        /* @var $collection Mage_Cms_Model_Resource_Block_Collection */
+        $collection = Mage::getModel('Magento_Cms_Model_Block')->getCollection();
+        /* @var $collection Magento_Cms_Model_Resource_Block_Collection */
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -102,32 +102,32 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('chooser_id', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('ID'),
             'align'     => 'right',
             'index'     => 'block_id',
             'width'     => 50
         ));
 
         $this->addColumn('chooser_title', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('chooser_identifier', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Identifier'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Identifier'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled'),
-                1 => Mage::helper('Mage_Cms_Helper_Data')->__('Enabled')
+                0 => Mage::helper('Magento_Cms_Helper_Data')->__('Disabled'),
+                1 => Mage::helper('Magento_Cms_Helper_Data')->__('Enabled')
             ),
         ));
 

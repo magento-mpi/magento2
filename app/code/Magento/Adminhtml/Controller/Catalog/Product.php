@@ -122,7 +122,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         Mage::register('product', $product);
         Mage::register('current_product', $product);
-        Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
+        Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
         return $product;
     }
 

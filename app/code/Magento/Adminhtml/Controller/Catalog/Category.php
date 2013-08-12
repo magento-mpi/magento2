@@ -52,7 +52,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         }
         $this->_objectManager->get('Magento_Core_Model_Registry')->register('category', $category);
         $this->_objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
-        $this->_objectManager->get('Mage_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
+        $this->_objectManager->get('Magento_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
         return $category;
     }
     /**

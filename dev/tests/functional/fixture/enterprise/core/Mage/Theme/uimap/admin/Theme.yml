@@ -26,7 +26,7 @@ edit_theme:
                                         mage_calendar: //div[@id='theme_css_view_Library files']/a[contains(text(),'mage/calendar.css')]
                                         jquery_jqzoom_css: //div[@id='theme_css_view_Library files']/a[contains(text(),'jquery/jqzoom/css/jquery.jqzoom.css')]
                                         magento_catalog_zoom: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Magento_Catalog::zoom.css')]
-                                        mage_cms_widgets: //*[@id='theme_css_view_']/a[contains(text(), 'Mage_Cms::widgets.css')]
+                                        magento_cms_widgets: //*[@id='theme_css_view_']/a[contains(text(), 'Magento_Cms::widgets.css')]
                                         css_print: //div[@id='theme_css_view_']/a[contains(text(), 'css/print.css')]
                                         css_style_ie: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles-ie.css')]
                                         css_style: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles.css')]

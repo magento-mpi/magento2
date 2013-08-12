@@ -19,7 +19,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Save Process'));
+        $this->_updateButton('save', 'label', Mage::helper('Magento_Cms_Helper_Data')->__('Save Process'));
         if (Mage::registry('current_index_process')) {
             $this->_addButton('reindex', array(
                 'label'     => Mage::helper('Magento_Index_Helper_Data')->__('Reindex Data'),

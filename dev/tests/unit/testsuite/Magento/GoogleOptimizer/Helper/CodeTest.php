@@ -67,7 +67,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
 
     public function testLoadingCodeForPageEntity()
     {
-        $pageMock = $this->getMock('Mage_Cms_Model_Page', array(), array(), '', false);
+        $pageMock = $this->getMock('Magento_Cms_Model_Page', array(), array(), '', false);
 
         $categoryId = 1;
 
@@ -87,7 +87,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
      */
     public function testExceptionNotValidEntityType()
     {
-        $entity = $this->getMock('Mage_Cms_Model_Block', array(), array(), '', false);
+        $entity = $this->getMock('Magento_Cms_Model_Block', array(), array(), '', false);
 
         $entityId = 1;
 
@@ -104,7 +104,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
      */
     public function testExceptionEmptyEntity()
     {
-        $entity = $this->getMock('Mage_Cms_Model_Block', array(), array(), '', false);
+        $entity = $this->getMock('Magento_Cms_Model_Block', array(), array(), '', false);
 
         $entityId = 0;
 

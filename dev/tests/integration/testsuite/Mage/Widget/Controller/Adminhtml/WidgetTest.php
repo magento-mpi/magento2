@@ -19,7 +19,7 @@ class Mage_Widget_Controller_Adminhtml_WidgetTest extends Mage_Backend_Utility_C
      */
     public function testLoadOptionsAction()
     {
-        $this->getRequest()->setPost('widget', '{"widget_type":"Mage_Cms_Block_Widget_Page_Link","values":{}}');
+        $this->getRequest()->setPost('widget', '{"widget_type":"Magento_Cms_Block_Widget_Page_Link","values":{}}');
         $this->dispatch('backend/admin/widget/loadOptions');
         $output = $this->getResponse()->getBody();
         //searching for label with text "CMS Page"

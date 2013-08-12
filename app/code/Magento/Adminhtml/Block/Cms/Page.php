@@ -25,12 +25,12 @@ class Magento_Adminhtml_Block_Cms_Page extends Magento_Adminhtml_Block_Widget_Gr
     protected function _construct()
     {
         $this->_controller = 'cms_page';
-        $this->_headerText = Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages');
+        $this->_headerText = Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages');
 
         parent::_construct();
 
-        if ($this->_isAllowedAction('Mage_Cms::save')) {
-            $this->_updateButton('add', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Add New Page'));
+        if ($this->_isAllowedAction('Magento_Cms::save')) {
+            $this->_updateButton('add', 'label', Mage::helper('Magento_Cms_Helper_Data')->__('Add New Page'));
         } else {
             $this->_removeButton('add');
         }

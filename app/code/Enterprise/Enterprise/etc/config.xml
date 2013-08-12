@@ -15,7 +15,7 @@
             <version>1.11.0.3</version>
             <active>false</active>
             <depends>
-                <Mage_Cms />
+                <Magento_Cms />
                 <Magento_Install />
                 <Magento_Adminhtml />
                 <Mage_AdminNotification />

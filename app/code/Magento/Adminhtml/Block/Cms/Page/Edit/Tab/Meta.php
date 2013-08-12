@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
         /*
          * Checking if user have permissions to save information
          */
-        if ($this->_isAllowedAction('Mage_Cms::save')) {
+        if ($this->_isAllowedAction('Magento_Cms::save')) {
             $isElementDisabled = false;
         } else {
             $isElementDisabled = true;
@@ -37,19 +37,19 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 
         $model = Mage::registry('cms_page');
 
-        $fieldset = $form->addFieldset('meta_fieldset', array('legend' => Mage::helper('Mage_Cms_Helper_Data')->__('Meta Data'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('meta_fieldset', array('legend' => Mage::helper('Magento_Cms_Helper_Data')->__('Meta Data'), 'class' => 'fieldset-wide'));
 
         $fieldset->addField('meta_keywords', 'textarea', array(
             'name' => 'meta_keywords',
-            'label' => Mage::helper('Mage_Cms_Helper_Data')->__('Keywords'),
-            'title' => Mage::helper('Mage_Cms_Helper_Data')->__('Meta Keywords'),
+            'label' => Mage::helper('Magento_Cms_Helper_Data')->__('Keywords'),
+            'title' => Mage::helper('Magento_Cms_Helper_Data')->__('Meta Keywords'),
             'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('meta_description', 'textarea', array(
             'name' => 'meta_description',
-            'label' => Mage::helper('Mage_Cms_Helper_Data')->__('Description'),
-            'title' => Mage::helper('Mage_Cms_Helper_Data')->__('Meta Description'),
+            'label' => Mage::helper('Magento_Cms_Helper_Data')->__('Description'),
+            'title' => Mage::helper('Magento_Cms_Helper_Data')->__('Meta Description'),
             'disabled'  => $isElementDisabled
         ));
 
@@ -69,7 +69,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Meta Data');
+        return Mage::helper('Magento_Cms_Helper_Data')->__('Meta Data');
     }
 
     /**
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Meta Data');
+        return Mage::helper('Magento_Cms_Helper_Data')->__('Meta Data');
     }
 
     /**
