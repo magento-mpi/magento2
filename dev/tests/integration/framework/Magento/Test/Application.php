@@ -182,6 +182,7 @@ class Magento_Test_Application
      */
     public function initialize($overriddenParams = array())
     {
+        Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
         $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
