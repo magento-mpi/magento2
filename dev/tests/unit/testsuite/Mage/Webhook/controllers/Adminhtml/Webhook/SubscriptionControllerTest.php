@@ -61,7 +61,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_setMageObjectManager();
 
-        // Initialize mocks which are used in several testcases
+        // Initialize mocks which are used in several test cases
         $this->_mockApp = $this->getMockBuilder('Mage_Core_Model_App')
             ->setMethods( array('getConfig'))
             ->disableOriginalConstructor()
@@ -88,6 +88,14 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockRegistry = $this->getMockBuilder('Mage_Core_Model_Registry')
             ->disableOriginalConstructor()
             ->getMock();
+    }
+
+    /**
+     * Reset object manager.
+     */
+    public function tearDown()
+    {
+        Mage::reset();
     }
 
     public function testIndexAction()
@@ -521,9 +529,8 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     }
 
     /**
-     * Makes sure that Mage has a mock object manager set, and returns that instance.
+     * Makes sure that Mage has a mock object manager set.
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _setMageObjectManager()
     {
@@ -536,7 +543,8 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
     /**
      * Creates the SubscriptionController to test.
-     * @return object
+     *
+     * @return Mage_Webhook_Adminhtml_Webhook_SubscriptionController
      */
     protected function _createSubscriptionController()
     {
@@ -596,16 +604,14 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
      */
     protected function _verifyLoadAndRenderLayout()
     {
-        // loadLayout
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Config')->will($this->returnValue($this->_mockConfig));
-        $this->_mockObjectManager->expects($this->at(1))->method('get')
-            ->with('Mage_Core_Model_Layout_Filter_Acl')->will($this->returnValue($this->_mockLayoutFilter));
-
-        // renderLayout
-        $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Backend_Model_Session')->will($this->returnValue($this->_mockBackendModSess));
-        $this->_mockObjectManager->expects($this->at(3))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        $map = array(
+            array('Mage_Core_Model_Config', $this->_mockConfig),
+            array('Mage_Core_Model_Layout_Filter_Acl', $this->_mockLayoutFilter),
+            array('Mage_Backend_Model_Session', $this->_mockBackendModSess),
+            array('Mage_Core_Model_Translate', $this->_mockTranslateModel),
+        );
+        $this->_mockObjectManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap($map));
     }
 }
