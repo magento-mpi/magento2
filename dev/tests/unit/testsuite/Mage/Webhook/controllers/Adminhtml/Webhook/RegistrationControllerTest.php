@@ -79,7 +79,9 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationControllerTest extends PHPUnit_
         $this->_mockLayoutFilter = $this->getMockBuilder('Mage_Core_Model_Layout_Filter_Acl')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockBackendModSess = $this->getMockBuilder('Mage_Backend_Model_Session')->getMock();
+        $this->_mockBackendModSess = $this->getMockBuilder('Mage_Backend_Model_Session')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_mockTranslateModel = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
@@ -89,8 +91,10 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationControllerTest extends PHPUnit_
             ->getMock();
 
         $this->_mockRequest = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+            ->disableOriginalConstructor()
             ->getMock();
         $this->_mockResponse = $this->getMockBuilder('Mage_Core_Controller_Response_Http')
+            ->disableOriginalConstructor()
             ->getMock();
     }
 

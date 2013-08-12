@@ -76,6 +76,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockBackendModSess = $this->getMockBuilder('Mage_Backend_Model_Session')
+            ->disableOriginalConstructor()
             ->getMock();
         $this->_mockTranslateModel = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
@@ -84,6 +85,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRequest = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+            ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRegistry = $this->getMockBuilder('Mage_Core_Model_Registry')
             ->disableOriginalConstructor()
