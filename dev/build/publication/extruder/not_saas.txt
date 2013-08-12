@@ -20,7 +20,7 @@ app/code/Enterprise/Rma
 app/code/Enterprise/Tag
 app/code/Enterprise/TargetRule
 app/code/Enterprise/Wishlist
-app/code/Mage/Authorizenet
+app/code/Magento/Authorizenet
 app/code/Mage/Ogone
 app/code/Mage/PageCache
 app/design/frontend/magento_fixed_width/Enterprise_GiftRegistry
@@ -48,7 +48,7 @@ dev/tests/integration/testsuite/Enterprise/Rma
 dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
-dev/tests/integration/testsuite/Mage/Authorizenet
+dev/tests/integration/testsuite/Magento/Authorizenet
 dev/tests/integration/testsuite/Mage/Connect
 dev/tests/integration/testsuite/Magento/Downloadable
 dev/tests/integration/testsuite/Mage/PageCache

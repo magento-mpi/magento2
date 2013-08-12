@@ -18,5 +18,5 @@ app/code/Mage/Payment
 app/code/Mage/Paypal
 app/code/Magento/GiftMessage
 app/code/Mage/Sales
-app/code/Mage/Authorizenet
+app/code/Magento/Authorizenet
 app/code/Mage/Paygate

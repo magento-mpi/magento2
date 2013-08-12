@@ -3561,7 +3561,7 @@ system_configuration:
                                     dropdowns:
                                         mage_adminnotification: //select[@name='groups[modules_disable_output][fields][Mage_AdminNotification][value]']
                                         magento_api: //select[@id='Magento_Api']
-                                        mage_authorizenet: //select[@name='groups[modules_disable_output][fields][Mage_Authorizenet][value]']
+                                        magento_authorizenet: //select[@name='groups[modules_disable_output][fields][Magento_Authorizenet][value]']
                                         mage_backup: //select[@name='groups[modules_disable_output][fields][Mage_Backup][value]']
                                         mage_bundle: //select[@name='groups[modules_disable_output][fields][Mage_Bundle][value]']
                                         mage_captcha: //select[@id='Mage_Captcha']
@@ -3624,7 +3624,7 @@ system_configuration:
                                     checkboxes:
                                         mage_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Mage_AdminNotification][inherit]']
                                         magento_api_use_default: //input[@id='Magento_Api_inherit']
-                                        mage_authorizenet_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Authorizenet][inherit]']
+                                        magento_authorizenet_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Authorizenet][inherit]']
                                         mage_backup_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Backup][inherit]']
                                         mage_bundle_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Bundle][inherit]']
                                         mage_captcha_use_default: //input[@id='Mage_Captcha_inherit']
