@@ -302,7 +302,7 @@ new_admin_role:
                                         stores-settings-configuration-content_management: //*[@data-id='Magento_Cms::config_cms']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-payment_services: //*[@data-id='Mage_Payment::payment_services']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-contacts_section: //*[@data-id='Magento_Contacts::contacts']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-downloadable_product_section: //*[@data-id='Mage_Downloadable::downloadable']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-downloadable_product_section: //*[@data-id='Magento_Downloadable::downloadable']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-inventory_section: //*[@data-id='Magento_CatalogInventory::cataloginventory']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-shipping_settings_section: //*[@data-id='Mage_Shipping::config_shipping']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-shipping_methods_section: //*[@data-id='Mage_Shipping::carriers']//*[@class='jstree-checkbox']

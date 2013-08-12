@@ -28,7 +28,7 @@
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
         <Mage_Connect><active>false</active></Mage_Connect>
-        <Mage_Downloadable><active>false</active></Mage_Downloadable>
+        <Magento_Downloadable><active>false</active></Magento_Downloadable>
         <Mage_Oauth><active>false</active></Mage_Oauth>
         <Mage_Webapi><active>false</active></Mage_Webapi>
         <Mage_Webhook><active>false</active></Mage_Webhook>

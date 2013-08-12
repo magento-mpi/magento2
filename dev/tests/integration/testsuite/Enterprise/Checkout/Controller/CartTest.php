@@ -85,7 +85,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
     /**
      * Test for Enterprise_Checkout_Controller_Cart::configureFailedAction() with downloadable product
      *
-     * @magentoDataFixture Mage/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product.php
      */
     public function testConfigureFailedActionWithDownloadableProduct()
     {

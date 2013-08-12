@@ -38,7 +38,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, 'Magento_Catalog_Model_Product_Type_Grouped'),
             array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, 'Magento_Catalog_Model_Product_Type_Configurable'),
             array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Mage_Bundle_Model_Product_Type'),
-            array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Mage_Downloadable_Model_Product_Type'),
+            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Magento_Downloadable_Model_Product_Type'),
         );
     }
 
@@ -70,7 +70,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED),
             array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE),
             array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE),
-            array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
+            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
         );
     }
 
@@ -96,7 +96,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
                 'Magento_Catalog_Model_Product_Type_Configurable_Price'
             ),
             array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Mage_Bundle_Model_Product_Price'),
-            array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Mage_Downloadable_Model_Product_Price'),
+            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Magento_Downloadable_Model_Product_Price'),
         );
     }
 
@@ -108,7 +108,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $options);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $options);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $options);
-        $this->assertArrayHasKey(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $options);
+        $this->assertArrayHasKey(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $options);
     }
 
     public function testGetAllOption()
@@ -149,7 +149,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED),
             array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE),
             array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE),
-            array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE),
+            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE),
         );
     }
 
@@ -161,7 +161,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
         $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $types);
-        $this->assertArrayHasKey(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
+        $this->assertArrayHasKey(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
         foreach ($types as $type) {
             $this->assertArrayHasKey('label', $type);
             $this->assertArrayHasKey('model', $type);
@@ -223,7 +223,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
         $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
         $this->assertContains(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $types);
-        $this->assertContains(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
+        $this->assertContains(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
         return $types;
     }
 }

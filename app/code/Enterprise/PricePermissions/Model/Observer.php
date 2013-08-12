@@ -642,7 +642,7 @@ class Enterprise_PricePermissions_Model_Observer
             }
 
             // Handle data received from Downloadable Links tab of downloadable products
-            if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            if ($product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
 
                 $downloadableData = $product->getDownloadableData();
                 if (is_array($downloadableData) && isset($downloadableData['link'])) {

@@ -118,8 +118,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/directory/',
         'app/design/frontend/base/default/layout/directory.xml'
     ),
-    'Mage_Downloadable' => array(
-        'app/code/Mage/Downloadable/',
+    'Magento_Downloadable' => array(
+        'app/code/Magento/Downloadable/',
         'app/design/frontend/base/default/template/downloadable/',
         'app/design/frontend/base/default/layout/downloadable.xml',
         'app/design/adminhtml/default/default/template/downloadable/',
@@ -585,7 +585,7 @@ $CONFIG['helpers']  = array(
     'cybermut'          => 'Mage_Cybermut',
     'cybersource'       => 'Mage_Cybersource',
     'directory'         => 'Mage_Directory',
-    'downloadable'      => 'Mage_Downloadable',
+    'downloadable'      => 'Magento_Downloadable',
     'eav'               => 'Mage_Eav',
     'eway'              => 'Mage_Eway',
     'flo2cash'          => 'Mage_Flo2Cash',

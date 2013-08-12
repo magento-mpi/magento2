@@ -182,7 +182,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
         $this->_title($this->__('Downloads Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Downloadable::report_products_downloads')
+            ->_setActiveMenu('Magento_Downloadable::report_products_downloads')
             ->_addBreadcrumb(
                 Mage::helper('Magento_Reports_Helper_Data')->__('Downloads'),
                 Mage::helper('Magento_Reports_Helper_Data')->__('Downloads')

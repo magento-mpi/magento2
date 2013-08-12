@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Bundle/>
                 <Magento_Catalog/>
-                <Mage_Downloadable/>
+                <Magento_Downloadable/>
                 <Enterprise_GiftCard/>
             </depends>
         </Enterprise_PricePermissions>

@@ -16,7 +16,7 @@ sql
 data
 Mage/Paypal
 Mage/Paygate
-Mage/Downloadable
+Magento/Downloadable
 Magento/Core/Model/Resource/Helper
 Magento/Core/Model/Url/RewriteFactory
 Magento/Core/Model/Layout/Merge/Factory

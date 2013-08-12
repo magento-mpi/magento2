@@ -6,7 +6,7 @@
  * @license     {license_link}
  * @method Saas_Mage_SaasAdminMenu_Helper saasAdminMenuHelper() saasAdminMenuHelper()
  */
-class Saas_Mage_Downloadable_FunctionalityLimitationTest extends Saas_Mage_TestCase
+class Saas_Magento_Downloadable_FunctionalityLimitationTest extends Saas_Mage_TestCase
 {
     protected function assertPreConditions()
     {

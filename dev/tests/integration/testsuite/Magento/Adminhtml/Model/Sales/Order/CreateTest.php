@@ -29,8 +29,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @magentoDataFixture Mage/Downloadable/_files/product.php
-     * @magentoDataFixture Mage/Downloadable/_files/order_with_downloadable_product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
      */
     public function testInitFromOrderShippingAddressSameAsBillingWhenEmpty()
     {
@@ -46,8 +46,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @magentoDataFixture Mage/Downloadable/_files/product.php
-     * @magentoDataFixture Mage/Downloadable/_files/order_with_downloadable_product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
      * @magentoDataFixture Magento/Adminhtml/_files/order_shipping_address_same_as_billing.php
      */
     public function testInitFromOrderShippingAddressSameAsBillingWhenSame()
@@ -65,8 +65,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @magentoDataFixture Mage/Downloadable/_files/product.php
-     * @magentoDataFixture Mage/Downloadable/_files/order_with_downloadable_product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
      * @magentoDataFixture Magento/Adminhtml/_files/order_shipping_address_different_to_billing.php
      */
     public function testInitFromOrderShippingAddressSameAsBillingWhenDifferent()

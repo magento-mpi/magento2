@@ -24,8 +24,8 @@ app/code/Mage/Authorizenet
 app/code/Mage/Ogone
 app/code/Mage/PageCache
 app/design/frontend/magento_fixed_width/Enterprise_GiftRegistry
-app/design/frontend/magento_fixed_width/Mage_Downloadable
-app/design/frontend/magento_iphone_html5/Mage_Downloadable
+app/design/frontend/magento_fixed_width/Magento_Downloadable
+app/design/frontend/magento_iphone_html5/Magento_Downloadable
 app/design/frontend/magento_iphone_html5/Enterprise_GiftRegistry
 app/design/frontend/magento_iphone_html5/Enterprise_TargetRule
 app/design/frontend/magento_iphone_html5/Enterprise_Wishlist
@@ -50,7 +50,7 @@ dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 dev/tests/integration/testsuite/Mage/Authorizenet
 dev/tests/integration/testsuite/Mage/Connect
-dev/tests/integration/testsuite/Mage/Downloadable
+dev/tests/integration/testsuite/Magento/Downloadable
 dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
 dev/tests/integration/testsuite/Mage/Webhook
@@ -58,7 +58,7 @@ dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
-dev/tests/static/testsuite/Legacy/Mage/Downloadable
+dev/tests/static/testsuite/Legacy/Magento/Downloadable
 dev/tests/static/testsuite/Php/_files/whitelist/ee_additional.txt
 dev/tests/unit/testsuite/Enterprise/AdminGws
 dev/tests/unit/testsuite/Enterprise/BannerCustomerSegment
@@ -71,7 +71,7 @@ dev/tests/unit/testsuite/Enterprise/PricePermissions
 dev/tests/unit/testsuite/Enterprise/Reward
 dev/tests/unit/testsuite/Enterprise/Rma
 dev/tests/unit/testsuite/Enterprise/Tag
-dev/tests/unit/testsuite/Mage/Downloadable
+dev/tests/unit/testsuite/Magento/Downloadable
 dev/tests/unit/testsuite/Mage/Webapi
 dev/tests/unit/testsuite/Mage/Webhook
 pub/lib/mage/directpost.js
@@ -87,11 +87,11 @@ dev/tests/integration/testsuite/Magento/Adminhtml/Controller/System/DesignTest.p
 dev/tests/integration/testsuite/Mage/Checkout/Controller/MultishippingTest.php
 ########################################################################################################################
 # following tests must be refactored to be applicable in Saas Edition
-# MAGETWO-10542, test requires Mage_Downloadable module,
+# MAGETWO-10542, test requires Magento_Downloadable module,
 dev/tests/integration/testsuite/Magento/Adminhtml/Model/Sales/Order/CreateTest.php
 # MAGETWO-10546, Saas_Saas_Exception: Modification is not permitted in Mage_Backend_Model_ConfigTest::testSaveWithSingleStoreModeEnabled
 dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
-# MAGETWO-10544, test requires Mage_Downloadable module
+# MAGETWO-10544, test requires Magento_Downloadable module
 dev/tests/integration/testsuite/Magento/Catalog/Model/Product/TypeTest.php
-# MAGETWO-10543, test requires Mage_Downloadable module
+# MAGETWO-10543, test requires Magento_Downloadable module
 dev/tests/integration/testsuite/Mage/Checkout/Controller/CartTest.php

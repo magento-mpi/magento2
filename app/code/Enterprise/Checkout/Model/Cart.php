@@ -765,7 +765,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
                 return isset($config['super_group']);
             case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
                 return isset($config['giftcard_amount']);
-            case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
+            case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return isset($config['links']);
         }
         return false;
@@ -1142,7 +1142,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      */
     protected function _shouldBeConfigured($product)
     {
-        if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+        if ($product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
             && !$product->getLinksPurchasedSeparately()
         ) {
             return false;
@@ -1154,7 +1154,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
 
         switch ($product->getTypeId()) {
             case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
-            case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
+            case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return true;
         }
 

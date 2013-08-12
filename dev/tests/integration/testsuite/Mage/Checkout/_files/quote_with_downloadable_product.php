@@ -9,19 +9,19 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Downloadable/_files/product.php';
+require __DIR__ . '/../../../Magento/Downloadable/_files/product.php';
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
-/** @var $linkCollection Mage_Downloadable_Model_Resource_Link_Collection */
-$linkCollection = Mage::getModel('Mage_Downloadable_Model_Link')->getCollection()
+/** @var $linkCollection Magento_Downloadable_Model_Resource_Link_Collection */
+$linkCollection = Mage::getModel('Magento_Downloadable_Model_Link')->getCollection()
     ->addProductToFilter($product->getId())
     ->addTitleToResult($product->getStoreId())
     ->addPriceToResult($product->getStore()->getWebsiteId());
 
-/** @var $link Mage_Downloadable_Model_Link */
+/** @var $link Magento_Downloadable_Model_Link */
 $link = $linkCollection->getFirstItem();
 
 $requestInfo = new Magento_Object(array(

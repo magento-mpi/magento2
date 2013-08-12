@@ -44,7 +44,7 @@
                 </action>
                 <action method="addItemRender">
                     <type>downloadable</type>
-                    <block>Mage_Downloadable_Block_Checkout_Cart_Item_Renderer</block>
+                    <block>Magento_Downloadable_Block_Checkout_Cart_Item_Renderer</block>
                     <template>Mage_Checkout::cart/item/default.phtml</template>
                 </action>
                 <action method="addItemRender">
