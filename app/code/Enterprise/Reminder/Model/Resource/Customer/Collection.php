@@ -19,14 +19,6 @@
 class Enterprise_Reminder_Model_Resource_Customer_Collection extends Mage_Customer_Model_Resource_Customer_Collection
 {
     /**
-     * Use analytic function flag
-     * If true - allows to prepare final select with analytic functions
-     *
-     * @var bool
-     */
-    protected $_useAnalyticFunction = true;
-
-    /**
      * Instantiate select to get matched customers
      *
      * @return Enterprise_Reminder_Model_Resource_Customer_Collection

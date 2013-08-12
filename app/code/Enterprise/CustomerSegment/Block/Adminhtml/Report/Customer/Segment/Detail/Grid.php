@@ -47,7 +47,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
-            ;
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -141,8 +141,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             'column_css_class'  => 'col-period'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', $this->__('CSV'));
+        $this->addExportType('*/*/exportExcel', $this->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

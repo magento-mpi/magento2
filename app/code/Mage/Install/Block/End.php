@@ -15,8 +15,14 @@
  */
 class Mage_Install_Block_End extends Mage_Install_Block_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_template = 'end.phtml';
 
+    /**
+     * @return string
+     */
     public function getEncryptionKey()
     {
         $key = $this->getData('encryption_key');
@@ -30,7 +36,7 @@ class Mage_Install_Block_End extends Mage_Install_Block_Abstract
     /**
      * Return url for iframe source
      *
-     * @return string
+     * @return string|null
      */
     public function getIframeSourceUrl()
     {

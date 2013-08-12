@@ -10,8 +10,6 @@
 
 /**
  * Database config installation block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Block_Db_Main extends Mage_Core_Block_Template
 {
@@ -20,7 +18,7 @@ class Mage_Install_Block_Db_Main extends Mage_Core_Block_Template
      *
      * @var array
      */
-    protected $_databases       = array();
+    protected $_databases = array();
 
     /**
      * Adding customized database block template for database model type
@@ -45,7 +43,7 @@ class Mage_Install_Block_Db_Main extends Mage_Core_Block_Template
      * Retrieve database block by type
      *
      * @param  string $type database model type
-     * @return bool | Mage_Core_Block_Template
+     * @return bool|Mage_Core_Block_Template
      */
     public function getDatabaseBlock($type)
     {
@@ -71,7 +69,7 @@ class Mage_Install_Block_Db_Main extends Mage_Core_Block_Template
     public function getDatabaseBlocks()
     {
         $databases = array();
-        foreach ($this->_databases as $type => $blockData) {
+        foreach (array_keys($this->_databases) as $type) {
             $databases[] = $this->getDatabaseBlock($type);
         }
         return $databases;
@@ -89,8 +87,7 @@ class Mage_Install_Block_Db_Main extends Mage_Core_Block_Template
             $data = Mage::getSingleton('Mage_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
                 $data = Mage::getModel('Mage_Install_Model_Installer_Config')->getFormData();
-            }
-            else {
+            } else {
                 $data = new Magento_Object($data);
             }
             $this->setFormData($data);

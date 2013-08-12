@@ -362,8 +362,6 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 ->where('logged_at >= ?', $from)
                 ->where('logged_at <= ?', $to);
         }
-
-        $this->_useAnalyticFunction = true;
         return $this;
     }
 

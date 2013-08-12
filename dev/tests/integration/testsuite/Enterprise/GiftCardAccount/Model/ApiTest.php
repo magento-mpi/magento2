@@ -31,7 +31,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         $this->assertGreaterThan(0, $accountId);
 
         $testModel->load($accountId);
-        // Convert dates to Y-m-d format from Oracle
+        // Convert dates to Y-m-d format
         $testModel->setDateCreated(date('Y-m-d', strtotime($testModel->getDateCreated())));
         $testModel->setDateExpires(date('Y-m-d', strtotime($testModel->getDateExpires())));
         $this->_testDataCorrect($createData, $testModel);

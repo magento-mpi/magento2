@@ -26,7 +26,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
     protected $_flag     = null;
 
     /**
-     * Retrive flag object
+     * Retrieve flag object
      *
      * @return Mage_Reports_Model_Flag
      */
@@ -82,7 +82,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
     }
 
     /**
-     * Trancate table
+     * Truncate table
      *
      * @param string $table
      * @return Mage_Reports_Model_Resource_Report_Abstract
@@ -106,12 +106,12 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param string|null $from
      * @param string|null $to
      * @param Zend_Db_Select|string|null $subSelect
-     * @param unknown_type $doNotUseTruncate
+     * @param bool $doNotUseTruncate
      * @return Mage_Reports_Model_Resource_Report_Abstract
      */
     protected function _clearTableByDateRange($table, $from = null, $to = null, $subSelect = null,
-        $doNotUseTruncate = false)
-    {
+        $doNotUseTruncate = false
+    ) {
         if ($from === null && $to === null && !$doNotUseTruncate) {
             $this->_truncateTable($table);
             return $this;
@@ -143,12 +143,12 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param string|null $from
      * @param string|null $to
      * @param array $additionalWhere
-     * @param unknown_type $alias
+     * @param string $alias
      * @return Magento_DB_Select
      */
     protected function _getTableDateRangeSelect($table, $column, $whereColumn, $from = null, $to = null,
-        $additionalWhere = array(), $alias = 'date_range_table')
-    {
+        $additionalWhere = array(), $alias = 'date_range_table'
+    ) {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from(
@@ -160,19 +160,19 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             ->distinct(true);
 
         if ($from !== null) {
-           $select->where($alias . '.' . $whereColumn . ' >= ?', $from);
+            $select->where($alias . '.' . $whereColumn . ' >= ?', $from);
         }
 
         if ($to !== null) {
-           $select->where($alias . '.' . $whereColumn . ' <= ?', $to);
+            $select->where($alias . '.' . $whereColumn . ' <= ?', $to);
         }
 
         if (!empty($additionalWhere)) {
             foreach ($additionalWhere as $condition) {
                 if (is_array($condition) && count($condition) == 2) {
-                   $condition = $adapter->quoteInto($condition[0], $condition[1]);
+                    $condition = $adapter->quoteInto($condition[0], $condition[1]);
                 } elseif (is_array($condition)) { // Invalid condition
-                   continue;
+                    continue;
                 }
                 $condition = str_replace('{{table}}', $adapter->quoteIdentifier($alias), $condition);
                 $select->where($condition);
@@ -190,7 +190,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      *
      * @param Magento_DB_Select $select
      * @param string $periodColumn
-     * @return unknown
+     * @return string
      */
     protected function _makeConditionFromDateRangeSelect($select, $periodColumn)
     {
@@ -201,7 +201,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             try {
                 $selectResult = array();
                 $query = $this->_getReadAdapter()->query($select);
-                while ($date = $query->fetchColumn()) {
+                while (true == ($date = $query->fetchColumn())) {
                     $selectResult[] = $date;
                 }
             } catch (Exception $e) {
@@ -218,7 +218,6 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         $whereCondition = array();
         $adapter = $this->_getReadAdapter();
         foreach ($selectResult as $date) {
-            $date = substr($date, 0, 10); // to fix differences in oracle
             $whereCondition[] = $adapter->prepareSqlCondition($periodColumn, array('like' => $date));
         }
         $whereCondition = implode(' OR ', $whereCondition);
@@ -240,14 +239,14 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param string|null $from
      * @param string|null $to
      * @param array $additionalWhere
-     * @param unknown_type $alias
-     * @param unknown_type $relatedAlias
+     * @param string $alias
+     * @param string $relatedAlias
      * @return Magento_DB_Select
      */
     protected function _getTableDateRangeRelatedSelect($table, $relatedTable, $joinCondition, $column, $whereColumn,
         $from = null, $to = null, $additionalWhere = array(), $alias = 'date_range_table',
-        $relatedAlias = 'related_date_range_table')
-    {
+        $relatedAlias = 'related_date_range_table'
+    ) {
         $adapter = $this->_getReadAdapter();
         $joinConditionSql = array();
 
@@ -270,19 +269,19 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             ->distinct(true);
 
         if ($from !== null) {
-           $select->where($relatedAlias . '.' . $whereColumn . ' >= ?', $from);
+            $select->where($relatedAlias . '.' . $whereColumn . ' >= ?', $from);
         }
 
         if ($to !== null) {
-           $select->where($relatedAlias . '.' . $whereColumn . ' <= ?', $to);
+            $select->where($relatedAlias . '.' . $whereColumn . ' <= ?', $to);
         }
 
         if (!empty($additionalWhere)) {
             foreach ($additionalWhere as $condition) {
                 if (is_array($condition) && count($condition) == 2) {
-                   $condition = $adapter->quoteInto($condition[0], $condition[1]);
+                    $condition = $adapter->quoteInto($condition[0], $condition[1]);
                 } elseif (is_array($condition)) { // Invalid condition
-                   continue;
+                    continue;
                 }
                 $condition = str_replace(
                     array('{{table}}', '{{related_table}}'),
@@ -302,43 +301,40 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
     /**
      * Check range dates and transforms it to strings
      *
-     * @param mixed $from
-     * @param mixed $to
+     * @param mixed $dateFrom
+     * @param mixed $dateTo
      * @return Mage_Reports_Model_Resource_Report_Abstract
      */
-    protected function _checkDates(&$from, &$to)
+    protected function _checkDates(&$dateFrom, &$dateTo)
     {
-        if ($from !== null) {
-            $from = $this->formatDate($from);
+        if ($dateFrom !== null) {
+            $dateFrom = $this->formatDate($dateFrom);
         }
 
-        if ($to !== null) {
-            $to = $this->formatDate($to);
+        if ($dateTo !== null) {
+            $dateTo = $this->formatDate($dateTo);
         }
 
         return $this;
     }
 
     /**
-    * Retrieve query for attribute with timezone conversion
-    *
-    * @param string|array $table
-    * @param string $column
-    * @param mixed $from
-    * @param mixed $to
-    * @param int|string|Mage_Core_Model_Store|null $store
-    * @return string
-    */
+     * Retrieve query for attribute with timezone conversion
+     *
+     * @param string|array $table
+     * @param string $column
+     * @param mixed $from
+     * @param mixed $to
+     * @param int|string|Mage_Core_Model_Store|null $store
+     * @return string
+     */
     public function getStoreTZOffsetQuery($table, $column, $from = null, $to = null, $store = null)
     {
         $column = $this->_getWriteAdapter()->quoteIdentifier($column);
 
-        if (is_null($from)) {
+        if (null === $from) {
             $selectOldest = $this->_getWriteAdapter()->select()
-                ->from(
-                    $table,
-                    array("MIN($column)")
-                );
+                ->from($table, array("MIN($column)"));
             $from = $this->_getWriteAdapter()->fetchOne($selectOldest);
         }
 
@@ -420,7 +416,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
     /**
      * Retrieve store timezone offset from UTC in the form acceptable by SQL's CONVERT_TZ()
      *
-     * @param unknown_type $store
+     * @param mixed $store
      * @return string
      */
     protected function _getStoreTimezoneUtcOffset($store = null)
@@ -431,7 +427,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
     /**
      * Retrieve date in UTC timezone
      *
-     * @param unknown_type $date
+     * @param mixed $date
      * @return Zend_Date|null
      */
     protected function _dateToUtc($date)

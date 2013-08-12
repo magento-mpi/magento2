@@ -50,12 +50,6 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
 
         $this->_joinFields();
         $this->getSelect()->group('e.entity_id');
-
-        /*
-         * Allow analytic function usage
-         */
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 

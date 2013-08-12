@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Quote_Address_Item _getResource()
  * @method Mage_Sales_Model_Resource_Quote_Address_Item getResource()
  * @method int getParentItemId()

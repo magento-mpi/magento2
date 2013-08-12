@@ -11,10 +11,6 @@
 
 /**
  * Base items collection class
- *
- * @category   Magento
- * @package    Magento_Data
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Data_Collection_Db extends Magento_Data_Collection
 {
@@ -611,22 +607,11 @@ class Magento_Data_Collection_Db extends Magento_Data_Collection
             $this->_renderFilters()
                  ->_renderOrders()
                  ->_renderLimit();
-            $select = $this->_prepareSelect($this->getSelect());
+            $select = $this->getSelect();
             $this->_data = $this->_fetchAll($select);
             $this->_afterLoadData();
         }
         return $this->_data;
-    }
-
-    /**
-     * Prepare select for load
-     *
-     * @param Zend_Db_Select $select
-     * @return Zend_Db_Select
-     */
-    protected function _prepareSelect(Zend_Db_Select $select)
-    {
-        return $select;
     }
 
     /**
