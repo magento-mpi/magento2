@@ -23,21 +23,21 @@ class Magento_Adminhtml_Block_Poll_Edit_Tabs extends Magento_Adminhtml_Block_Wid
         parent::_construct();
         $this->setId('poll_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_Poll_Helper_Data')->__('Poll Information'));
+        $this->setTitle(Mage::helper('Magento_Poll_Helper_Data')->__('Poll Information'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('form_section', array(
-            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Information'),
-            'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Information'),
+            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Poll Information'),
+            'title'     => Mage::helper('Magento_Poll_Helper_Data')->__('Poll Information'),
             'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Form')->toHtml(),
         ))
         ;
 
         $this->addTab('answers_section', array(
-                'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Answers'),
-                'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Answers'),
+                'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Poll Answers'),
+                'title'     => Mage::helper('Magento_Poll_Helper_Data')->__('Poll Answers'),
                 'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Answers')
                     ->append($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_List'))
                     ->toHtml(),

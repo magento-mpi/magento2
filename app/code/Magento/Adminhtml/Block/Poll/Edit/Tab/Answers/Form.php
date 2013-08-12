@@ -22,12 +22,12 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Magento_Adminht
     {
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('add_answer_form', array('legend' => Mage::helper('Mage_Poll_Helper_Data')->__('Add New Answer')));
+        $fieldset = $form->addFieldset('add_answer_form', array('legend' => Mage::helper('Magento_Poll_Helper_Data')->__('Add New Answer')));
 
         $fieldset->addField('answer_title', 'text', array(
                     'name'      => 'answer_title',
-                    'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title'),
-                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title'),
+                    'title'     => Mage::helper('Magento_Poll_Helper_Data')->__('Answer Title'),
+                    'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Answer Title'),
                     'maxlength' => '255',
                     'no_span'   => true,
                 )
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Magento_Adminht
         $fieldset->addField('add_button', 'note', array(
                     'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                                     ->setData(array(
-                                        'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Add Answer'),
+                                        'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Add Answer'),
                                         'onclick'   => 'answers.add();',
                                         'class'     => 'add',
                                     ))->toHtml(),

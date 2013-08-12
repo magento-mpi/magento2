@@ -22,33 +22,33 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block
     {
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('poll_form', array('legend'=>Mage::helper('Mage_Poll_Helper_Data')->__('Poll information')));
+        $fieldset = $form->addFieldset('poll_form', array('legend'=>Mage::helper('Magento_Poll_Helper_Data')->__('Poll information')));
         $fieldset->addField('poll_title', 'text', array(
-            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Question'),
+            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Poll Question'),
             'class'     => 'required-entry',
             'required'  => true,
             'name'      => 'poll_title',
         ));
 
         $fieldset->addField('closed', 'select', array(
-            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Status'),
             'name'      => 'closed',
             'values'    => array(
                 array(
                     'value'     => 1,
-                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Closed'),
+                    'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Closed'),
                 ),
 
                 array(
                     'value'     => 0,
-                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Open'),
+                    'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Open'),
                 ),
             ),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_ids', 'multiselect', array(
-                'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Visible In'),
+                'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Visible In'),
                 'required'  => true,
                 'name'      => 'store_ids[]',
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),

@@ -276,7 +276,7 @@
                     <magento_core_model_resource_store_group_collection>limitStoreGroups</magento_core_model_resource_store_group_collection>
                     <magento_cms_model_resource_page_collection>addStoreFilter</magento_cms_model_resource_page_collection>
                     <magento_cms_model_resource_block_collection>addStoreFilter</magento_cms_model_resource_block_collection>
-                    <mage_poll_model_resource_poll_collection>addStoreFilterNoAdmin</mage_poll_model_resource_poll_collection>
+                    <magento_poll_model_resource_poll_collection>addStoreFilterNoAdmin</magento_poll_model_resource_poll_collection>
                     <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
                     <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
                     <mage_customer_model_resource_customer_collection>limitCustomers</mage_customer_model_resource_customer_collection>
@@ -323,7 +323,7 @@
                 <model_save_before>
                     <magento_cms_model_page>cmsPageSaveBefore</magento_cms_model_page>
                     <magento_cms_model_block>cmsBlockSaveBefore</magento_cms_model_block>
-                    <mage_poll_model_poll>pollSaveBefore</mage_poll_model_poll>
+                    <magento_poll_model_poll>pollSaveBefore</magento_poll_model_poll>
                     <mage_rule_model_abstract>ruleSaveBefore</mage_rule_model_abstract>
                     <mage_sales_model_order>salesOrderSaveBefore</mage_sales_model_order>
                     <mage_sales_model_order_invoice>salesOrderEntitySaveBefore</mage_sales_model_order_invoice>
@@ -355,7 +355,7 @@
                 <model_delete_before>
                     <magento_cms_model_page>cmsPageDeleteBefore</magento_cms_model_page>
                     <magento_cms_model_block>cmsBlockDeleteBefore</magento_cms_model_block>
-                    <mage_poll_model_poll>pollDeleteBefore</mage_poll_model_poll>
+                    <magento_poll_model_poll>pollDeleteBefore</magento_poll_model_poll>
                     <mage_rule_model_abstract>ruleDeleteBefore</mage_rule_model_abstract>
                     <magento_catalog_model_product>catalogProductDeleteBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategoryDeleteBefore</magento_catalog_model_category>

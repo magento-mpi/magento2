@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Poll_Model_Poll')->getCollection();
+        $collection = Mage::getModel('Magento_Poll_Model_Poll')->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
 
@@ -43,27 +43,27 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('poll_id', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'poll_id',
         ));
 
         $this->addColumn('poll_title', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Poll Question'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Poll Question'),
             'align'     =>'left',
             'index'     => 'poll_title',
         ));
 
         $this->addColumn('votes_count', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Responses'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Responses'),
             'width'     => '50px',
             'type'      => 'number',
             'index'     => 'votes_count',
         ));
 
         $this->addColumn('date_posted', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Posted'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Posted'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'datetime',
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('date_closed', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Closed'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Closed'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'datetime',
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
 
         /*
         $this->addColumn('active', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'active',
@@ -105,14 +105,14 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
         ));
         */
         $this->addColumn('closed', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'closed',
             'type'      => 'options',
             'options'   => array(
-                1 => Mage::helper('Mage_Poll_Helper_Data')->__('Closed'),
-                0 => Mage::helper('Mage_Poll_Helper_Data')->__('Open')
+                1 => Mage::helper('Magento_Poll_Helper_Data')->__('Closed'),
+                0 => Mage::helper('Magento_Poll_Helper_Data')->__('Open')
             ),
         ));
 

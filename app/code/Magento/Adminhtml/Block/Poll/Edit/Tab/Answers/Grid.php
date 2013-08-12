@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Magento_Adminht
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Poll_Model_Poll_Answer')
+        $collection = Mage::getModel('Magento_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter($this->getRequest()->getParam('id'));
         $this->setCollection($collection);
@@ -39,27 +39,27 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Magento_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('answer_id', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'answer_id',
         ));
 
         $this->addColumn('answer_title', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Answer Title'),
             'align'     =>'left',
             'index'     => 'answer_title',
         ));
 
         $this->addColumn('votes_count', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Votes'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Votes'),
             'type'      => 'number',
             'width'     => '50px',
             'index'     => 'votes_count',
         ));
 
         $this->addColumn('actions', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Actions'),
+            'header'    => Mage::helper('Magento_Poll_Helper_Data')->__('Actions'),
             'align'     => 'center',
             'type'      => 'action',
             'width'     => '10px',
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Magento_Adminht
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('Mage_Poll_Helper_Data')->__('Delete'),
+                    'caption'   => Mage::helper('Magento_Poll_Helper_Data')->__('Delete'),
                     'onClick'   => 'return answers.delete(\'$answer_id\')',
                     'url'       => '#',
                 ),

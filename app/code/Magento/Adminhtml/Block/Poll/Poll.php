@@ -21,8 +21,8 @@ class Magento_Adminhtml_Block_Poll_Poll extends Magento_Adminhtml_Block_Widget_G
     protected function _construct()
     {
         $this->_controller = 'poll';
-        $this->_headerText = Mage::helper('Mage_Poll_Helper_Data')->__('Poll Manager');
-        $this->_addButtonLabel = Mage::helper('Mage_Poll_Helper_Data')->__('Add New Poll');
+        $this->_headerText = Mage::helper('Magento_Poll_Helper_Data')->__('Poll Manager');
+        $this->_addButtonLabel = Mage::helper('Magento_Poll_Helper_Data')->__('Add New Poll');
         parent::_construct();
     }
 

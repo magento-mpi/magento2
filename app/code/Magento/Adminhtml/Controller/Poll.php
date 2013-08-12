@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
         $this->_title($this->__('Polls'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Poll::cms_poll');
+        $this->_setActiveMenu('Magento_Poll::cms_poll');
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'));
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Poll'));
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
         $this->_title($this->__('Polls'));
 
         $pollId     = $this->getRequest()->getParam('id');
-        $pollModel  = Mage::getModel('Mage_Poll_Model_Poll')->load($pollId);
+        $pollModel  = Mage::getModel('Magento_Poll_Model_Poll')->load($pollId);
 
         if ($pollModel->getId() || $pollId == 0) {
             $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : $this->__('New Poll'));
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
             Mage::register('poll_data', $pollModel);
 
             $this->loadLayout();
-            $this->_setActiveMenu('Mage_Poll::cms_poll');
+            $this->_setActiveMenu('Magento_Poll::cms_poll');
             $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'), $this->getUrl('*/*/'));
             $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Edit Poll'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Edit Poll'));
 
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
             $this->renderLayout();
         } else {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Poll_Helper_Data')->__('The poll does not exist.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Poll_Helper_Data')->__('The poll does not exist.'));
             $this->_redirect('*/*/');
         }
     }
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('Mage_Poll_Model_Poll');
+                $model = Mage::getModel('Magento_Poll_Model_Poll');
                 $model->setId($id);
                 $model->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('You deleted the poll.'));
@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
         if ( $this->getRequest()->getPost() ) {
             try {
-                $pollModel = Mage::getModel('Mage_Poll_Model_Poll');
+                $pollModel = Mage::getModel('Magento_Poll_Model_Poll');
 
                 if( !$this->getRequest()->getParam('id') ) {
                     $pollModel->setDatePosted(now());
@@ -158,7 +158,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                         }
                         $_titles[] = $answer['title'];
 
-                        $answerModel = Mage::getModel('Mage_Poll_Model_Poll_Answer');
+                        $answerModel = Mage::getModel('Magento_Poll_Model_Poll_Answer');
                         if( intval($key) > 0 ) {
                             $answerModel->setId($key);
                         }
@@ -176,7 +176,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 $answersDelete = $this->getRequest()->getParam('deleteAnswer');
                 if( is_array($answersDelete) ) {
                     foreach( $answersDelete as $answer ) {
-                        $answerModel = Mage::getModel('Mage_Poll_Model_Poll_Answer');
+                        $answerModel = Mage::getModel('Magento_Poll_Model_Poll_Answer');
                         $answerModel->setId($answer)
                             ->delete();
                     }
@@ -194,7 +194,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Poll::poll');
+        return $this->_authorization->isAllowed('Magento_Poll::poll');
     }
 
 }

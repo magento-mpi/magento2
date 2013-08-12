@@ -12,7 +12,7 @@
 <div class="fieldset-wrapper">
     <?php if($answers): ?>
         <div class="fieldset-wrapper-title">
-            <span class="title"><?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Assigned Answers') ?></span>
+            <span class="title"><?php echo Mage::helper('Magento_Poll_Helper_Data')->__('Assigned Answers') ?></span>
         </div>
 
         <div class="field field-poll_answers_container">
@@ -20,9 +20,9 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th class="col-poll_answer_title"><?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title') ?></th>
-                            <th class="col-poll_votes_count"><?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Votes Count') ?></th>
-                            <th class="col-delete"><?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Action') ?></th>
+                            <th class="col-poll_answer_title"><?php echo Mage::helper('Magento_Poll_Helper_Data')->__('Answer Title') ?></th>
+                            <th class="col-poll_votes_count"><?php echo Mage::helper('Magento_Poll_Helper_Data')->__('Votes Count') ?></th>
+                            <th class="col-delete"><?php echo Mage::helper('Magento_Poll_Helper_Data')->__('Action') ?></th>
                         </tr>
                     </thead>
                     <tbody id="poll_answers_list">
@@ -122,7 +122,7 @@
         },
 
         deleteAnswer: function(el) {
-            if(confirm('<?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Are you sure you want to delete it?') ?>')) {
+            if(confirm('<?php echo Mage::helper('Magento_Poll_Helper_Data')->__('Are you sure you want to delete it?') ?>')) {
                 var item = $(el).closest('tr');
                 var hidden = $('#id_' + item.attr("id"));
                 var id = hidden.attr("value");

@@ -101,7 +101,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </wishlist_links>
         <poll_activepoll>
-            <block>Mage_Poll_Block_ActivePoll</block>
+            <block>Magento_Poll_Block_ActivePoll</block>
             <placeholder>POLL</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Poll</container>
             <cache_lifetime>86400</cache_lifetime>

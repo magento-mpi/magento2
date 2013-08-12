@@ -25,21 +25,21 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit extends Magento_Adminhtml_Block_W
 
         $this->_objectId = 'id';
         $this->_controller = 'poll_answer';
-        $answerData = Mage::getModel('Mage_Poll_Model_Poll_Answer');
+        $answerData = Mage::getModel('Magento_Poll_Model_Poll_Answer');
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $answerData = Mage::getModel('Mage_Poll_Model_Poll_Answer')
+            $answerData = Mage::getModel('Magento_Poll_Model_Poll_Answer')
                 ->load($this->getRequest()->getParam($this->_objectId));
             Mage::register('answer_data', $answerData);
         }
 
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/poll/edit', array('id' => $answerData->getPollId(), 'tab' => 'answers_section')) . '\');');
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Poll_Helper_Data')->__('Save Answer'));
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Poll_Helper_Data')->__('Delete Answer'));
+        $this->_updateButton('save', 'label', Mage::helper('Magento_Poll_Helper_Data')->__('Save Answer'));
+        $this->_updateButton('delete', 'label', Mage::helper('Magento_Poll_Helper_Data')->__('Delete Answer'));
     }
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Poll_Helper_Data')->__("Edit Answer '%s'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
+        return Mage::helper('Magento_Poll_Helper_Data')->__("Edit Answer '%s'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
     }
 
 }

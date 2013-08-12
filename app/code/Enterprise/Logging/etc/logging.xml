@@ -362,7 +362,7 @@
     <poll translate="label">
         <label>CMS Polls</label>
         <expected_models>
-            <Mage_Poll_Model_Poll/>
+            <Magento_Poll_Model_Poll/>
         </expected_models>
         <actions>
             <adminhtml_poll_edit>

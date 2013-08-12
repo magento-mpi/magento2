@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Magento_Adminht
             return parent::_toHtml();
         }
 
-        $collection = Mage::getModel('Mage_Poll_Model_Poll_Answer')
+        $collection = Mage::getModel('Magento_Poll_Model_Poll_Answer')
             ->getResourceCollection()
             ->addPollFilter(Mage::registry('poll_data')->getId())
             ->load();
@@ -37,12 +37,12 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Magento_Adminht
     protected function _prepareLayout()
     {
         $this->addChild('deleteButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Delete'),
+            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Delete'),
             'class' => 'action-delete action- delete icon-btn'
         ));
 
         $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Add New Answer'),
+            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Add New Answer'),
             'class' => 'action-add'
         ));
         return parent::_prepareLayout();

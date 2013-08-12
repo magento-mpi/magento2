@@ -246,8 +246,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/persistent.xml',
         'app/design/frontend/base/default/template/persistent/'
     ),
-    'Mage_Poll' => array(
-        'app/code/Mage/Poll/',
+    'Magento_Poll' => array(
+        'app/code/Magento/Poll/',
         'app/design/frontend/base/default/template/poll/',
         'app/design/frontend/base/default/layout/poll.xml',
     ),
@@ -611,7 +611,7 @@ $CONFIG['helpers']  = array(
     'paypal'            => 'Mage_Paypal',
     'paypaluk'          => 'Mage_PaypalUk',
     'persistent'        => 'Mage_Persistent',
-    'poll'              => 'Mage_Poll',
+    'poll'              => 'Magento_Poll',
     'productalert'      => 'Mage_ProductAlert',
     'protx'             => 'Mage_Protx',
     'rating'            => 'Mage_Rating',

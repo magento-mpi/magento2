@@ -58,7 +58,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit CMS Poll save
      *
-     * @param Mage_Poll_Model_Poll $model
+     * @param Magento_Poll_Model_Poll $model
      */
     public function pollSaveBefore($model)
     {
