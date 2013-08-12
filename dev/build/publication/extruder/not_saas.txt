@@ -21,7 +21,7 @@ app/code/Enterprise/Tag
 app/code/Enterprise/TargetRule
 app/code/Enterprise/Wishlist
 app/code/Magento/Authorizenet
-app/code/Mage/Ogone
+app/code/Magento/Ogone
 app/code/Mage/PageCache
 app/design/frontend/magento_fixed_width/Enterprise_GiftRegistry
 app/design/frontend/magento_fixed_width/Magento_Downloadable

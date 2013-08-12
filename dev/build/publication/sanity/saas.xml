@@ -35,7 +35,7 @@
         <word>TargetRule</word>
         <word>Enterprise_Wishlist</word>
         <word>Magento_Authorizenet</word>
-        <word>Mage_Ogone</word>
+        <word>Magento_Ogone</word>
         <word>Mage_PageCache</word>
         <word>CustomerSegment</word>
     </words>
@@ -138,7 +138,7 @@
             <word>TargetRule</word>
             <word>Enterprise_Reminder</word>
             <word>Enterprise_Reward</word>
-            <word>Mage_Ogone</word>
+            <word>Magento_Ogone</word>
             <word>Enterprise_Checkout</word>
             <word>CustomerSegment</word>
             <word>Enterprise_ImportExport</word>

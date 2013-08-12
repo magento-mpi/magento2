@@ -193,8 +193,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/newsletter/',
         'app/design/frontend/default/modern/layout/newsletter.xml',
     ),
-    'Mage_Ogone' => array(
-        'app/code/Mage/Ogone/',
+    'Magento_Ogone' => array(
+        'app/code/Magento/Ogone/',
         'app/design/frontend/base/default/layout/ogone.xml',
         'app/design/frontend/base/default/template/ogone/',
     ),
@@ -601,7 +601,7 @@ $CONFIG['helpers']  = array(
     'log'               => 'Magento_Log',
     'media'             => 'Magento_Media',
     'newsletter'        => 'Magento_Newsletter',
-    'ogone'             => 'Mage_Ogone',
+    'ogone'             => 'Magento_Ogone',
     'page'              => 'Mage_Page',
     'pagecache'         => 'Mage_PageCache',
     'captcha'           => 'Mage_Captcha',
