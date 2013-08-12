@@ -31,7 +31,7 @@ class Enterprise_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Te
      */
     protected function _toHtml()
     {
-        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         if ($customer && $customer->getId()) {
             $this->_rewardInstance = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($customer)

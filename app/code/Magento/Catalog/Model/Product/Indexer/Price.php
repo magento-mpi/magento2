@@ -59,7 +59,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
         Magento_Core_Model_Config_Data::ENTITY => array(
             Magento_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Customer_Model_Group::ENTITY => array(
+        Magento_Customer_Model_Group::ENTITY => array(
             Magento_Index_Model_Event::TYPE_SAVE
         )
     );
@@ -138,7 +138,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
             } else {
                 $result = false;
             }
-        } elseif ($event->getEntity() == Mage_Customer_Model_Group::ENTITY) {
+        } elseif ($event->getEntity() == Magento_Customer_Model_Group::ENTITY) {
             $result = $event->getDataObject() && $event->getDataObject()->isObjectNew();
         } else {
             $result = parent::matchEvent($event);
@@ -232,7 +232,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         $entity = $event->getEntity();
 
-        if ($entity == Magento_Core_Model_Config_Data::ENTITY || $entity == Mage_Customer_Model_Group::ENTITY) {
+        if ($entity == Magento_Core_Model_Config_Data::ENTITY || $entity == Magento_Customer_Model_Group::ENTITY) {
             $process = $event->getProcess();
             $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         } else if ($entity == Magento_Catalog_Model_Product::ENTITY) {

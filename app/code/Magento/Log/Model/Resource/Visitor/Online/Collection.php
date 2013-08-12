@@ -41,7 +41,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      */
     public function addCustomerData()
     {
-        $customer   = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
         // alias => attribute_code
         $attributes = array(
             'customer_lastname'     => 'lastname',

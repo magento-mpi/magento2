@@ -30,11 +30,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Mage_Customer">CSV</label>
+                                <label translate="true" module="Magento_Customer">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportXml</urlPath>
-                                <label translate="true" module="Mage_Customer">Excel XML</label>
+                                <label translate="true" module="Magento_Customer">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>

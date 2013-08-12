@@ -103,8 +103,8 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
      * Get weee tax amount for product based on shipping and billing addresses, website and tax settings
      *
      * @param   Magento_Catalog_Model_Product $product
-     * @param   null|Mage_Customer_Model_Address_Abstract $shipping
-     * @param   null|Mage_Customer_Model_Address_Abstract $billing
+     * @param   null|Magento_Customer_Model_Address_Abstract $shipping
+     * @param   null|Magento_Customer_Model_Address_Abstract $billing
      * @param   mixed $website
      * @param   bool $calculateTaxes
      * @return  float

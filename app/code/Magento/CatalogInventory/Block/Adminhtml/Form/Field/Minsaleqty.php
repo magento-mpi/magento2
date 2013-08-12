@@ -47,7 +47,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty
     protected function _prepareToRender()
     {
         $this->addColumn('customer_group_id', array(
-            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Customer Group'),
+            'label' => Mage::helper('Magento_Customer_Helper_Data')->__('Customer Group'),
             'renderer' => $this->_getGroupRenderer(),
         ));
         $this->addColumn('min_sale_qty', array(

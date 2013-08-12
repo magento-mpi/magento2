@@ -16,7 +16,7 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashboard
+class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_Dashboard
 {
     /**
      * Product reviews collection
@@ -30,7 +30,7 @@ class Magento_Review_Block_Customer_List extends Mage_Customer_Block_Account_Das
         $this->_collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
         $this->_collection
             ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+            ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             ->setDateOrder();
         return $this;
     }

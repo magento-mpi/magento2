@@ -31,11 +31,11 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
     /**
      * Return customer session object
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     protected function _processDownload($resource, $resourceType)

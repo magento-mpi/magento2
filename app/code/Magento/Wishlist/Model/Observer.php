@@ -89,9 +89,9 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
         if (count($wishlistIds) && $request->getParam('wishlist_next')){
             $wishlistId = array_shift($wishlistIds);
 
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
-                        ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer(), true);
+                        ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer(), true);
             } else if ($sharedWishlist) {
                 $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCode($sharedWishlist);
             } else {
@@ -144,7 +144,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
      */
     public function customerLogout(Magento_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Customer_Model_Session')->setWishlistItemCount(0);
+        Mage::getSingleton('Magento_Customer_Model_Session')->setWishlistItemCount(0);
 
         return $this;
     }

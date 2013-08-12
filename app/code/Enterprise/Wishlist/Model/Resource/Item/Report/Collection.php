@@ -33,8 +33,8 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
      */
     protected function _addCustomerInfo()
     {
-        /* @var Mage_Customer_Model_Resource_Customer $customer */
-        $customer  = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
+        /* @var Magento_Customer_Model_Resource_Customer $customer */
+        $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
         $select = $this->getSelect();
 
         $customerAccount = Mage::getConfig()->getFieldset('customer_account');

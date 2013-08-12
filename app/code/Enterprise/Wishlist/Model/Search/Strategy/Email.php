@@ -47,7 +47,7 @@ class Enterprise_Wishlist_Model_Search_Strategy_Email implements Enterprise_Wish
      */
     public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection)
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($this->_email);
 

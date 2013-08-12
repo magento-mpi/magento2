@@ -238,10 +238,10 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Load subscriber info by customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Magento_Newsletter_Model_Subscriber
      */
-    public function loadByCustomer(Mage_Customer_Model_Customer $customer)
+    public function loadByCustomer(Magento_Customer_Model_Customer $customer)
     {
         $data = $this->getResource()->loadByCustomer($customer);
         $this->addData($data);
@@ -286,7 +286,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     public function subscribe($email)
     {
         $this->loadByEmail($email);
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
 
         if(!$this->getId()) {
             $this->setSubscriberConfirmCode($this->randomSequence());
@@ -294,7 +294,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
 
         $isConfirmNeed   = (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
-        $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
+        $ownerId = Mage::getModel('Magento_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($email)
             ->getId();
@@ -362,7 +362,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Saving customer subscription status
      *
-     * @param   Mage_Customer_Model_Customer $customer
+     * @param   Magento_Customer_Model_Customer $customer
      * @return  Magento_Newsletter_Model_Subscriber
      */
     public function subscribeCustomer($customer)

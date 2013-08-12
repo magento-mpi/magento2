@@ -16,9 +16,9 @@ class Enterprise_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_Test
      */
     public function testToHtml()
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         $customer->load(1);
-        Mage::getSingleton('Mage_Customer_Model_Session')->setCustomer($customer);
+        Mage::getSingleton('Magento_Customer_Model_Session')->setCustomer($customer);
         $utility = new Magento_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/customer_info.xml',
             $utility->getLayoutDependencies());

@@ -60,8 +60,8 @@ class Enterprise_Wishlist_Model_Search_Strategy_Name implements Enterprise_Wishl
      */
     public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection)
     {
-        /* @var $customers Mage_Customer_Model_Resource_Customer_Collection */
-        $customers = Mage::getModel('Mage_Customer_Model_Customer')->getCollection()
+        /* @var $customers Magento_Customer_Model_Resource_Customer_Collection */
+        $customers = Mage::getModel('Magento_Customer_Model_Customer')->getCollection()
             ->addAttributeToFilter(
                 array(array('attribute' => 'firstname', 'like' => '%'.$this->_firstname.'%'))
             )

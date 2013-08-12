@@ -383,13 +383,13 @@
     <customer translate="label">
         <label>Customers</label>
         <expected_models>
-            <Mage_Customer_Model_Customer>
+            <Magento_Customer_Model_Customer>
                 <skip_data>
                     <new_password/>
                     <password/>
                     <password_hash/>
                 </skip_data>
-            </Mage_Customer_Model_Customer>
+            </Magento_Customer_Model_Customer>
         </expected_models>
         <actions>
             <adminhtml_customer_edit>
@@ -443,7 +443,7 @@
     <customer_groups translate="label">
         <label>Customer Groups</label>
         <expected_models>
-            <Mage_Customer_Model_Group/>
+            <Magento_Customer_Model_Group/>
         </expected_models>
         <actions>
             <adminhtml_customer_group_edit>
@@ -988,8 +988,8 @@
             <adminhtml_sales_order_create_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Customer_Model_Customer/>
-                    <Mage_Customer_Model_Address/>
+                    <Magento_Customer_Model_Customer/>
+                    <Magento_Customer_Model_Address/>
                     <Mage_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_create_save>
@@ -997,8 +997,8 @@
             <adminhtml_sales_order_edit_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Mage_Customer_Model_Customer/>
-                    <Mage_Customer_Model_Address/>
+                    <Magento_Customer_Model_Customer/>
+                    <Magento_Customer_Model_Address/>
                     <Mage_Sales_Model_Order_Status_History/>
                 </expected_models>
             </adminhtml_sales_order_edit_save>

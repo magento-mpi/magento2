@@ -46,14 +46,14 @@ class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Ap
 
         switch ($customerData['mode']) {
             case self::MODE_CUSTOMER:
-                /** @var Mage_Customer_Model_Customer $customer */
+                /** @var Magento_Customer_Model_Customer $customer */
                 $customer = $this->_getCustomer($customerData['entity_id']);
                 $customer->setMode(self::MODE_CUSTOMER);
                 break;
             case self::MODE_REGISTER:
             case self::MODE_GUEST:
-                /** @var Mage_Customer_Model_Customer $customer */
-                $customer = Mage::getModel('Mage_Customer_Model_Customer')->setData($customerData);
+                /** @var Magento_Customer_Model_Customer $customer */
+                $customer = Mage::getModel('Magento_Customer_Model_Customer')->setData($customerData);
 
                 if ($customer->getMode() == self::MODE_GUEST) {
                     $password = $customer->generatePassword();

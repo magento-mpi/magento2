@@ -207,7 +207,7 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
      * Setter.
      * Set customer id
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Enterprise_Reward_Model_Reward
      */
     public function setCustomer($customer)
@@ -221,12 +221,12 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (!$this->_getData('customer') && $this->getCustomerId()) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId());
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
         return $this->_getData('customer');
@@ -691,7 +691,7 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
     /**
      * Delete orphan (points of deleted website) points by given customer
      *
-     * @param Mage_Customer_Model_Customer | integer | null $customer
+     * @param Magento_Customer_Model_Customer | integer | null $customer
      * @return Enterprise_Reward_Model_Reward
      */
     public function deleteOrphanPointsByCustomer($customer = null)
@@ -699,7 +699,7 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
         if ($customer === null) {
             $customer = $this->getCustomerId()?$this->getCustomerId():$this->getCustomer();
         }
-        if (is_object($customer) && $customer instanceof Mage_Customer_Model_Customer) {
+        if (is_object($customer) && $customer instanceof Magento_Customer_Model_Customer) {
             $customer = $customer->getId();
         }
         if ($customer) {

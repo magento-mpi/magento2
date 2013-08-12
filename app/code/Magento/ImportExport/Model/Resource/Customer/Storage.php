@@ -28,7 +28,7 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     /**
      * Customer collection
      *
-     * @var Mage_Customer_Model_Resource_Customer_Collection
+     * @var Magento_Customer_Model_Resource_Customer_Collection
      */
     protected $_customerCollection;
 
@@ -68,7 +68,7 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     public function __construct(array $data = array())
     {
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+            : Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
         $this->_pageSize = isset($data['page_size']) ? $data['page_size'] : 0;
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
             : Mage::getResourceModel('Magento_ImportExport_Model_Resource_CollectionByPagesIterator');
@@ -96,7 +96,7 @@ class Magento_ImportExport_Model_Resource_Customer_Storage
     /**
      * Add customer to array
      *
-     * @param Magento_Object|Mage_Customer_Model_Customer $customer
+     * @param Magento_Object|Magento_Customer_Model_Customer $customer
      * @return Magento_ImportExport_Model_Resource_Customer_Storage
      */
     public function addCustomer(Magento_Object $customer)

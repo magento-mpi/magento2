@@ -43,10 +43,10 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Magento
     /**
      * Return column name for attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return string
      */
-    protected function _getColumnName(Mage_Customer_Model_Attribute $attribute)
+    protected function _getColumnName(Magento_Customer_Model_Attribute $attribute)
     {
         $columnName = $attribute->getAttributeCode();
         if ($this->_columnPrefix) {
@@ -58,13 +58,13 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Magento
     /**
      * Saves a new attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Resource_Sales_Abstract
      */
-    public function saveNewAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function saveNewAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $backendType = $attribute->getBackendType();
-        if ($backendType == Mage_Customer_Model_Attribute::TYPE_STATIC) {
+        if ($backendType == Magento_Customer_Model_Attribute::TYPE_STATIC) {
             return $this;
         }
 
@@ -110,10 +110,10 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Magento
     /**
      * Deletes an attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Resource_Sales_Abstract
      */
-    public function deleteAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function deleteAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $this->_getWriteAdapter()->dropColumn($this->getMainTable(), $this->_getColumnName($attribute));
         return $this;

@@ -53,7 +53,7 @@ class Mage_Sales_Block_Order_View extends Magento_Core_Block_Template
      */
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return Mage::getUrl('*/*/history');
         }
         return Mage::getUrl('*/*/form');
@@ -66,7 +66,7 @@ class Mage_Sales_Block_Order_View extends Magento_Core_Block_Template
      */
     public function getBackTitle()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return Mage::helper('Mage_Sales_Helper_Data')->__('Back to My Orders');
         }
         return Mage::helper('Mage_Sales_Helper_Data')->__('View Another Order');

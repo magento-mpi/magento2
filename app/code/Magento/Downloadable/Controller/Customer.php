@@ -25,9 +25,9 @@ class Magento_Downloadable_Controller_Customer extends Magento_Core_Controller_F
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
+        $loginUrl = Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this, $loginUrl)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -39,7 +39,7 @@ class Magento_Downloadable_Controller_Customer extends Magento_Core_Controller_F
     public function productsAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('downloadable_customer_products_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }

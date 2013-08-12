@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Amount'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Amount'),
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',

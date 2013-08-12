@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Customer_List
-    extends Mage_Customer_Block_Account_Dashboard
+    extends Magento_Customer_Block_Account_Dashboard
 {
     /**
      * Instantiate pagination
@@ -39,7 +39,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
     {
         if (!$this->hasEntityCollection()) {
             $this->setData('entity_collection', Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
-                ->filterByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');

@@ -24,7 +24,7 @@ class Magento_Tag_Block_Customer_Recent extends Magento_Core_Block_Template
     {
         $this->_collection = Mage::getModel('Magento_Tag_Model_Tag')->getEntityCollection()
             ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+            ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
             ->setDescOrder()
             ->setPageSize(5)

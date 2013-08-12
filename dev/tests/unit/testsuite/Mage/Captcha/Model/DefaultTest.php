@@ -203,18 +203,18 @@ class Mage_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create stub session object
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSessionStub()
     {
         $session = $this->getMock(
-            'Mage_Customer_Model_Session',
+            'Magento_Customer_Model_Session',
             array('isLoggedIn'),
             array(), '', false
         );
 
         $session->expects($this->any())
-            ->method('Mage_Customer_Model_Session')
+            ->method('Magento_Customer_Model_Session')
             ->will($this->returnValue(true));
 
         $session->setData(

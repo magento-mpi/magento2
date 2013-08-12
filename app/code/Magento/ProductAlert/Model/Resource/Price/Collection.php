@@ -37,7 +37,7 @@ class Magento_ProductAlert_Model_Resource_Price_Collection extends Magento_Core_
     {
         if (is_array($customer)) {
             $condition = $this->getConnection()->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof Mage_Customer_Model_Customer) {
+        } elseif ($customer instanceof Magento_Customer_Model_Customer) {
             $condition = $this->getConnection()->quoteInto('customer_id=?', $customer->getId());
         } else {
             $condition = $this->getConnection()->quoteInto('customer_id=?', $customer);

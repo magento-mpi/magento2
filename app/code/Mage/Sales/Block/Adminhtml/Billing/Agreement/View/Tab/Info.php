@@ -77,7 +77,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage_Ba
     {
         $agreement = $this->_getBillingAgreement();
         $this->setReferenceId($agreement->getReferenceId());
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($agreement->getCustomerId());
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($agreement->getCustomerId());
         $this->setCustomerUrl(
             $this->getUrl('*/customer/edit', array('id' => $customer->getId()))
         );

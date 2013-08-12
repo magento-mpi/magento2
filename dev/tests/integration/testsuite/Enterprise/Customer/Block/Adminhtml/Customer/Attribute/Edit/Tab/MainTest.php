@@ -24,7 +24,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_MainTest
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
-        $model = Mage::getModel('Mage_Customer_Model_Attribute');
+        $model = Mage::getModel('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 

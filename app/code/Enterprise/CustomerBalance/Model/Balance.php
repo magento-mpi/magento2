@@ -22,7 +22,7 @@
  * @method Enterprise_CustomerBalance_Model_Balance setBaseCurrencyCode(string $value)
  * @method Enterprise_CustomerBalance_Model_Balance setAmountDelta() setAmountDelta(float $value)
  * @method Enterprise_CustomerBalance_Model_Balance setComment() setComment(string $value)
- * @method Enterprise_CustomerBalance_Model_Balance setCustomer() setCustomer(Mage_Customer_Model_Customer $customer)
+ * @method Enterprise_CustomerBalance_Model_Balance setCustomer() setCustomer(Magento_Customer_Model_Customer $customer)
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerBalance
@@ -31,7 +31,7 @@
 class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
 {
     /**
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -170,7 +170,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId()));
+            $this->setCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('This customer is not set or does not exist.'));

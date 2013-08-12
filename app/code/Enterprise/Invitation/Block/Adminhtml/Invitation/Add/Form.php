@@ -69,7 +69,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_
             $field->setRenderer($renderer);
         }
 
-        $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
+        $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

@@ -126,7 +126,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Customer Groups'),
             'title'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Customer Groups'),
             'required'  => true,
-            'values'    => Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')->toOptionArray()
+            'values'    => Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->toOptionArray()
         ));
 
         $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);

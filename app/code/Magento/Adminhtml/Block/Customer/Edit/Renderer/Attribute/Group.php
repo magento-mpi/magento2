@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
      */
     public function getDisableAutoGroupChangeCheckboxLabel()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->__($this->getDisableAutoGroupChangeAttribute()->getFrontend()->getLabel());
+        return Mage::helper('Magento_Customer_Helper_Data')->__($this->getDisableAutoGroupChangeAttribute()->getFrontend()->getLabel());
     }
 
     /**
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
     {
         $customer = Mage::registry('current_customer');
         $checkedByDefault = ($customer && $customer->getId())
-            ? false : Mage::helper('Mage_Customer_Helper_Address')->getDisableAutoGroupAssignDefaultValue();
+            ? false : Mage::helper('Magento_Customer_Helper_Address')->getDisableAutoGroupAssignDefaultValue();
 
         $value = $this->getDisableAutoGroupChangeAttributeValue();
         $state = '';

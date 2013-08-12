@@ -16,7 +16,7 @@
  * @package    Mage_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Block_Customer_Token_List extends Mage_Customer_Block_Account_Dashboard
+class Mage_Oauth_Block_Customer_Token_List extends Magento_Customer_Block_Account_Dashboard
 {
     /**
      * Collection model
@@ -30,8 +30,8 @@ class Mage_Oauth_Block_Customer_Token_List extends Mage_Customer_Block_Account_D
      */
     protected function _construct()
     {
-        /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        /** @var $session Magento_Customer_Model_Session */
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
 
         /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('Mage_Oauth_Model_Token')->getCollection();

@@ -28,7 +28,7 @@ class Magento_Tag_Controller_Adminhtml_Customer extends Magento_Adminhtml_Contro
         $this->_title($this->__('Customers'))->_title($this->__('Customers'));
 
         $customerId = (int) $this->getRequest()->getParam($idFieldName);
-        $customer   = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
 
         if ($customerId) {
             $customer->load($customerId);
@@ -45,7 +45,7 @@ class Magento_Tag_Controller_Adminhtml_Customer extends Magento_Adminhtml_Contro
     {
         $this->_initCustomer();
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = Mage::registry('current_customer');
         /** @var $block Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid */
         $block = $this->loadLayout()

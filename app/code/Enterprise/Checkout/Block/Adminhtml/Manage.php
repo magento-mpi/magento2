@@ -103,7 +103,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block
     /**
      * Return current customer from regisrty
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {

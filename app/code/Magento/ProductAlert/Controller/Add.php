@@ -21,10 +21,10 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('Mage_Customer_Model_Session')->getBeforeUrl()) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
+            if(!Mage::getSingleton('Magento_Customer_Model_Session')->getBeforeUrl()) {
+                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -60,7 +60,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
 
         try {
             $model  = Mage::getModel('Magento_ProductAlert_Model_Price')
-                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getId())
+                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
@@ -93,7 +93,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
 
         try {
             $model = Mage::getModel('Magento_ProductAlert_Model_Stock')
-                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getId())
+                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
             $model->save();

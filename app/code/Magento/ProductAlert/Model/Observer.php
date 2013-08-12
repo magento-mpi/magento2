@@ -114,7 +114,7 @@ class Magento_ProductAlert_Model_Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($alert->getCustomerId());
+                        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -204,7 +204,7 @@ class Magento_ProductAlert_Model_Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($alert->getCustomerId());
+                        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }

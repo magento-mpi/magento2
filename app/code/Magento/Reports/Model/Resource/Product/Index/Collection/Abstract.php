@@ -94,8 +94,8 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
     {
         $condition = array();
 
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            $condition['customer_id'] = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            $condition['customer_id'] = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         } elseif ($this->_customerId) {
             $condition['customer_id'] = $this->_customerId;
         } else {

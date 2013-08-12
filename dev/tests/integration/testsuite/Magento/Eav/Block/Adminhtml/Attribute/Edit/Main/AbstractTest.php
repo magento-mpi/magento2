@@ -22,7 +22,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
-        $model = Mage::getObjectManager()->create('Mage_Customer_Model_Attribute');
+        $model = Mage::getObjectManager()->create('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 

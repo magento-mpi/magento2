@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Rule />
                 <Magento_Catalog />
-                <Mage_Customer />
+                <Magento_Customer />
             </depends>
         </Magento_CatalogRule>
     </modules>

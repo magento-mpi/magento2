@@ -93,7 +93,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
             return;
         }
 
-        $customers = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
+        $customers = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
             ->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
 

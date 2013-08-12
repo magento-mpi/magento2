@@ -54,11 +54,11 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
     /**
      * Retrieve customer session model
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomerSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -495,7 +495,7 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
         //If there is no quote id in session trying to load quote
         //and get new quote id. This is done for cases when quote was created
         //not by customer (from backend for example).
-        if (!$quoteId && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (!$quoteId && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
             $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
         }

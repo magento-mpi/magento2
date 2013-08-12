@@ -41,11 +41,11 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
     /**
      * Retrieve customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**

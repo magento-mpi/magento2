@@ -106,7 +106,7 @@ class Mage_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      *
      * Example:
      * <pre>
-     *  Mage_Customer_Model_Webapi_CustomerData => CustomerData
+     *  Magento_Customer_Model_Webapi_CustomerData => CustomerData
      *  Magento_Catalog_Model_Webapi_ProductData => CatalogProductData
      * </pre>
      *
@@ -147,8 +147,8 @@ class Mage_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      * Translate controller class name into resource name.
      * Example:
      * <pre>
-     *  Mage_Customer_Controller_Webapi_CustomerController => customer
-     *  Mage_Customer_Controller_Webapi_Customer_AddressController => customerAddress
+     *  Magento_Customer_Controller_Webapi_CustomerController => customer
+     *  Magento_Customer_Controller_Webapi_Customer_AddressController => customerAddress
      *  Magento_Catalog_Controller_Webapi_ProductController => catalogProduct
      *  Magento_Catalog_Controller_Webapi_Product_ImagesController => catalogProductImages
      *  Magento_Catalog_Controller_Webapi_CategoryController => catalogCategory
@@ -168,7 +168,7 @@ class Mage_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      * Identify the list of resource name parts including subresources using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Mage_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
+     * - 'Magento_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
      * - 'Vendor_Customer_Controller_Webapi_Customer_Address' => array('VendorCustomer', 'Address') <br/>
      * - 'Magento_Catalog_Controller_Webapi_Product' => array('Catalog', 'Product')
      *

@@ -21,7 +21,7 @@ class Enterprise_Rma_Block_Return_Returns extends Magento_Core_Block_Template
                 ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
             if ($customerSession->isLoggedIn()) {
                 $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
             }

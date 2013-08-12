@@ -58,7 +58,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Magento_C
             }
 
             if ($tierPrice->customer_group_id == 'all') {
-                $tierPrice->customer_group_id = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+                $tierPrice->customer_group_id = Magento_Customer_Model_Group::CUST_GROUP_ALL;
             }
 
             $updateValue[] = array(

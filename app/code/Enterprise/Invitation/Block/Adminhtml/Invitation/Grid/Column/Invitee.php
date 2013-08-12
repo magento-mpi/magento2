@@ -23,7 +23,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
      */
     protected function _getValue(Magento_Object $row)
     {
-        if ($this->_authorization->isAllowed('Mage_Customer::manage')) {
+        if ($this->_authorization->isAllowed('Magento_Customer::manage')) {
             if (!$row->getReferralId()) {
                 return '';
             }

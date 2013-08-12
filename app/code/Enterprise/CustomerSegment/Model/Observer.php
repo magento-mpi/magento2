@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Model_Observer
 
         // For visitors use customer instance from customer session
         if (!$customer) {
-            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
 
         $website = Mage::app()->getStore()->getWebsite();

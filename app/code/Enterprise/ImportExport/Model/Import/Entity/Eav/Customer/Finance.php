@@ -168,8 +168,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
             return false;
         }
 
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer');
+        /** @var $customer Magento_Customer_Model_Customer */
+        $customer = $this->_objectFactory->getModelInstance('Magento_Customer_Model_Customer');
         $rewardPointsKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
@@ -223,12 +223,12 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update reward points value for customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      * @param int $value reward points value
      * @return Enterprise_Reward_Model_Reward
      */
-    protected function _updateRewardPointsForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateRewardPointsForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $rewardModel Enterprise_Reward_Model_Reward */
         $rewardModel = $this->_objectFactory->getModelInstance('Enterprise_Reward_Model_Reward');
@@ -262,12 +262,12 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update store credit balance for customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      * @param float $value store credit balance
      * @return Enterprise_CustomerBalance_Model_Balance
      */
-    protected function _updateCustomerBalanceForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateCustomerBalanceForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $balanceModel Enterprise_CustomerBalance_Model_Balance */
         $balanceModel = $this->_objectFactory->getModelInstance('Enterprise_CustomerBalance_Model_Balance');
@@ -300,10 +300,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Delete reward points value for customer (just set it to 0)
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      */
-    protected function _deleteRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId)
+    protected function _deleteRewardPoints(Magento_Customer_Model_Customer $customer, $websiteId)
     {
         $this->_updateRewardPointsForCustomer($customer, $websiteId, 0);
     }
@@ -311,10 +311,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Delete store credit balance for customer (just set it to 0)
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      */
-    protected function _deleteCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId)
+    protected function _deleteCustomerBalance(Magento_Customer_Model_Customer $customer, $websiteId)
     {
         $this->_updateCustomerBalanceForCustomer($customer, $websiteId, 0);
     }

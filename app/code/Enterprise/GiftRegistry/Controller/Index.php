@@ -28,8 +28,8 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
             return $this;
         }
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+            $this->getResponse()->setRedirect(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         return $this;
@@ -43,7 +43,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -191,7 +191,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
         try {
             $entity = $this->_initEntity();
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Share Gift Registry'));
@@ -218,7 +218,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
         try {
             Mage::register('current_entity', $this->_initEntity());
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $this->_initLayoutMessages('Magento_Checkout_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
@@ -302,11 +302,11 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -327,7 +327,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
     public function addSelectAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -372,7 +372,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
             Mage::register('enterprise_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
             if ($model->getId()) {
                 $pageTitle = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Edit Gift Registry');
@@ -465,8 +465,8 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                 if (!$addressTypeOrId || $addressTypeOrId == Enterprise_GiftRegistry_Helper_Data::ADDRESS_NEW) {
                     // creating new address
                     if (!empty($data['address'])) {
-                        /* @var $address Mage_Customer_Model_Address */
-                        $address = Mage::getModel('Mage_Customer_Model_Address');
+                        /* @var $address Magento_Customer_Model_Address */
+                        $address = Mage::getModel('Magento_Customer_Model_Address');
                         $address->setData($data['address']);
                         $errors = $address->validate();
                         $model->importAddress($address);
@@ -485,8 +485,8 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                     if (!$addressId) {
                         Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please select an address.'));
                     }
-                    /* @var $customer Mage_Customer_Model_Customer */
-                    $customer  = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+                    /* @var $customer Magento_Customer_Model_Customer */
+                    $customer  = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {

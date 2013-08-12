@@ -11,7 +11,7 @@ $tagFixture = simplexml_load_file(__DIR__ . '/_data/xml/TagCRUD.xml');
 $customerData = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->customer);
 $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setData($customerData)->save();
 Mage::register('customerData', $customer);
 

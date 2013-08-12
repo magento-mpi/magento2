@@ -202,7 +202,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return $this->getUrl('rma/return/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -221,8 +221,8 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getCustomerName()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::helper('Mage_Customer_Helper_Data')->getCustomerName();
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::helper('Magento_Customer_Helper_Data')->getCustomerName();
         } else {
             $billingAddress = Mage::registry('current_order')->getBillingAddress();
 

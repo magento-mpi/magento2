@@ -144,7 +144,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
 
         $quoteWebsiteId = $object->getQuote()->getStore()->getWebsite()->getId();
         if (!$customer->getId()) {
-            $visitorSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
+            $visitorSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
             if (is_array($visitorSegmentIds) && isset($visitorSegmentIds[$quoteWebsiteId])) {
                 $segments = $visitorSegmentIds[$quoteWebsiteId];
             } else {

@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Core />
-                <Mage_Customer />
+                <Magento_Customer />
             </depends>
         </Magento_Log>
     </modules>

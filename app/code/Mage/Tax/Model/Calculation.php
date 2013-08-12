@@ -42,10 +42,10 @@ class Mage_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Specify customer object which can be used for rate calculation
      *
-     * @param   Mage_Customer_Model_Customer $customer
+     * @param   Magento_Customer_Model_Customer $customer
      * @return  Mage_Tax_Model_Calculation
      */
-    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    public function setCustomer(Magento_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -54,8 +54,8 @@ class Mage_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     public function getDefaultCustomerTaxClass($store = null)
     {
         if ($this->_defaultCustomerTaxClass === null) {
-            $defaultCustomerGroup = Mage::helper('Mage_Customer_Helper_Data')->getDefaultCustomerGroupId($store);
-            $this->_defaultCustomerTaxClass = Mage::getModel('Mage_Customer_Model_Group')->getTaxClassId($defaultCustomerGroup);
+            $defaultCustomerGroup = Mage::helper('Magento_Customer_Helper_Data')->getDefaultCustomerGroupId($store);
+            $this->_defaultCustomerTaxClass = Mage::getModel('Magento_Customer_Model_Group')->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;
     }
@@ -63,16 +63,16 @@ class Mage_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Get customer object
      *
-     * @return  Mage_Customer_Model_Customer | false
+     * @return  Magento_Customer_Model_Customer | false
      */
     public function getCustomer()
     {
         if ($this->_customer === null) {
-            $session = Mage::getSingleton('Mage_Customer_Model_Session');
+            $session = Mage::getSingleton('Magento_Customer_Model_Session');
             if ($session->isLoggedIn()) {
                 $this->_customer = $session->getCustomer();
             } elseif ($session->getCustomerId()) {
-                $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($session->getCustomerId());
+                $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($session->getCustomerId());
             } else {
                 $this->_customer = false;
             }

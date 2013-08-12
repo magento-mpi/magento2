@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action 
                                 ),
                 'target'=>	'_blank'
             ),
-            '#'	=> Mage::helper('Mage_Customer_Helper_Data')->__('View')
+            '#'	=> Mage::helper('Magento_Customer_Helper_Data')->__('View')
         );
 
         return $this->_actionsToHtml($actions);

@@ -48,7 +48,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
         $select->expects($this->any())
             ->method('from')
             ->will($this->returnCallback(array($this, 'validateFrom')));
-        $customerCollection = $this->getMock('Mage_Customer_Model_Resource_Customer_Collection',
+        $customerCollection = $this->getMock('Magento_Customer_Model_Resource_Customer_Collection',
             array('load', 'removeAttributeToSelect', 'getResource', 'getSelect'), array(), '', false
         );
 

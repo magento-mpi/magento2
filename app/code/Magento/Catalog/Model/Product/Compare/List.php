@@ -93,8 +93,8 @@ class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
     protected function _addVisitorToItem($item)
     {
         $item->addVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            $item->addCustomerData(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            $item->addCustomerData(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer());
         }
 
         return $this;

@@ -37,7 +37,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Bac
     /**
      * Return current customer from regisrty
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {

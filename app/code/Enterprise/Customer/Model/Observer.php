@@ -185,7 +185,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeBeforeSave(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
             /**
              * Check for maximum attribute_code length
              */
@@ -212,7 +212,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeSave(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->saveNewAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
@@ -231,7 +231,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeDelete(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && !$attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote')
                 ->deleteAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
@@ -250,7 +250,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAddressAttributeSave(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && $attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->saveNewAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
@@ -269,7 +269,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAddressAttributeDelete(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute && !$attribute->isObjectNew()) {
+        if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
                 ->deleteAttribute($attribute);
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')

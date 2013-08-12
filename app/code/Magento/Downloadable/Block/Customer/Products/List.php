@@ -24,7 +24,7 @@ class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Blo
     protected function _construct()
     {
         parent::_construct();
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
         $purchased = Mage::getResourceModel('Magento_Downloadable_Model_Resource_Link_Purchased_Collection')
             ->addFieldToFilter('customer_id', $session->getCustomerId())
             ->addOrder('created_at', 'desc');

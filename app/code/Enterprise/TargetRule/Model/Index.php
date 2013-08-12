@@ -155,7 +155,7 @@ class Enterprise_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abst
     {
         $customerGroupId = $this->getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }

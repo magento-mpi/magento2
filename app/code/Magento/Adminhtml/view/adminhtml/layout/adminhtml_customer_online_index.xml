@@ -31,7 +31,7 @@
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="customer_id">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">ID</header>
+                                <header translate="true" module="Magento_Customer">ID</header>
                                 <width>50px</width>
                                 <align>right</align>
                                 <type>number</type>
@@ -41,28 +41,28 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="firstname">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">First Name</header>
+                                <header translate="true" module="Magento_Customer">First Name</header>
                                 <default>Guest</default>
                                 <index>customer_firstname</index>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="lastname">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Last Name</header>
+                                <header translate="true" module="Magento_Customer">Last Name</header>
                                 <default>n/a</default>
                                 <index>customer_lastname</index>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="email">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Email</header>
+                                <header translate="true" module="Magento_Customer">Email</header>
                                 <default>n/a</default>
                                 <index>customer_email</index>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="ip_address">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">IP Address</header>
+                                <header translate="true" module="Magento_Customer">IP Address</header>
                                 <default>n/a</default>
                                 <filter>0</filter>
                                 <renderer>Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Ip</renderer>
@@ -71,7 +71,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="session_start_time">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Session Start Time</header>
+                                <header translate="true" module="Magento_Customer">Session Start Time</header>
                                 <default>n/a</default>
                                 <align>left</align>
                                 <width>200px</width>
@@ -81,7 +81,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="last_activity">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Last Activity</header>
+                                <header translate="true" module="Magento_Customer">Last Activity</header>
                                 <default>n/a</default>
                                 <align>left</align>
                                 <width>200px</width>
@@ -91,15 +91,15 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="type">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Type</header>
+                                <header translate="true" module="Magento_Customer">Type</header>
                                 <type>options</type>
-                                <options type="options">Mage_Customer_Model_Resource_Customer_CustomersTypeOptions</options>
+                                <options type="options">Magento_Customer_Model_Resource_Customer_CustomersTypeOptions</options>
                                 <index>visitor_type</index>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="last_url">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Last URL</header>
+                                <header translate="true" module="Magento_Customer">Last URL</header>
                                 <default>n/a</default>
                                 <linelength>60</linelength>
                                 <type>wrapline</type>

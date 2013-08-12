@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  *
- * @method Mage_Customer_Model_Resource_Address_Attribute_Collection getAttributeCollection() getAttributeCollection()
+ * @method Magento_Customer_Model_Resource_Address_Attribute_Collection getAttributeCollection() getAttributeCollection()
  */
 class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     extends Magento_ImportExport_Model_Export_Entity_EavAbstract
@@ -42,7 +42,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Address_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Address_Attribute_Collection';
     /**#@-*/
 
     /**#@+
@@ -71,14 +71,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Customers whose addresses are exported
      *
-     * @var Mage_Customer_Model_Resource_Customer_Collection
+     * @var Magento_Customer_Model_Resource_Customer_Collection
      */
     protected $_customerCollection;
 
     /**
      * Customer addresses collection
      *
-     * @var Mage_Customer_Model_Resource_Address_Collection
+     * @var Magento_Customer_Model_Resource_Address_Collection
      */
     protected $_addressCollection;
 
@@ -113,13 +113,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+            : Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
 
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
             : Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
+            : Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
 
         $this->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());
@@ -139,7 +139,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
             $this->_customerCollection = $this->_customerEntity->filterEntityCollection($this->_customerCollection);
 
             $customers = array();
-            $addCustomer = function (Mage_Customer_Model_Customer $customer) use (&$customers) {
+            $addCustomer = function (Magento_Customer_Model_Customer $customer) use (&$customers) {
                 $customers[$customer->getId()] = $customer->getData();
             };
 
@@ -165,7 +165,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Get customers collection
      *
-     * @return Mage_Customer_Model_Resource_Address_Collection
+     * @return Magento_Customer_Model_Resource_Address_Collection
      */
     protected function _getEntityCollection()
     {
@@ -194,14 +194,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * Export given customer address data plus related customer data (required for import)
      *
-     * @param Mage_Customer_Model_Address $item
+     * @param Magento_Customer_Model_Address $item
      * @return string
      */
     public function exportItem($item)
     {
         $row = $this->_addAttributeValuesToRow($item);
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $this->_customers[$item->getParentId()];
 
         // Fill row with default address attributes values

@@ -45,8 +45,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
         $expectAddedCustomers = 5;
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
-        /** @var $customersCollection Mage_Customer_Model_Resource_Customer_Collection */
-        $customersCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        /** @var $customersCollection Magento_Customer_Model_Resource_Customer_Collection */
+        $customersCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
         $customersCollection->addAttributeToSelect('firstname', 'inner')
             ->addAttributeToSelect('lastname', 'inner');
 
@@ -107,8 +107,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
-        /** @var $customerCollection Mage_Customer_Model_Resource_Customer_Collection */
-        $customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        /** @var $customerCollection Magento_Customer_Model_Resource_Customer_Collection */
+        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
         $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
         $this->_model->setParameters(

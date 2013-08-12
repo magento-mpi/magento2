@@ -25,7 +25,7 @@ class Enterprise_Reward_Model_Source_Customer_Groups implements Magento_Core_Mod
      */
     public function toOptionArray()
     {
-        $groups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
+        $groups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

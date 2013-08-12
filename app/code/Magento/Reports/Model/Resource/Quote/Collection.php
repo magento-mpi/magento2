@@ -150,7 +150,7 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_R
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity         = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
+        $customerEntity         = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
         $attrFirstname          = $customerEntity->getAttribute('firstname');
         $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();

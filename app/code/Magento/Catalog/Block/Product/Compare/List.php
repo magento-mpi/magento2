@@ -99,8 +99,8 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
                 ->useProductItem(true)
                 ->setStoreId(Mage::app()->getStore()->getId());
 
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-                $this->_items->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+                $this->_items->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_items->setCustomerId($this->_customerId);
             } else {

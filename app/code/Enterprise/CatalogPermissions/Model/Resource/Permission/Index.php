@@ -105,7 +105,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
+        $customerGroupIds = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
             ->getAllIds();
 
         $notEmptyWhere = array();

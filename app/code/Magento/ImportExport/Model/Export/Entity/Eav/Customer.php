@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Mage_Customer_Model_Resource_Attribute_Collection getAttributeCollection() getAttributeCollection()
+ * @method Magento_Customer_Model_Resource_Attribute_Collection getAttributeCollection() getAttributeCollection()
  */
 class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     extends Magento_ImportExport_Model_Export_Entity_EavAbstract
@@ -34,7 +34,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Attribute_Collection';
     /**#@-*/
 
     /**#@+
@@ -78,7 +78,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Customers whose data is exported
      *
-     * @var Mage_Customer_Model_Resource_Customer_Collection
+     * @var Magento_Customer_Model_Resource_Customer_Collection
      */
     protected $_customerCollection;
 
@@ -92,7 +92,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+            : Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
 
         $this->_initAttributeValues()
             ->_initStores()
@@ -119,7 +119,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Get customers collection
      *
-     * @return Mage_Customer_Model_Resource_Customer_Collection
+     * @return Magento_Customer_Model_Resource_Customer_Collection
      */
     protected function _getEntityCollection()
     {
@@ -138,7 +138,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Export given customer data
      *
-     * @param Mage_Customer_Model_Customer $item
+     * @param Magento_Customer_Model_Customer $item
      * @return string
      */
     public function exportItem($item)
@@ -159,7 +159,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
      */
     public function filterAttributeCollection(Magento_Data_Collection $collection)
     {
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $attribute Magento_Customer_Model_Attribute */
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
             if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {
                 $data = $this->_attributeOverrides[$attribute->getAttributeCode()];

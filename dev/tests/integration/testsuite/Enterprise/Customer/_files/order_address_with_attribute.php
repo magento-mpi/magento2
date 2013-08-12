@@ -24,7 +24,7 @@ $entityType = Mage::getModel('Magento_Eav_Model_Config')->getEntityType('custome
 $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
 /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
 
-$attribute = Mage::getModel('Mage_Customer_Model_Attribute',
+$attribute = Mage::getModel('Magento_Customer_Model_Attribute',
     array(
         'data' => array(
             'frontend_input'     => 'text',

@@ -167,8 +167,8 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_Adm
             $email = $admin->getEmail();
             $name  = $admin->getName(' ');
         } else {
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('Mage_Customer_Model_Customer');
+            /** @var $customer Magento_Customer_Model_Customer */
+            $customer = Mage::getModel('Magento_Customer_Model_Customer');
 
             $customer->load($token->getCustomerId());
 

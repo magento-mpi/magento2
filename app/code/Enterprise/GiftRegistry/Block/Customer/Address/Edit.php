@@ -21,7 +21,7 @@
     /**
      * Contains logged in customer
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -37,7 +37,7 @@
     /**
      * Getter for address object
      *
-     * @return Mage_Customer_Model_Address
+     * @return Magento_Customer_Model_Address
      */
     public function getAddress()
     {
@@ -92,12 +92,12 @@
     /**
      * Get logged in customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -109,6 +109,6 @@
      */
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
     }
 }

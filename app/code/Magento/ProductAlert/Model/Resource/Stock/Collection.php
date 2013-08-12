@@ -38,7 +38,7 @@ class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_
         $adapter = $this->getConnection();
         if (is_array($customer)) {
             $condition = $adapter->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof Mage_Customer_Model_Customer) {
+        } elseif ($customer instanceof Magento_Customer_Model_Customer) {
             $condition = $adapter->quoteInto('customer_id=?', $customer->getId());
         } else {
             $condition = $adapter->quoteInto('customer_id=?', $customer);

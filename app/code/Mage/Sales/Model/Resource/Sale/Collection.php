@@ -31,7 +31,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_
     /**
      * Customer model
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -63,10 +63,10 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_
     /**
      * Set filter by customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Mage_Sales_Model_Resource_Sale_Collection
      */
-    public function setCustomerFilter(Mage_Customer_Model_Customer $customer)
+    public function setCustomerFilter(Magento_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -119,7 +119,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_
             )
             ->group('sales.store_id');
 
-        if ($this->_customer instanceof Mage_Customer_Model_Customer) {
+        if ($this->_customer instanceof Magento_Customer_Model_Customer) {
             $this->addFieldToFilter('sales.customer_id', $this->_customer->getId());
         }
 

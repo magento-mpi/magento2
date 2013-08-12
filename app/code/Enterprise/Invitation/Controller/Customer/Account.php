@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Controller_Customer_Account extends Mage_Customer_Controller_Account
+class Enterprise_Invitation_Controller_Customer_Account extends Magento_Customer_Controller_Account
 {
     /**
      * Action list where need check enabled cookie
@@ -62,7 +62,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Mage_Customer_Co
      */
     protected function _getRealModuleName()
     {
-        return 'Mage_Customer';
+        return 'Magento_Customer';
     }
 
     /**
@@ -92,7 +92,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Mage_Customer_Co
         try {
             $invitation = $this->_initInvitation();
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $this->renderLayout();
             return;
         }
@@ -110,7 +110,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Mage_Customer_Co
         try {
             $invitation = $this->_initInvitation();
 
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             Mage::register('current_customer', $customer);
 
@@ -139,7 +139,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Mage_Customer_Co
                 $this->_getSession()->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if (Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) {
+                if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
                         Mage::helper('Enterprise_Invitation_Helper_Data')->__('Your invitation is not valid. Please create an account.')
                     );
@@ -156,7 +156,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Mage_Customer_Co
         }
         catch (Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                ->addException($e, Mage::helper('Mage_Customer_Helper_Data')->__('Unable to save the customer.'));
+                ->addException($e, Mage::helper('Magento_Customer_Helper_Data')->__('Unable to save the customer.'));
         }
 
         $this->_redirectError('');

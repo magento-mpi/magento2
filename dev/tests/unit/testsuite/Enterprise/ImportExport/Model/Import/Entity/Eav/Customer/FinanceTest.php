@@ -179,10 +179,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
         foreach ($this->_customers as $customerData) {
-            /** @var $customer Mage_Customer_Model_Customer */
-            $arguments = $objectManagerHelper->getConstructArguments('Mage_Customer_Model_Customer');
+            /** @var $customer Magento_Customer_Model_Customer */
+            $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
             $arguments['data'] = $customerData;
-            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
+            $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
 

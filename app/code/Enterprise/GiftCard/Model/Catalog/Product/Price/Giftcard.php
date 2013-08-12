@@ -66,7 +66,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_C
      */
     public function getAmounts($product)
     {
-        $allGroups = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
         $prices = $product->getData('giftcard_amounts');
 
         if (is_null($prices)) {

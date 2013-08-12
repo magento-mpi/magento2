@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
-            return Mage::getModel('Mage_Customer_Model_Group')
+            return Mage::getModel('Magento_Customer_Model_Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -100,7 +100,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
                 true
             );
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Never');
+        return Mage::helper('Magento_Customer_Helper_Data')->__('Never');
     }
 
     public function getStoreLastLoginDate()
@@ -113,7 +113,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
             );
             return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Never');
+        return Mage::helper('Magento_Customer_Helper_Data')->__('Never');
     }
 
     public function getStoreLastLoginDateTimezone()
@@ -127,21 +127,21 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
             strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('Offline');
+            return Mage::helper('Magento_Customer_Helper_Data')->__('Offline');
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Online');
+        return Mage::helper('Magento_Customer_Helper_Data')->__('Online');
     }
 
     public function getIsConfirmedStatus()
     {
         $this->getCustomer();
         if (!$this->_customer->getConfirmation()) {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('Confirmed');
+            return Mage::helper('Magento_Customer_Helper_Data')->__('Confirmed');
         }
         if ($this->_customer->isConfirmationRequired()) {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('Not confirmed, cannot login');
+            return Mage::helper('Magento_Customer_Helper_Data')->__('Not confirmed, cannot login');
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Not confirmed, can login');
+        return Mage::helper('Magento_Customer_Helper_Data')->__('Not confirmed, can login');
     }
 
     public function getCreatedInStore()
@@ -161,7 +161,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
             $html = $address->format('html');
         }
         else {
-            $html = Mage::helper('Mage_Customer_Helper_Data')->__('The customer does not have default billing address.');
+            $html = Mage::helper('Magento_Customer_Helper_Data')->__('The customer does not have default billing address.');
         }
         return $html;
     }
@@ -178,12 +178,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Customer View');
+        return Mage::helper('Magento_Customer_Helper_Data')->__('Customer View');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Customer View');
+        return Mage::helper('Magento_Customer_Helper_Data')->__('Customer View');
     }
 
     public function canShowTab()

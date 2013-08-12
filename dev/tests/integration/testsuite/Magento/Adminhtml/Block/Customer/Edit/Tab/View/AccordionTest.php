@@ -22,8 +22,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUn
     protected function setUp()
     {
         parent::setUp();
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        /** @var $customer Magento_Customer_Model_Customer */
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         $customer->load(1);
         Mage::register('current_customer', $customer);
         /** @var $layout Magento_Core_Model_Layout */
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUn
     }
 
     /**
-     * magentoDataFixture Mage/Customer/_files/customer.php
+     * magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testToHtml()
     {

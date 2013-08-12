@@ -91,8 +91,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
             'type'   => 'number',
         ));
 
-        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('Mage_Customer_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportCouponsXml', Mage::helper('Mage_Customer_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('Magento_Customer_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCouponsXml', Mage::helper('Magento_Customer_Helper_Data')->__('Excel XML'));
         return parent::_prepareColumns();
     }
 

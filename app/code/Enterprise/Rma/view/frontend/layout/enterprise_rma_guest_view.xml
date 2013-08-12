@@ -25,7 +25,7 @@
             <block type="Enterprise_Rma_Block_Return_View" name="rma.return.history">
                 <container name="rma.return.history.info" as="info" label="View Return"/>
             </block>
-            <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
+            <block type="Enterprise_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
         <update handle="enterprise_rma_return_view_handle"/>
         <reference name="sales.order.info">

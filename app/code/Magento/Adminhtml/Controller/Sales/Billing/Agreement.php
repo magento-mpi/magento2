@@ -158,7 +158,7 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
 
         if ($customerId) {
             $customer->load($customerId);

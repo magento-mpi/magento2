@@ -68,11 +68,11 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     /**
      * Get customer instance
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
     }
 
     /**

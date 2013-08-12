@@ -18,7 +18,7 @@ class Enterprise_Reward_Controller_Cart extends Magento_Core_Controller_Front_Ac
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

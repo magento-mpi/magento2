@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return Mage::getModel('Mage_Customer_Model_Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
+            return Mage::getModel('Magento_Customer_Model_Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
@@ -103,9 +103,9 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
         /* @var $config Magento_Eav_Model_Config */
         $config     = Mage::getSingleton('Magento_Eav_Model_Config');
         $entityType = 'customer';
-        $customer   = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
         foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {
-            /* @var $attribute Mage_Customer_Model_Attribute */
+            /* @var $attribute Magento_Customer_Model_Attribute */
             $attribute = $config->getAttribute($entityType, $attributeCode);
             if (!$attribute->getIsVisible() || $attribute->getIsSystem()) {
                 continue;
@@ -114,8 +114,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
                 $customer->setData($attribute->getAttributeCode(), $orderValue);
-                $dataModel  = Mage_Customer_Model_Attribute_Data::factory($attribute, $customer);
-                $value      = $dataModel->outputValue(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML);
+                $dataModel  = Magento_Customer_Model_Attribute_Data::factory($attribute, $customer);
+                $value      = $dataModel->outputValue(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(

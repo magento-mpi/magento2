@@ -21,11 +21,11 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Magento_Core_B
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
     }
 
     /**

@@ -175,12 +175,12 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             return;
         }
         Mage::getSingleton('Magento_Checkout_Model_Session')->setCartWasUpdated(false);
-        Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl(
+        Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(
             Mage::getUrl('*/*/*', array('_secure'=>true))
         );
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->getLayout()->getBlock('head')->setTitle($this->__('Checkout'));
         $this->renderLayout();
     }
@@ -278,7 +278,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
         if ($addressId) {
             $address = $this->getOnepage()->getAddress($addressId);
 
-            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
             if ($customerSession->getCustomer()->getId() == $address->getCustomerId()) {
                 $this->getResponse()->setHeader('Content-type', 'application/x-json');
                 $this->getResponse()->setBody($address->toJson());
@@ -602,7 +602,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
      */
     protected function _canShowForUnregisteredUsers()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
             || $this->getRequest()->getActionName() == 'index'
             || Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getOnepage()->getQuote())
             || !Mage::helper('Magento_Checkout_Helper_Data')->isCustomerMustBeLogged();

@@ -80,8 +80,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $customerBalanceKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        /** @var $customer Mage_Customer_Model_Customer */
+        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customerCollection as $customer) {
             $rewardCollection = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());

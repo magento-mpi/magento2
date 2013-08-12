@@ -188,7 +188,7 @@ class Mage_SalesRule_Model_Observer
         $attributes = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule')
             ->getActiveAttributes(
                 Mage::app()->getWebsite()->getId(),
-                Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getGroupId()
+                Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getGroupId()
             );
         $result = array();
         foreach ($attributes as $attribute) {

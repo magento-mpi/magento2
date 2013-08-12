@@ -43,12 +43,12 @@ class Magento_Log_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Load last log by customer id
      *
-     * @param Mage_Customer_Model_Customer|int $customer
+     * @param Magento_Customer_Model_Customer|int $customer
      * @return Magento_Log_Model_Customer
      */
     public function loadByCustomer($customer)
     {
-        if ($customer instanceof Mage_Customer_Model_Customer) {
+        if ($customer instanceof Magento_Customer_Model_Customer) {
             $customer = $customer->getId();
         }
 

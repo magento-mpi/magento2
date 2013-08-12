@@ -27,7 +27,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     {
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer(Mage::getModel('Mage_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
+        $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : new Magento_Data_Collection();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));

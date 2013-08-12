@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
         $this->setSortable(false);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(Mage::helper('Mage_Customer_Helper_Data')->__("There are no items in customer's wishlist at the moment"));
+        $this->setEmptyText(Mage::helper('Magento_Customer_Helper_Data')->__("There are no items in customer's wishlist at the moment"));
     }
 
     /**
@@ -58,21 +58,21 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('ID'),
             'index'     => 'product_id',
             'type'      => 'number',
             'width'     => '100px'
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Product'),
             'index'     => 'product_name',
             'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
-                'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Add Locale'),
+                'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Add Locale'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'width'     => '160px',
@@ -80,14 +80,14 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
         }
 
         $this->addColumn('added_at', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Add Date'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Add Date'),
             'index'     => 'added_at',
             'type'      => 'date',
             'width'     => '140px',
         ));
 
         $this->addColumn('days', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Days in Wish List'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Days in Wish List'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number',
             'width'     => '140px',

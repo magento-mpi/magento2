@@ -141,8 +141,8 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
         $recipients = $this->_getResource()->getCustomersForNotification($limit, $this->getRuleId());
 
         foreach ($recipients as $recipient) {
-            /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($recipient['customer_id']);
+            /* @var $customer Magento_Customer_Model_Customer */
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($recipient['customer_id']);
             if (!$customer || !$customer->getId()) {
                 continue;
             }

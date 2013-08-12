@@ -19,14 +19,14 @@ class Enterprise_Invitation_Model_Source_Invitation_GroupId
 
 {
     /**
-     * @var Mage_Customer_Model_Group
+     * @var Magento_Customer_Model_Group
      */
     protected $_model;
 
     /**
-     * @param Mage_Customer_Model_Group $invitationModel
+     * @param Magento_Customer_Model_Group $invitationModel
      */
-    public function __construct(Mage_Customer_Model_Group $invitationModel)
+    public function __construct(Magento_Customer_Model_Group $invitationModel)
     {
         $this->_model = $invitationModel;
     }

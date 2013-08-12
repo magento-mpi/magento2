@@ -184,7 +184,7 @@ class Mage_Paypal_Model_Hostedpro_Request extends Magento_Object
         );
 
         // convert streets to tow lines format
-        $street = Mage::helper('Mage_Customer_Helper_Address')
+        $street = Mage::helper('Magento_Customer_Helper_Address')
             ->convertStreetLines($address->getStreet(), 2);
 
         $request['address1'] = isset($street[0]) ? $street[0]: '';
@@ -211,7 +211,7 @@ class Mage_Paypal_Model_Hostedpro_Request extends Magento_Object
         );
 
         // convert streets to tow lines format
-        $street = Mage::helper('Mage_Customer_Helper_Address')
+        $street = Mage::helper('Magento_Customer_Helper_Address')
             ->convertStreetLines($address->getStreet(), 2);
 
         $request['billing_address1'] = isset($street[0]) ? $street[0]: '';

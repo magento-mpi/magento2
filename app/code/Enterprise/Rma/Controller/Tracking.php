@@ -62,7 +62,7 @@ class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_A
      */
     protected function _canViewRma($rma)
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             $currentOrder = Mage::registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
@@ -81,7 +81,7 @@ class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_A
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
             && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()
         ) {
             return;

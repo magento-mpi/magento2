@@ -28,7 +28,7 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
     {
         $product->setWebsiteId(Mage::app()->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
+            Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
         );
 
         $store = Mage::app()->getStore($product->getStoreId());

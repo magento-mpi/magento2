@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Catalog />
-                <Mage_Customer />
+                <Magento_Customer />
                 <Magento_Rss />
                 <Magento_Reports />
             </depends>

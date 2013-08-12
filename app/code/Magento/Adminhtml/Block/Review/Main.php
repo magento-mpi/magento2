@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Review_Main extends Magento_Adminhtml_Block_Widget
         $customerId = $this->getRequest()->getParam('customerId', false);
         $customerName = '';
         if ($customerId) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
             $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             $customerName = $this->escapeHtml($customerName);
         }

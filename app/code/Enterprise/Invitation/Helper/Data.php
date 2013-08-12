@@ -74,7 +74,7 @@ class Enterprise_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed();
+            $result = Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }

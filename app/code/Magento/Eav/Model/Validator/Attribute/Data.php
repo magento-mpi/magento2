@@ -141,7 +141,7 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
      */
     protected function _getAttributes($entity)
     {
-        /** @var Mage_Customer_Model_Attribute[] $attributes */
+        /** @var Magento_Customer_Model_Attribute[] $attributes */
         $attributes = array();
 
         if ($this->_attributes) {

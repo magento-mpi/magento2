@@ -114,7 +114,7 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
 

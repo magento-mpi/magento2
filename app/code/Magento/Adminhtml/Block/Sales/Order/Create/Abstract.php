@@ -50,7 +50,7 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Abstract extends Magen
     /**
      * Retrieve customer model object
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {

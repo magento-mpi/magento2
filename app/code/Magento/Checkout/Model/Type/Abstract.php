@@ -55,13 +55,13 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
     /**
      * Retrieve customer session vodel
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     public function getCustomerSession()
     {
         $customer = $this->getData('customer_session');
         if (is_null($customer)) {
-            $customer = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customer = Mage::getSingleton('Magento_Customer_Model_Session');
             $this->setData('customer_session', $customer);
         }
         return $customer;
@@ -70,7 +70,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
     /**
      * Retrieve customer object
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
@@ -80,7 +80,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
     /**
      * Retrieve customer default shipping address
      *
-     * @return Mage_Customer_Model_Address || false
+     * @return Magento_Customer_Model_Address || false
      */
     public function getCustomerDefaultShippingAddress()
     {
@@ -102,7 +102,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
     /**
      * Retrieve customer default billing address
      *
-     * @return Mage_Customer_Model_Address || false
+     * @return Magento_Customer_Model_Address || false
      */
     public function getCustomerDefaultBillingAddress()
     {

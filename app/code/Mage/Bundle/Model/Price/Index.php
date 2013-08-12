@@ -93,7 +93,7 @@ class Mage_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
         }
         $websiteId  = Mage::app()->getStore($collection->getStoreId())
             ->getWebsiteId();
-        $groupId    = Mage::getSingleton('Mage_Customer_Model_Session')
+        $groupId    = Mage::getSingleton('Magento_Customer_Model_Session')
             ->getCustomerGroupId();
 
         $addOptionsToResult = false;
@@ -126,7 +126,7 @@ class Mage_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     public function addPriceIndexToProduct($product)
     {
         $websiteId  = $product->getStore()->getWebsiteId();
-        $groupId    = Mage::getSingleton('Mage_Customer_Model_Session')
+        $groupId    = Mage::getSingleton('Magento_Customer_Model_Session')
             ->getCustomerGroupId();
         $prices = $this->_getResource()
             ->loadPriceIndex($product->getId(), $websiteId, $groupId);

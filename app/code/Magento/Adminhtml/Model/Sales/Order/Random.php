@@ -53,7 +53,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     protected function _getCustomers()
     {
         if (!self::$_customerCollection) {
-            self::$_customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
+            self::$_customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
                 ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'inner')
                 ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping', null, 'inner')
                 ->load();
@@ -78,7 +78,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     /**
      * Retrieve customer model
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {

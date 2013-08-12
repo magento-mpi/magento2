@@ -96,8 +96,8 @@ class Magento_Tag_Model_Api extends Magento_Catalog_Model_Api_Resource
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($data['customer_id']);
+        /** @var $customer Magento_Customer_Model_Customer */
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($data['customer_id']);
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
         }

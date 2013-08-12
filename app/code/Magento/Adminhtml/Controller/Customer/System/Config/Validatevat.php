@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Ma
      */
     protected function _validate()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->checkVatNumber(
+        return Mage::helper('Magento_Customer_Helper_Data')->checkVatNumber(
             $this->getRequest()->getParam('country'),
             $this->getRequest()->getParam('vat')
         );
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Ma
             $storeId = (int)$storeId;
         }
 
-        $groupId = Mage::helper('Mage_Customer_Helper_Data')->getCustomerGroupIdBasedOnVatNumber(
+        $groupId = Mage::helper('Magento_Customer_Helper_Data')->getCustomerGroupIdBasedOnVatNumber(
             $this->getRequest()->getParam('country'), $result, $storeId
         );
 

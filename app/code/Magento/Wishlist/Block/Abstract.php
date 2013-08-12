@@ -73,11 +73,11 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
     /**
      * Retrieve Customer Session instance
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**

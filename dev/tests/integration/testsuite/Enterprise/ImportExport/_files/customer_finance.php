@@ -18,8 +18,8 @@ $website->save();
 Mage::app()->reinitStores();
 
 // create test customer
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'

@@ -423,7 +423,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate customer before delete
      *
-     * @param Mage_Customer_Model_Customer $model
+     * @param Magento_Customer_Model_Customer $model
      * @return void
      */
     public function customerDeleteBefore($model)
@@ -508,7 +508,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Customer validate after load
      *
-     * @param Mage_Customer_Model_Customer $model
+     * @param Magento_Customer_Model_Customer $model
      * @return void
      */
     public function customerLoadAfter($model)
@@ -522,7 +522,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Customer validate before save
      *
-     * @param Mage_Customer_Model_Customer $model
+     * @param Magento_Customer_Model_Customer $model
      * @return void
      */
     public function customerSaveBefore($model)
@@ -537,7 +537,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Customer attribute validate before save
      *
-     * @param Mage_Customer_Model_Attribute $model
+     * @param Magento_Customer_Model_Attribute $model
      * @return void
      */
     public function customerAttributeSaveBefore($model)
@@ -557,7 +557,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Customer attribute validate before delete
      *
-     * @param Mage_Customer_Model_Attribute $model
+     * @param Magento_Customer_Model_Attribute $model
      * @return void
      */
     public function customerAttributeDeleteBefore($model)

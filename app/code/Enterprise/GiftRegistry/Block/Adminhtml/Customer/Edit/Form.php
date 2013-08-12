@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getOwnerName()
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')
             ->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());

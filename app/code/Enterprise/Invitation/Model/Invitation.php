@@ -204,7 +204,7 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     /**
      * Check and get customer if it was set
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getInviter()
     {
@@ -260,7 +260,7 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {

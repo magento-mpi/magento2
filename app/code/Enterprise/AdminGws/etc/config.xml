@@ -279,7 +279,7 @@
                     <magento_poll_model_resource_poll_collection>addStoreFilterNoAdmin</magento_poll_model_resource_poll_collection>
                     <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
                     <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
-                    <mage_customer_model_resource_customer_collection>limitCustomers</mage_customer_model_resource_customer_collection>
+                    <magento_customer_model_resource_customer_collection>limitCustomers</magento_customer_model_resource_customer_collection>
                     <magento_review_model_resource_review_collection>limitReviews</magento_review_model_resource_review_collection>
                     <magento_catalogSearch_model_resource_query_collection>addStoreFilter</magento_catalogSearch_model_resource_query_collection>
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
@@ -333,8 +333,8 @@
                     <magento_newsletter_model_queue>newsletterQueueSaveBefore</magento_newsletter_model_queue>
                     <magento_catalog_model_product>catalogProductSaveBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategorySaveBefore</magento_catalog_model_category>
-                    <mage_customer_model_customer>customerSaveBefore</mage_customer_model_customer>
-                    <mage_customer_model_attribute>customerAttributeSaveBefore</mage_customer_model_attribute>
+                    <magento_customer_model_customer>customerSaveBefore</magento_customer_model_customer>
+                    <magento_customer_model_attribute>customerAttributeSaveBefore</magento_customer_model_attribute>
                     <enterprise_catalogEvent_model_event>catalogEventSaveBefore</enterprise_catalogEvent_model_event>
                     <magento_core_model_website>coreWebsiteSaveBefore</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupSaveBefore</magento_core_model_store_group>
@@ -359,8 +359,8 @@
                     <mage_rule_model_abstract>ruleDeleteBefore</mage_rule_model_abstract>
                     <magento_catalog_model_product>catalogProductDeleteBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategoryDeleteBefore</magento_catalog_model_category>
-                    <mage_customer_model_customer>customerDeleteBefore</mage_customer_model_customer>
-                    <mage_customer_model_attribute>customerAttributeDeleteBefore</mage_customer_model_attribute>
+                    <magento_customer_model_customer>customerDeleteBefore</magento_customer_model_customer>
+                    <magento_customer_model_attribute>customerAttributeDeleteBefore</magento_customer_model_attribute>
                     <enterprise_catalogEvent_model_event>catalogEventDeleteBefore</enterprise_catalogEvent_model_event>
                     <magento_core_model_website>coreWebsiteDeleteBefore</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupDeleteBefore</magento_core_model_store_group>
@@ -380,7 +380,7 @@
                     <magento_catalog_model_product>catalogProductLoadAfter</magento_catalog_model_product>
                     <enterprise_catalogEvent_model_event>catalogEventLoadAfter</enterprise_catalogEvent_model_event>
                     <magento_catalog_model_category>catalogCategoryLoadAfter</magento_catalog_model_category>
-                    <mage_customer_model_customer>customerLoadAfter</mage_customer_model_customer>
+                    <magento_customer_model_customer>customerLoadAfter</magento_customer_model_customer>
                     <mage_sales_model_order>salesOrderLoadAfter</mage_sales_model_order>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</mage_sales_model_order_payment_transaction>
                     <mage_rule_model_abstract>ruleLoadAfter</mage_rule_model_abstract>

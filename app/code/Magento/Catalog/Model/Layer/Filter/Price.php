@@ -407,7 +407,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     {
         $customerGroupId = $this->_getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }

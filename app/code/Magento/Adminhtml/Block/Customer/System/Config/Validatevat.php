@@ -131,7 +131,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Ba
         $originalData = $element->getOriginalData();
         $buttonLabel = !empty($originalData['button_label']) ? $originalData['button_label'] : $this->_vatButtonLabel;
         $this->addData(array(
-            'button_label' => Mage::helper('Mage_Customer_Helper_Data')->__($buttonLabel),
+            'button_label' => Mage::helper('Magento_Customer_Helper_Data')->__($buttonLabel),
             'html_id' => $element->getHtmlId(),
             'ajax_url' => Mage::getSingleton('Mage_Backend_Model_Url')
                 ->getUrl('adminhtml/customer_system_config_validatevat/validate')

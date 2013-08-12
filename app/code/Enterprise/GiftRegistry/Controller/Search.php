@@ -29,11 +29,11 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -183,7 +183,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search'));
@@ -197,7 +197,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
     public function resultsAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
         if ($params = $this->getRequest()->getParam('params')) {
             $this->_getSession()->setRegistrySearchData($params);

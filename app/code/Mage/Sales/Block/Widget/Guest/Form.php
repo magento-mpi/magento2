@@ -27,7 +27,7 @@ class Mage_Sales_Block_Widget_Guest_Form
      */
     public function isEnable()
     {
-        return !(Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn());
+        return !(Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn());
     }
 
     /**

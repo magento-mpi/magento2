@@ -382,8 +382,8 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   Magento_Catalog_Model_Product $product
      * @param   float $price inputed product price
      * @param   bool $includingTax return price include tax flag
-     * @param   null|Mage_Customer_Model_Address $shippingAddress
-     * @param   null|Mage_Customer_Model_Address $billingAddress
+     * @param   null|Magento_Customer_Model_Address $shippingAddress
+     * @param   null|Magento_Customer_Model_Address $billingAddress
      * @param   null|int $ctc customer tax class
      * @param   mixed $store
      * @param   bool $priceIncludesTax flag what price parameter contain tax

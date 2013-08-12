@@ -22,10 +22,10 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('Mage_Customer_Model_Session')->getBeforeUrl()) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
+            if(!Mage::getSingleton('Magento_Customer_Model_Session')->getBeforeUrl()) {
+                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -44,14 +44,14 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product Magento_Catalog_Model_Product */
-            Mage::getSingleton('Mage_Customer_Model_Session')->addError($this->__('We can\'t find the product.'));
+            Mage::getSingleton('Magento_Customer_Model_Session')->addError($this->__('We can\'t find the product.'));
             $this->_redirect('customer/account/');
             return ;
         }
 
         try {
             $model  = Mage::getModel('Magento_ProductAlert_Model_Price')
-                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByParam();
@@ -69,8 +69,8 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
 
     public function priceAllAction()
     {
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
-        /* @var $session Mage_Customer_Model_Session */
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        /* @var $session Magento_Customer_Model_Session */
 
         try {
             Mage::getModel('Magento_ProductAlert_Model_Price')->deleteCustomer(
@@ -99,14 +99,14 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         /* @var $product Magento_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->addError($this->__('The product was not found.'));
+            Mage::getSingleton('Magento_Customer_Model_Session')->addError($this->__('The product was not found.'));
             $this->_redirect('customer/account/');
             return ;
         }
 
         try {
             $model  = Mage::getModel('Magento_ProductAlert_Model_Stock')
-                ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->setProductId($product->getId())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByParam();
@@ -123,8 +123,8 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
 
     public function stockAllAction()
     {
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
-        /* @var $session Mage_Customer_Model_Session */
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        /* @var $session Magento_Customer_Model_Session */
 
         try {
             Mage::getModel('Magento_ProductAlert_Model_Stock')->deleteCustomer(

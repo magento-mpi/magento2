@@ -51,7 +51,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
     protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
         if (!$customer->getId()) {
             throw new Enterprise_Checkout_Exception(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Customer not found'));
         }
@@ -437,7 +437,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
         $store      = Mage::registry('checkout_current_store');
 
         $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
-        $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+        $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
 
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
@@ -469,7 +469,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             $this->_initData();
 
             $customer   = Mage::registry('checkout_current_customer');
-            $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
             $store      = Mage::registry('checkout_current_store');
             $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
@@ -514,7 +514,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             $this->_initData();
 
             $customer   = Mage::registry('checkout_current_customer');
-            $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
             $store      = Mage::registry('checkout_current_store');
             $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 

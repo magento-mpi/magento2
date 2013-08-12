@@ -63,8 +63,8 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
      */
     public function getWishlistCustomerCount()
     {
-        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
         
         $customersSelect = $collection->getSelectCountSql();
 
@@ -90,8 +90,8 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
      */
     public function getSharedCount()
     {
-        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
         $countSelect = $collection->getSelectCountSql();
         $countSelect->joinLeft(
                 array('wt' => $this->getWishlistTable()),

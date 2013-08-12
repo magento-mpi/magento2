@@ -140,7 +140,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
     /**
      * Get SQL select for matching customer to segment condition
      *
-     * @param Mage_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
+     * @param Magento_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
      * @param int | Zend_Db_Expr $website
      * @return Magento_DB_Select
      */

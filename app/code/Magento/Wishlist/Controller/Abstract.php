@@ -62,7 +62,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
             $this->_forward('noRoute');
             return ;
         }
-        $isOwner    = $wishlist->isOwner(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
+        $isOwner    = $wishlist->isOwner(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
 
         $messages   = array();
         $addedItems = array();

@@ -22,7 +22,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
-    /** @var Mage_Customer_Model_Resource_Customer_Collection|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Customer_Model_Resource_Customer_Collection|PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceMock;
 
     /** @var Magento_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
@@ -41,7 +41,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_resourceMock = $this->getMockBuilder('Mage_Customer_Model_Resource_Address')
+        $this->_resourceMock = $this->getMockBuilder('Magento_Customer_Model_Resource_Address')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

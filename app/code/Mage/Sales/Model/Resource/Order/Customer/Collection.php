@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Sales_Model_Resource_Order_Customer_Collection extends Mage_Customer_Model_Resource_Customer_Collection
+class Mage_Sales_Model_Resource_Order_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
 {
     /**
      * @return Mage_Sales_Model_Resource_Order_Customer_Collection

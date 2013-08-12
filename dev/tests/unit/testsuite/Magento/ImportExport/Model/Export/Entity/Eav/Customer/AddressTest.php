@@ -193,10 +193,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
     {
-        $arguments = $this->_objectManager->getConstructArguments('Mage_Customer_Model_Customer');
+        $arguments = $this->_objectManager->getConstructArguments('Magento_Customer_Model_Customer');
         $arguments['data'] = $this->_customerData;
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
+        /** @var $customer Magento_Customer_Model_Customer */
+        $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
 
         foreach ($callbacks as $callback) {
             call_user_func($callback, $customer);

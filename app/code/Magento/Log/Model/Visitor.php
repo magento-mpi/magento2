@@ -262,7 +262,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         if (intval($customerId) <= 0) {
             return $this;
         }
-        $customerData = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+        $customerData = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
         $newCustomerData = array();
         foreach ($customerData->getData() as $propName => $propValue) {
             $newCustomerData['customer_' . $propName] = $propValue;

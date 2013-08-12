@@ -109,7 +109,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId(); // potential issue for caching
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId(); // potential issue for caching
         if (Mage::helper('Mage_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)

@@ -109,7 +109,7 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
         if (!$option->getDoUpdate()) {
             $data['remote_ip']       = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
             $data['remote_ip_long']  = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true);
-            $data['customer_id']     = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+            $data['customer_id']     = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
         }

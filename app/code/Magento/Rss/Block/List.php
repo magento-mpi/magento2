@@ -84,7 +84,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
 
     public function getCurrentCustomerGroupId()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**
@@ -115,7 +115,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     {
         $store_id = Mage::app()->getStore()->getId();
         $param = array('store_id' => $store_id);
-        $custGroup = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+        $custGroup = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         if ($custGroup) {
             $param = array_merge($param, array('cid' => $custGroup));
         }

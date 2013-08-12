@@ -49,9 +49,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $entityIdCode = Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
 
         $expectedAttributes = array();
-        /** @var $collection Mage_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection');
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $collection Magento_Customer_Model_Resource_Address_Attribute_Collection */
+        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Attribute_Collection');
+        /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
@@ -74,10 +74,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $this->assertNotEmpty($data['data'], 'No data was exported');
 
         // Get addresses
-        /** @var $customers Mage_Customer_Model_Customer[] */
+        /** @var $customers Magento_Customer_Model_Customer[] */
         $customers = Mage::registry('_fixture/Magento_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
-            /** @var $address Mage_Customer_Model_Address */
+            /** @var $address Magento_Customer_Model_Address */
             foreach ($customer->getAddresses() as $address) {
                 // Check unique key
                 $data['data'][$address->getId()][$websiteCode] = $this->_websites[$customer->getWebsiteId()];
@@ -142,7 +142,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $this->_model->setParameters($filterData);
 
         // Get expected address count
-        /** @var $customers Mage_Customer_Model_Customer[] */
+        /** @var $customers Magento_Customer_Model_Customer[] */
         $customers = Mage::registry('_fixture/Magento_ImportExport_Customers_Array');
         $expectedCount = 0;
         foreach ($customers as $customer) {
@@ -169,7 +169,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     public function testGetAttributeCollection()
     {
-        $this->assertInstanceOf('Mage_Customer_Model_Resource_Address_Attribute_Collection',
+        $this->assertInstanceOf('Magento_Customer_Model_Resource_Address_Attribute_Collection',
             $this->_model->getAttributeCollection()
         );
     }

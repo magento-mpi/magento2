@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
                 'frontend_label' => 'Date',
             )
         );
-        $dateAttribute = Mage::getObjectManager()->create('Mage_Customer_Model_Attribute', $arguments);
+        $dateAttribute = Mage::getObjectManager()->create('Magento_Customer_Model_Attribute', $arguments);
         $attributes = array('date' => $dateAttribute);
         $method->invoke($block, $attributes, $fieldset);
 

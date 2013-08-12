@@ -29,17 +29,17 @@ class Magento_Adminhtml_Block_Customer_Online_Filter extends Magento_Adminhtml_B
                     'onchange' => 'this.form.submit()',
                     'values' => array(
                         array(
-                            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('All'),
+                            'label' => Mage::helper('Magento_Customer_Helper_Data')->__('All'),
                             'value' => '',
                         ),
 
                         array(
-                            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Customers Only'),
+                            'label' => Mage::helper('Magento_Customer_Helper_Data')->__('Customers Only'),
                             'value' => 'filterCustomers',
                         ),
 
                         array(
-                            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Visitors Only'),
+                            'label' => Mage::helper('Magento_Customer_Helper_Data')->__('Visitors Only'),
                             'value' => 'filterGuests',
                         )
                     ),

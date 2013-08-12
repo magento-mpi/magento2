@@ -400,7 +400,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
             )->disableOriginalConstructor()
             ->getMock();
 
-        $customer = $this->getMockBuilder('Mage_Customer_Model_Customer')
+        $customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
             ->disableOriginalConstructor()
             ->getMock();
 

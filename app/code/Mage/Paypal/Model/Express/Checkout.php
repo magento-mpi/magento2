@@ -72,7 +72,7 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_checkoutRedirectUrl = '';
 
     /**
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
@@ -126,13 +126,13 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Set config, session and quote instances
      *
-     * @param Mage_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $params
      * @throws Exception
      */
     public function __construct(
-        Mage_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         $params = array()
     ) {
@@ -216,7 +216,7 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Setter for customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Mage_Paypal_Model_Express_Checkout
      */
     public function setCustomer($customer)
@@ -229,7 +229,7 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Setter for customer with billing and shipping address changing ability
      *
-     * @param  Mage_Customer_Model_Customer   $customer
+     * @param  Magento_Customer_Model_Customer   $customer
      * @param  Mage_Sales_Model_Quote_Address $billingAddress
      * @param  Mage_Sales_Model_Quote_Address $shippingAddress
      * @return Mage_Paypal_Model_Express_Checkout
@@ -857,7 +857,7 @@ class Mage_Paypal_Model_Express_Checkout
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
-            ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
         return $this;
     }
 
@@ -874,7 +874,7 @@ class Mage_Paypal_Model_Express_Checkout
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customer = $quote->getCustomer();
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
@@ -964,9 +964,9 @@ class Mage_Paypal_Model_Express_Checkout
         $customer = $this->_quote->getCustomer();
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation');
-            $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
+            $url = Mage::helper('Magento_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                Mage::helper('Magento_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail();
@@ -978,7 +978,7 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Get customer session object
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     public function getCustomerSession()
     {

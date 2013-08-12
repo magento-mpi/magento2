@@ -20,7 +20,7 @@ class Mage_Captcha_Model_Observer
     /**
      * Customer Session
      *
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
@@ -44,13 +44,13 @@ class Mage_Captcha_Model_Observer
     protected $_filesystem;
 
     /**
-     * @param Mage_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Mage_Captcha_Helper_Data $helper
      * @param Magento_Core_Model_Url $urlManager
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_Session $customerSession,
         Mage_Captcha_Helper_Data $helper,
         Magento_Core_Model_Url $urlManager,
         Magento_Filesystem $filesystem
@@ -74,7 +74,7 @@ class Mage_Captcha_Model_Observer
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA'));
+                Mage::getSingleton('Magento_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA'));
                 $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                 $controller->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
             }
@@ -117,11 +117,11 @@ class Mage_Captcha_Model_Observer
         if ($captchaModel->isRequired($login)) {
             $word = $this->_getCaptchaString($controller->getRequest(), $formId);
             if (!$captchaModel->isCorrect($word)) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA'));
+                Mage::getSingleton('Magento_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA'));
                 $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('Mage_Customer_Model_Session')->setUsername($login);
-                $beforeUrl = Mage::getSingleton('Mage_Customer_Model_Session')->getBeforeAuthUrl();
-                $url =  $beforeUrl ? $beforeUrl : Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
+                Mage::getSingleton('Magento_Customer_Model_Session')->setUsername($login);
+                $beforeUrl = Mage::getSingleton('Magento_Customer_Model_Session')->getBeforeAuthUrl();
+                $url =  $beforeUrl ? $beforeUrl : Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl();
                 $controller->getResponse()->setRedirect($url);
             }
         }
@@ -142,9 +142,9 @@ class Mage_Captcha_Model_Observer
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA'));
+                Mage::getSingleton('Magento_Customer_Model_Session')->addError(Mage::helper('Mage_Captcha_Helper_Data')->__('Incorrect CAPTCHA'));
                 $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('Mage_Customer_Model_Session')->setCustomerFormData($controller->getRequest()->getPost());
+                Mage::getSingleton('Magento_Customer_Model_Session')->setCustomerFormData($controller->getRequest()->getPost());
                 $controller->getResponse()->setRedirect(Mage::getUrl('*/*/create'));
             }
         }

@@ -178,8 +178,8 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
                 ->useProductItem(true)
                 ->setStoreId(Mage::app()->getStore()->getId());
 
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-                $this->_itemCollection->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+                $this->_itemCollection->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_itemCollection->setCustomerId($this->_customerId);
             } else {
@@ -219,8 +219,8 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
             /** @var $collection Magento_Catalog_Model_Resource_Product_Compare_Item_Collection */
             $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection')
                 ->useProductItem(true);
-            if (!$logout && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-                $collection->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
+            if (!$logout && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+                $collection->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
             } elseif ($this->_customerId) {
                 $collection->setCustomerId($this->_customerId);
             } else {

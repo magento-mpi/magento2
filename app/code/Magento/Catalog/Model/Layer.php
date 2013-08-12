@@ -42,7 +42,7 @@ class Magento_Catalog_Model_Layer extends Magento_Object
         if ($this->_stateKey === null) {
             $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
-                . '_CUSTGROUP_' . Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+                . '_CUSTGROUP_' . Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
 
         return $this->_stateKey;

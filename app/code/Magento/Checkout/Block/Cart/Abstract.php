@@ -87,12 +87,12 @@ abstract class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_T
     /**
      * Get logged in customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }

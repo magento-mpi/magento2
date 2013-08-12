@@ -28,7 +28,7 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
 
     public function getMessages()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getMessages(true);
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getMessages(true);
     }
 
     public function getPostAction()
@@ -63,7 +63,7 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
      */
     public function getUsername()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getUsername(true);
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getUsername(true);
     }
 
     /**

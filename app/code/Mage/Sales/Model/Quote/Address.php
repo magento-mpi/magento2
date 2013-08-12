@@ -123,7 +123,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstract
+class Mage_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_Abstract
 {
     const RATES_FETCH = 1;
     const RATES_RECALCULATE = 2;
@@ -276,10 +276,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     /**
      * Import quote address data from customer address object
      *
-     * @param   Mage_Customer_Model_Address $address
+     * @param   Magento_Customer_Model_Address $address
      * @return  Mage_Sales_Model_Quote_Address
      */
-    public function importCustomerAddress(Mage_Customer_Model_Address $address)
+    public function importCustomerAddress(Magento_Customer_Model_Address $address)
     {
         Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
         $email = null;
@@ -297,11 +297,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     /**
      * Export data to customer address object
      *
-     * @return Mage_Customer_Model_Address
+     * @return Magento_Customer_Model_Address
      */
     public function exportCustomerAddress()
     {
-        $address = Mage::getModel('Mage_Customer_Model_Address');
+        $address = Mage::getModel('Magento_Customer_Model_Address');
         Mage::helper('Magento_Core_Helper_Data')
             ->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;

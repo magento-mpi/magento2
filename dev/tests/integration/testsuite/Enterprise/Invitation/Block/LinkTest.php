@@ -24,7 +24,7 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoConfigFixture current_store enterprise_invitation/general/enabled 1
      * @magentoConfigFixture current_store enterprise_invitation/general/enabled_on_front 1
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testAddAccountLink()
     {
@@ -39,7 +39,7 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
         $this->_block->addAccountLink();
         $this->assertEmpty($links->getLinks());
 
-        Mage::getSingleton('Mage_Customer_Model_Session')->login('customer@example.com', 'password');
+        Mage::getSingleton('Magento_Customer_Model_Session')->login('customer@example.com', 'password');
         $this->_block->addAccountLink();
         $links = $links->getLinks();
         $this->assertNotEmpty($links);

@@ -22,39 +22,39 @@ return array(
         array('field' => 'customer/customer'),
         array('field' => 'customer/attribute_data_postcode'),
         array('field' => 'customer/attribute_data_postcode::someMethod'),
-        array('field' => 'Mage_Customer_Model_Customer'),
+        array('field' => 'Magento_Customer_Model_Customer'),
     ),
     '$expected' => array(
         'updates' => array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'Mage_Customer_Model_Customer_FROM_MAP',
+                'to'    => 'Magento_Customer_Model_Customer_FROM_MAP',
                 'from'  => array('`field` = ?' => 'customer/customer')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode',
+                'to'    => 'Magento_Customer_Model_Attribute_Data_Postcode',
                 'from'  => array('`field` = ?' => 'customer/attribute_data_postcode')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode::someMethod',
+                'to'    => 'Magento_Customer_Model_Attribute_Data_Postcode::someMethod',
                 'from'  => array('`field` = ?' => 'customer/attribute_data_postcode::someMethod')
             ),
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
-                'customer/customer'                => 'Mage_Customer_Model_Customer_FROM_MAP',
-                'customer/attribute_data_postcode' => 'Mage_Customer_Model_Attribute_Data_Postcode',
+                'customer/customer'                => 'Magento_Customer_Model_Customer_FROM_MAP',
+                'customer/attribute_data_postcode' => 'Magento_Customer_Model_Attribute_Data_Postcode',
             ),
         )
     ),
     '$aliasesMap' => array(
         Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
-            'customer/customer' => 'Mage_Customer_Model_Customer_FROM_MAP'
+            'customer/customer' => 'Magento_Customer_Model_Customer_FROM_MAP'
         )
     )
 );

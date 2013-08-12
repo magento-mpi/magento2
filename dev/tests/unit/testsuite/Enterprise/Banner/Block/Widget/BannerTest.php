@@ -52,7 +52,7 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
         );
 
         $this->_customerSession = $this->getMock(
-            'Mage_Customer_Model_Session', array('getCustomerGroupId'), array(), '', false
+            'Magento_Customer_Model_Session', array('getCustomerGroupId'), array(), '', false
         );
         $this->_customerSession->expects($this->any())->method('getCustomerGroupId')->will($this->returnValue(4));
 

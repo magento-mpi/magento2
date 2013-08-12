@@ -520,7 +520,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _getCustomerGroupId()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**

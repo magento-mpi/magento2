@@ -40,7 +40,7 @@ class Mage_Page_Block_Html_Footer extends Magento_Core_Block_Template
             Mage::app()->getStore()->getId(),
             (int)Mage::app()->getStore()->isCurrentlySecure(),
             Mage::getDesign()->getDesignTheme()->getId(),
-            Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         );
     }
 

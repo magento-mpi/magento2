@@ -16,7 +16,7 @@ class Mage_Tax_Model_Class_Type_Customer
     implements Mage_Tax_Model_Class_Type_Interface
 {
     /**
-     * @var Mage_Customer_Model_Group
+     * @var Magento_Customer_Model_Group
      */
     protected $_modelCustomerGroup;
 
@@ -34,13 +34,13 @@ class Mage_Tax_Model_Class_Type_Customer
 
     /**
      * @param Mage_Tax_Model_Calculation_Rule $calculationRule
-     * @param Mage_Customer_Model_Group $modelCustomerGroup
+     * @param Magento_Customer_Model_Group $modelCustomerGroup
      * @param Mage_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Mage_Tax_Model_Calculation_Rule $calculationRule,
-        Mage_Customer_Model_Group $modelCustomerGroup,
+        Magento_Customer_Model_Group $modelCustomerGroup,
         Mage_Tax_Helper_Data $helper,
         array $data = array()
     ) {

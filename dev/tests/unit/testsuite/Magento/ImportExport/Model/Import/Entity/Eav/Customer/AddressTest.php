@@ -245,10 +245,10 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             array(), '', false);
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         foreach ($this->_customers as $customerData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Mage_Customer_Model_Customer');
+            $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
             $arguments['data'] = $customerData;
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
+            /** @var $customer Magento_Customer_Model_Customer */
+            $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
         return $customerStorage;

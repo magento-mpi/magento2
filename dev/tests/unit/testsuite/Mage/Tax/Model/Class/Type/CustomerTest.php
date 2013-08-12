@@ -24,7 +24,7 @@ class Mage_Tax_Model_Class_Type_CustomerTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('tax_class_id'), $this->equalTo(5))
             ->will($this->returnSelf());
 
-        $customerGroupMock = $this->getMockBuilder('Mage_Customer_Model_Group')
+        $customerGroupMock = $this->getMockBuilder('Magento_Customer_Model_Group')
             ->setMethods(array('getCollection'))
             ->disableOriginalConstructor()
             ->getMock();

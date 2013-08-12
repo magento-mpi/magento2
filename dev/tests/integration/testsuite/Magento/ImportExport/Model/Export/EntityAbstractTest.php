@@ -67,13 +67,13 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     {
         /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
         $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
         $existedAttributes = array();
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }

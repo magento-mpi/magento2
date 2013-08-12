@@ -75,7 +75,7 @@ class Enterprise_CustomerBalance_Controller_Adminhtml_Customerbalance extends Ma
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
             Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Failed to initialize customer'));
         }
@@ -89,6 +89,6 @@ class Enterprise_CustomerBalance_Controller_Adminhtml_Customerbalance extends Ma
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Magento_Customer::manage');
     }
 }

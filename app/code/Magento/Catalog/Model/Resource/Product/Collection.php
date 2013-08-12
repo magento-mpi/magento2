@@ -1170,7 +1170,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected function _joinPriceRules()
     {
         if ($this->isEnabledFlat()) {
-            $customerGroup = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroup = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
             $priceColumn   = 'e.display_price_group_' . $customerGroup;
             $this->getSelect()->columns(array('_rule_price' => $priceColumn));
 
@@ -1180,7 +1180,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
             return $this;
         }
         $wId = Mage::app()->getWebsite()->getId();
-        $gId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+        $gId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
 
         $storeDate = Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
         $conditions  = 'price_rule.product_id = e.entity_id AND ';
@@ -1241,7 +1241,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $this->_productLimitationFilters['use_price_index'] = true;
 
         if (!isset($this->_productLimitationFilters['customer_group_id']) && is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         if (!isset($this->_productLimitationFilters['website_id']) && is_null($websiteId)) {
             $websiteId       = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
@@ -1678,7 +1678,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     {
         $this->_productLimitationFilters['use_price_index'] = true;
         if (!isset($this->_productLimitationFilters['customer_group_id'])) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
             $this->_productLimitationFilters['customer_group_id'] = $customerGroupId;
         }
         if (!isset($this->_productLimitationFilters['website_id'])) {
@@ -1876,7 +1876,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         foreach ($adapter->fetchAll($select) as $row) {
             $tierPrices[$row['product_id']][] = array(
                 'website_id'    => $row['website_id'],
-                'cust_group'    => $row['all_groups'] ? Mage_Customer_Model_Group::CUST_GROUP_ALL : $row['cust_group'],
+                'cust_group'    => $row['all_groups'] ? Magento_Customer_Model_Group::CUST_GROUP_ALL : $row['cust_group'],
                 'price_qty'     => $row['price_qty'],
                 'price'         => $row['price'],
                 'website_price' => $row['price'],

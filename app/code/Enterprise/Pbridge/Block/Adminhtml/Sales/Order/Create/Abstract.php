@@ -92,11 +92,11 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
     /**
      * Get current customer object
      *
-     * @return null|Mage_Customer_Model_Customer
+     * @return null|Magento_Customer_Model_Customer
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getCustomer() instanceof Mage_Customer_Model_Customer) {
+        if (Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getCustomer() instanceof Magento_Customer_Model_Customer) {
             return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getCustomer();
         }
 

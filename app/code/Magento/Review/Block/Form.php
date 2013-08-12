@@ -19,7 +19,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 {
     protected function _construct()
     {
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
 
         parent::_construct();
 
@@ -44,7 +44,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
             );
             $this->setLoginLink(Mage::getUrl(
                     'customer/account/login/',
-                    array(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    array(Magento_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }

@@ -34,7 +34,7 @@ class Mage_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_Acti
     {
         /** @var $server Mage_Oauth_Model_Server */
         $server = Mage::getModel('Mage_Oauth_Model_Server');
-        /** @var $session Mage_Customer_Model_Session */
+        /** @var $session Magento_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
@@ -87,7 +87,7 @@ class Mage_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_Acti
         /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('Mage_Oauth_Helper_Data');
 
-        /** @var $session Mage_Customer_Model_Session */
+        /** @var $session Magento_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         if (!$session->getCustomerId()) {
             $session->addError($this->__('Please login to proceed authorization.'));
@@ -140,7 +140,7 @@ class Mage_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_Acti
     {
         $this->loadLayout();
 
-        /** @var $session Mage_Customer_Model_Session */
+        /** @var $session Magento_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server Mage_Oauth_Model_Server */

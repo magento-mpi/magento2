@@ -26,7 +26,7 @@ abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Fr
      */
     protected function _canViewOrder($order)
     {
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         $availableStates = Mage::getSingleton('Mage_Sales_Model_Order_Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, $strict = true)
@@ -188,7 +188,7 @@ abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Fr
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -217,7 +217,7 @@ abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Fr
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -247,7 +247,7 @@ abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Fr
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');

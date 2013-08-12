@@ -94,7 +94,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (!$this->_session) {
             $sessionClassPath = Mage::app()->getStore()->isAdmin() ?
-                    'Magento_Adminhtml_Model_Session' : 'Mage_Customer_Model_Session';
+                    'Magento_Adminhtml_Model_Session' : 'Magento_Customer_Model_Session';
             $this->_session =  Mage::getSingleton($sessionClassPath);
         }
 
@@ -192,11 +192,11 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                 $result = true;
                 break;
             case Enterprise_Checkout_Model_Cart_Sku_Source_Settings::YES_SPECIFIED_GROUPS_VALUE:
-                /** @var $customerSession Mage_Customer_Model_Session */
-                $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+                /** @var $customerSession Magento_Customer_Model_Session */
+                $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
                 if ($customerSession) {
                     $groupId = $customerSession->getCustomerGroupId();
-                    $result = $groupId === Mage_Customer_Model_Group::NOT_LOGGED_IN_ID
+                    $result = $groupId === Magento_Customer_Model_Group::NOT_LOGGED_IN_ID
                         || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;

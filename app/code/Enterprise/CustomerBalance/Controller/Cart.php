@@ -23,7 +23,7 @@ class Enterprise_CustomerBalance_Controller_Cart extends Magento_Core_Controller
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }

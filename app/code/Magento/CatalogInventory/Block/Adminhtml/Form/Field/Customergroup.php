@@ -42,9 +42,9 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends 
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
+            $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
             foreach ($collection as $item) {
-                /* @var $item Mage_Customer_Model_Group */
+                /* @var $item Magento_Customer_Model_Group */
                 $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
             }
         }
@@ -68,7 +68,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends 
     {
         if (!$this->getOptions()) {
             if ($this->_addGroupAllOption) {
-                $this->addOption(Mage_Customer_Model_Group::CUST_GROUP_ALL, Mage::helper('Mage_Customer_Helper_Data')->__('ALL GROUPS'));
+                $this->addOption(Magento_Customer_Model_Group::CUST_GROUP_ALL, Mage::helper('Magento_Customer_Helper_Data')->__('ALL GROUPS'));
             }
             foreach ($this->_getCustomerGroups() as $groupId => $groupLabel) {
                 $this->addOption($groupId, addslashes($groupLabel));

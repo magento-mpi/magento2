@@ -32,9 +32,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     public function testExport()
     {
         $expectedAttributes = array();
-        /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
+        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
@@ -54,7 +54,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->assertNotEmpty($data['data'], 'No data was exported');
 
-        /** @var $customers Mage_Customer_Model_Customer[] */
+        /** @var $customers Magento_Customer_Model_Customer[] */
         $customers = Mage::registry('_fixture/Magento_ImportExport_Customer_Collection');
         foreach ($customers as $key => $customer) {
             foreach ($expectedAttributes as $code) {
@@ -82,7 +82,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     public function testGetAttributeCollection()
     {
-        $this->assertInstanceOf('Mage_Customer_Model_Resource_Attribute_Collection',
+        $this->assertInstanceOf('Magento_Customer_Model_Resource_Attribute_Collection',
             $this->_model->getAttributeCollection()
         );
     }
@@ -92,14 +92,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
+        /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
         $collection = $this->_model->getAttributeCollection();
         $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
         $existedAttributes = array();
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
@@ -115,7 +115,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
          * Check that all overridden attributes were affected during filtering process
          */
         $overriddenAttributes = $this->_model->getOverriddenAttributes();
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             if (isset($overriddenAttributes[$attribute->getAttributeCode()])) {
                 foreach ($overriddenAttributes[$attribute->getAttributeCode()] as $propertyKey => $property) {
@@ -147,9 +147,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        $attributeCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
-        /** @var $createdAtAttribute Mage_Customer_Model_Attribute */
+        /** @var $createdAtAttribute Magento_Customer_Model_Attribute */
         $createdAtAttribute = $attributeCollection->getFirstItem();
         $createdAtAttribute->setBackendType('datetime');
         $createdAtAttribute->save();
@@ -164,9 +164,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             )
         );
         $this->_model->setParameters($parameters);
-        /** @var $customers Mage_Customer_Model_Resource_Customer_Collection */
+        /** @var $customers Magento_Customer_Model_Resource_Customer_Collection */
         $collection = $this->_model->filterEntityCollection(
-            Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
+            Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
         );
         $collection->load();
 

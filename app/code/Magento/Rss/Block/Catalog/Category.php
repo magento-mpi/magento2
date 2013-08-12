@@ -25,7 +25,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
         $this->setCacheKey('rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . Mage::getModel('Mage_Customer_Model_Session')->getId()
+            . Mage::getModel('Magento_Customer_Model_Session')->getId()
         );
         $this->setCacheLifetime(600);
     }

@@ -125,7 +125,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         }
 
         $websites = Mage::app()->getWebsites(false);
-        $groups   = Mage::getModel('Mage_Customer_Model_Group')->getCollection()->getAllIds();
+        $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
 
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
         $helper   = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');

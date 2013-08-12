@@ -114,7 +114,7 @@ class Magento_CatalogRule_Model_Observer
         } elseif ($product->hasCustomerGroupId()) {
             $gId = $product->getCustomerGroupId();
         } else {
-            $gId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $gId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
 
         $key = "$date|$wId|$gId|$pId";
@@ -345,12 +345,12 @@ class Magento_CatalogRule_Model_Observer
         if ($observer->getEvent()->hasCustomerGroupId()) {
             $groupId = $observer->getEvent()->getCustomerGroupId();
         } else {
-            /* @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton('Mage_Customer_Model_Session');
+            /* @var $session Magento_Customer_Model_Session */
+            $session = Mage::getSingleton('Magento_Customer_Model_Session');
             if ($session->isLoggedIn()) {
-                $groupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+                $groupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
             } else {
-                $groupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+                $groupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
             }
         }
         if ($observer->getEvent()->hasDate()) {

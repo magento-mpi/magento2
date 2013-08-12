@@ -24,13 +24,13 @@ abstract class Magento_Checkout_Controller_Action extends Magento_Core_Controlle
      */
     protected function _preDispatchValidateCustomer($redirect = true, $addErrors = true)
     {
-        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         if ($customer && $customer->getId()) {
             $validationResult = $customer->validate();
             if ((true !== $validationResult) && is_array($validationResult)) {
                 if ($addErrors) {
                     foreach ($validationResult as $error) {
-                        Mage::getSingleton('Mage_Customer_Model_Session')->addError($error);
+                        Mage::getSingleton('Magento_Customer_Model_Session')->addError($error);
                     }
                 }
                 if ($redirect) {

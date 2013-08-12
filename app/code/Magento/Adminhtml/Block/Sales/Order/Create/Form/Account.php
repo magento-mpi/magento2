@@ -42,11 +42,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
      */
     protected function _prepareForm()
     {
-        /* @var $customerModel Mage_Customer_Model_Customer */
-        $customerModel = Mage::getModel('Mage_Customer_Model_Customer');
+        /* @var $customerModel Magento_Customer_Model_Customer */
+        $customerModel = Mage::getModel('Magento_Customer_Model_Customer');
 
-        /* @var $customerForm Mage_Customer_Model_Form */
-        $customerForm   = Mage::getModel('Mage_Customer_Model_Form');
+        /* @var $customerForm Magento_Customer_Model_Form */
+        $customerForm   = Mage::getModel('Magento_Customer_Model_Form');
         $customerForm->setFormCode('adminhtml_checkout')
             ->setStore($this->getStore())
             ->setEntity($customerModel);
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
 
         // add system required attributes
         foreach ($customerForm->getSystemAttributes() as $attribute) {
-            /* @var $attribute Mage_Customer_Model_Attribute */
+            /* @var $attribute Magento_Customer_Model_Attribute */
             if ($attribute->getIsRequired()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
 
         // add user defined attributes
         foreach ($customerForm->getUserAttributes() as $attribute) {
-            /* @var $attribute Mage_Customer_Model_Attribute */
+            /* @var $attribute Magento_Customer_Model_Attribute */
             $attributes[$attribute->getAttributeCode()] = $attribute;
         }
 

@@ -21,16 +21,16 @@ class Magento_Adminhtml_Controller_Customer_Online extends Magento_Adminhtml_Con
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Customer::customer_online');
+        $this->_setActiveMenu('Magento_Customer::customer_online');
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Customers'), Mage::helper('Mage_Customer_Helper_Data')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Customer_Helper_Data')->__('Online Customers'), Mage::helper('Mage_Customer_Helper_Data')->__('Online Customers'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Customers'), Mage::helper('Magento_Customer_Helper_Data')->__('Customers'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Online Customers'), Mage::helper('Magento_Customer_Helper_Data')->__('Online Customers'));
 
         $this->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Customer::online');
+        return $this->_authorization->isAllowed('Magento_Customer::online');
     }
 }

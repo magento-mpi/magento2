@@ -12,13 +12,13 @@
 /**
  * Customer login form template
  *
- * @var $this Mage_Customer_Block_Form_Login
+ * @var $this Magento_Customer_Block_Form_Login
  * @see app/design/frontend/enterprise/default/template/customer/form/login.phtml
  */
 ?>
-<div class="account-login<?php if (!$this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) echo ' login-only' ?>">
+<div class="account-login<?php if (!$this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
-        <h1><?php if ($this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()): ?>
+        <h1><?php if ($this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()): ?>
             <?php echo $this->__('Login or Create an Account') ?>
             <?php else: ?>
             <?php echo $this->__('Login'); ?>
@@ -56,7 +56,7 @@
                     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                     <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
                 </div>
-                <?php if ($this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()): ?>
+                <?php if ($this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">
                     <h2 class="legend"><?php echo $this->__('New Customers') ?></h2>
                     <p><?php echo $this->__('Create an account with us for faster checkout, multiple shipping addresses, your own shopping history file and more.') ?></p>

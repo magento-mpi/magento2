@@ -166,7 +166,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Export given customer data
      *
-     * @param Mage_Customer_Model_Customer $item
+     * @param Magento_Customer_Model_Customer $item
      * @return string
      */
     public function exportItem($item)

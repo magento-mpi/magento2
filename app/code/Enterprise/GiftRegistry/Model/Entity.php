@@ -179,7 +179,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         if (is_array($itemsIds)) {
             $quote = Mage::getModel('Mage_Sales_Model_Quote');
             $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
-            $quote->loadByCustomer(Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId()));
+            $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId()));
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
@@ -414,7 +414,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $translate = Mage::getSingleton('Magento_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
-        $owner = Mage::getModel('Mage_Customer_Model_Customer')
+        $owner = Mage::getModel('Magento_Customer_Model_Customer')
             ->load($this->getCustomerId());
 
         $store = Mage::app()->getStore();
@@ -455,7 +455,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $translate = Mage::getSingleton('Magento_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
-        $owner = Mage::getModel('Mage_Customer_Model_Customer')
+        $owner = Mage::getModel('Magento_Customer_Model_Customer')
             ->load($this->getCustomerId());
 
         $store = Mage::app()->getStore();
@@ -583,11 +583,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * Return address object entity on data in GiftRegistry entity
      *
-     * @return Mage_Customer_Model_Address
+     * @return Magento_Customer_Model_Address
      */
     public function exportAddress()
     {
-        $address = Mage::getModel('Mage_Customer_Model_Address');
+        $address = Mage::getModel('Magento_Customer_Model_Address');
         $shippingAddressData = unserialize($this->getData('shipping_address'));
         if (is_array($shippingAddressData)) {
             $address->setData($shippingAddressData);
@@ -598,10 +598,10 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      /**
      * Sets up address data to the GiftRegistry entity  object
      *
-     * @param Mage_Customer_Model_Address $address
+     * @param Magento_Customer_Model_Address $address
      * @return $this
      */
-    public function importAddress(Mage_Customer_Model_Address $address)
+    public function importAddress(Magento_Customer_Model_Address $address)
     {
         $skip = array('increment_id', 'entity_type_id', 'parent_id', 'entity_id', 'attribute_set_id');
         $data = array();
@@ -815,7 +815,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
 
         if ($isAddAction) {
             $this->addData(array(
-                'customer_id' => Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId(),
+                'customer_id' => Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId(),
                 'website_id' => Mage::app()->getStore()->getWebsiteId(),
                 'url_key' => $this->getGenerateKeyId(),
                 'created_at' => Mage::getModel('Magento_Core_Model_Date')->date(),

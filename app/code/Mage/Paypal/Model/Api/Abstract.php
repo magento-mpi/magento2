@@ -511,7 +511,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Magento_Object
             return;
         }
 
-        $street = Mage::helper('Mage_Customer_Helper_Address')
+        $street = Mage::helper('Magento_Customer_Helper_Address')
             ->convertStreetLines($address->getStreet(), count($keys));
 
         $i = 0;

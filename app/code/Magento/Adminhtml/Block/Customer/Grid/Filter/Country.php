@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Customer_Grid_Filter_Country extends Magento_Admin
     protected function _getOptions()
     {
         $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')->load()->toOptionArray();
-        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_Customer_Helper_Data')->__('All countries')));
+        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Magento_Customer_Helper_Data')->__('All countries')));
         return $options;
     }
 

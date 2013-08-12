@@ -96,14 +96,14 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      */
     protected function _assertCustomerData(array $expectedData)
     {
-        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = $this->_objectManager->create('Mage_Customer_Model_Resource_Customer_Collection');
+        /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
+        $collection = $this->_objectManager->create('Magento_Customer_Model_Resource_Customer_Collection');
         $collection->addAttributeToSelect($this->_customerAttributes);
         $customers = $collection->getItems();
 
         $this->assertSameSize($expectedData, $customers);
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customers as $customer) {
             // assert customer existence
             $email = strtolower($customer->getEmail());
@@ -119,7 +119,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
             // assert address data
             $addresses = $customer->getAddresses();
             $this->assertSameSize($expectedData[$email]['addresses'], $addresses);
-            /** @var $address Mage_Customer_Model_Address */
+            /** @var $address Magento_Customer_Model_Address */
             foreach ($addresses as $address) {
                 $this->assertContains($address->getData('postcode'), $expectedData[$email]['addresses']);
             }

@@ -50,7 +50,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Customer model instance
      *
-     * @var Mage_Customer_Model_Customer|null
+     * @var Magento_Customer_Model_Customer|null
      */
     protected $_customer;
 
@@ -111,7 +111,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Setter for $_customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Enterprise_Checkout_Model_Cart
      */
     public function setCustomer($customer)
@@ -126,7 +126,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     /**
      * Getter for $_customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
@@ -188,7 +188,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
             return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
-                $customer = Mage::helper('Mage_Customer_Helper_Data')->getCustomer();
+                $customer = Mage::helper('Magento_Customer_Helper_Data')->getCustomer();
                 if ($customer) {
                     $this->setCustomer($customer);
                 }

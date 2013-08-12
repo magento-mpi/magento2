@@ -109,13 +109,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     /**
      * Return invintation customer model
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getReferral()
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = Mage::getModel('Mage_Customer_Model_Customer')->load(
+                $referral = Mage::getModel('Magento_Customer_Model_Customer')->load(
                     $this->getInvitation()->getReferralId()
                 );
             } else {
@@ -131,13 +131,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     /**
      * Return invitation customer model
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
+                $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(
                     $this->getInvitation()->getCustomerId()
                 );
             } else {
@@ -153,12 +153,12 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     /**
      * Return customer group collection
      *
-     * @return Mage_Customer_Model_Resource_Group_Collection
+     * @return Magento_Customer_Model_Resource_Group_Collection
      */
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
+            $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
                 ->addFieldToFilter('customer_group_id', array('gt'=> 0))
                 ->load();
             $this->setData('customer_groups_collection', $groups);
@@ -244,6 +244,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     public function canShowReferralLink()
     {
-        return $this->_authorization->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Magento_Customer::manage');
     }
 }

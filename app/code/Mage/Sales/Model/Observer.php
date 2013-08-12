@@ -201,8 +201,8 @@ class Mage_Sales_Model_Observer
         if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate)
             && !empty($vatRequestDate)
         ) {
-            $orderHistoryComment = Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Identifier')
-                . ': ' . $vatRequestId . '<br />' . Mage::helper('Mage_Customer_Helper_Data')->__('VAT Request Date')
+            $orderHistoryComment = Mage::helper('Magento_Customer_Helper_Data')->__('VAT Request Identifier')
+                . ': ' . $vatRequestId . '<br />' . Mage::helper('Magento_Customer_Helper_Data')->__('VAT Request Date')
                 . ': ' . $vatRequestDate;
             $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
         }
@@ -213,14 +213,14 @@ class Mage_Sales_Model_Observer
      *
      * @param Magento_Core_Model_Abstract $salesModel
      * @param Magento_Core_Model_Store|string|int|null $store
-     * @return Mage_Customer_Model_Address_Abstract|null
+     * @return Magento_Customer_Model_Address_Abstract|null
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
-        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType($store);
+        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
-            case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
+            case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
                 $requiredAddress = $salesModel->getShippingAddress();
                 break;
             default:
@@ -232,16 +232,16 @@ class Mage_Sales_Model_Observer
     /**
      * Retrieve customer address (default billing or default shipping) ID on which tax calculation must be based
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param Magento_Core_Model_Store|string|int|null $store
      * @return int|string
      */
-    protected function _getVatRequiredCustomerAddress(Mage_Customer_Model_Customer $customer, $store = null)
+    protected function _getVatRequiredCustomerAddress(Magento_Customer_Model_Customer $customer, $store = null)
     {
-        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType($store);
+        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
-            case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
+            case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
                 $requiredAddress = $customer->getDefaultShipping();
                 break;
             default:
@@ -257,8 +257,8 @@ class Mage_Sales_Model_Observer
      */
     public function changeQuoteCustomerGroupId(Magento_Event_Observer $observer)
     {
-        /** @var $addressHelper Mage_Customer_Helper_Address */
-        $addressHelper = Mage::helper('Mage_Customer_Helper_Address');
+        /** @var $addressHelper Magento_Customer_Helper_Address */
+        $addressHelper = Mage::helper('Magento_Customer_Helper_Address');
 
         $quoteAddress = $observer->getQuoteAddress();
         $quoteInstance = $quoteAddress->getQuote();
@@ -266,25 +266,25 @@ class Mage_Sales_Model_Observer
 
         $storeId = $customerInstance->getStore();
 
-        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType($storeId);
+        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($storeId);
 
         // When VAT is based on billing address then Magento have to handle only billing addresses
-        $additionalBillingAddressCondition = ($configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_BILLING)
+        $additionalBillingAddressCondition = ($configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_BILLING)
             ? $configAddressType != $quoteAddress->getAddressType() : false;
         // Handle only addresses that corresponds to VAT configuration
         if (!$addressHelper->isVatValidationEnabled($storeId) || $additionalBillingAddressCondition) {
             return;
         }
 
-        /** @var $customerHelper Mage_Customer_Helper_Data */
-        $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
+        /** @var $customerHelper Magento_Customer_Helper_Data */
+        $customerHelper = Mage::helper('Magento_Customer_Helper_Data');
 
         $customerCountryCode = $quoteAddress->getCountryId();
         $customerVatNumber = $quoteAddress->getVatId();
 
         if (empty($customerVatNumber) || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
             $groupId = ($customerInstance->getId()) ? $customerHelper->getDefaultCustomerGroupId($storeId)
-                : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+                : Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
             $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
             $customerInstance->setGroupId($groupId);
@@ -349,10 +349,10 @@ class Mage_Sales_Model_Observer
     public function restoreQuoteCustomerGroupId($observer)
     {
         $quoteAddress = $observer->getQuoteAddress();
-        $configAddressType = Mage::helper('Mage_Customer_Helper_Address')->getTaxCalculationAddressType();
+        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
         if ($quoteAddress->hasPrevQuoteCustomerGroupId()
-            && $configAddressType == Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING
+            && $configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING
         ) {
             $quoteAddress->getQuote()->setCustomerGroupId($quoteAddress->getPrevQuoteCustomerGroupId());
             $quoteAddress->unsPrevQuoteCustomerGroupId();

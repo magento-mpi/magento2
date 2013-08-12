@@ -12,7 +12,7 @@
         <label>Customer My Account Newsletter Subscriptions</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_Customer_Block_Newsletter" name="customer_newsletter">
+            <block type="Magento_Customer_Block_Newsletter" name="customer_newsletter">
                 <container name="customer.newsletter.form.before" as="form_before" label="Newsletter Subscription Form Before"/>
             </block>
         </reference>

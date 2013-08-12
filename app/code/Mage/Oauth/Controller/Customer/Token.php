@@ -22,7 +22,7 @@ class Mage_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Front
     /**
      * Customer session model
      *
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_session;
 
@@ -31,7 +31,7 @@ class Mage_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Front
      *
      * @var string
      */
-    protected $_sessionName = 'Mage_Customer_Model_Session';
+    protected $_sessionName = 'Magento_Customer_Model_Session';
 
     /**
      * Check authentication

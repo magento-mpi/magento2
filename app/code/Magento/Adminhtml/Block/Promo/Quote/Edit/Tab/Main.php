@@ -128,7 +128,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             $field->setRenderer($renderer);
         }
 
-        $customerGroups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')->load()->toOptionArray();
+        $customerGroups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->load()->toOptionArray();
         $found = false;
 
         foreach ($customerGroups as $group) {
@@ -148,7 +148,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Customer Groups'),
             'title'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Customer Groups'),
             'required'  => true,
-            'values'    => Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')->toOptionArray(),
+            'values'    => Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->toOptionArray(),
         ));
 
         $couponTypeFiled = $fieldset->addField('coupon_type', 'select', array(

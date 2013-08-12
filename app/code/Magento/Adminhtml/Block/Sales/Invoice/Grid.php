@@ -94,7 +94,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Amount'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Amount'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'align'     => 'right',

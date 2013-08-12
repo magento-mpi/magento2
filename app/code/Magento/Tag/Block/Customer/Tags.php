@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Tag_Block_Customer_Tags extends Mage_Customer_Block_Account_Dashboard
+class Magento_Tag_Block_Customer_Tags extends Magento_Customer_Block_Account_Dashboard
 {
     protected $_tags;
     protected $_minPopularity;
@@ -30,7 +30,7 @@ class Magento_Tag_Block_Customer_Tags extends Mage_Customer_Block_Account_Dashbo
             $tags = Mage::getResourceModel('Magento_Tag_Model_Resource_Tag_Collection')
                 ->addPopularity(null, Mage::app()->getStore()->getId())
                 ->setOrder('popularity', 'DESC')
-                ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->setActiveFilter()
                 ->load()
                 ->getItems();

@@ -241,7 +241,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
         if ($customerGroupId === null) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();

@@ -25,8 +25,8 @@ class Magento_Adminhtml_Block_Customer_Group extends Magento_Adminhtml_Block_Wid
     protected function _construct()
     {
         $this->_controller = 'customer_group';
-        $this->_headerText = Mage::helper('Mage_Customer_Helper_Data')->__('Customer Groups');
-        $this->_addButtonLabel = Mage::helper('Mage_Customer_Helper_Data')->__('Add New Customer Group');
+        $this->_headerText = Mage::helper('Magento_Customer_Helper_Data')->__('Customer Groups');
+        $this->_addButtonLabel = Mage::helper('Magento_Customer_Helper_Data')->__('Add New Customer Group');
         parent::_construct();
     }
 

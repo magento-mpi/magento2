@@ -18,13 +18,13 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testDeleteProduct()
     {
         Mage::register('isSecureArea', true);
 
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         $customer->setWebsiteId(1);
         $customer->loadByEmail('customer@example.com');
 

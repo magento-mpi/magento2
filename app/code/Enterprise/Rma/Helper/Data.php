@@ -159,7 +159,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getReturnCreateUrl($order)
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return Mage::getUrl('rma/return/create', array('order_id' => $order->getId()));
         } else {
             return Mage::getUrl('rma/guest/create', array('order_id' => $order->getId()));
@@ -188,7 +188,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if (!$format) {
-            $path = sprintf('%s%s', Mage_Customer_Model_Address_Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
+            $path = sprintf('%s%s', Magento_Customer_Model_Address_Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
             $format = Mage::getStoreConfig($path, $storeId);
         }
 

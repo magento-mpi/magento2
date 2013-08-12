@@ -21,7 +21,7 @@ class Enterprise_CustomerBalance_Block_Account_Balance extends Magento_Core_Bloc
      */
     public function getBalance()
     {
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         if (!$customerId) {
             return 0;
         }

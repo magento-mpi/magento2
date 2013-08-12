@@ -97,7 +97,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit customers collection
      *
-     * @param Mage_Customer_Model_Resource_Customer_Collection $collection
+     * @param Magento_Customer_Model_Resource_Customer_Collection $collection
      */
     public function limitCustomers($collection)
     {

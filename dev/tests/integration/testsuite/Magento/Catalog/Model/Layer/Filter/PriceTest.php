@@ -111,7 +111,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetSetCustomerGroupId()
     {
-        $this->assertEquals(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
+        $this->assertEquals(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
 
         $customerGroupId = 123;
         $this->_model->setCustomerGroupId($customerGroupId);

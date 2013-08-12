@@ -101,12 +101,12 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve customer group collection
      *
-     * @return Mage_Customer_Model_Resource_Group_Collection
+     * @return Magento_Customer_Model_Resource_Group_Collection
      */
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
+            $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
             $this->setData('customer_group_collection', $collection);
         }
 

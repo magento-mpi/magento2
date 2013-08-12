@@ -24,7 +24,7 @@ class Magento_Rss_Block_Abstract extends Magento_Core_Block_Template
         //customer group id
         $custGroupID =   (int) $this->getRequest()->getParam('cid');
         if($custGroupID == null) {
-            $custGroupID = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $custGroupID = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         return $custGroupID;
     }

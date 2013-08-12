@@ -28,7 +28,7 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'collection',
-                'to'    => 'Mage_Customer_Model_Resource_Attribute_Collection',
+                'to'    => 'Magento_Customer_Model_Resource_Attribute_Collection',
                 'from'  => array('`collection` = ?' => 'customer/attribute_collection')
             ),
         ),
@@ -37,7 +37,7 @@ return array(
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE => array(
-                'customer/attribute_collection' => 'Mage_Customer_Model_Resource_Attribute_Collection'
+                'customer/attribute_collection' => 'Magento_Customer_Model_Resource_Attribute_Collection'
             ),
         )
     ),

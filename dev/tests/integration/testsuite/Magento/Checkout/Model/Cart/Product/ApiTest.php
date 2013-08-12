@@ -81,7 +81,7 @@ class Magento_Checkout_Model_Cart_Product_ApiTest extends Magento_Checkout_Model
      * Test quote item moving from inactive quote to active customer quote.
      *
      * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDbIsolation enabled
      * @magentoConfigIsolation enabled
      */

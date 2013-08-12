@@ -21,7 +21,7 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
     /**
      * @var int
      */
-    protected $_customerGroupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {

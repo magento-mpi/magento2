@@ -38,8 +38,8 @@ class Enterprise_Pbridge_Controller_Payment_Profile extends Magento_Core_Control
      */
     public function indexAction()
     {
-        if(!Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
+        if(!Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
+            Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this);
             return;
         }
 

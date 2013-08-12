@@ -128,14 +128,14 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Customer')) {
+            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
-            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
+            $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
             $this->_customerGroups = $this->_getInitialCustomerGroups();
 
             foreach ($collection as $item) {
-                /** @var $item Mage_Customer_Model_Group */
+                /** @var $item Magento_Customer_Model_Group */
                 $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
             }
         }
@@ -228,7 +228,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
      */
     public function getDefaultCustomerGroup()
     {
-        return Mage_Customer_Model_Group::CUST_GROUP_ALL;
+        return Magento_Customer_Model_Group::CUST_GROUP_ALL;
     }
 
     /**

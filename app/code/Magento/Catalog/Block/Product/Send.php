@@ -26,12 +26,12 @@ class Magento_Catalog_Block_Product_Send extends Magento_Catalog_Block_Product_A
      */
     public function getUserName()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getName();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getName();
     }
 
     public function getEmail()
     {
-        return (string)Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getEmail();
+        return (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getEmail();
     }
 
     public function getProductId()

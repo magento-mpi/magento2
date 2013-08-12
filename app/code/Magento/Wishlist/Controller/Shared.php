@@ -47,7 +47,7 @@ class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abs
     public function indexAction()
     {
         $wishlist   = $this->_getWishlist();
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
 
         if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
             $this->_redirectUrl(Mage::helper('Magento_Wishlist_Helper_Data')->getListUrl($wishlist->getId()));

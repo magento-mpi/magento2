@@ -22,7 +22,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
     {
         $tagId = (int) $this->getRequest()->getParam('tagId');
         if ($tagId) {
-            $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+            $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
             $model = Mage::getModel('Magento_Tag_Model_Tag_Relation');
             $model->loadByTagCustomer(null, $tagId, $customerId);
             Mage::register('tagModel', $model);
@@ -33,8 +33,8 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
 
     public function indexAction()
     {
-        if( !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() ) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
+        if( !Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn() ) {
+            Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this);
             return;
         }
 
@@ -58,8 +58,8 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
 
     public function viewAction()
     {
-        if( !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() ) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
+        if( !Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn() ) {
+            Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this);
             return;
         }
 
@@ -85,8 +85,8 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
 
     public function removeAction()
     {
-        if( !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn() ) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
+        if( !Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn() ) {
+            Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this);
             return;
         }
 

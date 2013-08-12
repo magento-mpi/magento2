@@ -32,11 +32,11 @@ class Enterprise_Persistent_Model_Observer
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(
+            /** @var $customer Magento_Customer_Model_Customer */
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            Mage::getSingleton('Mage_Customer_Model_Session')
+            Mage::getSingleton('Magento_Customer_Model_Session')
                 ->setCustomerId($customer->getId())
                 ->setCustomerGroupId($customer->getGroupId());
 
@@ -72,7 +72,7 @@ class Enterprise_Persistent_Model_Observer
     public function applyPersistentData($observer)
     {
         if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)
-            || !$this->_isPersistent() || Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            || !$this->_isPersistent() || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         ) {
             return;
         }
@@ -267,8 +267,8 @@ class Enterprise_Persistent_Model_Observer
             return;
         }
 
-        /** @var $customerSession Mage_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        /** @var $customerSession Magento_Customer_Model_Session */
+        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
 
         $helper = Mage::helper('Enterprise_Persistent_Helper_Data');
         if ($helper->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
@@ -444,7 +444,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _isLoggedOut()
     {
-        return $this->_isPersistent() && !Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
+        return $this->_isPersistent() && !Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
     }
 
     /**

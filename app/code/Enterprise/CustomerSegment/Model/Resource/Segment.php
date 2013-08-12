@@ -19,17 +19,17 @@
 class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_Resource_Abstract
 {
     /**
-     * @var Mage_Customer_Model_Config_Share
+     * @var Magento_Customer_Model_Config_Share
      */
     protected $_configShare;
 
     /**
      * @param Magento_Core_Model_Resource $resource
-     * @param Mage_Customer_Model_Config_Share $configShare
+     * @param Magento_Customer_Model_Config_Share $configShare
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
-        Mage_Customer_Model_Config_Share $configShare
+        Magento_Customer_Model_Config_Share $configShare
     ) {
         parent::__construct($resource);
         $this->_configShare = $configShare;

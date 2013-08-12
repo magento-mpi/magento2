@@ -42,8 +42,8 @@ class Magento_CatalogInventory_Helper_Minsaleqty
                     $data[$groupId] = $this->_fixQty($qty);
                 }
             }
-            if (count($data) == 1 && array_key_exists(Mage_Customer_Model_Group::CUST_GROUP_ALL, $data)) {
-                return (string)$data[Mage_Customer_Model_Group::CUST_GROUP_ALL];
+            if (count($data) == 1 && array_key_exists(Magento_Customer_Model_Group::CUST_GROUP_ALL, $data)) {
+                return (string)$data[Magento_Customer_Model_Group::CUST_GROUP_ALL];
             }
             return serialize($data);
         } else {
@@ -61,7 +61,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     {
         if (is_numeric($value)) {
             return array(
-                Mage_Customer_Model_Group::CUST_GROUP_ALL => $this->_fixQty($value)
+                Magento_Customer_Model_Group::CUST_GROUP_ALL => $this->_fixQty($value)
             );
         } else if (is_string($value) && !empty($value)) {
             return unserialize($value);
@@ -149,7 +149,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else if ($groupId == Mage_Customer_Model_Group::CUST_GROUP_ALL) {
+            } else if ($groupId == Magento_Customer_Model_Group::CUST_GROUP_ALL) {
                 $result = $qty;
             }
         }

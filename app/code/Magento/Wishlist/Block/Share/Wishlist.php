@@ -21,7 +21,7 @@ class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstr
     /**
      * Customer instance
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer = null;
 
@@ -45,12 +45,12 @@ class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstr
     /**
      * Retrieve Shared Wishlist Customer instance
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getWishlistCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')
+            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
                 ->load($this->_getWishlist()->getCustomerId());
         }
 

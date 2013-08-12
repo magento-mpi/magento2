@@ -28,7 +28,7 @@ class Mage_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Persistent customer
      *
-     * @var null|Mage_Customer_Model_Customer
+     * @var null|Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -112,13 +112,13 @@ class Mage_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Return persistent customer
      *
-     * @return Mage_Customer_Model_Customer|bool
+     * @return Magento_Customer_Model_Customer|bool
      */
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
         }
         return $this->_customer;
     }

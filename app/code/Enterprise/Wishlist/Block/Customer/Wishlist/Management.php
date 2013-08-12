@@ -57,7 +57,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+            $this->_customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         }
         return $this->_customerId;
     }

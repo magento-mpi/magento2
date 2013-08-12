@@ -23,8 +23,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
-        /** @var $model Mage_Customer_Model_Attribute */
-        $model = Mage::getModel('Mage_Customer_Model_Attribute');
+        /** @var $model Magento_Customer_Model_Attribute */
+        $model = Mage::getModel('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 

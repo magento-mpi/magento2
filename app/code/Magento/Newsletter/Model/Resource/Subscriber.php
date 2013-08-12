@@ -93,10 +93,10 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     /**
      * Load subscriber by customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return array
      */
-    public function loadByCustomer(Mage_Customer_Model_Customer $customer)
+    public function loadByCustomer(Magento_Customer_Model_Customer $customer)
     {
         $select = $this->_read->select()
             ->from($this->getMainTable())

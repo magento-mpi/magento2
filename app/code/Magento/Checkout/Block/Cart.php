@@ -92,7 +92,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
             $isActive = Mage::getStoreConfig('wishlist/general/active')
-                && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
+                && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;

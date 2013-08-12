@@ -26,7 +26,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $this->_title($this->__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         if ($customerId) {
             $customer->load($customerId);
         }
@@ -51,7 +51,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         /**
          * Set active menu item
          */
-        $this->_setActiveMenu('Mage_Customer::customer_manage');
+        $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /**
          * Append customers block to content
@@ -87,9 +87,9 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     {
         $this->_initCustomer();
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Customer::customer_manage');
+        $this->_setActiveMenu('Magento_Customer::customer_manage');
 
-        /* @var $customer Mage_Customer_Model_Customer */
+        /* @var $customer Magento_Customer_Model_Customer */
         $customer = Mage::registry('current_customer');
 
         // set entered data if was error when we do save
@@ -101,8 +101,8 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             $request->setParams($data);
 
             if (isset($data['account'])) {
-                /* @var $customerForm Mage_Customer_Model_Form */
-                $customerForm = Mage::getModel('Mage_Customer_Model_Form');
+                /* @var $customerForm Magento_Customer_Model_Form */
+                $customerForm = Mage::getModel('Magento_Customer_Model_Form');
                 $customerForm->setEntity($customer)
                     ->setFormCode('adminhtml_customer')
                     ->setIsAjaxRequest(true);
@@ -111,8 +111,8 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             }
 
             if (isset($data['address']) && is_array($data['address'])) {
-                /* @var $addressForm Mage_Customer_Model_Form */
-                $addressForm = Mage::getModel('Mage_Customer_Model_Form');
+                /* @var $addressForm Magento_Customer_Model_Form */
+                $addressForm = Mage::getModel('Magento_Customer_Model_Form');
                 $addressForm->setFormCode('adminhtml_customer_address');
 
                 foreach (array_keys($data['address']) as $addressId) {
@@ -122,7 +122,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
-                        $address = Mage::getModel('Mage_Customer_Model_Address');
+                        $address = Mage::getModel('Magento_Customer_Model_Address');
                         $address->setId($addressId);
                         $customer->addAddress($address);
                     }
@@ -148,7 +148,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         /**
          * Set active menu item
          */
-        $this->_setActiveMenu('Mage_Customer::customer');
+        $this->_setActiveMenu('Magento_Customer::customer');
 
         $this->renderLayout();
     }
@@ -210,16 +210,16 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
                     ));
                 };
 
-                /** @var Mage_Customer_Service_Customer $customerService */
-                $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
+                /** @var Magento_Customer_Service_Customer $customerService */
+                $customerService = $this->_objectManager->get('Magento_Customer_Service_Customer');
                 $customerService->setIsAdminStore(true);
                 $customerService->setBeforeSaveCallback($beforeSaveCallback);
                 $customerService->setAfterSaveCallback($afterSaveCallback);
                 if ($customerId) {
-                    /** @var Mage_Customer_Model_Customer $customer */
+                    /** @var Magento_Customer_Model_Customer $customer */
                     $customer = $customerService->update($customerId, $accountData, $addressesData);
                 } else {
-                    /** @var Mage_Customer_Model_Customer $customer */
+                    /** @var Magento_Customer_Model_Customer $customer */
                     $customer = $customerService->create($accountData, $addressesData);
                 }
 
@@ -269,15 +269,15 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             return $this->_redirect('*/customer');
         }
 
-        /** @var Mage_Customer_Model_Customer $customer */
-        $customer = $this->_objectManager->create('Mage_Customer_Model_Customer');
+        /** @var Magento_Customer_Model_Customer $customer */
+        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
         $customer->load($customerId);
         if (!$customer->getId()) {
             return $this->_redirect('*/customer');
         }
 
         try {
-            $newPasswordToken = $this->_objectManager->get('Mage_Customer_Helper_Data')
+            $newPasswordToken = $this->_objectManager->get('Magento_Customer_Helper_Data')
                 ->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newPasswordToken);
             $resetUrl = $this->_objectManager->create('Magento_Core_Model_Url')
@@ -333,10 +333,10 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             $serviceAttributes = array(
                 'new_password', 'default_billing', 'default_shipping', 'confirmation', 'sendemail');
 
-            /** @var Mage_Customer_Model_Customer $customerEntity */
-            $customerEntity = $this->_objectManager->get('Mage_Customer_Model_CustomerFactory')->create();
-            /** @var Mage_Customer_Helper_Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
+            /** @var Magento_Customer_Model_Customer $customerEntity */
+            $customerEntity = $this->_objectManager->get('Magento_Customer_Model_CustomerFactory')->create();
+            /** @var Magento_Customer_Helper_Data $customerHelper */
+            $customerHelper = $this->_objectManager->get('Magento_Customer_Helper_Data');
             $customerData = $customerHelper->extractCustomerData(
                 $this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes, 'account'
             );
@@ -372,14 +372,14 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
                 unset($addresses['_template_']);
             }
 
-            /** @var Mage_Customer_Model_Address_Form $eavForm */
-            $eavForm = $this->_objectManager->create('Mage_Customer_Model_Address_Form');
-            /** @var Mage_Customer_Model_Address $addressEntity */
-            $addressEntity = $this->_objectManager->get('Mage_Customer_Model_AddressFactory')->create();
+            /** @var Magento_Customer_Model_Address_Form $eavForm */
+            $eavForm = $this->_objectManager->create('Magento_Customer_Model_Address_Form');
+            /** @var Magento_Customer_Model_Address $addressEntity */
+            $addressEntity = $this->_objectManager->get('Magento_Customer_Model_AddressFactory')->create();
 
             $addressIdList = array_keys($addresses);
-            /** @var Mage_Customer_Helper_Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
+            /** @var Magento_Customer_Helper_Data $customerHelper */
+            $customerHelper = $this->_objectManager->get('Magento_Customer_Helper_Data');
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
                 $addressData = $customerHelper->extractCustomerData(
@@ -597,7 +597,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
      * Customer validation
      *
      * @param Magento_Object $response
-     * @return Mage_Customer_Model_Customer|null
+     * @return Magento_Customer_Model_Customer|null
      */
     protected function _validateCustomer($response)
     {
@@ -605,15 +605,15 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $errors = null;
 
         try {
-            /** @var Mage_Customer_Model_Customer $customer */
-            $customer = $this->_objectManager->create('Mage_Customer_Model_Customer');
+            /** @var Magento_Customer_Model_Customer $customer */
+            $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
             $customerId = $this->getRequest()->getParam('id');
             if ($customerId) {
                 $customer->load($customerId);
             }
 
-            /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = $this->_objectManager->get('Mage_Customer_Model_Form');
+            /* @var $customerForm Magento_Customer_Model_Form */
+            $customerForm = $this->_objectManager->get('Magento_Customer_Model_Form');
             $customerForm->setEntity($customer)
                 ->setFormCode('adminhtml_customer')
                 ->setIsAjaxRequest(true)
@@ -653,14 +653,14 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
      * Customer address validation.
      *
      * @param Magento_Object $response
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      */
     protected function _validateCustomerAddress($response, $customer)
     {
         $addressesData = $this->getRequest()->getParam('address');
         if (is_array($addressesData)) {
-            /* @var $addressForm Mage_Customer_Model_Form */
-            $addressForm = Mage::getModel('Mage_Customer_Model_Form');
+            /* @var $addressForm Magento_Customer_Model_Form */
+            $addressForm = Mage::getModel('Magento_Customer_Model_Form');
             $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
@@ -668,7 +668,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
                 }
                 $address = $customer->getAddressItemById($index);
                 if (!$address) {
-                    $address   = Mage::getModel('Mage_Customer_Model_Address');
+                    $address   = Mage::getModel('Magento_Customer_Model_Address');
                 }
 
                 $requestScope = sprintf('address/%s', $index);
@@ -699,7 +699,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+                    $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
@@ -726,7 +726,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+                    $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
@@ -753,7 +753,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
              );
         } else {
             try {
-                $customer = Mage::getModel('Mage_Customer_Model_Customer');
+                $customer = Mage::getModel('Magento_Customer_Model_Customer');
                 foreach ($customersIds as $customerId) {
                     $customer->reset()
                         ->load($customerId)
@@ -783,7 +783,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+                    $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }
@@ -875,7 +875,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Magento_Customer::manage');
     }
 
     /**

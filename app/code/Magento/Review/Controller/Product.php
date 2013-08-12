@@ -36,12 +36,12 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
 
         $action = $this->getRequest()->getActionName();
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
-            if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
                 Mage::getSingleton('Magento_Review_Model_Session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
+                $this->_redirectUrl(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
             }
         }
 
@@ -161,7 +161,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                     $review->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())
                         ->setStatusId(Magento_Review_Model_Review::STATUS_PENDING)
-                        ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                        ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                         ->setStoreId(Mage::app()->getStore()->getId())
                         ->setStores(array(Mage::app()->getStore()->getId()))
                         ->save();
@@ -170,7 +170,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                         Mage::getModel('Magento_Rating_Model_Rating')
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
-                        ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                        ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                         ->addOptionVote($optionId, $product->getId());
                     }
 

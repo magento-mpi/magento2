@@ -39,7 +39,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Customer model
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -123,17 +123,17 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+        $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
         return $this;
     }
 
     /**
      * Set customer model
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Magento_ProductAlert_Model_Email
      */
-    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    public function setCustomer(Magento_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
         return $this;

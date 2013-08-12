@@ -48,38 +48,38 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Order'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Order'),
             'width'     => '100',
             'index'     => 'increment_id',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Purchase Date'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Purchase Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         /*$this->addColumn('shipping_firstname', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Shipped to First Name'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Shipped to First Name'),
             'index'     => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Shipped to Last Name'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Shipped to Last Name'),
             'index'     => 'shipping_lastname',
         ));*/
         $this->addColumn('billing_name', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Bill-to Name'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Bill-to Name'),
             'index'     => 'billing_name',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Ship-to Name'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Ship-to Name'),
             'index'     => 'shipping_name',
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Order Total'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Order Total'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',
@@ -87,7 +87,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Purchase Point'),
+                'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Purchase Point'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view' => true

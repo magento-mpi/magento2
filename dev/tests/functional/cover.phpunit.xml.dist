@@ -28,7 +28,7 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/CheckoutOnePage</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/CheckoutMultipleAddresses</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
+            <directory suffix="Test.php">testsuite/Core/Magento/Customer</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/CmsPages</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/CmsPolls</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/CmsStaticBlocks</directory>

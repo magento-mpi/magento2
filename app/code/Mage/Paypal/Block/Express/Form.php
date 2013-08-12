@@ -36,7 +36,7 @@ class Mage_Paypal_Block_Express_Form extends Mage_Paypal_Block_Standard_Form
      */
     protected function _beforeToHtml()
     {
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         if (Mage::helper('Mage_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($this->_config, $customerId)
              && $this->canCreateBillingAgreement()) {
             $this->setCreateBACode(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);

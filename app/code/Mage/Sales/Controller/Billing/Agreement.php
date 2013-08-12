@@ -23,7 +23,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Magento_Core_Controller_Fr
     {
         $this->_title($this->__('Billing Agreements'));
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->renderLayout();
     }
 
@@ -55,7 +55,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Magento_Core_Controller_Fr
         $this->_title($this->__('Billing Agreements'))
             ->_title($this->__('Billing Agreement # %s', $agreement->getReferenceId()));
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/billing_agreement/');
@@ -104,7 +104,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Magento_Core_Controller_Fr
                 $agreement->setStoreId(Mage::app()->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
-                    ->setCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer())
+                    ->setCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer())
                     ->place();
                 $this->_getSession()->addSuccess(
                     $this->__('The billing agreement "%s" has been created.', $agreement->getReferenceId())
@@ -175,10 +175,10 @@ class Mage_Sales_Controller_Billing_Agreement extends Magento_Core_Controller_Fr
     /**
      * Retrieve customer session model
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 }

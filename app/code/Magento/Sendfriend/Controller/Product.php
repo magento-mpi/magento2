@@ -29,8 +29,8 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
 
         /* @var $helper Magento_Sendfriend_Helper_Data */
         $helper = Mage::helper('Magento_Sendfriend_Helper_Data');
-        /* @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        /* @var $session Magento_Customer_Model_Session */
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
 
         if (!$helper->isEnabled()) {
             $this->norouteAction();

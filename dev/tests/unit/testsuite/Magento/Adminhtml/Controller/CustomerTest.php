@@ -166,7 +166,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
 
         $this->_objectManager->expects($this->any())
             ->method('create')
-            ->with($this->equalTo('Mage_Customer_Model_Customer'))
+            ->with($this->equalTo('Magento_Customer_Model_Customer'))
             ->will($this->returnValue($customerMock));
 
         $this->_helper->expects($this->any())
@@ -203,7 +203,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
         $customerMock->expects($this->once())
             ->method('sendPasswordReminderEmail');
 
-        $customerHelperMock = $this->getMockBuilder('Mage_Customer_Helper_Data')
+        $customerHelperMock = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('generateResetPasswordLinkToken'))
             ->getMock();
@@ -219,12 +219,12 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
 
         $this->_objectManager->expects($this->at(0))
             ->method('create')
-            ->with($this->equalTo('Mage_Customer_Model_Customer'))
+            ->with($this->equalTo('Magento_Customer_Model_Customer'))
             ->will($this->returnValue($customerMock));
 
         $this->_objectManager->expects($this->at(1))
             ->method('get')
-            ->with($this->equalTo('Mage_Customer_Helper_Data'))
+            ->with($this->equalTo('Magento_Customer_Helper_Data'))
             ->will($this->returnValue($customerHelperMock));
 
         $this->_objectManager->expects($this->at(2))
@@ -243,11 +243,11 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
      *
      * @param int $customerId
      * @param null|int $returnId
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Customer_Model_Customer
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Customer_Model_Customer
      */
     protected function _getCustomerMock($customerId, $returnId = null)
     {
-        $customerMock = $this->getMockBuilder('Mage_Customer_Model_Customer')
+        $customerMock = $this->getMockBuilder('Magento_Customer_Model_Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
                 'sendPasswordReminderEmail'))

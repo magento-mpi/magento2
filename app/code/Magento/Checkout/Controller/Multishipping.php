@@ -90,7 +90,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
         }
 
         if (!in_array($action, array('login', 'register'))) {
-            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
             if (!$customerSession->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             }
@@ -143,13 +143,13 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     public function loginAction()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
         // set account create url
         $loginForm = $this->getLayout()->getBlock('customer_form_login');
@@ -164,13 +164,13 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
      */
     public function registerAction()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             $this->_redirectUrl($this->_getHelper()->getMSCheckoutUrl());
             return;
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
         $registerForm = $this->getLayout()->getBlock('customer_form_register');
         if ($registerForm) {
@@ -206,7 +206,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
             $this->_getCheckout()->getCheckoutSession()->addNotice($message);
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->_initLayoutMessages('Magento_Checkout_Model_Session');
         $this->renderLayout();
     }
@@ -309,7 +309,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
             Magento_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING
         );
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->_initLayoutMessages('Magento_Checkout_Model_Session');
         $this->renderLayout();
     }
@@ -370,7 +370,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
         );
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->_initLayoutMessages('Magento_Checkout_Model_Session');
         $this->renderLayout();
     }
@@ -429,7 +429,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
 
             $this->loadLayout();
             $this->_initLayoutMessages('Magento_Checkout_Model_Session');
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $this->renderLayout();
         } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
@@ -532,7 +532,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        Mage::getSingleton('Mage_Customer_Model_Session')
+        Mage::getSingleton('Magento_Customer_Model_Session')
             ->setBeforeAuthUrl(Mage::getUrl('*/*', array('_secure' => true)));
 
         $this->getResponse()->setRedirect(

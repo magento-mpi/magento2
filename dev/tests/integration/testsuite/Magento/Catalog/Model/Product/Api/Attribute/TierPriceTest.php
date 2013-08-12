@@ -41,12 +41,12 @@ class Magento_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_
                 'productId' => $this->_product->getId(),
                 'tierPrices' => array(
                     (object)array(
-                        'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
+                        'customer_group_id' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
                         'qty' => 3,
                         'price' => 0.88,
                     ),
                     (object)array(
-                        'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
+                        'customer_group_id' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
                         'qty' => 5,
                         'price' => 0.77,
                     )

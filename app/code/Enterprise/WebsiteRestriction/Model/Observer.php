@@ -62,14 +62,14 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
                 // redirect to landing page/login
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
-                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Mage_Customer_Helper_Data')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Magento_Customer_Helper_Data')->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
                             ->getNode(Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
-                        if (Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) {
+                        if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
                             foreach(array_keys(Mage::getConfig()
                                 ->getNode(
                                     Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
@@ -107,9 +107,9 @@ class Enterprise_WebsiteRestriction_Model_Observer
                             $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                         }
                         if (Mage::getStoreConfigFlag(
-                            Mage_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
+                            Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
-                            $afterLoginUrl = Mage::helper('Mage_Customer_Helper_Data')->getDashboardUrl();
+                            $afterLoginUrl = Mage::helper('Magento_Customer_Helper_Data')->getDashboardUrl();
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }

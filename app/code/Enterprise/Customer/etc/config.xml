@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Adminhtml />
-                <Mage_Customer />
+                <Magento_Customer />
             </depends>
         </Enterprise_Customer>
     </modules>

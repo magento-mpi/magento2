@@ -8,10 +8,10 @@
 //Set up customer fixture
 Mage::app()->loadArea('adminhtml');
 require 'customer.php';
-/** @var $customer Mage_Customer_Model_Customer */
+/** @var $customer Magento_Customer_Model_Customer */
 //Set up customer address fixture
 $customer = Mage::registry('customer');
-/** @var $customerAddress Mage_Customer_Model_Address */
+/** @var $customerAddress Magento_Customer_Model_Address */
 $customerAddress = Mage::registry('customer_address');
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');

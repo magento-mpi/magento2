@@ -7,7 +7,7 @@
  */
 
 //Add customer
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')

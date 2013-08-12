@@ -32,8 +32,8 @@ class Magento_Reports_Model_Event_Observer
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {
         if (is_null($subjectId)) {
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
                 $subjectId = $customer->getId();
             }
             else {
@@ -63,12 +63,12 @@ class Magento_Reports_Model_Event_Observer
      */
     public function customerLogin(Magento_Event_Observer $observer)
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return $this;
         }
 
         $visitorId  = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         $eventModel = Mage::getModel('Magento_Reports_Model_Event');
         $eventModel->updateCustomerType($visitorId, $customerId);
 

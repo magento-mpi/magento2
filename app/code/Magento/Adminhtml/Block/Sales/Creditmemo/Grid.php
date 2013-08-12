@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Creditmemo_Grid extends Magento_Adminhtml_Bl
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Refunded'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Refunded'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',

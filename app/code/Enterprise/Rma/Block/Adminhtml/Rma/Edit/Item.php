@@ -35,7 +35,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Blo
             $this->_populateItemWithProductData($item);
         }
 
-        /* @var $customerForm Mage_Customer_Model_Form */
+        /* @var $customerForm Magento_Customer_Model_Form */
         $customerForm = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $customerForm->setEntity($item)
             ->setFormCode('default')

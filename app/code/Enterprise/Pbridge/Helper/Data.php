@@ -222,7 +222,7 @@ class Enterprise_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $params = $this->getRequestParams($params);
         $params['action'] = self::PAYMENT_GATEWAY_PAYMENT_PROFILE_ACTION;
-        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         $params['customer_name'] = $customer->getName();
         $params['customer_email'] = $customer->getEmail();
         return $this->_prepareRequestUrl($params, true);

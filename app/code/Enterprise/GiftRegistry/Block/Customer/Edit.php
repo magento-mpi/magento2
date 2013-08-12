@@ -44,7 +44,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
      */
     public function getFormDataPost()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
     }
 
     /**

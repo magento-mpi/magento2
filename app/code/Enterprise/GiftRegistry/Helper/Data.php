@@ -119,7 +119,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $result = array();
         $entityCollection = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
-            ->filterByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+            ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             ->filterByIsActive(1);
 
         if (count($entityCollection)) {

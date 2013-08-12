@@ -30,10 +30,10 @@ class Magento_Wishlist_Model_Resource_Wishlist_Collection extends Magento_Core_M
     /**
      * Filter collection by customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
-    public function filterByCustomer(Mage_Customer_Model_Customer $customer)
+    public function filterByCustomer(Magento_Customer_Model_Customer $customer)
     {
         return $this->filterByCustomerId($customer->getId());
     }

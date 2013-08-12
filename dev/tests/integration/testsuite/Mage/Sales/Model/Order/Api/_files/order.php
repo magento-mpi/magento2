@@ -8,7 +8,7 @@
 Mage::app()->loadArea('frontend');
 //Set up customer fixture
 require 'customer.php';
-/** @var $customer Mage_Customer_Model_Customer */
+/** @var $customer Magento_Customer_Model_Customer */
 $customer = Mage::registry('customer');
 //Set up virtual product fixture
 require 'product_virtual.php';

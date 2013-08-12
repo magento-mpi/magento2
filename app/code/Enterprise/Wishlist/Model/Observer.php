@@ -25,7 +25,7 @@ class Enterprise_Wishlist_Model_Observer
     {
         if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
             $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
-                ->addCustomerIdFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->addCustomerIdFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->setVisibilityFilter()
                 ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();

@@ -85,7 +85,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            foreach (Mage::getModel('Mage_Customer_Model_Group')->getCollection() as $group) {
+            foreach (Mage::getModel('Magento_Customer_Model_Group')->getCollection() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }
@@ -195,7 +195,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
 
             /* @var $website Magento_Core_Model_Website */
             foreach ($this->_getCustomerGroups() as $group) {
-                /* @var $group Mage_Customer_Model_Group */
+                /* @var $group Magento_Customer_Model_Group */
                 if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
                     $basePrice     = $this->_getBasePrice($productId, $priceData, $website, $group);
                     $customOptions = $this->getCustomOptions($productId, $website);
@@ -462,7 +462,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
      * @param int $productId
      * @param array $priceData
      * @param Magento_Core_Model_Website $website
-     * @param Mage_Customer_Model_Group $customerGroup
+     * @param Magento_Customer_Model_Group $customerGroup
      * @return float
      */
     protected function _getBasePrice($productId, array $priceData, $website, $customerGroup)
@@ -677,7 +677,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
      * @param array $priceData
      * @param array $priceIndex
      * @param Magento_Core_Model_Website $website
-     * @param Mage_Customer_Model_Group $group
+     * @param Magento_Customer_Model_Group $group
      * @return array
      */
     public function _calculateBundleSelections(array $options, array $salableStatus, $productId, $priceType, $basePrice,

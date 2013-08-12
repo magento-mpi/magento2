@@ -594,12 +594,12 @@ class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Res
         if (Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             $customer = Mage::registry('segment_customer');
             if (!$customer) {
-                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+                $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
             }
             $websiteId = Mage::app()->getWebsite()->getId();
 
             if (!$customer->getId()) {
-                $allSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
+                $allSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
                 if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }

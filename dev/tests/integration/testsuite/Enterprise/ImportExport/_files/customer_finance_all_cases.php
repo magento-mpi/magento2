@@ -13,8 +13,8 @@
 $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
 
 // customer with reward points and customer balance
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -42,8 +42,8 @@ $rewardPoints->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $rewardPoints->save();
 
 // customer with reward points and without customer balance
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -64,8 +64,8 @@ $rewardPoints->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $rewardPoints->save();
 
 // customer without reward points and with customer balance
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -86,8 +86,8 @@ $customerBalance->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customerBalance->save();
 
 // customer without reward points and customer balance
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'

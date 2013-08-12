@@ -62,11 +62,11 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -75,7 +75,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search'));
@@ -124,7 +124,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
             $this->_getSession()->addError(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('We could not perform the search.'));
         }
 
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search'));
@@ -154,7 +154,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->_initLayoutMessages(array('Mage_Customer_Model_Session', 'Magento_Checkout_Model_Session', 'Magento_Wishlist_Model_Session'));
+        $this->_initLayoutMessages(array('Magento_Customer_Model_Session', 'Magento_Checkout_Model_Session', 'Magento_Wishlist_Model_Session'));
         $this->renderLayout();
     }
 

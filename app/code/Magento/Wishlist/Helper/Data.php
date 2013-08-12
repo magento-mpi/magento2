@@ -31,7 +31,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Currently logged in customer
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_currentCustomer = null;
 
@@ -59,11 +59,11 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retreive customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -79,7 +79,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve logged in customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCurrentCustomer()
     {
@@ -89,9 +89,9 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Set current customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      */
-    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    public function setCustomer(Magento_Customer_Model_Customer $customer)
     {
         $this->_currentCustomer = $customer;
     }
@@ -99,7 +99,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current customer
      *
-     * @return Mage_Customer_Model_Customer|null
+     * @return Magento_Customer_Model_Customer|null
      */
     public function getCustomer()
     {

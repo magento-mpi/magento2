@@ -22,10 +22,10 @@ class Magento_Adminhtml_Helper_Addresses extends Magento_Core_Helper_Abstract
     /**
      * Check if number of street lines is non-zero
      *
-     * @param Mage_Customer_Model_Attribute $attribute
-     * @return Mage_Customer_Model_Attribute
+     * @param Magento_Customer_Model_Attribute $attribute
+     * @return Magento_Customer_Model_Attribute
      */
-    public function processStreetAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function processStreetAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         if($attribute->getScopeMultilineCount() <= 0) {
             $attribute->setScopeMultilineCount(self::DEFAULT_STREET_LINES_COUNT);

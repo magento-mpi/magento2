@@ -44,7 +44,7 @@ class Enterprise_Wishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Retrieve current customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {

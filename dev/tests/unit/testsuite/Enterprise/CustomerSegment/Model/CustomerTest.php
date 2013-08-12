@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_Te
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
-            'Mage_Customer_Model_Session', array('getCustomer'), array(), '', false
+            'Magento_Customer_Model_Session', array('getCustomer'), array(), '', false
         );
 
         $this->_resource = $this->getMock(

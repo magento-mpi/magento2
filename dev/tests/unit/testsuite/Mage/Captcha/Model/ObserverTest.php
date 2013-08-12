@@ -42,7 +42,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_customerSession = $this->getMock('Mage_Customer_Model_Session', array(), array(), '', false);
+        $this->_customerSession = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
         $this->_helper = $this->getMock('Mage_Captcha_Helper_Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);

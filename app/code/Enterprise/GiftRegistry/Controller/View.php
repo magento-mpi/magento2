@@ -38,14 +38,14 @@ class Enterprise_GiftRegistry_Controller_View extends Magento_Core_Controller_Fr
             return;
         }
 
-        /** @var Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        /** @var Magento_Customer_Model_Customer */
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
         Mage::register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Info'));
@@ -66,7 +66,7 @@ class Enterprise_GiftRegistry_Controller_View extends Magento_Core_Controller_Fr
         /* @var Magento_Checkout_Model_Cart */
         $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
         /* @var $session Magento_Core_Model_Session_Generic */
-        $session    = Mage::getSingleton('Mage_Customer_Model_Session');
+        $session    = Mage::getSingleton('Magento_Customer_Model_Session');
         $success = false;
 
         try {

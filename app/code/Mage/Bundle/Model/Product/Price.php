@@ -478,7 +478,7 @@ class Mage_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_Type
      */
     public function getTierPrice($qty=null, $product)
     {
-        $allGroups = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {

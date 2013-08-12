@@ -15,7 +15,7 @@
             <version>1.11.0.2</version>
             <active>false</active>
             <depends>
-                <Mage_Customer />
+                <Magento_Customer />
                 <Magento_Checkout />
             </depends>
         </Enterprise_Reward>

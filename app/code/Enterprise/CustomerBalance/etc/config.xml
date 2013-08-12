@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Customer />
+                <Magento_Customer />
             </depends>
         </Enterprise_CustomerBalance>
     </modules>

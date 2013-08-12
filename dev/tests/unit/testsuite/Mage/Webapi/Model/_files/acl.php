@@ -12,7 +12,7 @@ return array(
             array(
                 'id' => 'customer',
                 'title' => 'Manage Customers',
-                'module' => 'Mage_Customer',
+                'module' => 'Magento_Customer',
                 'sortOrder' => 20,
                 'children' => array(
                     array('id' => 'customer/create', 'title' => 'Create Customer', 'sortOrder' => '30'),

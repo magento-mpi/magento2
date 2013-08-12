@@ -79,7 +79,7 @@ class Enterprise_Banner_Block_Widget_Banner
     protected $_checkoutSession;
 
     /**
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
@@ -109,7 +109,7 @@ class Enterprise_Banner_Block_Widget_Banner
         Enterprise_Banner_Model_Resource_Banner $resource,
         Magento_Core_Model_Session $coreSession,
         Magento_Checkout_Model_Session $checkoutSession,
-        Mage_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Cms_Helper_Data $cmsHelper,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()

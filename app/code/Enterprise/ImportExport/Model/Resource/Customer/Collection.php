@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Customer
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_ImportExport_Model_Resource_Customer_Collection
-    extends Mage_Customer_Model_Resource_Customer_Collection
+    extends Magento_Customer_Model_Resource_Customer_Collection
 {
     /**
      * Additional filters to use

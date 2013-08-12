@@ -98,8 +98,8 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     public function getDefaultFrom()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getName();
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();
         }

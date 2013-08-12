@@ -123,11 +123,11 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     /**
      * Get current customer object
      *
-     * @return null|Mage_Customer_Model_Customer
+     * @return null|Magento_Customer_Model_Customer
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::registry('current_customer') instanceof Mage_Customer_Model_Customer) {
+        if (Mage::registry('current_customer') instanceof Magento_Customer_Model_Customer) {
             return Mage::registry('current_customer');
         }
 

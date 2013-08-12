@@ -25,7 +25,7 @@ class Enterprise_Invitation_Block_Link extends Magento_Core_Block_Template
     public function addAccountLink()
     {
         if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()
-            && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+            && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         ) {
             /** @var $blockInstance Mage_Page_Block_Template_Links */
             $blockInstance = $this->getLayout()->getBlock('account.links');
@@ -58,7 +58,7 @@ class Enterprise_Invitation_Block_Link extends Magento_Core_Block_Template
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
         if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()) {
-            /** @var $blockInstance Mage_Customer_Block_Account_Navigation */
+            /** @var $blockInstance Magento_Customer_Block_Account_Navigation */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

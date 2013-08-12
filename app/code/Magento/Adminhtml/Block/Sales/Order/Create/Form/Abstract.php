@@ -134,7 +134,7 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
         $renderers = $this->_getAdditionalFormElementRenderers();
 
         foreach ($attributes as $attribute) {
-            /** @var $attribute Mage_Customer_Model_Attribute */
+            /** @var $attribute Magento_Customer_Model_Attribute */
             $attribute->setStoreId(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getStoreId());
             $inputType = $attribute->getFrontend()->getInputType();
 

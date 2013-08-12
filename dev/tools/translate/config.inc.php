@@ -98,8 +98,8 @@ $CONFIG['translates'] = array(
     'Magento_Cron' => array(
         'app/code/Magento/Cron/',
     ),
-    'Mage_Customer' => array(
-        'app/code/Mage/Customer/',
+    'Magento_Customer' => array(
+        'app/code/Magento/Customer/',
         'app/design/frontend/base/default/template/customer/',
         'app/design/frontend/base/default/layout/customer.xml',
         'app/design/frontend/default/modern/layout/customer.xml',
@@ -581,7 +581,7 @@ $CONFIG['helpers']  = array(
     'contacts'          => 'Magento_Contacts',
     'core'              => 'Magento_Core',
     'cron'              => 'Magento_Cron',
-    'customer'          => 'Mage_Customer',
+    'customer'          => 'Magento_Customer',
     'cybermut'          => 'Mage_Cybermut',
     'cybersource'       => 'Mage_Cybersource',
     'directory'         => 'Mage_Directory',

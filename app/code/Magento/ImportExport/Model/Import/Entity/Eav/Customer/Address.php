@@ -24,7 +24,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Address_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Address_Attribute_Collection';
     /**#@-*/
 
     /**#@+
@@ -147,7 +147,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     /**
      * Customer entity
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customerEntity;
 
@@ -168,14 +168,14 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     /**
      * Address attributes collection
      *
-     * @var Mage_Customer_Model_Resource_Address_Attribute_Collection
+     * @var Magento_Customer_Model_Resource_Address_Attribute_Collection
      */
     protected $_attributeCollection;
 
     /**
      * Collection of existent addresses
      *
-     * @var Mage_Customer_Model_Resource_Address_Collection
+     * @var Magento_Customer_Model_Resource_Address_Collection
      */
     protected $_addressCollection;
 
@@ -194,7 +194,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     public function __construct(array $data = array())
     {
         if (!isset($data['attribute_collection'])) {
-            /** @var $attributeCollection Mage_Customer_Model_Resource_Address_Attribute_Collection */
+            /** @var $attributeCollection Magento_Customer_Model_Resource_Address_Attribute_Collection */
             $attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
             $attributeCollection->addSystemHiddenFilter()
                 ->addExcludeHiddenFrontendFilter();
@@ -204,9 +204,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
         parent::__construct($data);
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
+            : Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
         $this->_entityTable = isset($data['entity_table']) ? $data['entity_table']
-            : Mage::getModel('Mage_Customer_Model_Address')->getResource()->getEntityTable();
+            : Mage::getModel('Magento_Customer_Model_Address')->getResource()->getEntityTable();
         $this->_regionCollection = isset($data['region_collection']) ? $data['region_collection']
             : Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
 
@@ -232,12 +232,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     /**
      * Customer entity getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomerEntity()
     {
         if (!$this->_customerEntity) {
-            $this->_customerEntity = Mage::getModel('Mage_Customer_Model_Customer');
+            $this->_customerEntity = Mage::getModel('Magento_Customer_Model_Customer');
         }
         return $this->_customerEntity;
     }
@@ -253,7 +253,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
             $this->_regionParameters = array();
             /** @var $regionConfig Magento_Eav_Model_Config */
             $regionConfig = Mage::getSingleton('Magento_Eav_Model_Config');
-            /** @var $regionIdAttribute Mage_Customer_Model_Attribute */
+            /** @var $regionIdAttribute Magento_Customer_Model_Attribute */
             $regionIdAttribute = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
             $this->_regionParameters['table']        = $regionIdAttribute->getBackend()->getTable();
             $this->_regionParameters['attribute_id'] = $regionIdAttribute->getId();
@@ -269,8 +269,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
-            /** @var $addressResource Mage_Customer_Model_Resource_Address */
-            $addressResource     = Mage::getModel('Mage_Customer_Model_Address')->getResource();
+            /** @var $addressResource Magento_Customer_Model_Resource_Address */
+            $addressResource     = Mage::getModel('Magento_Customer_Model_Address')->getResource();
             $addressTable        = $addressResource->getEntityTable();
             $this->_nextEntityId = Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($addressTable);
         }
@@ -284,7 +284,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      */
     protected function _initAddresses()
     {
-        /** @var $address Mage_Customer_Model_Address */
+        /** @var $address Magento_Customer_Model_Address */
         foreach ($this->_addressCollection as $address) {
             $customerId = $address->getParentId();
             if (!isset($this->_addresses[$customerId])) {
@@ -511,8 +511,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      */
     protected function _saveCustomerDefaults(array $defaults)
     {
-        /** @var $entity Mage_Customer_Model_Customer */
-        $entity = Mage::getModel('Mage_Customer_Model_Customer');
+        /** @var $entity Magento_Customer_Model_Customer */
+        $entity = Mage::getModel('Magento_Customer_Model_Customer');
         $entityTypeId = $entity->getEntityTypeId();
 
         foreach ($defaults as $tableName => $data) {

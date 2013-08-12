@@ -17,10 +17,10 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Magento_Core_Mod
     /**
      * Save new attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function saveNewAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function saveNewAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $this->_getResource()->saveNewAttribute($attribute);
         return $this;
@@ -29,10 +29,10 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Magento_Core_Mod
     /**
      * Delete attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function deleteAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function deleteAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $this->_getResource()->deleteAttribute($attribute);
         return $this;

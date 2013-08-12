@@ -12,14 +12,14 @@
 class Magento_Wishlist_Controller_IndexTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_customerSession = Mage::getModel('Mage_Customer_Model_Session');
+        $this->_customerSession = Mage::getModel('Magento_Customer_Model_Session');
         $this->_customerSession->login('customer@example.com', 'password');
     }
 
@@ -55,7 +55,7 @@ class Magento_Wishlist_Controller_IndexTest extends Magento_Test_TestCase_Contro
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple_xss.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testAddActionProductNameXss()
     {

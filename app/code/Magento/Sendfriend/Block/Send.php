@@ -30,8 +30,8 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
             return trim($name);
         }
 
-        /* @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        /* @var $session Magento_Customer_Model_Session */
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
 
         if ($session->isLoggedIn()) {
             return $session->getCustomer()->getName();
@@ -52,8 +52,8 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
             return trim($email);
         }
 
-        /* @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('Mage_Customer_Model_Session');
+        /* @var $session Magento_Customer_Model_Session */
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
 
         if ($session->isLoggedIn()) {
             return $session->getCustomer()->getEmail();

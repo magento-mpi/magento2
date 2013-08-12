@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
     {
         $review = Mage::registry('review_data');
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($review->getEntityPkValue());
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($review->getCustomerId());
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($review->getCustomerId());
 
         $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',

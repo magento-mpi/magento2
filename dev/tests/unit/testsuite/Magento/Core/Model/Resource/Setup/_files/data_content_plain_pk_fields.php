@@ -27,13 +27,13 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'collection',
-                'to'    => 'Mage_Customer_Model_Resource_Attribute_Collection',
+                'to'    => 'Magento_Customer_Model_Resource_Attribute_Collection',
                 'from'  => array('`pk_field1` = ?' => 'pk_value1', '`pk_field2` = ?' => 'pk_value2')
             ),
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE => array(
-                'customer/attribute_collection' => 'Mage_Customer_Model_Resource_Attribute_Collection'
+                'customer/attribute_collection' => 'Magento_Customer_Model_Resource_Attribute_Collection'
             ),
         )
     ),

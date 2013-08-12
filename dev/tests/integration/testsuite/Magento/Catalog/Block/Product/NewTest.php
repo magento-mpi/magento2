@@ -47,7 +47,7 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);
 
         $this->assertSame(3, array_shift($keys));
-        $this->assertEquals(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(), $info[3]);
+        $this->assertEquals(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(), $info[3]);
 
         $this->assertSame('template', array_shift($keys));
 

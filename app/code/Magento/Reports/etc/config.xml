@@ -15,7 +15,7 @@
             <version>1.6.0.0.2</version>
             <active>true</active>
             <depends>
-                <Mage_Customer />
+                <Magento_Customer />
                 <Magento_Catalog />
                 <Mage_Sales />
                 <Magento_Cms />

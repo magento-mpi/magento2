@@ -15,7 +15,7 @@
             <version>1.7.0.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Customer />
+                <Magento_Customer />
                 <Magento_Checkout />
                 <Magento_Adminhtml />
             </depends>

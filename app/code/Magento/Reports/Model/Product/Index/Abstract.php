@@ -77,7 +77,7 @@ abstract class Magento_Reports_Model_Product_Index_Abstract extends Magento_Core
         if ($this->hasData('customer_id')) {
             return $this->getData('customer_id');
         }
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
     }
 
     /**

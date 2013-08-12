@@ -29,7 +29,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Customer mofrl object
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer= null;
 
@@ -85,10 +85,10 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Set customer model object
      * To enable quick switch of preconfigured customer
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Magento_Adminhtml_Model_Session_Quote
      */
-    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    public function setCustomer(Magento_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -98,12 +98,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      * Retrieve customer model object
      * @param bool $forceReload
      * @param bool $useSetStore
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer($forceReload=false, $useSetStore=false)
     {
         if (is_null($this->_customer) || $forceReload) {
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
+            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
             if ($useSetStore && $this->getStore()->getId()) {
                 $this->_customer->setStore($this->getStore());
             }

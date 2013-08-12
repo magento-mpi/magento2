@@ -24,7 +24,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Attribute_Collection';
 
     /**#@+
      * Permanent column names
@@ -90,7 +90,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     /**
      * Customer model
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customerModel;
 
@@ -104,7 +104,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     /**
      * Address attributes collection
      *
-     * @var Mage_Customer_Model_Resource_Attribute_Collection
+     * @var Magento_Customer_Model_Resource_Attribute_Collection
      */
     protected $_attributeCollection;
 
@@ -153,8 +153,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         $this->_initStores(true)
             ->_initAttributes();
 
-        $this->_customerModel = Mage::getModel('Mage_Customer_Model_Customer');
-        /** @var $customerResource Mage_Customer_Model_Resource_Customer */
+        $this->_customerModel = Mage::getModel('Magento_Customer_Model_Customer');
+        /** @var $customerResource Magento_Customer_Model_Resource_Customer */
         $customerResource = $this->_customerModel->getResource();
         $this->_entityTable = $customerResource->getEntityTable();
     }
@@ -246,7 +246,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
      */
     protected function _prepareDataForUpdate(array $rowData)
     {
-        /** @var $passwordAttribute Mage_Customer_Model_Attribute */
+        /** @var $passwordAttribute Magento_Customer_Model_Attribute */
         $passwordAttribute = $this->_customerModel->getAttribute('password_hash');
         $passwordAttributeId = $passwordAttribute->getId();
         $passwordStorageTable = $passwordAttribute->getBackend()->getTable();
@@ -293,7 +293,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         // attribute values
         foreach (array_intersect_key($rowData, $this->_attributes) as $attributeCode => $value) {
             if (!$this->_attributes[$attributeCode]['is_static'] && strlen($value)) {
-                /** @var $attribute Mage_Customer_Model_Attribute */
+                /** @var $attribute Magento_Customer_Model_Attribute */
                 $attribute = $this->_customerModel->getAttribute($attributeCode);
                 $backendModel = $attribute->getBackendModel();
                 $attributeParameters = $this->_attributes[$attributeCode];

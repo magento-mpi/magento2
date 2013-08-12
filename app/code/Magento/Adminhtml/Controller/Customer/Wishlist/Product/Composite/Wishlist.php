@@ -126,6 +126,6 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Magento_Customer::manage');
     }
 }

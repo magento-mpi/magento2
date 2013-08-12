@@ -43,7 +43,7 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
         $this->getLayout()->getBlock('contactForm')
             ->setFormAction( Mage::getUrl('*/*/post') );
 
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->renderLayout();
     }
@@ -110,14 +110,14 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
 
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Magento_Contacts_Helper_Data')->__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
+                Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(Mage::helper('Magento_Contacts_Helper_Data')->__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
                 $this->_redirect('*/*/');
 
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Magento_Contacts_Helper_Data')->__('Something went wrong submitting your request.'));
+                Mage::getSingleton('Magento_Customer_Model_Session')->addError(Mage::helper('Magento_Contacts_Helper_Data')->__('Something went wrong submitting your request.'));
                 $this->_redirect('*/*/');
                 return;
             }

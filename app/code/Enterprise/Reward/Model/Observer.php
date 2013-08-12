@@ -33,7 +33,7 @@ class Enterprise_Reward_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var $customer Mage_Customer_Model_Customer */
+            /** @var $customer Magento_Customer_Model_Customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {
@@ -97,7 +97,7 @@ class Enterprise_Reward_Model_Observer
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
             return $this;
         }
-        /* @var $customer Mage_Customer_Model_Customer */
+        /* @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         $customerOrigData = $customer->getOrigData();
         if (empty($customerOrigData)) {

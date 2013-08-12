@@ -19,9 +19,9 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl();
+        $loginUrl = Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this, $loginUrl)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -127,7 +127,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
      */
     protected function _canViewOrder($item)
     {
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         if ($item->getId() && $item->getCustomerId() && ($item->getCustomerId() == $customerId)) {
             return true;
         }
@@ -210,7 +210,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
     public function returnsAction()
     {
         $orderId    = (int) $this->getRequest()->getParam('order_id');
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
 
         if (!$orderId || !$this->_isEnabledOnFront()) {
             $this->_forward('noRoute');

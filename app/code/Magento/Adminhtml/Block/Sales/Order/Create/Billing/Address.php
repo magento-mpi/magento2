@@ -79,7 +79,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address
     /**
      * Return billing address object
      *
-     * @return Mage_Customer_Model_Address
+     * @return Magento_Customer_Model_Address
      */
     public function getAddress()
     {

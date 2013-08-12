@@ -15,7 +15,7 @@
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @method Mage_Customer_Model_Customer|int getCustomerId() getCustomerId()
+ * @method Magento_Customer_Model_Customer|int getCustomerId() getCustomerId()
  * @method Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid setCustomerId() setCustomerId(int $customerId)
  * @method Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid setUseAjax() setUseAjax(boolean $useAjax)
  */
@@ -41,7 +41,7 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backen
      */
     protected function _prepareCollection()
     {
-        if ($this->getCustomerId() instanceof Mage_Customer_Model_Customer) {
+        if ($this->getCustomerId() instanceof Magento_Customer_Model_Customer) {
             $this->setCustomerId($this->getCustomerId()->getId());
         }
 

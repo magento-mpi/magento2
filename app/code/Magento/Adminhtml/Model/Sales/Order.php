@@ -32,7 +32,7 @@ class Magento_Adminhtml_Model_Sales_Order
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($order->getCustomerId());
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($order->getCustomerId());
         if (!$customer->getId()) {
             $this->_getSession()->addNotice(
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__(' The customer does not exist in the system anymore.')

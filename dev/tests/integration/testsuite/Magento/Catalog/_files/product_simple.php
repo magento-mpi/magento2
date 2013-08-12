@@ -26,13 +26,13 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         array(
             array(
                 'website_id' => 0,
-                'cust_group' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
+                'cust_group' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
                 'price_qty'  => 2,
                 'price'      => 8,
             ),
             array(
                 'website_id' => 0,
-                'cust_group' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
+                'cust_group' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
                 'price_qty'  => 5,
                 'price'      => 5,
             ),

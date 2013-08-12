@@ -78,7 +78,7 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Fram
     {
         $customer = false;
         if ($isCustomer) {
-            $customer = $this->getMock('Mage_Customer_Model_Customer', array('getId'), array(), '', false);
+            $customer = $this->getMock('Magento_Customer_Model_Customer', array('getId'), array(), '', false);
             $customer->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue($isCustomerExist));

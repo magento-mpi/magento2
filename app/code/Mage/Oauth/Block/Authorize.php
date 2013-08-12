@@ -24,8 +24,8 @@ class Mage_Oauth_Block_Authorize extends Mage_Oauth_Block_AuthorizeBaseAbstract
      */
     public function getPostActionUrl()
     {
-        /** @var $helper Mage_Customer_Helper_Data */
-        $helper = $this->helper('Mage_Customer_Helper_Data');
+        /** @var $helper Magento_Customer_Helper_Data */
+        $helper = $this->helper('Magento_Customer_Helper_Data');
         $url = $helper->getLoginPostUrl();
         if ($this->getIsSimple()) {
             if (strstr($url, '?')) {

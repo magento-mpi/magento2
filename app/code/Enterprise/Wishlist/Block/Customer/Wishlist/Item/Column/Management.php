@@ -66,7 +66,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function canCreateWishlists(Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists)
     {
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         return !Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlists) && $customerId;
     }
 

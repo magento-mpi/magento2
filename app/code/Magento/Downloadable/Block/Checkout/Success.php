@@ -33,7 +33,7 @@ class Magento_Downloadable_Block_Checkout_Success extends Magento_Checkout_Block
         /**
          * if use guest checkout
          */
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
             return false;
         }
         return $hasDownloadableFlag;

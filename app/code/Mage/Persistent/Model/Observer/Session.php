@@ -25,7 +25,7 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function synchronizePersistentOnLogin(Magento_Event_Observer $observer)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
         if (!$customer
@@ -83,7 +83,7 @@ class Mage_Persistent_Model_Observer_Session
             return;
         }
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid
         if (!$customer || !$customer->getId()) {
@@ -117,7 +117,7 @@ class Mage_Persistent_Model_Observer_Session
         $request = $observer->getEvent()->getFront()->getRequest();
 
         // Quote Id could be changed only by logged in customer
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
             || ($request && $request->getActionName() == 'logout' && $request->getControllerName() == 'account')
         ) {
             $sessionModel->save();
@@ -171,7 +171,7 @@ class Mage_Persistent_Model_Observer_Session
         /** @var $controllerAction Magento_Core_Controller_Front_Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
 
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
             || $controllerAction->getFullActionName() == 'customer_account_logout'
         ) {
             Mage::getSingleton('Magento_Core_Model_Cookie')->renew(

@@ -28,7 +28,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Customer Taxvat Widget block
      *
-     * @var Mage_Customer_Block_Widget_Taxvat
+     * @var Magento_Customer_Block_Widget_Taxvat
      */
     protected $_taxvat;
 
@@ -149,12 +149,12 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Get Customer Taxvat Widget block
      *
-     * @return Mage_Customer_Block_Widget_Taxvat
+     * @return Magento_Customer_Block_Widget_Taxvat
      */
     protected function _getTaxvat()
     {
         if (!$this->_taxvat) {
-            $this->_taxvat = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Taxvat');
+            $this->_taxvat = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Taxvat');
         }
 
         return $this->_taxvat;

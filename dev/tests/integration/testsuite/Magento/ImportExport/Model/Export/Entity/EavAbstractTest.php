@@ -35,7 +35,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $customerAttributes = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        $customerAttributes = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
 
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract', array(),
             '', false);
@@ -84,10 +84,10 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     public function testGetAttributeOptions()
     {
-        /** @var $attributeCollection Mage_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
+        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'gender');
-        /** @var $attribute Mage_Customer_Model_Attribute */
+        /** @var $attribute Magento_Customer_Model_Attribute */
         $attribute = $attributeCollection->getFirstItem();
 
         $expectedOptions = array();
@@ -106,11 +106,11 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected function _getSkippedAttributes()
     {
-        /** @var $attributeCollection Mage_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
+        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
         $skippedAttributes = array();
-        /** @var $attribute  Mage_Customer_Model_Attribute */
+        /** @var $attribute  Magento_Customer_Model_Attribute */
         foreach ($attributeCollection as $attribute) {
             $skippedAttributes[$attribute->getAttributeCode()] = $attribute->getId();
         }

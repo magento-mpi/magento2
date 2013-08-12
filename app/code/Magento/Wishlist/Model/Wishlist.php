@@ -78,7 +78,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      */
     public function loadByCustomer($customer, $create = false)
     {
-        if ($customer instanceof Mage_Customer_Model_Customer) {
+        if ($customer instanceof Magento_Customer_Model_Customer) {
             $customer = $customer->getId();
         }
 

@@ -23,8 +23,8 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function saveAction()
     {
-        /** @var $customerSession Mage_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        /** @var $customerSession Magento_Customer_Model_Session */
+        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
         if (!$customerSession->authenticate($this)) {
             return;
         }

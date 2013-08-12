@@ -289,8 +289,8 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         $customerGroupId = $this->getCustomerGroupId();
         if (!$customerGroupId) {
             $customerGroupId = Mage::app()->getStore()->isAdmin()
-                ? Mage_Customer_Model_Group::CUST_GROUP_ALL
-                : Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+                ? Magento_Customer_Model_Group::CUST_GROUP_ALL
+                : Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
 
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {

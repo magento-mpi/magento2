@@ -28,7 +28,7 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_customerEmailExistsMessage = '';
 
     /**
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
@@ -56,7 +56,7 @@ class Magento_Checkout_Model_Type_Onepage
         $this->_helper = Mage::helper('Magento_Checkout_Helper_Data');
         $this->_customerEmailExistsMessage = Mage::helper('Magento_Checkout_Helper_Data')->__('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
-        $this->_customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        $this->_customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -97,7 +97,7 @@ class Magento_Checkout_Model_Type_Onepage
     /**
      * Get customer session object
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     public function getCustomerSession()
     {
@@ -182,11 +182,11 @@ class Magento_Checkout_Model_Type_Onepage
      * Get customer address by identifier
      *
      * @param   int $addressId
-     * @return  Mage_Customer_Model_Address
+     * @return  Magento_Customer_Model_Address
      */
     public function getAddress($addressId)
     {
-        $address = Mage::getModel('Mage_Customer_Model_Address')->load((int)$addressId);
+        $address = Mage::getModel('Magento_Customer_Model_Address')->load((int)$addressId);
         $address->explodeStreetAddress();
         if ($address->getRegionId()) {
             $address->setRegion($address->getRegionId());
@@ -209,14 +209,14 @@ class Magento_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
-        /* @var $addressForm Mage_Customer_Model_Form */
-        $addressForm = Mage::getModel('Mage_Customer_Model_Form');
+        /* @var $addressForm Magento_Customer_Model_Form */
+        $addressForm = Mage::getModel('Magento_Customer_Model_Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($customerAddressId);
+            $customerAddress = Mage::getModel('Magento_Customer_Model_Address')->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -331,8 +331,8 @@ class Magento_Checkout_Model_Type_Onepage
      */
     protected function _validateCustomerData(array $data)
     {
-        /** @var $customerForm Mage_Customer_Model_Form */
-        $customerForm = Mage::getModel('Mage_Customer_Model_Form');
+        /** @var $customerForm Magento_Customer_Model_Form */
+        $customerForm = Mage::getModel('Magento_Customer_Model_Form');
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
@@ -342,8 +342,8 @@ class Magento_Checkout_Model_Type_Onepage
             $customerForm->setEntity($customer);
             $customerData = $quote->getCustomer()->getData();
         } else {
-            /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('Mage_Customer_Model_Customer');
+            /* @var $customer Magento_Customer_Model_Customer */
+            $customer = Mage::getModel('Magento_Customer_Model_Customer');
             $customerForm->setEntity($customer);
             $customerRequest = $customerForm->prepareRequest($data);
             $customerData = $customerForm->extractData($customerRequest);
@@ -374,7 +374,7 @@ class Magento_Checkout_Model_Type_Onepage
             $customer->setConfirmation($password);
             // set NOT LOGGED IN group id explicitly,
             // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
-            $customer->setGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            $customer->setGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
         $result = $customer->validate();
@@ -413,14 +413,14 @@ class Magento_Checkout_Model_Type_Onepage
         }
         $address = $this->getQuote()->getShippingAddress();
 
-        /* @var $addressForm Mage_Customer_Model_Form */
-        $addressForm    = Mage::getModel('Mage_Customer_Model_Form');
+        /* @var $addressForm Magento_Customer_Model_Form */
+        $addressForm    = Mage::getModel('Magento_Customer_Model_Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntityType('customer_address')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
         if (!empty($customerAddressId)) {
-            $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($customerAddressId);
+            $customerAddress = Mage::getModel('Magento_Customer_Model_Address')->load($customerAddressId);
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
@@ -567,7 +567,7 @@ class Magento_Checkout_Model_Type_Onepage
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
-            ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
         return $this;
     }
 
@@ -582,9 +582,9 @@ class Magento_Checkout_Model_Type_Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $quote->getCustomer();
-        /** @var $customerBilling Mage_Customer_Model_Address */
+        /** @var $customerBilling Magento_Customer_Model_Address */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
@@ -653,9 +653,9 @@ class Magento_Checkout_Model_Type_Onepage
         $customer = $this->getQuote()->getCustomer();
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->getQuote()->getStoreId());
-            $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
+            $url = Mage::helper('Magento_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                Mage::helper('Magento_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail('registered', '', $this->getQuote()->getStoreId());
@@ -758,11 +758,11 @@ class Magento_Checkout_Model_Type_Onepage
      *
      * @param string $email
      * @param int $websiteId
-     * @return false|Mage_Customer_Model_Customer
+     * @return false|Magento_Customer_Model_Customer
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
         if ($websiteId) {
             $customer->setWebsiteId($websiteId);
         }

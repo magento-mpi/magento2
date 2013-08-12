@@ -133,7 +133,7 @@ class Magento_Tag_Block_Customer_View extends Magento_Catalog_Block_Product_Abst
             $this->_collection = Mage::getModel('Magento_Tag_Model_Tag')
                 ->getEntityCollection()
                 ->addTagFilter($this->getTagId())
-                ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
                 ->setActiveFilter()

@@ -29,8 +29,8 @@ class Enterprise_Checkout_Controller_Sku extends Magento_Core_Controller_Front_A
         parent::preDispatch();
 
         // guest redirected to "Login or Create an Account" page
-        /** @var $customerSession Mage_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        /** @var $customerSession Magento_Customer_Model_Session */
+        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
         if (!$customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             return $this;
@@ -53,7 +53,7 @@ class Enterprise_Checkout_Controller_Sku extends Magento_Core_Controller_Front_A
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Order by SKU'));

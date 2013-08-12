@@ -296,12 +296,12 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     /**
      * Get current customer object
      *
-     * @return null|Mage_Customer_Model_Customer
+     * @return null|Magento_Customer_Model_Customer
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
 
         return null;

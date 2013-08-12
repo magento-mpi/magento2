@@ -16,7 +16,7 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Blo
     /**
      * Current customer
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -34,9 +34,9 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Blo
     /**
      * Set customer object
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      */
-    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    public function setCustomer(Magento_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
     }
@@ -44,7 +44,7 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Blo
     /**
      * Retrieve current customer instance
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {

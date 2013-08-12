@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Address')
+        $customerAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Address')
             ->loadAllAttributes()
             ->getAttributesByCode();
 

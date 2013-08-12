@@ -8,7 +8,7 @@
 class Mage_Sales_Model_Observer_Backend_CustomerQuote
 {
     /**
-     * @var Mage_Customer_Model_Config_Share
+     * @var Magento_Customer_Model_Config_Share
      */
     protected $_config;
 
@@ -24,12 +24,12 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuote
 
     /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Customer_Model_Config_Share $config
+     * @param Magento_Customer_Model_Config_Share $config
      * @param Mage_Sales_Model_Quote $quote
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Customer_Model_Config_Share $config,
+        Magento_Customer_Model_Config_Share $config,
         Mage_Sales_Model_Quote $quote
     ) {
         $this->_storeManager = $storeManager;
@@ -44,7 +44,7 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuote
      */
     public function dispatch(Magento_Event_Observer $observer)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
 
         if ($customer->getGroupId() !== $customer->getOrigData('group_id')) {

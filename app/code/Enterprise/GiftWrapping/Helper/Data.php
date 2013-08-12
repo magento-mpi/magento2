@@ -404,8 +404,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
      * @param  Magento_Object $item
      * @param  float $price
      * @param  bool $includingTax
-     * @param  null|Mage_Customer_Model_Address $shippingAddress
-     * @param  null|Mage_Customer_Model_Address $billingAddress
+     * @param  null|Magento_Customer_Model_Address $shippingAddress
+     * @param  null|Magento_Customer_Model_Address $billingAddress
      * @param  null|int $ctc
      * @param  mixed $store
      * @return float

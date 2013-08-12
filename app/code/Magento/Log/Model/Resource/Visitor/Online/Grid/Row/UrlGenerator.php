@@ -33,7 +33,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator
      */
     public function getUrl($item)
     {
-        if ($this->_authorization->isAllowed('Mage_Customer::manage') && $item->getCustomerId()) {
+        if ($this->_authorization->isAllowed('Magento_Customer::manage') && $item->getCustomerId()) {
             return parent::getUrl($item);
         }
         return false;

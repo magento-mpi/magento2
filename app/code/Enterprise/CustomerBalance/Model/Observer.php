@@ -24,7 +24,7 @@ class Enterprise_CustomerBalance_Model_Observer
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
-        /* @var $customer Mage_Customer_Model_Customer */
+        /* @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getCustomer();
         /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getRequest();

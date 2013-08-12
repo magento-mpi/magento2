@@ -23,7 +23,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Customer instance
      *
-     * @var null|Mage_Customer_Model_Customer
+     * @var null|Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -71,7 +71,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Set customer instance
      *
-     * @param Mage_Customer_Model_Customer|null $customer
+     * @param Magento_Customer_Model_Customer|null $customer
      * @return Magento_Checkout_Model_Session
      */
     public function setCustomer($customer)
@@ -141,7 +141,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                 }
             }
 
-            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
 
             if (!$this->getQuoteId()) {
                 if ($customerSession->isLoggedIn() || $this->_customer) {
@@ -195,7 +195,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function loadCustomerQuote()
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
             return $this;
         }
 
@@ -203,7 +203,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 
         $customerQuote = Mage::getModel('Mage_Sales_Model_Quote')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
+            ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
@@ -221,7 +221,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer())
+            $this->getQuote()->setCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();

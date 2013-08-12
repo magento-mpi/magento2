@@ -27,9 +27,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Newpass
         $html.= '<div class="control">'.$element->getElementHtml();
         $html.= '<div class="nested">';
         $html.= '<div class="field choice">';
-        $html.= '<label for="account-send-pass" class="addbefore"><span>'.Mage::helper('Mage_Customer_Helper_Data')->__('or ').'</span></label>';
+        $html.= '<label for="account-send-pass" class="addbefore"><span>'.Mage::helper('Magento_Customer_Helper_Data')->__('or ').'</span></label>';
         $html.= '<input type="checkbox" id="account-send-pass" name="'.$element->getName().'" value="auto" onclick="setElementDisable(\''.$element->getHtmlId().'\', this.checked)" />';
-        $html.= '<label class="label" for="account-send-pass"><span>'.Mage::helper('Mage_Customer_Helper_Data')->__(' Send auto-generated password').'</span></label>';
+        $html.= '<label class="label" for="account-send-pass"><span>'.Mage::helper('Magento_Customer_Helper_Data')->__(' Send auto-generated password').'</span></label>';
         $html.= '</div>'."\n";
         $html.= '</div>'."\n";
         $html.= '</div>'."\n";

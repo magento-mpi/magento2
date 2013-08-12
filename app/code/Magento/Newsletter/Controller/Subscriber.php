@@ -24,7 +24,7 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
             $session            = Mage::getSingleton('Magento_Core_Model_Session');
-            $customerSession    = Mage::getSingleton('Mage_Customer_Model_Session');
+            $customerSession    = Mage::getSingleton('Magento_Customer_Model_Session');
             $email              = (string) $this->getRequest()->getPost('email');
 
             try {
@@ -34,10 +34,10 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
 
                 if (Mage::getStoreConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException($this->__('Sorry, but the administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
+                    Mage::throwException($this->__('Sorry, but the administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('Magento_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
-                $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
+                $ownerId = Mage::getModel('Magento_Customer_Model_Customer')
                         ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();

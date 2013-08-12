@@ -97,6 +97,6 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
      */
     public function isReviewOwner()
     {
-        return ($this->getReviewData()->getCustomerId() == Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
+        return ($this->getReviewData()->getCustomerId() == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
     }
 }

@@ -20,7 +20,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     /**
      * Customer instance
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -58,17 +58,17 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
     /**
      * Retrieve Customer instance
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
+            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
 
             $params = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) ) {
+            if ($cId && ($cId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
                 $this->_customer->load($cId);
             }
         }

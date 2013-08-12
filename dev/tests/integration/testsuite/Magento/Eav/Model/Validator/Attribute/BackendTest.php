@@ -27,12 +27,12 @@ class Magento_Eav_Model_Validator_Attribute_BackendTest extends PHPUnit_Framewor
     /**
      * Test method for Magento_Eav_Model_Validator_Attribute_Backend::isValid
      *
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testIsValid()
     {
-        /** @var $entity Mage_Customer_Model_Customer */
-        $entity = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        /** @var $entity Magento_Customer_Model_Customer */
+        $entity = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
 
         $this->assertTrue($this->_model->isValid($entity));
         $this->assertEmpty($this->_model->getMessages());

@@ -20,7 +20,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
     /**
      * Customer we're working with
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer = null;
 
@@ -50,7 +50,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
             Mage::throwException($this->__('No customer ID defined.'));
         }
 
-        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer')
+        $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
             ->load($customerId);
 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
@@ -139,6 +139,6 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Magento_Customer::manage');
     }
 }

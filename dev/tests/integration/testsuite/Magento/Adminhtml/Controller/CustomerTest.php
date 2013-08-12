@@ -145,7 +145,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
          * Check that customer id set and addresses saved
          */
         $customer = Mage::registry('current_customer');
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
+        $this->assertInstanceOf('Magento_Customer_Model_Customer', $customer);
         $this->assertCount(1, $customer->getAddressesCollection());
 
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl
@@ -217,10 +217,10 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
          * Check that customer id set and addresses saved
          */
         $customer = Mage::registry('current_customer');
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
+        $this->assertInstanceOf('Magento_Customer_Model_Customer', $customer);
 
         /**
-         * Addresses should be removed by Mage_Customer_Model_Resource_Customer::_saveAddresses during _afterSave
+         * Addresses should be removed by Magento_Customer_Model_Resource_Customer::_saveAddresses during _afterSave
          * addressOne - updated
          * addressTwo - removed
          * addressThree - removed
@@ -228,8 +228,8 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
          */
         $this->assertCount(2, $customer->getAddressesCollection());
 
-        /** @var $savedCustomer Mage_Customer_Model_Customer */
-        $savedCustomer = Mage::getModel('Mage_Customer_Model_Customer');
+        /** @var $savedCustomer Magento_Customer_Model_Customer */
+        $savedCustomer = Mage::getModel('Magento_Customer_Model_Customer');
         $savedCustomer->load($customer->getId());
         /**
          * addressOne - updated

@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Controller_Adminhtml_Giftregistry_Customer extends
     {
         try {
             $model = $this->_initEntity();
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($model->getCustomerId());
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($model->getCustomerId());
 
             $this->_title($this->__('Customers'))
                 ->_title($this->__('Customers'))

@@ -104,20 +104,20 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Action'),
+            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Action'),
             'index'     => 'quote_item_id',
             'renderer'  => 'Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'           => Mage::helper('Mage_Customer_Helper_Data')->__('Configure'),
+                    'caption'           => Mage::helper('Magento_Customer_Helper_Data')->__('Configure'),
                     'url'               => 'javascript:void(0)',
                     'process'           => 'configurable',
                     'control_object'    => $this->getJsObjectName() . 'cartControl'
                 ),
                 array(
-                    'caption'   => Mage::helper('Mage_Customer_Helper_Data')->__('Delete'),
+                    'caption'   => Mage::helper('Magento_Customer_Helper_Data')->__('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
                 )
@@ -130,7 +130,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     /**
      * Gets customer assigned to this block
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {

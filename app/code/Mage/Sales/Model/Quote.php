@@ -140,7 +140,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Quote customer model object
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -317,12 +317,12 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Loading quote data by customer
      *
-     * @param Mage_Customer_Model_Customer|int $customer
+     * @param Magento_Customer_Model_Customer|int $customer
      * @return Mage_Sales_Model_Quote
      */
     public function loadByCustomer($customer)
     {
-        if ($customer instanceof Mage_Customer_Model_Customer) {
+        if ($customer instanceof Magento_Customer_Model_Customer) {
             $customerId = $customer->getId();
         } else {
             $customerId = (int)$customer;
@@ -361,10 +361,10 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Assign customer model object data to quote
      *
-     * @param   Mage_Customer_Model_Customer $customer
+     * @param   Magento_Customer_Model_Customer $customer
      * @return  Mage_Sales_Model_Quote
      */
-    public function assignCustomer(Mage_Customer_Model_Customer $customer)
+    public function assignCustomer(Magento_Customer_Model_Customer $customer)
     {
         return $this->assignCustomerWithAddressChange($customer);
     }
@@ -372,13 +372,13 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  Mage_Customer_Model_Customer    $customer
+     * @param  Magento_Customer_Model_Customer    $customer
      * @param  Mage_Sales_Model_Quote_Address  $billingAddress
      * @param  Mage_Sales_Model_Quote_Address  $shippingAddress
      * @return Mage_Sales_Model_Quote
      */
     public function assignCustomerWithAddressChange(
-        Mage_Customer_Model_Customer    $customer,
+        Magento_Customer_Model_Customer    $customer,
         Mage_Sales_Model_Quote_Address  $billingAddress  = null,
         Mage_Sales_Model_Quote_Address  $shippingAddress = null
     ) {
@@ -414,10 +414,10 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Define customer object
      *
-     * @param   Mage_Customer_Model_Customer $customer
+     * @param   Magento_Customer_Model_Customer $customer
      * @return  Mage_Sales_Model_Quote
      */
-    public function setCustomer(Mage_Customer_Model_Customer $customer)
+    public function setCustomer(Magento_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
@@ -428,12 +428,12 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve customer model object
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
+            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
             $customerId = $this->getCustomerId();
             if ($customerId) {
                 $this->_customer->load($customerId);
@@ -457,7 +457,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
         } else if ($this->getCustomerId()) {
             return $this->getCustomer()->getGroupId();
         } else {
-            return Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+            return Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
         }
     }
 
@@ -471,7 +471,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
         * we need to retrieve from db every time to get the correct tax class
         */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        $classId = Mage::getModel('Mage_Customer_Model_Group')->getTaxClassId($this->getCustomerGroupId());
+        $classId = Mage::getModel('Magento_Customer_Model_Group')->getTaxClassId($this->getCustomerGroupId());
         $this->setCustomerTaxClassId($classId);
         //}
 

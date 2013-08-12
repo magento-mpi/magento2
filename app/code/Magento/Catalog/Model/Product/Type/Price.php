@@ -161,7 +161,7 @@ class Magento_Catalog_Model_Product_Type_Price
      */
     public function getTierPrice($qty = null, $product)
     {
-        $allGroups = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
@@ -241,7 +241,7 @@ class Magento_Catalog_Model_Product_Type_Price
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
     }
 
     /**
@@ -357,7 +357,7 @@ class Magento_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = $basePrice;
-        if ($gId instanceof Mage_Customer_Model_Group) {
+        if ($gId instanceof Magento_Customer_Model_Group) {
             $gId = $gId->getId();
         }
 

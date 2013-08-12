@@ -47,7 +47,7 @@ class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     {
         $customer = $this->_getCustomer();
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_getWishlist()->getCustomerId());
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_getWishlist()->getCustomerId());
         }
         if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistDefault($this->_getWishlist())
             && $this->_getWishlist()->getName() == Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlistName()

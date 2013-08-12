@@ -81,10 +81,10 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     /**
      * Add customer data from customer object
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Magento_Catalog_Model_Product_Compare_Item
      */
-    public function addCustomerData(Mage_Customer_Model_Customer $customer)
+    public function addCustomerData(Magento_Customer_Model_Customer $customer)
     {
         $this->setCustomerId($customer->getId());
         return $this;
@@ -193,7 +193,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     public function getCustomerId()
     {
         if (!$this->hasData('customer_id')) {
-            $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+            $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
             $this->setData('customer_id', $customerId);
         }
         return $this->getData('customer_id');

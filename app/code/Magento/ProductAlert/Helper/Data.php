@@ -52,7 +52,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     public function getStore()

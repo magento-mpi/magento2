@@ -55,11 +55,11 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     /**
      * Retrieve customer attribute object
      *
-     * @return Mage_Customer_Model_Attribute
+     * @return Magento_Customer_Model_Attribute
      */
     protected function _initAttribute()
     {
-        $attribute = Mage::getModel('Mage_Customer_Model_Attribute');
+        $attribute = Mage::getModel('Magento_Customer_Model_Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -94,7 +94,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
      */
     public function editAction()
     {
-        /* @var $attributeObject Mage_Customer_Model_Attribute */
+        /* @var $attributeObject Magento_Customer_Model_Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
@@ -181,7 +181,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     {
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $attributeObject Mage_Customer_Model_Attribute */
+            /* @var $attributeObject Magento_Customer_Model_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Customer_Helper_Data */
             $helper = Mage::helper('Enterprise_Customer_Helper_Data');

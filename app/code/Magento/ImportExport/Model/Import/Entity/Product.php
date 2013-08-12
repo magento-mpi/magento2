@@ -431,7 +431,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection') as $customerGroup) {
+        foreach (Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection') as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;

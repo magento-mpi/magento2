@@ -22,7 +22,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
     /**
      * Return current customer address attribute instance
      *
-     * @return Mage_Customer_Model_Attribute
+     * @return Magento_Customer_Model_Attribute
      */
     protected function _getAttribute()
     {

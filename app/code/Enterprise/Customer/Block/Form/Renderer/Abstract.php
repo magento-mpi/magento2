@@ -46,7 +46,7 @@ abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterpri
      */
     public function validateValue($value)
     {
-        $dataModel = Mage_Customer_Model_Attribute_Data::factory($this->getAttributeObject(), $this->getEntity());
+        $dataModel = Magento_Customer_Model_Attribute_Data::factory($this->getAttributeObject(), $this->getEntity());
         $result = $dataModel->validateValue($this->getValue());
         return $result;
     }

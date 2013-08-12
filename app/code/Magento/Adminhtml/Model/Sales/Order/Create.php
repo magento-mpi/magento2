@@ -70,21 +70,21 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Customer instance
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
     /**
      * Customer Address Form instance
      *
-     * @var Mage_Customer_Model_Form
+     * @var Magento_Customer_Model_Form
      */
     protected $_customerAddressForm;
 
     /**
      * Customer Form instance
      *
-     * @var Mage_Customer_Model_Form
+     * @var Magento_Customer_Model_Form
      */
     protected $_customerForm;
 
@@ -1005,12 +1005,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Return Customer (Checkout) Form instance
      *
-     * @return Mage_Customer_Model_Form
+     * @return Magento_Customer_Model_Form
      */
     protected function _getCustomerForm()
     {
         if (is_null($this->_customerForm)) {
-            $this->_customerForm = Mage::getModel('Mage_Customer_Model_Form')
+            $this->_customerForm = Mage::getModel('Magento_Customer_Model_Form')
                 ->setFormCode('adminhtml_checkout')
                 ->ignoreInvisible(false);
         }
@@ -1020,12 +1020,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Return Customer Address Form instance
      *
-     * @return Mage_Customer_Model_Form
+     * @return Magento_Customer_Model_Form
      */
     protected function _getCustomerAddressForm()
     {
         if (is_null($this->_customerAddressForm)) {
-            $this->_customerAddressForm = Mage::getModel('Mage_Customer_Model_Form')
+            $this->_customerAddressForm = Mage::getModel('Magento_Customer_Model_Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->ignoreInvisible(false);
         }
@@ -1220,7 +1220,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if (isset($data['customer_group_id'])) {
-            $groupModel = Mage::getModel('Mage_Customer_Model_Group')->load($data['customer_group_id']);
+            $groupModel = Mage::getModel('Magento_Customer_Model_Group')->load($data['customer_group_id']);
             $data['customer_tax_class_id'] = $groupModel->getTaxClassId();
             $this->setRecollect(true);
         }
@@ -1296,10 +1296,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Set and validate Customer data
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
-    protected function _setCustomerData(Mage_Customer_Model_Customer $customer)
+    protected function _setCustomerData(Magento_Customer_Model_Customer $customer)
     {
         $form = $this->_getCustomerForm();
         $form->setEntity($customer);
@@ -1337,7 +1337,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             return $this;
         }
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = $this->getSession()->getCustomer();
         /** @var $store Magento_Core_Model_Store */
         $store = $this->getSession()->getStore();
@@ -1358,7 +1358,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
 
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
-                /** @var $customerBillingAddress Mage_Customer_Model_Address */
+                /** @var $customerBillingAddress Magento_Customer_Model_Address */
                 $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
                 $customerAddressId = $this->getBillingAddress()->getCustomerAddressId();
                 if ($customerAddressId && $customer->getId()) {
@@ -1369,7 +1369,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
 
             if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-                /** @var $customerShippingAddress Mage_Customer_Model_Address */
+                /** @var $customerShippingAddress Magento_Customer_Model_Address */
                 $customerShippingAddress = $this->getShippingAddress()->exportCustomerAddress();
                 $customerAddressId = $this->getShippingAddress()->getCustomerAddressId();
                 if ($customerAddressId && $customer->getId()) {
@@ -1397,7 +1397,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             }
         } else {
             // Prepare new customer
-            /** @var $customerBillingAddress Mage_Customer_Model_Address */
+            /** @var $customerBillingAddress Magento_Customer_Model_Address */
             $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
             $customer->addData($customerBillingAddress->getData())
                 ->setPassword($customer->generatePassword())
@@ -1416,7 +1416,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 && !$shippingAddress->getSameAsBilling()
                 && $shippingAddress->getSaveInAddressBook()
             ) {
-                /** @var $customerShippingAddress Mage_Customer_Model_Address */
+                /** @var $customerShippingAddress Magento_Customer_Model_Address */
                 $customerShippingAddress = $shippingAddress->exportCustomerAddress();
                 $customerShippingAddress->setIsDefaultShipping(true);
                 $customer->addAddress($customerShippingAddress);
@@ -1594,7 +1594,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve new customer email
      *
-     * @param   Mage_Customer_Model_Customer $customer
+     * @param   Magento_Customer_Model_Customer $customer
      * @return  string
      */
     protected function _getNewCustomerEmail($customer)
@@ -1603,7 +1603,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if (empty($email)) {
             $host = $this->getSession()
                 ->getStore()
-                ->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+                ->getConfig(Magento_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
             $account = $customer->getIncrementId() ? $customer->getIncrementId() : time();
             $email = $account.'@'. $host;
             $account = $this->getData('account');

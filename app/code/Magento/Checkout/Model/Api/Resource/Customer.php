@@ -36,8 +36,8 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
      */
     protected function _getCustomer($customerId)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')
+        /** @var $customer Magento_Customer_Model_Customer */
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')
             ->load($customerId);
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
@@ -50,11 +50,11 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
      * Get customer address by identifier
      *
      * @param   int $addressId
-     * @return  Mage_Customer_Model_Address
+     * @return  Magento_Customer_Model_Address
      */
     protected function _getCustomerAddress($addressId)
     {
-        $address = Mage::getModel('Mage_Customer_Model_Address')->load((int)$addressId);
+        $address = Mage::getModel('Magento_Customer_Model_Address')->load((int)$addressId);
         if (is_null($address->getId())) {
             $this->_fault('invalid_address_id');
         }
@@ -100,7 +100,7 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
-            ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
         return $this;
     }
 
@@ -115,9 +115,9 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        //$customer = Mage::getModel('Mage_Customer_Model_Customer');
+        //$customer = Mage::getModel('Magento_Customer_Model_Customer');
         $customer = $quote->getCustomer();
-        /* @var $customer Mage_Customer_Model_Customer */
+        /* @var $customer Magento_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);

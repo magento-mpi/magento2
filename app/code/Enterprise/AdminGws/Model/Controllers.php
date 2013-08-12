@@ -157,7 +157,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCustomerEdit($controller)
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_request->getParam('id'));
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_request->getParam('id'));
         if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
@@ -173,7 +173,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if (!$id = $this->_request->getParam('id')) {
             return $this->_forward();
         }
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($id);
         if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }

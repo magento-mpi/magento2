@@ -441,7 +441,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
                 $this->_throwException(sprintf('Gift card account %s is not redeemable.', $this->getId()));
             }
             if (is_null($customerId)) {
-                $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+                $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
             }
             if (!$customerId) {
                 Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('You supplied an invalid customer ID.'));

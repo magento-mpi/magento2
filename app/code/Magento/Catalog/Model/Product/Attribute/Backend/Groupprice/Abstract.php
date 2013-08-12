@@ -219,7 +219,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
         foreach ($data as $k => $v) {
             $data[$k]['website_price'] = $v['price'];
             if ($v['all_groups']) {
-                $data[$k]['cust_group'] = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+                $data[$k]['cust_group'] = Magento_Customer_Model_Group::CUST_GROUP_ALL;
             }
         }
 
@@ -301,7 +301,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
                 $this->_getAdditionalUniqueFields($data)
             ));
 
-            $useForAllGroups = $data['cust_group'] == Mage_Customer_Model_Group::CUST_GROUP_ALL;
+            $useForAllGroups = $data['cust_group'] == Magento_Customer_Model_Group::CUST_GROUP_ALL;
             $customerGroupId = !$useForAllGroups ? $data['cust_group'] : 0;
 
             $new[$key] = array_merge(array(

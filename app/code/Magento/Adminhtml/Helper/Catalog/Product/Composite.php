@@ -108,7 +108,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
             if (!$currentCustomer) {
                 $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
-                    $currentCustomer = Mage::getModel('Mage_Customer_Model_Customer')
+                    $currentCustomer = Mage::getModel('Magento_Customer_Model_Customer')
                         ->load($currentCustomerId);
                 }
             }
