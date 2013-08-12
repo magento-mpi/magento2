@@ -55,8 +55,8 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
+        /** @var Magento_Webapi_Model_Acl_User $user */
+        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
         $user->load($this->_apiUserId);
         $user->delete();
     }

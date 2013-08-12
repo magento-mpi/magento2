@@ -35,8 +35,8 @@ class Mage_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Fr
 
     public static function setUpBeforeClass()
     {
-        /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User');
+        /** @var Magento_Webapi_Model_Acl_User $user */
+        $user = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();

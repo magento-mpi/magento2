@@ -13,7 +13,7 @@
  */
 class Mage_Webhook_Model_Webapi_EventHandler
 {
-    /** @var Mage_Webapi_Model_Resource_Acl_User  */
+    /** @var Magento_Webapi_Model_Resource_Acl_User  */
     private $_resourceAclUser;
 
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection  */
@@ -21,11 +21,11 @@ class Mage_Webhook_Model_Webapi_EventHandler
 
     /**
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
-     * @param Mage_Webapi_Model_Resource_Acl_User $resourceAclUser
+     * @param Magento_Webapi_Model_Resource_Acl_User $resourceAclUser
      */
     public function __construct(
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Mage_Webapi_Model_Resource_Acl_User $resourceAclUser
+        Magento_Webapi_Model_Resource_Acl_User $resourceAclUser
     ) {
         $this->_subscriptionSet = $subscriptionSet;
         $this->_resourceAclUser = $resourceAclUser;
@@ -34,7 +34,7 @@ class Mage_Webhook_Model_Webapi_EventHandler
     /**
      * Notifies the event handler that a webapi user has changed
      *
-     * @param  Mage_Webapi_Model_Acl_User $user User object that changed
+     * @param  Magento_Webapi_Model_Acl_User $user User object that changed
      */
     public function userChanged($user)
     {
@@ -45,7 +45,7 @@ class Mage_Webhook_Model_Webapi_EventHandler
     /**
      * Notifies the event handler that a webapi role has changed
      *
-     * @param  Mage_Webapi_Model_Acl_Role $role Role object that changed
+     * @param  Magento_Webapi_Model_Acl_Role $role Role object that changed
      */
     public function roleChanged($role)
     {

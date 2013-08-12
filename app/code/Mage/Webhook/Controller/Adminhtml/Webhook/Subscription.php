@@ -95,7 +95,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_Bac
             }
 
             $this->loadLayout()
-                ->_setActiveMenu('Mage_Webapi::system_webapi')
+                ->_setActiveMenu('Magento_Webapi::system_webapi')
                 ->_title($this->__('System'))
                 ->_title($this->__('Web Services'))
                 ->_title($this->__('WebHook Subscriptions'));

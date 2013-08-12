@@ -46,7 +46,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Magento_Backend_Block_System_Config_Form',
             'Magento_Backend_Block_System_Config_Tabs',
             'Magento_Review_Block_Form',
-            // Fails because of of bug in Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader constructor
+            // Fails because of of bug in Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader constructor
             'Magento_Adminhtml_Block_Cms_Page',
             'Magento_Adminhtml_Block_Cms_Page_Edit',
             'Magento_Adminhtml_Block_Sales_Order',
@@ -55,7 +55,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Magento_Paypal_Block_Adminhtml_Settlement_Report',
             'Magento_Sales_Block_Adminhtml_Billing_Agreement_View',
             'Magento_User_Block_Role_Tab_Edit',
-            'Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
+            'Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
             // Fails only in SAAS, could be something wrong list of classes being deleted
             'Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit',
             'Magento_Adminhtml_Block_Sales_Order_Invoice_View',

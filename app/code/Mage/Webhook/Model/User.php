@@ -11,7 +11,7 @@
  */
 class Mage_Webhook_Model_User implements Magento_Outbound_UserInterface
 {
-    /** @var Mage_Webapi_Model_Acl_User  */
+    /** @var Magento_Webapi_Model_Acl_User  */
     private $_user;
 
     /**
@@ -22,16 +22,16 @@ class Mage_Webhook_Model_User implements Magento_Outbound_UserInterface
     private $_authorization;
 
     /**
-     * @param Mage_Webapi_Model_Acl_User_Factory $userFactory
-     * @param Mage_Webapi_Model_Authorization_Role_Locator_Factory $roleLocatorFactory
-     * @param Mage_Webapi_Model_Authorization_Policy_Acl $aclPolicy
+     * @param Magento_Webapi_Model_Acl_User_Factory $userFactory
+     * @param Magento_Webapi_Model_Authorization_Role_Locator_Factory $roleLocatorFactory
+     * @param Magento_Webapi_Model_Authorization_Policy_Acl $aclPolicy
      * @param Magento_Authorization_Factory $authorizationFactory
      * @param string $webapiUserId
      */
     public function __construct(
-        Mage_Webapi_Model_Acl_User_Factory $userFactory,
-        Mage_Webapi_Model_Authorization_Role_Locator_Factory $roleLocatorFactory,
-        Mage_Webapi_Model_Authorization_Policy_Acl $aclPolicy,
+        Magento_Webapi_Model_Acl_User_Factory $userFactory,
+        Magento_Webapi_Model_Authorization_Role_Locator_Factory $roleLocatorFactory,
+        Magento_Webapi_Model_Authorization_Policy_Acl $aclPolicy,
         Magento_Authorization_Factory $authorizationFactory,
         $webapiUserId
     ) {

@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Core />
-                <Mage_Webapi />
+                <Magento_Webapi />
                 <Magento_Backend />
             </depends>
         </Mage_Webhook>

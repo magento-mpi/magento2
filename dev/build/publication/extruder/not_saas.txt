@@ -52,7 +52,7 @@ dev/tests/integration/testsuite/Magento/Authorizenet
 dev/tests/integration/testsuite/Magento/Connect
 dev/tests/integration/testsuite/Magento/Downloadable
 dev/tests/integration/testsuite/Magento/PageCache
-dev/tests/integration/testsuite/Mage/Webapi
+dev/tests/integration/testsuite/Magento/Webapi
 dev/tests/integration/testsuite/Mage/Webhook
 dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
@@ -72,7 +72,7 @@ dev/tests/unit/testsuite/Enterprise/Reward
 dev/tests/unit/testsuite/Enterprise/Rma
 dev/tests/unit/testsuite/Enterprise/Tag
 dev/tests/unit/testsuite/Magento/Downloadable
-dev/tests/unit/testsuite/Mage/Webapi
+dev/tests/unit/testsuite/Magento/Webapi
 dev/tests/unit/testsuite/Mage/Webhook
 pub/lib/mage/directpost.js
 ########################################################################################################################

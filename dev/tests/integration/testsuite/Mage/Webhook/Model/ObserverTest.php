@@ -17,10 +17,10 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webhook_Model_Subscription */
     private $_subscription;
 
-    /** @var Mage_Webapi_Model_Acl_User */
+    /** @var Magento_Webapi_Model_Acl_User */
     private $_user;
 
-    /** @var Mage_Webapi_Model_Acl_Role */
+    /** @var Magento_Webapi_Model_Acl_Role */
     private $_role;
 
     /** @var Mage_Webhook_Model_Endpoint */
@@ -42,20 +42,20 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->setEndpointUrl('http://localhost')
             ->save();
 
-        $this->_role = $objectManager->create('Mage_Webapi_Model_Acl_Role')
+        $this->_role = $objectManager->create('Magento_Webapi_Model_Acl_Role')
             ->setData(array( 'role_name' => 'Test role'))
             ->save();
 
         $allowResourceId = 'test/get';
-        /** @var Mage_Webapi_Model_Acl_Rule $rule */
-        $rule = $objectManager->create('Mage_Webapi_Model_Acl_Rule');
+        /** @var Magento_Webapi_Model_Acl_Rule $rule */
+        $rule = $objectManager->create('Magento_Webapi_Model_Acl_Rule');
         $rule->setData(array(
             'resource_id' => $allowResourceId,
             'role_id' => $this->_role->getId()
         ));
         $rule->save();
 
-        $this->_user = Mage::getModel('Mage_Webapi_Model_Acl_User')
+        $this->_user = Mage::getModel('Magento_Webapi_Model_Acl_User')
             ->setData(array(
             'api_key' => 'webhook_test_username',
             'secret' => 'webhook_test_secret',

@@ -24,12 +24,12 @@ class Mage_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCas
     public function testGetApiUserEndpoints()
     {
         // Set up the users to be associated with endpoints
-        $apiUserId = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
+        $apiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
             ->setDataChanged(true)
             ->setApiKey('api_key1')
             ->save()
             ->getUserId();
-        $wrongApiUserId = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
+        $wrongApiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
             ->setDataChanged(true)
             ->setApiKey('api_key2')
             ->save()
@@ -64,7 +64,7 @@ class Mage_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCas
     public function testGetEndpointsWithoutApiUser()
     {
         // Set up the user to be associated with endpoints
-        $apiUserId = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
+        $apiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
             ->setDataChanged(true)
             ->setApiKey('api_key3')
             ->save()

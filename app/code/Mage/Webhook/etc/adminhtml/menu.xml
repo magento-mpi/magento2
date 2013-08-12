@@ -12,6 +12,6 @@
 <config>
     <menu>
         <add id="Mage_Webhook::system_api_webapi_webhook" title="WebHook Subscriptions" module="Mage_Webhook" sortOrder="15"
-            parent="Mage_Webapi::system_webapi" action="adminhtml/webhook_subscription/index" resource="Mage_Webhook::webhook"/>
+            parent="Magento_Webapi::system_webapi" action="adminhtml/webhook_subscription/index" resource="Mage_Webhook::webhook"/>
     </menu>
 </config>

@@ -24,12 +24,12 @@ class Mage_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $webApiId = 'web api id';
 
-        $this->_mockAclUser = $this->getMockBuilder('Mage_Webapi_Model_Acl_User_Factory')
+        $this->_mockAclUser = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
             ->setMethods(array('load', 'getRoleId', 'getSecret'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockUserFactory = $this->getMockBuilder('Mage_Webapi_Model_Acl_User_Factory')
+        $mockUserFactory = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -42,7 +42,7 @@ class Mage_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->with($this->equalTo($webApiId));
 
-        $mockRLocatorFactory = $this->getMockBuilder('Mage_Webapi_Model_Authorization_Role_Locator_Factory')
+        $mockRLocatorFactory = $this->getMockBuilder('Magento_Webapi_Model_Authorization_Role_Locator_Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,7 +60,7 @@ class Mage_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockAclPolicy = $this->getMockBuilder('Mage_Webapi_Model_Authorization_Policy_Acl')
+        $mockAclPolicy = $this->getMockBuilder('Magento_Webapi_Model_Authorization_Policy_Acl')
             ->disableOriginalConstructor()
             ->getMock();
 

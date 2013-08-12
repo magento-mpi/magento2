@@ -20,13 +20,13 @@ class Mage_Webhook_Model_Webapi_User_Factory
     /** name delimiter */
     const NAME_DELIM = ' - ';
 
-    /** @var Mage_Webapi_Model_Acl_Rule_Factory  */
+    /** @var Magento_Webapi_Model_Acl_Rule_Factory  */
     private $_ruleFactory;
 
-    /** @var Mage_Webapi_Model_Acl_User_Factory  */
+    /** @var Magento_Webapi_Model_Acl_User_Factory  */
     private $_userFactory;
 
-    /** @var Mage_Webapi_Model_Acl_Role_Factory  */
+    /** @var Magento_Webapi_Model_Acl_Role_Factory  */
     private $_roleFactory;
 
     /** @var array virtual resource to resource mapping  */
@@ -39,19 +39,19 @@ class Mage_Webhook_Model_Webapi_User_Factory
     private $_coreHelper;
 
     /**
-     * @param Mage_Webapi_Model_Acl_Rule_Factory $ruleFactory
-     * @param Mage_Webapi_Model_Acl_User_Factory $userFactory
-     * @param Mage_Webapi_Model_Acl_Role_Factory $roleFactory
-     * @param Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
-     * @param Mage_Webapi_Model_Acl_Cache $cache
+     * @param Magento_Webapi_Model_Acl_Rule_Factory $ruleFactory
+     * @param Magento_Webapi_Model_Acl_User_Factory $userFactory
+     * @param Magento_Webapi_Model_Acl_Role_Factory $roleFactory
+     * @param Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
+     * @param Magento_Webapi_Model_Acl_Cache $cache
      * @param Magento_Core_Helper_Data $coreHelper
      */
     public function __construct(
-        Mage_Webapi_Model_Acl_Rule_Factory $ruleFactory,
-        Mage_Webapi_Model_Acl_User_Factory $userFactory,
-        Mage_Webapi_Model_Acl_Role_Factory $roleFactory,
-        Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig,
-        Mage_Webapi_Model_Acl_Cache $cache,
+        Magento_Webapi_Model_Acl_Rule_Factory $ruleFactory,
+        Magento_Webapi_Model_Acl_User_Factory $userFactory,
+        Magento_Webapi_Model_Acl_Role_Factory $roleFactory,
+        Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig,
+        Magento_Webapi_Model_Acl_Cache $cache,
         Magento_Core_Helper_Data $coreHelper
     ) {
         $this->_ruleFactory = $ruleFactory;
@@ -86,11 +86,11 @@ class Mage_Webhook_Model_Webapi_User_Factory
     }
 
     /**
-     * Creates a new Mage_Webapi_Model_Acl_Role role with a unique name
+     * Creates a new Magento_Webapi_Model_Acl_Role role with a unique name
      *
      * @param string $email
      * @param string $company
-     * @return Mage_Webapi_Model_Acl_Role
+     * @return Magento_Webapi_Model_Acl_Role
      */
     protected function _createWebapiRole($email, $company)
     {
@@ -145,7 +145,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
      * Creates a webapi User in the DB
      *
      * @param array $userContext
-     * @param Mage_Webapi_Model_Acl_Role $role
+     * @param Magento_Webapi_Model_Acl_Role $role
      * @return Magento_Core_Model_Abstract
      */
     protected function _createWebapiUser(array $userContext, $role)
@@ -186,10 +186,10 @@ class Mage_Webhook_Model_Webapi_User_Factory
     /**
      * Initialize our virtual resource to merchant visible resource mapping array.
      *
-     * @param Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
+     * @param Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
      */
     protected function _initVirtualResourceMapping(
-        Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
+        Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
     ) {
         $virtualResources = $authorizationConfig->getAclVirtualResources();
         /** @var DOMElement $resourceDom */

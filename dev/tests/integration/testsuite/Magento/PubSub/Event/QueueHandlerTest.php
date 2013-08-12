@@ -81,7 +81,7 @@ class Magento_PubSub_Event_QueueHandlerTests extends PHPUnit_Framework_TestCase
             ))->save();
 
         // Simulate activating of the subscription
-        $webApiUser = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
+        $webApiUser = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
             ->setData('api_key', 'test')
             ->setData('secret', 'secret')
             ->save();

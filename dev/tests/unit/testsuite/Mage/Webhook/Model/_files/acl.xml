@@ -10,7 +10,7 @@
  */
 -->
 <config>
-    <mapping to="Mage_Webapi">
+    <mapping to="Magento_Webapi">
         <parent id="customer/get">
             <topic id="customer/updated"/>
             <topic id="customer/created"/>

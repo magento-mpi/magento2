@@ -1224,7 +1224,7 @@
     <webapi_acl_role translate="label">
         <label>Web Services API Roles</label>
         <expected_models>
-            <Mage_Webapi_Model_Acl_Role/>
+            <Magento_Webapi_Model_Acl_Role/>
         </expected_models>
         <actions>
             <adminhtml_webapi_role_save>
@@ -1245,7 +1245,7 @@
     <webapi_acl_user translate="label">
         <label>Web Services API Users</label>
         <expected_models>
-            <Mage_Webapi_Model_Acl_User/>
+            <Magento_Webapi_Model_Acl_User/>
         </expected_models>
         <actions>
             <adminhtml_webapi_user_save>

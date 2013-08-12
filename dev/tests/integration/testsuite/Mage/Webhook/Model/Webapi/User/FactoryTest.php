@@ -38,8 +38,8 @@ class Mage_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestC
 
     public function tearDown()
     {
-        /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
+        /** @var Magento_Webapi_Model_Acl_User $user */
+        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
@@ -50,8 +50,8 @@ class Mage_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestC
         $userFactory = Mage::getModel('Mage_Webhook_Model_Webapi_User_Factory');
         $this->_apiUserId = $userFactory->createUser($this->_userContext, array('webhook/create'));
 
-        /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
+        /** @var Magento_Webapi_Model_Acl_User $user */
+        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
         $user->load($this->_apiUserId);
 
         $this->assertEquals(self::VALUE_COMPANY_NAME, $user->getCompanyName());
@@ -60,8 +60,8 @@ class Mage_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestC
         $this->assertEquals(self::VALUE_KEY_VALUE, $user->getApiKey());
         $this->assertNotEquals(0, $user->getRoleId());
 
-        /** @var Mage_Webapi_Model_Resource_Acl_Rule $ruleResources */
-        $ruleResources = Mage::getModel('Mage_Webapi_Model_Resource_Acl_Rule');
+        /** @var Magento_Webapi_Model_Resource_Acl_Rule $ruleResources */
+        $ruleResources = Mage::getModel('Magento_Webapi_Model_Resource_Acl_Rule');
         $rules = $ruleResources->getResourceIdsByRole($user->getRoleId());
         $this->assertNotEmpty($rules);
     }

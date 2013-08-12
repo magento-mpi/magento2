@@ -11,7 +11,7 @@ app/code/Magento/Core/Model/Config/Element.php
 app/code/Magento/DesignEditor/view
 app/code/Magento/Theme/view
 app/code/Magento/User/view
-app/code/Mage/Webapi/view
+app/code/Magento/Webapi/view
 app/code/Mage/Webhook/view
 dev/tests/integration/testsuite/Magento/Code/_files
 dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php

@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::system">
-                    <resource id="Mage_Webapi::webapi">
+                    <resource id="Magento_Webapi::webapi">
                         <resource id="Mage_Webhook::webhook" title="WebHook Subscriptions" sortOrder="15" />
                     </resource>
                 </resource>

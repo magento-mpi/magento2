@@ -25,7 +25,7 @@ class Mage_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_TestC
         $this->_collection = $this->getMockBuilder('Mage_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_resourceAclUser = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_User')
+        $this->_resourceAclUser = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_User')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -116,7 +116,7 @@ class Mage_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_TestC
 
     protected function _createMockRole($roleId)
     {
-        $role = $this->getMockBuilder('Mage_Webapi_Model_Acl_Role')
+        $role = $this->getMockBuilder('Magento_Webapi_Model_Acl_Role')
             ->disableOriginalConstructor()
             ->getMock();
         $role->expects($this->any())
@@ -127,7 +127,7 @@ class Mage_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_TestC
 
     protected function _createMockUser($userId)
     {
-        $user = $this->getMockBuilder('Mage_Webapi_Model_Acl_User')
+        $user = $this->getMockBuilder('Magento_Webapi_Model_Acl_User')
             ->disableOriginalConstructor()
             ->getMock();
         $user->expects($this->any())
