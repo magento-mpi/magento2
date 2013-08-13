@@ -32,8 +32,8 @@
         data-mage-init="{accordion: {active: <?php echo $this->isAdvancedTabGroupActive() ? '0' : 'false' ?>, collapsible: true}}"
         <?php endif;?>>
         <h3 <?php echo $this->getUiId('title') ?>>
-            <?php echo $isBasic ? Mage::helper('Mage_Catalog_Helper_Data')->__('Basic Settings')
-            : Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Settings') ?>
+            <?php echo $isBasic ? $this->helper('Mage_Catalog_Helper_Data')->__('Basic Settings')
+            : $this->helper('Mage_Catalog_Helper_Data')->__('Advanced Settings') ?>
         </h3>
         <ul <?php echo $this->getUiId('tab', $tabGroupId) ?> class="tabs">
             <?php foreach ($tabs as $_tab): ?>

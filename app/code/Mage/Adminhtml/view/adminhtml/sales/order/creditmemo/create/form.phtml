@@ -21,13 +21,13 @@
             <?php /* Billing Address */ ?>
             <div class="fieldset-wrapper">
                 <div class="fieldset-wrapper-title">
-                    <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
+                    <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
                 </div>
                 <div><?php echo $this->getChildHtml('order_payment') ?></div>
-                <div class="order-payment-currency"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
+                <div class="order-payment-currency"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
                 <?php /*if ($this->getCreditmemo()->canRefund()): ?>
                 <input type="checkbox" name="creditmemo[do_refund]" id="creditmemo_do_refund" value="1" checked/>
-                <label for="creditmemo_do_refund" class="normal"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Refund Amount') ?></label>
+                <label for="creditmemo_do_refund" class="normal"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Refund Amount') ?></label>
                 <?php endif;*/ ?>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <?php /* Shipping Address */ ?>
             <div class="fieldset-wrapper">
                 <div class="fieldset-wrapper-title">
-                    <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
+                    <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
                 </div>
                 <div class="shipping-description-wrapper">
                     <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>

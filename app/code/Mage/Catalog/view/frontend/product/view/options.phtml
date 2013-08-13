@@ -10,7 +10,7 @@
 /* @var $this Mage_Catalog_Block_Product_View_Options */
 ?>
 
-<?php $_options = Mage::helper('Mage_Core_Helper_Data')->decorateArray($this->getOptions()) ?>
+<?php $_options = $this->helper('Mage_Core_Helper_Data')->decorateArray($this->getOptions()) ?>
 <?php if (count($_options)):?>
     <script type="text/javascript">
         (function ($) {

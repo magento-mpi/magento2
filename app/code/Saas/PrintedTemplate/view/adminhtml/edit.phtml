@@ -35,7 +35,7 @@
     <div class="entry-edit">
         <div class="entry-edit-head">
             <h4 class="icon-head head-edit-form fieldset-legend">
-            <?php echo Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Load Sample Template') ?>
+            <?php echo $this->helper('Saas_PrintedTemplate_Helper_Data')->__('Load Sample Template') ?>
             </h4>
             <div class="form-buttons"></div>
         </div>
@@ -45,7 +45,7 @@
                     <tr>
                         <td class="label">
                             <label for="template_select">
-                            <?php echo Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Template') ?>
+                            <?php echo $this->helper('Saas_PrintedTemplate_Helper_Data')->__('Template') ?>
                             <span class="required">*</span>
                             </label>
                         </td>
@@ -61,14 +61,14 @@
                     <tr>
                         <td class="label">
                             <label for="locale_select">
-                            <?php echo Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Sample Template') ?>
+                            <?php echo $this->helper('Saas_PrintedTemplate_Helper_Data')->__('Sample Template') ?>
                             <span class="required">*</span>
                             </label>
                         </td>
                         <td class="value">
                             <select id="locale_select" name="locale" class="select required-entry">
                                 <?php foreach ($this->getLocaleOptions() as $_option): ?>
-                                <option value="<?php echo $_option['value'] ?>"<?php if ($_option['value']==$this->getCurrentLocale()): ?> selected="selected"<?php endif; ?>><?php echo $this->escapeHtml(Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($_option['label'])) ?></option>
+                                <option value="<?php echo $_option['value'] ?>"<?php if ($_option['value']==$this->getCurrentLocale()): ?> selected="selected"<?php endif; ?>><?php echo $this->escapeHtml($this->helper('Saas_PrintedTemplate_Helper_Data')->__($_option['label'])) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </td>

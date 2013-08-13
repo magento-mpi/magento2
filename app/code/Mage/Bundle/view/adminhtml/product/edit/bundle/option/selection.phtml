@@ -15,16 +15,16 @@
         <thead>
             <tr class="headings">
                 <th class="col-draggable"></th>
-                <th class="col-default"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default') ?></th>
-                <th class="col-name"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Name') ?></th>
-                <th class="col-sku"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
+                <th class="col-default"><?php echo $this->helper('Mage_Bundle_Helper_Data')->__('Default') ?></th>
+                <th class="col-name"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Name') ?></th>
+                <th class="col-sku"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
             <?php if ($this->getCanReadPrice() !== false): ?>
-                <th class="col-price price-type-box"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
-                <th class="col-price price-type-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Price Type') ?></th>
+                <th class="col-price price-type-box"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
+                <th class="col-price price-type-box"><?php echo $this->helper('Mage_Bundle_Helper_Data')->__('Price Type') ?></th>
             <?php endif; ?>
-                <th class="col-qty"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Quantity') ?></th>
-                <th class="col-uqty qty-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('User Defined') ?></th>
-                <th class="col-order type-order" style="display:none"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
+                <th class="col-qty"><?php echo $this->helper('Mage_Bundle_Helper_Data')->__('Default Quantity') ?></th>
+                <th class="col-uqty qty-box"><?php echo $this->helper('Mage_Bundle_Helper_Data')->__('User Defined') ?></th>
+                <th class="col-order type-order" style="display:none"><?php echo $this->helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
                 <th class="col-actions"></th>
             </tr>
         </thead>

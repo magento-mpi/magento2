@@ -20,8 +20,8 @@
     <?php endif; ?>
     <input type="image" data-action="checkout-form-submit" data-checkout-url="<?php echo $this->getCheckoutUrl()?>"
            src="<?php echo $this->getImageUrl()?>"
-           alt="<?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Checkout with PayPal');?>"
-           title="<?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Checkout with PayPal');?>"/>
+           alt="<?php echo $this->helper('Mage_Paypal_Helper_Data')->__('Checkout with PayPal');?>"
+           title="<?php echo $this->helper('Mage_Paypal_Helper_Data')->__('Checkout with PayPal');?>"/>
     <?php if ($this->isOrPositionAfter()): ?>
     <span class="paypal-or"><?php echo $this->__('-OR-');?></span>
     <?php endif; ?>
@@ -40,7 +40,7 @@ endif; ?>
                 "<?php echo $this->getViewFileUrl('Mage_Paypal::js/paypal-checkout.js') ?>",
                 function() {
                     $('.paypal-logo').paypalCheckout({
-                        confirmMessage: "<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
+                        confirmMessage: "<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
                         confirmUrl: "<?php echo !empty($confirmationUrl) ? $confirmationUrl : false ?>",
                         isCatalogProduct: "<?php echo !empty($isInCatalogProduct) ? $isInCatalogProduct : false ?>",
                         paypalCheckoutSelector: '#pp-checkout-url',

@@ -12,10 +12,10 @@
 <table cellspacing="0" class="data-table" id="shipment_tracking_info">
     <thead>
         <tr class="headings">
-            <th class="col-carrier"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Carrier') ?></th>
-            <th class="col-title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Title') ?></th>
-            <th class="col-number"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Number') ?></th>
-            <th class="col-delete last"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Action') ?></th>
+            <th class="col-carrier"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Carrier') ?></th>
+            <th class="col-title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Title') ?></th>
+            <th class="col-number"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Number') ?></th>
+            <th class="col-delete last"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Action') ?></th>
         </tr>
     </thead>
     <tfoot>
@@ -47,7 +47,7 @@
                 <div id="shipment_tracking_info_response_<?php echo $_track->getId() ?>"></div>
                 <?php endif; ?>
             </td>
-            <td class="col-delete last"><a href="#" class="action-delete" onclick="deleteTrackingNumber('<?php echo $this->getRemoveUrl($_track) ?>'); return false;" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Delete') ?>"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Delete') ?></span></a></td>
+            <td class="col-delete last"><a href="#" class="action-delete" onclick="deleteTrackingNumber('<?php echo $this->getRemoveUrl($_track) ?>'); return false;" title="<?php echo $this->helper('Mage_Sales_Helper_Data')->__('Delete') ?>"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Delete') ?></span></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
@@ -61,7 +61,7 @@ function selectCarrier(elem) {
 }
 
 function deleteTrackingNumber(url) {
-    if (confirm('<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure?') ?>')) {
+    if (confirm('<?php echo $this->helper('Mage_Sales_Helper_Data')->__('Are you sure?') ?>')) {
         submitAndReloadArea($('shipment_tracking_info').parentNode, url)
     }
 }

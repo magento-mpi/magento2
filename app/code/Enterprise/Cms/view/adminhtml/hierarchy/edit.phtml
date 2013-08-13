@@ -28,7 +28,7 @@
         <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
         <div class="cms-scope">
             <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-            <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use the parent node hierarchy.') ?></label>
+            <label for="use_default_scope"><?php echo $this->helper('Enterprise_Cms_Helper_Data')->__('Use the parent node hierarchy.') ?></label>
         </div>
         <?php endif; ?>
 
@@ -61,7 +61,7 @@
 
     function deleteCurrentHierarchy()
     {
-        if (confirm(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Are you sure you want to delete current hierarchy?")); ?>)) {
+        if (confirm(<?php echo json_encode($this->helper('Enterprise_Cms_Helper_Data')->__("Are you sure you want to delete current hierarchy?")); ?>)) {
             document.location = '<?php echo $this->getDeleteHierarchyUrl() ?>';
         }
     }
@@ -255,7 +255,7 @@
 
             var isTreeNode = node.parentNode.id == '_root';
 
-            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
+            <?php if ($this->helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
@@ -429,7 +429,7 @@
             }
 
             //if (this.dataModification) {
-            //    if (!confirm('<?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
+            //    if (!confirm('<?php echo $this->helper('Enterprise_Cms_Helper_Data')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
             //        return;
             //    }
             //}
@@ -490,7 +490,7 @@
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
 
-            <?php if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()): ?>
+            <?php if ($this->helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()): ?>
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();

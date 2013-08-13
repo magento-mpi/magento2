@@ -133,7 +133,7 @@
 </div>
 
 <?php
-    $helper = Mage::helper('Mage_Backup_Helper_Data');
+    $helper = $this->helper('Mage_Backup_Helper_Data');
     $rollbackUrl = $this->getUrl('*/*/rollback');
     $backupUrl = $this->getUrl('*/*/create');
 ?>

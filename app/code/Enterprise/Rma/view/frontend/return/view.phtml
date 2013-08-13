@@ -29,7 +29,7 @@
                         <br />
                         <?php echo $this->__('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br />
                         <?php echo $this->__('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br />
-                        <?php echo $this->__('Date Requested') ?>: <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
+                        <?php echo $this->__('Date Requested') ?>: <?php echo $this->helper('Enterprise_Rma_Helper_Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
                         <?php echo $this->__('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
                         <?php echo $this->__('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
                     </p>

@@ -43,9 +43,9 @@
     </div>
 
     <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>" id="tax-rule-disabled">
-        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
-        <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
-        <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
+        <h2 class="title"><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
+        <p><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
+        <p><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
     </div>
 
     <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>disabled<?php endif; ?>" id="tax-rule-config">

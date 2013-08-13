@@ -10,8 +10,8 @@
 ?>
 <?php
 if (
-    !Mage::helper('Saas_UnitPrice_Helper_Data')->moduleActive()
-    || Mage::helper('Saas_UnitPrice_Helper_Data')->inAdmin()
+    !$this->helper('Saas_UnitPrice_Helper_Data')->moduleActive()
+    || $this->helper('Saas_UnitPrice_Helper_Data')->inAdmin()
 ) {
     return;
 }
@@ -21,7 +21,7 @@ if (
 <?php if ($product->getData('unit_price_use')): ?>
 <div class="unitprice-box">
     <span class="uint-label-<?php echo $product->getId() ?>">
-        <?php echo Mage::helper('Saas_UnitPrice_Helper_Data')->getUnitPriceLabel($product); ?>
+        <?php echo $this->helper('Saas_UnitPrice_Helper_Data')->getUnitPriceLabel($product); ?>
     </span>
 </div>
 <?php endif; ?>

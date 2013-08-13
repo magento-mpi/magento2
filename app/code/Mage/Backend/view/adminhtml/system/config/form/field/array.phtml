@@ -62,9 +62,9 @@ var arrayRow<?php echo $_htmlId ?> = {
             +'<\/td>'
 <?php endforeach;?>
 <?php if ($this->isAddAfter()):?>
-            +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><span><span><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Add after') ?><\/span><\/span><\/span><\/button><\/td>'
+            +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><span><span><?php echo $this->helper('Mage_Backend_Helper_Data')->__('Add after') ?><\/span><\/span><\/span><\/button><\/td>'
 <?php endif;?>
-            +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><span><span><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Delete') ?><\/span><\/span><\/span><\/button><\/td>'
+            +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><span><span><?php echo $this->helper('Mage_Backend_Helper_Data')->__('Delete') ?><\/span><\/span><\/span><\/button><\/td>'
         +'<\/tr>'
     ),
 

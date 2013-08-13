@@ -87,7 +87,7 @@ if (!$storeCode && $websiteCode) {
             this.storedOriginShipment = '<?php echo $storedOriginShipment ?>';
             this.storedFreeShipment = '<?php echo $storedFreeShipment ?>';
             this.storedUpsType = '<?php echo $storedUpsType ?>';
-            <?php /** @var $_coreHelper Mage_Core_Helper_Data */ $_coreHelper = Mage::helper('Mage_Core_Helper_Data'); ?>
+            <?php /** @var $_coreHelper Mage_Core_Helper_Data */ $_coreHelper = $this->helper('Mage_Core_Helper_Data'); ?>
             this.storedAllowedMethods = <?php echo $_coreHelper->jsonEncode($storedAllowedMethods) ?>;
             this.originShipmentObj = <?php echo $_coreHelper->jsonEncode($orShipArr) ?>;
             this.originShipmentObj['default'] = <?php echo $_coreHelper->jsonEncode($defShipArr) ?>;
@@ -108,7 +108,7 @@ if (!$storeCode && $websiteCode) {
             while (freeMethod.length > 0) {
                 freeMethod.remove(0);
             }
-            freeMethod.insert(new Element('option', {value:''}).update('<?php echo $_coreHelper->escapeHtml(Mage::helper('Mage_Shipping_Helper_Data')->__('None')); ?>'));
+            freeMethod.insert(new Element('option', {value:''}).update('<?php echo $_coreHelper->escapeHtml($this->helper('Mage_Shipping_Helper_Data')->__('None')); ?>'));
 
             var code, option;
             for (code in originShipment) {

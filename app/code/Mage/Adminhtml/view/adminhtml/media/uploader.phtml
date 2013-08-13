@@ -13,7 +13,7 @@
 
 <div id="<?php echo $this->getHtmlId() ?>" class="uploader">
     <div class="fileinput-button form-buttons button">
-        <span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>
+        <span><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>
         <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
             data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple="multiple" />
     </div>

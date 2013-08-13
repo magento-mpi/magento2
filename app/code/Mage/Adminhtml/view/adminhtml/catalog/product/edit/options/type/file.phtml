@@ -15,12 +15,12 @@
             <thead>
             <tr>
                 <?php if ($this->getCanReadPrice() !== false) : ?>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price'); ?></th>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price Type'); ?></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Price'); ?></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Price Type'); ?></th>
                 <?php endif; ?>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'); ?></th>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Allowed File Extensions'); ?></th>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Maximum Image Size'); ?></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('SKU'); ?></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Allowed File Extensions'); ?></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Maximum Image Size'); ?></th>
             </tr>
             </thead>
             <tr>
@@ -43,10 +43,10 @@
                 <td>
                     <input name="product[options][${option_id}][file_extension]" class="input-text" type="text" value="${file_extension}">
                 </td>
-                <td class="col-file"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%s x %s px.',
+                <td class="col-file"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('%s x %s px.',
                     '<input class="input-text" type="text" name="product[options][${option_id}][image_size_x]" value="${image_size_x}">',
                     '<input class="input-text" type="text" name="product[options][${option_id}][image_size_y]" value="${image_size_y}">') ?>
-                    <br/><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please leave blank if it is not an image.') ?>
+                    <br/><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Please leave blank if it is not an image.') ?>
                 </td>
             </tr>
         </table>

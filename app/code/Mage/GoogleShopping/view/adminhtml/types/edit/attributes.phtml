@@ -68,7 +68,7 @@ var attributesSelectTemplate = '<tr id="<?php echo $this->getFieldId() ?>_{{inde
                     '<input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="">' +
                 '</td>' +
                 '<td><?php echo $this->getGcontentAttributesSelectHtml() ?></td>' +
-                '<td class="col-delete">' + <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> + '</td>' +
+                '<td class="col-delete">' + <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> + '</td>' +
             '</tr>';
 
 var optionIndex = 0;
@@ -80,9 +80,9 @@ gContentAttribute = new Gcontent.Attribute(attributesSelectTemplate);
     <table class="data-table" id="gcontent_attribute">
         <thead>
             <tr>
-                <th class="col-type"><?php echo Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute') ?></th>
-                <th class="col-req"><?php echo Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Google Content Attribute') ?></th>
-                <th class="col-actions"><?php echo Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Action') ?></th>
+                <th class="col-type"><?php echo $this->helper('Mage_GoogleShopping_Helper_Data')->__('Attribute') ?></th>
+                <th class="col-req"><?php echo $this->helper('Mage_GoogleShopping_Helper_Data')->__('Google Content Attribute') ?></th>
+                <th class="col-actions"><?php echo $this->helper('Mage_GoogleShopping_Helper_Data')->__('Action') ?></th>
             </tr>
         </thead>
         <tbody id="gcontent_attribute_top">
@@ -109,5 +109,5 @@ gContentAttribute = new Gcontent.Attribute(attributesSelectTemplate);
 <?php endif; ?>
 
 <?php else: ?>
-    <?php echo Mage::helper('Mage_GoogleShopping_Helper_Data')->__("Please, select Attribute Set to load attributes") ?>
+    <?php echo $this->helper('Mage_GoogleShopping_Helper_Data')->__("Please, select Attribute Set to load attributes") ?>
 <?php endif; ?>

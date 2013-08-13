@@ -11,15 +11,15 @@
 /** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile */
 ?>
 <article class="tile-store-settings tile-shipping <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
-    <h2><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Shipping') ?></h2>
+    <h2><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Shipping') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Set up shipping rates and carriers.') ?>
+            <?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Set up shipping rates and carriers.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode() ?>"
                 data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
-            <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Open Shipping') ?></span>
+            <span><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Open Shipping') ?></span>
         </button>
     </div>
 
@@ -30,18 +30,18 @@
             <?php if (!empty($configuredMethods)) :?>
                 <?php foreach ($configuredMethods as $shippingCode => $shippingName): ?>
                     <li class="completed">
-                        <?php echo $this->escapeHtml($shippingName); ?> <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('is configured') ?>
+                        <?php echo $this->escapeHtml($shippingName); ?> <?php echo $this->helper('Saas_Launcher_Helper_Data')->__('is configured') ?>
                     </li>
                 <?php endforeach; ?>
             <?php else: ?>
-                <li class="uncompleted"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('No Shipping') ?></li>
+                <li class="uncompleted"><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('No Shipping') ?></li>
         <?php endif; ?>
             </ul>
         <div class="actions">
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/save') ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
-                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Edit Shipping') ?></span>
+                <span><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Edit Shipping') ?></span>
             </button>
         </div>
         <footer class="tile-more-info">

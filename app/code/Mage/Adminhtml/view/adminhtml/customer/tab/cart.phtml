@@ -49,10 +49,10 @@
 
     removeItem: function (itemId) {
         if (!itemId) {
-            alert('<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Customer_Helper_Data')->__('No item specified.')) ?>');
+            alert('<?php echo $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->helper('Mage_Customer_Helper_Data')->__('No item specified.')) ?>');
             return false;
         }
-        if(!confirm('<?php echo Mage::helper('Mage_Customer_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Customer_Helper_Data')->__('Are you sure that you want to remove this item?')) ?>')) {
+        if(!confirm('<?php echo $this->helper('Mage_Customer_Helper_Data')->jsQuoteEscape($this->helper('Mage_Customer_Helper_Data')->__('Are you sure that you want to remove this item?')) ?>')) {
             return false;
         }
 

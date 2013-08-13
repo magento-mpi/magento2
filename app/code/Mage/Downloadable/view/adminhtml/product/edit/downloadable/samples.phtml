@@ -18,7 +18,7 @@ $this->getConfigJson();
 ?>
 <div class="form-inline">
     <div class="field">
-        <label class="label" for="name"><span><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Title')?></span></label>
+        <label class="label" for="name"><span><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Title')?></span></label>
         <div class="control">
             <input type="text" class="input-text" name="product[samples_title]" value="<?php echo $this->getSamplesTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?>>
             <?php if($_product->getStoreId()): ?>
@@ -27,16 +27,16 @@ $this->getConfigJson();
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
+            <?php echo !Mage::app()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
     <table cellspacing="0" class="data-table">
         <thead>
             <tr>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Title') ?> <span class="required">*</span></th>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('File') ?></th>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Sort Order') ?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Title') ?> <span class="required">*</span></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('File') ?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Sort Order') ?></th>
                 <th class="col-delete">&nbsp;</th>
             </tr>
         </thead>
@@ -49,7 +49,7 @@ $this->getConfigJson();
         </tbody>
     </table>
 
-    <div><small><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Alphanumeric, dash and underscore characters are recommended for filenames. Improper characters are replaced with \'_\'.')?></small></div>
+    <div><small><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Alphanumeric, dash and underscore characters are recommended for filenames. Improper characters are replaced with \'_\'.')?></small></div>
 </div>
 <script type="text/javascript">
 //<![CDATA[>
@@ -69,7 +69,7 @@ var sampleTemplate = '<tr>'+
                                         '<div id="downloadable_sample_{{id}}_file-old" class="file-row-info"></div>'+
                                         '<div id="downloadable_sample_{{id}}_file-new" class="file-row-info new-file"></div>'+
                                         '<div class="fileinput-button form-buttons">'+
-                                            '<span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
+                                            '<span><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
                                             '<input id="downloadable_sample_{{id}}_file" type="file" name="<?php echo $this->getConfig()->getFileField() ?>" data-url="<?php echo $this->getConfig()->getUrl() ?>">' +
                                             '<script type="text/javascript">' +
                                             '/*<![CDATA[*/' +

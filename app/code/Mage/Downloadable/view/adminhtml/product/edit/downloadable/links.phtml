@@ -18,26 +18,26 @@
 <?php $this->getConfigJson() ?>
 <div class="form-inline">
     <div class="field">
-        <label class="label" for="name"><span><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Title')?></span></label>
+        <label class="label" for="name"><span><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Title')?></span></label>
         <div class="control">
             <input type="text" class="input-text" id="downloadable_links_title" name="product[links_title]" value="<?php echo $this->getLinksTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?>>
             <?php if($_product->getStoreId()): ?>
                 <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
-                <label class="normal" for="link_title_default"><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Use Default Value'); ?></label>
+                <label class="normal" for="link_title_default"><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Use Default Value'); ?></label>
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
+            <?php echo !Mage::app()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
     <div class="field">
-        <label class="label" for="name"><span><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Links can be purchased separately')?></span></label>
+        <label class="label" for="name"><span><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Links can be purchased separately')?></span></label>
         <div class="control">
             <?php echo $this->getPurchasedSeparatelySelect()?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') : ''; ?>
+            <?php echo !Mage::app()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') : ''; ?>
         </div>
     </div>
 
@@ -45,15 +45,15 @@
     <table cellspacing="0" class="data-table">
         <thead>
             <tr>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Title')?> <span class="required">*</span></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Title')?> <span class="required">*</span></th>
                 <?php if ($this->getCanReadPrice() !== false) : ?>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Price')?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Price')?></th>
                 <?php endif; ?>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Max. Downloads')?></th>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Shareable')?></th>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Sample')?></th>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('File')?></th>
-                <th><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Sort Order')?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Max. Downloads')?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Shareable')?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Sample')?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('File')?></th>
+                <th><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Sort Order')?></th>
                 <th class="col-delete">&nbsp;</th>
             </tr>
         </thead>
@@ -66,7 +66,7 @@
         </tbody>
     </table>
 
-<div><small><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Alphanumeric, dash and underscore characters are recommended for filenames. Improper characters are replaced with \'_\'.')?></small></div>
+<div><small><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Alphanumeric, dash and underscore characters are recommended for filenames. Improper characters are replaced with \'_\'.')?></small></div>
 
 
 </div>
@@ -111,7 +111,7 @@ var linkTemplate = '<tr>'+
                     '<div id="downloadable_link_{{id}}_sample_file-old" class="file-row-info"></div>'+
                     '<div id="downloadable_link_{{id}}_sample_file-new" class="file-row-info"></div>'+
                     '<div class="fileinput-button form-buttons">'+
-                        '<span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
+                        '<span><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
                         '<input id="downloadable_link_{{id}}_sample_file" type="file" name="<?php echo $this->getFileFieldName('link_samples') ?>">' +
                         '<script type="text/javascript">' +
                         '/*<![CDATA[*/' +
@@ -139,7 +139,7 @@ var linkTemplate = '<tr>'+
                     '<div id="downloadable_link_{{id}}_file-old" class="file-row-info"></div>'+
                     '<div id="downloadable_link_{{id}}_file-new" class="file-row-info new-file"></div>'+
                     '<div class="fileinput-button form-buttons">'+
-                        '<span><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
+                        '<span><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...') ?></span>' +
                         '<input id="downloadable_link_{{id}}_file" type="file" name="<?php echo $this->getFileFieldName('links') ?>">' +
                         '<script type="text/javascript">' +
                         '/*<![CDATA[*/' +
@@ -160,7 +160,7 @@ var linkTemplate = '<tr>'+
     '</td>'+
     '<td><input type="text" name="downloadable[link][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>'+
     '<td class="col-delete">'+
-        '<button id="downloadable_link_{{id}}_delete_button" type="button" class="action- scalable delete delete-link-item"><span><span><span><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Delete'); ?></span></span></span></button>'+
+        '<button id="downloadable_link_{{id}}_delete_button" type="button" class="action- scalable delete delete-link-item"><span><span><span><?php echo $this->helper('Mage_Downloadable_Helper_Data')->__('Delete'); ?></span></span></span></button>'+
     '</td>'+
 '</tr>';
 

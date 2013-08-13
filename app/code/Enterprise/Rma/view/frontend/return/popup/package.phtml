@@ -20,7 +20,7 @@
     <div class="package">
         <?php $package = new Magento_Object($package) ?>
         <?php $params = new Magento_Object($package->getParams()) ?>
-        <h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></h4>
+        <h4><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></h4>
         <div class="package-info">
             <table class="tracking-table-popup data-table">
                 <colgroup>
@@ -31,27 +31,27 @@
                 </colgroup>
                 <tbody>
                     <tr>
-                        <th class="label"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Type') ?></th>
+                        <th class="label"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Type') ?></th>
                         <td class="value"><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
-                        <th class="label"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Length') ?></th>
-                        <td class="value"><?php echo $params->getLength() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <th class="label"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Length') ?></th>
+                        <td class="value"><?php echo $params->getLength() .' '. $this->helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                     <tr>
-                        <th class="label"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Total Weight') ?></th>
-                        <td class="value"><?php echo $params->getWeight() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
-                        <th class="label"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Width') ?></th>
-                        <td class="value"><?php echo $params->getWidth() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <th class="label"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Total Weight') ?></th>
+                        <td class="value"><?php echo $params->getWeight() .' '. $this->helper('Mage_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                        <th class="label"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Width') ?></th>
+                        <td class="value"><?php echo $params->getWidth() .' '. $this->helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                     <tr>
                         <th>&nbsp;</th>
                         <td>&nbsp;</td>
-                        <th class="label"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Height') ?></th>
-                        <td class="value"><?php echo $params->getHeight() .' '. Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                        <th class="label"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Height') ?></th>
+                        <td class="value"><?php echo $params->getHeight() .' '. $this->helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <strong><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Items in the Package') ?></strong>
+        <strong><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Items in the Package') ?></strong>
         <div class="grid">
             <div class="hor-scroll">
                 <table class="tracking-table-popup data-table">
@@ -63,9 +63,9 @@
                     </colgroup>
                     <thead>
                     <tr class="headings">
-                        <th  class="a-center"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Product') ?></th>
-                        <th  class="a-center"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Weight') ?></th>
-                        <th  class="a-center"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty') ?></th>
+                        <th  class="a-center"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Product') ?></th>
+                        <th  class="a-center"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Weight') ?></th>
+                        <th  class="a-center"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Qty') ?></th>
                     </tr>
                     </thead>
 

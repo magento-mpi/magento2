@@ -13,7 +13,7 @@
      data-element-id="<?php echo $this->getElement()->getHtmlId(); ?>"
      data-mage-init="{fptAttribute:{
         region: <?php echo $this->escapeHtml($this->helper('Mage_Directory_Helper_Data')->getRegionJson()) ?>,
-        itemsData: <?php echo $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getValues())); ?>,
+        itemsData: <?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getValues())); ?>,
         bundlePriceType: '#price_type'
         }}">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>
@@ -22,10 +22,10 @@
         <table class="data-table" cellspacing="0">
             <thead>
             <tr class="headings">
-                <th <?php if (!$this->isMultiWebsites()): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Country/State') ?><span class="required">*</span></th>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Tax') ?><span class="required">*</span></th>
-                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?></th>
+                <th <?php if (!$this->isMultiWebsites()): ?>style="display:none"<?php endif; ?>><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Country/State') ?><span class="required">*</span></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Tax') ?><span class="required">*</span></th>
+                <th><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Action') ?></th>
             </tr>
             </thead>
             <tbody data-role="fpt-item-container">
