@@ -182,7 +182,6 @@ class Magento_Test_Application
      */
     public function initialize($overriddenParams = array())
     {
-        Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
         $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
@@ -210,6 +209,8 @@ class Magento_Test_Application
         $verification->createAndVerifyDirectories();
 
         $this->loadArea(Magento_Test_Application::DEFAULT_APP_AREA);
+
+        Magento_Phrase::setRenderer($objectManager->get('Magento_Phrase_Renderer_Placeholder'));
     }
 
     /**
