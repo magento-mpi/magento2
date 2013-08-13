@@ -29,15 +29,16 @@
   * Enhanced accessibility in admin by labeling form fields
 * Payment improvements:
   * Incorporated changes to the PayPal UI configuration from CE 1.7.0.1
-    * Added the functionality for creating nested field sets in the System Configuration
-    * Implemented the support for the extended and shared configuration fields
-    * Added the ability to define dependencies between fields from different field sets
     * Moved PayPal configuration to the Payment Methods menu section
     * Set the default value of the cUrl `VERIFYPEER` option to `true` for PayPal and added the ability to change this value
     * Changed the design and position of the configuration field tooltips
   * Removed support of Moneybookers payment method and underlying module in favor of 3rd party extensions
   * Implemented support of PayPal IPN protocol HTTP 1.1
   * Implemented a single place to configure credentials for Payflow Link and Express Checkout
+* System Configuration improvements:
+  * Added the functionality for creating nested field sets
+  * Implemented the support for the extended and shared configuration fields
+  * Added the ability to define dependencies between fields from different field sets
 * `Varien_Image` library refactored:
   * Created adapters factory instead of class `Varien_Image_Adapter`
   * Refactored ImageMagick and GD adapters to make them testable
