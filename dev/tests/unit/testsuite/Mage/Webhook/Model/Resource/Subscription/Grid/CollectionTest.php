@@ -11,7 +11,7 @@
  */
 class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function testCreateSubscriptions()
+    public function testConstructor()
     {
         $fetchStrategyMock = $this->_makeMock('Magento_Data_Collection_Db_FetchStrategyInterface');
         $endpointResMock = $this->_makeMock('Mage_Webhook_Model_Resource_Endpoint');

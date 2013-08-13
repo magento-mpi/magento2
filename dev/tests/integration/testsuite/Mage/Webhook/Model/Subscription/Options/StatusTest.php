@@ -13,8 +13,8 @@ class Mage_Webhook_Model_Subscription_Options_StatusTest extends PHPUnit_Framewo
 {
     public function testToOptionArray()
     {
-        $webhookHelper = Mage::getObjectManager()->create('Mage_Webhook_Helper_Data');
-        $object = new Mage_Webhook_Model_Subscription_Options_Status($webhookHelper);
+        $translator = Mage::getObjectManager()->create('Mage_Core_Model_Translate');
+        $object = new Mage_Webhook_Model_Subscription_Options_Status($translator);
         $expectedArray = array(
             Mage_Webhook_Model_Subscription::STATUS_ACTIVE => 'Active',
             Mage_Webhook_Model_Subscription::STATUS_REVOKED => 'Revoked',

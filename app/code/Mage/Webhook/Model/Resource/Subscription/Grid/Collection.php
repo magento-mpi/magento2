@@ -12,15 +12,6 @@
 class Mage_Webhook_Model_Resource_Subscription_Grid_Collection
     extends Mage_Webhook_Model_Resource_Subscription_Collection
 {
-    /**
-     * @var Mage_Webhook_Model_Resource_Endpoint
-     */
-    protected $_endpointResource;
-
-    /**
-     * @var Mage_Webhook_Model_Subscription_Config
-     */
-    protected $_subscriptionConfig;
 
     /**
      * Collection constructor
@@ -37,7 +28,6 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_Collection
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($fetchStrategy, $endpointResource, $resource);
-        $this->_subscriptionConfig = $subscriptionConfig;
-        $this->_subscriptionConfig->updateSubscriptionCollection();
+        $subscriptionConfig->updateSubscriptionCollection();
     }
 }
