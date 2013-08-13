@@ -7,8 +7,8 @@
   * Enhanced Product Edit page
 * JavaScript improvements:
   * Eliminated `json2.js` library since JSON parsing is bundled in all supported browsers
-  * `Ajax.Autocompleter` is replaced with jQuery suggest widget for search on backend
-  * `jsTree` jQuery plugin is utilized for User Roles, Api Roles, CMS Pages and URL Rewrites management pages on backend
+  * `Ajax.Autocompleter` is replaced with jQuery suggest widget for search in backend
+  * `jsTree` jQuery plugin is utilized for User Roles, Api Roles, CMS Pages and URL Rewrites management pages in backend
   * Improved jQuery validation for credit cards
   * Added support of `$.mage.component` in some frontend themes
   * Further refactoring of JavaScript to use JQuery library:
@@ -45,15 +45,41 @@
 * Support of Google services:
   * Implemented support of Google Content Experiment as a replacement for Google Optimizer
   * Implemented support of Google AdWords on the checkout success page
+* DI improvements:
+  * Added ability to configure DI for individual class instances
+  * Added ability to pass differently configured instances to different parts of the system
+  * Refactored proxy and factory generation mechanism
 * Various improvements:
   * Added configuration for limits on sending wishlist emails
   * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
   * Removed Currency Symbol module files from Adminhtml module to the module itself
   * "Contact Us" page is available through HTTPS only
+  * Language selector for backend interface removed from footer. Language can be chosen on My Account page or on backend user edit page
+  * Updated page titles in backend
+  * Improved mechanism of notification and system messages in backend. All blocks and controllers are moved to AdminNotification module. Enhanced visual representations of notifications: bubble for unread messages, popup for notifications and their descriptions, system messages are updated themselves
+  * Several classes are refactored to use Event Manager instead of `Mage::dispatchEvent()`
+  * Improved test coverage of entry point classes
+  * Improved authorization logic to be reusable with minimal configuration changes
+  * Introduced App Area in Magento Integration Test Framework
+  * Improved media entry point
+  * Added plugins/interceptors support for easier extensibility of Magento functionality
+* GitHub requests
+  * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
+  * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
+  * [#110](https://github.com/magento/magento2/pull/110) -- Fixes `Varien_Io_Sftp::write`, `Varien_Db_Adapter_Pdo_Mysql::insertOnDuplicate`
+  * [#123](https://github.com/magento/magento2/pull/123) -- Performance problem & memory leak in `Mage_Index_Model_Process`
+  * [#125](https://github.com/magento/magento2/pull/125) -- Ability to disable triggering controller action
+  * [#148](https://github.com/magento/magento2/pull/148) -- Fixed readability
+  * [#161](https://github.com/magento/magento2/pull/161) -- FIXED `http://www.magentocommerce.com/bug-tracking/issue/?issue=7419`
+  * [#176](https://github.com/magento/magento2/pull/176) -- Add print/log query flags to collection
+  * [#202](https://github.com/magento/magento2/pull/202) -- Installer fails to detect `InnoDB` on `MySQL 5.6+`
+  * [#217](https://github.com/magento/magento2/pull/217) -- Update `app/code/core/Mage/Adminhtml/locale/de_DE/Mage_Adminhtml.csv`
+  * [#237](https://github.com/magento/magento2/pull/237) -- Helper for determining system memory usage on Windows
+  * [#243](https://github.com/magento/magento2/pull/243) -- Fix helper for determining system memory usage on Windows
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
-  * Fixed incorrectly displayed Tier Price message for Bundle product on backend
+  * Fixed incorrectly displayed Tier Price message for Bundle product in backend
   * Fixed absence of configured options, when composite product is edited from wishlist
   * Fixed inability to set product rating from backend
   * Fixed bug with adding product with decimal quantity
@@ -65,7 +91,7 @@
   * Fixed removal of all the items from shopping cart, when cancelling payment by PayPal Website Payment Standard method
   * Fixed issue with customer address saved in `sales_flat_quote_address` table as `null` or as default address instead of new one during checkout
   * Fixed hard dependency on GD extension during installation. Now the application can be installed if any of GD or ImageMagick extension is enabled
-  * Fixed handling of creation a customer with already existing e-mail on backend
+  * Fixed handling of creation a customer with already existing e-mail in backend
   * Fixed exception on customer edit page, when profiler is enabled
   * Fixed removal of "NOT LOGGED IN" customer group, when attempting to delete nonexistent group
   * Fixed absence of a welcome email for a new customer that is created in backend
@@ -105,7 +131,6 @@
   * Disabled "State" dropdown for Tax Rates in countries, where there are no states
   * Fixed inability to save a CMS page
   * Fixed Javascript calendar in backend Customer grid
-  * Fixed memory usage measurements in localized Windows (GitHub pull requests #243, #237)
   * Fixed issues with fields validation on order management page
   * Fixed taxes on Bundle product page
   * Fixed "Rating isn't available" message on Edit Review page
@@ -122,6 +147,24 @@
   * Implemented proper distinguishing of ordered items that have been shipped with Free Shipping method
   * Fixed issue with a State field being required in countries, where it is not mandatory
   * Fixed inability to upload a file via File custom option, when ordering a product at frontend
+  * Fixed incorrect cron timezone settings
+  * Fixed performance issues with product saving in case of concurrent search requests
+  * Fixed bug in migration script
+  * Fixed incorrect email when "Send auto-generated password" was hit
+  * Fixed bug with missing category image
+  * Fixed incorrect handling of `GET` parameter `isAjax` after session expiration
+  * Fixed incorrect translation of "month" field for customer's birthday
+  * Fixed Google Analytics script inclusion
+  * Fixed bug with excessive custom rewrites after reindex
+  * Fixed performance tests failure on login page
+  * Fixed incorrect value for average rating on Edit Review page
+  * Fixed security issue in backend Dashboard controller
+  * Fixed bug with saving shopping cart price rule having specific coupon
+  * Fixed bug with incorrect module configuration overriding
+  * Fixed exception in Nominal Tax model
+  * Fixed possible flooding the database by automated scripts
+  * Fixed bug in sitemap URL used in `robots.txt`
+  * Fixed bug with incorrect `custom_design` field value during export
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Fixed displaying of "Import Behavior" section in the `System -> Import` page
   * Removed remains of code pools in JavaScript tests
@@ -264,7 +307,7 @@
 =============
 * Application initialization improvements:
   * Removed application initialization responsibility from `Mage` class
-  * Introduces entry points, which are responsible for different types of requests processing: HTTP, media, cron, indexing, console installing, etc.
+  * Introduced entry points, which are responsible for different types of requests processing: HTTP, media, cron, indexing, console installing, etc.
   * New configuration classes are introduced and each of them is responsible for specific section of configuration
   * Class rewrites functionality removed from `Mage_Core_Model_Config` model. DI configuration should be used for rewriting classes
 * Added ability to configure object manager with array in addition to object and scalar values
