@@ -50,8 +50,8 @@ class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Mod
      */
     public function dispatch(array $configuration, Magento_Event_Observer $observer)
     {
-        if (isset($configuration['config'][self::CONFIG_PARAMETER_ASYNCHRONOUS])
-            && $configuration['config'][self::CONFIG_PARAMETER_ASYNCHRONOUS]
+        if (isset($configuration[self::CONFIG_PARAMETER_ASYNCHRONOUS])
+            && $configuration[self::CONFIG_PARAMETER_ASYNCHRONOUS]
         ) {
             $this->_addTaskToAsynchronousProcessing($configuration, $observer);
         } else {
@@ -72,8 +72,8 @@ class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Mod
             'observer' => $observer->toArray(),
             'configuration' => $configuration,
         );
-        $priority = isset($configuration['config'][self::CONFIG_PARAMETER_PRIORITY])
-            ? $configuration['config'][self::CONFIG_PARAMETER_PRIORITY] : null;
+        $priority = isset($configuration[self::CONFIG_PARAMETER_PRIORITY])
+            ? $configuration[self::CONFIG_PARAMETER_PRIORITY] : null;
 
         $this->_queueHandler->addTask($eventName, $data, $priority);
     }

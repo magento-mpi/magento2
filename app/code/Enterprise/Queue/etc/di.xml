@@ -12,4 +12,6 @@
     <preference for="Enterprise_Queue_Model_QueueInterface" type="Enterprise_Queue_Model_Queue" />
     <preference for="Magento_JobQueue_ClientInterface" type="Magento_JobQueue_Client_Gearman" />
     <preference for="Magento_JobQueue_Client_ConfigInterface" type="Enterprise_Queue_Model_Config_Gearman" />
+    <preference for="Mage_Core_Model_Event_Config_Converter" type="Enterprise_Queue_Model_Event_Config_Converter" />
+    <preference for="Mage_Core_Model_Event_Config_SchemaLocator" type="Enterprise_Queue_Model_Event_Config_SchemaLocator" />
 </config>
