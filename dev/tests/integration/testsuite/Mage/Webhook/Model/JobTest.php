@@ -25,7 +25,7 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_job = Mage::getObjectManager()->create('Mage_Webhook_Model_Job');
+        $this->_job = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Model_Job');
     }
 
     public function testConstruct()

@@ -37,7 +37,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
     {
         parent::setUp();
 
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main');

@@ -41,7 +41,7 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
      */
     protected function _getConnectionReadConfig()
     {
-        $connReadConfig = Mage::getObjectManager()
+        $connReadConfig = Magento_Test_Helper_Bootstrap::getObjectManager()
             ->get('Mage_Core_Model_Config_Resource')
             ->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');

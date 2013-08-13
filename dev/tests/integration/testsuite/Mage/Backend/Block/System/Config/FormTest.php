@@ -133,7 +133,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $configMock->expects($this->any())->method('getModuleDir')
             ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));
 
-        Mage::getObjectManager()->configure(array(
+        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
             'Mage_Backend_Model_Config_Structure_Reader' => array(
                 'parameters' => array('moduleReader' => $configMock)
             )

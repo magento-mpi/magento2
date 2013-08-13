@@ -19,7 +19,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var Mage_Sales_Model_Resource_Order_Collection $orderCollection */
-        $orderCollection = Mage::getObjectManager()->create('Mage_Sales_Model_Resource_Order_Collection');
+        $orderCollection = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Sales_Model_Resource_Order_Collection');
         $orders = $orderCollection->getItems();
         $this->assertCount(2, $orders);
         $this->_order = array_shift($orders);

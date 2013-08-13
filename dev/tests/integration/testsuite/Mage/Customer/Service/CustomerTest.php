@@ -31,7 +31,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_customerFactory = $this->_objectManager->get('Mage_Customer_Model_CustomerFactory');
         $this->_model = $this->_objectManager->create('Mage_Customer_Service_Customer');
     }

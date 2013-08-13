@@ -14,7 +14,7 @@ class Mage_AdminNotification_Model_Resource_Inbox_Collection_CriticalTest extend
 
     protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()
+        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()
             ->create('Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical');
     }
 

@@ -58,21 +58,21 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
     {
         //1. set up fixture
         /** @var $physicalTheme Mage_Core_Model_Theme */
-        $physicalTheme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $physicalTheme = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Theme');
         $physicalTheme->setData($this->_themes['physical']);
         $physicalTheme->save();
 
         $this->_themes['virtual']['parent_id'] = $physicalTheme->getId();
 
         /** @var $virtualTheme Mage_Core_Model_Theme */
-        $virtualTheme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $virtualTheme = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Theme');
         $virtualTheme->setData($this->_themes['virtual']);
         $virtualTheme->save();
 
         $this->_themes['staging']['parent_id'] = $virtualTheme->getId();
 
         /** @var $stagingTheme Mage_Core_Model_Theme */
-        $stagingTheme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $stagingTheme = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Theme');
         $stagingTheme->setData($this->_themes['staging']);
         $stagingTheme->save();
 
@@ -81,7 +81,7 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
 
         //2. run test
         /** @var $virtualTheme Mage_Core_Model_Theme */
-        $virtualTheme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $virtualTheme = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Theme');
         $virtualTheme->load($this->_virtualThemeId);
 
         $this->assertEquals(

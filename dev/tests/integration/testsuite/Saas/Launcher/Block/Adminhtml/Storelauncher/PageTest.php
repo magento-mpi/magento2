@@ -19,7 +19,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_PageTest extends PHPUnit_Frame
     public function testGetPage()
     {
         /** @var $block Saas_Launcher_Block_Adminhtml_Storelauncher_Page */
-        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Page');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Page');
 
         $this->assertInstanceOf('Saas_Launcher_Model_Page', $block->getPage());
     }

@@ -27,9 +27,9 @@ class Mage_User_Block_User_Edit_Tab_MainTest extends Mage_Backend_Utility_Contro
     public function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::getObjectManager()->create('Mage_User_Block_User_Edit_Tab_Main');
+        $this->_block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_User_Block_User_Edit_Tab_Main');
         $this->_block->setArea('adminhtml');
-        $this->_user = Mage::getObjectManager()->create('Mage_User_Model_User');
+        $this->_user = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_User_Model_User');
         Mage::register('permissions_user', $this->_user);
     }
 

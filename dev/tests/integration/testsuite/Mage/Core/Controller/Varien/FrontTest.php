@@ -23,7 +23,7 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Mage_Core_Controller_Varien_Front');
     }
 

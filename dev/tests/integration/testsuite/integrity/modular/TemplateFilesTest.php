@@ -30,7 +30,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
             'themeModel' => Mage::getModel('Mage_Core_Model_Theme'),
             'module'     => $module
         );
-        $file = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename($template, $params);
+        $file = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_FileSystem')->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
 

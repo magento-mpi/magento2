@@ -76,7 +76,7 @@ class Mage_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_model         = $this->_objectManager->get('Mage_Core_Model_Resource_Session');
 
         /** @var $resource Mage_Core_Model_Resource */

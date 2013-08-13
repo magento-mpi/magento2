@@ -32,7 +32,7 @@ class Mage_Core_Utility_Layout
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var Mage_Core_Model_Layout_File_Factory $fileFactory */
         $fileFactory = $objectManager->get('Mage_Core_Model_Layout_File_Factory');
         $file = $fileFactory->create($layoutUpdatesFile, 'Mage_Core');
@@ -72,17 +72,17 @@ class Mage_Core_Utility_Layout
     public function getLayoutDependencies()
     {
         return array(
-            'design'             => Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface'),
-            'blockFactory'       => Mage::getObjectManager()->create('Mage_Core_Model_BlockFactory', array()),
-            'structure'          => Mage::getObjectManager()->create('Magento_Data_Structure', array()),
-            'argumentProcessor'  => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Argument_Processor',
+            'design'             => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface'),
+            'blockFactory'       => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_BlockFactory', array()),
+            'structure'          => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Data_Structure', array()),
+            'argumentProcessor'  => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout_Argument_Processor',
                 array()
             ),
-            'translator'         => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Translator', array()),
-            'scheduledStructure' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
+            'translator'         => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout_Translator', array()),
+            'scheduledStructure' => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
                 array()
             ),
-            'dataServiceGraph'   => Mage::getObjectManager()->create('Mage_Core_Model_DataService_Graph', array()),
+            'dataServiceGraph'   => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_DataService_Graph', array()),
         );
     }
 }

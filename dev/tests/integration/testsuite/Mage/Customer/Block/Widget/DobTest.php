@@ -16,7 +16,7 @@ class Mage_Customer_Block_Widget_DobTest extends PHPUnit_Framework_TestCase
 {
     public function testGetDateFormat()
     {
-        $block = Mage::getObjectManager()->create('Mage_Customer_Block_Widget_Dob');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Customer_Block_Widget_Dob');
         $this->assertNotEmpty($block->getDateFormat());
     }
 }

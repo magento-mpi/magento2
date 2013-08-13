@@ -22,7 +22,7 @@ class Mage_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_CONFIG);
         $this->_twigEngine = $this->_objectManager->create('Mage_Core_Model_TemplateEngine_Twig');
     }

@@ -18,7 +18,7 @@ class Mage_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $resource = Mage::getObjectManager()->get('Mage_Core_Model_Resource');
+        $resource = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Resource');
         $this->_model = $this->getMockForAbstractClass('Mage_Core_Model_Resource_Db_Abstract',
             array('resource' => $resource)
         );

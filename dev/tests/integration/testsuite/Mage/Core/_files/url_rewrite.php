@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$objectManager = Mage::getObjectManager();
+$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 $cmsPageId     = 1;
 $rewriteUrl    = 'test_rewrite_path';
 

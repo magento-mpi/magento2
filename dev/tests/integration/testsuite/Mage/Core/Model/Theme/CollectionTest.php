@@ -82,7 +82,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
     public function testHasThemeInCollection()
     {
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $themeModel = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->setData(array(
             'area'                 => 'space_area',
             'theme_title'          => 'Space theme',

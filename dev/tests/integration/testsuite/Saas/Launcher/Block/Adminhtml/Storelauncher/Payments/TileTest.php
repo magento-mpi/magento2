@@ -25,7 +25,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends PHPU
 
     protected function setUp()
     {
-        $this->_block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile');
+        $this->_block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile');
     }
 
     protected function tearDown()

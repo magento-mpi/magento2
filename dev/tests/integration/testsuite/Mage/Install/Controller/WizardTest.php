@@ -42,7 +42,7 @@ class Mage_Install_Controller_WizardTest extends Magento_Test_TestCase_Controlle
     public function testPreDispatch()
     {
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
-        Mage::getObjectManager()->configure(array(
+        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
                 'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
                 'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response'
@@ -62,7 +62,7 @@ class Mage_Install_Controller_WizardTest extends Magento_Test_TestCase_Controlle
         $params = self::$_params;
         $params[Mage::PARAM_APP_DIRS][Mage_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
-        Mage::getObjectManager()->configure(array(
+        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
                 'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
                 'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response'

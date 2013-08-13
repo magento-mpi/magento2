@@ -16,7 +16,7 @@ class Mage_Usa_Block_Adminhtml_Dhl_UnitofmeasureTest extends PHPUnit_Framework_T
      */
     public function testToHtml()
     {
-        Mage::getObjectManager()->configure(array(
+        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
             'Mage_Core_Model_Layout' => array(
                 'parameters' => array('area' => 'adminhtml')
             )

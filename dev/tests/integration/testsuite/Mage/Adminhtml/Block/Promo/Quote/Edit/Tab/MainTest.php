@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Framewo
     public function testPrepareForm()
     {
         Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        Mage::register('current_promo_quote_rule', Mage::getObjectManager()->create('Mage_SalesRule_Model_Rule'));
+        Mage::register('current_promo_quote_rule', Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_SalesRule_Model_Rule'));
 
-        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
+        $layout = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout');
         $block = $layout->addBlock('Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main');
         $prepareFormMethod = new ReflectionMethod(
             'Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main', '_prepareForm');

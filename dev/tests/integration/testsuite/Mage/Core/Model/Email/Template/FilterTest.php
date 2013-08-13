@@ -100,7 +100,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         Mage::app()->getStore()->setConfig(Mage_Core_Model_View_Design::XML_PATH_THEME_ID, $themeId);
 
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $objectManager->create('Mage_Core_Model_Layout', array('area' => $area));
         $objectManager->addSharedInstance($layout, 'Mage_Core_Model_Layout');

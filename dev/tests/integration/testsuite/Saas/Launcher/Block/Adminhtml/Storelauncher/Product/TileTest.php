@@ -18,14 +18,16 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUn
     public function testIsAddProductRestricted()
     {
         /** @var Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile $block */
-        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile');
         $this->assertFalse($block->isAddProductRestricted());
     }
 
     public function testIsAddProductRestrictedNoLimit()
     {
         /** @var Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile $block */
-        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile');
         $this->assertFalse($block->isAddProductRestricted());
     }
 
@@ -36,7 +38,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUn
     public function testIsAddProductRestrictedLimitReached()
     {
         /** @var Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile $block */
-        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile');
         $this->assertTrue($block->isAddProductRestricted());
     }
 }

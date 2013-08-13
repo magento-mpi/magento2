@@ -26,7 +26,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $headBlock = $layout->createBlock('Mage_Page_Block_Html_Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
 
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         /** @var $page Mage_Core_Model_Page */
         $page = $objectManager->get('Mage_Core_Model_Page');

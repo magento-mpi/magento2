@@ -22,7 +22,7 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Config');
         parent::setUp();
     }

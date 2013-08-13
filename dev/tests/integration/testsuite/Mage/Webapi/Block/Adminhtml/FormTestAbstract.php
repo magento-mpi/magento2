@@ -48,7 +48,7 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         parent::setUp();
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();

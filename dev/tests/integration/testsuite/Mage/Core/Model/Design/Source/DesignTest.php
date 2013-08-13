@@ -14,7 +14,7 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
     public function testGetAllOptions()
     {
         /** @var $model Mage_Core_Model_Design_Source_Design */
-        $model = Mage::getObjectManager()->create('Mage_Core_Model_Design_Source_Design');
+        $model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Design_Source_Design');
 
         /** @var $expectedCollection Mage_Core_Model_Theme_Collection */
         $expectedCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');

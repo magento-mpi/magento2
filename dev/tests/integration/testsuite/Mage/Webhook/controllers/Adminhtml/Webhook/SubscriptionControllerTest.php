@@ -169,7 +169,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends Mage_Bac
     private function _createDummySubscription()
     {
         /** @var $factory Mage_Webhook_Model_Subscription_Factory */
-        $factory = Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription_Factory');
+        $factory = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Model_Subscription_Factory');
         $this->_subscription = $factory->create()
             ->setName('dummy')
             ->save();

@@ -28,11 +28,11 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         /** @var $service Mage_Core_Model_View_Service */
-        $service = Mage::getObjectManager()->get('Mage_Core_Model_View_Service');
+        $service = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_Service');
         self::$_themePublicDir = $service->getPublicDir();
 
         /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Dir');
         self::$_viewPublicMergedDir = $dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE)
             . DIRECTORY_SEPARATOR . Mage_Core_Model_Page_Asset_Merged::PUBLIC_MERGE_DIR;
     }
@@ -49,7 +49,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
         $filesystem->delete(self::$_themePublicDir . '/frontend');
         $filesystem->delete(self::$_viewPublicMergedDir);
     }

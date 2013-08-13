@@ -18,7 +18,7 @@ class Mage_Reports_Block_Adminhtml_GridTest extends PHPUnit_Framework_TestCase
     public function testGetDateFormat()
     {
         /** @var $block Mage_Reports_Block_Adminhtml_Grid */
-        $block = Mage::getObjectManager()->create('Mage_Reports_Block_Adminhtml_Grid');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Reports_Block_Adminhtml_Grid');
         $this->assertNotEmpty($block->getDateFormat());
     }
 }

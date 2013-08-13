@@ -17,14 +17,14 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
+        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_Dir', array(
                 'baseDir' => array(BP),
                 'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
         );
 
         /** @var Mage_Core_Model_Config_Loader_Modules $modulesLoader */
-        $modulesLoader = Mage::getObjectManager()->create(
+        $modulesLoader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_Config_Loader_Modules', array(
                 'dirs' => $dirs
             )
@@ -44,7 +44,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         /** @var Mage_Core_Model_Config_Storage $storage */
-        $storage = Mage::getObjectManager()->create(
+        $storage = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_Config_Storage', array(
                 'loader' => $modulesLoader,
                 'cache' => $cache
@@ -55,21 +55,21 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $modulesLoader->load($config);
 
         /** @var Mage_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Mage::getObjectManager()->create(
+        $modulesConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_Config_Modules', array(
                 'storage' => $storage
             )
         );
 
         /** @var Mage_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Mage::getObjectManager()->create(
+        $fileReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_Config_Loader_Modules_File', array(
                 'dirs' => $dirs
             )
         );
 
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
+        $moduleReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_Config_Modules_Reader', array(
                 'fileReader' => $fileReader,
                 'modulesConfig' => $modulesConfig
@@ -77,7 +77,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var Mage_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = Mage::getObjectManager()->create(
+        $dsCfgReaderFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
             'Mage_Core_Model_DataService_Config_Reader_Factory');
 
         $this->_config = new Mage_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);

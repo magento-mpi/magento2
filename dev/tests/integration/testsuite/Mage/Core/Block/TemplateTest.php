@@ -19,9 +19,9 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $params = array(
-            'layout' => Mage::getObjectManager()->create('Mage_Core_Model_Layout', array())
+            'layout' => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout', array())
         );
-        $context = Mage::getObjectManager()->create('Mage_Core_Block_Template_Context', $params);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Block_Template_Context', $params);
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template', '',
             array('context' => $context)
         );

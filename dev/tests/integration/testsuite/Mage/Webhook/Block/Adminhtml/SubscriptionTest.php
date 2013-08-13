@@ -19,7 +19,7 @@ class Mage_Webhook_Block_Adminhtml_SubscriptionTest extends PHPUnit_Framework_Te
 
     public function testConstruct()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $block = $this->_objectManager->create('Mage_Webhook_Block_Adminhtml_Subscription');
         $this->assertEquals('Subscriptions', $block->getHeaderText());
         $this->assertEquals('Add Subscription', $block->getAddButtonLabel());

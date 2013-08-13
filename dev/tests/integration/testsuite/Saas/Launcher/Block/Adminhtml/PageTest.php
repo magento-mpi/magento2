@@ -20,8 +20,9 @@ class Saas_Launcher_Block_Adminhtml_PageTest extends PHPUnit_Framework_TestCase
     public function testGetTileBlocks()
     {
         $this->markTestIncomplete('Incorrect usage of magentoDataFixture');
-        $page = Mage::getObjectManager()->create('Saas_Launcher_Model_Page')->loadByPageCode('landing_page_1');
-        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Page');
+        $page = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Saas_Launcher_Model_Page')
+            ->loadByPageCode('landing_page_1');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Page');
         $block->setPage($page);
         $tiles = $block->getTileBlocks();
 

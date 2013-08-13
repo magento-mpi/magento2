@@ -20,7 +20,7 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-3393');
         $this->_model = new Mage_Cms_Controller_Router(
-            Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory'),
+            Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory'),
             new Mage_Core_Model_Event_ManagerStub(
                 $this->getMockForAbstractClass('Mage_Core_Model_Event_InvokerInterface', array(), '', false),
                 $this->getMock('Mage_Core_Model_Event_Config', array(), array(), '', false),
@@ -38,7 +38,7 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('MAGETWO-3393');
         $request = new Mage_Core_Controller_Request_Http();
         //Open Node
-        Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Controller_Response_Http')
             ->headersSentThrowsException = Mage::$headersSentThrowsException;
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);

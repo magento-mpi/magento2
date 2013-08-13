@@ -31,10 +31,11 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         /** @var $factory Mage_Webhook_Model_Subscription_Factory */
-        $this->_subscriptionFactory = Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription_Factory');
+        $this->_subscriptionFactory = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Webhook_Model_Subscription_Factory');
 
         $this->_subscription = $objectManager->create('Mage_Webhook_Model_Subscription_Factory')
             ->create()

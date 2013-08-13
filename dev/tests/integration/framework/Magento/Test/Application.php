@@ -190,7 +190,6 @@ class Magento_Test_Application
             $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
             $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
-
         } else {
             $objectManager = Mage::getObjectManager();
             $config->configure($objectManager);
@@ -198,6 +197,7 @@ class Magento_Test_Application
             $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
         }
+        Magento_Test_Helper_Bootstrap::setObjectManager($objectManager);
 
         $objectManager->get('Mage_Core_Model_Resource')
             ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
@@ -337,6 +337,7 @@ class Magento_Test_Application
 
         Mage::reset();
         Mage::setObjectManager($objectManager);
+        Magento_Test_Helper_Bootstrap::setObjectManager($objectManager);
         Magento_Data_Form::setElementRenderer(null);
         Magento_Data_Form::setFieldsetRenderer(null);
         Magento_Data_Form::setFieldsetElementRenderer(null);

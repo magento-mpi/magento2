@@ -216,7 +216,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function testAddBlock()
     {
         $this->assertInstanceOf('Mage_Core_Block_Text', $this->_layout->addBlock('Mage_Core_Block_Text', 'block1'));
-        $block2 = Mage::getObjectManager()->create('Mage_Core_Block_Text');
+        $block2 = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Block_Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 

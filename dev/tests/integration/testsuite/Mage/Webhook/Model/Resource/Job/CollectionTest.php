@@ -16,7 +16,8 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
     public function testInit()
     {
         /** @var Mage_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Job_Collection');
+        $collection = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Webhook_Model_Resource_Job_Collection');
         $this->assertEquals('Mage_Webhook_Model_Resource_Job', $collection->getResourceModelName());
         $this->assertEquals('Mage_Webhook_Model_Job', $collection->getModelName());
     }
@@ -24,7 +25,8 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
     public function testSetPageLimit()
     {
         /** @var Mage_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Job_Collection');
+        $collection = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Webhook_Model_Resource_Job_Collection');
         $this->assertInstanceOf('Mage_Webhook_Model_Resource_Job_Collection', $collection->setPageLimit());
     }
 }

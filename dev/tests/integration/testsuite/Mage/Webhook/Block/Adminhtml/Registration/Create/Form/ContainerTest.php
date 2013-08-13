@@ -18,7 +18,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extend
     public function testGetMethods()
     {
         // Data for the block object
-        $subscriptionId = Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription')
+        $subscriptionId = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Model_Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -28,15 +28,15 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extend
         );
 
         /** @var Mage_Core_Model_Registry $registry */
-        $registry = Mage::getObjectManager()->get('Mage_Core_Model_Registry');
+        $registry = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Registry');
         $registry->register(Mage_Webhook_Block_Adminhtml_Registration_Activate::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
         /** @var Mage_Core_Block_Template_Context $context */
-        $context = Mage::getObjectManager()->create('Mage_Core_Block_Template_Context');
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Block_Template_Context');
 
         /** @var Mage_Webhook_Block_Adminhtml_Registration_Activate $block */
-        $block = Mage::getObjectManager()
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
             ->create('Mage_Webhook_Block_Adminhtml_Registration_Create_Form_Container', array(
                 $context,
                 $registry

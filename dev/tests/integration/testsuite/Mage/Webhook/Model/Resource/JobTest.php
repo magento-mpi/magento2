@@ -17,7 +17,7 @@ class Mage_Webhook_Model_Resource_JobTest extends PHPUnit_Framework_TestCase
     public function testInit()
     {
         /** @var Mage_Webhook_Model_Resource_Job $jobResource */
-        $jobResource = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Job');
+        $jobResource = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Model_Resource_Job');
         $this->assertEquals('prefix_webhook_dispatch_job', $jobResource->getMainTable());
         $this->assertEquals('dispatch_job_id', $jobResource->getIdFieldName());
     }

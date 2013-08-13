@@ -31,17 +31,17 @@ class MageTest extends PHPUnit_Framework_TestCase
         $message = uniqid();
         /** @var $logger Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Mage_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
-        $realLogger = Mage::getObjectManager()->get('Mage_Core_Model_Logger');
-        Mage::getObjectManager()->addSharedInstance($logger, 'Mage_Core_Model_Logger');
+        $realLogger = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Logger');
+        Magento_Test_Helper_Bootstrap::getObjectManager()->addSharedInstance($logger, 'Mage_Core_Model_Logger');
         try {
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
+            Magento_Test_Helper_Bootstrap::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
         } catch (Exception $e) {
-            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
+            Magento_Test_Helper_Bootstrap::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
             throw $e;
         }
 

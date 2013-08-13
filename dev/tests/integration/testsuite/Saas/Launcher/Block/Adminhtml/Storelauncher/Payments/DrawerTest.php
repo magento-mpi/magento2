@@ -22,7 +22,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_DrawerTest extends PH
     public function testGetMoreUrl($path, $url)
     {
         /** @var Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer $block */
-        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer');
         $this->assertEquals($url, $block->getMoreUrl($path));
     }
 

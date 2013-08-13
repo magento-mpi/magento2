@@ -58,7 +58,7 @@ class Mage_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->setBodyData($bodyData)
             ->save()
             ->getId();
-        $loadedEvent = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
+        $loadedEvent = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Model_Event')
             ->load($eventId);
         $this->assertEquals($bodyData, $loadedEvent->getBodyData());
     }

@@ -60,7 +60,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
 
-        Mage::getObjectManager()->addSharedInstance($this->_viewFileSystem, 'Mage_Core_Model_View_FileSystem');
+        Magento_Test_Helper_Bootstrap::getObjectManager()->addSharedInstance($this->_viewFileSystem, 'Mage_Core_Model_View_FileSystem');
 
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
@@ -77,7 +77,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
 
-        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_View_Design');
+        Magento_Test_Helper_Bootstrap::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_View_Design');
 
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);

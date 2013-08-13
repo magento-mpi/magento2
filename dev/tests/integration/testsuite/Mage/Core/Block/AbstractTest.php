@@ -44,7 +44,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Dir');
 
         $prepareFileName = new ReflectionMethod($dirs, '_setDir');
         $prepareFileName->setAccessible(true);
@@ -291,7 +291,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         // Without layout
         /** @var $blockFactory Mage_Core_Model_BlockFactory */
-        $blockFactory = Mage::getObjectManager()->get('Mage_Core_Model_BlockFactory');
+        $blockFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_BlockFactory');
         $block1 = $blockFactory->createBlock('Mage_Core_Block_Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');

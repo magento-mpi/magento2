@@ -33,7 +33,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_observer = Mage::getObjectManager()
+        $this->_observer = Magento_Test_Helper_Bootstrap::getObjectManager()
             ->create('Enterprise_PageCache_Model_Observer', array('cookie' => $this->_cookie));
     }
 
@@ -48,7 +48,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observerData = new Magento_Event_Observer();
         $arguments = array('request' => $request, 'response' => $response);
-        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
@@ -81,7 +81,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observerData = new Magento_Event_Observer();
         $arguments = array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response());
-        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',

@@ -19,7 +19,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Framewo
 
     public function setUp()
     {
-        $this->_registry = Mage::getObjectManager()->create('Mage_Core_Model_Registry');
+        $this->_registry = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Registry');
     }
 
     public function tearDown()
@@ -30,7 +30,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Framewo
     public function testAddSubscriptionTitle()
     {
         /** @var Mage_Core_Model_Layout $layout */
-        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
+        $layout = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout');
 
         $subscription = array(
             'subscription_id' => null,
@@ -49,7 +49,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Framewo
     public function testEditSubscriptionTitle()
     {
         /** @var Mage_Core_Model_Layout $layout */
-        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
+        $layout = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout');
 
         $subscription = array(
             'subscription_id' => 1,

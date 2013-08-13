@@ -21,10 +21,10 @@ class Mage_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCase
             false, true, true, array('getValueElementRenderer'));
         $model->expects($this->any())
              ->method('getValueElementRenderer')
-             ->will($this->returnValue(Mage::getObjectManager()->create('Mage_Rule_Block_Editable')));
+             ->will($this->returnValue(Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Rule_Block_Editable')));
 
-        $rule = Mage::getObjectManager()->create('Mage_Rule_Model_Rule');
-        $model->setRule($rule->setForm(Mage::getObjectManager()->create('Magento_Data_Form')));
+        $rule = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Rule_Model_Rule');
+        $model->setRule($rule->setForm(Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Data_Form')));
 
         $property = new ReflectionProperty('Mage_Rule_Model_Condition_Abstract', '_inputType');
         $property->setAccessible(true);

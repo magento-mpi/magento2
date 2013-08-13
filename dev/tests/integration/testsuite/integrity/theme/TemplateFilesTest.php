@@ -34,7 +34,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 'module'   => $module
             );
             try {
-                $templateFilename = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename(
+                $templateFilename = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_FileSystem')->getFilename(
                     $file, $params
                 );
                 $this->assertFileExists($templateFilename);
