@@ -193,6 +193,7 @@
     * Fixed exception, when using 2-level cache backend
   * Fixed bugs in shipping label creation
   * Fixed inability to save some sections of configuration
+  * Fixed bug with empty "New Shipment" e-mail
 
 2.0.0.0-dev44
 =============
