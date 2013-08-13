@@ -36,7 +36,7 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
         $this->_rendererFactory = $rendererFactory;
 
         foreach ($renderers as $render) {
-            $this->append($render);
+            $this->_append($render);
         }
     }
 
@@ -45,7 +45,7 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
      *
      * @param string $render
      */
-    protected function append($render)
+    protected function _append($render)
     {
         array_push($this->_renderers, $this->_rendererFactory->create($render));
     }
