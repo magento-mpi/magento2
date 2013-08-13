@@ -88,59 +88,51 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
 
         $fieldset = $form->addFieldset('subscription_fieldset', array('legend' => $this->__('Subscription')));
 
-        $field = $fieldset->addField(
+        $fieldset->addField(
             'name', 'text',
             array(
                 'label'     => $this->__('Name'),
                 'class'     => 'required-entry',
                 'required'  => true,
                 'name'      => 'name',
+                'disabled'  => $disabled,
             )
         );
-        if ($disabled) {
-            $field->setDisabled($disabled);
-        }
 
-        $field = $fieldset->addField(
+        $fieldset->addField(
             'endpoint_url', 'text',
             array(
                 'label'     => $this->__('Endpoint URL'),
                 'class'     => 'required-entry',
                 'required'  => true,
                 'name'      => 'endpoint_url',
+                'disabled'  => $disabled,
             )
         );
-        if ($disabled) {
-            $field->setDisabled($disabled);
-        }
 
-        $field = $fieldset->addField(
+        $fieldset->addField(
             'format', 'select',
             array(
                 'name'      => 'format',
                 'label'     => $this->__('Format'),
                 'title'     => $this->__('Format'),
                 'values'    => $this->_format->getFormatsForForm(),
+                'disabled'  => $disabled,
             )
         );
-        if ($disabled) {
-            $field->setDisabled($disabled);
-        }
 
-        $field = $fieldset->addField(
+        $fieldset->addField(
             'authentication_type', 'select',
             array(
                 'name'      => 'authentication_type',
                 'label'     => $this->__('Authentication Types'),
                 'title'     => $this->__('Authentication Types'),
                 'values'    => $this->_authentication->getAuthenticationsForForm(),
+                'disabled'  => $disabled,
             )
         );
-        if ($disabled) {
-            $field->setDisabled($disabled);
-        }
 
-        $field = $fieldset->addField(
+        $fieldset->addField(
             'topics', 'multiselect',
             array(
                 'name'      => 'topics[]',
@@ -148,11 +140,9 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
                 'title'     => $this->__('Topics'),
                 'required'  => true,
                 'values'    => $this->_hook->getTopicsForForm(),
+                'disabled'  => $disabled,
             )
         );
-        if ($disabled) {
-            $field->setDisabled($disabled);
-        }
 
         $form->setUseContainer(true);
         $form->setValues($subscriptionData);
