@@ -653,7 +653,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                 '$behaviors' => array(
                     Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            "Please correct the value for '%1'." => array(
+                            "Please correct the value for '%s'." => array(
                                 array(1, 'store_credit'), array(1, 'reward_points'))
                         ),
                     ),
