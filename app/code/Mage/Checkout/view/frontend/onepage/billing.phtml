@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * @var $this Mage_Checkout_Block_Onepage_Billing
- */
 ?>
+
+<?php /** @var $this Mage_Checkout_Block_Onepage_Billing */ ?>
 <form id="co-billing-form" action="">
 <fieldset>
     <ul class="form-list">
@@ -192,7 +190,7 @@
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
             function() {
                 $('#billing\\:country_id').regionUpdater({
-                    optionalRegionAllowed: <?php echo ($this->getStoreManager()->getStore()->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                    optionalRegionAllowed: <?php echo ($this->getStore()->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
                     regionListId: '#billing\\:region_id',
                     regionInputId: '#billing\\:region',
                     postcodeId: '#billing\\:postcode',

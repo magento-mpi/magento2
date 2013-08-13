@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstract
 {
     /**
@@ -29,6 +28,35 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
      * @var array
      */
     protected $_address = array();
+
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * Get store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
+    }
 
     /**
      * Get Estimate Rates

@@ -16,7 +16,6 @@
  */
 abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage_Directory_Block_Data
 {
-
     /**
      * Registry Entity object
      *
@@ -44,6 +43,37 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      * @var string
      */
     protected $_prefix;
+
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
+    /**
+     * Get store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
+    }
 
     /**
      * Getter, return entity object , instantiated in controller

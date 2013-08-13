@@ -10,14 +10,42 @@
 
 /**
  * Gift registry advanced search block
- *
- * @category   Enterprise
- * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegistry_Block_Form_Element
 {
     protected $_attributes = null;
     protected $_formData = null;
+
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
+    /**
+     * Get store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
+    }
 
     /**
      * Block constructor

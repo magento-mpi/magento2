@@ -28,17 +28,35 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_addressesCollection;
 
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_configCacheType = $configCacheType;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
+     * Get store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
     }
 
     /**

@@ -10,9 +10,6 @@
 
 /**
  * Customer giftregistry edit block
- *
- * @category   Enterprise
- * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_GiftRegistry_Block_Customer_Edit_Abstract
 {

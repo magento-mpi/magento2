@@ -10,15 +10,29 @@
 
 /**
  * Html page block
- *
- * @category   Mage
- * @package    Mage_Page
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
 {
-
     protected $_copyright;
+
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $data);
+    }
 
     protected function _construct()
     {
@@ -26,6 +40,16 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
             'cache_lifetime'=> false,
             'cache_tags'    => array(Mage_Core_Model_Store::CACHE_TAG, Mage_Cms_Model_Block::CACHE_TAG)
         ));
+    }
+
+    /**
+     * Get store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
     }
 
     /**

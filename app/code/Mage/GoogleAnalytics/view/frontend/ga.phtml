@@ -9,7 +9,7 @@
  */
 ?>
 <?php if (!$this->helper('Mage_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
-<?php $accountId = Mage::getStoreConfig(Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT) ?>
+<?php $accountId = $this->getStore()->getConfig(Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT) ?>
 <!-- BEGIN GOOGLE ANALYTICS CODEs -->
 <script type="text/javascript">
 //<![CDATA[

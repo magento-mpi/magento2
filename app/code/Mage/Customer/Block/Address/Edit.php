@@ -10,10 +10,6 @@
 
 /**
  * Customer address edit block
- *
- * @category   Mage
- * @package    Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 {
@@ -21,6 +17,11 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     protected $_countryCollection;
     protected $_regionCollection;
 
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+    
     /**
      * @var Mage_Core_Model_Config
      */
@@ -30,17 +31,20 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config $config,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     )
     {
         parent::__construct($context, $configCacheType, $data);
         $this->_config = $config;
+        $this->_storeManager = $storeManager;
     }
 
 
@@ -191,5 +195,15 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     public function getConfig()
     {
         return $this->_config;
+    }
+
+    /**
+     * Get store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
     }
 }
