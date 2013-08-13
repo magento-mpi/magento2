@@ -72,14 +72,29 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->method('getEndpoint')
             ->will($this->returnValue($this->_endpointMockB));
 
+        $this->_eventMockA->expects($this->any())
+            ->method('getTopic')
+            ->will($this->returnValue('topicA'));
+
+        $this->_eventMockA->expects($this->any())
+            ->method('getBodyData')
+            ->will($this->returnValue(array('BodyDataA')));
+
+        $this->_eventMockB->expects($this->any())
+            ->method('getTopic')
+            ->will($this->returnValue('topicB'));
+
+        $this->_eventMockB->expects($this->any())
+            ->method('getBodyData')
+            ->will($this->returnValue(array('BodyDataB')));
     }
 
     public function testHandle()
     {
         // Resources for stubs
         $jobMsgMap = array(
-            array($this->_endpointMockA, $this->_eventMockA, $this->_messageMockA),
-            array($this->_endpointMockB, $this->_eventMockB, $this->_messageMockB),
+            array($this->_endpointMockA, 'topicA', array('BodyDataA'), $this->_messageMockA),
+            array($this->_endpointMockB, 'topicB', array('BodyDataB'), $this->_messageMockB),
         );
 
         $responseA = $this->_makeMock('Magento_Outbound_Transport_Http_Response');
