@@ -67,7 +67,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
 
     protected function _removeRendererFromPhrase()
     {
-        $property = new ReflectionProperty('Magento_Phrase', 'renderer');
+        $property = new ReflectionProperty('Magento_Phrase', '_renderer');
         $property->setAccessible(true);
         $property->setValue(null);
     }
