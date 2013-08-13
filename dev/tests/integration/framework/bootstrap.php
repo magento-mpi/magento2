@@ -39,7 +39,5 @@ Magento_Test_Helper_Bootstrap::setInstance(new Magento_Test_Helper_Bootstrap($bo
 
 Utility_Files::init(new Utility_Files($magentoBaseDir));
 
-Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
-
 /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
 unset($bootstrap);
