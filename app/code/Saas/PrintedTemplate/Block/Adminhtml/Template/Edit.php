@@ -20,12 +20,41 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
     const MODULE_NAME = 'Saas_PrintedTemplate';
 
     /**
+     * @var Saas_PrintedTemplate_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Saas_PrintedTemplate_Model_Wysiwyg_Config $wysiwygConfig
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Saas_PrintedTemplate_Model_Wysiwyg_Config $wysiwygConfig,
+        array $data = array()
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Internal constructor, that is called from real constructor
      */
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate(self::MODULE_NAME . '::edit.phtml');
+    }
+
+    /**
+     * Get Wysiwyg config
+     *
+     * @return Saas_PrintedTemplate_Model_Wysiwyg_Config
+     */
+    public function getWysiwygConfig()
+    {
+        return $this->_wysiwygConfig;
     }
 
     /**

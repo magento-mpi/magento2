@@ -8,11 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php
-/**
- * @var Saas_PrintedTemplate_Block_Adminhtml_Template_Edit $this
- */
-?>
+<?php /** @var $this Saas_PrintedTemplate_Block_Adminhtml_Template_Edit */ ?>
 <div class="content-header">
     <h3 class="icon-head head-system-printed-template"><?php echo $this->getHeaderText() ?></h3>
     <p class="content-buttons form-buttons">
@@ -176,7 +172,7 @@
 </form>
 
 <?php
-    $wysiwygConfig = Mage::getSingleton('Saas_PrintedTemplate_Model_Wysiwyg_Config');
+    $wysiwygConfig = $this->getWysiwygConfig();
     $printedTemplate = $this->getPrintedTemplate();
     $deleteConfirmMessage = $this->__('Are you sure that you want to delete this template?');
     if ($printedTemplate->getId() && count($printedTemplate->getSystemConfigPathsWhereUsedCurrently())) {

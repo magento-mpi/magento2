@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate */ ?>
 
 <?php
 $_htmlId = $this->getHtmlId() ? $this->getHtmlId() : '_' . uniqid();
@@ -28,7 +29,7 @@ echo $this->helper('Enterprise_GiftCardAccount_Helper_Data')->__('Code Pool used
 //<![CDATA[
 function redirectToGeneration()
 {
-    var url = '<?php echo Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/giftcardaccount/generate'); ?>';
+    var url = '<?php echo $this->getUrlModel()->getUrl('*/giftcardaccount/generate'); ?>';
     if (confirm('<?php echo $this->helper('Enterprise_GiftCardAccount_Helper_Data')->__('Are you sure you want to continue without saving your changes?'); ?>')) {
         if (Prototype.Browser.IE) {
             var generateLink = new Element('a', {href: url});

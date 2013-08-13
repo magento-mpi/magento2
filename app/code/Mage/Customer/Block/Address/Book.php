@@ -10,13 +10,28 @@
 
 /**
  * Customer address book block
- *
- * @category   Mage
- * @package    Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
 {
+    /**
+     * @var Mage_Customer_Model_Session
+     */
+    protected $_sessionModel;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Customer_Model_Session $sessionModel
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Customer_Model_Session $sessionModel,
+        array $data = array()
+    ) {
+        $this->_sessionModel = $sessionModel;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
@@ -76,11 +91,6 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
 
     public function getCustomer()
     {
-        $customer = $this->getData('customer');
-        if (is_null($customer)) {
-            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
-            $this->setData('customer', $customer);
-        }
-        return $customer;
+        return $this->_sessionModel->getCustomer();
     }
 }

@@ -8,19 +8,20 @@
  * @license     {license_link}
  */
 
+/** @var $this Mage_Adminhtml_Block_System_Shipping_Ups */
+
 /** @var $upsModel Mage_Usa_Model_Shipping_Carrier_Ups */
-$upsModel = Mage::getSingleton('Mage_Usa_Model_Shipping_Carrier_Ups');
+$upsModel = $this->getShippingModel();
 $orShipArr = $upsModel->getCode('originShipment');
 $defShipArr = $upsModel->getCode('method');
 
-/** @var $this Mage_Adminhtml_Block_Template */
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
 
 if (!$storeCode && $websiteCode) {
     /** @var $web Mage_Core_Model_Website */
-    $web = Mage::getModel('Mage_Core_Model_Website')->load($websiteCode);
+    $web = $this->getWebsiteModel()->load($websiteCode);
     $storedAllowedMethods = explode(',', $web->getConfig('carriers/ups/allowed_methods'));
     $storedOriginShipment = $web->getConfig('carriers/ups/origin_shipment');
     $storedFreeShipment   = $web->getConfig('carriers/ups/free_method');
