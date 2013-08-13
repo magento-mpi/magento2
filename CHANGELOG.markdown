@@ -158,11 +158,9 @@
   * Fixed bug with excessive custom rewrites after reindex
   * Fixed performance tests failure on login page
   * Fixed incorrect value for average rating on Edit Review page
-  * Fixed security issue in backend Dashboard controller
   * Fixed bug with saving shopping cart price rule having specific coupon
   * Fixed bug with incorrect module configuration overriding
   * Fixed exception in Nominal Tax model
-  * Fixed possible flooding the database by automated scripts
   * Fixed bug in sitemap URL used in `robots.txt`
   * Fixed bug with incorrect `custom_design` field value during export
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
