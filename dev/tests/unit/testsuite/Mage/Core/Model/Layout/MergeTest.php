@@ -34,6 +34,11 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     private $_cache;
 
     /**
+     * @var Mage_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_helper;
+
+    /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $_theme;
@@ -64,13 +69,22 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
         $this->_cache = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
 
+        $this->_helper = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
+
         $this->_theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
         $this->_theme->expects($this->any())->method('isPhysical')->will($this->returnValue(true));
         $this->_theme->expects($this->any())->method('getArea')->will($this->returnValue('area'));
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
         $this->_model = new Mage_Core_Model_Layout_Merge(
-            $design, $storeManager, $fileSource, $this->_resource, $this->_appState, $this->_cache, $this->_theme
+            $design,
+            $storeManager,
+            $fileSource,
+            $this->_resource,
+            $this->_appState,
+            $this->_cache,
+            $this->_helper,
+            $this->_theme
         );
     }
 
