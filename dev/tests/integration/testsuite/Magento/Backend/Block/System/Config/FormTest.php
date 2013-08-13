@@ -33,10 +33,10 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Mage_Backend_Block_System_Config_Form::initFields
-     * @param $section Mage_Backend_Model_Config_Structure_Element_Section
-     * @param $group Mage_Backend_Model_Config_Structure_Element_Group
-     * @param $field Mage_Backend_Model_Config_Structure_Element_Field
+     * @covers Magento_Backend_Block_System_Config_Form::initFields
+     * @param $section Magento_Backend_Model_Config_Structure_Element_Section
+     * @param $group Magento_Backend_Model_Config_Structure_Element_Group
+     * @param $field Magento_Backend_Model_Config_Structure_Element_Field
      * @param array $configData
      * @param bool $expectedUseDefault
      * @dataProvider initFieldsInheritCheckboxDataProvider
@@ -49,9 +49,9 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
-        /** @var $block Mage_Backend_Block_System_Config_FormStub */
-        $block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_System_Config_FormStub');
-        $block->setScope(Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
+        /** @var $block Magento_Backend_Block_System_Config_FormStub */
+        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_FormStub');
+        $block->setScope(Magento_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
 
@@ -83,10 +83,10 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
 
     /**
-     * @covers Mage_Backend_Block_System_Config_Form::initFields
-     * @param $section Mage_Backend_Model_Config_Structure_Element_Section
-     * @param $group Mage_Backend_Model_Config_Structure_Element_Group
-     * @param $field Mage_Backend_Model_Config_Structure_Element_Field
+     * @covers Magento_Backend_Block_System_Config_Form::initFields
+     * @param $section Magento_Backend_Model_Config_Structure_Element_Section
+     * @param $group Magento_Backend_Model_Config_Structure_Element_Group
+     * @param $field Magento_Backend_Model_Config_Structure_Element_Field
      * @param array $configData
      * @param bool $expectedUseDefault
      * @dataProvider initFieldsInheritCheckboxDataProvider
@@ -101,9 +101,9 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
-        /** @var $block Mage_Backend_Block_System_Config_FormStub */
-        $block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_System_Config_FormStub');
-        $block->setScope(Mage_Backend_Block_System_Config_Form::SCOPE_DEFAULT);
+        /** @var $block Magento_Backend_Block_System_Config_FormStub */
+        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_FormStub');
+        $block->setScope(Magento_Backend_Block_System_Config_Form::SCOPE_DEFAULT);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
 
@@ -135,25 +135,25 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));
 
         Mage::getObjectManager()->configure(array(
-            'Mage_Backend_Model_Config_Structure_Reader' => array(
+            'Magento_Backend_Model_Config_Structure_Reader' => array(
                 'parameters' => array('moduleReader' => $configMock)
             )
         ));
-        /** @var Mage_Backend_Model_Config_Structure $structure  */
-        $structure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var Magento_Backend_Model_Config_Structure $structure  */
+        $structure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
 
-        /** @var Mage_Backend_Model_Config_Structure_Element_Section $section  */
+        /** @var Magento_Backend_Model_Config_Structure_Element_Section $section  */
         $section = $structure->getElement('test_section');
 
-        /** @var Mage_Backend_Model_Config_Structure_Element_Group $group  */
+        /** @var Magento_Backend_Model_Config_Structure_Element_Group $group  */
         $group = $structure->getElement('test_section/test_group');
 
-        /** @var Mage_Backend_Model_Config_Structure_Element_Field $field  */
+        /** @var Magento_Backend_Model_Config_Structure_Element_Field $field  */
         $field = $structure->getElement('test_section/test_group/test_field');
 
         $fieldPath = $field->getConfigPath();
 
-        /** @var Mage_Backend_Model_Config_Structure_Element_Field $field  */
+        /** @var Magento_Backend_Model_Config_Structure_Element_Field $field  */
         $field2 = $structure->getElement('test_section/test_group/test_field_use_config');
 
         $fieldPath2 = $field2->getConfigPath();
