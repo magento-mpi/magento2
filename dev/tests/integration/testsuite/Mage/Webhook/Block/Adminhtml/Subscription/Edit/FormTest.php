@@ -26,7 +26,6 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit_Fr
             'endpoint_url' => 'example.url.com',
             'format' => 'JSON',
             'authentication_type' => 'manual',
-            'version' => '1.0',
             'topics' => 'customer/created',
             'subscription_id' => '4'
         );
