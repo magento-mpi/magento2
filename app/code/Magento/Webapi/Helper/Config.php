@@ -117,7 +117,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
     public function translateTypeName($class)
     {
         if (preg_match('/(.*)_(.*)_Model_Webapi_\2?(.*)/', $class, $matches)) {
-            $moduleNamespace = $matches[1] == 'Mage' ? '' : $matches[1];
+            $moduleNamespace = $matches[1] == 'Magento' ? '' : $matches[1];
             $moduleName = $matches[2];
             $typeNameParts = explode('_', $matches[3]);
 
@@ -181,7 +181,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
         if (preg_match(Magento_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
-            $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
+            $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
             $resourceNameParts = explode('_', trim($matches[3], '_'));
             if ($moduleName == $resourceNameParts[0]) {
                 /** Avoid duplication of words in resource name */
