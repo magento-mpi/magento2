@@ -560,10 +560,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         }
 
         if (!$valid) {
-            $this->addRowError(__("Please correct the value for '%1'."), $rowNum, $attrCode);
+            $this->addRowError(__("Please correct the value for '%s'."), $rowNum, $attrCode);
         } elseif (!empty($attrParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attrCode][$rowData[$attrCode]])) {
-                $this->addRowError(__("Duplicate Unique Attribute for '%1'"), $rowNum, $attrCode);
+                $this->addRowError(__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
                 return false;
             }
             $this->_uniqueAttributes[$attrCode][$rowData[$attrCode]] = true;
