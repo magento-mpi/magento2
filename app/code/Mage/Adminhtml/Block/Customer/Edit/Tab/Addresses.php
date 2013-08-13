@@ -39,8 +39,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             'name'   => 'add_address_button',
             'element_name' => 'add_address_button',
             'disabled' => $this->isReadonly(),
-            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : ''),
-            'onclick'=> 'customerAddresses.addNewAddress()'
+            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
         ));
         $this->addChild('cancel_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'  => __('Cancel'),
@@ -48,8 +47,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             'name'   => 'cancel_address',
             'element_name' => 'cancel_address',
             'class'  => 'cancel delete-address'  . ($this->isReadonly() ? ' disabled' : ''),
-            'disabled' => $this->isReadonly(),
-            'onclick'=> 'customerAddresses.cancelAdd(this)',
+            'disabled' => $this->isReadonly()
         ));
         return parent::_prepareLayout();
     }
