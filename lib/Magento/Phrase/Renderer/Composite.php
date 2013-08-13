@@ -14,14 +14,14 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
      *
      * @var Magento_Phrase_Renderer_Factory
      */
-    protected $rendererFactory;
+    protected $_rendererFactory;
 
     /**
      * List of Magento_Phrase_RendererInterface
      *
      * @var array
      */
-    protected $renderers = array();
+    protected $_renderers = array();
 
     /**
      * Renderer construct
@@ -33,7 +33,7 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
         Magento_Phrase_Renderer_Factory $rendererFactory,
         array $renderers = array()
     ) {
-        $this->rendererFactory = $rendererFactory;
+        $this->_rendererFactory = $rendererFactory;
 
         foreach ($renderers as $render) {
             $this->append($render);
@@ -47,7 +47,7 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
      */
     protected function append($render)
     {
-        array_push($this->renderers, $this->rendererFactory->create($render));
+        array_push($this->_renderers, $this->_rendererFactory->create($render));
     }
 
     /**
@@ -56,7 +56,7 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
     public function render($text, array $arguments = array())
     {
         /** @var Magento_Phrase_Renderer_Composite $render */
-        foreach ($this->renderers as $render) {
+        foreach ($this->_renderers as $render) {
             $text = $render->render($text, $arguments);
         }
         return $text;
