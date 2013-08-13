@@ -84,9 +84,10 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
         );
 
         // We don't want to allow subscriptions defined in config to be edited by the user.
-        $readonly = isset($subscriptionData[self::DATA_ALIAS]) && !empty($subscriptionData[self::DATA_ALIAS]);
+        $disabled = isset($subscriptionData[self::DATA_ALIAS]) && !empty($subscriptionData[self::DATA_ALIAS]);
 
         $fieldset = $form->addFieldset('subscription_fieldset', array('legend' => $this->__('Subscription')));
+
         $field = $fieldset->addField(
             'name', 'text',
             array(
@@ -96,8 +97,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
                 'name'      => 'name',
             )
         );
-        if ($readonly) {
-            $field->setReadonly($readonly);
+        if ($disabled) {
+            $field->setDisabled($disabled);
         }
 
         $field = $fieldset->addField(
@@ -109,8 +110,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
                 'name'      => 'endpoint_url',
             )
         );
-        if ($readonly) {
-            $field->setReadonly($readonly);
+        if ($disabled) {
+            $field->setDisabled($disabled);
         }
 
         $field = $fieldset->addField(
@@ -122,8 +123,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
                 'values'    => $this->_format->getFormatsForForm(),
             )
         );
-        if ($readonly) {
-            $field->setReadonly($readonly);
+        if ($disabled) {
+            $field->setDisabled($disabled);
         }
 
         $field = $fieldset->addField(
@@ -135,8 +136,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
                 'values'    => $this->_authentication->getAuthenticationsForForm(),
             )
         );
-        if ($readonly) {
-            $field->setReadonly($readonly);
+        if ($disabled) {
+            $field->setDisabled($disabled);
         }
 
         $field = $fieldset->addField(
@@ -149,8 +150,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
                 'values'    => $this->_hook->getTopicsForForm(),
             )
         );
-        if ($readonly) {
-            $field->setReadonly($readonly);
+        if ($disabled) {
+            $field->setDisabled($disabled);
         }
 
         $form->setUseContainer(true);
