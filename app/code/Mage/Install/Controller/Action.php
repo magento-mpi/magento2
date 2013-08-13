@@ -45,8 +45,7 @@ class Mage_Install_Controller_Action extends Mage_Core_Controller_Varien_Action
     {
         $areaCode = $this->getLayout()->getArea();
         $area = Mage::app()->getArea($areaCode);
-        $area->load(Mage_Core_Model_App_Area::PART_CONFIG)
-            ->load(Mage_Core_Model_App_Area::PART_EVENTS);
+        $area->load(Mage_Core_Model_App_Area::PART_CONFIG);
         $this->_initDefaultTheme($areaCode);
         $area->detectDesign($this->getRequest());
         $area->load(Mage_Core_Model_App_Area::PART_TRANSLATE);

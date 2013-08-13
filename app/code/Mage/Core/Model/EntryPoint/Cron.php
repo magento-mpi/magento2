@@ -19,7 +19,9 @@ class Mage_Core_Model_EntryPoint_Cron extends Mage_Core_Model_EntryPointAbstract
 
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->addEventArea('crontab');
+        /** @var Mage_Core_Model_Config_Scope $configScope */
+        $configScope = $this->_objectManager->get('Mage_Core_Model_Config_Scope');
+        $configScope->setCurrentScope('crontab');
         $eventManager->dispatch('default');
     }
 }

@@ -10,33 +10,23 @@ class Magento_Acl_Resource_Config_Reader_Filesystem extends Magento_Config_Reade
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Magento_Config_ConverterInterface $converter
+     * @param Magento_Acl_Resource_Config_SchemaLocator $schemaLocator
+     * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
-     * @param null|string $schema
-     * @param null|string $perFileSchema
-     * @param bool $isValidated
      * @param string $domDocumentClass
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
         Magento_Config_ConverterInterface $converter,
+        Magento_Acl_Resource_Config_SchemaLocator $schemaLocator,
+        Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'acl.xml',
         $idAttributes = array(),
-        $schema = null,
-        $perFileSchema = null,
-        $isValidated = true,
         $domDocumentClass = 'Magento_Acl_Resource_Config_Dom'
     ) {
-        $schema = realpath(__DIR__ . '/../../../etc/acl.xsd');
         parent::__construct(
-            $fileResolver,
-            $converter,
-            $fileName,
-            $idAttributes,
-            $schema,
-            $perFileSchema,
-            $isValidated,
-            $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
         );
     }
 }
