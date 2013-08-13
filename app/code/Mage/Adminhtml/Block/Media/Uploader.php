@@ -29,16 +29,24 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     protected $_viewUrl;
 
     /**
+     * @var Magento_File_Size
+     */
+    protected $_fileSizeService;
+
+    /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Core_Model_View_Url $viewUrl,
+        Magento_File_Size $fileSize,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
+        $this->_fileSizeService = $fileSize;
         parent::__construct($context, $data);
     }
 
@@ -65,6 +73,16 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
                 'files' => array('*.*')
             )
         ));
+    }
+
+    /**
+     * Get file size
+     *
+     * @return Magento_File_Size
+     */
+    public function getFileSizeService()
+    {
+        return $this->_fileSizeService;
     }
 
     /**
