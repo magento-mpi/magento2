@@ -9,7 +9,6 @@
  */
 class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
-
     /** @var  Magento_PubSub_Job_QueueHandler */
     private $_queueHandler;
 
@@ -42,6 +41,12 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_transportMock;
+
+    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    private $_endpointMockA;
+
+    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    private $_endpointMockB;
 
     public function setUp()
     {
@@ -78,27 +83,27 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $this->_messageMockB = clone $this->_messageMockA;
 
+        $this->_endpointMockA = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_endpointMockB = clone $this->_endpointMockA;
+
+        $this->_subscriptionMockA->expects($this->any())
+            ->method('getEndpoint')
+            ->will($this->returnValue($this->_endpointMockA));
+
+        $this->_subscriptionMockB->expects($this->any())
+            ->method('getEndpoint')
+            ->will($this->returnValue($this->_endpointMockB));
+
     }
 
     public function testHandle()
     {
-        $endpointA = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $endpointB = clone $endpointA;
-
-        $this->_subscriptionMockA->expects($this->any())
-            ->method('getEndpoint')
-            ->will($this->returnValue($endpointA));
-
-        $this->_subscriptionMockB->expects($this->any())
-            ->method('getEndpoint')
-            ->will($this->returnValue($endpointB));
-
         // Resources for stubs
         $jobMsgMap = array(
-            array($endpointA, $this->_eventMockA, $this->_messageMockA),
-            array($endpointB, $this->_eventMockB, $this->_messageMockB),
+            array($this->_endpointMockA, $this->_eventMockA, $this->_messageMockA),
+            array($this->_endpointMockB, $this->_eventMockB, $this->_messageMockB),
         );
 
         $responseA = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
