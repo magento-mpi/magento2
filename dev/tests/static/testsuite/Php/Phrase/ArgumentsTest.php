@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class PhraseArgumentsTest extends PHPUnit_Framework_TestCase
+class ArgumentsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
