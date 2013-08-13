@@ -20,6 +20,7 @@
  * @method Mage_Webhook_Model_Job setRetryCount()
  * @method Mage_Webhook_Model_Job setRetryAt()
  * @method Mage_Webhook_Model_Job setUpdatedAt()
+ * @method Mage_Webhook_Model_Job setCreatedAt()
  */
 class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento_PubSub_JobInterface
 {
@@ -77,6 +78,22 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
         if ($this->hasSubscription()) {
             $this->setSubscriptionId($this->getSubscription()->getId());
         }
+    }
+
+    /**
+     * Prepare data to be saved to database
+     *
+     * @return Mage_Webhook_Model_Job
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt($this->_getResource()->formatDate(true));
+        } elseif ($this->getId() && !$this->hasData('updated_at')) {
+            $this->setUpdatedAt($this->_getResource()->formatDate(true));
+        }
+        return $this;
     }
 
     /**

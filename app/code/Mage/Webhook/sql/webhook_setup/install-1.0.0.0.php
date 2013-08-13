@@ -46,6 +46,14 @@ $subscriptionTable = $connection->newTable($this->getTable('webhook_subscription
         'endpoint_id',
         Magento_DB_Ddl_Table::ACTION_SET_NULL,
         Magento_DB_Ddl_Table::ACTION_CASCADE)
+    ->addIndex(
+        $this->getIdxName('webhook_subscription', array('alias')),
+        array('alias')
+    )
+    ->addIndex(
+        $this->getIdxName('webhook_subscription', array('status')),
+        array('status')
+    )
     ->setOption('collate', null)
     ->setOption('comment', 'Subscription');
 $connection->createTable($subscriptionTable);
@@ -152,6 +160,14 @@ $dispatchJobTable = $connection->newTable($this->getTable('webhook_dispatch_job'
         Magento_DB_Ddl_Table::ACTION_CASCADE,
         Magento_DB_Ddl_Table::ACTION_CASCADE
     )
+    ->addIndex(
+        $this->getIdxName('webhook_dispatch_job', array('status')),
+        array('status')
+    )
+    ->addIndex(
+        $this->getIdxName('webhook_dispatch_job', array('retry_at')),
+        array('retry_at')
+    )
     ->setOption('collate', null)
     ->setOption('comment', 'Dispatch Jobs');
 $connection->createTable($dispatchJobTable);
@@ -178,8 +194,6 @@ $outboundEndpointTbl = $connection->newTable($this->getTable('outbound_endpoint'
     ->addColumn('status', Magento_DB_Ddl_Table::TYPE_INTEGER, null,
         array('unsigned' => true, 'nullable' => false, 'default'  => 0),
         'Status')
-    ->addColumn('alias', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(),
-        'Alias')
     ->addColumn('api_user_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
                                                                              'unsigned' => true, 'nullable' => true),
         'Webapi User Id')
@@ -192,9 +206,9 @@ $outboundEndpointTbl = $connection->newTable($this->getTable('outbound_endpoint'
         array( 'nullable' => false, 'default' => 5),
         'Timeout in seconds')
     ->addIndex(
-        $this->getIdxName('outbound_endpoint', array('endpoint_id', 'alias'),
+        $this->getIdxName('outbound_endpoint', array('endpoint_id'),
             Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('endpoint_id', 'alias'),
+        array('endpoint_id'),
         array('type' => Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $this->getFkName('outbound_endpoint', 'api_user_id', 'webapi_user', 'user_id'),
