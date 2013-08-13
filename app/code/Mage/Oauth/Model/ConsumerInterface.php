@@ -29,6 +29,13 @@ interface Mage_Oauth_Model_ConsumerInterface
      *
      * @return string
      */
+    public function getKey();
+
+    /**
+     * Get consumer secret.
+     *
+     * @return string
+     */
     public function getSecret();
 
     /**

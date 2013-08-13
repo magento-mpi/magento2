@@ -61,6 +61,16 @@ class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mag
      *
      * @return string
      */
+    public function getKey()
+    {
+        return $this->getData('key');
+    }
+
+    /**
+     * Get consumer secret.
+     *
+     * @return string
+     */
     public function getSecret()
     {
         return $this->getData('secret');

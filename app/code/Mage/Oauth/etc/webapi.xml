@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Mage_Oauth_Service_OauthInterfaceV1" baseUrl="/V1/oauth">
+        <rest-route httpMethod="POST" method="createConsumer">/consumer</rest-route>
+    </service>
+</config>

@@ -66,6 +66,11 @@
                 </oauth_email_template>
             </email>
         </template>
+        <di>
+            <preferences>
+                <Mage_Oauth_Service_OauthInterfaceV1>Mage_Oauth_Service_OauthV1</Mage_Oauth_Service_OauthInterfaceV1>
+            </preferences>
+        </di>
     </global>
     <admin>
         <routers>

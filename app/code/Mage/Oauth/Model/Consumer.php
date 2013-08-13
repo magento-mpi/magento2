@@ -20,7 +20,6 @@
  * @method Mage_Oauth_Model_Resource_Consumer_Collection getResourceCollection()
  * @method string getName()
  * @method Mage_Oauth_Model_Consumer setName() setName(string $name)
- * @method string getKey()
  * @method Mage_Oauth_Model_Consumer setKey() setKey(string $key)
  * @method Mage_Oauth_Model_Consumer setSecret() setSecret(string $secret)
  * @method Mage_Oauth_Model_Consumer setCallbackUrl() setCallbackUrl(string $url)
@@ -31,7 +30,7 @@
  * @method string getRejectedCallbackUrl()
  * @method Mage_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
+class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
      * Key hash length
@@ -50,6 +49,7 @@ abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implem
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->_init('Mage_Oauth_Model_Resource_Consumer');
     }
 
@@ -125,6 +125,16 @@ abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implem
 
     /**
      * Get consumer key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->getData('key');
+    }
+
+    /**
+     * Get consumer secret.
      *
      * @return string
      */
