@@ -52,7 +52,7 @@
 * Various improvements:
   * Added configuration for limits on sending wishlist emails
   * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
-  * Removed Currency Symbol module files from Adminhtml module to the module itself
+  * Moved Currency Symbol module files from Adminhtml module to the module itself
   * "Contact Us" page is available through HTTPS only
   * Language selector for backend interface removed from footer. Language can be chosen on My Account page or on backend user edit page
   * Updated page titles in backend
@@ -95,7 +95,7 @@
   * Fixed exception on customer edit page, when profiler is enabled
   * Fixed removal of "NOT LOGGED IN" customer group, when attempting to delete nonexistent group
   * Fixed absence of a welcome email for a new customer that is created in backend
-  * Added validation for customer DOB
+  * Added validation of customer DOB
   * Fixed bugs related to "Add Store Code to Urls" configuration setting: the setting applied to backend and produced exceptions on frontend
   * Fixed inability to edit Newsletter Template
   * Fixed inability to save Configuration from "Web" tab
@@ -140,11 +140,11 @@
   * Fixed exception, when saving a configurable product without associated products
   * Fixed inability to properly save system configuration, when submitting files there
   * Fixed performance issue with excessive generation of category menu on "Add to Cart" page
-  * Fixed wrong currency for a created order
+  * Fixed amounts, being shown in a wrong currency, when viewing created order
   * Fixed calculation for amount of items, remaining in an order, after shipping and invoicing
-  * Fixed wrong price for multiple bundle products, ordered in backend
+  * Fixed wrong price, calculated, when ordering multiple bundle products in backend
   * Fixed issues with changing order statuses in backend
-  * Implemented proper distinguishing of ordered items that have been shipped with Free Shipping method
+  * Fixed order items, that have been shipped with Free Shipping method, to have "free shipping" status
   * Fixed issue with a State field being required in countries, where it is not mandatory
   * Fixed inability to upload a file via File custom option, when ordering a product at frontend
   * Fixed incorrect cron timezone settings
