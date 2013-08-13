@@ -44,15 +44,6 @@
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="version">
-                        <arguments>
-                            <header translate="true" module="Mage_Webhook">Version</header>
-                            <index>version</index>
-                            <align>left</align>
-                            <width>80px</width>
-                            <id>version</id>
-                        </arguments>
-                    </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="endpoint_url">
                         <arguments>
                             <header translate="true" module="Mage_Webhook">Endpoint URL</header>
