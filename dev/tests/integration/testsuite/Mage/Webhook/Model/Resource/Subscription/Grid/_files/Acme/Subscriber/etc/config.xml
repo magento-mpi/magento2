@@ -22,7 +22,6 @@
         <webhook>
             <subscriptions>
                 <subscription_alias>
-                    <version>0.4</version>
                     <name>Test subscriber</name>
                     <endpoint_url>http://mage.loc/mage-twitter-integration/web/index.php/endpoint</endpoint_url>
                     <topics>

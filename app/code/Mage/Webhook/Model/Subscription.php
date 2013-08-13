@@ -16,8 +16,6 @@
  * @method string getUpdatedAt()
  * @method Mage_Webhook_Model_Subscription setUpdatedAt(string $value)
  * @method Mage_Webhook_Model_Subscription setStatus(int $value)
- * @method string getVersion()
- * @method Mage_Webhook_Model_Subscription setVersion(string $value)
  * @method string getAlias()
  * @method Mage_Webhook_Model_Subscription setAlias(string $value)
  * @method Mage_Webhook_Model_Subscription setTopics(array $value)

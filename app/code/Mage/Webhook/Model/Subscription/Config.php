@@ -76,19 +76,13 @@ class Mage_Webhook_Model_Subscription_Config
                     $subscription = $this->_subscriptionFactory->create()
                         ->setAlias($alias)
                         ->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE);
-                    $this->_updateSubscriptionFromConfigData($subscription, $subscriptionData);
-                    continue;
                 } else {
                     // get first subscription from array
                     $subscription = current($subscriptions);
                 }
 
-                if (isset($subscriptionData['version'])
-                    && $subscription->getVersion() != $subscriptionData['version']
-                ) {
-                    // update subscription from config
-                    $this->_updateSubscriptionFromConfigData($subscription, $subscriptionData);
-                }
+                // update subscription from config
+                $this->_updateSubscriptionFromConfigData($subscription, $subscriptionData);
             } catch (LogicException $e){
                 $this->_logger->logException(new Mage_Webhook_Exception($e->getMessage()));
             }
@@ -130,7 +124,6 @@ class Mage_Webhook_Model_Subscription_Config
 
         $subscription->setName($configData['name'])
             ->setFormat($configData['format'])
-            ->setVersion($configData['version'])
             ->setEndpointUrl($configData['endpoint_url'])
             ->setTopics($configData['topics'])
             ->setAuthenticationType($configData['authentication_type'])
@@ -150,7 +143,6 @@ class Mage_Webhook_Model_Subscription_Config
         $defaultData = array(
             'name' => null,
             'format' => Magento_Outbound_EndpointInterface::FORMAT_JSON,
-            'version' => null,
             'endpoint_url' => null,
             'topics' => array(),
             'authentication_type' => Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE,

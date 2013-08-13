@@ -30,8 +30,6 @@ $subscriptionTable = $connection->newTable($this->getTable('webhook_subscription
     ->addColumn('status', Magento_DB_Ddl_Table::TYPE_INTEGER, null,
         array('unsigned' => true, 'nullable' => false, 'default'  => 0),
         'Status')
-    ->addColumn('version', Magento_DB_Ddl_Table::TYPE_TEXT, 50, array(),
-        'Extension Version')
     ->addColumn('alias', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(),
         'Alias')
     ->addColumn('updated_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(),
