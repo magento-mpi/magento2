@@ -66,6 +66,7 @@
   * Added plugins/interceptors support for easier extensibility of Magento functionality
   * Added `application_process_reinit_config` event, so that it is possible to react, when Magento config gets reinitialized
   * Added "less" to a list of files that are not published to the public directory during deployment process
+  * Eliminated requirement of write access to `pub/static` directory in "production" mode. "Developer" and "default" modes still require write access to this directory
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
@@ -176,6 +177,8 @@
     * Fixed inability to select/change attribute for product variations (configurable product) in IE8
     * Fixed field highlighting and error placement after validation on "Create Category" dialog
       * Fixed validation of parent category to be a require field
+    * Fixed bug with displaying special price for a product on frontend after the product template is switched to one without special price
+    * Fixed incorrectly displayed regular price for products with catalog price rule applied
   * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
   * Fixed inability to save Attribute Set in IE8
   * Payment fixes:
@@ -186,7 +189,10 @@
     * Fixed PayPal Payments Pro Hosted Solution to send "City" in place of the "State" parameter for UK and CA, if Region/State is disabled in the configuration
     * Fixed ability to invoice order without providing payment using Google Checkout API
     * Fixed validation of a Discover card number
+    * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
     * Fixed exception, when using 2-level cache backend
+  * Fixed bugs in shipping label creation
+  * Fixed inability to save some sections of configuration
 
 2.0.0.0-dev44
 =============
