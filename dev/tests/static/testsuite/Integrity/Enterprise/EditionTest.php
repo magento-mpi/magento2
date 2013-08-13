@@ -47,10 +47,18 @@ class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
             }
         }
 
+        $magentoPoolPath = $root . '/app/code/Magento';
+        foreach (new DirectoryIterator($magentoPoolPath) as $dir) {
+            if (!$dir->isDot()) {
+                $moduleName = 'Magento_' . $dir->getFilename();
+                $moduleNames = array_diff($moduleNames, array($moduleName));
+            }
+        }
+
         $this->assertEquals(
             0,
             count($moduleNames),
-            implode(', ', $moduleNames) . " module(s) not found in {$poolPath}."
+            implode(', ', $moduleNames) . " module(s) not found in {$poolPath} or {$magentoPoolPath}."
         );
     }
 }
