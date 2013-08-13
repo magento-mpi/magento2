@@ -40,7 +40,8 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
  * We had to create this stub class because _updateDataWithCategoryColumns() parameters are passed by reference -
  * we can't use ReflectionMethod::setAccessible() and then ReflectionMethod::invokeArgs() to call it from test.
  */
-class Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExport_Model_Export_Entity_Product
+class Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product
+    extends Magento_ImportExport_Model_Export_Entity_Product
 {
     /**
      * Disable parent constructor

@@ -16,8 +16,8 @@ class Magento_Payment_Block_Info_ContainerAbstractTest extends PHPUnit_Framework
 {
     public function testSetInfoTemplate()
     {
-        $block = $this->getMock('Magento_Payment_Block_Info_ContainerAbstract', array('getChildBlock', 'getPaymentInfo'),
-            array(), '', false);
+        $block = $this->getMock('Magento_Payment_Block_Info_ContainerAbstract',
+            array('getChildBlock', 'getPaymentInfo'), array(), '', false);
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $paymentInfo = $objectManagerHelper->getObject('Magento_Payment_Model_Info');
         $methodInstance = $objectManagerHelper->getObject('Magento_Payment_Model_Method_Checkmo');

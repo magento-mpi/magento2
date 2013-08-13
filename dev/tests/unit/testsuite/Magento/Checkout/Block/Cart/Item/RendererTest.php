@@ -32,7 +32,8 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue('/_/_/__green.gif'));
 
         $arguments = array(
-            'statusListFactory' => $this->getMock('Magento_Sales_Model_Status_ListFactory', array(), array(), '', false),
+            'statusListFactory' => $this->getMock('Magento_Sales_Model_Status_ListFactory', array(), array(), '',
+                false),
         );
         $childItem = $objectManagerHelper->getObject('Magento_Sales_Model_Quote_Item', $arguments);
         $childItem->setData('product', $childProduct);

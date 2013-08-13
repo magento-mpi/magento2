@@ -65,8 +65,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             ->expects($this->any())
             ->method('__')
             ->will($this->returnValue('TRANSLATED STRING'));
-        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(), array(),
-            '', false
+        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(),
+            array(), '', false
         );
 
         $this->_subtotalsMock = $this->getMock(
@@ -137,8 +137,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
         $itemMock = $this->getMock('Magento_Object', array(), array(), '', false);
 
-        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'), array(),
-            '', false
+        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'),
+            array(), '', false
         );
         $rowUrlGenerator->expects($this->once())
             ->method('getUrl')

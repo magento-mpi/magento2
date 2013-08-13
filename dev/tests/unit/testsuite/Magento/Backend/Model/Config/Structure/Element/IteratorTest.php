@@ -79,7 +79,8 @@ class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUni
      */
     public function testIsLast($elementId, $result)
     {
-        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '',
+            false);
         $elementMock->expects($this->once())->method('getId')->will($this->returnValue($elementId));
         $this->assertEquals($result, $this->_model->isLast($elementMock));
     }

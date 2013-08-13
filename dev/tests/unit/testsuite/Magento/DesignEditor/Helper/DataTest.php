@@ -123,6 +123,7 @@ class Magento_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $configurationMock = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
         $this->_model = new Magento_DesignEditor_Helper_Data($this->_context, $configurationMock);
-        $this->assertEquals(array(Magento_DesignEditor_Model_State::MODE_NAVIGATION), $this->_model->getAvailableModes());
+        $this->assertEquals(array(Magento_DesignEditor_Model_State::MODE_NAVIGATION),
+            $this->_model->getAvailableModes());
     }
 }

@@ -127,7 +127,8 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
 
     public function testGetElementReturnsProperElementByPath()
     {
-        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '',
+            false);
         $section = $this->_structureData['config']['system']['sections']['section_1'];
         $fieldData = $section['children']['group_level_1']['children']['field_3'];
         $elementMock->expects($this->once())->method('setData')->with($fieldData, 'scope');
@@ -154,7 +155,8 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
 
     public function testGetElementReturnsProperElementByPathCachesObject()
     {
-        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '',
+            false);
         $section = $this->_structureData['config']['system']['sections']['section_1'];
         $fieldData = $section['children']['group_level_1']['children']['field_3'];
         $elementMock->expects($this->once())->method('setData')->with($fieldData, 'scope');

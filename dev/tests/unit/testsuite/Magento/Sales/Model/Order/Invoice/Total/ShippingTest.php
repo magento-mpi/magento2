@@ -41,7 +41,8 @@ class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Frame
     public function testCollect(array $prevInvoicesData, $orderShipping, $invoiceShipping, $expectedShipping)
     {
         /** @var $order Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject */
-        $order = $this->getMock('Magento_Sales_Model_Order', array('_init', 'getInvoiceCollection'), array(), '', false);
+        $order = $this->getMock('Magento_Sales_Model_Order', array('_init', 'getInvoiceCollection'), array(), '',
+            false);
         $order->setData('shipping_amount', $orderShipping);
         $order->expects($this->any())
             ->method('getInvoiceCollection')

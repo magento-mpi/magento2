@@ -46,8 +46,8 @@ class Magento_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_Te
             ->disableOriginalConstructor()->getMock();
         $this->_restPresentation = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Rest_Presentation')
             ->disableOriginalConstructor()->getMock();
-        $this->_routerMock = $this->getMockBuilder('Magento_Webapi_Controller_Router_Rest')->disableOriginalConstructor()
-            ->getMock();
+        $this->_routerMock = $this->getMockBuilder('Magento_Webapi_Controller_Router_Rest')
+            ->disableOriginalConstructor()->getMock();
         $this->_authorizationMock = $this->getMockBuilder('Magento_Webapi_Model_Authorization')
             ->disableOriginalConstructor()->getMock();
         $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Rest_Authentication')

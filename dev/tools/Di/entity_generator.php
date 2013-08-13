@@ -44,7 +44,8 @@ try {
     $entities = $generator->getGeneratedEntities();
 
     $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
-    $example = 'Example: php -f entity_generator.php -- -t factory -c Magento_Tag_Model_Tag -g /var/mage/m2ee/generation'
+    $example = 'Example: php -f entity_generator.php -- -t factory -c Magento_Tag_Model_Tag '
+        . '-g /var/mage/m2ee/generation'
         . ' - will generate file /var/mage/m2ee/generation/Magento/Tag/Model/TagFactory.php';
 
     echo $e->getMessage() . "\n";

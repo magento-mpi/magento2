@@ -101,8 +101,8 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Magento_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
-            array(), '', false
+        $this->_backendSession = $this->getMock('Magento_Backend_Model_Session',
+            array('setData', 'getData', 'unsetData'), array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Magento_Core_Model_Layout_Factory', array('createLayout'),
             array(), '', false

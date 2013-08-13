@@ -35,7 +35,8 @@ class Magento_Backend_Model_Config_Structure_Element_Group_ProxyTest extends PHP
 
     public function testProxyInitializesProxiedObjectOnFirstCall()
     {
-        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false);
+        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '',
+            false);
 
         $groupMock->expects($this->once())->method('setData');
         $groupMock->expects($this->once())->method('getId')->will($this->returnValue('group_id'));

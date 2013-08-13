@@ -42,7 +42,8 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
             array('Magento_User_Helper_Data', 'user_helper')
         )));
 
-        $this->_model = new Magento_Backend_Model_Menu_Item_Factory($this->_objectFactoryMock, $this->_helperFactoryMock);
+        $this->_model = new Magento_Backend_Model_Menu_Item_Factory($this->_objectFactoryMock,
+            $this->_helperFactoryMock);
     }
 
     public function testCreate()

@@ -14,7 +14,8 @@ class Magento_Webhook_Model_Source_AuthenticationTest extends Magento_Webhook_Mo
 {
     public function testGetAuthenticationsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Authentication(array('type' => 'blah'), $this->_mockTranslate);
+        $unitUnderTest = new Magento_Webhook_Model_Source_Authentication(array('type' => 'blah'),
+            $this->_mockTranslate);
         $elements = $unitUnderTest->getAuthenticationsForForm();
         $this->_assertElements($elements);
 

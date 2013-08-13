@@ -163,8 +163,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $mockedMethods[] = 'getWebsiteId';
 
         /** @var $customerEntity Magento_ImportExport_Model_Import_Entity_Eav_Customer */
-        $customerEntity = $this->getMock('Magento_ImportExport_Model_Import_Entity_Eav_Customer', $mockedMethods, array(),
-            '', false
+        $customerEntity = $this->getMock('Magento_ImportExport_Model_Import_Entity_Eav_Customer', $mockedMethods,
+            array(), '', false
         );
 
         $attributeList = array();
@@ -528,7 +528,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data['address_entity']  = $addressEntity;
         $this->_model = new Magento_ImportExport_Model_Import_Entity_CustomerComposite($data);
 
-        $source = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array(), '', false);
+        $source = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array(), '',
+            false);
         $this->_model->setSource($source);
     }
 

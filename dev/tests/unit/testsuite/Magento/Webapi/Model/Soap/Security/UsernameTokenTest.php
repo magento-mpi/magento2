@@ -34,7 +34,8 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      */
     protected function setUp()
     {
-        $this->_nonceStorageMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage')
+        $this->_nonceStorageMock = $this->getMockBuilder(
+            'Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage')
             ->disableOriginalConstructor()
             ->setMethods(array('validateNonce'))
             ->getMock();

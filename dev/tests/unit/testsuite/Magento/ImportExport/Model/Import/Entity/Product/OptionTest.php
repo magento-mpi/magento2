@@ -758,7 +758,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'main_invalid_store' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_store.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE => array(array(1, null))
+                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE
+                    => array(array(1, null))
                 )
             ),
             'main_incorrect_type' => array(

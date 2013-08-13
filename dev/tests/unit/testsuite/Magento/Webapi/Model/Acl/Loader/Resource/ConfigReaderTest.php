@@ -27,7 +27,8 @@ class Magento_Webapi_Model_Acl_Loader_Resource_ConfigReaderTest extends PHPUnit_
         $path = array(__DIR__, '..', '..', '..', '_files', 'acl.xml');
         $path = realpath(implode(DIRECTORY_SEPARATOR, $path));
         $dirPath = array(
-            __DIR__, '..', '..', '..', '..', '..', '..', '..', '..', '..', '..', 'app', 'code', 'Magento', 'Webapi', 'etc'
+            __DIR__, '..', '..', '..', '..', '..', '..', '..', '..', '..', '..', 'app', 'code', 'Magento', 'Webapi',
+            'etc'
         );
         $dirPath = realpath(implode(DIRECTORY_SEPARATOR, $dirPath));
         $fileListMock = $this->getMockBuilder('Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader_FileList')

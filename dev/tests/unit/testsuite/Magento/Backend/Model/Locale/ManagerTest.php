@@ -55,7 +55,8 @@ class Magento_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCas
             ->method('init')
             ->will($this->returnValue(false));
 
-        $this->_model = new Magento_Backend_Model_Locale_Manager($this->_session, $this->_authSession, $this->_translator);
+        $this->_model = new Magento_Backend_Model_Locale_Manager($this->_session, $this->_authSession,
+            $this->_translator);
     }
 
     /**

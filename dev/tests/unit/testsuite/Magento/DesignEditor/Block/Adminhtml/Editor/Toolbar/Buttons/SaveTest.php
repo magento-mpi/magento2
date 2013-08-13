@@ -58,7 +58,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
             'service'    => $service,
             'urlBuilder' => $urlBuilder
         );
-        $this->_block = $testHelper->getObject('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save', $data);
+        $this->_block = $testHelper->getObject('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save',
+            $data);
     }
 
     /**

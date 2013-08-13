@@ -20,8 +20,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstractTest exte
 
     protected function setUp()
     {
-        $this->_block = $this->getMockForAbstractClass('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract',
-            array(), '', false
+        $this->_block = $this->getMockForAbstractClass(
+            'Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract', array(), '', false
         );
     }
 

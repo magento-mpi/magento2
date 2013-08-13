@@ -127,7 +127,11 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
         $themeId = 6;
         $requestMap = array(
             array(Magento_Theme_Helper_Storage::PARAM_THEME_ID, null, $themeId),
-            array(Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE, null, Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE)
+            array(
+                Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE,
+                null,
+                Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+            )
         );
         $this->_request->expects($this->any())
             ->method('getParam')

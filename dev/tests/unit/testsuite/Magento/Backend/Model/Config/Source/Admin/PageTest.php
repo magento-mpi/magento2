@@ -78,7 +78,9 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
             ->with(
                 $this->equalTo('Magento_Backend_Model_Menu_Filter_Iterator'),
                 $this->equalTo(array('iterator' => $this->_menuModel->getIterator()))
-            )->will($this->returnValue(new Magento_Backend_Model_Menu_Filter_Iterator($this->_menuModel->getIterator())));
+            )->will(
+                $this->returnValue(new Magento_Backend_Model_Menu_Filter_Iterator($this->_menuModel->getIterator()))
+            );
 
         $this->_factoryMock
             ->expects($this->at(1))

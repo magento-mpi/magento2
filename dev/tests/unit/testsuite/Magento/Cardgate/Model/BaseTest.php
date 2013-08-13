@@ -71,7 +71,8 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $this->_loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_transFactoryMock =
             $this->getMock('Magento_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
-        $this->_orderFactoryMock = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
+        $this->_orderFactoryMock = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '',
+            false);
         $this->_helperMock = $this->getMock('Magento_Cardgate_Helper_Data', array(), array(), '', false);
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 

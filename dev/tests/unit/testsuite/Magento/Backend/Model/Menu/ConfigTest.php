@@ -94,7 +94,8 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_cacheInstanceMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(),
             '', false);
 
-        $this->_directorDomMock = $this->getMock('Magento_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
+        $this->_directorDomMock = $this->getMock('Magento_Backend_Model_Menu_Director_Dom', array(), array(), '',
+            false);
 
         $this->_menuFactoryMock = $this->getMock('Magento_Backend_Model_Menu_Factory', array(), array(), '', false);
 
