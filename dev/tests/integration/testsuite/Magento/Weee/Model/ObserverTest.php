@@ -45,7 +45,8 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
             );
         }
 
-        foreach (array(Magento_Weee_Model_Tax::DISPLAY_EXCL, Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
+        foreach (array(
+                Magento_Weee_Model_Tax::DISPLAY_EXCL, Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
             Mage::app()->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);

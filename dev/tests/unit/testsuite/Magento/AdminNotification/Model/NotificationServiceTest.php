@@ -23,7 +23,8 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
     protected function _getServiceInstanceForMarkAsReadTest($notificationId)
     {
         /**
-         * @var $notificationFactory PHPUnit_Framework_MockObject_MockObject|Magento_AdminNotification_Model_InboxFactory
+         * @var
+         *  $notificationFactory PHPUnit_Framework_MockObject_MockObject|Magento_AdminNotification_Model_InboxFactory
          */
         $notificationFactory = $this->getMock(
             'Magento_AdminNotification_Model_InboxFactory', array('create'), array(), '', false

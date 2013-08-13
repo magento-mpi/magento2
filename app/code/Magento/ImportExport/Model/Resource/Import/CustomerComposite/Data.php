@@ -85,7 +85,8 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data
      */
     protected function _prepareRow(array $rowData)
     {
-        if ($this->_entityType == Magento_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_CUSTOMER) {
+        $entityCustomer = Magento_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
+        if ($this->_entityType == $entityCustomer) {
             if ($rowData['_scope'] == Magento_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT) {
                 return $rowData;
             } else {

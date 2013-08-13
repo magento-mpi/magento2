@@ -398,13 +398,15 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['option_collection'])) {
             $this->_optionCollection = $data['option_collection'];
         } else {
-            $this->_optionCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection');
+            $this->_optionCollection =
+                Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection');
         }
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
         } else {
+            $helper = $this->_helper('Magento_ImportExport_Helper_Data');
             Mage::throwException(
-                $this->_helper('Magento_ImportExport_Helper_Data')->__('Option entity must have a parent product entity.')
+                $helper->__('Option entity must have a parent product entity.')
             );
         }
         if (isset($data['collection_by_pages_iterator'])) {

@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-class Magento_AdminNotification_Model_System_Message_Media_Synchronization_SuccessTest extends PHPUnit_Framework_TestCase
+class Magento_AdminNotification_Model_System_Message_Media_Synchronization_SuccessTest
+    extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject

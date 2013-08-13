@@ -783,7 +783,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'main_invalid_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_price.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_PRICE => array(array(1, null))
+                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_PRICE
+                    => array(array(1, null))
                 )
             ),
             'main_invalid_max_characters' => array(

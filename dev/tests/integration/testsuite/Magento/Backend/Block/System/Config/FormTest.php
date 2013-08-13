@@ -125,7 +125,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             Mage::PARAM_BAN_CACHE => true,
         ));
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
-        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+        Mage::app()
+            ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 
         $configMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
         $configMock->expects($this->any())->method('getModuleConfigurationFiles')
