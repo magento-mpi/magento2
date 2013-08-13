@@ -64,6 +64,8 @@
   * Introduced App Area in Integration Testing Framework
   * Improved media entry point
   * Added plugins/interceptors support for easier extensibility of Magento functionality
+  * Added `application_process_reinit_config` event, so that it is possible to react, when Magento config gets reinitialized
+  * Added "less" to a list of files that are not published to the public directory during deployment process
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
@@ -184,6 +186,7 @@
     * Fixed PayPal Payments Pro Hosted Solution to send "City" in place of the "State" parameter for UK and CA, if Region/State is disabled in the configuration
     * Fixed ability to invoice order without providing payment using Google Checkout API
     * Fixed validation of a Discover card number
+    * Fixed exception, when using 2-level cache backend
 
 2.0.0.0-dev44
 =============
