@@ -1230,6 +1230,14 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             $attrId = $attribute->getAttributeId();
 
             /**
+             * Only scalar values can be stored in generic tables
+             */
+            if (!$attribute->getBackend()->isScalar()) {
+                continue;
+            }
+
+
+            /**
              * if attribute is static add to entity row and continue
              */
             if ($this->isAttributeStatic($k)) {
@@ -1498,14 +1506,18 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     protected function _prepareValueForSave($value, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
+        $type = $attribute->getBackendType();
+        if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
+            $value = null;
+        } else if ($type == 'decimal') {
+            $value = Mage::app()->getLocale()->getNumber($value);
+        }
         $backendTable = $attribute->getBackendTable();
         if (!isset(self::$_attributeBackendTables[$backendTable])) {
             self::$_attributeBackendTables[$backendTable] = $this->_getReadAdapter()->describeTable($backendTable);
         }
         $describe = self::$_attributeBackendTables[$backendTable];
-        return $this->_getReadAdapter()->prepareColumnValue(
-            $describe['value'], $attribute->getBackend()->prepareValueForSave($value)
-        );
+        return $this->_getReadAdapter()->prepareColumnValue($describe['value'], $value);
     }
 
     /**

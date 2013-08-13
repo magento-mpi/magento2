@@ -46,10 +46,9 @@ interface Mage_Eav_Model_Entity_Attribute_Backend_Interface
     public function setEntityValueId($entity, $valueId);
 
     /**
-     * Format attribute value in accordance with the backend type
+     * Whether an attribute is represented by a scalar value that can be stored in a generic way
      *
-     * @param mixed $value
-     * @return mixed
+     * @return bool
      */
-    public function prepareValueForSave($value);
+    public function isScalar();
 }

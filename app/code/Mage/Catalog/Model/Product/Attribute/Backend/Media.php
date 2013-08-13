@@ -739,8 +739,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      *
      * {@inheritdoc}
      */
-    public function prepareValueForSave($value)
+    public function isScalar()
     {
-        return '';
+        return false;
     }
 }

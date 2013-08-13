@@ -326,18 +326,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     }
 
     /**
-     * Detect NULL values and format decimal numbers according to the current locale
+     * By default attribute value is considered scalar that can be stored in a generic way
      *
      * {@inheritdoc}
      */
-    public function prepareValueForSave($value)
+    public function isScalar()
     {
-        $type = $this->getType();
-        if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
-            $value = null;
-        } else if ($type == 'decimal') {
-            $value = Mage::app()->getLocale()->getNumber($value);
-        }
-        return $value;
+        return true;
     }
 }
