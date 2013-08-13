@@ -56,11 +56,12 @@
   * "Contact Us" page is available through HTTPS only
   * Language selector for backend interface removed from footer. Language can be chosen on My Account page or on backend user edit page
   * Updated page titles in backend
-  * Improved mechanism of notification and system messages in backend. All blocks and controllers are moved to AdminNotification module. Enhanced visual representations of notifications: bubble for unread messages, popup for notifications and their descriptions, system messages are updated themselves
+  * Improved mechanism of notification and system messages in backend. All related blocks and controllers are moved to AdminNotification module. Enhanced visual representations of notifications: bubble for unread messages, popup for notifications and their descriptions
+  * Updated text of some system messages
   * Several classes are refactored to use Event Manager instead of `Mage::dispatchEvent()`
   * Improved test coverage of entry point classes
   * Improved authorization logic to be reusable with minimal configuration changes
-  * Introduced App Area in Magento Integration Test Framework
+  * Introduced App Area in Integration Testing Framework
   * Improved media entry point
   * Added plugins/interceptors support for easier extensibility of Magento functionality
 * GitHub requests
