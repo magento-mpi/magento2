@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="adminhtml_widget_container_html_before">
+        <observer name="saas_limitation_website" instance="Saas_Limitation_Model_Website_Observer_Grid" method="removeButton" />
+        <observer name="saas_limitation_store" instance="Saas_Limitation_Model_Store_Observer_Grid" method="disableButton" />
+        <observer name="saas_limitation_user" instance="Saas_Limitation_Model_User_Observer_Grid" method="disableButton" />
+        <observer name="saas_limitation_store_group" instance="Saas_Limitation_Model_Store_Group_Observer_Grid" method="removeButton" />
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Grid" method="disableSplitButton" />
+    </event>
+    <event name="core_block_abstract_prepare_layout_after">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Form" method="removeSavingButtons" />
+    </event>
+    <event name="adminhtml_block_html_before">
+        <observer name="saas_limitation_catalog_category" instance="Saas_Limitation_Model_Catalog_Category_Observer_Block" method="disableCreationButtons" />
+    </event>
+    <event name="controller_action_predispatch_adminhtml_system_store_index">
+        <observer name="saas_limitation_store" instance="Saas_Limitation_Model_Store_Observer_Controller" method="displayNotification" />
+    </event>
+    <event name="controller_action_predispatch_adminhtml_user_index">
+        <observer name="saas_limitation_user" instance="Saas_Limitation_Model_User_Observer_Controller" method="displayNotification" />
+    </event>
+    <event name="controller_action_predispatch_adminhtml_catalog_product_index">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Controller" method="displayNotification" />
+    </event>
+    <event name="controller_action_predispatch_adminhtml_catalog_product_new">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Controller" method="displayNotification" />
+        <observer name="saas_limitation_catalog_category" instance="Saas_Limitation_Model_Catalog_Category_Observer_Controller" method="displayNotification" />
+    </event>
+    <event name="controller_action_predispatch_adminhtml_catalog_product_edit">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Controller" method="displayNotification" />
+        <observer name="saas_limitation_catalog_category" instance="Saas_Limitation_Model_Catalog_Category_Observer_Controller" method="displayNotification" />
+    </event>
+    <event name="controller_action_catalog_product_save_entity_after">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect" method="restrictNewEntityCreation" />
+    </event>
+    <event name="controller_action_predispatch_adminhtml_catalog_category_index">
+        <observer name="saas_limitation_catalog_category" instance="Saas_Limitation_Model_Catalog_Category_Observer_Controller" method="displayNotification" />
+    </event>
+</config>

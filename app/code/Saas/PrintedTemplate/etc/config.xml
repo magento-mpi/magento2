@@ -40,16 +40,6 @@
                 </sales_pdf_shipment_printed_template>
             </printed>
         </template>
-        <events>
-            <sales_order_save_after>
-                <observers>
-                    <saas_printedtemplate>
-                        <class>Saas_PrintedTemplate_Model_Observer</class>
-                        <method>saveOrderTaxDetails</method>
-                    </saas_printedtemplate>
-                </observers>
-            </sales_order_save_after>
-        </events>
         <saas_printedtemplate>
             <locator>
                 <modelTypes>
@@ -976,40 +966,6 @@
                 </Saas_PrintedTemplate>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_config_prepare>
-                <observers>
-                    <saas_printedtemplate_remove_widgets>
-                        <class>Saas_PrintedTemplate_Model_Observer</class>
-                        <method>removeWidgetsFromWysiwyg</method>
-                    </saas_printedtemplate_remove_widgets>
-                </observers>
-            </cms_wysiwyg_config_prepare>
-            <controller_action_predispatch_adminhtml_widget_instance_edit>
-                <observers>
-                    <saas_printedtemplate_remove_widgets>
-                        <class>Saas_PrintedTemplate_Model_Observer</class>
-                        <method>addWidgetInstanceFormBlockRenderingObserver</method>
-                    </saas_printedtemplate_remove_widgets>
-                </observers>
-            </controller_action_predispatch_adminhtml_widget_instance_edit>
-            <controller_action_predispatch_adminhtml_widget_instance_index>
-                <observers>
-                    <saas_printedtemplate_remove_widgets>
-                        <class>Saas_PrintedTemplate_Model_Observer</class>
-                        <method>addWidgetInstanceGridBlockRenderingObserver</method>
-                    </saas_printedtemplate_remove_widgets>
-                </observers>
-            </controller_action_predispatch_adminhtml_widget_instance_index>
-            <adminhtml_block_html_before>
-                <observers>
-                    <saas_printedtemplate_update_print_invoice_massaction>
-                        <class>Saas_PrintedTemplate_Model_Observer</class>
-                        <method>updatePrintTemplateAction</method>
-                    </saas_printedtemplate_update_print_invoice_massaction>
-                </observers>
-            </adminhtml_block_html_before>
-        </events>
     </adminhtml>
     <default>
         <sales_pdf>
@@ -1035,4 +991,4 @@
             </creditmemo>
         </sales_pdf>
     </default>
-</config>
+</config>

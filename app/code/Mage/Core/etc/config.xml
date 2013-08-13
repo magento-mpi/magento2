@@ -46,40 +46,6 @@
         <migration>
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
-        <events>
-            <theme_delete_before>
-                <observers>
-                    <clean_core_related_content>
-                        <class>Mage_Core_Model_Theme_Observer</class>
-                        <method>cleanThemeRelatedContent</method>
-                    </clean_core_related_content>
-                </observers>
-            </theme_delete_before>
-            <theme_save_after>
-                <observers>
-                    <clean_core_related_content>
-                        <class>Mage_Core_Model_Theme_Observer</class>
-                        <method>checkThemeIsAssigned</method>
-                    </clean_core_related_content>
-                </observers>
-            </theme_save_after>
-            <theme_registration_from_filesystem>
-                <observers>
-                    <theme_registration_observer>
-                        <class>Mage_Core_Model_Observer</class>
-                        <method>themeRegistration</method>
-                    </theme_registration_observer>
-                </observers>
-            </theme_registration_from_filesystem>
-            <application_process_reinit_config>
-                <observers>
-                    <reinit_config_observer>
-                        <class>Mage_Core_Model_Observer</class>
-                        <method>processReinitConfig</method>
-                    </reinit_config_observer>
-                </observers>
-            </application_process_reinit_config>
-        </events>
     </global>
     <frontend>
         <design>
@@ -105,16 +71,6 @@
                 </Mage_Core>
             </modules>
         </translate>
-        <events>
-            <controller_action_layout_render_before>
-                <observers>
-                    <theme>
-                        <class>Mage_Core_Model_Observer</class>
-                        <method>applyThemeCustomization</method>
-                    </theme>
-                </observers>
-            </controller_action_layout_render_before>
-        </events>
     </frontend>
     <adminhtml>
         <translate>
@@ -126,16 +82,6 @@
                 </Mage_Core>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_config_prepare>
-                <observers>
-                    <variable_observer>
-                        <class>Mage_Core_Model_Variable_Observer</class>
-                        <method>prepareWysiwygPluginConfig</method>
-                    </variable_observer>
-                </observers>
-            </cms_wysiwyg_config_prepare>
-        </events>
         <design>
             <theme>
                 <full_name>magento_backend</full_name>

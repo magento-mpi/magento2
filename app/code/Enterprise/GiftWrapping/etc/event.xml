@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_quote_collect_totals_before">
+        <observer name="enterprise_giftwrapping" instance="Enterprise_GiftWrapping_Model_Observer" method="quoteCollectTotalsBefore" />
+    </event>
+    <event name="googlecheckout_checkout_before">
+        <observer name="enterprise_giftwrapping" instance="Enterprise_GiftWrapping_Model_Observer" method="googlecheckoutCheckoutBefore" />
+    </event>
+    <event name="paypal_prepare_line_items">
+        <observer name="enterprise_giftwrapping" instance="Enterprise_GiftWrapping_Model_Observer" method="addPaypalGiftWrappingItem" />
+    </event>
+</config>

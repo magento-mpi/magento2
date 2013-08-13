@@ -31,20 +31,6 @@
                 </Enterprise_Checkout>
             </modules>
         </translate>
-        <events>
-            <adminhtml_sales_order_create_process_data_before>
-                <observers>
-                    <addBySku>
-                        <class>Enterprise_Checkout_Model_Observer</class>
-                        <method>addBySku</method>
-                    </addBySku>
-                    <uploadSkuCsv>
-                        <class>Enterprise_Checkout_Model_Observer</class>
-                        <method>uploadSkuCsv</method>
-                    </uploadSkuCsv>
-                </observers>
-            </adminhtml_sales_order_create_process_data_before>
-        </events>
     </adminhtml>
     <frontend>
         <routers>
@@ -63,24 +49,6 @@
                 </args>
             </enterprise_checkout>
         </routers>
-        <events>
-            <controller_action_layout_generate_blocks_before>
-                <observers>
-                    <enterprise_checkout>
-                        <class>Enterprise_Checkout_Model_Observer</class>
-                        <method>collectTotalsFailedItems</method>
-                    </enterprise_checkout>
-                </observers>
-            </controller_action_layout_generate_blocks_before>
-            <core_block_abstract_to_html_before>
-                <observers>
-                    <enterprise_checkout>
-                        <class>Enterprise_Checkout_Model_Observer</class>
-                        <method>addCartLink</method>
-                    </enterprise_checkout>
-                </observers>
-            </core_block_abstract_to_html_before>
-        </events>
         <translate>
             <modules>
                 <Enterprise_Checkout>
@@ -91,4 +59,4 @@
             </modules>
         </translate>
     </frontend>
-</config>
+</config>

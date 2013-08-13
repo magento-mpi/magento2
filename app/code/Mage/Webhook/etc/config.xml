@@ -18,40 +18,6 @@
                 </setup>
             </webhook_setup>
         </resources>
-        <events>
-            <webapi_user_delete_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Mage_Webhook_Model_Observer</class>
-                        <method>afterWebapiUserDelete</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_user_delete_after>
-            <webapi_user_save_commit_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Mage_Webhook_Model_Observer</class>
-                        <method>afterWebapiUserChange</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_user_save_commit_after>
-            <webapi_role_save_commit_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Mage_Webhook_Model_Observer</class>
-                        <method>afterWebapiRoleChange</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_role_save_commit_after>
-            <webapi_role_delete_commit_after>
-                <observers>
-                    <webhook_subscription_status_update>
-                        <class>Mage_Webhook_Model_Observer</class>
-                        <method>afterWebapiRoleChange</method>
-                    </webhook_subscription_status_update>
-                </observers>
-            </webapi_role_delete_commit_after>
-        </events>
     </global>
     <frontend>
         <routers>
@@ -65,7 +31,7 @@
         </routers>
     </frontend>
     <admin>
-         <routers>
+        <routers>
             <adminhtml>
                 <args>
                     <modules>

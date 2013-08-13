@@ -20,16 +20,6 @@
                 </Mage_Authorizenet>
             </modules>
         </translate>
-        <events>
-            <checkout_submit_all_after>
-                <observers>
-                    <directpost_update_all_edit_increments>
-                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
-                        <method>updateAllEditIncrements</method>
-                    </directpost_update_all_edit_increments>
-                </observers>
-            </checkout_submit_all_after>
-        </events>
     </adminhtml>
     <frontend>
         <translate>
@@ -50,24 +40,6 @@
                 </args>
             </authorizenet>
         </routers>
-        <events>
-            <checkout_submit_all_after>
-                <observers>
-                    <directpost_save_order_after_submit>
-                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
-                        <method>saveOrderAfterSubmit</method>
-                    </directpost_save_order_after_submit>
-                </observers>
-            </checkout_submit_all_after>
-            <controller_action_postdispatch_checkout_onepage_saveOrder>
-                <observers>
-                    <directpost_save_order_onepage>
-                        <class>Mage_Authorizenet_Model_Directpost_Observer</class>
-                        <method>addAdditionalFieldsToResponseFrontend</method>
-                    </directpost_save_order_onepage>
-                </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder>
-        </events>
     </frontend>
     <admin>
         <routers>
@@ -103,4 +75,4 @@
             </authorizenet_directpost>
         </payment>
     </default>
-</config>
+</config>

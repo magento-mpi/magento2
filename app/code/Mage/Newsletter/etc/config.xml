@@ -42,24 +42,6 @@
         </newsletter>
     </global>
     <adminhtml>
-        <events>
-            <customer_save_after>
-                <observers>
-                    <newsletter_subscribe_observer>
-                        <class>Mage_Newsletter_Model_Observer</class>
-                        <method>subscribeCustomer</method>
-                    </newsletter_subscribe_observer>
-                </observers>
-            </customer_save_after>
-            <customer_delete_after>
-                <observers>
-                    <newsletter_subscribe_observer>
-                        <class>Mage_Newsletter_Model_Observer</class>
-                        <method>customerDeleted</method>
-                    </newsletter_subscribe_observer>
-                </observers>
-            </customer_delete_after>
-        </events>
         <translate>
             <modules>
                 <Mage_Newsletter>
@@ -71,24 +53,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <events>
-            <customer_save_after>
-                <observers>
-                    <newsletter_subscribe_observer>
-                        <class>Mage_Newsletter_Model_Observer</class>
-                        <method>subscribeCustomer</method>
-                    </newsletter_subscribe_observer>
-                </observers>
-            </customer_save_after>
-            <customer_delete_after>
-                <observers>
-                    <newsletter_subscribe_observer>
-                        <class>Mage_Newsletter_Model_Observer</class>
-                        <method>customerDeleted</method>
-                    </newsletter_subscribe_observer>
-                </observers>
-            </customer_delete_after>
-        </events>
         <routers>
             <newsletter>
                 <use>standard</use>
@@ -140,4 +104,4 @@
             </newsletter_send_all>
         </jobs>
     </crontab>
-</config>
+</config>

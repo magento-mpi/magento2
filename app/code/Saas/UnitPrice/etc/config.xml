@@ -39,17 +39,6 @@
         </bcp>
     </global>
     <frontend>
-        <events>
-            <bcp_update_defaults_on_configurable_product>
-                <observers>
-                    <unitprice>
-                        <type>singleton</type>
-                        <class>Saas_UnitPrice_Model_Observer</class>
-                        <method>bcpUpdateDefaultsOnConfigurableProduct</method>
-                    </unitprice>
-                </observers>
-            </bcp_update_defaults_on_configurable_product>
-        </events>
         <translate>
             <modules>
                 <Saas_UnitPrice>
@@ -71,17 +60,6 @@
         </product>
     </frontend>
     <adminhtml>
-        <events>
-            <catalog_product_load_after>
-                <observers>
-                    <unitprice>
-                        <type>singleton</type>
-                        <class>Saas_UnitPrice_Model_Observer</class>
-                        <method>catalogProductLoadAfter</method>
-                    </unitprice>
-                </observers>
-            </catalog_product_load_after>
-        </events>
         <translate>
             <modules>
                 <Saas_UnitPrice>

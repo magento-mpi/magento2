@@ -77,17 +77,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <events>
-            <catalog_product_delete_before>
-                <observers>
-                    <tag>
-                        <type>model</type>
-                        <class>Mage_Tag_Model_Tag</class>
-                        <method>productDeleteEventAction</method>
-                    </tag>
-                </observers>
-            </catalog_product_delete_before>
-        </events>
         <translate>
             <modules>
                 <Mage_Tag>
@@ -98,4 +87,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

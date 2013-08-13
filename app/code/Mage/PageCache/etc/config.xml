@@ -19,24 +19,6 @@
                 </zend_page_cache>
             </controls>
         </external_cache>
-        <events>
-            <design_editor_activate>
-                <observers>
-                    <mage_pagecache>
-                        <class>Mage_PageCache_Model_Observer</class>
-                        <method>setNoCacheCookie</method>
-                    </mage_pagecache>
-                </observers>
-            </design_editor_activate>
-            <design_editor_deactivate>
-                <observers>
-                    <mage_pagecache>
-                        <class>Mage_PageCache_Model_Observer</class>
-                        <method>deleteNoCacheCookie</method>
-                    </mage_pagecache>
-                </observers>
-            </design_editor_deactivate>
-        </events>
     </global>
     <adminhtml>
         <translate>
@@ -50,16 +32,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <pagecache>
-                        <class>Mage_PageCache_Model_Observer</class>
-                        <method>processPreDispatch</method>
-                    </pagecache>
-                </observers>
-            </controller_action_predispatch>
-        </events>
         <cache>
             <allowed_requests>
                 <cms />
@@ -96,4 +68,4 @@
             </external_page_cache>
         </system>
     </default>
-</config>
+</config>

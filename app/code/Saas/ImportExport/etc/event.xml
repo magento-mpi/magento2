@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="process_export_catalog_product">
+        <observer name="saas_importexport" instance="Saas_Queue_Model_Observer_Export" method="processExport" />
+    </event>
+    <event name="process_export_customer">
+        <observer name="saas_importexport" instance="Saas_Queue_Model_Observer_Export" method="processExport" />
+    </event>
+    <event name="process_import_catalog_product">
+        <observer name="saas_importexport" instance="Saas_Queue_Model_Observer_Import" method="processImport" />
+    </event>
+    <event name="process_import_customer">
+        <observer name="saas_importexport" instance="Saas_Queue_Model_Observer_Import" method="processImport" />
+    </event>
+</config>

@@ -41,16 +41,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <events>
-            <catalog_controller_product_view>
-                <observers>
-                    <sendfriend>
-                        <class>Mage_Sendfriend_Model_Observer</class>
-                        <method>register</method>
-                    </sendfriend>
-                </observers>
-            </catalog_controller_product_view>
-        </events>
         <routers>
             <sendfriend>
                 <use>standard</use>
@@ -82,4 +72,4 @@
             </email>
         </sendfriend>
     </default>
-</config>
+</config>

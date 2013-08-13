@@ -55,152 +55,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <events>
-            <adminhtml_customer_save_after>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>customerSaveAfter</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </adminhtml_customer_save_after>
-            <sales_quote_payment_import_data_before>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>paymentDataImport</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_quote_payment_import_data_before>
-            <sales_model_service_quote_submit_before>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_model_service_quote_submit_before>
-            <sales_model_service_quote_submit_failure>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>revertStoreCredit</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_model_service_quote_submit_failure>
-            <paypal_payment_cancel>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>revertStoreCredit</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </paypal_payment_cancel>
-            <checkout_type_multishipping_create_orders_single>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </checkout_type_multishipping_create_orders_single>
-            <checkout_multishipping_refund_all>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>revertStoreCreditForAllOrders</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </checkout_multishipping_refund_all>
-            <adminhtml_sales_order_create_process_data>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>processOrderCreationData</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </adminhtml_sales_order_create_process_data>
-            <payment_method_is_active>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>togglePaymentMethods</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </payment_method_is_active>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>quoteCollectTotalsBefore</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_quote_collect_totals_before>
-            <sales_quote_merge_after>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>quoteMergeAfter</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_quote_merge_after>
-            <sales_order_invoice_save_after>
-                <observers>
-                    <enterprise_customerbalance_sales_order_invoice_save_after>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>increaseOrderInvoicedAmount</method>
-                    </enterprise_customerbalance_sales_order_invoice_save_after>
-                </observers>
-            </sales_order_invoice_save_after>
-            <sales_order_creditmemo_save_after>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>creditmemoSaveAfter</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_order_creditmemo_save_after>
-            <adminhtml_sales_order_creditmemo_register_before>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>creditmemoDataImport</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </adminhtml_sales_order_creditmemo_register_before>
-            <sales_order_load_after>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>salesOrderLoadAfter</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_order_load_after>
-            <sales_order_creditmemo_refund>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>refund</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_order_creditmemo_refund>
-            <website_delete_before>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>setCustomersBalanceCurrencyToWebsiteBaseCurrency</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </website_delete_before>
-            <paypal_prepare_line_items>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>addPaypalCustomerBalanceItem</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </paypal_prepare_line_items>
-        </events>
         <pdf>
             <totals>
                 <enterprise_customerbalance translate="title">
@@ -256,24 +110,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <events>
-            <adminhtml_customer_prepare_save>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>prepareCustomerBalanceSave</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </adminhtml_customer_prepare_save>
-            <sales_prepare_amount_expression>
-                <observers>
-                    <enterprise_customerbalance>
-                        <class>Enterprise_CustomerBalance_Model_Observer</class>
-                        <method>extendSalesAmountExpression</method>
-                    </enterprise_customerbalance>
-                </observers>
-            </sales_prepare_amount_expression>
-        </events>
         <translate>
             <modules>
                 <Enterprise_CustomerBalance>
@@ -299,4 +135,4 @@
             </totals_sort>
         </sales>
     </default>
-</config>
+</config>

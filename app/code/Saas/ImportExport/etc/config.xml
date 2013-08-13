@@ -73,56 +73,6 @@
                 </csv>
             </export_file_formats>
         </importexport>
-        <events>
-            <process_export_catalog_product>
-                <observers>
-                    <saas_importexport>
-                        <asynchronous>true</asynchronous>
-                        <class>Saas_Queue_Model_Observer_Export</class>
-                        <method>processExport</method>
-                        <params>
-                            <task_name>export_catalog_product</task_name>
-                        </params>
-                    </saas_importexport>
-                </observers>
-            </process_export_catalog_product>
-            <process_export_customer>
-                <observers>
-                    <saas_importexport>
-                        <asynchronous>true</asynchronous>
-                        <class>Saas_Queue_Model_Observer_Export</class>
-                        <method>processExport</method>
-                        <params>
-                            <task_name>export_customer</task_name>
-                        </params>
-                    </saas_importexport>
-                </observers>
-            </process_export_customer>
-            <process_import_catalog_product>
-                <observers>
-                    <saas_importexport>
-                        <asynchronous>true</asynchronous>
-                        <class>Saas_Queue_Model_Observer_Import</class>
-                        <method>processImport</method>
-                        <params>
-                            <task_name>import_catalog_product</task_name>
-                        </params>
-                    </saas_importexport>
-                </observers>
-            </process_import_catalog_product>
-            <process_import_customer>
-                <observers>
-                    <saas_importexport>
-                        <asynchronous>true</asynchronous>
-                        <class>Saas_Queue_Model_Observer_Import</class>
-                        <method>processImport</method>
-                        <params>
-                            <task_name>import_customer</task_name>
-                        </params>
-                    </saas_importexport>
-                </observers>
-            </process_import_customer>
-        </events>
     </global>
     <admin>
         <routers>

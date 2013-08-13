@@ -40,32 +40,6 @@
                 </Mage_GoogleShopping>
             </modules>
         </translate>
-        <events>
-            <catalog_product_save_after>
-                <observers>
-                    <googleshopping_observer>
-                        <class>Mage_GoogleShopping_Model_Observer</class>
-                        <method>saveProductItem</method>
-                    </googleshopping_observer>
-                </observers>
-            </catalog_product_save_after>
-            <catalog_product_delete_before>
-                <observers>
-                    <googleshopping_observer>
-                        <class>Mage_GoogleShopping_Model_Observer</class>
-                        <method>deleteProductItem</method>
-                    </googleshopping_observer>
-                </observers>
-            </catalog_product_delete_before>
-            <controller_action_predispatch_adminhtml>
-                <observers>
-                    <googleshopping_observer>
-                        <class>Mage_GoogleShopping_Model_Observer</class>
-                        <method>checkSynchronizationOperations</method>
-                    </googleshopping_observer>
-                </observers>
-            </controller_action_predispatch_adminhtml>
-        </events>
     </adminhtml>
     <default>
         <google>
@@ -346,4 +320,4 @@
             </googleshopping>
         </google>
     </default>
-</config>
+</config>
