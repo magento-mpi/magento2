@@ -209,6 +209,8 @@ class Magento_Test_Application
         $verification->createAndVerifyDirectories();
 
         $this->loadArea(Magento_Test_Application::DEFAULT_APP_AREA);
+
+        Magento_Phrase::setRenderer($objectManager->get('Magento_Phrase_Renderer_Placeholder'));
     }
 
     /**
