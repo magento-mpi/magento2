@@ -13,9 +13,9 @@
   * Added support of `$.mage.component` in some frontend themes
   * Further refactoring of JavaScript to use JQuery library:
     * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Checkout, Captcha
+    * Refactored Prototype-based implementation of validation in "New Category" dialog to use jQuery
     * Removing Prototype inclusion in several places
   * Enhanced menu behavior in backend
-  * Refactored Prototype-based implementation of validation in "New Category" dialog to use jQuery
 * VDE improvements:
   * Implemented inline translate tool for VDE
     * Added new dedicated button "T" in interface
@@ -163,7 +163,6 @@
   * Fixed bug with excessive custom rewrites after reindex
   * Fixed performance tests failure on login page
   * Fixed incorrect value for average rating on Edit Review page
-  * Fixed bug with saving shopping cart price rule having specific coupon
   * Fixed bug with incorrect module configuration overriding
   * Fixed exception in Nominal Tax model
   * Fixed bug in sitemap URL used in `robots.txt`
@@ -180,7 +179,9 @@
       * Fixed validation of parent category to be a require field
     * Fixed bug with displaying special price for a product on frontend after the product template is switched to one without special price
     * Fixed incorrectly displayed regular price for products with catalog price rule applied
-  * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
+  * Shopping Cart Price Rule fixes:
+    * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
+    * Fixed saving of Shopping Cart Price Rule having specific coupon
   * Fixed inability to save Attribute Set in IE8
   * Payment fixes:
     * Fixed PayPal Pro (formerly Website Payment Pro) to pass shipping address in request to PayPal service
