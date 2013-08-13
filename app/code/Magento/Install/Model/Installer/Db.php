@@ -91,7 +91,6 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
 
             // TODO: check user roles
         } catch (Magento_Core_Exception $e) {
-        catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             Mage::throwException(Mage::helper('Magento_Install_Helper_Data')->__($e->getMessage()));
         } catch (Exception $e) {
