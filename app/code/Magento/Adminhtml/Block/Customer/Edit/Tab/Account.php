@@ -229,7 +229,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             }
             $prefix = $form->getHtmlIdPrefix();
 
-            $note = Mage::helper('Magento_Customer_Helper_Data')->__('Please select a website which contains store view');
+            $note = Mage::helper('Magento_Customer_Helper_Data')
+                ->__('Please select a website which contains store view');
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "

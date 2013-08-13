@@ -26,7 +26,8 @@ class Magento_User_Model_RoleTest extends PHPUnit_Framework_TestCase
 
     public function testGetUsersCollection()
     {
-        $this->assertInstanceOf('Magento_User_Model_Resource_Role_User_Collection', $this->_model->getUsersCollection());
+        $this->assertInstanceOf('Magento_User_Model_Resource_Role_User_Collection',
+            $this->_model->getUsersCollection());
     }
 
     public function testGetRoleUsers()

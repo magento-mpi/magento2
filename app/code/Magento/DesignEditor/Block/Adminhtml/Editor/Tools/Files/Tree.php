@@ -11,7 +11,8 @@
 /**
  * Block class for rendering design editor tree of files
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree extends Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree
+class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree
+    extends Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree
 {
     /**
      * Override root node name of tree specific to design editor.
@@ -20,6 +21,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree extends Magen
      */
     public function getRootNodeName()
     {
-        return $this->__('CSS Editor ') . $this->__($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
+        return $this->__('CSS Editor ') .
+            $this->__($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
     }
 }

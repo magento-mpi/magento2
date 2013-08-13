@@ -42,7 +42,8 @@ class Magento_Index_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPoint
     protected function _processRequest()
     {
         /** @var $shell Magento_Index_Model_Shell */
-        $shell = $this->_objectManager->create('Magento_Index_Model_Shell', array('entryPoint' => $this->_entryFileName));
+        $shell = $this->_objectManager
+            ->create('Magento_Index_Model_Shell', array('entryPoint' => $this->_entryFileName));
         $shell->run();
         if ($shell->hasErrors()) {
             $this->_errorHandler->terminate(1);

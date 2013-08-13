@@ -11,7 +11,8 @@
 /**
  * System Configuration Dependencies Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Dependencies extends Magento_Backend_Model_Config_Structure_MapperAbstract
+class Magento_Backend_Model_Config_Structure_Mapper_Dependencies
+    extends Magento_Backend_Model_Config_Structure_MapperAbstract
 {
     /**
      * Class that can convert relative paths from "depends" node to absolute
@@ -23,8 +24,9 @@ class Magento_Backend_Model_Config_Structure_Mapper_Dependencies extends Magento
     /**
      * @param Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
      */
-    public function __construct(Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted)
-    {
+    public function __construct(
+        Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
+    ) {
         $this->_pathConverter = $pathConverted;
     }
 

@@ -37,7 +37,8 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUni
     public function testAfterToHtml()
     {
         /** @var $block Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon */
-        $block = $this->_application->getLayout()->createBlock('Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
+        $block = $this->_application->getLayout()
+            ->createBlock('Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
         $block->setFilterData(new Magento_Object());
         $html = $block->toHtml();
 

@@ -13,7 +13,8 @@
  *
  * @method array getValues()
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links extends Magento_Data_Form_Element_Abstract
+class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links
+    extends Magento_Data_Form_Element_Abstract
 {
     /**
      * Initialize form element

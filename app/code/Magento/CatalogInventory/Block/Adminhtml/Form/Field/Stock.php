@@ -142,6 +142,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      */
     protected function _getJs($quantityFieldId, $inStockFieldId)
     {
+        // @codingStandardsIgnoreStart
         return "
             <script>
                 jQuery(function($) {
@@ -210,5 +211,6 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
                 });
             </script>
         ";
+        // @codingStandardsIgnoreEnd
     }
 }

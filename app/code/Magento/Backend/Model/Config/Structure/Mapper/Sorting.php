@@ -11,7 +11,8 @@
 /**
  * System Configuration Sorting Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Sorting extends Magento_Backend_Model_Config_Structure_MapperAbstract
+class Magento_Backend_Model_Config_Structure_Mapper_Sorting
+    extends Magento_Backend_Model_Config_Structure_MapperAbstract
 {
     /**
      * Apply map

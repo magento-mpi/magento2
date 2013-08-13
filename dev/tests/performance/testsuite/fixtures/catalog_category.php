@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$installer = $installer = Mage::getModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = $installer = Mage::getModel('Magento_Catalog_Model_Resource_Setup',
+    array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */

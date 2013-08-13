@@ -312,12 +312,15 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testGetForceChildItemQtyChanges()
     {
-        $this->assertFalse($this->_model->getForceChildItemQtyChanges(Mage::getModel('Magento_Catalog_Model_Product')));
+        $this->assertFalse(
+            $this->_model->getForceChildItemQtyChanges(Mage::getModel('Magento_Catalog_Model_Product'))
+        );
     }
 
     public function testPrepareQuoteItemQty()
     {
-        $this->assertEquals(3.0, $this->_model->prepareQuoteItemQty(3, Mage::getModel('Magento_Catalog_Model_Product')));
+        $this->assertEquals(3.0,
+            $this->_model->prepareQuoteItemQty(3, Mage::getModel('Magento_Catalog_Model_Product')));
     }
 
     public function testAssignProductToOption()

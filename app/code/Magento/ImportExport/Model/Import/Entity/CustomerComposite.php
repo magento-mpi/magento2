@@ -181,7 +181,9 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['address'];
             $this->_addressEntity
-                = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address', array('data' => $data));
+                = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
+                      array('data' => $data)
+                  );
             unset($data['data_source_model']);
         }
         $this->_initAddressAttributes();
@@ -316,7 +318,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         } else {
             $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
                 = $this->_currentWebsiteCode;
-            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL]
+                = $this->_currentEmail;
             $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
 
             return $this->_addressEntity->validateRow($rowData, $rowNumber);

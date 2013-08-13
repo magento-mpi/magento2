@@ -63,7 +63,8 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
                 'value'        => 'test_child_value4',
                 'default'      => 'test_value4'
             )),
-            array(Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, 'background-color-picker',
+            array(Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+                'background-color-picker',
                 array(
                     'type'         => 'color-picker',
                     'layoutParams' => array('title' => 'Background Color', 'column' => 'right'),

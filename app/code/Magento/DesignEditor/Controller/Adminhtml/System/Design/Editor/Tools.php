@@ -218,7 +218,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
     public function uploadQuickStyleImageAction()
     {
         /** @var $uploaderModel Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
-        $uploaderModel = $this->_objectManager->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
+        $uploaderModel = $this->_objectManager
+            ->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
         try {
             /** @var $configFactory Magento_DesignEditor_Model_Editor_Tools_Controls_Factory */
             $configFactory = $this->_objectManager->create('Magento_DesignEditor_Model_Editor_Tools_Controls_Factory');
@@ -257,7 +258,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
         $elementName = $this->getRequest()->getParam('element', false);
 
         /** @var $uploaderModel Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
-        $uploaderModel = $this->_objectManager->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
+        $uploaderModel = $this->_objectManager
+            ->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
@@ -313,7 +315,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
                     $theme->getId()));
             }
             /** @var $storeLogo Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
-            $storeLogo = $this->_objectManager->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
+            $storeLogo = $this->_objectManager
+                ->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
             $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
 
             $this->_reinitSystemConfiguration();

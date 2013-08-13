@@ -276,9 +276,12 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
                 Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE =>
                 Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => Magento_Webapi_Controller_ActionAbstract::METHOD_GET,
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET =>
+                Magento_Webapi_Controller_ActionAbstract::METHOD_GET,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE =>
+                Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE =>
+                Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE,
         );
         $httpMethod = $this->getHttpMethod();
         $resourceType = $this->getResourceType();

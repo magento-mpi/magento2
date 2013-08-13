@@ -23,7 +23,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
      */
     public function getHeaderText()
     {
-        return $this->__('CSS Editor ') . $this->__($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
+        return $this->__('CSS Editor ') .
+            $this->__($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
     }
     /**
      * Javascript setup object for filebrowser instance

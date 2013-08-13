@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract implements Magento_Backend_Model_Widget_Grid_TotalsInterface
+abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
+    implements Magento_Backend_Model_Widget_Grid_TotalsInterface
 {
     /**
      * List of columns should be proceed with expression

@@ -95,7 +95,11 @@ class Magento_Webapi_Model_Soap_AutoDiscover
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
         if ($this->_cache->canUse(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+            $this->_cache->save(
+                $wsdlContent,
+                $cacheId,
+                array(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG)
+            );
         }
 
         return $wsdlContent;

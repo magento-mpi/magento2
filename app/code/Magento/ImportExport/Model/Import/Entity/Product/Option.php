@@ -312,10 +312,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $this->_helper('Magento_ImportExport_Helper_Data')->__('Invalid custom option value sort order.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_NEW_NAMES,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('Custom option with such title already declared in source file.')
+            $this->_helper('Magento_ImportExport_Helper_Data')
+                ->__('Custom option with such title already declared in source file.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_OLD_NAMES,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('There are several existing custom options with such name.')
+            $this->_helper('Magento_ImportExport_Helper_Data')
+                ->__('There are several existing custom options with such name.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_TYPES,
             $this->_helper('Magento_ImportExport_Helper_Data')->__('Custom options have different types.')

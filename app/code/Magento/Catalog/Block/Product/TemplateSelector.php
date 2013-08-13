@@ -33,7 +33,10 @@ class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')
             ->addFieldToSelect('attribute_set_name', 'label')
-            ->setOrder('attribute_set_name', Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection::SORT_ORDER_ASC);
+            ->setOrder(
+                'attribute_set_name',
+                Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection::SORT_ORDER_ASC
+            );
         return $collection->getData();
     }
 }

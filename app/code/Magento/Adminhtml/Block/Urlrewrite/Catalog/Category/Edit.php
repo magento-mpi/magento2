@@ -12,7 +12,8 @@
  * Block for Catalog Category URL rewrites
  *
  * @method Magento_Catalog_Model_Category getCategory()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit setCategory(Magento_Catalog_Model_Category $category)
+ * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
+ *    setCategory(Magento_Catalog_Model_Category $category)
  *
  * @category   Magento
  * @package    Magento_Adminhtml

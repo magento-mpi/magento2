@@ -38,8 +38,10 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_L
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Backend_Helper_Data $backendHelper
      */
-    public function __construct(Magento_Core_Controller_Request_Http $request, Magento_Backend_Helper_Data $backendHelper)
-    {
+    public function __construct(
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Backend_Helper_Data $backendHelper
+    ) {
         $this->_roleId = (int)$request->getParam('role_id');
         $this->_inRoleUsersFilter = $this->_parseInRoleUsersFilter($request, $backendHelper);
     }

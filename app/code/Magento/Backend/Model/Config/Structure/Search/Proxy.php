@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Search_Proxy implements Magento_Backend_Model_Config_Structure_SearchInterface
+class Magento_Backend_Model_Config_Structure_Search_Proxy
+    implements Magento_Backend_Model_Config_Structure_SearchInterface
 {
     /**
      * Object manager

@@ -50,7 +50,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         /** @var $request Magento_Core_Controller_Request_Http */
         $request = $this->_objectManager->get('Magento_Core_Controller_Request_Http');
         $request->setParam(Magento_Theme_Helper_Storage::PARAM_THEME_ID, $theme->getId());
-        $request->setParam(Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE, Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE);
+        $request->setParam(Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE,
+            Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE);
 
         $this->_helperStorage = $this->_objectManager->get('Magento_Theme_Helper_Storage');
 

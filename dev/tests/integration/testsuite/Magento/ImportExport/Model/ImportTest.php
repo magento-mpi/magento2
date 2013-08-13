@@ -99,7 +99,8 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateSourceException()
     {
-        $source = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract', array(), '', false);
+        $source = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_SourceAbstract',
+            array(), '', false);
         $this->_model->validateSource($source);
     }
 

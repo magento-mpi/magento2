@@ -9,7 +9,8 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Reader_Rest_ClassReflector extends Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
+class Magento_Webapi_Model_Config_Reader_Rest_ClassReflector
+    extends Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {
     /** @var Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator */
     protected $_routeGenerator;

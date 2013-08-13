@@ -44,7 +44,8 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
         if (!isset($args['path'])) {
             throw new InvalidArgumentException('Not all required parameters passed');
         }
-        $this->_urlModel = isset($args['urlModel']) ? $args['urlModel'] : Mage::getSingleton('Magento_Backend_Model_Url');
+        $this->_urlModel = isset($args['urlModel']) ? $args['urlModel']
+            : Mage::getSingleton('Magento_Backend_Model_Url');
         $this->_path = (string) $args['path'];
         if (isset($args['params'])) {
             $this->_params = (array) $args['params'];

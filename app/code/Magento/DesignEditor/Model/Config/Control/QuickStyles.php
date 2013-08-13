@@ -42,7 +42,8 @@ class Magento_DesignEditor_Model_Config_Control_QuickStyles extends Magento_Desi
      */
     public function getSchemaFile()
     {
-        return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor') . Magento_Filesystem::DIRECTORY_SEPARATOR
+        return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor')
+            . Magento_Filesystem::DIRECTORY_SEPARATOR
             . 'quick_styles.xsd';
     }
 }

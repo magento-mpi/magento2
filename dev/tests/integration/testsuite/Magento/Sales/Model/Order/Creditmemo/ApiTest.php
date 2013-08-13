@@ -245,7 +245,8 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $creditMemoIncrement = end($creditmemoInfo);
 
         /** @var $creditmemo Magento_Sales_Model_Order_Creditmemo */
-        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($creditMemoIncrement, 'increment_id');
+        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')
+            ->load($creditMemoIncrement, 'increment_id');
 
         $filters = array(
             'filters' => (object)array(

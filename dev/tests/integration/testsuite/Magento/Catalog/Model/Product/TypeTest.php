@@ -36,9 +36,13 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             array(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, 'Magento_Catalog_Model_Product_Type_Simple'),
             array(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, 'Magento_Catalog_Model_Product_Type_Virtual'),
             array(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, 'Magento_Catalog_Model_Product_Type_Grouped'),
-            array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, 'Magento_Catalog_Model_Product_Type_Configurable'),
+            array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+                'Magento_Catalog_Model_Product_Type_Configurable'
+            ),
             array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Magento_Bundle_Model_Product_Type'),
-            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Magento_Downloadable_Model_Product_Type'),
+            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
+                'Magento_Downloadable_Model_Product_Type'
+            ),
         );
     }
 
@@ -96,7 +100,9 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
                 'Magento_Catalog_Model_Product_Type_Configurable_Price'
             ),
             array(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, 'Magento_Bundle_Model_Product_Price'),
-            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, 'Magento_Downloadable_Model_Product_Price'),
+            array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
+                'Magento_Downloadable_Model_Product_Price'
+            ),
         );
     }
 

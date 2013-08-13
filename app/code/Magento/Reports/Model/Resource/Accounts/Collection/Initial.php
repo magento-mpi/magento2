@@ -16,7 +16,8 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Accounts_Collection_Initial extends Magento_Reports_Model_Resource_Report_Collection
+class Magento_Reports_Model_Resource_Accounts_Collection_Initial
+    extends Magento_Reports_Model_Resource_Report_Collection
 {
     /**
      * Report sub-collection class name

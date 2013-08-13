@@ -58,7 +58,9 @@ class Magento_Backend_Model_Config_Structure_Mapper_Factory
         $mapperInstance =  $this->_objectManager->create($className);
 
         if (false == ($mapperInstance instanceof Magento_Backend_Model_Config_Structure_MapperInterface)) {
-            throw new Exception('Mapper object is not instance on Magento_Backend_Model_Config_Structure_MapperInterface');
+            throw new Exception(
+                'Mapper object is not instance on Magento_Backend_Model_Config_Structure_MapperInterface'
+            );
         }
         return $mapperInstance;
     }

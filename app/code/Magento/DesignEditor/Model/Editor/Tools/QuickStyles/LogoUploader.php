@@ -18,7 +18,8 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Magento_Backend_Model_Config_Backend_Image_Logo
+class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader
+    extends Magento_Backend_Model_Config_Backend_Image_Logo
 {
     /**
      * @param Magento_Core_Model_Context $context

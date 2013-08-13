@@ -11,7 +11,8 @@
 /**
  * System Configuration Extends Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Extends extends Magento_Backend_Model_Config_Structure_MapperAbstract
+class Magento_Backend_Model_Config_Structure_Mapper_Extends
+    extends Magento_Backend_Model_Config_Structure_MapperAbstract
 {
     /**
      * System configuration array
@@ -37,8 +38,9 @@ class Magento_Backend_Model_Config_Structure_Mapper_Extends extends Magento_Back
     /**
      * @param Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
      */
-    public function __construct(Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted)
-    {
+    public function __construct(
+        Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
+    ) {
         $this->_pathConverter = $pathConverted;
     }
 

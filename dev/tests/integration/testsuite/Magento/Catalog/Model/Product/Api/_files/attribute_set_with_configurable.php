@@ -27,7 +27,8 @@ if (!Mage::registry('attribute_set_with_configurable')) {
     /** @var $attributeFixture Magento_Catalog_Model_Resource_Eav_Attribute */
     $attributeFixture = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
 
-    $attributeFixture->setEntityTypeId(Mage::getModel('Magento_Eav_Model_Entity')->setType('catalog_product')->getTypeId())
+    $attributeFixture->setEntityTypeId(Mage::getModel('Magento_Eav_Model_Entity')->setType('catalog_product')
+        ->getTypeId())
         ->setAttributeCode('test_attr_' . uniqid())
         ->setIsUserDefined(true)
         ->setIsVisibleOnFront(false)
