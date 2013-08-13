@@ -27,6 +27,17 @@
   * Added alert, when deleting a block
 * HTML improvements:
   * Enhanced accessibility in admin by labeling form fields
+* Payment improvements:
+  * Incorporated changes to the PayPal UI configuration from CE 1.7.0.1
+    * Added the functionality for creating nested field sets in the System Configuration
+    * Implemented the support for the extended and shared configuration fields
+    * Added the ability to define dependencies between fields from different field sets
+    * Moved PayPal configuration to the Payment Methods menu section
+    * Set the default value of the cUrl `VERIFYPEER` option to `true` for PayPal and added the ability to change this value
+    * Changed the design and position of the configuration field tooltips
+  * Removed support of Moneybookers payment method and underlying module in favor of 3rd party extensions
+  * Implemented support of PayPal IPN protocol HTTP 1.1
+  * Implemented a single place to configure credentials for Payflow Link and Express Checkout
 * `Varien_Image` library refactored:
   * Created adapters factory instead of class `Varien_Image_Adapter`
   * Refactored ImageMagick and GD adapters to make them testable
@@ -123,6 +134,14 @@
       * Fixed validation of parent category to be a require field
   * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
   * Fixed inability to save Attribute Set in IE8
+  * Payment fixes:
+    * Fixed PayPal Pro (formerly Website Payment Pro) to pass shipping address in request to PayPal service
+    * Fixed triggering of a credit memo creation when Charge Back notification comes from PayPal
+    * Fixed emptying shopping cart after canceling on PayPal page
+    * Fixed error "10431-Item amount is invalid." when a Shopping Cart Price Rule is applied in Express Checkout Payflow Edition
+    * Fixed PayPal Payments Pro Hosted Solution to send "City" in place of the "State" parameter for UK and CA, if Region/State is disabled in the configuration
+    * Fixed ability to invoice order without providing payment using Google Checkout API
+    * Fixed validation of a Discover card number
 
 2.0.0.0-dev44
 =============
