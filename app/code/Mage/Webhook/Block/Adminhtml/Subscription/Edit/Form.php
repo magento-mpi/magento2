@@ -122,16 +122,6 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
             )
         );
 
-        $versionData = array(
-            'label' => $this->__('Version'),
-            'name'  => 'version',
-        );
-        if (isset($subscriptionData['extension_id']) && $subscriptionData['extension_id']) {
-            $versionData['readonly'] = 'readonly';
-            $versionData['class']    = 'disabled';
-        }
-        $fieldset->addField('version', 'text', $versionData);
-
         $fieldset->addField(
             'topics', 'multiselect',
             array(

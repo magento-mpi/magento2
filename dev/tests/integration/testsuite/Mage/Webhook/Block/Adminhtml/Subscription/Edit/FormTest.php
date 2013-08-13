@@ -74,12 +74,6 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit_Fr
                 'required' => false,
                 'value' => $subscription['authentication_type']
             ),
-            'version' => array(
-                'name' => 'version',
-                'type' => 'text',
-                'required' => false,
-                'value' => $subscription['version']
-            ),
             'topics' => array(
                 'name' => 'topics[]',
                 'type' => 'select',
