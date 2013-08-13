@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Creditmemo extends Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract
+class Magento_Adminhtml_Controller_Sales_Creditmemo extends Magento_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract
 {
     /**
      * Export credit memo grid to CSV format

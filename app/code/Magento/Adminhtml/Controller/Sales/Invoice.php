@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Invoice extends Magento_Adminhtml_Controller_Sales_Invoice_Abstract
+class Magento_Adminhtml_Controller_Sales_Invoice extends Magento_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
 {
     /**
      * Export invoice grid to CSV format

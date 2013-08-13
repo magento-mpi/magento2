@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,11 +11,11 @@
 /**
  * Adminhtml sales order shipment controller
  *
- * @category   Magento
+ * @category   Mage
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtml_Controller_Sales_Shipment_Abstract
+class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract
 {
     /**
      * Initialize shipment items QTY

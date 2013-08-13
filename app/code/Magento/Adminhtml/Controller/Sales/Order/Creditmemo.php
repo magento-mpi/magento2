@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,11 +11,12 @@
 /**
  * Adminhtml sales order creditmemo controller
  *
- * @category   Magento
+ * @category   Mage
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract
+class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
+    extends Magento_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract
 {
     /**
      * Get requested items qtys and return to stock flags

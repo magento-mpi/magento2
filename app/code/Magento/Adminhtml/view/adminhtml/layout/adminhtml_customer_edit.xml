@@ -20,6 +20,9 @@
             <action method="addJs">
                 <file>varien/configurable.js</file>
             </action>
+            <action method="addJs">
+                <file>Magento_Adminhtml::customer/edit/tab/js/addresses.js</file>
+            </action>
         </reference>
         <reference name="left">
             <block type="Magento_Adminhtml_Block_Customer_Edit_Tabs" name="customer_edit_tabs">

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Customer addresses forms
  *
- * @category   Magento
+ * @category   Mage
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -39,8 +39,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
             'name'   => 'add_address_button',
             'element_name' => 'add_address_button',
             'disabled' => $this->isReadonly(),
-            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : ''),
-            'onclick'=> 'customerAddresses.addNewAddress()'
+            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
         ));
         $this->addChild('cancel_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'  => Mage::helper('Magento_Customer_Helper_Data')->__('Cancel'),
@@ -48,8 +47,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
             'name'   => 'cancel_address',
             'element_name' => 'cancel_address',
             'class'  => 'cancel delete-address'  . ($this->isReadonly() ? ' disabled' : ''),
-            'disabled' => $this->isReadonly(),
-            'onclick'=> 'customerAddresses.cancelAdd(this)',
+            'disabled' => $this->isReadonly()
         ));
         return parent::_prepareLayout();
     }

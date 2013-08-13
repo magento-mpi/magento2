@@ -3,7 +3,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
@@ -224,9 +224,6 @@
                 </field>
                 <field id="pdf" type="textarea" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>PDF</label>
-                </field>
-                <field id="js_template" type="textarea" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>JavaScript Template</label>
                 </field>
             </group>
         </section>
