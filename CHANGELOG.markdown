@@ -228,9 +228,9 @@
      * Fixed validation of parent category to be a require field
      * Fixed bug with displaying special price for a product on frontend after the product template is switched to one without special price
      * Fixed incorrectly displayed regular price for products with catalog price rule applied
-     * Fixed Javascript error, when replacing variation image in IE
      * Fixed inability to upload an image in the WYSIWYG editor
-    * Fixed Javascript errors in production mode
+     * Fixed Javascript error, when replacing variation image in IE
+     * Fixed Javascript errors in production mode
   * Shopping Cart Price Rule fixes:
      * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
      * Fixed saving of Shopping Cart Price Rule having specific coupon
