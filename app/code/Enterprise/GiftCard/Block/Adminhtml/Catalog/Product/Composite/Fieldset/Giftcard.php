@@ -12,6 +12,20 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Gif
     extends Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard
 {
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Checks whether block is last fieldset in popup
      *
      * @return bool
@@ -23,5 +37,13 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Gif
         } else {
             return !$this->getProduct()->getOptions();
         }
+    }
+
+    /**
+     * @return Mage_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }
