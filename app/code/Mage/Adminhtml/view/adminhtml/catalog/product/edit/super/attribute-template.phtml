@@ -7,8 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Mage_Core_Block_Template */
 
+/**
+ * @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute
+ */
+
+/**
+ * Comment to added to avoid PHP Storm bug with handling PHPDocs
+ */
 $havePriceVariation = array_reduce(
     $attribute['values'],
     function (&$r, $i) {
@@ -16,6 +22,7 @@ $havePriceVariation = array_reduce(
     },
     false
 );
+
 $id = $this->escapeHtml($attribute['attribute_id']);
 ?>
 
@@ -126,10 +133,10 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                                         <div class="actions-split actions-select">
                                                             <input name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]" type="hidden" value="<?php echo $isPercent ? 1 : 0; ?>"/>
                                                             <button type="button" class="action-toggle" data-toggle="dropdown" data-mage-init="{dropdown:{}}">
-                                                                <span><?php echo $isPercent ? $this->__('%') : Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></span>
+                                                                <span><?php echo $isPercent ? $this->__('%') : $this->getBaseCurrency()->getSymbol() ?></span>
                                                             </button>
                                                             <ul class="dropdown-menu" data-role="dropdown-menu" data-mage-init="{menu:{}}">
-                                                                <li data-value="0"><a class="item"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></a></li>
+                                                                <li data-value="0"><a class="item"><?php echo $this->getBaseCurrency()->getSymbol() ?></a></li>
                                                                 <li data-value="1"><a class="item"><?php echo $this->__('%')?></a></li>
                                                             </ul>
                                                         </div>
