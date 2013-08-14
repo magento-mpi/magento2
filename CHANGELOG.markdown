@@ -29,7 +29,6 @@
   * Added ability to duplicate a theme
   * Added ability to revert theme modifications to a last saved checkpoint
   * Improved theme's background image handling
-  * Improved themes management workflows - deleting, assigning, duplicating a theme
   * Added alert, when deleting a block
   * Removed drag-n-drop feature
   * Refined and streamlined interface
@@ -140,7 +139,7 @@
   * Added missing fields to SOAP API
   * Fixed inability to set default customer address via API
   * Fixed error message, when saving a customer with wrong email address via API
-  * Fixed multiple frontend bugs in IE 8 and 9
+  * Fixed multiple bugs in IE 8 and 9
   * Restored export for table rates
   * Fixed weight calculation for DHL
   * Fixed anchor categories, which didn't show products from child categories
@@ -223,10 +222,6 @@
     * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
     * Fixed exception, when using 2-level cache backend
     * Fixed inability to place order with PayPal Payments Advanced and Payflow Link payment methods
-  * Fixed bugs in shipping label creation
-  * Fixed inability to save some sections of configuration
-  * Fixed bug with empty "New Shipment" e-mail
-  * Fixed multiple bugs in backend in Internet Explorer
   * Fixed inability to delete customer's address on frontend
   * VDE fixes:
     * Removed full file path information from the title of an uploaded store logo
