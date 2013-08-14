@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Mage_Core_Block_Template */
+/* @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
 ?>
 <script data-template-for="configurable-attribute" type="text/x-jquery-tmpl">
     <div class="entry-edit" data-role="configurable-attribute" data-attribute="${JSON.stringify(attribute)}">
@@ -89,10 +89,10 @@
                                                         <div class="actions-split actions-select">
                                                             <input name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][is_percent]" type="hidden" value="0"/>
                                                             <button type="button" class="action-toggle" data-toggle="dropdown" data-mage-init="{dropdown:{}}">
-                                                                <span><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></span>
+                                                                <span><?php echo $this->getBaseCurrency()->getSymbol() ?></span>
                                                             </button>
                                                             <ul class="dropdown-menu" data-role="dropdown-menu" data-mage-init="{menu:{}}">
-                                                                <li data-value="0"><a class="item"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></a></li>
+                                                                <li data-value="0"><a class="item"><?php echo $this->getBaseCurrency()->getSymbol() ?></a></li>
                                                                 <li data-value="1"><a class="item"><?php echo $this->__('%')?></a></li>
                                                             </ul>
                                                         </div>
@@ -159,10 +159,10 @@
                                 <input type="hidden" value="0"
                                     name="product[configurable_attributes_data][${attribute.id}][values][${option.id}][is_percent]"/>
                                 <button type="button" class="action-toggle" data-toggle="dropdown" data-mage-init="{dropdown:{}}">
-                                    <span><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></span>
+                                    <span><?php echo $this->getBaseCurrency()->getSymbol() ?></span>
                                 </button>
                                 <ul class="dropdown-menu" data-role="dropdown-menu" data-mage-init="{menu:{}}">
-                                    <li data-value="0"><a class="item"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->getSymbol() ?></a></li>
+                                    <li data-value="0"><a class="item"><?php echo $this->getBaseCurrency()->getSymbol() ?></a></li>
                                     <li data-value="1"><a class="item"><?php echo $this->__('%')?></a></li>
                                 </ul>
                             </div>
