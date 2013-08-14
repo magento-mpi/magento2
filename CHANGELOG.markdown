@@ -57,11 +57,18 @@
   * Added ability to configure DI for individual class instances
   * Added ability to pass differently configured instances to different parts of the system
   * Refactored proxy and factory generation mechanism
+* Layout improvements:
+  * Implemented all-new mechanism of layout merging and customization:
+     * Convention over configuration approach is used, i.e. there is no need to declare layout files in module configs anymore
+     * Added support for merged modular layout files in a theme instead of single `local.xml` theme file
+     * All theme `local.xml` files are broken down and moved to theme modular layout files
+     * All the layout files are broken into smaller ones - one layout handle per one file, so that code duplication cane reduced, when overriding layout files in themes
+     * Covered new layout customization mechanism with integrity tests
+  * Relocated several files, declared in layouts
+  * Streamlined several design customizations
+  * Converted more backend grids from PHP implementation to layout declarations
 * Various improvements:
-  * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test, relocated several files
-  * Implemented all-new mechanism of layout merging and customizing in order to reduce duplication of layouts in themes, covered it with integrity tests
-  * Broken down all the layout files into smaller ones - one layout handle per one file, so that code duplication is reduced, when overriding layout files in themes
-  * Removed support for `local.xml` layout files in themes, all such files are broken down per module, previous functionality is fully supported in modular way
+  * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails
   * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
   * Moved Currency Symbol module files from Adminhtml module to the module itself
@@ -91,13 +98,11 @@
   * Implemented explicit usage of cache type in collections; engaged it for website, store and store view collections; added tests for a number of collections
   * Implemented explicit usage of cache types in translations
   * Implemented explicit usage of cache types in layouts
-  * Removed limitations as unusable feature
+  * Removed ability to set limits on maximal amount of categories, products, websites, stores, store views and admin users as an unusable feature
   * Improved and simplified path normalization methods in `Magento_Filesystem` component
   * Implemented proper exceptions instead of PHP warnings in `Magento_Filesystem` component
   * Introduced `Mage_Core_Model_ModuleManager` to provide "enabled" information about modules
-  * Streamlined several design configurations in layout files
   * Enabled following cache types in integration tests to improve performance: configuration, layouts, translations, EAV
-* Converted some more grids in backend from PHP implementation to declarations in layout
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
