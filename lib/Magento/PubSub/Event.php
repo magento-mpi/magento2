@@ -12,7 +12,7 @@
 class Magento_PubSub_Event implements Magento_PubSub_EventInterface
 {
     /** @var int */
-    protected $_status = Magento_PubSub_EventInterface::PREPARING;
+    protected $_status = Magento_PubSub_EventInterface::READY_TO_SEND;
 
     /** @var array */
     protected $_bodyData;
@@ -72,16 +72,6 @@ class Magento_PubSub_Event implements Magento_PubSub_EventInterface
     public function getTopic()
     {
         return $this->_topic;
-    }
-
-    /**
-     * Mark event as ready to send
-     *
-     * @return Magento_PubSub_EventInterface
-     */
-    public function markAsReadyToSend()
-    {
-        $this->_status = Magento_PubSub_EventInterface::READY_TO_SEND;
     }
 
     /**

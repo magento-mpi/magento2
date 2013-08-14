@@ -18,6 +18,7 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     {
         parent::_construct();
         $this->_init('Mage_Webhook_Model_Resource_Event');
+        $this->setStatus(Magento_PubSub_EventInterface::READY_TO_SEND);
     }
 
     /**
@@ -29,7 +30,6 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->markAsReadyToSend();
             $this->setCreatedAt($this->_getResource()->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
             $this->setUpdatedAt($this->_getResource()->formatDate(true));
@@ -116,16 +116,6 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     public function getTopic()
     {
         return $this->getData('topic');
-    }
-
-    /**
-     * Mark event as ready to send
-     *
-     * @return Magento_PubSub_EventInterface
-     */
-    public function markAsReadyToSend()
-    {
-        $this->setData('status', Magento_PubSub_EventInterface::READY_TO_SEND);
     }
 
     /**

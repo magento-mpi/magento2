@@ -12,10 +12,7 @@
  */
 class Mage_Webhook_Model_Event_QueueReader implements Magento_PubSub_Event_QueueReaderInterface
 {
-    /** @var Mage_Webhook_Model_Resource_Event_Collection */
-    protected $_collection;
-
-    /** @var ArrayIterator */
+   /** @var ArrayIterator */
     protected $_iterator;
 
     /**
@@ -25,9 +22,7 @@ class Mage_Webhook_Model_Event_QueueReader implements Magento_PubSub_Event_Queue
      */
     public function __construct(Mage_Webhook_Model_Resource_Event_Collection $collection)
     {
-        $this->_collection = $collection;
-        $this->_collection->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
-        $this->_iterator = $this->_collection->getIterator();
+        $this->_iterator = $collection->getIterator();
     }
 
     /**
@@ -40,11 +35,6 @@ class Mage_Webhook_Model_Event_QueueReader implements Magento_PubSub_Event_Queue
         if ($this->_iterator->valid()) {
             /** @var Mage_Webhook_Model_Event $event */
             $event = $this->_iterator->current();
-
-            // effectively remove it from the queue
-            $event->markAsProcessed();
-            $event->save();
-
             $this->_iterator->next();
             return $event;
         }

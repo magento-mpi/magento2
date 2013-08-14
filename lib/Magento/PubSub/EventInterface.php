@@ -14,8 +14,8 @@ interface Magento_PubSub_EventInterface
     /**
      * Status codes for events
      */
-    const PREPARING     = 0;
-    const READY_TO_SEND = 1;
+    const READY_TO_SEND = 0;
+    const IN_PROGRESS   = 1;
     const PROCESSED     = 2;
 
     /**
@@ -46,13 +46,6 @@ interface Magento_PubSub_EventInterface
      * @return string
      */
     public function getTopic();
-
-    /**
-     * Mark event as ready to send
-     *
-     * @return Magento_PubSub_EventInterface
-     */
-    public function markAsReadyToSend();
 
     /**
      * Mark event as processed

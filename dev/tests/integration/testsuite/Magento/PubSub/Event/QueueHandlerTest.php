@@ -24,8 +24,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var Mage_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection')
-            ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+        $eventCollection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
         /** @var Mage_Webhook_Model_Event $event */
