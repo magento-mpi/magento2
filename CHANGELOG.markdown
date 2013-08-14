@@ -123,7 +123,7 @@
   * Fixed inability to set product rating from backend
   * Fixed bug with adding product with decimal quantity
   * Fixed bug with incorrect theme saving when wrong preview file is uploaded
-  * Fixed incorrectly displayed error message when unsupported JavaScript file is uploaded, when editing a theme
+  * Fixed incorrectly displayed error message when unsupported JavaScript file is uploaded while editing a theme
   * Fixed bug with incorrect price and stock availability information
   * Fixed absence of "Delete" button on Widget Instance and Edit Custom Variable pages
   * Fixed inability to change PayPal configuration
