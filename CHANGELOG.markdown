@@ -263,10 +263,10 @@
      * Added missing fields to SOAP API
      * Fixed inability to set default customer address
      * Fixed error message, when saving a customer with wrong email address
-     * Fixed impossibility to create partial order shipment
+     * Fixed inability to create partial order shipment
      * Fixed absence of special price information in return of `productGetSpecialPrice` method
      * Fixed incorrect content length of server response
-     * Fixed absence of `productAttributeAddOption`, `catalogProductAttributeUpdate`, `catalogProductAttributeTypes`, `catalogProductAttributeRemoveOption` and `catalogProductAttributeInfo` methods with WS-I mode on
+     * Fixed absence of `productAttributeAddOption`, `catalogProductAttributeUpdate`, `catalogProductAttributeTypes`, `catalogProductAttributeRemoveOption` and `catalogProductAttributeInfo` methods with WS-I mode enabled
      * Fixed absence of `catalogProductDownloadableLinkList` method
      * Fixed bug with incorrect credit memo creation when order item id is set
      * Fixed bug with inability to update stock status or price of multiple products in one call
@@ -275,11 +275,11 @@
      * Fixed incorrect redirect after SOAP POST request
      * Fixed inability to end session by `endSession` method
      * Fixed Save button for Web Services User Roles in backend
-     * Fixed memory issue due to incorrect filtering for the single field
+     * Fixed memory issue due to incorrect filtering for the single field in `salesOrderList` method
      * Fixed bug with getting product information by numeric SKU
      * Fixed inability to add configurable product by `cart_product.add` method
      * Fixed ACL initialization in WebApi
-     * Fixed bug with WSDL caching file name
+     * Fixed bug with the same cache key used for both WS-I and non WS-I WSDL files
      * Fixed bug with updating shopping cart by `shoppingCartProductUpdate` method
      * Fixed product id validation in `shoppingCartProductAdd` method
      * Fixed absence of tracking number in `salesOrderShipmentInfo` method response
