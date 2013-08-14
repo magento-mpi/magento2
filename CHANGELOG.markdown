@@ -15,15 +15,15 @@
   * Improved jQuery validation for credit cards
   * Added support of `$.mage.component` in some frontend themes
   * Further refactoring of JavaScript to use JQuery library:
-    * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Checkout, Captcha
-    * Refactored Prototype-based implementation of validation in "New Category" dialog to use jQuery
-    * Removing Prototype inclusion in several places
+     * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Checkout, Captcha
+     * Refactored Prototype-based implementation of validation in "New Category" dialog to use jQuery
+     * Removing Prototype inclusion in several places
   * Enhanced menu behavior in backend
 * VDE improvements:
   * Implemented inline translate tool for VDE
-    * Added new dedicated button "T" in interface
-    * 3 different modes: Page Text, Variable Text (for script texts), Alternative Text (for attributes)
-    * Independent enabling of inline translation on frontend and in VDE
+     * Added new dedicated button "T" in interface
+     * 3 different modes: Page Text, Variable Text (for script texts), Alternative Text (for attributes)
+     * Independent enabling of inline translation on frontend and in VDE
   * Modified some text messages in VDE and in themes management
   * Added ability to upload, browse and delete images and fonts that can be used in custom CSS
   * Added ability to duplicate a theme
@@ -36,9 +36,9 @@
   * Enhanced accessibility in admin by labeling form fields
 * Payment improvements:
   * Incorporated changes to the PayPal UI configuration from CE 1.7.0.1
-    * Moved PayPal configuration to the Payment Methods menu section
-    * Set the default value of the cUrl `VERIFYPEER` option to `true` for PayPal and added the ability to change this value
-    * Changed the design and position of the configuration field tooltips
+     * Moved PayPal configuration to the Payment Methods menu section
+     * Set the default value of the cUrl `VERIFYPEER` option to `true` for PayPal and added the ability to change this value
+     * Changed the design and position of the configuration field tooltips
   * Removed support of Moneybookers payment method and underlying module in favor of 3rd party extensions
   * Implemented support of PayPal IPN protocol HTTP 1.1
   * Implemented a single place to configure credentials for Payflow Link and Express Checkout
@@ -199,45 +199,45 @@
   * Fixed exception, when using 2-level cache backend
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Product creation fixes:
-    * Fixed inability to search and select category in IE8, including via mouse
-    * Fixed usability of category search tree field to not hang after entering each symbol
-    * Fixed inability to select/change attribute for product variations (configurable product) in IE8
-    * Fixed field highlighting and error placement after validation on "Create Category" dialog
-      * Fixed validation of parent category to be a require field
-    * Fixed bug with displaying special price for a product on frontend after the product template is switched to one without special price
-    * Fixed incorrectly displayed regular price for products with catalog price rule applied
-    * Fixed Javascript error, when replacing variation image in IE
-    * Fixed inability to upload an image in the WYSIWYG editor
+     * Fixed inability to search and select category in IE8, including via mouse
+     * Fixed usability of category search tree field to not hang after entering each symbol
+     * Fixed inability to select/change attribute for product variations (configurable product) in IE8
+     * Fixed field highlighting and error placement after validation on "Create Category" dialog
+     * Fixed validation of parent category to be a require field
+     * Fixed bug with displaying special price for a product on frontend after the product template is switched to one without special price
+     * Fixed incorrectly displayed regular price for products with catalog price rule applied
+     * Fixed Javascript error, when replacing variation image in IE
+     * Fixed inability to upload an image in the WYSIWYG editor
   * Shopping Cart Price Rule fixes:
-    * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
-    * Fixed saving of Shopping Cart Price Rule having specific coupon
+     * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
+     * Fixed saving of Shopping Cart Price Rule having specific coupon
   * Payment fixes:
-    * Fixed PayPal Pro (formerly Website Payment Pro) to pass shipping address in request to PayPal service
-    * Fixed triggering of a credit memo creation when Charge Back notification comes from PayPal
-    * Fixed emptying shopping cart after canceling on PayPal page
-    * Fixed error "10431-Item amount is invalid." when a Shopping Cart Price Rule is applied in Express Checkout Payflow Edition
-    * Fixed PayPal Payments Pro Hosted Solution to send "City" in place of the "State" parameter for UK and CA, if Region/State is disabled in the configuration
-    * Fixed ability to invoice order without providing payment using Google Checkout API
-    * Fixed validation of a Discover card number
-    * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
-    * Fixed exception, when using 2-level cache backend
-    * Fixed inability to place order with PayPal Payments Advanced and Payflow Link payment methods
+     * Fixed PayPal Pro (formerly Website Payment Pro) to pass shipping address in request to PayPal service
+     * Fixed triggering of a credit memo creation when Charge Back notification comes from PayPal
+     * Fixed emptying shopping cart after canceling on PayPal page
+     * Fixed error "10431-Item amount is invalid." when a Shopping Cart Price Rule is applied in Express Checkout Payflow Edition
+     * Fixed PayPal Payments Pro Hosted Solution to send "City" in place of the "State" parameter for UK and CA, if Region/State is disabled in the configuration
+     * Fixed ability to invoice order without providing payment using Google Checkout API
+     * Fixed validation of a Discover card number
+     * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
+     * Fixed exception, when using 2-level cache backend
+     * Fixed inability to place order with PayPal Payments Advanced and Payflow Link payment methods
   * Fixed inability to delete customer's address on frontend
   * VDE fixes:
-    * Removed full file path information from the title of an uploaded store logo
-    * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
-    * Fixed hint for the Scripts palette in dock
-    * Fixed inability to upload more than one Javascript file
-    * Fixed bug with improper scaling images in UI
-    * Fixed inability to preview and edit a physical theme
-    * Fixed inability to delete a block
-    * Fixed inability to delete a background image
-    * Fixed preview of a virtual theme in production mode
-    * Fixed JavaScript tests
-    * Fixed bugs with inline translation
-    * Added validation to the theme name field
-    * Fixed absence of error message in IE, when uploading unsupported file type in Theme Javascript
-    * Fixed corrupting of a `custom.css` file, when saving Custom CSS text
+     * Removed full file path information from the title of an uploaded store logo
+     * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
+     * Fixed hint for the Scripts palette in dock
+     * Fixed inability to upload more than one Javascript file
+     * Fixed bug with improper scaling images in UI
+     * Fixed inability to preview and edit a physical theme
+     * Fixed inability to delete a block
+     * Fixed inability to delete a background image
+     * Fixed preview of a virtual theme in production mode
+     * Fixed JavaScript tests
+     * Fixed bugs with inline translation
+     * Added validation to the theme name field
+     * Fixed absence of error message in IE, when uploading unsupported file type in Theme Javascript
+     * Fixed corrupting of a `custom.css` file, when saving Custom CSS text
 
 2.0.0.0-dev44
 =============
