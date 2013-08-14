@@ -21,7 +21,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_Review_Block_Product_View" name="product.info" template="Mage_Catalog::product/view.phtml">
+            <block type="Magento_Review_Block_Product_View" name="product.info" template="Magento_Catalog::product/view.phtml">
                 <block type="Magento_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml">
                     <action method="disableGallery"/>
                 </block>
