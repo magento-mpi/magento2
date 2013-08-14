@@ -47,13 +47,13 @@ document.observe("dom:loaded", function() {
     var loadMore = Class.create({
         initialize: function (list, href, pattern) {
             var that = this;
-            
+
             this.list = list;
             this.list.insert({ after : '<div class="more"><span id="more_button" class="more-button">More</span></div>'});
             this.href = href.readAttribute('href');
             this.button = $('more_button');
             this.holder = new Element('div', { 'class': 'response-holder' });
-            
+
             this.button.observe('click', function () {
                 if ( !that.button.hasClassName('loading') ) {
                     new Ajax.Request(that.href, {
@@ -86,7 +86,7 @@ document.observe("dom:loaded", function() {
             '.c-list > li'
         )
     }
-    
+
     if ( $$('.downloadable-products-history .list')[0] && $$('.next-page')[0]  ) {
         var loadMoreCategory = new loadMore(
             $$('.downloadable-products-history .list')[0],
@@ -94,7 +94,7 @@ document.observe("dom:loaded", function() {
             '.downloadable-products-history .list > li'
         )
     }
-    
+
     if ( $$('.review-history .list')[0] && $$('.next-page')[0]  ) {
         var loadMoreCategory = new loadMore(
             $$('.review-history .list')[0],
@@ -102,7 +102,7 @@ document.observe("dom:loaded", function() {
             '.review-history .list > li'
         )
     }
-    
+
     if ( $$('.recent-orders .data-table')[0] && $$('.next-page')[0]  ) {
         var loadMoreCategory = new loadMore(
             $$('.recent-orders .data-table')[0],
@@ -110,17 +110,17 @@ document.observe("dom:loaded", function() {
             '.recent-orders .data-table tbody > tr'
         )
     }
-    
+
     //-----------------------------//
 
     $$('label[for]').each(function(label) {
         label.observe('click', function() {});
     });
-    
+
     $$('input.validate-email').each(function (input) {
         input.writeAttribute('type', 'email');
     });
-    
+
     $$('.form-list img[src*="calendar.gif"]').each(function (img) {
         img.up().insert({ 'top' : img });
     });
@@ -132,7 +132,7 @@ document.observe("dom:loaded", function() {
     if ( $('my-reviews-table') ) {
         $('my-reviews-table').wrap('div', { 'class' : 'my-reviews-table-wrap' });
     }
-    
+
     $$('.my-account .dashboard .box-title').each(function (elem) {
         elem.observe('click', function (e) {
             if ( e.target.hasClassName('box-title') ) {
@@ -800,10 +800,10 @@ document.observe("dom:loaded", function() {
             this.finalCoord    = { x: 0, y: 0 };
             this.offset = { x: 0, y: 0 };
             this.ret = { x: 0, y: 0 };
-            
+
             this.nextButton.observe('click', this.moveRight.bind(this));
             this.prevButton.observe('click', this.moveLeft.bind(this));
-            
+
             if (this.itemsLength < 2) {
                 this.controls.hide();
             }
@@ -837,7 +837,7 @@ document.observe("dom:loaded", function() {
         moveRight: function (elem) {
 
             if (this.pos !== this.lastPos - this.step) {
-            
+
                 if(elem == event) {
                     this.items.each(function (elm) {
                         elm.setStyle({
@@ -866,7 +866,7 @@ document.observe("dom:loaded", function() {
                     transformValue[transformPref] = 'translate(' + this.pos*-1 + '%, 0)';
                     this.wrap.setStyle(transformValue);
                 }
-                
+
                 if (this.pos == this.lastPos - this.step) {
                     this.nextButton.addClassName('disabled');
                 }
@@ -911,7 +911,7 @@ document.observe("dom:loaded", function() {
                     transformValue[transformPref] = 'translate(' + this.pos*-1 + '%, 0)';
                     this.wrap.setStyle(transformValue);
                 }
-                
+
                 if (this.pos == 0) {
                     this.prevButton.addClassName('disabled');
                 }
@@ -1115,3 +1115,13 @@ document.observe("dom:loaded", function() {
     }
 
 });
+
+function taxToggle(details, switcher, expandedClassName) {
+    if ($(details).style.display == 'none') {
+        $(details).show();
+        $(switcher).addClassName(expandedClassName);
+    } else {
+        $(details).hide();
+        $(switcher).removeClassName(expandedClassName);
+    }
+}
