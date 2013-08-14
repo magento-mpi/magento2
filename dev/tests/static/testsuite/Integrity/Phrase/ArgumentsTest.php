@@ -1,6 +1,7 @@
 <?php
 /**
- * Class to detects invocations of __() function, analyzes arguments and fails on errors.
+ * Scan source code for detects invocations of __() function, analyzes placeholders with arguments
+ * and see if they not equal
  *
  * {license_notice}
  *
@@ -12,27 +13,13 @@
 class ArgumentsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
-     */
-    private $_scanPath;
-
-    /**
      * @var Tokenizer
      */
     private $_tokenizer;
 
-    /**
-     * Init Tokenizer
-     */
-    protected function _initTokenizer()
-    {
-        $this->_scanPath = __DIR__ . '/../../../../../../app/';
-        $this->_tokenizer = new Tokenizer($this->_scanPath);
-    }
-
     protected function setUp()
     {
-        $this->_initTokenizer();
+        $this->_tokenizer = new Tokenizer();
     }
 
     /**
@@ -63,20 +50,20 @@ class ArgumentsTest extends PHPUnit_Framework_TestCase
      */
     public function filesDataProvider()
     {
-        $this->_initTokenizer();
-        $filesArray = array();
-        foreach ($this->_tokenizer->getFiles() as $file) {
-            $filesArray[] = array($file);
-        }
-        return $filesArray;
+        return Utility_Files::init()->getPhpFiles(true, false);
     }
 }
 
-
+/**
+ * Class TokenException
+ */
 class TokenException extends Exception
 {
 }
 
+/**
+ * Class Token
+ */
 class Token
 {
     /**
@@ -141,6 +128,9 @@ class Token
     }
 }
 
+/**
+ * Class Tokenizer
+ */
 class Tokenizer
 {
     const FILES_MASK = '/\.(php|phtml)$/';
@@ -181,18 +171,6 @@ class Tokenizer
     private $_closeBrackets;
 
     /**
-     * Construct for Tokenizer
-     *
-     * @param string $scanPath
-     */
-    public function __construct($scanPath)
-    {
-        $this->_scanPath = $scanPath;
-        $this->_files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_scanPath));
-        $this->_files = new RegexIterator($this->_files, self::FILES_MASK);
-    }
-
-    /**
      * Get phrases array
      *
      * @return array
@@ -200,16 +178,6 @@ class Tokenizer
     public function getPhrases()
     {
         return $this->_phrases;
-    }
-
-    /**
-     * Get files
-     *
-     * @return RecursiveIteratorIterator
-     */
-    public function getFiles()
-    {
-        return $this->_files;
     }
 
     /**

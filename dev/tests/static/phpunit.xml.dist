@@ -19,9 +19,6 @@
         <testsuite name="PHP Coding Standard Verification">
             <file>testsuite/Php/LiveCodeTest.php</file>
         </testsuite>
-        <testsuite name="PHP Phrase Arguments Test">
-            <file>testsuite/Php/Phrase/ArgumentsTest.php</file>
-        </testsuite>
         <testsuite name="Code Integrity Tests">
             <directory>testsuite/Integrity</directory>
         </testsuite>
