@@ -24,42 +24,49 @@ class ArgumentsTest extends PHPUnit_Framework_TestCase
         $this->_tokenizer = new Tokenizer();
     }
 
-    /**
-     * @param string $file
-     * @dataProvider filesDataProvider
-     */
-    public function testPhraseArguments($file)
+    public function testPhraseArguments()
     {
-        $this->_tokenizer->parse($file);
-        foreach ($this->_tokenizer->getPhrases() as $phrase) {
-            if (!is_null($phrase['phrase'])
-                && (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0)
-            ) {
-                $placeholdersInPhrase = array_unique($matches[1]);
-                $message = 'The number of arguments is not equal to the number of placeholders.' .
-                    "\nPhrase: " . $phrase['phrase'] .
-                    "\nFile: " . $phrase['file'] .
-                    "\nLine: " . $phrase['line'];
-                $this->assertEquals(count($placeholdersInPhrase), $phrase['arguments'], $message);
+        $errors = array();
+        foreach ($this->_getFiles() as $file) {
+            $this->_tokenizer->parse($file);
+            foreach ($this->_tokenizer->getPhrases() as $phrase) {
+                if (!is_null($phrase['phrase'])
+                    && (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0)
+                ) {
+                    $placeholdersInPhrase = array_unique($matches[1]);
+                    if (count($placeholdersInPhrase) != $phrase['arguments']) {
+                        $errors[] = 'The number of arguments is not equal to the number of placeholders.' .
+                            "\nPhrase: " . $phrase['phrase'] .
+                            "\nFile: " . $phrase['file'] .
+                            "\nLine: " . $phrase['line'];
+                    }
+                }
             }
         }
+        $this->assertEmpty($errors, $this->_prepareErrorMessage($errors));
     }
 
     /**
-     * Init tokenizer here, because "dataProvider" runs before setUp()
+     * Prepare error message
+     *
+     * @param array $errors
+     * @return string
+     */
+    protected function _prepareErrorMessage($errors) {
+        $errorMessage = "\n" . implode("\n\n", $errors);
+        return sprintf('We have found %s error(s): %s', count($errors), $errorMessage);
+    }
+
+    /**
+     * Get files for scan
      *
      * @return array
      */
-    public function filesDataProvider()
+    protected function _getFiles()
     {
-        $path = Utility_Files::init()->getPathToSource() . '/app/';
+        $path = Utility_Files::init()->getPathToSource() . '/app/design/';
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
-        $files = new RegexIterator($files, self::FILES_MASK);
-        $filesArray = array();
-        foreach ($files as $file) {
-            $filesArray[] = array($file);
-        }
-        return $filesArray;
+        return new RegexIterator($files, self::FILES_MASK);
     }
 }
 
@@ -194,6 +201,7 @@ class Tokenizer
      */
     public function parse($file)
     {
+        $this->_phrases = array();
         $content = file_get_contents($file);
         $this->_file = $file;
         $this->_tokens = token_get_all($content);
@@ -204,7 +212,6 @@ class Tokenizer
         } catch (TokenException $pe) {
         }
     }
-
 
     /**
      * Find phrases into given token. e.g.: __('phrase', args)
