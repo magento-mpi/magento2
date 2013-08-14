@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <events>
-            <currency_display_options_forming>
-                <observers>
-                    <mage_currencysymbol_currency_display_options>
-                        <class>Mage_CurrencySymbol_Model_Observer</class>
-                        <method>currencyDisplayOptions</method>
-                    </mage_currencysymbol_currency_display_options>
-                </observers>
-            </currency_display_options_forming>
-        </events>
-    </global>
     <admin>
         <routers>
             <adminhtml>
@@ -44,4 +32,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

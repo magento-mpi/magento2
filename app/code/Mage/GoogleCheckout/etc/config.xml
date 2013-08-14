@@ -64,26 +64,6 @@
                 </Mage_GoogleCheckout>
             </modules>
         </translate>
-        <events>
-            <sales_order_shipment_track_save_after>
-                <observers>
-                    <googlecheckout>
-                        <type>model</type>
-                        <class>Mage_GoogleCheckout_Model_Observer</class>
-                        <method>salesOrderShipmentTrackSaveAfter</method>
-                    </googlecheckout>
-                </observers>
-            </sales_order_shipment_track_save_after>
-            <sales_order_shipment_save_after>
-                <observers>
-                    <googlecheckout>
-                        <type>model</type>
-                        <class>Mage_GoogleCheckout_Model_Observer</class>
-                        <method>salesOrderShipmentSaveAfter</method>
-                    </googlecheckout>
-                </observers>
-            </sales_order_shipment_save_after>
-        </events>
     </adminhtml>
     <default>
         <carriers>
@@ -127,4 +107,4 @@
             </checkout_shipping_virtual>
         </google>
     </default>
-</config>
+</config>

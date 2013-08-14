@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="website_save_before">
+        <observer name="saas_limitation_website" instance="Saas_Limitation_Model_Website_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="store_group_save_before">
+        <observer name="saas_limitation_store_group" instance="Saas_Limitation_Model_Store_Group_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="store_save_before">
+        <observer name="saas_limitation_store" instance="Saas_Limitation_Model_Store_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="admin_user_save_before">
+        <observer name="saas_limitation_user" instance="Saas_Limitation_Model_User_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="catalog_category_save_before">
+        <observer name="saas_limitation_catalog_category" instance="Saas_Limitation_Model_Catalog_Category_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="catalog_product_save_before">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="catalog_product_validate_before">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Entity" method="restrictCreation" />
+    </event>
+    <event name="catalog_product_validate_variations_before">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations" method="restrictCreation" />
+    </event>
+    <event name="catalog_model_product_duplicate">
+        <observer name="saas_limitation_catalog_product" instance="Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication" method="restrict" />
+    </event>
+</config>

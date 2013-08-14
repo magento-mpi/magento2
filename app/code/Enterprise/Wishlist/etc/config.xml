@@ -68,28 +68,6 @@
                 </Enterprise_Wishlist>
             </modules>
         </translate>
-        <events>
-            <wishlist_delete_commit_after>
-                <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
-                        <method>registerWishlistChange</method>
-                    </enterprise_pagecache>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
-                        <method>registerWishlistListChange</method>
-                    </enterprise_pagecache>
-                </observers>
-            </wishlist_delete_commit_after>
-            <wishlist_save_commit_after>
-                <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
-                        <method>registerWishlistListChange</method>
-                    </enterprise_pagecache>
-                </observers>
-            </wishlist_save_commit_after>
-        </events>
     </frontend>
     <default>
         <wishlist>

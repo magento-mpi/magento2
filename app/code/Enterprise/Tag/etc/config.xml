@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <events>
-            <controller_action_predispatch_enterprise_reward_customer_info>
-                <observers>
-                    <add_reward_action>
-                        <class>Enterprise_Tag_Model_Observer</class>
-                        <method>addActionClassToRewardModel</method>
-                    </add_reward_action>
-                </observers>
-            </controller_action_predispatch_enterprise_reward_customer_info>
-        </events>
-    </frontend>
     <adminhtml>
         <cache>
             <dependency>
@@ -33,32 +21,6 @@
                 </delete>
             </dependency>
         </cache>
-        <events>
-            <tag_save_commit_after>
-                <observers>
-                    <update_reward_points>
-                        <class>Enterprise_Tag_Model_Observer</class>
-                        <method>updateRewardPointsWhenTagSubmit</method>
-                    </update_reward_points>
-                </observers>
-            </tag_save_commit_after>
-            <controller_action_predispatch_adminhtml_customer_reward_history>
-                <observers>
-                    <add_reward_action>
-                        <class>Enterprise_Tag_Model_Observer</class>
-                        <method>addActionClassToRewardModel</method>
-                    </add_reward_action>
-                </observers>
-            </controller_action_predispatch_adminhtml_customer_reward_history>
-            <controller_action_predispatch_adminhtml_customer_reward_historyGrid>
-                <observers>
-                    <add_reward_action>
-                        <class>Enterprise_Tag_Model_Observer</class>
-                        <method>addActionClassToRewardModel</method>
-                    </add_reward_action>
-                </observers>
-            </controller_action_predispatch_adminhtml_customer_reward_historyGrid>
-        </events>
         <enterprise>
             <admingws>
                 <collection_load_before>
@@ -88,4 +50,4 @@
             </enterprise_reward_balance_warning_notification>
         </jobs>
     </crontab>
-</config>
+</config>

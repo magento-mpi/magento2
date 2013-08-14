@@ -422,7 +422,6 @@ class Magento_Test_Application
         $this->_appArea = $area;
         if ($area == Magento_Test_Application::DEFAULT_APP_AREA) {
             Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_CONFIG);
-            Mage::app()->loadAreaPart($area, Mage_Core_Model_App_Area::PART_EVENTS);
         } else {
             Mage::app()->loadArea($area);
         }

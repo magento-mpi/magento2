@@ -31,72 +31,6 @@
         </catalog>
     </default>
     <frontend>
-        <events>
-            <catalog_category_load_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToCategory</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </catalog_category_load_after>
-            <catalog_controller_product_init_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToProduct</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </catalog_controller_product_init_after>
-            <review_controller_product_init_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToProduct</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </review_controller_product_init_after>
-            <catalog_category_collection_load_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToCategoryCollection</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </catalog_category_collection_load_after>
-            <catalog_product_collection_load_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventToProductCollection</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </catalog_product_collection_load_after>
-            <catalog_product_is_salable_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyIsSalableToProduct</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </catalog_product_is_salable_after>
-            <checkout_cart_product_add_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventOnQuoteItemSetProduct</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </checkout_cart_product_add_after>
-            <sales_quote_item_qty_set_after>
-                <observers>
-                    <enterprise_catalogevent>
-                        <class>Enterprise_CatalogEvent_Model_Observer</class>
-                        <method>applyEventOnQuoteItemSetQty</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </sales_quote_item_qty_set_after>
-        </events>
         <translate>
             <modules>
                 <Enterprise_CatalogEvent>
@@ -129,4 +63,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

@@ -52,39 +52,5 @@
                 </Enterprise_Banner>
             </modules>
         </translate>
-        <events>
-            <adminhtml_controller_catalogrule_prepare_save>
-                <observers>
-                    <enterprise_banner>
-                        <class>Enterprise_Banner_Model_Observer</class>
-                        <method>prepareCatalogRuleSave</method>
-                    </enterprise_banner>
-                </observers>
-            </adminhtml_controller_catalogrule_prepare_save>
-            <catalogrule_rule_save_after>
-                <observers>
-                    <enterprise_banner>
-                        <class>Enterprise_Banner_Model_Observer</class>
-                        <method>bindRelatedBannersToCatalogRule</method>
-                    </enterprise_banner>
-                </observers>
-            </catalogrule_rule_save_after>
-            <adminhtml_controller_salesrule_prepare_save>
-                <observers>
-                    <enterprise_banner>
-                        <class>Enterprise_Banner_Model_Observer</class>
-                        <method>prepareSalesRuleSave</method>
-                    </enterprise_banner>
-                </observers>
-            </adminhtml_controller_salesrule_prepare_save>
-            <salesrule_rule_save_after>
-                <observers>
-                    <enterprise_banner>
-                        <class>Enterprise_Banner_Model_Observer</class>
-                        <method>bindRelatedBannersToSalesRule</method>
-                    </enterprise_banner>
-                </observers>
-            </salesrule_rule_save_after>
-        </events>
     </adminhtml>
-</config>
+</config>

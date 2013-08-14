@@ -22,64 +22,6 @@
         <index>
             <indexer />
         </index>
-        <events>
-            <store_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processStoreSave</method>
-                    </index>
-                </observers>
-            </store_save_commit_after>
-            <store_group_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processStoreGroupSave</method>
-                    </index>
-                </observers>
-            </store_group_save_commit_after>
-            <website_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processWebsiteSave</method>
-                    </index>
-                </observers>
-            </website_save_commit_after>
-            <store_delete_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processStoreDelete</method>
-                    </index>
-                </observers>
-            </store_delete_commit_after>
-            <store_group_delete_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processStoreGroupDelete</method>
-                    </index>
-                </observers>
-            </store_group_delete_commit_after>
-            <website_delete_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processWebsiteDelete</method>
-                    </index>
-                </observers>
-            </website_delete_commit_after>
-            <core_config_data_save_commit_after>
-                <observers>
-                    <index>
-                        <class>Mage_Index_Model_Observer</class>
-                        <method>processConfigDataSave</method>
-                    </index>
-                </observers>
-            </core_config_data_save_commit_after>
-        </events>
     </global>
     <admin>
         <routers>

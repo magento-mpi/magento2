@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <enterprise_pbridge>
-                        <class>Enterprise_Pbridge_Model_Observer</class>
-                        <method>addPrivacyHeader</method>
-                    </enterprise_pbridge>
-                </observers>
-            </controller_action_predispatch>
-            <payment_method_is_active>
-                <observers>
-                    <enterprise_pbridge>
-                        <class>Enterprise_Pbridge_Model_Observer</class>
-                        <method>isPaymentMethodAvailable</method>
-                    </enterprise_pbridge>
-                </observers>
-            </payment_method_is_active>
-        </events>
-    </global>
     <frontend>
         <secure_url>
             <enterprise_pbridge_pbridge>/enterprise_pbridge/pbridge/</enterprise_pbridge_pbridge>
@@ -54,18 +34,6 @@
             </modules>
         </translate>
     </frontend>
-    <adminhtml>
-        <events>
-            <admin_system_config_changed_section_payment>
-                <observers>
-                    <enterprise_pbridge>
-                        <class>Enterprise_Pbridge_Model_Observer</class>
-                        <method>updatePaymentProfileStatus</method>
-                    </enterprise_pbridge>
-                </observers>
-            </admin_system_config_changed_section_payment>
-        </events>
-    </adminhtml>
     <admin>
         <routers>
             <adminhtml>
@@ -191,4 +159,4 @@
             </psigate_basic>
         </payment>
     </default>
-</config>
+</config>

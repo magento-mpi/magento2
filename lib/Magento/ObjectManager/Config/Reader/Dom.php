@@ -28,6 +28,8 @@ class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_Reader_File
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Magento_ObjectManager_Config_Mapper_Dom $converter
      * @param Magento_Config_ValidationStateInterface $validationState
+     * @param Magento_ObjectManager_Config_SchemaLocator $schemaLocator
+     * @param array $idAttributes
      * @param string $filename
      * @param string $domDocumentClass
      */
@@ -35,20 +37,13 @@ class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_Reader_File
         Magento_Config_FileResolverInterface $fileResolver,
         Magento_ObjectManager_Config_Mapper_Dom $converter,
         Magento_Config_ValidationStateInterface $validationState,
+        Magento_ObjectManager_Config_SchemaLocator $schemaLocator,
+        $idAttributes = array(),
         $filename = 'di.xml',
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
-        parent::__construct($fileResolver, $converter, $filename, $this->_idAttributes,
-            $this->getSchemaFile(), '', $validationState->isValidated(), $domDocumentClass);
-    }
-
-    /**
-     * Get absolute path to the XML-schema file
-     *
-     * @return string
-     */
-    public function getSchemaFile()
-    {
-        return realpath(__DIR__ . '/../../etc/') . DIRECTORY_SEPARATOR . 'config.xsd';
+        parent::__construct(
+            $fileResolver, $converter, $schemaLocator, $validationState, $filename, $idAttributes, $domDocumentClass
+        );
     }
 }

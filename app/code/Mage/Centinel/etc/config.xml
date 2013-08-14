@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <events>
-            <sales_convert_quote_to_order>
-                <observers>
-                    <centinel>
-                        <class>Mage_Centinel_Model_Observer</class>
-                        <method>salesEventConvertQuoteToOrder</method>
-                    </centinel>
-                </observers>
-            </sales_convert_quote_to_order>
-            <checkout_submit_all_after>
-                <observers>
-                    <centinel>
-                        <class>Mage_Centinel_Model_Observer</class>
-                        <method>checkoutSubmitAllAfter</method>
-                    </centinel>
-                </observers>
-            </checkout_submit_all_after>
-        </events>
-    </global>
     <frontend>
         <translate>
             <modules>
@@ -40,17 +20,6 @@
                 </Mage_Centinel>
             </modules>
         </translate>
-        <events>
-            <payment_form_block_to_html_before>
-                <observers>
-                    <centinel>
-                        <type>model</type>
-                        <class>Mage_Centinel_Model_Observer</class>
-                        <method>paymentFormBlockToHtmlBefore</method>
-                    </centinel>
-                </observers>
-            </payment_form_block_to_html_before>
-        </events>
         <routers>
             <centinel>
                 <use>standard</use>
@@ -65,17 +34,6 @@
         </secure_url>
     </frontend>
     <adminhtml>
-        <events>
-            <payment_info_block_prepare_specific_information>
-                <observers>
-                    <centinel>
-                        <type>model</type>
-                        <class>Mage_Centinel_Model_Observer</class>
-                        <method>paymentInfoBlockPrepareSpecificInformation</method>
-                    </centinel>
-                </observers>
-            </payment_info_block_prepare_specific_information>
-        </events>
         <translate>
             <modules>
                 <Mage_Centinel>
@@ -133,4 +91,4 @@
             </cc>
         </payment>
     </global>
-</config>
+</config>

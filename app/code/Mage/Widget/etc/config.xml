@@ -43,16 +43,6 @@
                 </Mage_Widget>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_config_prepare>
-                <observers>
-                    <widget_observer>
-                        <class>Mage_Widget_Model_Observer</class>
-                        <method>prepareWidgetsPluginConfig</method>
-                    </widget_observer>
-                </observers>
-            </cms_wysiwyg_config_prepare>
-        </events>
     </adminhtml>
     <admin>
         <routers>
@@ -65,4 +55,4 @@
             </adminhtml>
         </routers>
     </admin>
-</config>
+</config>

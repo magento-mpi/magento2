@@ -35,16 +35,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <events>
-            <translate_initialization_before>
-                <observers>
-                    <initialize_translation>
-                        <class>Mage_Backend_Model_Observer</class>
-                        <method>initializeTranslation</method>
-                    </initialize_translation>
-                </observers>
-            </translate_initialization_before>
-        </events>
-    </adminhtml>
-</config>
+</config>

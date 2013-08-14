@@ -24,52 +24,8 @@
                 </setup>
             </enterprise_pci_setup>
         </resources>
-        <events>
-            <admin_user_save_before>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>checkAdminPasswordChange</method>
-                    </enterprise_pci>
-                </observers>
-            </admin_user_save_before>
-            <admin_user_save_after>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>trackAdminNewPassword</method>
-                    </enterprise_pci>
-                </observers>
-            </admin_user_save_after>
-        </events>
     </global>
     <adminhtml>
-        <events>
-            <admin_user_authenticate_after>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>adminAuthenticate</method>
-                    </enterprise_pci>
-                </observers>
-            </admin_user_authenticate_after>
-            <api_user_authenticated>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>upgradeApiKey</method>
-                    </enterprise_pci>
-                </observers>
-            </api_user_authenticated>
-            <controller_action_predispatch>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>forceAdminPasswordChange</method>
-                    </enterprise_pci>
-                </observers>
-            </controller_action_predispatch>
-        </events>
         <translate>
             <modules>
                 <Enterprise_Pci>
@@ -92,16 +48,6 @@
         </routers>
     </admin>
     <frontend>
-        <events>
-            <customer_customer_authenticated>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>upgradeCustomerPassword</method>
-                    </enterprise_pci>
-                </observers>
-            </customer_customer_authenticated>
-        </events>
         <translate>
             <modules>
                 <Enterprise_Pci>

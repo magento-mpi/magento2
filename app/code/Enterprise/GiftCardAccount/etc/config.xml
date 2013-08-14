@@ -58,176 +58,6 @@
                 </charset>
             </giftcardaccount>
         </enterprise>
-        <events>
-            <enterprise_giftcardaccount_save_after>
-                <observers>
-                    <enterprise_giftcardaccount_save_after>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>giftcardaccountSaveAfter</method>
-                    </enterprise_giftcardaccount_save_after>
-                </observers>
-            </enterprise_giftcardaccount_save_after>
-            <sales_order_invoice_register>
-                <observers>
-                    <enterprise_giftcardaccount_sales_order_invoice_register>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>increaseOrderGiftCardInvoicedAmount</method>
-                    </enterprise_giftcardaccount_sales_order_invoice_register>
-                </observers>
-            </sales_order_invoice_register>
-            <enterprise_giftcardaccount_charge_by_code>
-                <observers>
-                    <enterprise_giftcardaccount_charge_by_code>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>chargeByCode</method>
-                    </enterprise_giftcardaccount_charge_by_code>
-                </observers>
-            </enterprise_giftcardaccount_charge_by_code>
-            <enterprise_giftcardaccount_charge>
-                <observers>
-                    <enterprise_giftcardaccount_charge>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>chargeById</method>
-                    </enterprise_giftcardaccount_charge>
-                </observers>
-            </enterprise_giftcardaccount_charge>
-            <enterprise_giftcardaccount_create>
-                <observers>
-                    <enterprise_giftcardaccount_create>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>create</method>
-                    </enterprise_giftcardaccount_create>
-                </observers>
-            </enterprise_giftcardaccount_create>
-            <adminhtml_sales_order_create_process_data>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>processOrderCreationData</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </adminhtml_sales_order_create_process_data>
-            <sales_quote_payment_import_data_before>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>paymentDataImport</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_quote_payment_import_data_before>
-            <payment_method_is_active>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>togglePaymentMethods</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </payment_method_is_active>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>quoteCollectTotalsBefore</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_quote_collect_totals_before>
-            <sales_quote_merge_after>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>quoteMergeAfter</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_quote_merge_after>
-            <sales_order_creditmemo_refund>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>refund</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_order_creditmemo_refund>
-            <adminhtml_sales_order_creditmemo_register_before>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>creditmemoDataImport</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </adminhtml_sales_order_creditmemo_register_before>
-            <sales_order_load_after>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>salesOrderLoadAfter</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_order_load_after>
-            <paypal_prepare_line_items>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>addPaypalGiftCardItem</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </paypal_prepare_line_items>
-            <sales_model_service_quote_submit_before>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_model_service_quote_submit_before>
-            <sales_model_service_quote_submit_failure>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>revertGiftCardAccountBalance</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_model_service_quote_submit_failure>
-            <paypal_payment_cancel>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>revertGiftCardAccountBalance</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </paypal_payment_cancel>
-            <checkout_type_multishipping_create_orders_single>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </checkout_type_multishipping_create_orders_single>
-            <googlecheckout_save_order_after>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>processOrderPlace</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </googlecheckout_save_order_after>
-            <googlecheckout_create_order_before>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>processOrderCreateBefore</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </googlecheckout_create_order_before>
-            <checkout_multishipping_refund_all>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>revertGiftCardsForAllOrders</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </checkout_multishipping_refund_all>
-        </events>
         <template>
             <email>
                 <giftcard_giftcardaccount_email_template translate="label" module="Enterprise_GiftCardAccount">
@@ -269,16 +99,6 @@
                 </args>
             </enterprise_giftcardaccount>
         </routers>
-        <events>
-            <google_checkout_discount_item_price>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>googleCheckoutDiscoutItem</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </google_checkout_discount_item_price>
-        </events>
     </frontend>
     <admin>
         <routers>
@@ -301,24 +121,6 @@
                 </Enterprise_GiftCardAccount>
             </modules>
         </translate>
-        <events>
-            <order_cancel_after>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>returnFundsToStoreCredit</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </order_cancel_after>
-            <sales_prepare_amount_expression>
-                <observers>
-                    <enterprise_giftcardaccount>
-                        <class>Enterprise_GiftCardAccount_Model_Observer</class>
-                        <method>extendSalesAmountExpression</method>
-                    </enterprise_giftcardaccount>
-                </observers>
-            </sales_prepare_amount_expression>
-        </events>
     </adminhtml>
     <default>
         <giftcard>
@@ -360,4 +162,4 @@
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>
-</config>
+</config>

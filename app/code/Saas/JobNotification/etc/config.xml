@@ -41,16 +41,6 @@
                 </notification>
             </refresh_cache>
         </tasks>
-        <events>
-            <job_complete>
-                <observers>
-                    <saas_job_notification>
-                        <class>Saas_JobNotification_Model_Inbox</class>
-                        <method>addNotification</method>
-                    </saas_job_notification>
-                </observers>
-            </job_complete>
-        </events>
     </global>
     <admin>
         <routers>

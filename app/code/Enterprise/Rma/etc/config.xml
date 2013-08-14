@@ -58,16 +58,6 @@
                 </sales_email_enterprise_rma_customer_comment_template>
             </email>
         </template>
-        <events>
-            <adminhtml_customer_orders_add_action_renderer>
-                <observers>
-                    <enterprise_rma>
-                        <class>Enterprise_Rma_Model_Observer</class>
-                        <method>addRmaOption</method>
-                    </enterprise_rma>
-                </observers>
-            </adminhtml_customer_orders_add_action_renderer>
-        </events>
     </global>
     <default>
         <sales>
@@ -143,7 +133,6 @@
                 </Enterprise_Rma>
             </modules>
         </translate>
-        <events></events>
     </adminhtml>
     <frontend>
         <translate>
@@ -164,6 +153,5 @@
                 </args>
             </enterprise_rma>
         </routers>
-        <events></events>
     </frontend>
-</config>
+</config>
