@@ -51,7 +51,7 @@
   * Refactored ImageMagick and GD adapters to make them testable
   * Added feature of generating image from text
 * Support of Google services:
-  * Implemented support of Google Content Experiment as a replacement for Google Optimizer
+  * Changed module `Mage_GoogleOptimizer` to support Google Content Experiment instead of Google Optimizer
   * Implemented support of Google AdWords on the checkout success page
 * DI improvements:
   * Added ability to configure DI for individual class instances
@@ -181,7 +181,6 @@
   * Fixed bugs in `Mage_Tag` module on product creation page
   * Fixed incorrect Products In Cart report
   * Fixed incorrect price for bundles with default quantity more than 1
-  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Fixed displaying of "Import Behavior" section in the `System -> Import` page
   * Fixed exception, when importing a CSV file with Byte Order Mark
   * Removed remains of code pools in JavaScript tests
