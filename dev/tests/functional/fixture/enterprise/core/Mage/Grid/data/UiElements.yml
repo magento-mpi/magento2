@@ -517,3 +517,35 @@ customer_wishlist_report:
         8: Store Quantity
         9: Surplus / Deficit
         10: Price
+
+#dataset for ui elements Customer Segment Report grid
+customer_segment_report:
+    fieldset:
+        customer_segment_report_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        submit: ~
+    field:
+        filter_segment_report_id: ~
+        filter_segment_report_name:  ~
+        filter_segment_report_number_customers: ~
+        page: ~
+    dropdown:
+        view_per_page: ~
+        filter_massaction_actions: ~
+        filter_massaction: ~
+        filter_status: ~
+        filter_website: ~
+    link:
+        select_all: ~
+        unselect_all: ~
+        select_visible: ~
+        unselect_visible: ~
+    headers:
+        0: ' '
+        1: ID
+        2: Segment
+        3: Status
+        4: Website
+        5: Customers

@@ -59,11 +59,11 @@
                             <type>options</type>
                             <options>
                                 <active>
-                                    <value>0</value>
+                                    <value>1</value>
                                     <label translate="true" module="Enterprise_CustomerSegment">Active</label>
                                 </active>
                                 <inactive>
-                                    <value>1</value>
+                                    <value>0</value>
                                     <label translate="true" module="Enterprise_CustomerSegment">Inactive</label>
                                 </inactive>
                             </options>

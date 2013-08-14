@@ -112,9 +112,6 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         $this->_title($this->__('Customer Segment Report'));
 
         $this->_initAction()
-            ->_addContent(
-                $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment')
-            )
             ->renderlayout();
     }
 
