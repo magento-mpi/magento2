@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     protected $_model;
 
     /**
-     * @var Magenton_Data_Form_Element_Checkbox
+     * @var Magento_Data_Form_Element_Checkbox
      */
     protected $_virtual;
 
