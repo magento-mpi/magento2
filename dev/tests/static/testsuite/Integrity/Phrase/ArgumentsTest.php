@@ -12,6 +12,8 @@
  */
 class ArgumentsTest extends PHPUnit_Framework_TestCase
 {
+    const FILES_MASK = '/\.(php|phtml)$/';
+
     /**
      * @var Tokenizer
      */
@@ -50,7 +52,14 @@ class ArgumentsTest extends PHPUnit_Framework_TestCase
      */
     public function filesDataProvider()
     {
-        return Utility_Files::init()->getPhpFiles(true, false);
+        $path = Utility_Files::init()->getPathToSource() . '/app/';
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        $files = new RegexIterator($files, self::FILES_MASK);
+        $filesArray = array();
+        foreach ($files as $file) {
+            $filesArray[] = array($file);
+        }
+        return $filesArray;
     }
 }
 
@@ -133,8 +142,6 @@ class Token
  */
 class Tokenizer
 {
-    const FILES_MASK = '/\.(php|phtml)$/';
-
     /**
      * @var array
      */
