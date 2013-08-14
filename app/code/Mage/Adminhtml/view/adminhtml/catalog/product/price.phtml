@@ -13,7 +13,7 @@
 /**
  * Template for displaying product price in different places (products grid, product view page etc)
  *
- * @see Mage_Adminhtml_Block_Catalog_Product_Price
+ * @var $this Enterprise_GiftCard_Block_Catalog_Product_Price|Mage_Bundle_Block_Catalog_Product_Price|Mage_Adminhtml_Block_Catalog_Product_Price
  */
 ?>
 <?php
@@ -27,7 +27,7 @@
     $_product           = $this->getProduct();
     $_id                = $_product->getId();
     $_storeId           = $_product->getStoreId();
-    $_website           = Mage::app()->getStore($_storeId)->getWebsite();
+    $_website           = $this->getStoreManager()->getStore($_storeId)->getWebsite();
 
     $_weeeSeparator     = '';
     $_simplePricesTax   = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
