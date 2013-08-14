@@ -915,3 +915,28 @@ report_product_lowstock:
         0: Product
         1: SKU
         2: Stock Quantity
+#dataset for ui elements in Cms Block grid
+manage_cms_static_blocks:
+    fieldset:
+        static_blocks_grid: tablename
+    field:
+        filter_block_title: ~
+        filter_block_identifier: ~
+        filter_block_created_from: ~
+        filter_block_created_to: ~
+        filter_block_modified_from: ~
+        filter_block_modified_to: ~
+    dropdown:
+        filter_store_view: ~
+        filter_block_status: ~
+    button:
+        reset_filter: ~
+        search: ~
+        add_new_block: ~
+    headers:
+        0: Title
+        1: Identifier
+        2: Store View
+        3: Status
+        4: Created
+        5: Modified
