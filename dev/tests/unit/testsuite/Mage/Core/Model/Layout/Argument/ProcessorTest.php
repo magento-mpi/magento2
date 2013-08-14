@@ -115,6 +115,7 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
 
     /**
      * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Argument value is required for type Dummy_Type
      * @dataProvider processWhitEmptyArgumentValueAndSpecifiedTypeDataProvider
      */
     public function testProcessWithEmptyArgumentValueAndSpecifiedType($arguments)
@@ -125,11 +126,11 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
     public function processWhitEmptyArgumentValueAndSpecifiedTypeDataProvider()
     {
         return array(
-            array('argKey' => array('type' => 'Dummy_Type')),
-            array('argKey' => array('value' => 0, 'type' => 'Dummy_Type')),
-            array('argKey' => array('value' => '', 'type' => 'Dummy_Type')),
-            array('argKey' => array('value' => null, 'type' => 'Dummy_Type')),
-            array('argKey' => array('value' => false, 'type' => 'Dummy_Type')),
+            'no value'      => array(array('argKey' => array('type' => 'Dummy_Type'))),
+            'zero value'    => array(array('argKey' => array('value' => 0, 'type' => 'Dummy_Type'))),
+            'empty value'   => array(array('argKey' => array('value' => '', 'type' => 'Dummy_Type'))),
+            'null value'    => array(array('argKey' => array('value' => null, 'type' => 'Dummy_Type'))),
+            'false value'   => array(array('argKey' => array('value' => false, 'type' => 'Dummy_Type'))),
         );
     }
 
