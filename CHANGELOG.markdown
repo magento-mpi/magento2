@@ -58,6 +58,10 @@
   * Added ability to pass differently configured instances to different parts of the system
   * Refactored proxy and factory generation mechanism
 * Various improvements:
+  * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test, relocated several files
+  * Implemented all-new mechanism of layout merging and customizing in order to reduce duplication of layouts in themes, covered it with integrity tests
+  * Broken down all the layout files into smaller ones - one layout handle per one file, so that code duplication is reduced, when overriding layout files in themes
+  * Removed support for `local.xml` layout files in themes, all such files are broken down per module, previous functionality is fully supported in modular way
   * Added configuration for limits on sending wishlist emails
   * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
   * Moved Currency Symbol module files from Adminhtml module to the module itself
@@ -79,6 +83,19 @@
   * Added proper description to the error message, shown when uploading too big file with a content to import
   * Refactored `Mage_Core_Model_Design_Package` - broken it down into several smaller classes according to the sets of responsibilities
   * Refactored Theme and Theme Service models to follow best practices of OOP design
+  * Improved transparency of cache control by tag scope in the framework
+  * Improved verification process for the application directories write-access by moving it to the top-level of framework initialization
+  * Implemented support for read-only `pub\static` application directory in production mode
+  * Introduced separate configurable application directory to be used for merged Javascript files
+  * Implemented support for minification of Javascript files; JSMin library adapter is created
+  * Implemented explicit usage of cache type in collections; engaged it for website, store and store view collections; added tests for a number of collections
+  * Implemented explicit usage of cache types in translations
+  * Implemented explicit usage of cache types in layouts
+  * Removed limitations as unusable feature
+  * Improved and simplified path normalization methods in `Magento_Filesystem` component
+  * Implemented proper exceptions instead of PHP warnings in `Magento_Filesystem` component
+  * Introduced `Mage_Core_Model_ModuleManager` to provide "enabled" information about modules
+  * Streamlined several design configurations in layout files
 * Converted some more grids in backend from PHP implementation to declarations in layout
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
@@ -197,6 +214,11 @@
   * Fixed Javascript error, when accessing system Design configuration in Chrome
   * Fixed wrong representation of a widget on frontend, after hiding and showing WYSIWYG editor during CMS page modification
   * Fixed exception, when using 2-level cache backend
+  * Fixed random test failures in `Mage_CatalogSearch_Block_Advanced_ResultTest`
+  * Fixed duplication of a view file signature, e.g. "file.ext?mtime?mtime"
+  * Prevented tracking of merged Javascript files metadata (and re-merging them) in production mode
+  * Fixed incorrect memory usage calculation in Integration tests
+  * Fixed issues in performance test scenarios
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Product creation fixes:
      * Fixed inability to search and select category in IE8, including via mouse
@@ -208,6 +230,7 @@
      * Fixed incorrectly displayed regular price for products with catalog price rule applied
      * Fixed Javascript error, when replacing variation image in IE
      * Fixed inability to upload an image in the WYSIWYG editor
+    * Fixed Javascript errors in production mode
   * Shopping Cart Price Rule fixes:
      * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
      * Fixed saving of Shopping Cart Price Rule having specific coupon
