@@ -83,6 +83,7 @@
   * Added proper description to the error message, shown when uploading too big file with a content to import
   * Refactored `Mage_Core_Model_Design_Package` - broken it down into several smaller classes according to the sets of responsibilities
   * Refactored Theme and Theme Service models to follow best practices of OOP design
+  * Removed legacy API tests
   * Improved transparency of cache control by tag scope in the framework
   * Improved verification process for the application directories write-access by moving it to the top-level of framework initialization
   * Implemented support for read-only `pub\static` application directory in production mode
@@ -153,9 +154,6 @@
   * Fixed infinite loop in reports, when one of the GET-parameters was not submitted
   * Fixed integration test that failed at the midnight
   * Fixed image placeholder, being displayed instead of Base image, in Product View page
-  * Added missing fields to SOAP API
-  * Fixed inability to set default customer address via API
-  * Fixed error message, when saving a customer with wrong email address via API
   * Fixed multiple bugs in IE 8 and 9
   * Restored export for table rates
   * Fixed weight calculation for DHL
@@ -261,6 +259,31 @@
      * Added validation to the theme name field
      * Fixed absence of error message in IE, when uploading unsupported file type in Theme Javascript
      * Fixed corrupting of a `custom.css` file, when saving Custom CSS text
+  * API fixes:
+     * Added missing fields to SOAP API
+     * Fixed inability to set default customer address
+     * Fixed error message, when saving a customer with wrong email address
+     * Fixed impossibility to create partial order shipment
+     * Fixed absence of special price information in return of `productGetSpecialPrice` method
+     * Fixed incorrect content length of server response
+     * Fixed absence of `productAttributeAddOption`, `catalogProductAttributeUpdate`, `catalogProductAttributeTypes`, `catalogProductAttributeRemoveOption` and `catalogProductAttributeInfo` methods with WS-I mode on
+     * Fixed absence of `catalogProductDownloadableLinkList` method
+     * Fixed bug with incorrect credit memo creation when order item id is set
+     * Fixed bug with inability to update stock status or price of multiple products in one call
+     * Fixed `shoppingCartOrderWithPaymentRequestParam` method description in WSDL
+     * Fixed inability to add comment to order without changing order status
+     * Fixed incorrect redirect after SOAP POST request
+     * Fixed inability to end session by `endSession` method
+     * Fixed Save button for Web Services User Roles in backend
+     * Fixed memory issue due to incorrect filtering for the single field
+     * Fixed bug with getting product information by numeric SKU
+     * Fixed inability to add configurable product by `cart_product.add` method
+     * Fixed ACL initialization in WebApi
+     * Fixed bug with WSDL caching file name
+     * Fixed bug with updating shopping cart by `shoppingCartProductUpdate` method
+     * Fixed product id validation in `shoppingCartProductAdd` method
+     * Fixed absence of tracking number in `salesOrderShipmentInfo` method response
+     * Fixed absence of tracking number in shipment transactional email
 
 2.0.0.0-dev44
 =============
