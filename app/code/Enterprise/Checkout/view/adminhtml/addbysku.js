@@ -310,8 +310,10 @@ AddBySku.prototype = {
         // For IE we must make the form part of the DOM, otherwise browser refuses to submit it
         Element.select(document, 'body')[0].insert($form);
         $form.submit();
+
         // Show loader
-        varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
+        jQuery($form).trigger('processStart');
+
         return true;
     },
 

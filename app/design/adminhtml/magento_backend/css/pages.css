@@ -131,7 +131,7 @@
     margin-bottom: -1px;
 }
 
-.address-list li.active {
+.address-list li.ui-state-active {
     background: #fff;
     position: relative;
     box-shadow: 0 1px 1px 0 rgba(217, 210, 202, 1);
@@ -139,8 +139,8 @@
     padding-left: 12px;
 }
 
-.address-list li.active:before,
-.address-list li.active:after {
+.address-list li.ui-state-active:before,
+.address-list li.ui-state-active:after {
     position: absolute;
     font-family: 'MUI-Icons';
     font-style: normal;
@@ -158,7 +158,7 @@
     z-index: 2;
 }
 
-.address-list li.active:before {
+.address-list li.ui-state-active:before {
     color: #d9d2ca;
     right: -11px;
     z-index: 1;
@@ -211,6 +211,11 @@
 
 .address-list .field {
     margin-bottom: 15px;
+}
+
+.ui-tabs-nav .address-list-item a {
+    text-decoration: none;
+    color: #676056;
 }
 
 .address-item-edit {

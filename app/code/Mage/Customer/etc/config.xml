@@ -27,9 +27,6 @@
                     <pdf translate="title" module="Mage_Customer">
                         <title>PDF</title>
                     </pdf>
-                    <js_template template="title" module="Mage_Customer">
-                        <title>JavaScript Template</title>
-                    </js_template>
                 </formats>
             </address>
         </customer>

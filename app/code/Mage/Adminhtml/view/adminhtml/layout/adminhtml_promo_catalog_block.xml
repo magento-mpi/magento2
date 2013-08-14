@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="promo.catalog.grid" as="grid">
                 <arguments>
                     <id>promo_catalog_grid</id>
-                    <dataSource type="object">Mage_Promo_Catalog_Model_Resource_Grid_Collection</dataSource>
+                    <dataSource type="object">Mage_CatalogRule_Model_Resource_Grid_Collection</dataSource>
                     <default_sort>name</default_sort>
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
