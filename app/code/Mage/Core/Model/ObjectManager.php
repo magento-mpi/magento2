@@ -30,23 +30,15 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
     ) {
         $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
         $definitions = $definitionFactory->createClassDefinition($primaryConfig);
+        $relations = $definitionFactory->createRelations();
         $config = $config ?: new Magento_ObjectManager_Config_Config(
-            $definitionFactory->createRelations(),
+            $relations,
             $definitions
         );
 
         $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Mage_Core_Model_App_State::MODE_DEFAULT);
-        $classBuilder = ($appMode == Mage_Core_Model_App_State::MODE_DEVELOPER)
-            ? new Magento_ObjectManager_Interception_ClassBuilder_Runtime()
-            : new Magento_ObjectManager_Interception_ClassBuilder_General();
+        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, $primaryConfig->getParams());
 
-        $factory = new Magento_ObjectManager_Interception_FactoryDecorator(
-            new Magento_ObjectManager_Factory_Factory($config, null, $definitions, $primaryConfig->getParams()),
-            $config,
-            null,
-            $definitionFactory->createPluginDefinition($primaryConfig),
-            $classBuilder
-        );
         $sharedInstances['Mage_Core_Model_Config_Primary'] = $primaryConfig;
         $sharedInstances['Mage_Core_Model_Dir'] = $primaryConfig->getDirectories();
         $sharedInstances['Mage_Core_Model_ObjectManager'] = $this;
@@ -70,6 +62,23 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
         if ($configData) {
             $this->configure($configData);
         }
+
+        $interceptorGenerator = ($appMode == Mage_Core_Model_App_State::MODE_DEVELOPER)
+            ? new Magento_Interception_CodeGenerator_CodeGenerator()
+            : null;
+
+        $interceptionConfig = $this->create('Magento_Interception_Config_Config', array(
+            'relations' => $definitionFactory->createRelations(),
+            'definitions' => $definitionFactory->createPluginDefinition(),
+            'omConfig' => $this->_config,
+            'codeGenerator' => $interceptorGenerator,
+            'cacheId' => 'interception'
+        ));
+
+        $this->_factory = $this->create('Magento_Interception_FactoryDecorator', array(
+            'factory' => $this->_factory,
+            'config' => $interceptionConfig
+        ));
 
         Magento_Profiler::stop('global_primary');
         $verification = $this->get('Mage_Core_Model_Dir_Verification');

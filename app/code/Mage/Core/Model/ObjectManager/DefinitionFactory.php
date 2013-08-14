@@ -88,15 +88,15 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
     /**
      * Retrieve list of plugin definitions
      *
-     * @return Magento_ObjectManager_Interception_Definition
+     * @return Magento_Interception_Definition
      */
     public function createPluginDefinition()
     {
         $path = $this->_config->getDefinitionPath() . DIRECTORY_SEPARATOR . 'plugins.php';
         if (is_readable($path)) {
-            return new Magento_ObjectManager_Interception_Definition_Compiled($this->_unpack(file_get_contents($path)));
+            return new Magento_Interception_Definition_Compiled($this->_unpack(file_get_contents($path)));
         } else {
-            return new Magento_ObjectManager_Interception_Definition_Runtime();
+            return new Magento_Interception_Definition_Runtime();
         }
     }
 

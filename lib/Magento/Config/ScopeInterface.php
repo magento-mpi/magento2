@@ -13,4 +13,6 @@ interface Magento_Config_ScopeInterface
      * @return string
      */
     public function getCurrentScope();
+
+    public function getAllScopes();
 }

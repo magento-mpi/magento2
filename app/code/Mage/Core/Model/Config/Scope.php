@@ -41,4 +41,9 @@ class Mage_Core_Model_Config_Scope implements Magento_Config_ScopeInterface
     {
         $this->_currentScope = $scope;
     }
+
+    public function getAllScopes()
+    {
+        return array('global', 'adminhtml', 'frontend', 'api');
+    }
 }

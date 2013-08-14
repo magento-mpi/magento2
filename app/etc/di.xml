@@ -209,4 +209,23 @@
             <value>config_cache</value>
         </param>
     </type>
+    <type name="Magento_Interception_Config_Config">
+        <param name="cache">
+            <instance type="Mage_Core_Model_Cache_Type_Config" />
+        </param>
+        <param name="reader">
+            <instance type="interceptionReader" />
+        </param>
+    </type>
+    <virtualType name="interceptionReader" type="Magento_Config_Reader_Filesystem">
+        <param name="fileName">
+            <value>plugins.xml</value>
+        </param>
+        <param name="idAttributes">
+            <value><id>plugin</id></value>
+        </param>
+        <param name="converter">
+            <instance type="Magento_Config_Converter_Dom" />
+        </param>
+    </virtualType>
 </config>

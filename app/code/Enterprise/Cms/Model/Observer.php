@@ -378,9 +378,7 @@ class Enterprise_Cms_Model_Observer
         $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope($storeScope, $storeId);
 
-        /* @var $widgetModel Mage_Widget_Model_Widget_Instance */
-        $widgetModel = Mage::getModel('Mage_Widget_Model_Widget_Instance');
-        $widgets = $widgetModel->getResourceCollection()
+        $widgets = $this->_widgetCollectionFactory->create()
                 ->addStoreFilter(array($storeId, false))
                 ->addFieldToFilter('instance_type', 'Enterprise_Cms_Block_Widget_Node');
 
