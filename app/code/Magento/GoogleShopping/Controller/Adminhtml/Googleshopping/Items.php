@@ -11,7 +11,7 @@
 /**
  * GoogleShopping Admin Items Controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @name       Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items
  * @author     Magento Core Team <core@magentocommerce.com>

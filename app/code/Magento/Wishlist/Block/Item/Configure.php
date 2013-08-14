@@ -12,7 +12,7 @@
  * Wishlist Item Configure block
  * Serves for configuring item on product view page
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Wishlist
  * @module     Wishlist
  */

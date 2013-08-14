@@ -11,7 +11,7 @@
 /**
  * Downloadable checkout success page
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */

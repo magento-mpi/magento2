@@ -12,7 +12,7 @@
 /**
  * Bundle product price block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Bundle
  */
 class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price

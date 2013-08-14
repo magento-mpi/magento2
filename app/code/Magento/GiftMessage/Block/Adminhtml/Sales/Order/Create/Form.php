@@ -11,7 +11,7 @@
 /**
  * Adminhtml sales order create gift message form
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */

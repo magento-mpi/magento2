@@ -12,7 +12,7 @@
 /**
  * HTML select element block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */

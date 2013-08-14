@@ -12,7 +12,7 @@
  * Backend config model
  * Used to save configuration
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

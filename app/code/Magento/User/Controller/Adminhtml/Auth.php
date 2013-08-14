@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Magento_User Auth controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Enterprise_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}

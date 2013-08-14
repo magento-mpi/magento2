@@ -9,7 +9,7 @@
  */
 
 /**
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */

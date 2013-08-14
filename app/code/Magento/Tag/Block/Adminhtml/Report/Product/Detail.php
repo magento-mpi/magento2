@@ -11,7 +11,7 @@
 /**
  * Adminhtml tags detail for product report blocks content block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */

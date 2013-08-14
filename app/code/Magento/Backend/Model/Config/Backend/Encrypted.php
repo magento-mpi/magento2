@@ -12,7 +12,7 @@
 /**
  * Encrypted config field backend model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  */
 class Magento_Backend_Model_Config_Backend_Encrypted extends Magento_Core_Model_Config_Data

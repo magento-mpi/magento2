@@ -12,7 +12,7 @@
 /**
  * Product stock qty block for abstract composite product
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Config source reports event store filter
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */

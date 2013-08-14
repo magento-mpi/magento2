@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Custom import CSV file field for shipping table rates
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

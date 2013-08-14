@@ -12,7 +12,7 @@
 /**
  * Catalog products per page on Grid mode source
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  */
 class Magento_Catalog_Model_Config_Source_Product_Thumbnail implements Magento_Core_Model_Option_ArrayInterface

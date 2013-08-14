@@ -11,7 +11,7 @@
 /**
  * Page cache system config source model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */

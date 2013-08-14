@@ -11,7 +11,7 @@
 /**
  * Reports Recently Compared Products Block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */

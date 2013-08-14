@@ -11,7 +11,7 @@
 /**
  * Adminhtml catalog inventory "Minimum Qty Allowed in Shopping Cart" field
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */

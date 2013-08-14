@@ -11,7 +11,7 @@
 /**
  * Catalog product rss link builder class
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */

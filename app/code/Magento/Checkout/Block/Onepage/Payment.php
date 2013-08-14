@@ -11,8 +11,8 @@
 /**
  * One page checkout status
  *
- * @category   Mage
- * @category   Mage
+ * @category   Magento
+ * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */

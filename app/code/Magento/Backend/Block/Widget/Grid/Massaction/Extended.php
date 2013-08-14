@@ -13,7 +13,7 @@
  *
  * @method Magento_Sales_Model_Quote setHideFormElement(boolean $value) Hide Form element to prevent IE errors
  * @method boolean getHideFormElement()
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated support Magento 1.x grid massaction implementation

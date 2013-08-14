@@ -12,7 +12,7 @@
 /**
  * Block for additional information in shipping method
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */

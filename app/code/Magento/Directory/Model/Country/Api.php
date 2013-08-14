@@ -11,7 +11,7 @@
 /**
  * Directory Country Api
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */

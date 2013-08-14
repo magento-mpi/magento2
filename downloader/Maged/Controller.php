@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Class Controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */

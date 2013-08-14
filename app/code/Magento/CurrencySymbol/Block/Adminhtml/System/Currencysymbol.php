@@ -11,7 +11,7 @@
 /**
  * Manage currency symbols block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -20,7 +20,7 @@
  * @method bool hasSuccess()
  * @method bool hasError()
  *
- * @category  Mage
+ * @category  Magento
  * @package   Magento_CatalogRule
  * @author    Magento Core Team <core@magentocommerce.com>
  */

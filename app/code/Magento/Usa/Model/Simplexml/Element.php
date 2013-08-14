@@ -12,7 +12,7 @@
 /**
  * Extends SimpleXML to add valuable functionality to SimpleXMLElement class
  *
- * @category Mage
+ * @category Magento
  * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */

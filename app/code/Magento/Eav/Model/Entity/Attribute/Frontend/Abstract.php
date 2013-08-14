@@ -12,7 +12,7 @@
 /**
  * Entity/Attribute/Model - attribute frontend abstract
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */

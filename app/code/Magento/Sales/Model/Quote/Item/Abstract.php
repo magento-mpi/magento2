@@ -18,7 +18,7 @@
  *  - custom_price - new price that can be declared by user and recalculated during calculation process
  *  - original_custom_price - original defined value of custom price without any convertion
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @copyright  {copyright}
  * @license    {license_link}
@@ -11,7 +11,7 @@
 /**
  * Google Product Category helper
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Newsletter subscribe block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */

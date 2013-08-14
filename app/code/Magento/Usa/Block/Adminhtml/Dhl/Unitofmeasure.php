@@ -11,7 +11,7 @@
 /**
  * Frontend model for DHL shipping methods for documentation
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */

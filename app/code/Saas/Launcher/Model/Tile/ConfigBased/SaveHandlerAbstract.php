@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
  *
  * Classes that extend this class are responsible for saving of a particular part of configuration
  *
- * @category   Mage
+ * @category   Magento
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  *

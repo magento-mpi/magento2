@@ -11,7 +11,7 @@
 /**
  * Helper for fetching properties by product configurational item
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */

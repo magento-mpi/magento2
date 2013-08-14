@@ -13,7 +13,7 @@
  *
  * @method Magento_Sales_Model_Quote getQuote()
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */

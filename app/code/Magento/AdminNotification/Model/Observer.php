@@ -12,7 +12,7 @@
 /**
  * AdminNotification observer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * Backend grid widget massaction item additional action interface
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */

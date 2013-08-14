@@ -84,7 +84,7 @@
  * </code>
  *
  * @see Magento_Core_Model_Input_FilterTest    See this class for manual
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author     Magento Api Team <api-team@magento.com>
  */

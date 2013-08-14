@@ -12,7 +12,7 @@
 /**
  * Abstract container block with header
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */

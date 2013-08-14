@@ -11,7 +11,7 @@
 /**
  * Sales Order Shipment Pdf items renderer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */

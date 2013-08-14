@@ -11,7 +11,7 @@
 /**
  * Helper for "Search Engine Robots" functionality
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */

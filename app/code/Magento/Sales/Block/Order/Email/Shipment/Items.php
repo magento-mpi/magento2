@@ -12,7 +12,7 @@
 /**
  * Sales Order Email Shipment items
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */

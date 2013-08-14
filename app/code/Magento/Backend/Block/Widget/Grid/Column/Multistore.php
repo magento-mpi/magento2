@@ -11,7 +11,7 @@
 /**
  * Grid column block that is displayed only in multistore mode
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

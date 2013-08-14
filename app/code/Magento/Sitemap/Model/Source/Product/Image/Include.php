@@ -11,7 +11,7 @@
 /**
  * Image include policy into sitemap file
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sitemap
  */
 class Magento_Sitemap_Model_Source_Product_Image_Include

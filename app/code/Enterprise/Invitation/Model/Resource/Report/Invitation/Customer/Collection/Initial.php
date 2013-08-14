@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Report Reviews collection
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */

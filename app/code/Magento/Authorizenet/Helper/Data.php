@@ -11,7 +11,7 @@
 /**
  * Authorizenet Data Helper
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */

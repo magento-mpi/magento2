@@ -12,7 +12,7 @@
 /**
  * Google Checkout Event Observer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleCheckout
  */
 class Magento_GoogleCheckout_Model_Observer

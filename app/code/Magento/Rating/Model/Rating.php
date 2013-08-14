@@ -20,7 +20,7 @@
  * @method string getRatingCode()
  * @method Magento_Rating_Model_Rating getRatingCode(string $value)
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Customer store_id attribute source
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */

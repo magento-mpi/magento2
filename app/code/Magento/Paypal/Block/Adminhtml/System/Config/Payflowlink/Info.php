@@ -11,7 +11,7 @@
 /**
  * Renderer for Payflow Link information
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */

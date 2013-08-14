@@ -11,7 +11,7 @@
 /**
  * Adminhtml additional helper block for product configuration
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */

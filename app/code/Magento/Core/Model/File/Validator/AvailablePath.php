@@ -27,7 +27,7 @@
  * $validator->isValid('/path/to/my.xml'); //return true, because directory structure can't exist
  * </code>
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -13,7 +13,7 @@
  *
  * @deprecated since 1.7.0.0 use Magento_Rule_Model_Abstract instead
  *
- * @category Mage
+ * @category Magento
  * @package Magento_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */

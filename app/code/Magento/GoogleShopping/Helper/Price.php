@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @copyright  {copyright}
  * @license    {license_link}
@@ -14,7 +14,7 @@
  * some types of products: bundle, grouped, gift cards; abstract price model
  * doesn't give access to such information
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */

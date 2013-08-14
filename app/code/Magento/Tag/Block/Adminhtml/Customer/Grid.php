@@ -11,7 +11,7 @@
 /**
  * Child Of Magento_Tag_Block_Adminhtml_Customer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */

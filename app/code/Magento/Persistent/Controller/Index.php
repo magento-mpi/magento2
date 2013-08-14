@@ -11,7 +11,7 @@
 /**
  * Persistent front controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */

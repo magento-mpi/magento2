@@ -13,7 +13,7 @@
  * Cart Item Configure block
  * Updates templates and blocks to show 'Update Cart' button and set right form submit url
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Checkout
  * @module     Checkout
  */

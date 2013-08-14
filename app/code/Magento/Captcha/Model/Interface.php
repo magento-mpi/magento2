@@ -11,7 +11,7 @@
 /**
  * Captcha interface
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * Sales Rule resource model
  *
- * @category Mage
+ * @category Magento
  * @package Magento_SalesRule
  * @author Magento Core Team <core@magentocommerce.com>
  */

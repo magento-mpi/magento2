@@ -11,7 +11,7 @@
 /**
  * Grid column widget for rendering action grid cells
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

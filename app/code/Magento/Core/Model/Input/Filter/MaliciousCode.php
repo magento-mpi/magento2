@@ -11,7 +11,7 @@
 /**
  * Filter for removing malicious code from HTML
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */

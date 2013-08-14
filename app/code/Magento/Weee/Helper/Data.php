@@ -11,7 +11,7 @@
 /**
  * WEEE data helper
  *
- * @category Mage
+ * @category Magento
  * @package  Magento_Weee
  * @author   Magento Core Team <core@magentocommerce.com>
  */

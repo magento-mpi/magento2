@@ -12,7 +12,7 @@
 /**
  * Magento Cron Exception
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Cron
  */
 class Magento_Cron_Exception extends Magento_Core_Exception

@@ -11,7 +11,7 @@
 /**
  * Entity/Attribute/Model - select product design options container from config
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */

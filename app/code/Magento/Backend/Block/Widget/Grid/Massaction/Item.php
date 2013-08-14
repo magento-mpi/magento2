@@ -12,7 +12,7 @@
 /**
  * Grid widget massaction single action item
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */

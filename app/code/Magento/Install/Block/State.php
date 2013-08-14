@@ -11,7 +11,7 @@
 /**
  * Install state block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * Catalog products compare block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Mage_Payone
  * @copyright  {copyright}
  * @license    {license_link}
@@ -11,7 +11,7 @@
 /**
  * Payone Payment Action Dropdown source
  *
- * @category    Mage
+ * @category    Magento
  * @package     Mage_Payone
  * @author      Magento
  */

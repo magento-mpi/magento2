@@ -11,7 +11,7 @@
 /**
  * Eav Attribute Block with additional js scripts in template
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */

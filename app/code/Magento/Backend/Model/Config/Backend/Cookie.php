@@ -11,7 +11,7 @@
 /**
  * Config Cookie Restriction mode backend
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

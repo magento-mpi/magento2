@@ -11,7 +11,7 @@
 /**
  * Backend model for shipping table rates CSV importing
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */

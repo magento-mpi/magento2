@@ -12,7 +12,7 @@
 /**
  * System configuration shipping methods allow all countries select
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

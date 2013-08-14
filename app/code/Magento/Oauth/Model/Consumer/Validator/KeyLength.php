@@ -11,7 +11,7 @@
 /**
  * Validate OAuth keys
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Shippers Modesource model
  *
- * @category Mage
+ * @category Magento
  * @package Magento_Usa
  * @author Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Abstract Rule entity resource model
  *
- * @category Mage
+ * @category Magento
  * @package Magento_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */

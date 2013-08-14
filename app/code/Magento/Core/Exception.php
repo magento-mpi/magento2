@@ -14,7 +14,7 @@
  *
  * This class will be extended by other modules
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  */
 class Magento_Core_Exception extends Exception

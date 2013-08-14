@@ -11,7 +11,7 @@
 /**
  * Acl role user grid.
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */

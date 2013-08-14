@@ -11,7 +11,7 @@
 /**
  * Data source to fill "Forms" field
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */

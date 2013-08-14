@@ -12,7 +12,7 @@
 /**
  * Google Checkout shipping model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleCheckout
  */
 class Magento_GoogleCheckout_Model_Shipping extends Magento_Shipping_Model_Carrier_Abstract

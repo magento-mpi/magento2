@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Tag
  * @subpackage  integration_tests
  * @copyright   {copyright}

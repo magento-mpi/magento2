@@ -11,7 +11,7 @@
 
 /**
  * Config installer
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Install
  */
 class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Installer_Abstract

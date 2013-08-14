@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 /**
  * Tax tile system observer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */

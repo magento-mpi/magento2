@@ -12,7 +12,7 @@
 /**
  * System config image field backend model for Zend PDF generator
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

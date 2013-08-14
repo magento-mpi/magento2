@@ -11,7 +11,7 @@
 /**
  * Directory Region Api V2
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */

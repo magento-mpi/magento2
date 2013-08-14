@@ -11,7 +11,7 @@
 /**
  * Adminhtml Tag Store Switcher
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */

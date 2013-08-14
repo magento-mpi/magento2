@@ -11,7 +11,7 @@
 /**
  * Order information for print
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sales
  */
 

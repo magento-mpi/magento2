@@ -11,7 +11,7 @@
 /**
  * Page layout helper
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */

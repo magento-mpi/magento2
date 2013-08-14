@@ -11,7 +11,7 @@
 /**
  * Extended Attributes Source Model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Sitemap data helper
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sitemap
  */
 class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract

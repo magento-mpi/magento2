@@ -12,7 +12,7 @@
 /**
  * 3D Secure Validation Model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Centinel
  * @author     Magento Core Team <core@magentocommerce.com>
  */

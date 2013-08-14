@@ -11,7 +11,7 @@
 /**
  * Provides basic logic for hashing passwords and encrypting/decrypting misc data
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */

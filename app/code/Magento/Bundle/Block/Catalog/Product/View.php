@@ -12,7 +12,7 @@
 /**
  * Product View block (to modify getTierPrices method)
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Bundle
  * @module     Catalog
  */

@@ -13,7 +13,7 @@
  *
  * Used for retrieving configuration data by payment models
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Product Reviews Page
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -13,7 +13,7 @@
  * Msrp items total
  * Collects flag if MSRP price is in use
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */

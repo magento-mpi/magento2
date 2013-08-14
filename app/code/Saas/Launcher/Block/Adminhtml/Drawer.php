@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -14,7 +14,7 @@
  * @method Saas_Launcher_Model_Tile getTile()
  * @method Saas_Launcher_Block_Adminhtml_Drawer setTile(Saas_Launcher_Model_Tile $value)
  *
- * @category   Mage
+ * @category   Magento
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  *

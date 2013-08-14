@@ -12,7 +12,7 @@
 /**
  * ProductAlert email price changed grid
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
