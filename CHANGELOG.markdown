@@ -86,7 +86,6 @@
   * Removed legacy API tests
   * Improved transparency of cache control by tag scope in the framework
   * Improved verification process for the application directories write-access by moving it to the top-level of framework initialization
-  * Implemented support for read-only `pub\static` application directory in production mode
   * Introduced separate configurable application directory to be used for merged Javascript files
   * Implemented support for minification of Javascript files; JSMin library adapter is created
   * Implemented explicit usage of cache type in collections; engaged it for website, store and store view collections; added tests for a number of collections
