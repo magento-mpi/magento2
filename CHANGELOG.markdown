@@ -26,8 +26,12 @@
     * Independent enabling of inline translation on frontend and in VDE
   * Modified some text messages in VDE and in themes management
   * Added ability to upload, browse and delete images and fonts that can be used in custom CSS
+  * Added ability to duplicate a theme
+  * Added ability to revert theme modifications to a last saved checkpoint
   * Improved theme's background image handling
   * Added alert, when deleting a block
+  * Removed drag-n-drop feature
+  * Refined and streamlined interface
 * HTML improvements:
   * Enhanced accessibility in admin by labeling form fields
 * Payment improvements:
@@ -72,6 +76,9 @@
   * Added "less" to a list of files that are not published to the public directory during deployment process
   * Eliminated requirement of write access to `pub/static` directory in "production" mode. "Developer" and "default" modes still require write access to this directory
   * Improved test coverage of recently introduced `Mage_Core_Model_Config_` classes
+  * Added proper description to the error message, shown when uploading too big file with a content to import
+  * Refactored `Mage_Core_Model_Design_Package` - broken it down into several smaller classes according to the sets of responsibilities
+  * Refactored Theme and Theme Service models to follow best practices of OOP design
 * Converted some more grids in backend from PHP implementation to declarations in layout
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
@@ -121,18 +128,12 @@
   * Fixed bug with absent tracking number in notification email
   * Fixed JS bug in bundle products
   * Fixed bug with missing product configuration in bundle products
+  * Fixed absence of a summary for a configured bundle product on Product View page
   * Fixed bug with missing wishlist grid on customer configuration page
   * Added validation for the "Weight" field in Product Create/Modify admin form
   * Fixed infinite loop in reports, when one of the GET-parameters was not submitted
   * Fixed integration test that failed at the midnight
-  * Removed full file path information from the title of an uploaded store logo in VDE
-  * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
-  * Fixed hint for the Scripts palette in VDE dock
   * Fixed image placeholder, being displayed instead of Base image, in Product View page
-  * Fixed inability to upload more than one Javascript file in VDE
-  * Fixed bug with improper scaling images in VDE UI
-  * Fixed inability to preview and edit a physical theme in VDE
-  * Fixed inability to delete a block in VDE
   * Added missing fields to SOAP API
   * Fixed inability to set default customer address via API
   * Fixed error message, when saving a customer with wrong email address via API
@@ -182,8 +183,19 @@
   * Fixed incorrect price for bundles with default quantity more than 1
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Fixed displaying of "Import Behavior" section in the `System -> Import` page
+  * Fixed exception, when importing a CSV file with Byte Order Mark
   * Removed remains of code pools in JavaScript tests
-  * Fixed JavaScript tests for VDE
+  * Fixed bugs in shipping label creation
+  * Fixed inability to save some sections of configuration
+  * Fixed bug with empty "New Shipment" e-mail
+  * Fixed inability to save Attribute Set in IE8
+  * Fixed wrong tax summary for partial invoices and credit memos
+  * Fixed bug with categories custom design, where the chosen theme was not applied
+  * Fixed empty list of themes in CMS pages and Frontend Apps backend sections
+  * Fixed fatal error, when trying to access a customer account in a non-installed Magento
+  * Fixed Javascript error, when accessing system Design configuration in Chrome
+  * Fixed wrong representation of a widget on frontend, after hiding and showing WYSIWYG editor during CMS page modification
+  * Fixed exception, when using 2-level cache backend
   * Fixed product creation:
     * Fixed inability to search and select category in IE8, including via mouse
     * Fixed usability of category search tree field to not hang after entering each symbol
@@ -192,10 +204,11 @@
       * Fixed validation of parent category to be a require field
     * Fixed bug with displaying special price for a product on frontend after the product template is switched to one without special price
     * Fixed incorrectly displayed regular price for products with catalog price rule applied
+    * Fixed Javascript error, when replacing variation image in IE
+    * Fixed inability to upload an image in the WYSIWYG editor
   * Shopping Cart Price Rule fixes:
     * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
     * Fixed saving of Shopping Cart Price Rule having specific coupon
-  * Fixed inability to save Attribute Set in IE8
   * Payment fixes:
     * Fixed PayPal Pro (formerly Website Payment Pro) to pass shipping address in request to PayPal service
     * Fixed triggering of a credit memo creation when Charge Back notification comes from PayPal
@@ -205,10 +218,21 @@
     * Fixed ability to invoice order without providing payment using Google Checkout API
     * Fixed validation of a Discover card number
     * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
-    * Fixed exception, when using 2-level cache backend
-  * Fixed bugs in shipping label creation
-  * Fixed inability to save some sections of configuration
-  * Fixed bug with empty "New Shipment" e-mail
+  * VDE fixes:
+    * Removed full file path information from the title of an uploaded store logo
+    * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
+    * Fixed hint for the Scripts palette in dock
+    * Fixed inability to upload more than one Javascript file
+    * Fixed bug with improper scaling images in UI
+    * Fixed inability to preview and edit a physical theme
+    * Fixed inability to delete a block
+    * Fixed inability to delete a background image
+    * Fixed preview of a virtual theme in production mode
+    * Fixed JavaScript tests
+    * Fixed bugs with inline translation
+    * Added validation to the theme name field
+    * Fixed absence of error message in IE, when uploading unsupported file type in Theme Javascript
+    * Fixed corrupting of a `custom.css` file, when saving Custom CSS text
 
 2.0.0.0-dev44
 =============
