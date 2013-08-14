@@ -97,6 +97,7 @@
   * Implemented proper exceptions instead of PHP warnings in `Magento_Filesystem` component
   * Introduced `Mage_Core_Model_ModuleManager` to provide "enabled" information about modules
   * Streamlined several design configurations in layout files
+  * Enabled following cache types in integration tests to improve performance: configuration, layouts, translations, EAV
 * Converted some more grids in backend from PHP implementation to declarations in layout
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
