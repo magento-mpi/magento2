@@ -195,7 +195,8 @@
   * Fixed Javascript error, when accessing system Design configuration in Chrome
   * Fixed wrong representation of a widget on frontend, after hiding and showing WYSIWYG editor during CMS page modification
   * Fixed exception, when using 2-level cache backend
-  * Fixed product creation:
+  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
+  * Product creation fixes:
     * Fixed inability to search and select category in IE8, including via mouse
     * Fixed usability of category search tree field to not hang after entering each symbol
     * Fixed inability to select/change attribute for product variations (configurable product) in IE8
