@@ -68,8 +68,7 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
         $this->_indexer->expects($this->exactly($reindexReqCount))->method('reindexRequired');
         $this->_config->expects($this->once())->method('getParam')->with(Mage_Install_Model_EntryPoint_Upgrade::REINDEX)
             ->will($this->returnValue($reindexMode));
-        $upgrade = $this->getMock('Mage_Install_Model_EntryPoint_Upgrade', array('_setGlobalObjectManager'),
-            array($this->_config, $this->_objectManager));
+        $upgrade = new Mage_Install_Model_EntryPoint_Upgrade($this->_config, $this->_objectManager);
         $upgrade->processRequest();
     }
 

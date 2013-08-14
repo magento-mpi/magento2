@@ -12,7 +12,7 @@
     <preference for="Mage_Core_Model_Db_UpdaterInterfaceTwo" type="Mage_Core_Model_Db_UpdaterTwo"/>
     <type name="Mage_Core_Model_Config_Loader_Local" shared="false">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE_CUSTOM</value>
+            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
         <param name="customConfig">
             <instance shared="false" type="Mage_Core_Model_Config_Storage_Modules" />

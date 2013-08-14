@@ -45,23 +45,19 @@ class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Fram
         $this->_eventMock = $this->getMock('Magento_Event', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_invokerAsynchronous = $objectManagerHelper->getObject(
-            'Enterprise_Queue_Model_Event_Invoker_Asynchronous', array(
-            'queueHandler' => $this->_queueHandlerMock,
-            'invokerDefault' => $this->_invokerDefaultMock,
-        ));
+        $this->_invokerAsynchronous = new Enterprise_Queue_Model_Event_Invoker_Asynchronous(
+            $this->_queueHandlerMock, $this->_invokerDefaultMock
+        );
     }
 
     public function testDispatchWithAsynchronousMode()
     {
         $configuration = array(
-            'model' => 'some_model',
+            'instance' => 'some_model',
             'method' => 'some_method',
-            'config' => array(
-                Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
-                Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_PRIORITY => 7,
-            ),
+            'name' => 'observer',
+            Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
+            Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_PRIORITY => 'low',
         );
 
         $this->_eventMock->expects($this->once())->method('getName')->will($this->returnValue('some_event'));
@@ -70,7 +66,7 @@ class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Fram
             ->will($this->returnValue($this->_eventMock));
 
         $this->_queueHandlerMock->expects($this->once())->method('addTask')
-            ->with('some_event', array('observer' => array('123'), 'configuration' => $configuration), 7);
+            ->with('some_event', array('observer' => array('123'), 'configuration' => $configuration), 'low');
         $this->_invokerDefaultMock->expects($this->never())->method('dispatch');
 
         $this->_invokerAsynchronous->dispatch($configuration, $this->_eventObserverMock);
@@ -97,17 +93,17 @@ class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Fram
         return array(
             array(
                 array(
-                    'model' => 'some_model',
+                    'instance' => 'some_model',
                     'method' => 'some_method',
-                    'config' => array(
-                        Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 0,
-                    ),
+                    Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => false,
+                    'name' => 'observer',
                 ),
             ),
             array(
                 array(
-                    'model' => 'some_model',
+                    'instance' => 'some_model',
                     'method' => 'some_method',
+                    'name' => 'observer',
                 ),
             ),
         );
