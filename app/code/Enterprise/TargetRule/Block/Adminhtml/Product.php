@@ -18,6 +18,26 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     protected $_readOnly = false;
 
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+
+    /**
      * Retrieve TargetRule Data Helper
      *
      * @return Enterprise_TargetRule_Helper_Data
@@ -151,5 +171,13 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
             $flag = false;
         }
         return $flag;
+    }
+
+    /**
+     * @return Mage_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }
