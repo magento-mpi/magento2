@@ -64,7 +64,7 @@ class ArgumentsTest extends PHPUnit_Framework_TestCase
      */
     protected function _getFiles()
     {
-        $path = Utility_Files::init()->getPathToSource() . '/app/design/';
+        $path = Utility_Files::init()->getPathToSource() . '/app/';
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
         return new RegexIterator($files, self::FILES_MASK);
     }
