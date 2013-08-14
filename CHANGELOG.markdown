@@ -29,6 +29,7 @@
   * Added ability to duplicate a theme
   * Added ability to revert theme modifications to a last saved checkpoint
   * Improved theme's background image handling
+  * Improved themes management workflows - deleting, assigning, duplicating a theme
   * Added alert, when deleting a block
   * Removed drag-n-drop feature
   * Refined and streamlined interface
@@ -103,7 +104,8 @@
   * Fixed absence of configured options, when composite product is edited from wishlist
   * Fixed inability to set product rating from backend
   * Fixed bug with adding product with decimal quantity
-  * Fixed bug with incorrect theme saving when wrong file is uploaded
+  * Fixed bug with incorrect theme saving when wrong preview file is uploaded
+  * Fixed incorrectly displayed error message when unsupported JavaScript file is uploaded, when editing a theme
   * Fixed bug with incorrect price and stock availability information
   * Fixed absence of "Delete" button on Widget Instance and Edit Custom Variable pages
   * Fixed inability to change PayPal configuration
@@ -118,6 +120,7 @@
   * Added validation of customer DOB
   * Fixed bugs related to "Add Store Code to Urls" configuration setting: the setting applied to backend and produced exceptions on frontend
   * Fixed inability to edit Newsletter Template
+  * Fixed inability to preview Newsletter Template while creating it
   * Fixed inability to save Configuration from "Web" tab
   * Fixed incorrect roles assignment for backend users
   * Fixed incorrect message during checkout via Authorize.Net
@@ -218,6 +221,13 @@
     * Fixed ability to invoice order without providing payment using Google Checkout API
     * Fixed validation of a Discover card number
     * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
+    * Fixed exception, when using 2-level cache backend
+    * Fixed inability to place order with PayPal Payments Advanced and Payflow Link payment methods
+  * Fixed bugs in shipping label creation
+  * Fixed inability to save some sections of configuration
+  * Fixed bug with empty "New Shipment" e-mail
+  * Fixed multiple bugs in backend in Internet Explorer
+  * Fixed inability to delete customer's address on frontend
   * VDE fixes:
     * Removed full file path information from the title of an uploaded store logo
     * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
