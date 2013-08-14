@@ -2,5 +2,6 @@
 # These items and this file are not published in Magento CE and EE
 #
 saas
+app/code/Mage/Cardgate
 app/code/Saas
 dev/tests/unit/testsuite/Saas

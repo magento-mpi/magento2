@@ -2,14 +2,17 @@
 # See also common.txt and dev_build.txt for items that are not part of any edition
 #
 app/code/Saas
+app/code/Mage/Cardgate
 app/etc/modules/XSaas_Edition.xml.dist
 app/etc/saas.xml
 dev/tests/integration/testsuite/integrity/modular/_files/skip_blocks_saas.php
+dev/tests/integration/testsuite/Mage/Cardgate
 dev/tests/integration/testsuite/Saas
 dev/tests/js/testsuite/saas
 dev/tests/static/testsuite/Integrity/Saas
 dev/tests/static/testsuite/Legacy/_files/obsolete_methods_saas.php
 dev/tests/static/testsuite/Php/_files/{blacklist,phpcpd/blacklist,whitelist}/saas.txt
+dev/tests/unit/testsuite/Mage/Cardgate
 dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
 dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php
 dev/tests/unit/testsuite/Saas
