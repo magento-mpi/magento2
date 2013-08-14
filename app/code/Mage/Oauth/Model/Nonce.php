@@ -1,9 +1,9 @@
 <?php
 /**
+ * Oauth Nonce Model
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,11 +12,11 @@
 /**
  * oAuth nonce model
  *
- * @category    Mage
- * @package     Mage_Oauth
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
  * @method Mage_Oauth_Model_Nonce setNonce() setNonce(string $nonce)
+ * @method int getConsumerId()
+ * @method Mage_Oauth_Model_Nonce setConsumerId() setConsumerId(int $consumerId)
  * @method string getTimestamp()
  * @method Mage_Oauth_Model_Nonce setTimestamp() setTimestamp(string $timestamp)
  * @method Mage_Oauth_Model_Resource_Nonce getResource()
@@ -43,7 +43,6 @@ class Mage_Oauth_Model_Nonce extends Mage_Core_Model_Abstract
     {
         parent::_afterSave();
 
-        //Cleanup old entries
         /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('Mage_Oauth_Helper_Data');
         if ($helper->isCleanupProbability()) {

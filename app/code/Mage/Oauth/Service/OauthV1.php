@@ -63,6 +63,9 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /** @var  Mage_Oauth_Model_Consumer_Factory */
     private $_consumerFactory;
 
+    /** @var  Mage_Oauth_Model_Nonce_Factory */
+    private $_nonceFactory;
+
     /** @var  Mage_Core_Model_Translate */
     private $_translator;
 
@@ -71,17 +74,76 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * @param Mage_Oauth_Model_Consumer_Factory
+     * @param Mage_Oauth_Model_Nonce_Factory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Translate
      */
     public function __construct(
         Mage_Oauth_Model_Consumer_Factory $consumerFactory,
+        Mage_Oauth_Model_Nonce_Factory $nonceFactory,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Translate $translator
     ) {
         $this->_consumerFactory = $consumerFactory;
+        $this->_nonceFactory = $nonceFactory;
         $this->_helper = $helperFactory->get('Mage_Oauth_Helper_Data');
         $this->_translator = $translator;
+    }
+
+    /**
+     * Validate (oauth_nonce) Nonce string.
+     *
+     * @param string $nonce - Nonce string
+     * @param int $consumerId - Consumer Id (Entity Id)
+     * @param string|int $timestamp - Unix timestamp
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _validateNonce($nonce, $consumerId, $timestamp)
+    {
+        try {
+            $timestamp = (int) $timestamp;
+            if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
+                throw new Mage_Oauth_Exception(
+                    $this->_translator->translate(
+                        array('Incorrect timestamp value in the oauth_timestamp parameter.')),
+                    self::ERR_TIMESTAMP_REFUSED);
+            }
+
+            $nonceObj = $this->_nonceFactory->create();
+            $nonceObj->load($nonce, 'nonce');
+
+            if ($nonceObj->getConsumerId() == $consumerId) {
+                throw new Mage_Oauth_Exception(
+                    $this->_translator->translate(
+                        array('The nonce is already being used by the consumer with id %s.', $consumerId)),
+                    self::ERR_NONCE_USED);
+            }
+
+            $consumer = $this->_consumerFactory->create();
+            $consumer->load($consumerId);
+            if (!$consumer->getId()) {
+                throw new Mage_Oauth_Exception(
+                    $this->_translator->translate(
+                        array('A consumer with id %s was not found.', $consumerId), self::ERR_PARAMETER_REJECTED));
+            }
+
+            if ($nonceObj->getTimestamp() == $timestamp) {
+                throw new Mage_Oauth_Exception(
+                    $this->_translator->translate(
+                        array('The nonce/timestamp combination has already been used.')), self::ERR_NONCE_USED);
+            }
+
+            $nonceObj->setNonce($nonce)
+                ->setConsumerId($consumerId)
+                ->setTimestamp($timestamp)
+                ->save();
+        } catch (Mage_Oauth_Exception $exception) {
+            throw $exception;
+        } catch (Exception $exception) {
+            throw new Mage_Oauth_Exception(
+                $this->_translator->translate(array('An error occurred validating the nonce.'))
+            );
+        }
     }
 
     /**

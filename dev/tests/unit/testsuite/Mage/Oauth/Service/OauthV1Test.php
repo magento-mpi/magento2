@@ -13,6 +13,9 @@ class Mage_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     private $_consumerFactory;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
+    private $_nonceFactory;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_consumerMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -39,6 +42,10 @@ class Mage_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_consumerMock));
 
+        $this->_nonceFactory = $this->getMockBuilder('Mage_Oauth_Model_Nonce_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
             ->getMock();
@@ -63,7 +70,10 @@ class Mage_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
                 ));
 
         $this->_service = new Mage_Oauth_Service_OauthV1(
-            $this->_consumerFactory, $this->_helperFactoryMock, $this->_translator);
+            $this->_consumerFactory,
+            $this->_nonceFactory,
+            $this->_helperFactoryMock,
+            $this->_translator);
     }
 
     public function testCreateConsumer()
