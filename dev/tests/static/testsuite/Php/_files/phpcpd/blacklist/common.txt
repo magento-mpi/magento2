@@ -25,13 +25,13 @@ Mage/CatalogInventory/Model/Resource/Indexer/Stock
 Mage/Sales/Model/Order
 Mage/CatalogInventory/Model/Source
 Mage/CatalogSearch/Model/Resource/Helper
-Mage/Centinel/controllers
+Mage/Centinel/Controller
 Mage/Centinel/Model/State
 Mage/Checkout/Block/Multishipping/Payment
 Mage/Checkout/Model/Type
 Mage/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
 Mage/Catalog/Model/Template
-Mage/Oauth/controllers
+Mage/Oauth/Controller
 Mage/Sales/Block/Order
 Mage/Sales/Model/Resource/Helper
 Mage/Sales/Model/Resource/Order
