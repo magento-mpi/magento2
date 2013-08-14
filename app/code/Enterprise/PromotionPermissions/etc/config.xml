@@ -17,7 +17,15 @@
             <depends>
                 <Mage_CatalogRule/>
                 <Mage_SalesRule/>
+                <Mage_Adminhtml/>
+                <Mage_Core/>
+                <Enterprise_Banner/>
+                <Enterprise_Reminder/>
             </depends>
+            <sequence>
+                <Mage_CatalogRule/>
+                <Mage_SalesRule/>
+            </sequence>
         </Enterprise_PromotionPermissions>
     </modules>
     <adminhtml>

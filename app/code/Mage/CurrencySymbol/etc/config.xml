@@ -15,8 +15,16 @@
             <version>1.0.0.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Connect/>
+                <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Directory/>
                 <Mage_Widget/>
             </depends>
+            <sequence>
+                <Mage_Widget/>
+            </sequence>
         </Mage_CurrencySymbol>
     </modules>
 

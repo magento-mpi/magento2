@@ -15,11 +15,27 @@
             <version>1.6.0.0.2</version>
             <active>true</active>
             <depends>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Widget/>
+                <Mage_Bundle/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Log/>
+                <Mage_Sales/>
+                <Mage_Wishlist/>
+                <Mage_Review/>
+                <Mage_Adminhtml/>
+                <Mage_CatalogInventory/>
+                <Mage_Cms/>
+                <Mage_Page/>
+            </depends>
+            <sequence>
                 <Mage_Customer/>
                 <Mage_Catalog/>
                 <Mage_Sales/>
                 <Mage_Cms/>
-            </depends>
+            </sequence>
         </Mage_Reports>
     </modules>
     <global>

@@ -16,9 +16,15 @@
             <active>false</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Cms/>
+                <Mage_Page/>
+                <Mage_Customer/>
+            </depends>
+            <sequence>
+                <Mage_Core/>
                 <Mage_Customer/>
                 <Mage_Cms />
-            </depends>
+            </sequence>
         </Enterprise_WebsiteRestriction>
     </modules>
     <global>

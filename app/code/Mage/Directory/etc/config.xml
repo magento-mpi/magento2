@@ -16,7 +16,15 @@
             <active>true</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Api/>
+                <Mage_CatalogSearch/>
+                <Mage_Page/>
+                <Mage_Catalog/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+            </sequence>
         </Mage_Directory>
     </modules>
     <global>

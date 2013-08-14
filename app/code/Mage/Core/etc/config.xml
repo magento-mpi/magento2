@@ -14,6 +14,35 @@
         <Mage_Core>
             <version>1.6.0.14</version>
             <active>true</active>
+            <depends>
+                <Mage_Backend/>
+                <Mage_Directory/>
+                <Mage_Index/>
+                <Mage_Api/>
+                <Mage_Cron/>
+                <Mage_Newsletter/>
+                <Mage_Cms/>
+                <Mage_Adminhtml/>
+                <Mage_DesignEditor/>
+                <Mage_AdminNotification/>
+                <Mage_CatalogIndex/>
+                <Mage_CatalogInventory/>
+                <Mage_CatalogRule/>
+                <Mage_CatalogSearch/>
+                <Mage_CurrencySymbol/>
+                <Mage_GiftMessage/>
+                <Mage_GoogleAnalytics/>
+                <Mage_GoogleBase/>
+                <Mage_GoogleCheckout/>
+                <Mage_ImportExport/>
+                <Mage_PaypalUk/>
+                <Mage_ProductAlert/>
+                <Mage_SalesRule/>
+                <Mage_Theme/>
+                <Mage_Catalog/>
+                <Mage_Eav/>
+                <Mage_Page/>
+            </depends>
             <system_requirements>
                 <php>
                     <extensions>

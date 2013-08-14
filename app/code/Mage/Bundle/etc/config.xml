@@ -15,8 +15,31 @@
             <version>1.6.0.0.2</version>
             <active>true</active>
             <depends>
-                <Mage_Catalog />
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_Tax/>
+                <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_CatalogInventory/>
+                <Mage_Customer/>
+                <Mage_CatalogRule/>
+                <Mage_Eav/>
+                <Mage_Weee/>
+                <Mage_GiftMessage/>
+                <Mage_Wishlist/>
+                <Mage_PaypalUk/>
+                <Mage_CatalogSearch/>
+                <Mage_Rss/>
+                <Mage_Tag/>
+                <Mage_Page/>
+                <Mage_Paypal/>
+                <Mage_Review/>
             </depends>
+            <sequence>
+                <Mage_Catalog />
+            </sequence>
         </Mage_Bundle>
     </modules>
     <global>

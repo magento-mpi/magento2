@@ -15,8 +15,20 @@
             <version>1.11.0.3</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Core/>
                 <Mage_ImportExport/>
+                <Mage_Backend/>
+                <Mage_Index/>
+                <Mage_Cron/>
+                <Mage_Customer/>
+                <Enterprise_Reward/>
+                <Enterprise_CustomerBalance/>
+                <Mage_Eav/>
             </depends>
+            <sequence>
+                <Mage_ImportExport/>
+            </sequence>
         </Enterprise_ImportExport>
     </modules>
     <global>

@@ -13,8 +13,14 @@
             <version>2.0.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
                 <Mage_Checkout/>
+                <Mage_Sales/>
+                <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_Checkout/>
+            </sequence>
         </Mage_GoogleAdwords>
     </modules>
     <frontend>

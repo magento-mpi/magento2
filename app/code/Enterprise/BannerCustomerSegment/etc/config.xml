@@ -13,9 +13,14 @@
             <version>1.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
                 <Enterprise_Banner />
                 <Enterprise_CustomerSegment />
             </depends>
+            <sequence>
+                <Enterprise_Banner />
+                <Enterprise_CustomerSegment />
+            </sequence>
         </Enterprise_BannerCustomerSegment>
     </modules>
     <global>
@@ -90,4 +95,4 @@
             </banner_edit_tab_properties_after_prepare_form>
         </events>
     </adminhtml>
-</config>
+</config>

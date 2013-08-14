@@ -15,8 +15,16 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Adminhtml/>
                 <Mage_Payment/>
+                <Mage_Core/>
+                <Mage_Checkout/>
+                <Mage_Backend/>
+                <Mage_Sales/>
             </depends>
+            <sequence>
+                <Mage_Payment/>
+            </sequence>
         </Mage_Paygate>
     </modules>
     <global>

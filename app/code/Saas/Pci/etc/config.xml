@@ -13,9 +13,15 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
                 <Mage_Backend/>
                 <Saas_Saas/>
+                <Enterprise_Pci/>
             </depends>
+            <sequence>
+                <Mage_Backend/>
+                <Saas_Saas/>
+            </sequence>
         </Saas_Pci>
     </modules>
     <adminhtml>

@@ -14,6 +14,47 @@
         <Mage_Adminhtml>
             <version>0.7.1</version>
             <active>true</active>
+            <depends type="soft">
+                <Mage_Core/>
+                <Mage_Poll/>
+                <Mage_AdminNotification/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Directory/>
+                <Mage_Reports/>
+                <Mage_Customer/>
+                <Mage_Newsletter/>
+                <Mage_Wishlist/>
+                <Mage_Sales/>
+                <Mage_CatalogRule/>
+                <Mage_Cms/>
+                <Mage_Review/>
+                <Mage_Rating/>
+                <Mage_Sitemap/>
+                <Mage_Tax/>
+                <Mage_CatalogSearch/>
+                <Mage_Eav/>
+                <Mage_CatalogInventory/>
+                <Mage_Index/>
+                <Mage_Api/>
+                <Mage_SalesRule/>
+                <Mage_Rule/>
+                <Mage_Promo/>
+                <Mage_Downloadable/>
+                <Mage_Payment/>
+                <Mage_Shipping/>
+                <Mage_GiftMessage/>
+                <Mage_Backup/>
+                <Mage_User/>
+                <Mage_CurrencySymbol/>
+                <Mage_Checkout/>
+                <Mage_Widget/>
+                <Mage_Weee/>
+                <Mage_ProductAlert/>
+                <Mage_Log/>
+                <Mage_Page/>
+                <Mage_Usa/>
+            </depends>
         </Mage_Adminhtml>
     </modules>
     <global>

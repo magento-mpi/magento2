@@ -15,9 +15,28 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_Review/>
+                <Mage_Customer/>
+                <Mage_Cms/>
+                <Mage_User/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_SalesRule/>
+                <Enterprise_CatalogEvent/>
+                <Enterprise_GiftRegistry/>
+                <Mage_CatalogRule/>
+                <Enterprise_Reminder/>
+                <Enterprise_Customer/>
+                <Enterprise_CustomerSegment/>
+            </depends>
+            <sequence>
                 <Mage_Adminhtml/>
                 <Mage_Sales/>
-            </depends>
+            </sequence>
         </Enterprise_AdminGws>
     </modules>
     <global>

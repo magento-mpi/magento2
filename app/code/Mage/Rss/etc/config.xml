@@ -14,13 +14,27 @@
         <Mage_Rss>
             <version>1.6.0.0</version>
             <active>true</active>
-             <depends>
+            <depends>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Wishlist/>
+                <Mage_Sales/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Review/>
+                <Mage_Adminhtml/>
+                <Mage_CatalogInventory/>
+                <Mage_SalesRule/>
+                <Mage_GiftMessage/>
+                <Mage_Page/>
+            </depends>
+            <sequence>
                 <Mage_Catalog/>
                 <Mage_CatalogInventory/>
                 <Mage_Sales/>
                 <Mage_SalesRule/>
                 <Mage_Wishlist/>
-             </depends>
+            </sequence>
         </Mage_Rss>
     </modules>
     <admin>

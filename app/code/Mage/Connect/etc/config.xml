@@ -14,7 +14,12 @@
         <Mage_Connect>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends />
+            <depends>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Catalog/>
+            </depends>
         </Mage_Connect>
     </modules>
     <admin>

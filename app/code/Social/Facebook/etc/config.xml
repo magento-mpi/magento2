@@ -15,8 +15,17 @@
             <version>1.6.0.1</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Adminhtml/>
                 <Mage_Catalog/>
+                <Mage_Backend/>
+                <Mage_Page/>
+                <Mage_Review/>
+                <Mage_Cms/>
             </depends>
+            <sequence>
+                <Mage_Catalog/>
+            </sequence>
         </Social_Facebook>
     </modules>
     <global>

@@ -14,6 +14,16 @@
         <Saas_UnitPrice>
             <version>0.1.4</version>
             <active>false</active>
+            <depends>
+                <Mage_Catalog/>
+                <Mage_Core/>
+                <Mage_Eav/>
+                <Mage_Tax/>
+                <Mage_Tag/>
+                <Mage_Adminhtml/>
+                <Mage_Page/>
+                <Mage_CatalogSearch/>
+            </depends>
         </Saas_UnitPrice>
     </modules>
     <global>

@@ -17,6 +17,9 @@
             <depends>
                 <Mage_Shipping/>
             </depends>
+            <sequence>
+                <Mage_Shipping/>
+            </sequence>
         </Saas_Shipping>
     </modules>
     <default>

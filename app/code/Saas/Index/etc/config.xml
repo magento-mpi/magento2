@@ -13,9 +13,16 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
                 <Mage_Core/>
                 <Mage_Index/>
+                <Mage_AdminNotification/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+                <Mage_Index/>
+            </sequence>
         </Saas_Index>
     </modules>
     <global>

@@ -16,8 +16,23 @@
             <active>false</active>
             <depends>
                 <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Checkout/>
+                <Mage_Core/>
+                <Mage_Eav/>
                 <Mage_GiftMessage/>
+                <Mage_Sales/>
+                <Mage_Tax/>
+                <Mage_Tag/>
+                <Mage_Page/>
+                <Mage_Paypal/>
+                <Enterprise_SalesArchive/>
             </depends>
+            <sequence>
+                <Mage_Adminhtml/>
+                <Mage_GiftMessage/>
+            </sequence>
         </Enterprise_GiftWrapping>
     </modules>
     <global>

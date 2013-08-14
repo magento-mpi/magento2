@@ -18,6 +18,10 @@
                 <Saas_Saas />
                 <Mage_CatalogRule />
             </depends>
+            <sequence>
+                <Saas_Saas />
+                <Mage_CatalogRule />
+            </sequence>
         </Saas_CatalogRule>
     </modules>
     <global>
@@ -46,4 +50,4 @@
             </catalogrule_apply_all>
         </events>
     </global>
-</config>
+</config>

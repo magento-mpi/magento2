@@ -16,7 +16,14 @@
             <active>false</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Catalog/>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_User/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+            </sequence>
         </Saas_Limitation>
     </modules>
     <global>

@@ -15,9 +15,15 @@
             <version>1.6.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Customer/>
                 <Mage_Core/>
                 <Mage_Cms/>
+                <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+                <Mage_Cms/>
+            </sequence>
         </Mage_Poll>
     </modules>
     <frontend>

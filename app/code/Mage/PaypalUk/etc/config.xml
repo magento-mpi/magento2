@@ -15,11 +15,25 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Paypal/>
+                <Mage_Payment/>
+                <Mage_Core/>
+                <Mage_Paygate/>
+                <Mage_Checkout/>
+                <Mage_Sales/>
+                <Mage_Page/>
+                <Mage_Catalog/>
+                <Mage_CatalogSearch/>
+                <Mage_Wishlist/>
+                <Mage_Tag/>
+                <Mage_Review/>
+            </depends>
+            <sequence>
                 <Mage_Paygate/>
                 <Mage_Checkout/>
                 <Mage_Sales/>
                 <Mage_Paypal/>
-            </depends>
+            </sequence>
         </Mage_PaypalUk>
     </modules>
     <global>

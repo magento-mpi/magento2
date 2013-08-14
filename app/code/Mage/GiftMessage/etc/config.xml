@@ -15,9 +15,18 @@
             <version>1.6.0.1</version>
             <active>true</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Core/>
+                <Mage_Customer/>
                 <Mage_Catalog/>
                 <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_Eav/>
             </depends>
+            <sequence>
+                <Mage_Catalog/>
+                <Mage_Sales/>
+            </sequence>
         </Mage_GiftMessage>
     </modules>
     <global>

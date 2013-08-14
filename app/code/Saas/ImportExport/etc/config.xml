@@ -13,9 +13,19 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_AdminNotification/>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Catalog/>
+                <Mage_ImportExport/>
+                <Enterprise_PageCache/>
+                <Saas_Queue/>
+            </depends>
+            <sequence>
                 <Mage_ImportExport />
                 <Enterprise_PageCache />
-            </depends>
+            </sequence>
         </Saas_ImportExport>
     </modules>
     <global>

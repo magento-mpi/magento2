@@ -18,6 +18,10 @@
                 <Saas_Saas/>
                 <Mage_Catalog/>
             </depends>
+            <sequence>
+                <Saas_Saas/>
+                <Mage_Catalog/>
+            </sequence>
         </Saas_Catalog>
     </modules>
     <global>

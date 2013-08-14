@@ -18,10 +18,24 @@
                 <Mage_Adminhtml/>
                 <Mage_Catalog/>
                 <Mage_CatalogSearch/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Index/>
+                <Mage_Eav/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_Backend/>
+                <Mage_Page/>
+                <Enterprise_WebsiteRestriction/>
+            </depends>
+            <sequence>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_CatalogSearch/>
                 <Mage_Sales/>
                 <Mage_Checkout/>
                 <Enterprise_WebsiteRestriction/>
-            </depends>
+            </sequence>
         </Enterprise_CatalogPermissions>
     </modules>
     <global>

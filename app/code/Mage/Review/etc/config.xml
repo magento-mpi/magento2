@@ -15,9 +15,18 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Catalog/>
+                <Mage_Rating/>
+                <Mage_Page/>
+                <Mage_Backend/>
+                <Mage_Paypal/>
+            </depends>
+            <sequence>
                 <Mage_Catalog/>
                 <Mage_Core/>
-            </depends>
+            </sequence>
         </Mage_Review>
     </modules>
     <global>

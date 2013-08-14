@@ -15,9 +15,24 @@
             <version>1.6.2.0.3</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Catalog/>
+                <Mage_Directory/>
+                <Mage_Newsletter/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_Wishlist/>
+                <Mage_Eav/>
+                <Mage_Index/>
+                <Mage_Api/>
+                <Mage_Log/>
+                <Mage_Page/>
+                <Enterprise_Customer/>
+            </depends>
+            <sequence>
                 <Mage_Eav/>
                 <Mage_Directory/>
-            </depends>
+            </sequence>
         </Mage_Customer>
     </modules>
     <global>

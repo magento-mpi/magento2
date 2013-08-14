@@ -13,10 +13,19 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Sales/>
+                <Mage_Customer/>
+                <Saas_Saas/>
+            </depends>
+            <sequence>
                 <Mage_Backend/>
                 <Mage_Sales/>
                 <Saas_Saas/>
-            </depends>
+            </sequence>
         </Saas_Sales>
     </modules>
     <global>

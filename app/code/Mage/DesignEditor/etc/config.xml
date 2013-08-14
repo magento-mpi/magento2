@@ -15,10 +15,19 @@
             <version>1.0.0.3</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Adminhtml/>
+                <Mage_Theme/>
+                <Mage_Catalog/>
+                <Mage_Cms/>
+                <Mage_Eav/>
+            </depends>
+            <sequence>
                 <Mage_Adminhtml/>
                 <Mage_Page/>
                 <Mage_Theme/>
-            </depends>
+            </sequence>
         </Mage_DesignEditor>
     </modules>
     <global>

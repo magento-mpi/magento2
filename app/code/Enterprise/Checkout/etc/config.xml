@@ -15,8 +15,29 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Bundle/>
+                <Mage_Catalog/>
+                <Mage_CatalogInventory/>
+                <Mage_Checkout/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Directory/>
+                <Mage_Downloadable/>
+                <Mage_ProductAlert/>
+                <Mage_Reports/>
                 <Mage_Sales/>
+                <Mage_Tax/>
+                <Mage_Widget/>
+                <Mage_Wishlist/>
+                <Mage_Weee/>
+                <Mage_Tag/>
+                <Enterprise_GiftCard/>
             </depends>
+            <sequence>
+                <Mage_Sales/>
+            </sequence>
         </Enterprise_Checkout>
     </modules>
     <global>

@@ -16,10 +16,25 @@
             <active>false</active>
             <depends>
                 <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_CatalogRule/>
+                <Mage_Checkout/>
+                <Mage_Cms/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Sales/>
+                <Mage_SalesRule/>
+                <Mage_Widget/>
+                <Mage_Page/>
+                <Enterprise_Cms/>
+                <Enterprise_Enterprise/>
+            </depends>
+            <sequence>
+                <Mage_Adminhtml/>
                 <Mage_CatalogRule/>
                 <Mage_SalesRule/>
                 <Enterprise_Cms/>
-            </depends>
+            </sequence>
         </Enterprise_Banner>
     </modules>
     <global>

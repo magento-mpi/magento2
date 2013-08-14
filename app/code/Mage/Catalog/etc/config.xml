@@ -15,11 +15,39 @@
             <version>1.6.0.0.23</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Page/>
+                <Mage_Checkout/>
+                <Mage_Log/>
+                <Mage_Customer/>
+                <Mage_Backend/>
+                <Mage_Widget/>
+                <Mage_Rss/>
+                <Mage_Cms/>
+                <Mage_Wishlist/>
+                <Mage_Review/>
+                <Mage_Tax/>
+                <Mage_Eav/>
+                <Mage_Bundle/>
+                <Mage_Index/>
+                <Mage_Api/>
+                <Mage_Adminhtml/>
+                <Mage_Directory/>
+                <Mage_Media/>
+                <Mage_Sales/>
+                <Mage_Cron/>
+                <Mage_CatalogInventory/>
+                <Mage_CatalogSearch/>
+                <Mage_CatalogRule/>
+                <Mage_Weee/>
+                <Mage_Tag/>
+            </depends>
+            <sequence>
                 <Mage_Eav />
                 <Mage_Cms />
                 <Mage_Index />
                 <Mage_Customer />
-            </depends>
+            </sequence>
         </Mage_Catalog>
     </modules>
     <global>

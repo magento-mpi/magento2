@@ -13,8 +13,13 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Page/>
+                <Mage_Core/>
                 <Mage_Sitemap/>
             </depends>
+            <sequence>
+                <Mage_Sitemap/>
+            </sequence>
         </Saas_Sitemap>
     </modules>
     <global>

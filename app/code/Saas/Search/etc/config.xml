@@ -10,12 +10,19 @@
 <config>
     <modules>
         <Saas_Search>
-             <version>0.0.0.1</version>
-             <active>false</active>
+            <version>0.0.0.1</version>
+            <active>false</active>
+            <depends>
+                <Mage_Core/>
+                <Mage_Catalog/>
+                <Mage_CatalogSearch/>
+                <Enterprise_Search/>
+                <Enterprise_PageCache/>
+            </depends>
+            <sequence>
+                <Enterprise_Search/>
+            </sequence>
         </Saas_Search>
-        <depends>
-            <Enterprise_Search/>
-        </depends>
     </modules>
     <global>
         <di>

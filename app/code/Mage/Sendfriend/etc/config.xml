@@ -14,9 +14,15 @@
         <Mage_Sendfriend>
             <version>1.6.0.0</version>
             <active>true</active>
-             <depends>
+            <depends>
+                 <Mage_Core/>
+                 <Mage_Customer/>
+                 <Mage_Catalog/>
+                 <Mage_Page/>
+            </depends>
+            <sequence>
                 <Mage_Catalog/>
-             </depends>
+            </sequence>
         </Mage_Sendfriend>
     </modules>
     <global>

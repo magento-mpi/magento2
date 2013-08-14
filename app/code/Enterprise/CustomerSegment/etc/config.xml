@@ -15,6 +15,23 @@
             <version>1.11.0.0.4</version>
             <active>false</active>
             <depends>
+                <Enterprise_Customer/>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_CatalogRule/>
+                <Mage_Rule/>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Log/>
+                <Enterprise_Logging/>
+                <Mage_Sales/>
+                <Mage_Eav/>
+                <Mage_Directory/>
+                <Mage_Newsletter/>
+                <Enterprise_Enterprise/>
+            </depends>
+            <sequence>
                 <Mage_Customer/>
                 <Enterprise_Customer/>
                 <Mage_Adminhtml/>
@@ -22,7 +39,7 @@
                 <Mage_CatalogRule/>
                 <Mage_Rule/>
                 <Mage_Log/>
-            </depends>
+            </sequence>
         </Enterprise_CustomerSegment>
     </modules>
     <global>

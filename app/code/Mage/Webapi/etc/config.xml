@@ -15,10 +15,18 @@
             <version>1.0.0.3</version>
             <active>true</active>
             <depends>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Adminhtml/>
+                <Mage_Oauth/>
+                <Mage_Catalog/>
+                <Mage_Xml/>
+            </depends>
+            <sequence>
                 <Mage_Core />
                 <Mage_Oauth />
                 <Mage_Backend />
-            </depends>
+            </sequence>
         </Mage_Webapi>
     </modules>
     <global>

@@ -15,9 +15,29 @@
             <version>1.11.0.11</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Sales/>
+                <Mage_Customer/>
+                <Mage_Catalog/>
+                <Mage_Adminhtml/>
+                <Mage_Eav/>
+                <Enterprise_Eav/>
+                <Mage_Backend/>
+                <Mage_Tax/>
+                <Mage_Shipping/>
+                <Mage_Usa/>
+                <Mage_Page/>
+                <Mage_Payment/>
+                <Mage_Directory/>
+                <Mage_Tag/>
+                <Enterprise_Enterprise/>
+                <Enterprise_Customer/>
+                <Enterprise_SalesArchive/>
+            </depends>
+            <sequence>
                 <Mage_Customer/>
                 <Mage_Sales/>
-            </depends>
+            </sequence>
         </Enterprise_Rma>
     </modules>
     <global>

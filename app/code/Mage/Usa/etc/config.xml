@@ -16,8 +16,17 @@
             <active>true</active>
             <depends>
                 <Mage_Sales/>
+                <Mage_Backend/>
                 <Mage_Shipping/>
+                <Mage_Directory/>
+                <Mage_Core/>
+                <Mage_Catalog/>
+                <Mage_Paypal/>
             </depends>
+            <sequence>
+                <Mage_Sales/>
+                <Mage_Shipping/>
+            </sequence>
         </Mage_Usa>
     </modules>
     <global>

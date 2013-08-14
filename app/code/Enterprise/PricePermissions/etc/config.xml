@@ -15,11 +15,20 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Backend/>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_Downloadable/>
+                <Mage_Bundle/>
+                <Enterprise_GiftCard/>
+                <Mage_Core/>
+            </depends>
+            <sequence>
                 <Mage_Bundle/>
                 <Mage_Catalog/>
                 <Mage_Downloadable/>
                 <Enterprise_GiftCard/>
-            </depends>
+            </sequence>
         </Enterprise_PricePermissions>
     </modules>
     <adminhtml>

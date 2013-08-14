@@ -15,10 +15,20 @@
             <version>1.6.0.4</version>
             <active>true</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Rule/>
+                <Mage_Catalog/>
+                <Mage_Index/>
+                <Mage_Customer/>
+                <Mage_Adminhtml/>
+                <Mage_CatalogInventory/>
+                <Mage_Eav/>
+            </depends>
+            <sequence>
                 <Mage_Rule />
                 <Mage_Catalog />
                 <Mage_Customer />
-            </depends>
+            </sequence>
         </Mage_CatalogRule>
     </modules>
     <global>
@@ -185,4 +195,4 @@
             </catalog_product_get_final_price>
         </events>
     </crontab>
-</config>
+</config>

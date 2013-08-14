@@ -14,6 +14,12 @@
         <Saas_Apps>
             <version>2.0.0.0</version>
             <active>false</active>
+            <depends>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Adminhtml/>
+                <Saas_Catalog/>
+            </depends>
         </Saas_Apps>
     </modules>
     <default>

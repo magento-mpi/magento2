@@ -15,8 +15,13 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Core />
+                <Mage_Core/>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
             </depends>
+            <sequence>
+                <Mage_Core />
+            </sequence>
         </Mage_Api>
     </modules>
     <global>

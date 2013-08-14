@@ -16,9 +16,28 @@
             <active>false</active>
             <depends>
                 <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Rule/>
+                <Mage_Catalog/>
+                <Mage_Checkout/>
+                <Mage_Sales/>
+                <Mage_CatalogInventory/>
+                <Mage_Core/>
+                <Mage_Index/>
+                <Mage_Customer/>
+                <Mage_Eav/>
+                <Mage_CatalogRule/>
+                <Mage_Wishlist/>
+                <Mage_Tag/>
+                <Mage_Page/>
+                <Enterprise_CustomerSegment/>
+                <Enterprise_Enterprise/>
+            </depends>
+            <sequence>
+                <Mage_Adminhtml/>
                 <Mage_Catalog/>
                 <Mage_Rule/>
-            </depends>
+            </sequence>
         </Enterprise_TargetRule>
     </modules>
     <global>

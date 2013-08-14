@@ -13,8 +13,13 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Core />
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Adminhtml/>
             </depends>
+            <sequence>
+                <Mage_Core />
+            </sequence>
         </Saas_JobNotification>
     </modules>
     <global>

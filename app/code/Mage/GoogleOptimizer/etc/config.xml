@@ -13,10 +13,19 @@
             <version>2.0.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Catalog/>
+                <Mage_Cms/>
+                <Mage_GoogleAnalytics/>
+                <Mage_Page/>
+            </depends>
+            <sequence>
                 <Mage_GoogleAnalytics/>
                 <Mage_Catalog/>
                 <Mage_Cms/>
-            </depends>
+            </sequence>
         </Mage_GoogleOptimizer>
     </modules>
     <global>

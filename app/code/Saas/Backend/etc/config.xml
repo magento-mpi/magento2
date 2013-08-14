@@ -15,7 +15,14 @@
             <depends>
                 <Mage_AdminNotification/>
                 <Saas_Saas/>
+                <Mage_Adminhtml/>
+                <Mage_Core/>
+                <Mage_Backend/>
             </depends>
+            <sequence>
+                <Mage_AdminNotification/>
+                <Saas_Saas/>
+            </sequence>
         </Saas_Backend>
     </modules>
     <global>

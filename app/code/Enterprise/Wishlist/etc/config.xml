@@ -15,8 +15,28 @@
             <version>1.12.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Wishlist />
+                <Mage_Wishlist/>
+                <Mage_Customer/>
+                <Mage_Core/>
+                <Mage_Checkout/>
+                <Mage_Adminhtml/>
+                <Mage_Reports/>
+                <Mage_Backend/>
+                <Mage_Eav/>
+                <Mage_Rss/>
+                <Mage_Sales/>
+                <Mage_Catalog/>
+                <Mage_CatalogInventory/>
+                <Mage_Widget/>
+                <Mage_Persistent/>
+                <Mage_Tag/>
+                <Mage_Page/>
+                <Enterprise_Checkout/>
+                <Enterprise_PageCache/>
             </depends>
+            <sequence>
+                <Mage_Wishlist />
+            </sequence>
         </Enterprise_Wishlist>
     </modules>
     <global>

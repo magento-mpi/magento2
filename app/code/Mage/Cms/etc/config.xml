@@ -16,8 +16,19 @@
             <active>true</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Widget/>
+                <Mage_Backend/>
+                <Mage_Adminhtml/>
                 <Mage_Page/>
+                <Mage_Catalog/>
+                <Mage_Checkout/>
+                <Mage_Customer/>
+                <Enterprise_Cms/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+                <Mage_Page/>
+            </sequence>
         </Mage_Cms>
     </modules>
     <frontend>

@@ -16,8 +16,23 @@
             <active>false</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Tax/>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_Checkout/>
+                <Mage_Cms/>
+                <Mage_Directory/>
+                <Mage_Eav/>
+                <Mage_DesignEditor/>
+                <Mage_Theme/>
+                <Mage_ImportExport/>
                 <Saas_Limitation/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+                <Saas_Limitation/>
+            </sequence>
         </Saas_Launcher>
     </modules>
     <adminhtml>

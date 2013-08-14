@@ -17,6 +17,9 @@
             <depends>
                 <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_Page/>
+            </sequence>
         </Saas_Page>
     </modules>
 </config>

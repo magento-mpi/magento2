@@ -15,8 +15,21 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_CatalogInventory/>
                 <Mage_CatalogSearch/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Eav/>
+                <Mage_Index/>
+                <Mage_Tax/>
+                <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_CatalogSearch/>
+            </sequence>
         </Enterprise_Search>
     </modules>
     <global>

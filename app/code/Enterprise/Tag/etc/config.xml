@@ -15,10 +15,17 @@
             <version>1.0.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
                 <Mage_Tag/>
+                <Mage_Catalog/>
                 <Enterprise_Reward/>
                 <Enterprise_AdminGws/>
             </depends>
+            <sequence>
+                <Mage_Tag/>
+                <Enterprise_Reward/>
+                <Enterprise_AdminGws/>
+            </sequence>
         </Enterprise_Tag>
     </modules>
     <frontend>

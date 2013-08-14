@@ -16,7 +16,53 @@
             <active>true</active>
             <depends>
                 <Mage_Backend />
+                <Mage_Core/>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_Cms/>
+                <Mage_Newsletter/>
+                <Mage_Review/>
+                <Mage_Tag/>
+                <Mage_AdminNotification/>
+                <Mage_Api/>
+                <Mage_Backup/>
+                <Mage_CatalogInventory/>
+                <Mage_CatalogRule/>
+                <Mage_CatalogSearch/>
+                <Mage_Checkout/>
+                <Mage_Contacts/>
+                <Mage_CurrencySymbol/>
+                <Mage_Customer/>
+                <Mage_DesignEditor/>
+                <Mage_Downloadable/>
+                <Mage_GoogleCheckout/>
+                <Mage_GoogleShopping/>
+                <Mage_ImportExport/>
+                <Mage_Index/>
+                <Mage_Oauth/>
+                <Mage_Page/>
+                <Mage_PageCache/>
+                <Mage_Payment/>
+                <Mage_Paypal/>
+                <Mage_Persistent/>
+                <Mage_Poll/>
+                <Mage_Rating/>
+                <Mage_Reports/>
+                <Mage_Rss/>
+                <Mage_Sales/>
+                <Mage_SalesRule/>
+                <Mage_Shipping/>
+                <Mage_Sitemap/>
+                <Mage_Tax/>
+                <Mage_Widget/>
+                <Mage_Wishlist/>
+                <Mage_XmlConnect/>
+                <Find_Feed/>
+                <Social_Facebook/>
             </depends>
+            <sequence>
+                <Mage_Backend />
+            </sequence>
         </Mage_User>
     </modules>
     <global>

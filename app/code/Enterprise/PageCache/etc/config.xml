@@ -16,7 +16,23 @@
             <active>false</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Catalog/>
+                <Mage_Checkout/>
+                <Mage_Reports/>
+                <Mage_Review/>
+                <Mage_Wishlist/>
+                <Mage_Page/>
+                <Mage_Poll/>
+                <Mage_Sales/>
+                <Enterprise_Banner/>
+                <Enterprise_Cms/>
+                <Enterprise_TargetRule/>
+                <Enterprise_WebsiteRestriction/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+            </sequence>
         </Enterprise_PageCache>
     </modules>
     <global>

@@ -16,11 +16,24 @@
             <active>false</active>
             <depends>
                 <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Cms/>
+                <Mage_Core/>
+                <Mage_Eav/>
+                <Mage_Widget/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_Page/>
+                <Mage_Review/>
+            </depends>
+            <sequence>
+                <Mage_Adminhtml/>
                 <Mage_Catalog/>
                 <Mage_Cms/>
                 <Mage_Sales/>
                 <Mage_Checkout/>
-            </depends>
+            </sequence>
         </Enterprise_CatalogEvent>
     </modules>
     <global>

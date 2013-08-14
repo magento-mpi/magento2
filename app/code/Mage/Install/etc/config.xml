@@ -16,7 +16,17 @@
             <active>true</active>
             <depends>
                 <Mage_Core/>
+                <Mage_AdminNotification/>
+                <Mage_Adminhtml/>
+                <Mage_User/>
+                <Mage_Index/>
+                <Mage_Directory/>
+                <Mage_Page/>
+                <Mage_Backend/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+            </sequence>
         </Mage_Install>
     </modules>
     <frontend>

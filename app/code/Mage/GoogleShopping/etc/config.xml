@@ -15,8 +15,23 @@
             <version>1.6.0.0.1</version>
             <active>true</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_AdminNotification/>
+                <Mage_Core/>
+                <Mage_Backend/>
                 <Mage_Catalog/>
+                <Mage_Customer/>
+                <Mage_Eav/>
+                <Mage_Sales/>
+                <Mage_Tax/>
+                <Mage_GoogleBase/>
+                <Mage_GoogleCheckout/>
+                <Mage_Cms/>
+                <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_Catalog/>
+            </sequence>
         </Mage_GoogleShopping>
     </modules>
     <global>

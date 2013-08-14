@@ -17,7 +17,14 @@
             <depends>
                 <Mage_Payment/>
                 <Mage_Checkout/>
+                <Mage_Core/>
+                <Mage_Sales/>
+                <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_Payment/>
+                <Mage_Checkout/>
+            </sequence>
         </Mage_Cardgate>
     </modules>
 

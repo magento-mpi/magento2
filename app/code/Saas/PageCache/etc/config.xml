@@ -14,6 +14,12 @@
         <Saas_PageCache>
             <version>0.1.0</version>
             <active>false</active>
+            <depends>
+                <Mage_Core/>
+                <Enterprise_PageCache/>
+                <Saas_Saas/>
+                <Saas_Search/>
+            </depends>
         </Saas_PageCache>
     </modules>
 </config>

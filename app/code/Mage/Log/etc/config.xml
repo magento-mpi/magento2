@@ -16,8 +16,14 @@
             <active>true</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Backend/>
                 <Mage_Customer/>
+                <Mage_Sales/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+                <Mage_Customer/>
+            </sequence>
         </Mage_Log>
     </modules>
     <global>

@@ -17,6 +17,9 @@
             <depends>
                 <Mage_Core/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+            </sequence>
         </Mage_Media>
     </modules>
     <adminhtml>

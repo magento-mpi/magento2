@@ -16,7 +16,14 @@
             <active>true</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Eav/>
+                <Mage_Catalog/>
+                <Mage_CatalogRule/>
+                <Mage_Adminhtml/>
             </depends>
+            <sequence>
+                <Mage_Core/>
+            </sequence>
         </Mage_Rule>
     </modules>
     <adminhtml>

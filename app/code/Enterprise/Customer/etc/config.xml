@@ -15,9 +15,19 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Eav/>
+                <Mage_Customer/>
+                <Enterprise_Eav/>
+                <Mage_Core/>
+                <Mage_Backend/>
+                <Mage_Sales/>
+                <Mage_Page/>
+            </depends>
+            <sequence>
                 <Mage_Adminhtml />
                 <Mage_Customer />
-            </depends>
+            </sequence>
         </Enterprise_Customer>
     </modules>
     <global>

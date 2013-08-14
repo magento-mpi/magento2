@@ -12,6 +12,13 @@
         <Saas_Saas>
             <version>2.0.0.0</version>
             <active>false</active>
+            <depends>
+                <Mage_Core/>
+                <Mage_User/>
+                <Mage_Backend/>
+                <Enterprise_Pci/>
+                <Enterprise_Queue/>
+            </depends>
         </Saas_Saas>
     </modules>
     <global>
@@ -70,4 +77,4 @@
             </forbiddenForRedirectAreas>
         </web>
     </default>
-</config>
+</config>

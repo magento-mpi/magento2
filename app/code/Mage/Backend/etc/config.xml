@@ -15,8 +15,21 @@
             <version>2.0.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Directory />
+                <Mage_Adminhtml/>
+                <Mage_AdminNotification/>
+                <Mage_Core/>
+                <Mage_Eav/>
+                <Mage_Index/>
+                <Mage_Directory/>
+                <Mage_Catalog/>
+                <Mage_Cron/>
+                <Mage_Sendfriend/>
+                <Mage_Page/>
+                <Mage_User/>
             </depends>
+            <sequence>
+                <Mage_Directory />
+            </sequence>
         </Mage_Backend>
     </modules>
     <global>

@@ -15,8 +15,16 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Enterprise_Queue />
+                <Mage_Core/>
+                <Mage_Index/>
+                <Mage_ImportExport/>
+                <Enterprise_Queue/>
+                <Saas_Index/>
+                <Saas_ImportExport/>
             </depends>
+            <sequence>
+                <Enterprise_Queue />
+            </sequence>
         </Saas_Queue>
     </modules>
     <global>

@@ -14,6 +14,23 @@
         <Saas_PrintedTemplate>
             <version>0.1.0</version>
             <active>false</active>
+            <depends>
+                <Mage_Adminhtml/>
+                <Mage_Core/>
+                <Mage_Sales/>
+                <Mage_Backend/>
+                <Mage_Widget/>
+                <Mage_Catalog/>
+                <Mage_Cms/>
+                <Mage_Reports/>
+                <Enterprise_Cms/>
+                <Enterprise_Banner/>
+                <Mage_Tax/>
+                <Mage_Directory/>
+                <Mage_Payment/>
+                <Mage_Page/>
+                <Mage_GiftMessage/>
+            </depends>
         </Saas_PrintedTemplate>
     </modules>
     <global>

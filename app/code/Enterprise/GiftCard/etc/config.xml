@@ -16,8 +16,30 @@
             <active>false</active>
             <depends>
                 <Mage_Catalog/>
+                <Mage_CatalogInventory/>
+                <Mage_Customer/>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Directory/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Mage_Core/>
+                <Mage_Api/>
+                <Mage_Eav/>
+                <Mage_Index/>
+                <Mage_Tag/>
+                <Mage_Wishlist/>
+                <Mage_CatalogSearch/>
+                <Mage_Rss/>
+                <Mage_Paypal/>
+                <Enterprise_SalesArchive/>
+                <Enterprise_CustomerBalance/>
                 <Enterprise_GiftCardAccount/>
             </depends>
+            <sequence>
+                <Mage_Catalog/>
+                <Enterprise_GiftCardAccount/>
+            </sequence>
         </Enterprise_GiftCard>
     </modules>
     <global>

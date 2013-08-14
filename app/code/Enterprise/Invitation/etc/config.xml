@@ -16,10 +16,20 @@
             <active>false</active>
             <depends>
                 <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Reports/>
+                <Mage_Page/>
+                <Enterprise_Logging/>
+                <Enterprise_WebsiteRestriction/>
+            </depends>
+            <sequence>
+                <Mage_Adminhtml/>
                 <Mage_Customer/>
                 <Mage_Reports/>
                 <Enterprise_WebsiteRestriction/>
-            </depends>
+            </sequence>
         </Enterprise_Invitation>
     </modules>
     <global>

@@ -15,10 +15,21 @@
             <version>1.11.0.4</version>
             <active>false</active>
             <depends>
+                <Mage_Adminhtml/>
+                <Mage_Backend/>
+                <Mage_Catalog/>
+                <Mage_Cms/>
+                <Mage_Core/>
+                <Mage_Widget/>
+                <Mage_User/>
+                <Mage_Page/>
+                <Enterprise_Enterprise/>
+            </depends>
+            <sequence>
                 <Mage_Adminhtml />
                 <Mage_Cms />
                 <Mage_Widget />
-            </depends>
+            </sequence>
         </Enterprise_Cms>
     </modules>
     <global>

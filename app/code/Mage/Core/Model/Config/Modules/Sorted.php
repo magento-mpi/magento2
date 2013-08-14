@@ -61,9 +61,9 @@ class Mage_Core_Model_Config_Modules_Sorted extends Mage_Core_Model_Config_Base
                 continue;
             }
             $dependencies = array();
-            if ($moduleNode->depends) {
+            if ($moduleNode->sequence) {
                 /** @var $dependencyNode Varien_Simplexml_Element */
-                foreach ($moduleNode->depends->children() as $dependencyNode) {
+                foreach ($moduleNode->sequence->children() as $dependencyNode) {
                     $dependencyModuleName = $dependencyNode->getName();
                     $dependencies[$dependencyModuleName] = $this->_getDependencyType($dependencyNode);
                 }

@@ -15,9 +15,17 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
+                <Mage_Backend/>
+                <Mage_Core/>
+                <Mage_Checkout/>
                 <Mage_Sales/>
                 <Mage_Payment/>
+                <Mage_Page/>
             </depends>
+            <sequence>
+                <Mage_Sales/>
+                <Mage_Payment/>
+            </sequence>
         </Mage_Ogone>
     </modules>
     <global>

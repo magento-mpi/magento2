@@ -15,9 +15,26 @@
             <version>1.11.0.2</version>
             <active>false</active>
             <depends>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Checkout/>
+                <Mage_Adminhtml/>
+                <Mage_Page/>
+                <Mage_Backend/>
+                <Mage_Sales/>
+                <Mage_SalesRule/>
+                <Mage_Paypal/>
+                <Mage_Newsletter/>
+                <Mage_Cms/>
+                <Mage_Tag/>
+                <Mage_Review/>
+                <Enterprise_Invitation/>
+                <Enterprise_SalesArchive/>
+            </depends>
+            <sequence>
                 <Mage_Customer />
                 <Mage_Checkout />
-            </depends>
+            </sequence>
         </Enterprise_Reward>
     </modules>
     <global>
