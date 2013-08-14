@@ -5,6 +5,9 @@
   * Added ability to add attributes on the Product creation page. Attribute values also can be added directly from the Product creation page
   * Removed "Delete" button from the Product Edit page. Products can be deleted from Products Grid only
   * Enhanced Product Edit page
+  * Improved visual styles and business logic for new category creation from product creation page
+  * Updated button names for Grouped and Bundle products, added an ability to translate them
+  * Changed design of all popup windows on product creation page
 * JavaScript improvements:
   * Eliminated `json2.js` library since JSON parsing is bundled in all supported browsers
   * `Ajax.Autocompleter` is replaced with jQuery suggest widget for search in backend
@@ -58,7 +61,7 @@
   * Language selector for backend interface removed from footer. Language can be chosen on My Account page or on backend user edit page
   * Updated page titles in backend
   * Improved mechanism of notification and system messages in backend. All related blocks and controllers are moved to AdminNotification module. Enhanced visual representations of notifications: bubble for unread messages, popup for notifications and their descriptions
-  * Updated text of some system messages
+  * Updated text of some system messages, backend interface messages, backend menu items
   * Several classes are refactored to use Event Manager instead of `Mage::dispatchEvent()`
   * Improved test coverage of entry point classes
   * Improved authorization logic to be reusable with minimal configuration changes
@@ -68,6 +71,8 @@
   * Added `application_process_reinit_config` event, so that it is possible to react, when Magento config gets reinitialized
   * Added "less" to a list of files that are not published to the public directory during deployment process
   * Eliminated requirement of write access to `pub/static` directory in "production" mode. "Developer" and "default" modes still require write access to this directory
+  * Improved test coverage of recently introduced `Mage_Core_Model_Config_` classes
+* Converted some more grids in backend from PHP implementation to declarations in layout
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
@@ -75,12 +80,15 @@
   * [#123](https://github.com/magento/magento2/pull/123) -- Performance problem & memory leak in `Mage_Index_Model_Process`
   * [#125](https://github.com/magento/magento2/pull/125) -- Ability to disable triggering controller action
   * [#148](https://github.com/magento/magento2/pull/148) -- Fixed readability
+  * [#156](https://github.com/magento/magento2/pull/156) -- Event `adminhtml_cms_page_edit_tab_content_prepare_form` and `$form->setValues($model->getData());` in wrong order
   * [#161](https://github.com/magento/magento2/pull/161) -- FIXED `http://www.magentocommerce.com/bug-tracking/issue/?issue=7419`
   * [#176](https://github.com/magento/magento2/pull/176) -- Add print/log query flags to collection
   * [#202](https://github.com/magento/magento2/pull/202) -- Installer fails to detect `InnoDB` on `MySQL 5.6+`
+  * [#215](https://github.com/magento/magento2/pull/215) -- There is no sort-order "best value"
   * [#217](https://github.com/magento/magento2/pull/217) -- Update `app/code/core/Mage/Adminhtml/locale/de_DE/Mage_Adminhtml.csv`
   * [#237](https://github.com/magento/magento2/pull/237) -- Helper for determining system memory usage on Windows
   * [#243](https://github.com/magento/magento2/pull/243) -- Fix helper for determining system memory usage on Windows
+  * [#267](https://github.com/magento/magento2/pull/267) -- Issue with camel case in cusutom defined source models
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
@@ -167,6 +175,11 @@
   * Fixed exception in Nominal Tax model
   * Fixed bug in sitemap URL used in `robots.txt`
   * Fixed bug with incorrect `custom_design` field value during export
+  * Fixed bug with incorrect RSS title
+  * Fixed CSS style for validation message in CMS widgets
+  * Fixed bugs in `Mage_Tag` module on product creation page
+  * Fixed incorrect Products In Cart report
+  * Fixed incorrect price for bundles with default quantity more than 1
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Fixed displaying of "Import Behavior" section in the `System -> Import` page
   * Removed remains of code pools in JavaScript tests
