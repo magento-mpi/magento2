@@ -20,7 +20,7 @@
 </form>
 <?php endif;*/ ?>
 </div>
-<?php if (!Mage::app()->isSingleStoreMode()): ?>
+<?php if (!$this->getStoreManager()->isSingleStoreMode()): ?>
 <script type="text/javascript">
 //<![CDATA[
     Event.observe(window, 'load', updateCurrency);

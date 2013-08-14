@@ -14,6 +14,25 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     protected $_template = 'edit/tab/info.phtml';
 
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Init form fields
      *
      * @return Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
@@ -142,5 +161,13 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     {
         $result = $this->_getCurrency();
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+    }
+
+    /**
+     * @return Mage_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }
