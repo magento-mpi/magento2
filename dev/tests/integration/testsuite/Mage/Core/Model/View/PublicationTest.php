@@ -565,7 +565,8 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_COre_Model_App_Area::PART_CONFIG);
 
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Theme_Collection');
+        $themeCollection = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Core_Model_Theme_Collection');
         $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/_files/design/')
             ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'vendor_default', 'theme.xml')))
             ->getFirstItem()

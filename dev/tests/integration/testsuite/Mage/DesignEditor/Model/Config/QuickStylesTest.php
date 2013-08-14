@@ -33,11 +33,13 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
     {
         $this->_design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
         $this->_design->setDesignTheme('vendor_test', Mage_Core_Model_View_DesignInterface::DEFAULT_AREA);
-        $this->_viewFileSystem = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_FileSystem');
+        $this->_viewFileSystem = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Mage_Core_Model_View_FileSystem');
         $quickStylesPath = $this->_viewFileSystem->getFilename('Mage_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
-        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_DesignEditor_Model_Config_Control_QuickStyles',
-            array('configFiles' => array($quickStylesPath)));
+        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+            'Mage_DesignEditor_Model_Config_Control_QuickStyles', array('configFiles' => array($quickStylesPath))
+        );
     }
 
     /**

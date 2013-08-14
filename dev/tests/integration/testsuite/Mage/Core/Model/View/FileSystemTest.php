@@ -28,7 +28,8 @@ class Mage_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
             )
         ));
         $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_View_FileSystem');
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->setDesignTheme('test_default');
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')
+            ->setDesignTheme('test_default');
     }
 
     public function testGetFilename()

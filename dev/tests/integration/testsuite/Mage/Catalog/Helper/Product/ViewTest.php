@@ -35,7 +35,8 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'request' => $request,
             'response' => new Magento_Test_Response(),
         );
-        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $this->_controller = Mage::getModel(
             'Mage_Catalog_ProductController',
             array(

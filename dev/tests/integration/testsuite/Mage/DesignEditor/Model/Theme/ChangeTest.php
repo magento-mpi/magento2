@@ -19,7 +19,8 @@ class Mage_DesignEditor_Model_Theme_ChangeTest extends PHPUnit_Framework_TestCas
     public function testCrud()
     {
         /** @var $changeModel Mage_DesignEditor_Model_Theme_Change */
-        $changeModel = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_DesignEditor_Model_Theme_Change');
+        $changeModel = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_DesignEditor_Model_Theme_Change');
         $changeModel->setData($this->_getChangeValidData());
 
         $crud = new Magento_Test_Entity($changeModel, array('change_time' => '2012-06-10 20:00:01'));

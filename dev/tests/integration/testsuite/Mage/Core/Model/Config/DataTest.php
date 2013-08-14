@@ -28,7 +28,9 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Storage_Writer_Db')->delete(self::SAMPLE_CONFIG_PATH);
+        Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Mage_Core_Model_Config_Storage_Writer_Db')
+            ->delete(self::SAMPLE_CONFIG_PATH);
         self::_refreshConfiguration();
     }
 

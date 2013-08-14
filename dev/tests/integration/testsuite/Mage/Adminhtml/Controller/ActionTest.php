@@ -25,11 +25,13 @@ class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
             'request' => new Magento_Test_Request(),
             'response' => new Magento_Test_Response(),
         );
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Backend_Controller_Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Adminhtml_Controller_Action',
             array(
-                'context'         => Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Backend_Controller_Context', $arguments),
-                'areaCode'        => 'adminhtml'
+                'context'  => $context,
+                'areaCode' => 'adminhtml'
             )
         );
     }

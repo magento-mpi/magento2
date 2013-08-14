@@ -21,7 +21,8 @@ class Mage_ImportExport_Block_Adminhtml_Export_FilterTest
     public function testGetDateFromToHtmlWithValue()
     {
         Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_ImportExport_Block_Adminhtml_Export_Filter');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_ImportExport_Block_Adminhtml_Export_Filter');
         $method = new ReflectionMethod(
                     'Mage_ImportExport_Block_Adminhtml_Export_Filter', '_getDateFromToHtmlWithValue');
         $method->setAccessible(true);
@@ -34,7 +35,8 @@ class Mage_ImportExport_Block_Adminhtml_Export_FilterTest
                 'frontend_label' => 'Date',
             )
         );
-        $attribute = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Eav_Model_Entity_Attribute', $arguments);
+        $attribute = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Eav_Model_Entity_Attribute', $arguments);
         $html = $method->invoke($block, $attribute, null);
         $this->assertNotEmpty($html);
 

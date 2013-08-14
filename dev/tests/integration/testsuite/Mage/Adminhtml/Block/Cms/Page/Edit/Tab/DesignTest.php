@@ -24,7 +24,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Framewor
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
         Mage::register('cms_page', Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Cms_Model_Page'));
 
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design');
         $prepareFormMethod = new ReflectionMethod(
             'Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

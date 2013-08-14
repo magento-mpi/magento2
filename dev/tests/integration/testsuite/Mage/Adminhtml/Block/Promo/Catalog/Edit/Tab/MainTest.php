@@ -22,9 +22,11 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Frame
     public function testPrepareForm()
     {
         Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        Mage::register('current_promo_catalog_rule', Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_CatalogRule_Model_Rule'));
+        $rule = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_CatalogRule_Model_Rule');
+        Mage::register('current_promo_catalog_rule', $rule);
 
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');
         $block->setLayout(Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Model_Layout'));
         $prepareFormMethod = new ReflectionMethod(
             'Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main', '_prepareForm');

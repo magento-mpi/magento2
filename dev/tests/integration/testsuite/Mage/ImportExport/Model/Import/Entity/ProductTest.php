@@ -212,7 +212,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productBeforeImport = $productsBeforeImport[$row['sku']];
 
             /** @var $productAfterImport Mage_Catalog_Model_Product */
-            $productAfterImport = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Catalog_Model_Product');
+            $productAfterImport = Magento_Test_Helper_Bootstrap::getObjectManager()
+                ->create('Mage_Catalog_Model_Product');
             $productAfterImport->load($productBeforeImport->getId());
             $this->assertEquals(
                 @strtotime($row['news_from_date']),

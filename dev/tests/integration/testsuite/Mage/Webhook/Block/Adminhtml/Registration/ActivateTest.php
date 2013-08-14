@@ -38,10 +38,10 @@ class Mage_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_Fra
         $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Block_Template_Context');
 
         /** @var Mage_Webhook_Block_Adminhtml_Registration_Activate $block */
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Block_Adminhtml_Registration_Activate', array(
-            $context,
-            $registry
-        ));
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+            'Mage_Webhook_Block_Adminhtml_Registration_Activate',
+            array($context, $registry)
+        );
 
         $urlBuilder = $context->getUrlBuilder();
         $expectedUrl = $urlBuilder->getUrl('*/*/accept', array('id' => $subscriptionId));

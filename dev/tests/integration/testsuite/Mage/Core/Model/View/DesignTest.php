@@ -74,7 +74,8 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->setDesignTheme($themePath);
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')
+            ->setDesignTheme($themePath);
 
         $this->_viewFileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
         $this->_viewConfig = Mage::getModel('Mage_Core_Model_View_Config');
@@ -197,7 +198,8 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         /** @var $theme Mage_Core_Model_Theme */
-        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->getDesignTheme();
+        $theme = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')
+            ->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem Magento_Filesystem */
         $filesystem = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Filesystem');
@@ -228,7 +230,8 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrl($appMode, $file, $result)
     {
-        $currentAppMode = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_App_State')->getMode();
+        $currentAppMode = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_App_State')
+            ->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -248,7 +251,8 @@ class Mage_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrlSigned($appMode, $file, $result)
     {
-        $currentAppMode = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_App_State')->getMode();
+        $currentAppMode = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_App_State')
+            ->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }

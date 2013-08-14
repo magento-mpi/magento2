@@ -22,7 +22,8 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Framew
     {
         Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
-        $block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form');
+        $block = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form');
         $prepareFormMethod = new ReflectionMethod(
             'Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

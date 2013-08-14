@@ -42,7 +42,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
                 'frontend_label' => 'Date',
             )
         );
-        $dateAttribute = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Customer_Model_Attribute', $arguments);
+        $dateAttribute = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Customer_Model_Attribute', $arguments);
         $attributes = array('date' => $dateAttribute);
         $method->invoke($block, $attributes, $fieldset);
 

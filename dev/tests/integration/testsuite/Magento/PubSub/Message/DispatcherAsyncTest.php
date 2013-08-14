@@ -25,7 +25,8 @@ class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_Test
     public function setUp()
     {
         /** @var Mage_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection')
+        $eventCollection = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Mage_Webhook_Model_Resource_Event_Collection')
             ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
         /** @var array $event */
         $events = $eventCollection->getItems();
@@ -35,7 +36,8 @@ class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_Test
             $event->save();
         }
 
-        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_PubSub_Message_DispatcherAsync');
+        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_PubSub_Message_DispatcherAsync');
     }
 
     /**

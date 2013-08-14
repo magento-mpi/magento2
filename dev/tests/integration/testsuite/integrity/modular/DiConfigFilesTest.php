@@ -36,7 +36,8 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
 
         //init module global configs
         /** @var $modulesReader Mage_Core_Model_Config_Modules_Reader */
-        $modulesReader = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Modules_Reader');
+        $modulesReader = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Mage_Core_Model_Config_Modules_Reader');
         self::$_moduleGlobalFiles = $modulesReader->getModuleConfigurationFiles('di.xml');
 
         //init module area configs

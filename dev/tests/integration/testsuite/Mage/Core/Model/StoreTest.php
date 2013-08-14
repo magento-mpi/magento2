@@ -18,11 +18,12 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $config = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config');
         $params = array(
-            'context' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Context'),
-            'configCacheType' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
-            'urlModel' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Url'),
-            'appState' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_App_State'),
+            'context'         => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Context'),
+            'configCacheType' => $config,
+            'urlModel'        => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Url'),
+            'appState'        => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_App_State'),
         );
 
         $this->_model = $this->getMock(
@@ -318,9 +319,10 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
 
+        $config = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config');
         $params = array(
             'context' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Context'),
-            'configCacheType' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
+            'configCacheType' => $config,
             'urlModel' => Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Url'),
             'appState' => $appStateMock,
         );
