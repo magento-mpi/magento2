@@ -36,7 +36,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     protected $_fileHandler;
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
@@ -51,7 +51,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
      *
      * @param string $destination
      * @param Saas_ImportExport_Helper_Data $helper
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param bool $createPath
      * @throws Magento_Filesystem_Exception
@@ -59,7 +59,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     final public function __construct(
         $destination,
         Saas_ImportExport_Helper_Data $helper,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         $createPath = true
     ) {
@@ -85,7 +85,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
      * Write row data to source file
      *
      * @param array $rowData
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
      */
     abstract public function writeRow(array $rowData);
 
@@ -162,7 +162,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     /**
      * Method called as last step of object instance creation. Can be overridden in child classes
      *
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
      */
     protected function _init()
     {

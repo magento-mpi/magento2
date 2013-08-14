@@ -15,8 +15,8 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_CatalogRule/>
-                <Mage_SalesRule/>
+                <Magento_CatalogRule/>
+                <Magento_SalesRule/>
             </depends>
         </Enterprise_PromotionPermissions>
     </modules>

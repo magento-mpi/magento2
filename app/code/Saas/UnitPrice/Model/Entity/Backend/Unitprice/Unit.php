@@ -15,7 +15,7 @@
  * @package    Saas_UnitPrice
  */
 class Saas_UnitPrice_Model_Entity_Backend_Unitprice_Unit
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     public function validate($object)
     {

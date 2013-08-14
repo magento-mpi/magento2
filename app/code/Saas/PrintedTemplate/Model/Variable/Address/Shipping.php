@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Address for address variable
+ * Container for Magento_Sales_Model_Order_Address for address variable
  *
  * Container that can restrict access to properties and method
  * with white list.
@@ -24,9 +24,9 @@ class Saas_PrintedTemplate_Model_Variable_Address_Shipping
     /**
      * Initializes model
      *
-     * @param Mage_Sales_Model_Order_Address $value
+     * @param Magento_Sales_Model_Order_Address $value
      */
-    public function __construct(Mage_Sales_Model_Order_Address $value)
+    public function __construct(Magento_Sales_Model_Order_Address $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig('address_shipping');

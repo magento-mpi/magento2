@@ -24,32 +24,32 @@ class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         Mage::getObjectManager()->configure(array(
-            'Mage_Core_Model_Config_Base' => array(
+            'Magento_Core_Model_Config_Base' => array(
                 'parameters' => array(
                     'sourceData' => __DIR__ . '/../_files/config.xml',
                 ),
             ),
-            'Mage_Webhook_Model_Resource_Subscription' => array(
+            'Magento_Webhook_Model_Resource_Subscription' => array(
                 'parameters' => array(
-                    'config' => array('instance' => 'Mage_Core_Model_Config_Base'),
+                    'config' => array('instance' => 'Magento_Core_Model_Config_Base'),
                 ),
             )
         ));
 
-        /** @var Mage_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection')
+        /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
+        $eventCollection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection')
             ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
         /** @var array $event */
         $events = $eventCollection->getItems();
-        /** @var Mage_Webhook_Model_Event $event */
+        /** @var Magento_Webhook_Model_Event $event */
         foreach ($events as $event) {
             $event->markAsProcessed();
             $event->save();
         }
-        /** @var $factory Mage_Webhook_Model_Event_Factory */
+        /** @var $factory Magento_Webhook_Model_Event_Factory */
         $factory = Mage::getObjectManager()->create('Magento_PubSub_Event_FactoryInterface');
 
-        /** @var $event Mage_Webhook_Model_Event */
+        /** @var $event Magento_Webhook_Model_Event */
         $factory->create('testinstance/created', array(
             'testKey1' => 'testValue1'
         ))->save();
@@ -58,12 +58,12 @@ class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
             'testKey2' => 'testValue2'
         ))->save();
 
-        $webApiUser = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
+        $webApiUser = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
             ->setData('api_key', 'test')
             ->setData('secret', 'secret')
             ->save();
 
-        $endpoint = Mage::getObjectManager()->create('Mage_Webhook_Model_Endpoint')
+        $endpoint = Mage::getObjectManager()->create('Magento_Webhook_Model_Endpoint')
             ->setData(
                 array(
                     'endpoint_url' => 'http://test.domain.com/',
@@ -75,8 +75,8 @@ class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
             )
             ->save();
 
-        /** @var Mage_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription');
+        /** @var Magento_Webhook_Model_Subscription $subscription */
+        $subscription = Mage::getObjectManager()->create('Magento_Webhook_Model_Subscription');
         $subscription->setData(
             array(
                 'name' => 'test',

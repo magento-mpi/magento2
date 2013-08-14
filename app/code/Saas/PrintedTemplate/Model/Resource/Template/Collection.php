@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Resource_Template_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection constructor. Initialize collection's model.

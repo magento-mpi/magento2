@@ -8,7 +8,7 @@
  * @license   {license_link}
  */
 abstract class Saas_ImportExport_Model_System_Message_FinishedAbstract
-    implements Mage_AdminNotification_Model_System_MessageInterface
+    implements Magento_AdminNotification_Model_System_MessageInterface
 {
     /**
      * Process state helper

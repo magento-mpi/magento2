@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Source_FontSize extends Mage_Core_Model_Abstract
+class Saas_PrintedTemplate_Model_Source_FontSize extends Magento_Core_Model_Abstract
 {
     /**
      * Returns all available options with titles

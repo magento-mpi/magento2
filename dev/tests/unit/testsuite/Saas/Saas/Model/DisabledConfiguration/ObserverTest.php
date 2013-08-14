@@ -34,7 +34,7 @@ class Saas_Saas_Model_DisabledConfiguration_ObserverTest extends PHPUnit_Framewo
             $this->setExpectedException($expectedException, $exceptionMessage);
         }
 
-        $configDataMock = $this->getMock('Mage_Core_Model_Config_Data', array('getPath'), array(), '', false);
+        $configDataMock = $this->getMock('Magento_Core_Model_Config_Data', array('getPath'), array(), '', false);
         $configDataMock->expects($this->once())
             ->method('getPath')
             ->will($this->returnValue($fieldPath));

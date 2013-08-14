@@ -22,7 +22,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
+class Enterprise_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
 {
     protected $_store = null;
     protected $_storeData = null;
@@ -101,7 +101,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     /**
      * Retrieve store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -125,7 +125,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     /**
      * Save registry type attribute data per store view
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      */
     protected function _saveAttributeStoreData()
     {

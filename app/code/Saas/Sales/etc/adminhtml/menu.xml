@@ -9,7 +9,7 @@
 -->
 <config>
     <menu>
-        <remove id="Mage_Sales::sales_transactions" />
-        <remove id="Mage_Sales::sales_recurring_profile"/>
+        <remove id="Magento_Sales::sales_transactions" />
+        <remove id="Magento_Sales::sales_recurring_profile"/>
     </menu>
 </config>

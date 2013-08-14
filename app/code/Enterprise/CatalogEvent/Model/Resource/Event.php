@@ -16,7 +16,7 @@
  * @package     Enterprise_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
 {
     const EVENT_FROM_PARENT_FIRST = 1;
     const EVENT_FROM_PARENT_LAST  = 2;
@@ -52,10 +52,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     /**
      * Before model save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_CatalogEvent_Model_Resource_Event
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (strlen($object->getSortOrder()) === 0) {
             $object->setSortOrder(null);
@@ -67,7 +67,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     /**
      * Retrieve category ids with events
      *
-     * @param int|string|Mage_Core_Model_Store $storeId
+     * @param int|string|Magento_Core_Model_Store $storeId
      * @return array
      */
     public function getCategoryIdsWithEvent($storeId = null)
@@ -75,10 +75,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
         $rootCategoryId = Mage::app()->getStore($storeId)->getRootCategoryId();
 
         /* @var $select Magento_DB_Select */
-        $select = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
+        $select = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
             ->setStoreId(Mage::app()->getStore($storeId)->getId())
             ->addIsActiveFilter()
-            ->addPathsFilter(Mage_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
+            ->addPathsFilter(Magento_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
             ->getSelect();
 
         $parts = $select->getPart(Zend_Db_Select::FROM);
@@ -176,10 +176,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     /**
      * After model save (save event image)
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_CatalogEvent_Model_Resource_Event
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $where = array(
             $object->getIdFieldName() . '=?' => $object->getId(),
@@ -204,10 +204,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     /**
      * After model load (loads event image)
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_CatalogEvent_Model_Resource_Event
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()

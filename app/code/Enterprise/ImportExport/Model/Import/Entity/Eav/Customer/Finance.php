@@ -17,7 +17,7 @@
  * @method      array getData() getData()
  */
 class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
-    extends Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
+    extends Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
 {
     /**
      * Attribute collection name
@@ -86,14 +86,14 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Object factory model, currently it is config model
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_objectFactory;
 
     /**
      * Admin user object
      *
-     * @var Mage_User_Model_User
+     * @var Magento_User_Model_User
      */
     protected $_adminUser;
 
@@ -121,7 +121,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
         $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
             : Mage::app()->getConfig();
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
-            : Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+            : Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
             $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Finance information website is not specified')
@@ -145,7 +145,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     protected function _initAttributes()
     {
-        /** @var $attribute Mage_Eav_Model_Attribute */
+        /** @var $attribute Magento_Eav_Model_Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
@@ -168,8 +168,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
             return false;
         }
 
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer');
+        /** @var $customer Magento_Customer_Model_Customer */
+        $customer = $this->_objectFactory->getModelInstance('Magento_Customer_Model_Customer');
         $rewardPointsKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
@@ -194,13 +194,13 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                 // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
+                    if ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_DELETE) {
                         if ($attributeCode == $rewardPointsKey) {
                             $this->_deleteRewardPoints($customer, $websiteId);
                         } elseif ($attributeCode == $customerBalanceKey) {
                             $this->_deleteCustomerBalance($customer, $websiteId);
                         }
-                    } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
+                    } elseif ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
                         if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                             if ($attributeCode == $rewardPointsKey) {
                                 $this->_updateRewardPointsForCustomer(
@@ -223,12 +223,12 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update reward points value for customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      * @param int $value reward points value
      * @return Enterprise_Reward_Model_Reward
      */
-    protected function _updateRewardPointsForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateRewardPointsForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $rewardModel Enterprise_Reward_Model_Reward */
         $rewardModel = $this->_objectFactory->getModelInstance('Enterprise_Reward_Model_Reward');
@@ -262,12 +262,12 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update store credit balance for customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      * @param float $value store credit balance
      * @return Enterprise_CustomerBalance_Model_Balance
      */
-    protected function _updateCustomerBalanceForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateCustomerBalanceForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $balanceModel Enterprise_CustomerBalance_Model_Balance */
         $balanceModel = $this->_objectFactory->getModelInstance('Enterprise_CustomerBalance_Model_Balance');
@@ -300,10 +300,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Delete reward points value for customer (just set it to 0)
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      */
-    protected function _deleteRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId)
+    protected function _deleteRewardPoints(Magento_Customer_Model_Customer $customer, $websiteId)
     {
         $this->_updateRewardPointsForCustomer($customer, $websiteId, 0);
     }
@@ -311,10 +311,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Delete store credit balance for customer (just set it to 0)
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      */
-    protected function _deleteCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId)
+    protected function _deleteCustomerBalance(Magento_Customer_Model_Customer $customer, $websiteId)
     {
         $this->_updateCustomerBalanceForCustomer($customer, $websiteId, 0);
     }
@@ -364,7 +364,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $customerId     = $this->_getCustomerId($email, $website);
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif ($customerId === false) {
@@ -406,7 +406,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif (!$this->_getCustomerId($email, $website)) {

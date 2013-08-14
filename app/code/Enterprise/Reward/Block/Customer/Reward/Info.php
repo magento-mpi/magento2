@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward_Info extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Template
 {
     /**
      * Reward pts model instance
@@ -31,7 +31,7 @@ class Enterprise_Reward_Block_Customer_Reward_Info extends Mage_Core_Block_Templ
      */
     protected function _toHtml()
     {
-        $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         if ($customer && $customer->getId()) {
             $this->_rewardInstance = Mage::getModel('Enterprise_Reward_Model_Reward')
                 ->setCustomer($customer)

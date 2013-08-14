@@ -20,7 +20,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
     /**
      * Tax configuration model
      *
-     * @var Mage_Tax_Model_Config
+     * @var Magento_Tax_Model_Config
      */
     protected $_taxConfig;
 
@@ -31,12 +31,12 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
      */
     protected function _initVariable()
     {
-        $this->_taxConfig = Mage::helper('Mage_Tax_Helper_Data')->getConfig();
+        $this->_taxConfig = Mage::helper('Magento_Tax_Helper_Data')->getConfig();
     }
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesSubtotalInclTax()
+     * @see Magento_Tax_Model_Config::displaySalesSubtotalInclTax()
      */
     public function getDisplaySubtotalInclTax()
     {
@@ -45,7 +45,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesSubtotalExclTax()
+     * @see Magento_Tax_Model_Config::displaySalesSubtotalExclTax()
      */
     public function getDisplaySubtotalExclTax()
     {
@@ -54,7 +54,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesSubtotalBoth()
+     * @see Magento_Tax_Model_Config::displaySalesSubtotalBoth()
      */
     public function getDisplaySubtotalBoth()
     {
@@ -63,7 +63,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesShippingInclTax()
+     * @see Magento_Tax_Model_Config::displaySalesShippingInclTax()
      */
     public function getDisplayShippingInclTax()
     {
@@ -72,7 +72,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesShippingExclTax()
+     * @see Magento_Tax_Model_Config::displaySalesShippingExclTax()
      */
     public function getDisplayShippingExclTax()
     {
@@ -81,7 +81,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesShippingBoth()
+     * @see Magento_Tax_Model_Config::displaySalesShippingBoth()
      */
     public function getDisplayShippingBoth()
     {
@@ -90,7 +90,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesDiscountInclTax()
+     * @see Magento_Tax_Model_Config::displaySalesDiscountInclTax()
      */
     public function getDisplaySalesDiscountInclTax()
     {
@@ -99,7 +99,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalestDiscountExclTax()
+     * @see Magento_Tax_Model_Config::displaySalestDiscountExclTax()
      */
     public function getDisplayDiscountExclTax()
     {
@@ -108,7 +108,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesDiscountBoth()
+     * @see Magento_Tax_Model_Config::displaySalesDiscountBoth()
      */
     public function getDisplayDiscountBoth()
     {
@@ -117,7 +117,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesTaxWithGrandTotal()
+     * @see Magento_Tax_Model_Config::displaySalesTaxWithGrandTotal()
      */
     public function getDisplayTaxWithGrandTotal()
     {
@@ -126,7 +126,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
 
     /**
      * Proxy to tax config
-     * @see Mage_Tax_Model_Config::displaySalesZeroTax()
+     * @see Magento_Tax_Model_Config::displaySalesZeroTax()
      */
     public function getDisplayZeroTax()
     {
@@ -139,7 +139,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
      */
     public function getStoreLogoUrl()
     {
-        return Mage::getBlockSingleton('Mage_Page_Block_Html')->getPrintLogoUrl();
+        return Mage::getBlockSingleton('Magento_Page_Block_Html')->getPrintLogoUrl();
     }
 
     /**
@@ -148,6 +148,6 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
      */
     public function getStoreAddress()
     {
-        return nl2br(Mage::getBlockSingleton('Mage_Page_Block_Html')->getPrintLogoText());
+        return nl2br(Mage::getBlockSingleton('Magento_Page_Block_Html')->getPrintLogoText());
     }
 }

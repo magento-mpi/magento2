@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set grid Id
@@ -138,7 +138,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'column_css_class'  => 'col-whishlist-qty'
         ));
 
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $this->addColumn('product_qty', array(
                 'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Store Quantity'),
                 'index'     => 'product_qty',
@@ -169,8 +169,8 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'column_css_class'  => 'col-price'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('Magento_Adminhtml_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('Magento_Adminhtml_Helper_Data')->__('Excel XML'));
 
         return $this;
     }

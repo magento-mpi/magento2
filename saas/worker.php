@@ -26,9 +26,9 @@ return function (array $params)
         Saas_Saas_Model_EntryPoint_Worker::TASK_OPTIONS_KEY
     ];
 
-    $configPrimary = new Mage_Core_Model_Config_Primary($rootDir, $appParams);
+    $configPrimary = new Magento_Core_Model_Config_Primary($rootDir, $appParams);
     $configPrimary->setNode(
-        'global/di/Mage_Core_Model_Config/parameters/storage', 'Saas_Core_Model_Config_Storage_Worker'
+        'global/di/Magento_Core_Model_Config/parameters/storage', 'Saas_Core_Model_Config_Storage_Worker'
     );
     $entryPoint = new Saas_Saas_Model_EntryPoint_Worker($configPrimary);
     $entryPoint->processRequest();

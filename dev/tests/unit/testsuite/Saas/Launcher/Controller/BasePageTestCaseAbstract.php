@@ -26,32 +26,32 @@ abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
     /**
      * Retrieve mocked page controller instance
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Magento_Core_Controller_Varien_Front $frontController
+     * @param Magento_Core_Model_Layout_Factory $layoutFactory
      * @param string|null $areaCode
      * @return Saas_Launcher_Controller_BasePage
      */
     abstract protected function _getMockedPageControllerInstance(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Magento_Core_Controller_Varien_Front $frontController,
+        Magento_Core_Model_Layout_Factory $layoutFactory,
         $areaCode = null
     );
 
     protected function setUp()
     {
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $response = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $frontController = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
-        $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false);
-        $backendHelper = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $backendSession = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
+        $frontController = $this->getMock('Magento_Core_Controller_Varien_Front', array(), array(), '', false);
+        $layoutFactory = $this->getMock('Magento_Core_Model_Layout_Factory', array(), array(), '', false);
+        $backendHelper = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $backendSession = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
 
         $this->_controller = $this->_getMockedPageControllerInstance(
             $request,
@@ -76,7 +76,7 @@ abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
         $this->_controller->expects($this->once())->method('renderLayout')->will($this->returnSelf());
         $this->_controller->expects($this->once())
             ->method('_setActiveMenu')
-            ->with($this->equalTo('Mage_Adminhtml::dashboard'))
+            ->with($this->equalTo('Magento_Adminhtml::dashboard'))
             ->will($this->returnSelf());
 
         $this->_controller->indexAction();

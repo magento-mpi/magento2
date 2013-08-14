@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="js">
-            <block type="Mage_Backend_Block_Template" template="Saas_Launcher::page/js.phtml" name="page.js"/>
+            <block type="Magento_Backend_Block_Template" template="Saas_Launcher::page/js.phtml" name="page.js"/>
         </reference>
         <reference name="content">
             <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Page" name="promotestore.page" template="page/promotestore/promotestore.phtml"/>

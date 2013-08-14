@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
+class Saas_ImportExport_Helper_Export_File extends Magento_Core_Helper_Abstract
 {
     /**#@+
      * Mime type constants
@@ -48,13 +48,13 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     /**
      * Constructor
      *
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
      * @param Saas_ImportExport_Model_Export_State_Flag $stateFlag
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
+        Magento_Core_Helper_Context $context,
         Saas_ImportExport_Helper_Export_Config $configHelper,
         Saas_ImportExport_Model_Export_State_Flag $stateFlag,
         Magento_Filesystem $filesystem

@@ -29,7 +29,7 @@ class Saas_Saas_Model_DisabledConfiguration_Observer
      */
     public function checkConfigSaveAllowed(Magento_Event_Observer $observer)
     {
-        /** @var $object Mage_Core_Model_Config_Data */
+        /** @var $object Magento_Core_Model_Config_Data */
         $object = $observer->getEvent()->getConfigData();
         if ($this->_disabledConfig->isPathDisabled($object->getPath())) {
             throw new Saas_Saas_Exception('Modification is not permitted');

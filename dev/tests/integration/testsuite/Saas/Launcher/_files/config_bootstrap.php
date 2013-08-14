@@ -9,7 +9,7 @@
  */
 
 $tilesConfig = Mage::getModel(
-    'Mage_Core_Model_Config_Base',
+    'Magento_Core_Model_Config_Base',
     array('sourceData' => dirname(__FILE__) . '/etc/config.xml')
 );
 Mage::getConfig()->getNode()->extend($tilesConfig->getNode());

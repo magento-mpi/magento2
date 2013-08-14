@@ -15,7 +15,7 @@
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Template
+class Saas_Launcher_Block_Adminhtml_Page extends Magento_Backend_Block_Template
 {
     /**
      * Page Code
@@ -37,12 +37,12 @@ class Saas_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Template
     protected $_page;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_PageFactory $pageFactory,
         array $data = array()
     ) {

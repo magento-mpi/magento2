@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Saas_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
+class Saas_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * XML path to Google Verification Code
@@ -15,15 +15,15 @@ class Saas_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_GOOGLE_VERIFICATION_CODE = 'sitemap/generate/verification_code';
 
     /**
-     * @var Mage_Core_Model_Store_ConfigInterface
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Store_ConfigInterface $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_ConfigInterface $config
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Store_ConfigInterface $config)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Store_ConfigInterface $config)
     {
         parent::__construct($context);
 

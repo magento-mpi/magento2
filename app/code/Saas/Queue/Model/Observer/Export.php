@@ -19,17 +19,17 @@ class Saas_Queue_Model_Observer_Export extends Saas_Queue_Model_ObserverAbstract
     /**
      * Event manager model
      *
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
     /**
      * @param Saas_ImportExport_Model_Export $export
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Saas_ImportExport_Model_Export $export,
-        Mage_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_exportModel = $export;
         $this->_eventManager = $eventManager;

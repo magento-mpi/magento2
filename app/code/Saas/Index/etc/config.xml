@@ -13,8 +13,8 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Core />
-                <Mage_Index />
+                <Magento_Core />
+                <Magento_Index />
             </depends>
         </Saas_Index>
     </modules>
@@ -35,7 +35,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Saas_Index before="Mage_Adminhtml">Saas_Index_Adminhtml</Saas_Index>
+                        <Saas_Index before="Magento_Adminhtml">Saas_Index_Adminhtml</Saas_Index>
                     </modules>
                 </args>
             </adminhtml>

@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Quick extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Search_Quick extends Magento_Core_Block_Template
 {
     /**
      * Check whether module is available
@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Search_Quick extends Mage_Core_Block_Templat
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select'

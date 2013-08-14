@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Saas_Saas />
-                <Mage_CatalogRule />
+                <Magento_CatalogRule />
             </depends>
         </Saas_CatalogRule>
     </modules>

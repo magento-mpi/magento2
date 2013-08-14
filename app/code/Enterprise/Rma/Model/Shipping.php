@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
+class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
 {
     /**
      * Store address
@@ -78,8 +78,8 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $shipmentStoreId    = $this->getRma()->getStoreId();
         $storeInfo          = new Magento_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
-        /** @var $order Mage_Sales_Model_Order */
-        $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());
+        /** @var $order Magento_Sales_Model_Order */
+        $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
         $recipientAddress   = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
 
@@ -92,7 +92,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Invalid carrier: %s', $carrierCode));
         }
 
-        $shipperRegionCode  = Mage::getModel('Mage_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
+        $shipperRegionCode  = Mage::getModel('Magento_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
@@ -113,8 +113,8 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             );
         }
 
-        /** @var $request Mage_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('Mage_Shipping_Model_Shipment_Return');
+        /** @var $request Magento_Shipping_Model_Shipment_Request */
+        $request = Mage::getModel('Magento_Shipping_Model_Shipment_Return');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -170,7 +170,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();

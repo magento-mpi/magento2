@@ -16,7 +16,7 @@
  * @subpackage  Models
  */
 class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection constructor. Initialize collection's model.
@@ -33,7 +33,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
      * Adds percent, real_percent, priority, item_id columns
      * and adds sorting by item_id, priority and percent
      *
-     * @see Mage_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
+     * @see Magento_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
      */
     protected function _initSelect()
     {
@@ -57,7 +57,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
      * Joined table should have entity_id, parent_id (order_id), tax_amount,
      * base_tax_amount and qty columns.
      *
-     * @param string|Mage_Core_Model_Resource_Abstract|Mage_Core_Model_Abstract $table
+     * @param string|Magento_Core_Model_Resource_Abstract|Magento_Core_Model_Abstract $table
      * @param string $targetColumn Foreign key in joined table
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
@@ -83,15 +83,15 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Returns table name of collection, model if get string doesn't touch it.
      *
-     * @param string|Mage_Core_Model_Mysql4_Abstract|Mage_Core_Model_Abstract $table
+     * @param string|Magento_Core_Model_Mysql4_Abstract|Magento_Core_Model_Abstract $table
      * @return string Table name
      */
     protected function _getTableName($table)
     {
-        if ($table instanceof Mage_Core_Model_Resource_Db_Collection_Abstract) {
+        if ($table instanceof Magento_Core_Model_Resource_Db_Collection_Abstract) {
             return $table->getMainTable();
         }
-        if ($table instanceof Mage_Core_Model_Abstract) {
+        if ($table instanceof Magento_Core_Model_Abstract) {
             return $table->getResource()->getMainTable();
         }
 
@@ -101,10 +101,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Add filter by order
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByOrder(Mage_Sales_Model_Order $order)
+    public function addFilterByOrder(Magento_Sales_Model_Order $order)
     {
         return $this->_joinItems($order->getItemsCollection(), 'item_id')
                     ->addFieldToFilter('parent_id', $order->getId())
@@ -114,10 +114,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Add filter by invoice
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Invoice $invoice
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByInvoice(Mage_Sales_Model_Order_Invoice $invoice)
+    public function addFilterByInvoice(Magento_Sales_Model_Order_Invoice $invoice)
     {
         return $this->_joinItems($invoice->getItemsCollection(), 'order_item_id')
                     ->addFieldToFilter('parent_id', $invoice->getId());
@@ -126,10 +126,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Add filter by creditmemo
      *
-     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByCreditmemo(Mage_Sales_Model_Order_Creditmemo $creditmemo)
+    public function addFilterByCreditmemo(Magento_Sales_Model_Order_Creditmemo $creditmemo)
     {
         return $this->_joinItems($creditmemo->getItemsCollection(), 'order_item_id')
                     ->addFieldToFilter('parent_id', $creditmemo->getId());

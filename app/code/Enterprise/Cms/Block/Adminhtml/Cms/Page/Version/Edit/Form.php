@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     protected $_template = 'page/version/form.phtml';
 
@@ -36,7 +36,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
 
         $form->setUseContainer(true);
 
-        /* @var $model Mage_Cms_Model_Page */
+        /* @var $model Magento_Cms_Model_Page */
         $version = Mage::registry('cms_page_version');
 
         $config = Mage::getSingleton('Enterprise_Cms_Model_Config');

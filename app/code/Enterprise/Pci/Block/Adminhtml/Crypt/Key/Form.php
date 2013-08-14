@@ -12,7 +12,7 @@
  * Encryption key change form block
  *
  */
-class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Add form fields
@@ -30,8 +30,8 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block
             'name'    => 'generate_random',
             'label'   => Mage::helper('Enterprise_Pci_Helper_Data')->__('Auto-generate a Key'),
             'options' => array(
-                0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
-                1 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'),
+                0 => Mage::helper('Magento_Adminhtml_Helper_Data')->__('No'),
+                1 => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Yes'),
             ),
             'onclick' => "var cryptKey = $('crypt_key'); cryptKey.disabled = this.value == 1; if (cryptKey.disabled) {cryptKey.parentNode.parentNode.hide();} else {cryptKey.parentNode.parentNode.show();}",
             'note'    => Mage::helper('Enterprise_Pci_Helper_Data')->__('The generated key will be displayed after changing.'),

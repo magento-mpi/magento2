@@ -22,13 +22,13 @@ class Saas_PrintedTemplate_Model_Converter_Template_Shipment extends Saas_Printe
      *
      * @param array $args Array with arguments and they should be:
      *     Saas_PrintedTemplate_Model_Template $template
-     *     Mage_Sales_Model_Order_Shipment $shipment
+     *     Magento_Sales_Model_Order_Shipment $shipment
      */
     public function __construct(array $data)
     {
         // Check arguments
         if (isset($data['template']) && $data['template'] instanceof Saas_PrintedTemplate_Model_Template
-            && isset($data['model']) && $data['model'] instanceof Mage_Sales_Model_Order_Shipment
+            && isset($data['model']) && $data['model'] instanceof Magento_Sales_Model_Order_Shipment
         ) {
             $template = $data['template'];
             $shipment = $data['model'];

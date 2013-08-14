@@ -40,8 +40,8 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdatedTest extends PHPUni
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_flagMock));
 
         $this->_helperMock = $this->getMock('Saas_Index_Helper_Data', array(), array(), '', false);
-        $this->_urlBuilder = $this->getMock('Mage_Core_Model_UrlInterface');
-        $this->_messageMock = $this->getMock('Mage_Index_Model_System_Message_IndexOutdated', array(), array(), '',
+        $this->_urlBuilder = $this->getMock('Magento_Core_Model_UrlInterface');
+        $this->_messageMock = $this->getMock('Magento_Index_Model_System_Message_IndexOutdated', array(), array(), '',
             false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_message = $objectManager->getObject('Saas_Index_Model_System_Message_Decorator_IndexOutdated', array(

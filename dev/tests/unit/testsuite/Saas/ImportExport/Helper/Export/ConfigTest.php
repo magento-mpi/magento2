@@ -13,7 +13,7 @@ class Saas_ImportExport_Helper_Export_ConfigTest extends PHPUnit_Framework_TestC
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_Dir
+     * @var Magento_Core_Model_Dir
      */
     protected $_dirModel;
 
@@ -24,11 +24,11 @@ class Saas_ImportExport_Helper_Export_ConfigTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_dirModel = $objectManager->getObject('Mage_Core_Model_Dir');
+        $this->_dirModel = $objectManager->getObject('Magento_Core_Model_Dir');
         $this->_helperModel = $objectManager->getObject('Saas_ImportExport_Helper_Export_Config', array(
-            'context' => $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false),
+            'context' => $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false),
             'applicationConfig' => $this->_configMock,
             'dir' => $this->_dirModel
         ));

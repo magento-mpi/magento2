@@ -20,7 +20,7 @@ class Enterprise_PromotionPermissions_Model_Observer
     /**
      * Instance of http request
      *
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -85,7 +85,7 @@ class Enterprise_PromotionPermissions_Model_Observer
      */
     public function coreBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block Mage_Core_Block_Abstract */
+         /** @var $block Magento_Core_Block_Abstract */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -106,11 +106,11 @@ class Enterprise_PromotionPermissions_Model_Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block Mage_Adminhtml_Block_Template */
+        /** @var $block Magento_Adminhtml_Block_Template */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle blocks related to Mage_CatalogRule module
+            // Handle blocks related to Magento_CatalogRule module
             case 'promo_catalog' :
                 if (!$this->_canEditCatalogRules) {
                     $block->removeButton('add');
@@ -133,7 +133,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Mage_SalesRule module
+            // Handle blocks related to Magento_SalesRule module
             case 'promo_quote' :
                 if (!$this->_canEditSalesRules) {
                     $block->removeButton('add');
@@ -228,9 +228,9 @@ class Enterprise_PromotionPermissions_Model_Observer
 
         if (in_array($controllerActionName, $forbiddenActionNames)
             && ((!$this->_canEditSalesRules
-            && $controllerAction instanceof Mage_Adminhtml_Controller_Promo_Quote)
+            && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Quote)
             || (!$this->_canEditCatalogRules
-            && $controllerAction instanceof Mage_Adminhtml_Controller_Promo_Catalog)
+            && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Catalog)
             || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
             && $controllerAction instanceof Enterprise_Reminder_Controller_Adminhtml_Reminder))
         ) {

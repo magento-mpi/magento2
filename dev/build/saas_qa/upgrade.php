@@ -33,12 +33,12 @@ require __DIR__ . '/../../../app/bootstrap.php';
 
 $configurations = array(
     Mage::PARAM_CUSTOM_LOCAL_CONFIG => file_get_contents($params['local-xml']),
-    Mage::PARAM_APP_URIS => array(Mage_Core_Model_Dir::MEDIA => $params['media-uri']),
+    Mage::PARAM_APP_URIS => array(Magento_Core_Model_Dir::MEDIA => $params['media-uri']),
     Mage::PARAM_APP_DIRS => array(
-        Mage_Core_Model_Dir::MEDIA => $params['media-dir'],
-        Mage_Core_Model_Dir::VAR_DIR => $params['var-dir'],
+        Magento_Core_Model_Dir::MEDIA => $params['media-dir'],
+        Magento_Core_Model_Dir::VAR_DIR => $params['var-dir'],
     ),
-    Mage::PARAM_MODE => Mage_Core_Model_App_State::MODE_DEVELOPER, // Force upgrades to be executed
+    Mage::PARAM_MODE => Magento_Core_Model_App_State::MODE_DEVELOPER, // Force upgrades to be executed
 );
-$entryPoint = new Mage_Install_Model_EntryPoint_Upgrade(BP, $configurations);
+$entryPoint = new Magento_Install_Model_EntryPoint_Upgrade(BP, $configurations);
 $entryPoint->processRequest();

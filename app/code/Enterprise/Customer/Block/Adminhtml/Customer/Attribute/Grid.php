@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
-    extends Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
     /**
      * Initialize grid, set grid Id
@@ -37,7 +37,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection')
+        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

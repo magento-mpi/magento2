@@ -19,7 +19,7 @@ class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        $this->_cache = $this->getMockBuilder('Magento_Core_Model_Cache')->disableOriginalConstructor()->getMock();
         $this->_jobCache = new Saas_Queue_Model_Observer_Cache($this->_cache);
     }
 

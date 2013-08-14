@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_sales_coupons>
+        <update handle="report_sales"/>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Report_Sales_Coupons" template="report/grid/container.phtml" name="sales.report.grid.container">
+                <block type="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarName">
+                        <var_name>store_ids</var_name>
+                    </action>
+                </block>
+                <block type="Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon" name="grid.filter.form">
+                    <action method="addReportTypeOption" translate="value">
+                        <key>created_at_order</key>
+                        <value>Order Created Date</value>
+                    </action>
+                    <action method="addReportTypeOption" translate="value">
+                        <key>updated_at_order</key>
+                        <value>Order Updated Date</value>
+                    </action>
+                    <action method="setFieldOption" translate="value">
+                        <field>report_type</field>
+                        <option>note</option>
+                        <value>The Order Updated Date report is displayed in real-time, and does not need to be refreshed.</value>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_sales_coupons>
+</layout>

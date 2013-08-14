@@ -16,7 +16,7 @@
  * @subpackage  Models
  */
 class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection constructor.
@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
      * Adds percent, real_percent, priority, item_id columns
      * and adds sorting by priority and percent
      *
-     * @see Mage_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
+     * @see Magento_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
      */
     protected function _initSelect()
     {
@@ -55,10 +55,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
     /**
      * Add filter by order and order_id, tax_amount, base_tax_amount columns
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByOrder(Mage_Sales_Model_Order $order)
+    public function addFilterByOrder(Magento_Sales_Model_Order $order)
     {
         $this->join(
             'sales_flat_order',
@@ -83,10 +83,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
      * adds row_total, base_row_total, tax_amount, base_tax_amount,
      * discount_amount, base_discount_amount columns
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Invoice $invoice
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByInvoice(Mage_Sales_Model_Order_Invoice $invoice)
+    public function addFilterByInvoice(Magento_Sales_Model_Order_Invoice $invoice)
     {
         $this->join(
             'sales_flat_invoice',
@@ -116,10 +116,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
      * adds row_total, base_row_total, tax_amount, base_tax_amount,
      * discount_amount, base_discount_amount columns
      *
-     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
-    public function addFilterByCreditmemo(Mage_Sales_Model_Order_Creditmemo $creditmemo)
+    public function addFilterByCreditmemo(Magento_Sales_Model_Order_Creditmemo $creditmemo)
     {
         $this->join(
             'sales_flat_creditmemo',

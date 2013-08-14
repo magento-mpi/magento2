@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Simple extends Mage_Sales_Model_Order_Item
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Simple extends Magento_Sales_Model_Order_Item
 {
     /**
      * Initialize order item with mock data

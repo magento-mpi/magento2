@@ -12,7 +12,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_CreditmemoTest extends P
 {
     public function testSetOrder()
     {
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('addItem'))
             ->getMock();

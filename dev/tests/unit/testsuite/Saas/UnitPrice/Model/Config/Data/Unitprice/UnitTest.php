@@ -12,12 +12,12 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_UnitTest extends PHPUnit_Framew
 {
     protected function eventManagerMock()
     {
-        return $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
+        return $this->getMock('Magento_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
     }
 
     protected function cacheManagerMock()
     {
-        return $this->getMock('Mage_Core_Model_CacheInterface');
+        return $this->getMock('Magento_Core_Model_CacheInterface');
     }
 
     protected function helperMock($defaultValue = 'defaut value')
@@ -32,7 +32,7 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_UnitTest extends PHPUnit_Framew
 
     protected function resourceMock(Closure $saveMethod = null)
     {
-        $resource = $this->getMockBuilder('Mage_Core_Model_Resource_Db_Abstract')
+        $resource = $this->getMockBuilder('Magento_Core_Model_Resource_Db_Abstract')
             ->setMethods(array(
                 'save', 'beginTransaction', 'addCommitCallback', 'rollBack', 'commit',
                 '_construct', 'getIdFieldName',
@@ -55,24 +55,24 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_UnitTest extends PHPUnit_Framew
 
     /**
      *
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Saas_UnitPrice_Helper_Data $helper
      * @param Saas_UnitPrice_Model_Unitprice $unitPrice
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function modelMock(
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Saas_UnitPrice_Helper_Data $helper = null, Saas_UnitPrice_Model_Unitprice $unitPrice = null,
-        Mage_Core_Model_Event_Manager $eventManager = null
+        Magento_Core_Model_Event_Manager $eventManager = null
     ) {
         $resource = $resource ?: $this->resourceMock();
         $eventManager = $eventManager ?: $this->eventManagerMock();
         $helper = $helper ?: $this->helperMock();
 
-        $context = new Mage_Core_Model_Context($eventManager, $this->cacheManagerMock());
+        $context = new Magento_Core_Model_Context($eventManager, $this->cacheManagerMock());
         $model = $this->getMock(
             'Saas_UnitPrice_Model_Config_Data_Unitprice_Unit',
             array('_getUnitPrice', '_getHelper', 'getOldValue'),

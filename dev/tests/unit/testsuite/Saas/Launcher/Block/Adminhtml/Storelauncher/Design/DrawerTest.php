@@ -38,7 +38,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     /**
      * DB file storage mock
      *
-     * @var Mage_Core_Helper_File_Storage_Database|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Helper_File_Storage_Database|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileDbHelperMock;
 
@@ -53,12 +53,12 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array('getBlock', 'getChildName'), array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array('getBlock', 'getChildName'), array(), '', false);
 
         $layout->expects($this->any())
             ->method('getChildName')
@@ -72,29 +72,29 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
                     array(), array(), '', false)
             )
         );
-        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollectionMock */
+        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollectionMock */
         $themeCollectionMock = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_Collection', array('filterPhysicalThemes'), array(), '', false
+            'Magento_Core_Model_Resource_Theme_Collection', array('filterPhysicalThemes'), array(), '', false
         );
         $themeCollectionMock->expects($this->any())
             ->method('filterPhysicalThemes')
             ->will($this->returnValue($this->_getThemes()));
 
         $collectionFactory = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+            'Magento_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
         );
         $collectionFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($themeCollectionMock));
 
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $themeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
 
-        $themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($themeMock));
 
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(1));
@@ -107,13 +107,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
 
-        $this->_fileDbHelperMock = $this->getMock('Mage_Core_Helper_File_Storage_Database',
+        $this->_fileDbHelperMock = $this->getMock('Magento_Core_Helper_File_Storage_Database',
             array(), array(), '', false);
         $this->_fileDbHelperMock->expects($this->any())
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper',
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper',
             array(), array(), '', false, false
         );
         $helperFactoryMock->expects($this->any())
@@ -181,7 +181,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
         switch ($name) {
             case 'Saas_Launcher_Helper_Data':
                 return $this->_launcherHelperMock;
-            case 'Mage_Core_Helper_File_Storage_Database':
+            case 'Magento_Core_Helper_File_Storage_Database':
                 return $this->_fileDbHelperMock;
         }
         return null;
@@ -195,8 +195,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected function _getConfigSource()
     {
         return array(
-            1 => array(Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '118'),
-            null => array(Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '272'),
+            1 => array(Magento_Core_Model_View_Design::XML_PATH_THEME_ID => '118'),
+            null => array(Magento_Core_Model_View_Design::XML_PATH_THEME_ID => '272'),
         );
     }
 

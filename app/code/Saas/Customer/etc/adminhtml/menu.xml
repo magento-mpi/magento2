@@ -9,6 +9,6 @@
 -->
 <config>
     <menu>
-        <remove id="Mage_Customer::customer_online"/>
+        <remove id="Magento_Customer::customer_online"/>
     </menu>
 </config>

@@ -24,8 +24,8 @@ class Saas_ImportExport_Helper_Import_Image_ConfigurationTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helper = $objectManager->getObject('Saas_ImportExport_Helper_Import_Image_Configuration', array(
@@ -99,7 +99,7 @@ class Saas_ImportExport_Helper_Import_Image_ConfigurationTest extends PHPUnit_Fr
     {
         $data = array('key1' => 'test1', 'key2' => 'test2', 'key3' => 'test3');
 
-        // Use stdObject instead of Mage_Core_Model_Config_Element because simplexml object has not empty __wakeUp
+        // Use stdObject instead of Magento_Core_Model_Config_Element because simplexml object has not empty __wakeUp
         $configElementMock = $this->getMock('stdObject', array('asArray'), array(), '', false);
         $configElementMock->expects($this->once())->method('asArray')
             ->will($this->returnValue($data));

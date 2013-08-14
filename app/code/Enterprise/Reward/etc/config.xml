@@ -15,8 +15,8 @@
             <version>1.11.0.2</version>
             <active>false</active>
             <depends>
-                <Mage_Customer />
-                <Mage_Checkout />
+                <Magento_Customer />
+                <Magento_Checkout />
             </depends>
         </Enterprise_Reward>
     </modules>
@@ -212,7 +212,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <reward before="Mage_Adminhtml">Enterprise_Reward_Adminhtml</reward>
+                        <reward before="Magento_Adminhtml">Enterprise_Reward_Adminhtml</reward>
                     </modules>
                 </args>
             </adminhtml>
@@ -423,4 +423,4 @@
             </enterprise_reward_expire_points>
         </jobs>
     </crontab>
-</config>
+</config>

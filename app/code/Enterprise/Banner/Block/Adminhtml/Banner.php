@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Banner_Block_Adminhtml_Banner extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
 
     /**

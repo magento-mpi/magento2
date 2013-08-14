@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Controller_Adminhtml_Search_System_Config_Testconnection
-    extends Mage_Adminhtml_Controller_Action
+    extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check for connection to server

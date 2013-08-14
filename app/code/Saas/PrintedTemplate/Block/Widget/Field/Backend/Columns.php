@@ -16,8 +16,8 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
-    extends Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
-    implements Mage_Widget_Block_Interface
+    extends Magento_Backend_Block_System_Config_Form_Field_Array_Abstract
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Rows cache
@@ -187,7 +187,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     /**
      * Get helper object
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _getHelper()
     {

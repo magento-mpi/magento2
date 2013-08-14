@@ -12,7 +12,7 @@
  * Backend model for "Reward Points Lifetime"
  *
  */
-class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core_Model_Config_Data
+class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Magento_Core_Model_Config_Data
 {
     const XML_PATH_EXPIRATION_DAYS = 'enterprise_reward/general/expiration_days';
 
@@ -32,7 +32,7 @@ class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core
         if ($this->getWebsiteCode()) {
             $websiteIds = array(Mage::app()->getWebsite($this->getWebsiteCode())->getId());
         } else {
-            $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Config_Data_Collection')
+            $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Config_Data_Collection')
                 ->addFieldToFilter('path', self::XML_PATH_EXPIRATION_DAYS)
                 ->addFieldToFilter('scope', 'websites');
             $websiteScopeIds = array();
@@ -40,7 +40,7 @@ class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core
                 $websiteScopeIds[] = $item->getScopeId();
             }
             foreach (Mage::app()->getWebsites() as $website) {
-                /* @var $website Mage_Core_Model_Website */
+                /* @var $website Magento_Core_Model_Website */
                 if (!in_array($website->getId(), $websiteScopeIds)) {
                     $websiteIds[] = $website->getId();
                 }

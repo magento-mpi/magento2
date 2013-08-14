@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Model_Tile extends Mage_Core_Model_Abstract
+class Saas_Launcher_Model_Tile extends Magento_Core_Model_Abstract
 {
     /**
      * Possible tile states
@@ -47,16 +47,16 @@ class Saas_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     protected $_saveHandler;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param Saas_Launcher_Model_Tile_StateResolver $resolver
      * @param Saas_Launcher_Model_Tile_SaveHandler $handler
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         Saas_Launcher_Model_Tile_StateResolver $resolver = null,
         Saas_Launcher_Model_Tile_SaveHandler $handler = null,

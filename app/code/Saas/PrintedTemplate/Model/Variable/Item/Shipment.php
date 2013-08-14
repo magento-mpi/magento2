@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Shipment_Item for shipment item variable
+ * Container for Magento_Sales_Model_Order_Shipment_Item for shipment item variable
  *
  * Container that can restrict access to properties and method
  * with black list or white list.
@@ -30,7 +30,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_Shipment extends Saas_PrintedTemp
     /**
      * Retrieve item's parent entity
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _getParentEntity()
     {
@@ -54,7 +54,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_Shipment extends Saas_PrintedTemp
                 $children[$item->getOrderItemId()] = $this->_getVariableModel(array('value' => $item));
             } else if (!$parentItem && $item->getOrderItem()->getId() == $parentItemId) {
                 $children[$item->getOrderItemId()] = $this->_getVariableModel(array('value' => $item));
-                if ($item->getOrderItem()->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                if ($item->getOrderItem()->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                     foreach ($item->getOrderItem()->getChildrenItems() as $orderItem) {
                         $orderItem->setOrderItem($orderItem);
                         $children[$orderItem->getId()] =

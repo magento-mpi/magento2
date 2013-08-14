@@ -38,7 +38,7 @@
     width: 109px;
     height: 27px;
     text-indent: -999em;
-    background: url(Mage_Backend::images/logo-magento-small.png) no-repeat;
+    background: url(Magento_Backend::images/logo-magento-small.png) no-repeat;
     margin: 0;
 }
 /*

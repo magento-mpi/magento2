@@ -15,8 +15,8 @@
             <version>1.11.0.0.2</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_GiftMessage/>
+                <Magento_Adminhtml/>
+                <Magento_GiftMessage/>
             </depends>
         </Enterprise_GiftWrapping>
     </modules>
@@ -148,7 +148,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_giftwrapping before="Mage_Adminhtml">Enterprise_GiftWrapping_Adminhtml</enterprise_giftwrapping>
+                        <enterprise_giftwrapping before="Magento_Adminhtml">Enterprise_GiftWrapping_Adminhtml</enterprise_giftwrapping>
                     </modules>
                 </args>
             </adminhtml>

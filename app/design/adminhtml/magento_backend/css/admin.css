@@ -1586,7 +1586,7 @@ input.mage-error ~ .addafter {
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: url(Mage_Backend::images/draggable-handle-vertical.gif) no-repeat 0 0;
+    background: url(Magento_Backend::images/draggable-handle-vertical.gif) no-repeat 0 0;
     cursor: ns-resize;
     color: #b2b0ad;
 }
@@ -3069,7 +3069,7 @@ table tbody tr:nth-child(odd):hover th {
     width: 262px;
     height: 64px;
     text-indent: -999em;
-    background: url(Mage_Backend::images/logo-magento.png) no-repeat;
+    background: url(Magento_Backend::images/logo-magento.png) no-repeat;
 }
 
 /*

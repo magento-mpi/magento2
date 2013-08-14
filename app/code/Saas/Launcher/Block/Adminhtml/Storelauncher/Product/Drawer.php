@@ -22,21 +22,21 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      /**
       * Product Model
       *
-      * @var Mage_Catalog_Model_Product
+      * @var Magento_Catalog_Model_Product
       */
      protected $_productModel;
 
      /**
       * Inline Translate Model
       *
-      * @var Mage_Core_Model_Translate_Inline
+      * @var Magento_Core_Model_Translate_Inline
       */
      protected $_translateInline;
 
      /**
       * Entity Attribute Set Group Collection
       *
-      * @var Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection
+      * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection
       */
      protected $_attrSetGroupColl;
 
@@ -48,19 +48,19 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      protected $_defaultAttrSetId;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
-     * @param Mage_Catalog_Model_Product $productModel
-     * @param Mage_Core_Model_Translate_Inline $translateInline
-     * @param Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
+     * @param Magento_Catalog_Model_Product $productModel
+     * @param Magento_Core_Model_Translate_Inline $translateInline
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
-        Mage_Catalog_Model_Product $productModel,
-        Mage_Core_Model_Translate_Inline $translateInline,
-        Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
+        Magento_Catalog_Model_Product $productModel,
+        Magento_Core_Model_Translate_Inline $translateInline,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
@@ -68,7 +68,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
         $this->_translateInline = $translateInline;
         $this->_attrSetGroupColl = $attrSetGroupColl;
 
-        $this->_initProduct(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+        $this->_initProduct(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
     }
 
     /**
@@ -93,15 +93,15 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
         $this->_attrSetGroupColl
             ->setAttributeSetFilter($this->_defaultAttrSetId)
             ->addFieldToFilter('attribute_group_code', array('in' => array(
-                Mage_Eav_Model_Resource_Entity_Attribute_Group::TAB_GENERAL_CODE,
-                Mage_Eav_Model_Resource_Entity_Attribute_Group::TAB_IMAGE_MANAGEMENT_CODE
+                Magento_Eav_Model_Resource_Entity_Attribute_Group::TAB_GENERAL_CODE,
+                Magento_Eav_Model_Resource_Entity_Attribute_Group::TAB_IMAGE_MANAGEMENT_CODE
             )))
             ->setSortOrder()
             ->load();
 
         Mage::register('use_wrapper', false);
         $tabAttributesBlock = $this->getLayout()->createBlock(
-            'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes',
+            'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes',
             'product_tabs_attributes_tab'
         );
         $htmlContent = '';
@@ -127,7 +127,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      * Initialize product
      *
      * @param string $typeId
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      * @TODO This function should be placed in ProductFactory Model or Product Model
      */
     protected function _initProduct($typeId)

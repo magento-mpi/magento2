@@ -20,7 +20,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
     /**
      * Application instance
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
@@ -32,11 +32,11 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
     protected $_objectManager;
 
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Core_Model_App $app,
+        Magento_Core_Model_App $app,
         Magento_ObjectManager $objectManager
     ) {
         $this->_app = $app;
@@ -53,9 +53,9 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
     {
         $preparedData = $this->prepareData($data);
         try {
-            /** @var $product Mage_Catalog_Model_Product */
-            $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array())
-                ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
+            /** @var $product Magento_Catalog_Model_Product */
+            $product = $this->_objectManager->create('Magento_Catalog_Model_Product', array())
+                ->setStoreId(Magento_Core_Model_App::ADMIN_STORE_ID)
                 ->setTypeId($preparedData['product']['typeId'])
                 ->addData($preparedData['product'])
                 ->setData('_edit_mode', true)
@@ -92,13 +92,13 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
             throw new Saas_Launcher_Exception('Product data is invalid.');
         }
         // prevent ID overriding
-        unset($data['product'][Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
+        unset($data['product'][Magento_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
         // prepare product stock data
         $data['product']['stock_data'] = $this->_prepareProductStockData($data);
         // only simple or virtual product can be created via Product Tile
         $data['product']['typeId'] = isset($data['product']['is_virtual'])
-            ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-            : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE;
+            ? Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL
+            : Magento_Catalog_Model_Product_Type::TYPE_SIMPLE;
 
         return $data;
     }

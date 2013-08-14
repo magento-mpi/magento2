@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Payment for payment variable
+ * Container for Magento_Sales_Model_Order_Payment for payment variable
  *
  * Container that can restrict access to properties and method
  * with white list. It can return info block, method code and method name.
@@ -24,9 +24,9 @@ class Saas_PrintedTemplate_Model_Variable_Payment extends Saas_PrintedTemplate_M
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order_Payment $value
+     * @param Magento_Sales_Model_Order_Payment $value
      */
-    public function __construct(Mage_Sales_Model_Order_Payment $value)
+    public function __construct(Magento_Sales_Model_Order_Payment $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig('payment');
@@ -76,10 +76,10 @@ class Saas_PrintedTemplate_Model_Variable_Payment extends Saas_PrintedTemplate_M
     /**
      * Returns payment helper
      *
-     * @return Mage_Payment_Helper_Data
+     * @return Magento_Payment_Helper_Data
      */
     protected function _getPaymentHelper()
     {
-        return Mage::helper('Mage_Payment_Helper_Data');
+        return Mage::helper('Magento_Payment_Helper_Data');
     }
 }

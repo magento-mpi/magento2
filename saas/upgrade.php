@@ -21,9 +21,9 @@ return function (array $params)
     $config = new Saas_Saas_Model_Tenant_Config($rootDir, $params);
     $appParams = $config->getApplicationParams();
     if (isset($params['tmt_reindex_mode'])) {
-        $appParams[Mage_Install_Model_EntryPoint_Upgrade::REINDEX] = $params['tmt_reindex_mode'];
+        $appParams[Magento_Install_Model_EntryPoint_Upgrade::REINDEX] = $params['tmt_reindex_mode'];
     }
-    $appParams[Mage::PARAM_MODE] = Mage_Core_Model_App_State::MODE_DEVELOPER; // Force upgrades to be executed
-    $entryPoint = new Mage_Install_Model_EntryPoint_Upgrade(new Mage_Core_Model_Config_Primary($rootDir, $appParams));
+    $appParams[Mage::PARAM_MODE] = Magento_Core_Model_App_State::MODE_DEVELOPER; // Force upgrades to be executed
+    $entryPoint = new Magento_Install_Model_EntryPoint_Upgrade(new Magento_Core_Model_Config_Primary($rootDir, $appParams));
     $entryPoint->processRequest();
 };

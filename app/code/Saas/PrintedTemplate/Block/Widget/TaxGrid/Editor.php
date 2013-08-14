@@ -18,8 +18,8 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_TaxGrid_Editor
-    extends Mage_Backend_Block_Template
-    implements Mage_Widget_Block_Interface
+    extends Magento_Backend_Block_Template
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Set template for the block

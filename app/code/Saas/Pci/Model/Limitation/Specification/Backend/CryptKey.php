@@ -13,10 +13,10 @@ class Saas_Pci_Model_Limitation_Specification_Backend_CryptKey
     /**
      * Check is allowed functionality for the module
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Magento_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'crypt_key'
             || $request->getControllerModule() != 'Enterprise_Pci_Adminhtml';

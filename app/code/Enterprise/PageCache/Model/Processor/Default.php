@@ -35,7 +35,7 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
                 return false;
             }
         }
-        if (Mage::getSingleton('Mage_Core_Model_Session')->getNoCacheFlag()) {
+        if (Mage::getSingleton('Magento_Core_Model_Session')->getNoCacheFlag()) {
             return false;
         }
         return true;

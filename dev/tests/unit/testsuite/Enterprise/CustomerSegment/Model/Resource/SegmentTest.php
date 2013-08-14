@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
         );
 
         $this->_resource = $this->getMock(
-            'Mage_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
                 array('core_write', $this->_writeAdapter),
             )));
 
-        $this->_configShare = $this->getMock('Mage_Customer_Model_Config_Share',
+        $this->_configShare = $this->getMock('Magento_Customer_Model_Config_Share',
             array('isGlobalScope'), array(), '', false);
         $this->_segment = $this->getMock('Enterprise_CustomerSegment_Model_Segment',
             array('getConditions', 'getWebsiteIds', 'getId'), array(), '', false);

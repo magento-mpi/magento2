@@ -39,7 +39,7 @@ class Saas_ImportExport_Model_Source_Import_Behavior_ImageTest extends PHPUnit_F
             ->will($this->returnArgument(0));
 
         $this->assertEquals(
-            array(Mage_ImportExport_Model_Import::BEHAVIOR_APPEND => 'Add/Update Images'),
+            array(Magento_ImportExport_Model_Import::BEHAVIOR_APPEND => 'Add/Update Images'),
             $this->_model->toArray()
         );
     }

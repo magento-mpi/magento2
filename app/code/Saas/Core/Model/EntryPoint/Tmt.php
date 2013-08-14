@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Core_Model_EntryPoint_Tmt extends Mage_Core_Model_EntryPointAbstract
+class Saas_Core_Model_EntryPoint_Tmt extends Magento_Core_Model_EntryPointAbstract
 {
     const TENANT_COMMAND_NAMESPACE = 'Saas_Saas_Model_Tenant_Command_';
 
@@ -19,12 +19,12 @@ class Saas_Core_Model_EntryPoint_Tmt extends Mage_Core_Model_EntryPointAbstract
     protected $_params = array();
 
     /**
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_Core_Model_Config_Primary $config
      * @param Magento_ObjectManager $objectManager
      * @param array $params
      */
     public function __construct(
-        Mage_Core_Model_Config_Primary $config,
+        Magento_Core_Model_Config_Primary $config,
         Magento_ObjectManager $objectManager = null,
         $params = array()
     ) {
@@ -37,8 +37,8 @@ class Saas_Core_Model_EntryPoint_Tmt extends Mage_Core_Model_EntryPointAbstract
      */
     protected function _processRequest()
     {
-        $this->_objectManager->get('Mage_Core_Model_App')
-            ->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        $this->_objectManager->get('Magento_Core_Model_App')
+            ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 
         $command = $this->_params['command'];
         $commandProcessorName = self::TENANT_COMMAND_NAMESPACE . $command;

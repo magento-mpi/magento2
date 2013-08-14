@@ -51,7 +51,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_RedirectTest ext
     }
 
     /**
-     * @expectedException Mage_Catalog_Exception
+     * @expectedException Magento_Catalog_Exception
      * @expectedExceptionMessage Fixture Message Text
      */
     public function testRestrictNewEntityCreationActive()
@@ -65,7 +65,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_RedirectTest ext
 
         $request = $this->getMock('Zend_Controller_Request_Abstract', array('getParam'), array(), '', false);
         $controller = $this->getMock(
-            'Mage_Adminhtml_Controller_Catalog_Product', array('getRequest'), array(), '', false
+            'Magento_Adminhtml_Controller_Catalog_Product', array('getRequest'), array(), '', false
         );
         $request->expects($this->once())->method('getParam')->with('back')->will($this->returnValue('new'));
         $controller->expects($this->once())->method('getRequest')->will($this->returnValue($request));
@@ -91,7 +91,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_RedirectTest ext
 
         $request = $this->getMock('Zend_Controller_Request_Abstract', array('getParam'), array(), '', false);
         $controller = $this->getMock(
-            'Mage_Adminhtml_Controller_Catalog_Product', array('getRequest'), array(), '', false
+            'Magento_Adminhtml_Controller_Catalog_Product', array('getRequest'), array(), '', false
         );
         $request->expects($this->any())->method('getParam')->with('back')->will($this->returnValue($redirectTarget));
         $controller->expects($this->any())->method('getRequest')->will($this->returnValue($request));

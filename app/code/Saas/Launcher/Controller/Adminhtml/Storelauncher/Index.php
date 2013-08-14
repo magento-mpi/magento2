@@ -20,14 +20,14 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Index extends Saas_Launch
     /**
      * Core Config Model
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_configModel;
 
     /**
      * Config Writer Model
      *
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
@@ -39,16 +39,16 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Index extends Saas_Launch
     protected  $_launcherHelper;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
-     * @param Mage_Core_Model_Config $configModel
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Config $configModel
+     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
-        Mage_Core_Model_Config $configModel,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Config $configModel,
+        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
         Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null
     ) {

@@ -31,7 +31,7 @@
                 <field id="actions" translate="label" showInDefault="1">
                     <label>Enabled Actions</label>
                     <frontend_model>Enterprise_Logging_Block_Adminhtml_System_Config_Actions</frontend_model>
-                    <backend_model>Mage_Backend_Model_Config_Backend_Serialized_Array</backend_model>
+                    <backend_model>Magento_Backend_Model_Config_Backend_Serialized_Array</backend_model>
                 </field>
             </group>
         </section>

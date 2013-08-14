@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Resource_Grid extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Rma_Model_Resource_Grid extends Magento_Core_Model_Resource_Db_Abstract
 {
     protected $_isPkAutoIncrement    = false;
     /**

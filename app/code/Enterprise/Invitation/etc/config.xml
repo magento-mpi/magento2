@@ -15,9 +15,9 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Customer/>
-                <Mage_Reports/>
+                <Magento_Adminhtml/>
+                <Magento_Customer/>
+                <Magento_Reports/>
                 <Enterprise_WebsiteRestriction/>
             </depends>
         </Enterprise_Invitation>
@@ -45,7 +45,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_invitation before="Mage_Adminhtml">Enterprise_Invitation_Adminhtml</enterprise_invitation>
+                        <enterprise_invitation before="Magento_Adminhtml">Enterprise_Invitation_Adminhtml</enterprise_invitation>
                     </modules>
                 </args>
             </adminhtml>

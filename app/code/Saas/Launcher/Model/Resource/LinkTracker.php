@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Model_Resource_LinkTracker extends Mage_Core_Model_Resource_Db_Abstract
+class Saas_Launcher_Model_Resource_LinkTracker extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table

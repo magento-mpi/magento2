@@ -24,7 +24,7 @@ class Saas_Limitation_Model_Catalog_Category_LimitationTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Mage_Catalog_Model_Resource_Category', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento_Catalog_Model_Resource_Category', array(), array(), '', false);
         $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
         $this->_model = new Saas_Limitation_Model_Catalog_Category_Limitation($this->_config, $this->_resource);
     }

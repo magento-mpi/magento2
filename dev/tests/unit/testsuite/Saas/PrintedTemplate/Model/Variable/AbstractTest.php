@@ -29,7 +29,7 @@ class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework
             ->method('getConfigSectionArray')
             ->will($this->returnValue($array['variables']['invoice']['fields']));
 
-        $coreHelper = $this->getMockBuilder('Mage_Core_Helper_Data')
+        $coreHelper = $this->getMockBuilder('Magento_Core_Helper_Data')
             ->setMethods(array('formatDate', 'formatCurrency'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -144,7 +144,7 @@ class VariableAbstractFake extends Saas_PrintedTemplate_Model_Variable_Abstract
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order_Invoice $value Invoice
+     * @param Magento_Sales_Model_Order_Invoice $value Invoice
      */
     public function __construct(Magento_Object $value, $config)
     {

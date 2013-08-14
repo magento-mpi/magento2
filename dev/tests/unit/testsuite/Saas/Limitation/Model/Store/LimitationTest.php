@@ -24,7 +24,7 @@ class Saas_Limitation_Model_Store_LimitationTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Mage_Core_Model_Resource_Store', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento_Core_Model_Resource_Store', array(), array(), '', false);
         $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
         $this->_model = new Saas_Limitation_Model_Store_Limitation($this->_config, $this->_resource);
     }

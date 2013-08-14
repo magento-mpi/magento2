@@ -34,7 +34,7 @@ class Saas_UnitPrice_Model_UnitpriceTest extends PHPUnit_Framework_TestCase
             $unitPrice->expects($this->atLeastOnce())
                 ->method('_throwMageException')
                 ->with($exceptionMessage)
-                ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
+                ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
         } else {
             $unitPrice->expects($this->never())
                 ->method('_throwMageException');
@@ -80,7 +80,7 @@ class Saas_UnitPrice_Model_UnitpriceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetConversionRateShouldThrowMageExceptionWithLocalizedMessageIfRateNotFound()
     {
@@ -132,7 +132,7 @@ class Saas_UnitPrice_Model_UnitpriceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Local Reference unit not set
      */
     public function testGetUnitPriceShouldThrowExceptionIfReferenceUnitIsNotSet()
@@ -176,7 +176,7 @@ class Saas_UnitPrice_Model_UnitpriceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Local The product unit amount must be greater than zero
      */
     public function testGetUnitPriceShouldThrowExceptionOnNonPositiveAmount()

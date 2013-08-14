@@ -54,7 +54,7 @@ interface Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface
      * @param Saas_PrintedTemplate_Model_PageSize $size
      * @param int|null $orientation PAGE_ORIENTATION_PORTRAIT|PAGE_ORIENTATION_LANDSCAPE|null
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function renderHtml(
         $bodyHtml,

@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backend_Block_Widget_Form
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Prepare layout.
@@ -29,7 +29,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         if ($head) {
             $head->addJs('prototype/window.js')
                 ->addCss('prototype/windows/themes/default.css')
-                ->addCss('Mage_Core::prototype/magento.css')
+                ->addCss('Magento_Core::prototype/magento.css')
                 ->setCanLoadTinyMce(true);
         }
         return parent::_prepareLayout();
@@ -38,7 +38,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
     /**
      * Add fields to form and create template info form
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
@@ -176,7 +176,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             }
         }
 
-        $values = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getData('printed_template_form_data', true);
+        $values = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getData('printed_template_form_data', true);
         if ($values) {
             $form->setValues($values);
         }
@@ -233,7 +233,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             return Mage::helper('Saas_PrintedTemplate_Helper_Locator')
                 ->getPdfRenderer()
                 ->canCalculateHeightsDynamically();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             return false;
         }
     }

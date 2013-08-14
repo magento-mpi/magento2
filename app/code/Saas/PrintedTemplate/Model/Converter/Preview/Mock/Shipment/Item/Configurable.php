@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurable
-    extends Mage_Sales_Model_Order_Shipment_Item
+    extends Magento_Sales_Model_Order_Shipment_Item
 {
     /**
      * Initialize shipment item with mock data
@@ -44,7 +44,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurab
     public function getChildrenItemMocks()
     {
         return array (
-            Mage::getModel('Mage_Sales_Model_Order_Shipment_Item')->setData($this->_getChildMockData())
+            Mage::getModel('Magento_Sales_Model_Order_Shipment_Item')->setData($this->_getChildMockData())
         );
     }
 

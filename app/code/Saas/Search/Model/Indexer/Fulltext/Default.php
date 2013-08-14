@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Search_Model_Indexer_Fulltext_Default extends Mage_CatalogSearch_Model_Indexer_Fulltext
+class Saas_Search_Model_Indexer_Fulltext_Default extends Magento_CatalogSearch_Model_Indexer_Fulltext
 {
     /**
      * Retrieve Fulltext Search instance

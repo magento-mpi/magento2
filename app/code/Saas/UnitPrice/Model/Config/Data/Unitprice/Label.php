@@ -11,7 +11,7 @@
 /**
  * Config data model
  */
-class Saas_UnitPrice_Model_Config_Data_Unitprice_Label extends Mage_Core_Model_Config_Data
+class Saas_UnitPrice_Model_Config_Data_Unitprice_Label extends Magento_Core_Model_Config_Data
 {
     /**
      * Prepares frontend label for save
@@ -28,6 +28,6 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_Label extends Mage_Core_Model_C
      */
     protected function _getHelper()
     {
-        return Mage::helper('Mage_Core_Helper_Data');
+        return Mage::helper('Magento_Core_Helper_Data');
     }
 }

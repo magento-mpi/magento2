@@ -15,7 +15,7 @@
  * @package Enterprise_CustomerSegment
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize grid
@@ -88,7 +88,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

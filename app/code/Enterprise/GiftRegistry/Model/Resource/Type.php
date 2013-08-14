@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Type extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Info table name
@@ -47,10 +47,10 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
     /**
      * Add store date to registry type data
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
 
@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
             $adapter->quote('default'),
             $adapter->quote('store')
         );
-        $storeIds       = array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeIds       = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }

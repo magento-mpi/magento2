@@ -16,8 +16,8 @@
  * @subpackage  Blocks
  */
 abstract class Saas_PrintedTemplate_Block_Widget_AbstractGrid
-    extends Mage_Backend_Block_Template
-    implements Mage_Widget_Block_Interface
+    extends Magento_Backend_Block_Template
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Widget ID cache, don't use it directly

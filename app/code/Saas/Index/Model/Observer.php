@@ -10,29 +10,29 @@
 class Saas_Index_Model_Observer
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     private $_request;
 
     /**
-     * @var Mage_Core_Controller_Response_Http
+     * @var Magento_Core_Controller_Response_Http
      */
     private $_response;
 
     /**
-     * @var Mage_Backend_Model_Url
+     * @var Magento_Backend_Model_Url
      */
     private $_modelUrl;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Mage_Backend_Model_Url $modelUrl
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Response_Http $response
+     * @param Magento_Backend_Model_Url $modelUrl
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Mage_Backend_Model_Url $modelUrl
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Response_Http $response,
+        Magento_Backend_Model_Url $modelUrl
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -48,7 +48,7 @@ class Saas_Index_Model_Observer
      */
     public function redefineIndex(Magento_Event_Observer $observer)
     {
-        if ($this->_request->getControllerModule() == 'Mage_Index_Adminhtml'
+        if ($this->_request->getControllerModule() == 'Magento_Index_Adminhtml'
             && $this->_request->getControllerName() == 'process'
         ) {
             $this->_forward('list' == $this->_request->getActionName() ? 'index' : 'noroute');

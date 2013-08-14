@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Controller_Adminhtml_Hub extends Mage_Backend_Controller_ActionAbstract
+class Saas_Launcher_Controller_Adminhtml_Hub extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Launcher Helper
@@ -25,12 +25,12 @@ class Saas_Launcher_Controller_Adminhtml_Hub extends Mage_Backend_Controller_Act
     protected  $_launcherHelper;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null
     ) {

@@ -13,12 +13,12 @@
             <action method="addPriceBlockType">
                 <type>simple</type>
                 <block>Saas_UnitPrice_Block_Catalog_Product_Price</block>
-                <template>Mage_Catalog::product/price.phtml</template>
+                <template>Magento_Catalog::product/price.phtml</template>
             </action>
             <action method="addPriceBlockType">
                 <type>configurable</type>
                 <block>Saas_UnitPrice_Block_Catalog_Product_Price</block>
-                <template>Mage_Catalog::product/price.phtml</template>
+                <template>Magento_Catalog::product/price.phtml</template>
             </action>
         </reference>
     </catalogsearch_result_index>

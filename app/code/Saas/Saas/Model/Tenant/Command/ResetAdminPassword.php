@@ -10,22 +10,22 @@
 class Saas_Saas_Model_Tenant_Command_ResetAdminPassword
 {
     /**
-     * @var Mage_User_Model_User|null
+     * @var Magento_User_Model_User|null
      */
     protected $_userModel = null;
 
     /**
-     * @var Mage_Backend_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_backendHelper = null;
 
     /**
-     * @param Mage_User_Model_User $userModel
-     * @param Mage_Backend_Helper_Data $helper
+     * @param Magento_User_Model_User $userModel
+     * @param Magento_Backend_Helper_Data $helper
      */
     public function __construct(
-        Mage_User_Model_User $userModel,
-        Mage_Backend_Helper_Data $helper
+        Magento_User_Model_User $userModel,
+        Magento_Backend_Helper_Data $helper
     ) {
         $this->_userModel = $userModel;
         $this->_backendHelper = $helper;

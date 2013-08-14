@@ -34,9 +34,9 @@ class Saas_Index_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http');
-        $this->_responseMock = $this->getMock('Mage_Core_Controller_Response_Http');
-        $this->_modelUrlMock = $this->getMock('Mage_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http');
+        $this->_responseMock = $this->getMock('Magento_Core_Controller_Response_Http');
+        $this->_modelUrlMock = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
@@ -50,7 +50,7 @@ class Saas_Index_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testRedefineIndexWithListForward()
     {
         $this->_requestMock->expects($this->once())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Index_Adminhtml'));
+            ->will($this->returnValue('Magento_Index_Adminhtml'));
         $this->_requestMock->expects($this->once())->method('getControllerName')
             ->will($this->returnValue('process'));
         $this->_requestMock->expects($this->once())->method('getActionName')
@@ -64,7 +64,7 @@ class Saas_Index_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $action = 'unknown';
         $this->_requestMock->expects($this->once())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Index_Adminhtml'));
+            ->will($this->returnValue('Magento_Index_Adminhtml'));
         $this->_requestMock->expects($this->once())->method('getControllerName')
             ->will($this->returnValue('process'));
         $this->_requestMock->expects($this->once())->method('getActionName')

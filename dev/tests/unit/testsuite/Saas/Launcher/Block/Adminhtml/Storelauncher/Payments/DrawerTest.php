@@ -18,13 +18,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_DrawerTest extends PH
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $configGroup = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false);
+        $configGroup = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false);
         $configGroup->expects($this->once())
             ->method('getAttribute')
             ->with('more_url')
             ->will($this->returnValue('http://more/url'));
 
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
+        $configStructure = $this->getMock('Magento_Backend_Model_Config_Structure', array(), array(), '', false);
         $configStructure->expects($this->once())
             ->method('getElement')
             ->with('payment/paypal_payments/wpp')

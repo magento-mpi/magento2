@@ -15,8 +15,8 @@
             <version>1.11.0.11</version>
             <active>false</active>
             <depends>
-                <Mage_Customer/>
-                <Mage_Sales/>
+                <Magento_Customer/>
+                <Magento_Sales/>
             </depends>
         </Enterprise_Rma>
     </modules>

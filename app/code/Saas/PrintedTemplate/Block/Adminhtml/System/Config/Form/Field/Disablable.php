@@ -17,7 +17,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Disablable
-    extends Mage_Backend_Block_System_Config_Form_Field
+    extends Magento_Backend_Block_System_Config_Form_Field
 {
     /**
      * Get configuration option html

@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable extends Mage_Sales_Model_Order_Item
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable extends Magento_Sales_Model_Order_Item
 {
     /**
      * Initialize order item with mock data
@@ -25,7 +25,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
         parent::_construct();
         $this->setData($this->_getMockData());
 
-        $simple = $this->getModel('Mage_Sales_Model_Order_Item');
+        $simple = $this->getModel('Magento_Sales_Model_Order_Item');
         $simple->setData($this->_getChildMockData());
         $this->addChildItem($simple);
     }
@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
      * Returns model instance
      *
      * @param string $modelName
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getModel($modelName)
     {

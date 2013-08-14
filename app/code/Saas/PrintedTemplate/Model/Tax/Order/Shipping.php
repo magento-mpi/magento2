@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Models
  */
-class Saas_PrintedTemplate_Model_Tax_Order_Shipping extends Mage_Core_Model_Abstract
+class Saas_PrintedTemplate_Model_Tax_Order_Shipping extends Magento_Core_Model_Abstract
 {
     /**
      * Model constructor. Initialize resource for data.

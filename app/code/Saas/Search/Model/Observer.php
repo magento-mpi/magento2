@@ -12,7 +12,7 @@ class Saas_Search_Model_Observer
     /**
      * Registry model
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
@@ -22,11 +22,11 @@ class Saas_Search_Model_Observer
     protected $_helper;
 
     /**
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Enterprise_Search_Helper_Data $helper
      */
     public function __construct(
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Enterprise_Search_Helper_Data $helper
     ) {
         $this->_helper = $helper;

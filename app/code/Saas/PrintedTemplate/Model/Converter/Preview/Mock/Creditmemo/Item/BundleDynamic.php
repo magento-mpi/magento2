@@ -16,7 +16,7 @@
  * @subpackage  Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_BundleDynamic
-    extends Mage_Sales_Model_Order_Creditmemo_Item
+    extends Magento_Sales_Model_Order_Creditmemo_Item
 {
     /**
      * @var Saas_PrintedTemplate_Helper_Data
@@ -41,7 +41,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_BundleDy
     {
         $items = array();
         foreach ($this->_getChildrenMockData() as $data) {
-            $items[] = Mage::getModel('Mage_Sales_Model_Order_Creditmemo_Item')
+            $items[] = Mage::getModel('Magento_Sales_Model_Order_Creditmemo_Item')
                 ->setData($data)
                 ->setCreditmemo($this->getCreditmemo());
         }

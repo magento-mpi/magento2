@@ -16,7 +16,7 @@
             <active>false</active>
         </Saas_Core>
         <depends>
-            <Mage_Core/>
+            <Magento_Core/>
         </depends>
     </modules>
     <default>

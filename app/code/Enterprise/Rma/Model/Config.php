@@ -40,7 +40,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
     /**
      * Current store instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store = null;
 
@@ -75,7 +75,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      */
     public function setStore($store)
     {
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $this->_store = $store;
         } elseif ($store = intval($store)) {
             $this->_store = Mage::app()->getStore($store);
@@ -89,12 +89,12 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Retrieve store object
      *
      * @param mixed $store
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore($store = null)
     {
         if($store){
-            if ($store instanceof Mage_Core_Model_Store) {
+            if ($store instanceof Magento_Core_Model_Store) {
                 return $store;
             } elseif (is_int($store)) {
                 return Mage::app()->getStore($store);
@@ -172,7 +172,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Get value of Enabled parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return mixed
      */
     public function isEnabled($path = null, $store = null)
@@ -184,7 +184,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Get array of emails from CopyTo parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return mixed
      */
     public function getCopyTo($path = '', $store = null)
@@ -200,7 +200,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Get value of Copy Method parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return mixed
      */
     public function getCopyMethod($path = '', $store = null)
@@ -212,7 +212,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Get value of Template for Guest parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return mixed
      */
     public function getGuestTemplate($path = '', $store = null)
@@ -224,7 +224,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Get value of Template parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return mixed
      */
     public function getTemplate($path = '', $store = null)
@@ -236,7 +236,7 @@ class Enterprise_Rma_Model_Config extends Magento_Object
      * Get value of Email Sender Identity parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return mixed
      */
     public function getIdentity($path = '', $store = null)

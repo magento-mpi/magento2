@@ -24,7 +24,7 @@ class Saas_Queue_Model_Observer_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_ConfigInterface',
+        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface',
             array(), array(), '', false, false);
         $this->_model = new Saas_Queue_Model_Observer_Config($this->_configMock);
     }

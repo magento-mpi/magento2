@@ -15,9 +15,9 @@
             <version>1.11.0.0.4</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_Rule/>
+                <Magento_Adminhtml/>
+                <Magento_Catalog/>
+                <Magento_Rule/>
             </depends>
         </Enterprise_TargetRule>
     </modules>
@@ -80,7 +80,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
+                        <Enterprise_TargetRule before="Magento_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
                     </modules>
                 </args>
             </adminhtml>

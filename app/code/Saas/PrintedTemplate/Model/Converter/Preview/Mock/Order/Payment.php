@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Payment extends Mage_Sales_Model_Order_Payment
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Payment extends Magento_Sales_Model_Order_Payment
 {
     /**
      * Initialize order payment with mock data

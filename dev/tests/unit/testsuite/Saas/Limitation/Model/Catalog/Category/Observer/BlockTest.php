@@ -52,12 +52,12 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
     /**
      * Retrieve newly created button instance with mocked dependencies
      *
-     * @return Mage_Backend_Block_Widget_Button
+     * @return Magento_Backend_Block_Widget_Button
      */
     protected function _createButton()
     {
-        return new Mage_Backend_Block_Widget_Button(
-            $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false)
+        return new Magento_Backend_Block_Widget_Button(
+            $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false)
         );
     }
 
@@ -69,7 +69,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
 
-        $block = $this->getMock('Mage_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock('Magento_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
         $block->expects($this->never())->method('getChildBlock');
 
         $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
@@ -92,7 +92,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $rootButton = $this->_createButton();
         $subButton = $this->_createButton();
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Category_Tree', array('getChildBlock'), array(), '', false
+            'Magento_Adminhtml_Block_Catalog_Category_Tree', array('getChildBlock'), array(), '', false
         );
         $block->expects($this->any())->method('getChildBlock')->will($this->returnValueMap(array(
             array('add_root_button', $rootButton),
@@ -112,7 +112,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $this->_emulateThresholdIsReached(false);
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Category_Tree', array('getChildBlock'), array(), '', false
+            'Magento_Adminhtml_Block_Catalog_Category_Tree', array('getChildBlock'), array(), '', false
         );
         $block->expects($this->never())->method('getChildBlock');
 
@@ -127,7 +127,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
 
         $button = $this->_createButton();
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Category_Edit_Form', array('getCategoryId', 'getChildBlock'),
+            'Magento_Adminhtml_Block_Catalog_Category_Edit_Form', array('getCategoryId', 'getChildBlock'),
             array(), '', false
         );
         $block->expects($this->once())->method('getCategoryId')->will($this->returnValue(null));
@@ -145,7 +145,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $this->_emulateThresholdIsReached(false);
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Category_Edit_Form', array('getChildBlock'),
+            'Magento_Adminhtml_Block_Catalog_Category_Edit_Form', array('getChildBlock'),
             array(), '', false
         );
         $block->expects($this->never())->method('getChildBlock');
@@ -160,7 +160,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $this->_emulateThresholdIsReached(true);
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Category_Edit_Form', array('getCategoryId', 'getChildBlock'),
+            'Magento_Adminhtml_Block_Catalog_Category_Edit_Form', array('getCategoryId', 'getChildBlock'),
             array(), '', false
         );
         $block->expects($this->once())->method('getCategoryId')->will($this->returnValue(6));

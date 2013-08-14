@@ -10,8 +10,8 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_creditmemo_view>
         <reference name="creditmemo_totals">
-            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Enterprise_CustomerBalance::sales/creditmemo/totals/view.phtml" after="-"/>
-            <block type="Mage_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
+            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Enterprise_CustomerBalance::sales/creditmemo/totals/view.phtml" after="-"/>
+            <block type="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
                 <action method="setSourceField">
                     <value>customer_bal_total_refunded</value>
                 </action>

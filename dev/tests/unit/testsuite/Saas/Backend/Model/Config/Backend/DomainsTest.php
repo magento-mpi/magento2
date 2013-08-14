@@ -18,24 +18,24 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
     const CUST_DOMAIN = 'customdomain.com';
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_Context
+     * @var Magento_Core_Model_Context
      */
     protected $_contextMock;
 
     /**
-     * @var Mage_Core_Model_Config_Storage_Writer_Db
+     * @var Magento_Core_Model_Config_Storage_Writer_Db
      */
     protected $_writerMock;
 
     /**
      * Resource mock for application
      *
-     * @var Mage_Core_Model_Resource_Abstract
+     * @var Magento_Core_Model_Resource_Abstract
      */
     protected $_resourceMock;
 
@@ -51,11 +51,11 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
      */
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_contextMock = $this->getMock('Mage_Core_Model_Context', array(), array(), '', false);
-        $this->_writerMock = $this->getMock('Mage_Core_Model_Config_Storage_Writer_Db', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_contextMock = $this->getMock('Magento_Core_Model_Context', array(), array(), '', false);
+        $this->_writerMock = $this->getMock('Magento_Core_Model_Config_Storage_Writer_Db', array(), array(), '', false);
         $this->_dbMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
-        $this->_resourceMock = $this->getMock('Mage_Core_Model_Resource_Config', array(), array(), '', false);
+        $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource_Config', array(), array(), '', false);
     }
 
     /**
@@ -147,44 +147,44 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
     public function getValuesThatShouldBeSaved($defaultDomain, $customDomain, $customSslDomain)
     {
         $values = array();
-        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
+        $key = Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+            . Magento_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+        $key = Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+            . Magento_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
+        $key = Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+            . Magento_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+        $key = Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+            . Magento_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
+        $key = Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+            . Magento_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+        $key = Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+            . Magento_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
+        $key = Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+            . Magento_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
-        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+        $key = Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
             . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain . '/'
-            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+            . Magento_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
         return $values;

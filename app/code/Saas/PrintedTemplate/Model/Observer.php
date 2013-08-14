@@ -34,14 +34,14 @@ class Saas_PrintedTemplate_Model_Observer
      * @var array
      */
     protected $_widgetsToRemove = array(
-        'Mage_Cms_Block_Widget_Page_Link',
-        'Mage_Cms_Block_Widget_Block',
-        'Mage_Catalog_Block_Product_Widget_New',
-        'Mage_Catalog_Block_Product_Widget_Link',
-        'Mage_Catalog_Block_Category_Widget_Link',
-        'Mage_Reports_Block_Product_Widget_Viewed',
-        'Mage_Reports_Block_Product_Widget_Compared',
-        'Mage_Sales_Block_Widget_Guest_Form',
+        'Magento_Cms_Block_Widget_Page_Link',
+        'Magento_Cms_Block_Widget_Block',
+        'Magento_Catalog_Block_Product_Widget_New',
+        'Magento_Catalog_Block_Product_Widget_Link',
+        'Magento_Catalog_Block_Category_Widget_Link',
+        'Magento_Reports_Block_Product_Widget_Viewed',
+        'Magento_Reports_Block_Product_Widget_Compared',
+        'Magento_Sales_Block_Widget_Guest_Form',
         'Enterprise_Cms_Block_Widget_Node',
         'Enterprise_Banner_Block_Widget_Banner',
     );
@@ -137,8 +137,8 @@ class Saas_PrintedTemplate_Model_Observer
      */
     protected function _addObserver($area, $eventName, $observerName, $observerClass, $observerMethod)
     {
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        /** @var $eventManager Magento_Core_Model_Event_Manager */
+        $eventManager = Mage::getSingleton('Magento_Core_Model_Event_Manager');
         $eventManager->addObservers($area, $eventName, array(
             $observerName => array(
                 'type' => 'model',
@@ -177,8 +177,8 @@ class Saas_PrintedTemplate_Model_Observer
     public function removeWidgetsFromWidgetInstanceForm(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-            || $block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main)) {
+        if (!($block instanceof Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
+            || $block instanceof Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main)) {
             return $this;
         }
 
@@ -238,7 +238,7 @@ class Saas_PrintedTemplate_Model_Observer
     {
         $block = $observer->getEvent()->getBlock();
         if (!($block->getNameInLayout() == 'adminhtml.widget.instance.grid.container' &&
-            $block instanceof Mage_Adminhtml_Block_Widget_Grid)) {
+            $block instanceof Magento_Adminhtml_Block_Widget_Grid)) {
             return $this;
         }
 
@@ -278,8 +278,8 @@ class Saas_PrintedTemplate_Model_Observer
 
         $block = $observer->getEvent()->getBlock();
         if (!$this->_authorization->isAllowed('Saas_PrintedTemplate::print')) {
-            if ($block instanceof Mage_Backend_Block_Widget_Grid
-                && $block->getMassactionBlock() instanceof Mage_Backend_Block_Widget) {
+            if ($block instanceof Magento_Backend_Block_Widget_Grid
+                && $block->getMassactionBlock() instanceof Magento_Backend_Block_Widget) {
                 $gridBlocks = array('pdfdocs_order','pdfshipments_order','pdfcreditmemos_order','pdfinvoices_order');
                 foreach ($gridBlocks as $_item) {
                     $item = $block->getMassactionBlock()->getItem($_item);
@@ -289,7 +289,7 @@ class Saas_PrintedTemplate_Model_Observer
                 }
             }
 
-            if ($block instanceof Mage_Backend_Block_Widget_Form_Container) {
+            if ($block instanceof Magento_Backend_Block_Widget_Form_Container) {
                 $blocks = array('sales_creditmemo_view', 'sales_invoice_view', 'sales_shipment_view');
                 if (in_array($block->getNameInLayout(), $blocks)) {
                     $block->removeButton('print');
@@ -299,16 +299,16 @@ class Saas_PrintedTemplate_Model_Observer
             return $this;
         }
 
-        if ($block instanceof Mage_Adminhtml_Block_Sales_Order_Grid) {
+        if ($block instanceof Magento_Adminhtml_Block_Sales_Order_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfinvoices_order', 'invoice')
                 ->_setMassactionPrintEntitiesUrl($block, 'pdfcreditmemos_order', 'creditmemo')
                 ->_setMassactionPrintEntitiesUrl($block, 'pdfshipments_order', 'shipment')
                 ->_setMassactionPrintEntitiesUrl($block, 'pdfdocs_order', 'all');
-        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Invoice_Grid) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Sales_Invoice_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfinvoices_order', 'invoice');
-        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Creditmemo_Grid) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Sales_Creditmemo_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfcreditmemos_order', 'creditmemo');
-        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Shipment_Grid) {
+        } else if ($block instanceof Magento_Adminhtml_Block_Sales_Shipment_Grid) {
             $this->_setMassactionPrintEntitiesUrl($block, 'pdfshipments_order', 'shipment');
         }
 
@@ -318,19 +318,19 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Replace massaction item URL in the grid block
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid|Mage_Backend_Block_Widget_Grid $block grid block
+     * @param Magento_Adminhtml_Block_Widget_Grid|Magento_Backend_Block_Widget_Grid $block grid block
      * @param string $itemName the name of mass action item
      * @param string $type entity type
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    protected function _setMassactionPrintEntitiesUrl(Mage_Backend_Block_Widget_Grid $block, $itemName, $type)
+    protected function _setMassactionPrintEntitiesUrl(Magento_Backend_Block_Widget_Grid $block, $itemName, $type)
     {
         $item = $block->getMassactionBlock()->getItem($itemName);
         if ($item) {
             if ($type == 'all') {
-                $item->setUrl(Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/print/allEntities'));
+                $item->setUrl(Mage::helper('Magento_Backend_Helper_Data')->getUrl('adminhtml/print/allEntities'));
             } else {
-                $item->setUrl(Mage::helper('Mage_Backend_Helper_Data')
+                $item->setUrl(Mage::helper('Magento_Backend_Helper_Data')
                     ->getUrl('adminhtml/print/entities', array('type' => $type)));
             }
         }
@@ -352,7 +352,7 @@ class Saas_PrintedTemplate_Model_Observer
         }
         $config->setSkipWidgets(array_merge($currentWidgetsToSkip, $widgetsToSkip));
         if ($config->hasWidgetWindowUrl()) {
-            $config->setWidgetWindowUrl(Mage::getModel('Mage_Widget_Model_Widget_Config')->getWidgetWindowUrl($config));
+            $config->setWidgetWindowUrl(Mage::getModel('Magento_Widget_Model_Widget_Config')->getWidgetWindowUrl($config));
         }
     }
 }

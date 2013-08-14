@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Action extends
-    Mage_Backend_Block_Widget_Grid_Column_Renderer_Action
+    Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
 {
     /**
      * Renders available actions

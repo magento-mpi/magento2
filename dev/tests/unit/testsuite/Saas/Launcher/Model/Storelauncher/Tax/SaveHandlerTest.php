@@ -21,7 +21,7 @@ class Saas_Launcher_Model_Storelauncher_Tax_SaveHandlerTest extends PHPUnit_Fram
     public function testSave($data, $timesToCall)
     {
         $taxRule = $this->getMock(
-            'Mage_Tax_Model_Calculation_Rule',
+            'Magento_Tax_Model_Calculation_Rule',
             array('save'),
             array(),
             '',

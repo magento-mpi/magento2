@@ -44,11 +44,11 @@ class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_ConfigInterface',
+        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface',
             array(), array(), '', false, false);
-        $this->_resourcesConfigMock = $this->getMock('Mage_Core_Model_Config_Resource',
+        $this->_resourcesConfigMock = $this->getMock('Magento_Core_Model_Config_Resource',
             array(), array(), '', false, false);
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_Config_Cache',
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_Config_Cache',
             array(), array(), '', false, false);
         $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Event_HandlerInterface',
             array(), array(), '', false, false);

@@ -78,7 +78,7 @@ class Stub_Helper_Export_File extends Saas_ImportExport_Helper_Export_File
     /**#@-*/
 
     public function __construct(
-        Mage_Core_Helper_Context $context,
+        Magento_Core_Helper_Context $context,
         Saas_ImportExport_Helper_Export_Config $configHelper,
         Saas_ImportExport_Model_Export_State_Flag $flagFactory,
         Magento_Filesystem $filesystem

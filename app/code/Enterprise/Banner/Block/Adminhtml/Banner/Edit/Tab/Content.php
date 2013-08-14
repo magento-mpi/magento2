@@ -15,8 +15,8 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Banner helper
@@ -28,7 +28,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * WYSIWYG config object
      *
-     * @var Mage_Cms_Model_Wysiwyg_Config
+     * @var Magento_Cms_Model_Wysiwyg_Config
      */
     protected $_wysiwygConfigModel;
 
@@ -43,30 +43,30 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Registry model
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     /**
      * Application model
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App $app
      * @param Enterprise_Banner_Helper_Data $bannerHelper
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Mage_Core_Model_Registry $registry,
-        Mage_Core_Model_App $app,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App $app,
         Enterprise_Banner_Helper_Data $bannerHelper,
         array $data = array()
     ) {
@@ -122,7 +122,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Prepare Banners Content Tab form, define Editor settings
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -263,7 +263,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'legend' => $this->getHelper()->__('Store View Specific Content'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
         $this->_getWysiwygConfig()->setUseContainer(true);
         foreach ($this->_app->getWebsites() as $website) {

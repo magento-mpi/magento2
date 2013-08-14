@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional extends Magento_Core_Block_Template
 {
     public function getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     public function getAppliedGiftCardAmount()

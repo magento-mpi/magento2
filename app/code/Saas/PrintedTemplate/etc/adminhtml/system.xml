@@ -20,7 +20,7 @@
                 <field id="enable_printed_templates" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Printed Templates</label>
                     <frontend_model>Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Enable</frontend_model>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
             <group id="invoice" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">

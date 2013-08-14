@@ -24,7 +24,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstract
+class Enterprise_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Reindex products target-rules event type
@@ -96,7 +96,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Catalog Product List identifier
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return int
      */
     public function getType()
@@ -155,7 +155,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $customerGroupId = $this->getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }
@@ -199,7 +199,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Product data object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Magento_Object
      */
     public function getProduct()
@@ -286,11 +286,11 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $websites = Mage::app()->getWebsites();
 
-        /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
+        /** @var $indexer Magento_Index_Model_Indexer */
+        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
 
         foreach ($websites as $website) {
-            /* @var $website Mage_Core_Model_Website */
+            /* @var $website Magento_Core_Model_Website */
             $store = $website->getDefaultStore();
             $date  = Mage::app()->getLocale()->storeDate($store);
             if ($date->equals(0, Zend_Date::HOUR)) {
@@ -320,9 +320,9 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Register indexer required data inside event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -345,9 +345,9 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Process event based on event state data
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -406,7 +406,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      * Remove targetrule's index
      *
      * @param int|null $typeId
-     * @param Mage_Core_Model_Store|int|array|null $store
+     * @param Magento_Core_Model_Store|int|array|null $store
      * @return Enterprise_TargetRule_Model_Index
      */
     protected function _cleanIndex($typeId = null, $store = null)

@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Mage_Backend_Utility_Controller
+class Saas_Limitation_Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture limitations/admin_account 1
@@ -30,8 +30,8 @@ class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Mage_Backe
      */
     public function testSaveActionLimitedUsers()
     {
-        /** @var Mage_User_Model_Resource_User $userModel */
-        $userModel = Mage::getResourceSingleton('Mage_User_Model_Resource_User');
+        /** @var Magento_User_Model_Resource_User $userModel */
+        $userModel = Mage::getResourceSingleton('Magento_User_Model_Resource_User');
         $usersCountBefore = $userModel->countAll();
         $this->getRequest()->setPost(array(
             'username' => 'test',
@@ -46,7 +46,7 @@ class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Mage_Backe
             // @codingStandardsIgnoreStart
             $this->equalTo(array('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.')),
             // @codingStandardsIgnoreEnd
-            Mage_Core_Model_Message::ERROR
+            Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/edit/'));
         $this->assertSame($usersCountBefore, $userModel->countAll());

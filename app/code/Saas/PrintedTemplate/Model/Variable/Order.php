@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order for order variable
+ * Container for Magento_Sales_Model_Order for order variable
  *
  * Container that can restrict access to properties and method
  * with white list.
@@ -23,7 +23,7 @@ class Saas_PrintedTemplate_Model_Variable_Order extends Saas_PrintedTemplate_Mod
     /**
      * Cache for _getGiftMessage()
      *
-     * @var Mage_GiftMessage_Model_Message|null
+     * @var Magento_GiftMessage_Model_Message|null
      */
     protected $_giftMessage;
 
@@ -31,9 +31,9 @@ class Saas_PrintedTemplate_Model_Variable_Order extends Saas_PrintedTemplate_Mod
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order $value Order
+     * @param Magento_Sales_Model_Order $value Order
      */
-    public function __construct(Mage_Sales_Model_Order $value)
+    public function __construct(Magento_Sales_Model_Order $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig('order');
@@ -67,12 +67,12 @@ class Saas_PrintedTemplate_Model_Variable_Order extends Saas_PrintedTemplate_Mod
     /**
      * Tries to load giftmessage/message by ID from the order
      *
-     * @return  Mage_GiftMessage_Model_Message|null
+     * @return  Magento_GiftMessage_Model_Message|null
      */
     protected function _getGiftMessage()
     {
         if (!$this->_giftMessage && $this->_value->getGiftMessageId()) {
-            $message = Mage::getModel('Mage_GiftMessage_Model_Message')->load($this->_value->getGiftMessageId());
+            $message = Mage::getModel('Magento_GiftMessage_Model_Message')->load($this->_value->getGiftMessageId());
             if ($message->getId()) {
                 $this->_giftMessage = $message;
             }

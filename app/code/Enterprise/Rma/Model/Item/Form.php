@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Item_Form extends Mage_Eav_Model_Form
+class Enterprise_Rma_Model_Item_Form extends Magento_Eav_Model_Form
 {
     /**
      * Current module pathname

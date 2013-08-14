@@ -15,7 +15,7 @@
             <version>1.11.0.1</version>
             <active>false</active>
             <depends>
-                <Mage_Catalog/>
+                <Magento_Catalog/>
                 <Enterprise_GiftCardAccount/>
             </depends>
         </Enterprise_GiftCard>
@@ -25,7 +25,7 @@
             <enterprise_giftcard_setup>
                 <setup>
                     <module>Enterprise_GiftCard</module>
-                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                    <class>Magento_Catalog_Model_Resource_Setup</class>
                 </setup>
             </enterprise_giftcard_setup>
         </resources>

@@ -64,7 +64,7 @@ class Saas_Limitation_Model_Observer_EntityTest extends PHPUnit_Framework_TestCa
             ->with($this->_limitation)
             ->will($this->returnValue($isThresholdReached))
         ;
-        $model = $this->getMock('Mage_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
+        $model = $this->getMock('Magento_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
         $model->expects($this->once())->method('isObjectNew')->will($this->returnValue($isObjectNew));
         $this->_model->restrictCreation(new Magento_Event_Observer(array(
             'event' => new Magento_Object(array('data_object' => $model))
@@ -72,7 +72,7 @@ class Saas_Limitation_Model_Observer_EntityTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Fixture Message Text
      */
     public function testRestrictCreationActive()

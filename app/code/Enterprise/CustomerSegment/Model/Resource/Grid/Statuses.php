@@ -15,7 +15,7 @@
  * @package    Enterpise_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Resource_Grid_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_CustomerSegment_Model_Resource_Grid_Statuses implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Return option array

@@ -69,6 +69,6 @@ class Saas_UnitPrice_Model_Observer
 
     protected function  _getEavEntityAttributeModel()
     {
-        return Mage::getModel('Mage_Eav_Model_Entity_Attribute');
+        return Mage::getModel('Magento_Eav_Model_Entity_Attribute');
     }
 }

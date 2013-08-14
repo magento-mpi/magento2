@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_JobNotification_Model_Grid_Massaction_ItemUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+class Saas_JobNotification_Model_Grid_Massaction_ItemUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * @var Magento_AuthorizationInterface

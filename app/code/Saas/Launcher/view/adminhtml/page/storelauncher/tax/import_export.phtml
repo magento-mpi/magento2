@@ -12,10 +12,10 @@
     <!-- Import Tax Rates -->
 <?php if (!$this->getIsReadonly()): ?>
 
-    <h4 class="title"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Import Tax Rates'); ?></h4>
-    <p class="import-tax-rates-tagline" id="import-tax-rates-tagline"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('You can upload your existing Tax Rates in CSV format.'); ?></p>
+    <h4 class="title"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Import Tax Rates'); ?></h4>
+    <p class="import-tax-rates-tagline" id="import-tax-rates-tagline"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('You can upload your existing Tax Rates in CSV format.'); ?></p>
     <span class="fileinput-button">
-        <span class="action-import"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Import Tax Rates'); ?></span>
+        <span class="action-import"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Import Tax Rates'); ?></span>
         <input type="file" id="import_rates_file" name="import_rates_file" class="input-file" data-url="<?php echo $this->getUrl('*/storelauncher_tax_drawer/importTaxRates'); ?>"/>
     </span>
     <a href="<?php echo $this->getUrl('adminhtml/tax_rate/exportPost'); ?>" class="import-example-file"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Example CSV File'); ?></a>

@@ -14,7 +14,7 @@
  * @category   Saas
  * @package    Saas_UnitPrice
  */
-class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
+class Saas_UnitPrice_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Return the unitprice lable for the given product. If no unitprice is set return ''
@@ -27,7 +27,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      *  {{reference_unit}}        => the reference unit, full format
      *  {{reference_unit_short}}=> the reference unit, short format
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * "STRING" = the string is used as a format template
      *
      * @return string
@@ -58,7 +58,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
         $productUnit = $product->getUnitPriceUnit();
         $referenceUnit = $product->getUnitPriceBaseUnit();
 
-        $productPrice = $this->getHelperModel('Mage_Tax_Helper_Data')
+        $productPrice = $this->getHelperModel('Magento_Tax_Helper_Data')
             ->getPrice($product, $productPrice, $this->getConfig('unit_price_incl_tax'));
         $basePriceModel = $this->getModel(
             'Saas_UnitPrice_Model_Unitprice',
@@ -82,7 +82,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      * Set the configuration default values on the product model.
      * Used when products already existed when the extension was installed.
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      *
      * @return UnitPrice_Helper_Data
      */
@@ -92,7 +92,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($array as $attributeCode) {
             if (!$product->getDataUsingMethod($attributeCode)) {
-                $attribute = $this->getModel('Mage_Eav_Model_Entity_Attribute')
+                $attribute = $this->getModel('Magento_Eav_Model_Entity_Attribute')
                     ->loadByCode('catalog_product', $attributeCode);
                 $product->setDataUsingMethod($attributeCode, $attribute->getFrontend()->getValue($product));
             }
@@ -106,7 +106,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param   string $className
      * @param   array $arguments
-     * @return  Mage_Core_Model_Abstract|false
+     * @return  Magento_Core_Model_Abstract|false
      */
     public function getModel($className = '', $arguments = array())
     {
@@ -117,7 +117,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve helper object
      *
      * @param string $className the helper name
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     public function getHelperModel($className = '')
     {
@@ -132,7 +132,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function currency($value)
     {
-        return Mage_Core_Helper_Data::currency($value);
+        return Magento_Core_Helper_Data::currency($value);
     }
 
     /**
@@ -192,7 +192,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUnitPriceProInstalledAndActive()
     {
-        $modulesConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        $modulesConfig = Mage::getSingleton('Magento_Core_Model_Config_Modules');
         if ($node = $modulesConfig->getNode('modules/UnitPricePro')) {
             return strval($node->active) == 'true';
         }

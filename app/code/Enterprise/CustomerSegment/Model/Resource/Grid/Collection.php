@@ -22,7 +22,7 @@ class Enterprise_CustomerSegment_Model_Resource_Grid_Collection
     /**
      * Add websites for load
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Enterprise_CustomerSegment_Model_Resource_Grid_Collection
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Enterprise_CustomerSegment_Model_Resource_Grid_Collection
      */
     protected function _initSelect()
     {

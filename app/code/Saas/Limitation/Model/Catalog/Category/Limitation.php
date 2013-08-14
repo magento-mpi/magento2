@@ -15,17 +15,17 @@ class Saas_Limitation_Model_Catalog_Category_Limitation implements Saas_Limitati
     private $_config;
 
     /**
-     * @var Mage_Catalog_Model_Resource_Category
+     * @var Magento_Catalog_Model_Resource_Category
      */
     private $_resource;
 
     /**
      * @param Saas_Limitation_Model_Limitation_Config $config
-     * @param Mage_Catalog_Model_Resource_Category $resource
+     * @param Magento_Catalog_Model_Resource_Category $resource
      */
     public function __construct(
         Saas_Limitation_Model_Limitation_Config $config,
-        Mage_Catalog_Model_Resource_Category $resource
+        Magento_Catalog_Model_Resource_Category $resource
     ) {
         $this->_config = $config;
         $this->_resource = $resource;

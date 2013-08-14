@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Mage_Adminhtml_Controller_Action
+class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Init layout and add breadcrumbs
@@ -84,11 +84,11 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
     /**
      * Retrieve admin session model
      *
-     * @return Mage_Backend_Model_Auth_Session
+     * @return Magento_Backend_Model_Auth_Session
      */
     protected function _getAdminSession()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
     }
 
     /**

@@ -1,17 +1,17 @@
 <?php
 /**
- * Integrity test for template setters in Mage_Checkout_Block_CartTest
+ * Integrity test for template setters in Magento_Checkout_Block_CartTest
  *
  * {license_notice}
  *
  * @category Mage
- * @package Mage_Checkout
+ * @package Magento_Checkout
  * @subpackage integration_tests
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-class Integrity_Mage_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $layoutFile
@@ -35,7 +35,7 @@ class Integrity_Mage_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
             preg_match('/^(.+?_.+?)_/', $blockNode['type'], $matches);
             $params['module'] = $matches[1];
             $this->assertFileExists(
-                Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename($template, $params)
+                Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getFilename($template, $params)
             );
         }
     }

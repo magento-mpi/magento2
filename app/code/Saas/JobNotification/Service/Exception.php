@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_JobNotification_Service_Exception extends Mage_Core_Exception
+class Saas_JobNotification_Service_Exception extends Magento_Core_Exception
 {
 
 }

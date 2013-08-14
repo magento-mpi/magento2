@@ -10,8 +10,8 @@
  */
 $defaultWebsiteId = Mage::app()->getStore()->getWebsiteId();
 
-/** @var $website Mage_Core_Model_Website */
-$website = Mage::getModel('Mage_Core_Model_Website');
+/** @var $website Magento_Core_Model_Website */
+$website = Mage::getModel('Magento_Core_Model_Website');
 $website->setData(array(
     'code'             => 'base2',
     'name'             => 'Test Website',
@@ -30,8 +30,8 @@ $expectedBalances = array();
 $expectedRewards = array();
 
 //Create customer
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -63,8 +63,8 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$additionalWebsiteId] = 0;
 $expectedRewards[$customer->getId()][$additionalWebsiteId] = 0;
 
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -96,8 +96,8 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$defaultWebsiteId] = 0;
 $expectedRewards[$customer->getId()][$defaultWebsiteId] = 0;
 
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+/** @var $customer Magento_Customer_Model_Customer */
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -146,7 +146,7 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$defaultWebsiteId] = 300;
 $expectedRewards[$customer->getId()][$defaultWebsiteId] = 300;
 
-$customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer = Mage::getModel('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)

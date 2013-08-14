@@ -48,14 +48,14 @@ class Saas_PrintedTemplate_Model_Variable_Tax extends Saas_PrintedTemplate_Model
     /**
      * Tries to load order by parent_id, uses cache
      *
-     * @return Mage_Sales_Model_Order|null
+     * @return Magento_Sales_Model_Order|null
      */
     protected function _getOrder()
     {
         if ($this->_hasOrder()) {
             $orderId = $this->_value->getOrderId();
             if (!isset(self::$_orders[$orderId])) {
-                self::$_orders[$orderId] = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
+                self::$_orders[$orderId] = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
             }
             return self::$_orders[$orderId];
         }
@@ -64,10 +64,10 @@ class Saas_PrintedTemplate_Model_Variable_Tax extends Saas_PrintedTemplate_Model
     /**
      * Set order for taxes
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Saas_PrintedTemplate_Model_Variable_Tax
      */
-    public function setOrder(Mage_Sales_Model_Order $order)
+    public function setOrder(Magento_Sales_Model_Order $order)
     {
         $this->_value->setOrderId($order->getId());
         self::$_orders[$order->getId()] = $order;

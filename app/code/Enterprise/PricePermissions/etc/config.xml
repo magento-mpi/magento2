@@ -15,9 +15,9 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Bundle/>
-                <Mage_Catalog/>
-                <Mage_Downloadable/>
+                <Magento_Bundle/>
+                <Magento_Catalog/>
+                <Magento_Downloadable/>
                 <Enterprise_GiftCard/>
             </depends>
         </Enterprise_PricePermissions>

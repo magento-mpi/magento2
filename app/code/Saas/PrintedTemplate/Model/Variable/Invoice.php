@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Invoice for invoice variable
+ * Container for Magento_Sales_Model_Order_Invoice for invoice variable
  *
  * Container that can restrict access to properties and method
  * with white list.
@@ -32,9 +32,9 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
      * Constructor
      *
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
-     * @param Mage_Sales_Model_Order_Invoice $value Invoice
+     * @param Magento_Sales_Model_Order_Invoice $value Invoice
      */
-    public function __construct(Mage_Sales_Model_Order_Invoice $value)
+    public function __construct(Magento_Sales_Model_Order_Invoice $value)
     {
         parent::__construct($value);
         $this->_setListsFromConfig($this->_type);
@@ -164,7 +164,7 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
      * @todo refactor this method to avoid code duplication
      * with Saas_PrintedTemplate_Model_Variable_Item_Invoice::_getItemTaxRealPercent
      *
-     * @param Mage_Sales_Model_Order_Invoice_Item $item
+     * @param Magento_Sales_Model_Order_Invoice_Item $item
      * @return float
      */
     protected function _getItemTaxRealPercent($item)

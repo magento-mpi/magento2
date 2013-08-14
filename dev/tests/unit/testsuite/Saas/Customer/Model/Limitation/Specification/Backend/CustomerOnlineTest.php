@@ -19,7 +19,7 @@ class Saas_Customer_Model_Limitation_Specification_Backend_CustomerOnlineTest ex
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelSpecification = $objectManagerHelper->getObject(
@@ -46,7 +46,7 @@ class Saas_Customer_Model_Limitation_Specification_Backend_CustomerOnlineTest ex
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('Mage_Adminhtml', 'unknown'),
+            array('Magento_Adminhtml', 'unknown'),
             array('unknown', 'customer_online'),
             array('unknown', 'unknown'),
         );
@@ -55,7 +55,7 @@ class Saas_Customer_Model_Limitation_Specification_Backend_CustomerOnlineTest ex
     public function testIsNotAllowed()
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('customer_online'));
 

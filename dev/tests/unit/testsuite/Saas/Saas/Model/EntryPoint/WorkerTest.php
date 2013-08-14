@@ -30,10 +30,10 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
                 array('task_name' => $taskName, 'params' => $taskParams)
             )
         );
-        $config = new Mage_Core_Model_Config_Primary(BP, $params);
+        $config = new Magento_Core_Model_Config_Primary(BP, $params);
         Mage::reset(); // hack to reset object manager if it happens to be set in this class already
         $worker = new Saas_Saas_Model_EntryPoint_Worker($config, $this->_objectManagerMock);
-        $dispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
+        $dispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
 
         if (array_key_exists(Saas_Saas_Model_EntryPoint_Worker::EVENT_NAME_KEY, $taskParams)) {
             //Using worker task as event transport
@@ -54,13 +54,13 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
                 $this->logicalOr($eventData, array('task_name' => $taskName))
             );
 
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $app->expects($this->once())->method('setUseSessionInUrl')->with(false);
         $app->expects($this->once())->method('requireInstalledInstance');
 
         $valueMap = array(
-            array('Mage_Core_Model_Config_Primary', $config),
-            array('Mage_Core_Model_App', $app),
+            array('Magento_Core_Model_Config_Primary', $config),
+            array('Magento_Core_Model_App', $app),
         );
         $this->_objectManagerMock
             ->expects($this->exactly(2))
@@ -69,7 +69,7 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Event_Manager', array('invoker' => 'Mage_Core_Model_Event_Invoker_InvokerDefault'))
+            ->with('Magento_Core_Model_Event_Manager', array('invoker' => 'Magento_Core_Model_Event_Invoker_InvokerDefault'))
             ->will($this->returnValue($dispatcher));
         $worker->processRequest();
     }

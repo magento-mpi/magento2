@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Widget
+ * @package     Magento_Widget
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Check if all the declared widget templates actually exist
@@ -20,11 +20,11 @@ class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testWidgetTemplates($class, $template)
     {
-        /** @var $blockFactory Mage_Core_Model_BlockFactory */
-        $blockFactory = Mage::getObjectManager()->get('Mage_Core_Model_BlockFactory');
-        /** @var Mage_Core_Block_Template $block */
+        /** @var $blockFactory Magento_Core_Model_BlockFactory */
+        $blockFactory = Mage::getObjectManager()->get('Magento_Core_Model_BlockFactory');
+        /** @var Magento_Core_Block_Template $block */
         $block = $blockFactory->createBlock($class);
-        $this->assertInstanceOf('Mage_Core_Block_Template', $block);
+        $this->assertInstanceOf('Magento_Core_Block_Template', $block);
         $block->setTemplate((string)$template);
         $this->assertFileExists($block->getTemplateFile());
     }
@@ -37,14 +37,14 @@ class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
     public function widgetTemplatesDataProvider()
     {
         $result = array();
-        /** @var $model Mage_Widget_Model_Widget */
-        $model = Mage::getModel('Mage_Widget_Model_Widget');
+        /** @var $model Magento_Widget_Model_Widget */
+        $model = Mage::getModel('Magento_Widget_Model_Widget');
         foreach ($model->getWidgetsArray() as $row) {
-            /** @var $instance Mage_Widget_Model_Widget_Instance */
-            $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
+            /** @var $instance Magento_Widget_Model_Widget_Instance */
+            $instance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
             $class = $row['type'];
-            if (is_subclass_of($class, 'Mage_Core_Block_Template')) {
+            if (is_subclass_of($class, 'Magento_Core_Block_Template')) {
                 $templates = $config->xpath('/widgets/' . $row['code'] . '/parameters/template/values/*/value');
                 foreach ($templates as $template) {
                     $result[] = array($class, (string)$template);

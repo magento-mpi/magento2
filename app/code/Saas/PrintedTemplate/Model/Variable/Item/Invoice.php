@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Invoice_Item for invoice item variable
+ * Container for Magento_Sales_Model_Order_Invoice_Item for invoice item variable
  *
  * Container that can restrict access to properties and method
  * with black list or white list.
@@ -128,7 +128,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_Invoice extends Saas_PrintedTempl
     /**
      * Retrieve item's parent entity
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _getParentEntity()
     {

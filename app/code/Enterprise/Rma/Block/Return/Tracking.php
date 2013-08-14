@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
 {
     /**
      * Get whether rma is allowed for PSL
@@ -62,8 +62,8 @@ class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
      */
     public function getErrorMessage()
     {
-        $message = Mage::getSingleton('Mage_Core_Model_Session')->getErrorMessage();
-        Mage::getSingleton('Mage_Core_Model_Session')->unsErrorMessage();
+        $message = Mage::getSingleton('Magento_Core_Model_Session')->getErrorMessage();
+        Mage::getSingleton('Magento_Core_Model_Session')->unsErrorMessage();
         return $message;
     }
 

@@ -12,7 +12,7 @@
 class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/ImportExport/_files/customer.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer.php
      * @dataProvider saveRewardPointsDataProvider
      *
      * @param integer $pointsDelta
@@ -20,7 +20,7 @@ class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRewardPoints($pointsDelta, $expectedBalance)
     {
-        $customer = Mage::registry('_fixture/Mage_ImportExport_Customer');
+        $customer = Mage::registry('_fixture/Magento_ImportExport_Customer');
 
         $this->_saveRewardPoints($customer, $pointsDelta);
 
@@ -47,10 +47,10 @@ class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @param mixed $pointsDelta
      */
-    protected function _saveRewardPoints(Mage_Customer_Model_Customer $customer, $pointsDelta = '')
+    protected function _saveRewardPoints(Magento_Customer_Model_Customer $customer, $pointsDelta = '')
     {
         $reward = array(
             'points_delta' => $pointsDelta

@@ -38,14 +38,14 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Form
     public function removeSavingButtons(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
-        if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit) {
+        if ($block instanceof Magento_Adminhtml_Block_Catalog_Product_Edit) {
             $product = $block->getProduct();
             $isThresholdReached = $this->_limitationValidator->exceedsThreshold(
                 $this->_limitation,
                 !$product || $product->isObjectNew() ? 2 : 1
             );
             if ($isThresholdReached) {
-                /** @var Mage_Backend_Block_Widget_Button_Split $child */
+                /** @var Magento_Backend_Block_Widget_Button_Split $child */
                 $child = $block->getChildBlock('save-split-button');
                 $restrictedButtons = array('new-button', 'duplicate-button');
                 $filteredOptions = array();

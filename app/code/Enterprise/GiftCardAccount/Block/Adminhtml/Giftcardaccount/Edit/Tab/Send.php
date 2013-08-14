@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Init form fields
@@ -47,7 +47,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
                 'after_element_html' => $this->_getStoreIdScript()
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
@@ -78,7 +78,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             }
         }
 
-        $websiteStores = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websiteStores);
+        $websiteStores = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

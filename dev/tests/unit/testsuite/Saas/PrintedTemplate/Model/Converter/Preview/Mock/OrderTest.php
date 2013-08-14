@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_OrderTest extends PHPUni
             array('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Shipping', $shippingAddrMock),
             array('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Payment', $paymentMock)
         );
-        $mockItem = $this->getMockBuilder('Mage_Sales_Model_Order_Item')
+        $mockItem = $this->getMockBuilder('Magento_Sales_Model_Order_Item')
             ->disableOriginalConstructor()
             ->setMethods(array('getId', 'unsetData'))
             ->getMock();

@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle_Column_Sku
-    extends Mage_Backend_Block_Abstract
+    extends Magento_Backend_Block_Abstract
     implements Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Abstract
 {
     /**

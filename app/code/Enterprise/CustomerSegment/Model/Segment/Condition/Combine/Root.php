@@ -15,18 +15,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
-     * @var Mage_Customer_Model_Config_Share
+     * @var Magento_Customer_Model_Config_Share
      */
     protected $_configShare;
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
-     * @param Mage_Customer_Model_Config_Share $configShare
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Customer_Model_Config_Share $configShare
      * @param array $data
      */
     public function __construct(
-        Mage_Rule_Model_Condition_Context $context,
-        Mage_Customer_Model_Config_Share $configShare,
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Customer_Model_Config_Share $configShare,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -47,13 +47,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     /**
      * Prepare filter condition by customer
      *
-     * @param int|array|Mage_Customer_Model_Customer|Zend_Db_Select $customer
+     * @param int|array|Magento_Customer_Model_Customer|Zend_Db_Select $customer
      * @param string $fieldName
      * @return string
      */
     protected function _createCustomerFilter($customer, $fieldName)
     {
-        if ($customer instanceof Mage_Customer_Model_Customer) {
+        if ($customer instanceof Magento_Customer_Model_Customer) {
             $customer = $customer->getId();
         } else if ($customer instanceof Zend_Db_Select) {
             $customer = new Zend_Db_Expr($customer);
@@ -65,7 +65,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | Mage_Customer_Model_Customer $customer
+     * @param   null | array | int | Magento_Customer_Model_Customer $customer
      * @param   int | Zend_Db_Expr $website
      * @return  Magento_DB_Select
      */

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Users
+ * @package     Magento_Users
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Model_MassOptions implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_GiftWrapping_Model_MassOptions implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Backend Helper

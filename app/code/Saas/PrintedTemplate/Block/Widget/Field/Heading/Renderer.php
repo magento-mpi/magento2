@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Field_Heading_Renderer
-    extends Mage_Core_Block_Abstract
+    extends Magento_Core_Block_Abstract
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**

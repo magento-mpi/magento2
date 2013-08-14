@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Rule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Magento_Rule>
+            <version>1.6.0.0</version>
+            <active>true</active>
+            <depends>
+                <Magento_Core/>
+            </depends>
+        </Magento_Rule>
+    </modules>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Rule>
+                    <files>
+                        <default>Magento_Rule.csv</default>
+                    </files>
+                </Magento_Rule>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Magento_Rule>
+                    <files>
+                        <default>Magento_Rule.csv</default>
+                    </files>
+                </Magento_Rule>
+            </modules>
+        </translate>
+    </frontend>
+</config>

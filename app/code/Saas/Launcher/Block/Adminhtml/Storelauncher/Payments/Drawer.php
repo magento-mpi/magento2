@@ -20,20 +20,20 @@
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * @var Mage_Backend_Model_Config_Structure
+     * @var Magento_Backend_Model_Config_Structure
      */
     protected $_configStructure;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
-     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
-        Mage_Backend_Model_Config_Structure $configStructure,
+        Magento_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
@@ -57,7 +57,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Saas_L
      */
     public function getMoreUrl($path)
     {
-        /** @var Mage_Backend_Model_Config_Structure_ElementInterface $element */
+        /** @var Magento_Backend_Model_Config_Structure_ElementInterface $element */
         $element = $this->_configStructure->getElement($path);
         if (!isset($element)) {
             throw new Saas_Launcher_Exception('Element was not found: ' . $path);

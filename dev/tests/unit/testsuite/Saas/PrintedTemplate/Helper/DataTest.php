@@ -42,8 +42,8 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         // preapre
         $menuItems = array(
-            'Mage_Adminhtml::system'        => $this->itemMock('System'),
-            'Mage_Adminhtml::system_config' => $this->itemMock('Configuration'),
+            'Magento_Adminhtml::system'        => $this->itemMock('System'),
+            'Magento_Adminhtml::system_config' => $this->itemMock('Configuration'),
         );
         $configElements = array(
             array('sales_pdf', $this->elementMock('PDF Print-outs')),
@@ -121,11 +121,11 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Returns helper mock
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function helper(array $urls = array())
     {
-        $helper = $this->getMock('Mage_Core_Helper_Abstract', array('__', 'getUrl'), array(), '', false);
+        $helper = $this->getMock('Magento_Core_Helper_Abstract', array('__', 'getUrl'), array(), '', false);
         $helper->expects($this->any())
             ->method('__')
             ->will(
@@ -147,10 +147,10 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Returns menu config mock
      *
-     * @param Mage_Backend_Model_Menu $menu
+     * @param Magento_Backend_Model_Menu $menu
      * @return Magento_Object
      */
-    protected function menuConfigMock(Mage_Backend_Model_Menu $menu)
+    protected function menuConfigMock(Magento_Backend_Model_Menu $menu)
     {
         return new Magento_Object(array('menu' => $menu));
     }
@@ -159,7 +159,7 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Returns menu mock
      *
      * @param array $items
-     * @return Mage_Backend_Model_Menu
+     * @return Magento_Backend_Model_Menu
      */
     protected function menuMock(array $items)
     {
@@ -168,7 +168,7 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
             $itemsMap[] = array($key, $item);
         }
 
-        $menu = $this->getMockBuilder('Mage_Backend_Model_Menu')
+        $menu = $this->getMockBuilder('Magento_Backend_Model_Menu')
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -183,11 +183,11 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Returns item mock
      *
      * @param string $title
-     * @return Mage_Backend_Model_Menu_Item
+     * @return Magento_Backend_Model_Menu_Item
      */
     protected function itemMock($title)
     {
-        $item = $this->getMockBuilder('Mage_Backend_Model_Menu_Item')
+        $item = $this->getMockBuilder('Magento_Backend_Model_Menu_Item')
             ->setMethods(array('getModuleHelper', 'getTitle'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -203,7 +203,7 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function configStructureMock(array $elements)
     {
-        $structure = $this->getMockBuilder('Mage_Backend_Model_Config_Structure')
+        $structure = $this->getMockBuilder('Magento_Backend_Model_Config_Structure')
             ->setMethods(array('getElement', 'getElementByPathParts'))
             ->disableOriginalConstructor()
             ->getMock();

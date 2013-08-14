@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Mage_CatalogRule_Model_Rule_Job" type="Saas_CatalogRule_Model_Rule_Job" />
+    <preference for="Magento_CatalogRule_Model_Rule_Job" type="Saas_CatalogRule_Model_Rule_Job" />
 </config>

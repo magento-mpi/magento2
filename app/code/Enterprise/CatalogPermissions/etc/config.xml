@@ -15,11 +15,11 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogSearch/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
+                <Magento_Adminhtml/>
+                <Magento_Catalog/>
+                <Magento_CatalogSearch/>
+                <Magento_Sales/>
+                <Magento_Checkout/>
                 <Enterprise_WebsiteRestriction/>
             </depends>
         </Enterprise_CatalogPermissions>

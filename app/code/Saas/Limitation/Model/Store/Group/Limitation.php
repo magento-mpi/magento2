@@ -15,17 +15,17 @@ class Saas_Limitation_Model_Store_Group_Limitation implements Saas_Limitation_Mo
     private $_config;
 
     /**
-     * @var Mage_Core_Model_Resource_Store_Group
+     * @var Magento_Core_Model_Resource_Store_Group
      */
     private $_resource;
 
     /**
      * @param Saas_Limitation_Model_Limitation_Config $config
-     * @param Mage_Core_Model_Resource_Store_Group $resource
+     * @param Magento_Core_Model_Resource_Store_Group $resource
      */
     public function __construct(
         Saas_Limitation_Model_Limitation_Config $config,
-        Mage_Core_Model_Resource_Store_Group $resource
+        Magento_Core_Model_Resource_Store_Group $resource
     ) {
         $this->_config = $config;
         $this->_resource = $resource;

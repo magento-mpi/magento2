@@ -12,17 +12,17 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest
     extends Saas_Launcher_Controller_BasePageTestCaseAbstract
 {
     /**
-     * @var Mage_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configModelMock;
 
     /**
-     * @var Mage_Core_Model_Config_Storage_WriterInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Config_Storage_WriterInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configWriterMock;
 
@@ -34,27 +34,27 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest
     /**
      * Retrieve mocked page controller instance
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Magento_Core_Controller_Varien_Front $frontController
+     * @param Magento_Core_Model_Layout_Factory $layoutFactory
      * @param string|null $areaCode
      * @param array $invokeArgs
      * @return Saas_Launcher_Controller_BasePage
      */
     protected function _getMockedPageControllerInstance(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Magento_Core_Controller_Varien_Front $frontController,
+        Magento_Core_Model_Layout_Factory $layoutFactory,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
         $this->_responseMock = $response;
-        $this->_configModelMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_configWriterMock = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
+        $this->_configModelMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_configWriterMock = $this->getMock('Magento_Core_Model_Config_Storage_WriterInterface');
         $this->_launcherHelperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
         $helper = new Magento_Test_Helper_ObjectManager($this);
 
@@ -65,7 +65,7 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest
             'frontController' => $frontController,
             'layoutFactory' => $layoutFactory,
         );
-        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
 
         return $this->getMock(
             'Saas_Launcher_Controller_Adminhtml_Storelauncher_Index',

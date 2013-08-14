@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Block_Widget
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Magento_Backend_Block_Widget
 {
     const MODULE_NAME = 'Saas_PrintedTemplate';
 
@@ -44,12 +44,12 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
     /**
      * Prepare buttons and form
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Back'),
@@ -59,7 +59,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
                 )
         );
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Reset'),
@@ -68,7 +68,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
                 )
         );
         $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Delete Template'),
@@ -78,7 +78,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
                 )
         );
         $this->setChild('preview_html_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Preview HTML'),
@@ -88,7 +88,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
         );
 
         $this->setChild('preview_pdf_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Preview PDF'),
@@ -98,7 +98,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
         );
 
         $this->setChild('save_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Save'),
@@ -109,7 +109,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
         );
 
         $this->setChild('save_and_continue_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Save And Continue Edit'),
@@ -121,7 +121,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
 
 
         $this->setChild('load_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Load Template'),

@@ -16,7 +16,7 @@
  */
 
 class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
-    extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
 {
     /**
      * Retrieve category event
@@ -47,7 +47,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
             && $this->_authorization->isAllowed('Enterprise_CatalogEvent::events')
             && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
-                $url = $this->helper('Mage_Adminhtml_Helper_Data')->getUrl('*/catalog_event/edit', array(
+                $url = $this->helper('Magento_Adminhtml_Helper_Data')->getUrl('*/catalog_event/edit', array(
                             'id' => $this->getEvent()->getId(),
                             'category' => 1
                 ));
@@ -58,7 +58,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
                         'onclick'   => 'setLocation(\''. $url .'\')'
                     ));
             } else {
-                $url = $this->helper('Mage_Adminhtml_Helper_Data')->getUrl('*/catalog_event/new', array(
+                $url = $this->helper('Magento_Adminhtml_Helper_Data')->getUrl('*/catalog_event/new', array(
                         'category_id' => $this->getCategoryId(),
                         'category' => 1
                 ));

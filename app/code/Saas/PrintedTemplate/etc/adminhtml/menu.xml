@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Saas_PrintedTemplate::template" title="PDF Templates" module="Saas_PrintedTemplate" sortOrder="20" parent="Mage_Adminhtml::marketing_communications" action="adminhtml/template" resource="Saas_PrintedTemplate::printed_template"/>
+        <add id="Saas_PrintedTemplate::template" title="PDF Templates" module="Saas_PrintedTemplate" sortOrder="20" parent="Magento_Adminhtml::marketing_communications" action="adminhtml/template" resource="Saas_PrintedTemplate::printed_template"/>
     </menu>
 </config>

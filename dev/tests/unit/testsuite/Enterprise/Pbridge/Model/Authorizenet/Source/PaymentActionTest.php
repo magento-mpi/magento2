@@ -40,11 +40,11 @@ class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHP
         $options = $this->_model->toOptionArray();
         $expected = array(
             array(
-                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
                 'label' => 'Test Label'
             ),
             array(
-                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
                 'label' => 'Test Label'
             ),
         );

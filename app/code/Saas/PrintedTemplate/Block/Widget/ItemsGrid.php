@@ -56,7 +56,7 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
     /**
      * Initializes object
      *
-     * @see Mage_Core_Block_Template::_construct()
+     * @see Magento_Core_Block_Template::_construct()
      */
     protected function _construct()
     {

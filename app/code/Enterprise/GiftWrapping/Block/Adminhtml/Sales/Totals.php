@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals extends Mage_Core_Block_Template
+class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals extends Magento_Core_Block_Template
 {
     /**
      * Initialize gift wrapping and printed card totals for order/invoice/creditmemo

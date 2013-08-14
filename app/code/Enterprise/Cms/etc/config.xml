@@ -15,9 +15,10 @@
             <version>1.11.0.4</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml />
-                <Mage_Cms />
-                <Mage_Widget />
+                <Magento_Adminhtml />
+                <Magento_Cms />
+                <Magento_Widget />
+                <Magento_User />
             </depends>
         </Enterprise_Cms>
     </modules>
@@ -26,7 +27,7 @@
             <enterprise_cms_setup>
                 <setup>
                     <module>Enterprise_Cms</module>
-                    <class>Mage_Core_Model_Resource_Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </enterprise_cms_setup>
         </resources>
@@ -172,7 +173,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_cms before="Mage_Adminhtml">Enterprise_Cms_Adminhtml</enterprise_cms>
+                        <enterprise_cms before="Magento_Adminhtml">Enterprise_Cms_Adminhtml</enterprise_cms>
                     </modules>
                 </args>
             </adminhtml>
@@ -190,4 +191,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

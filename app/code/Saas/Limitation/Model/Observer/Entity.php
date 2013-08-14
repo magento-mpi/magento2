@@ -43,15 +43,15 @@ class Saas_Limitation_Model_Observer_Entity
      * Restrict creation of new entities upon reaching the limitation
      *
      * @param Magento_Event_Observer $observer
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function restrictCreation(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Core_Model_Abstract $model */
+        /** @var Magento_Core_Model_Abstract $model */
         $model = $observer->getEvent()->getData('data_object');
         if ($model->isObjectNew() && $this->_limitationValidator->exceedsThreshold($this->_limitation)) {
-            $exception = new Mage_Core_Exception($this->_message);
-            $exception->addMessage(new Mage_Core_Model_Message_Error($this->_message));
+            $exception = new Magento_Core_Exception($this->_message);
+            $exception->addMessage(new Magento_Core_Model_Message_Error($this->_message));
             throw $exception;
         }
     }

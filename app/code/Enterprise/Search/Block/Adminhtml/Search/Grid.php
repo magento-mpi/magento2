@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Search_Block_Adminhtml_Search_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Init Grid default properties
@@ -45,7 +45,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
     {
         $this->setDefaultFilter(array('query_id_selected' => 1));
 
-        $collection = Mage::getModel('Mage_CatalogSearch_Model_Query')
+        $collection = Mage::getModel('Magento_CatalogSearch_Model_Query')
             ->getResourceCollection();
 
         $queryId = $this->getQuery()->getId();
@@ -213,7 +213,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
     {
         $queries = array_flip($this->_getSelectedQueries());
         if (!empty($queries)) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($queries);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($queries);
         }
         return '{}';
     }

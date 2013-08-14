@@ -15,11 +15,12 @@
             <version>1.11.0.3</version>
             <active>false</active>
             <depends>
-                <Mage_Cms />
-                <Mage_Install />
-                <Mage_Adminhtml />
-                <Mage_AdminNotification />
-                <Mage_Widget />
+                <Magento_Cms />
+                <Magento_Install />
+                <Magento_Adminhtml />
+                <Magento_AdminNotification />
+                <Magento_Widget />
+                <Magento_User/>
             </depends>
         </Enterprise_Enterprise>
     </modules>
@@ -28,7 +29,7 @@
             <enterprise_enterprise_setup>
                 <setup>
                     <module>Enterprise_Enterprise</module>
-                    <class>Mage_Core_Model_Resource_Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </enterprise_enterprise_setup>
         </resources>

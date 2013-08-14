@@ -29,14 +29,14 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      * Initialize connect to Solr Client
      *
      * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      * @param Enterprise_Search_Helper_ClientInterface $clientHelper
      * @param array $options
      * @throws Exception
      */
     public function __construct(
         Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Logger $logger,
         Enterprise_Search_Helper_ClientInterface $clientHelper,
         $options = array()
     ) {
@@ -203,7 +203,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if ($_params['store_id'] > 0) {
             $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
-        if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
+        if (!Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
             $solrQuery->addFilterQuery('in_stock:true');
         }
 
@@ -286,7 +286,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool

@@ -7,6 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Index_Helper_Data extends Mage_Core_Helper_Abstract
+class Saas_Index_Helper_Data extends Magento_Core_Helper_Abstract
 {
 }

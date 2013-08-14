@@ -39,7 +39,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
         );
         $this->_limitation = $this->getMockForAbstractClass('Saas_Limitation_Model_Limitation_LimitationInterface');
         $this->_block = $this->getMock(
-            'Mage_Backend_Block_Widget_Container', array('updateButton', 'removeButton'), array(), '', false
+            'Magento_Backend_Block_Widget_Container', array('updateButton', 'removeButton'), array(), '', false
         );
         $this->_eventArgument = new Magento_Event_Observer(array(
             'event' => new Magento_Object(array('block' => $this->_block))
@@ -88,7 +88,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
     public function testDisableButtonInactiveIrrelevantBlock($isThresholdReached)
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
-        $block = $this->getMock('Mage_Backend_Block_Widget_Container', array('updateButton'), array(), '', false);
+        $block = $this->getMock('Magento_Backend_Block_Widget_Container', array('updateButton'), array(), '', false);
         $block->expects($this->never())->method('updateButton');
         $this->_model->disableButton(new Magento_Event_Observer(array(
             'event' => new Magento_Object(array('block' => $block))
@@ -117,7 +117,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
     public function testDisableSplitButtonInactiveIrrelevantBlock($isThresholdReached)
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
-        $block = $this->getMock('Mage_Backend_Block_Widget_Container', array('updateButton'), array(), '', false);
+        $block = $this->getMock('Magento_Backend_Block_Widget_Container', array('updateButton'), array(), '', false);
         $block->expects($this->never())->method('updateButton');
         $this->_model->disableSplitButton(new Magento_Event_Observer(array(
             'event' => new Magento_Object(array('block' => $block))
@@ -145,7 +145,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
     public function testRemoveButtonInactiveIrrelevantBlock($isThresholdReached)
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
-        $block = $this->getMock('Mage_Backend_Block_Widget_Container', array('removeButton'), array(), '', false);
+        $block = $this->getMock('Magento_Backend_Block_Widget_Container', array('removeButton'), array(), '', false);
         $block->expects($this->never())->method('removeButton');
         $this->_model->removeButton(new Magento_Event_Observer(array(
             'event' => new Magento_Object(array('block' => $block))

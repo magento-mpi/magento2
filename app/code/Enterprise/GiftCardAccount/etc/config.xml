@@ -15,8 +15,8 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Sales />
-                <Mage_Checkout />
+                <Magento_Sales />
+                <Magento_Checkout />
                 <Enterprise_CustomerBalance />
             </depends>
         </Enterprise_GiftCardAccount>
@@ -296,7 +296,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_giftcardaccount before="Mage_Adminhtml">Enterprise_GiftCardAccount_Adminhtml</enterprise_giftcardaccount>
+                        <enterprise_giftcardaccount before="Magento_Adminhtml">Enterprise_GiftCardAccount_Adminhtml</enterprise_giftcardaccount>
                     </modules>
                 </args>
             </adminhtml>
@@ -371,4 +371,4 @@
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>
-</config>
+</config>

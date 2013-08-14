@@ -11,7 +11,7 @@
 /**
  * Log and archive grids controller
  */
-class Enterprise_Logging_Controller_Adminhtml_Logging extends Mage_Adminhtml_Controller_Action
+class Enterprise_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Log page
@@ -62,7 +62,7 @@ class Enterprise_Logging_Controller_Adminhtml_Logging extends Mage_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'log.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
@@ -74,7 +74,7 @@ class Enterprise_Logging_Controller_Adminhtml_Logging extends Mage_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'log.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

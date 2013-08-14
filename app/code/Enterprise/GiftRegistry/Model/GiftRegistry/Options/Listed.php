@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftRegistry
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

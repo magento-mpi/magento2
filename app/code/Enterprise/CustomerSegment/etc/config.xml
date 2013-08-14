@@ -15,13 +15,13 @@
             <version>1.11.0.0.4</version>
             <active>false</active>
             <depends>
-                <Mage_Customer/>
+                <Magento_Customer/>
                 <Enterprise_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogRule/>
-                <Mage_Rule/>
-                <Mage_Log/>
+                <Magento_Adminhtml/>
+                <Magento_Catalog/>
+                <Magento_CatalogRule/>
+                <Magento_Rule/>
+                <Magento_Log/>
             </depends>
         </Enterprise_CustomerSegment>
     </modules>
@@ -74,7 +74,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_customersegment before="Mage_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
+                        <enterprise_customersegment before="Magento_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
                     </modules>
                 </args>
             </adminhtml>

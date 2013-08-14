@@ -15,9 +15,9 @@
             <version>1.11.0.1</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_CatalogRule/>
-                <Mage_SalesRule/>
+                <Magento_Adminhtml/>
+                <Magento_CatalogRule/>
+                <Magento_SalesRule/>
                 <Enterprise_Cms/>
             </depends>
         </Enterprise_Banner>
@@ -50,7 +50,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_banner before="Mage_Adminhtml">Enterprise_Banner_Adminhtml</enterprise_banner>
+                        <enterprise_banner before="Magento_Adminhtml">Enterprise_Banner_Adminhtml</enterprise_banner>
                     </modules>
                 </args>
             </adminhtml>

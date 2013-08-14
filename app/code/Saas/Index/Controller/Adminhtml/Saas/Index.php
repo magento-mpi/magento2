@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Index_Controller_Adminhtml_Saas_Index extends Mage_Adminhtml_Controller_Action
+class Saas_Index_Controller_Adminhtml_Saas_Index extends Magento_Adminhtml_Controller_Action
 {
     /**
      * @var Saas_Index_Model_Flag
@@ -15,12 +15,12 @@ class Saas_Index_Controller_Adminhtml_Saas_Index extends Mage_Adminhtml_Controll
     protected $_flag;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_Index_Model_FlagFactory $flagFactory,
         $areaCode = null
     ) {
@@ -89,7 +89,7 @@ class Saas_Index_Controller_Adminhtml_Saas_Index extends Mage_Adminhtml_Controll
      */
     protected function _endAjax($res)
     {
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Core_Helper_Data');
         $responseContent = $helper->jsonEncode($res);
         $this->getResponse()->setBody($responseContent);
     }
@@ -101,6 +101,6 @@ class Saas_Index_Controller_Adminhtml_Saas_Index extends Mage_Adminhtml_Controll
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Index::index');
+        return $this->_authorization->isAllowed('Magento_Index::index');
     }
 }

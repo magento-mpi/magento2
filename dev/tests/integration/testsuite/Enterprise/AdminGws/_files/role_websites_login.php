@@ -8,13 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
+Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 if (!isset($scope)) {
     $scope = 'websites';
 }
 
-/** @var $role Mage_User_Model_Role */
-$role = Mage::getModel('Mage_User_Model_Role');
+/** @var $role Magento_User_Model_Role */
+$role = Mage::getModel('Magento_User_Model_Role');
 $role->setName('admingws_role')
     ->setGwsIsAll(0)
     ->setRoleType('G')
@@ -26,13 +26,13 @@ if ('websites' == $scope) {
 }
 $role->save();
 
-/** @var $rule Mage_User_Model_Rules */
-$rule = Mage::getModel('Mage_User_Model_Rules');
+/** @var $rule Magento_User_Model_Rules */
+$rule = Mage::getModel('Magento_User_Model_Rules');
 $rule->setRoleId($role->getId())
-    ->setResources(array('Mage_Adminhtml::all'))
+    ->setResources(array('Magento_Adminhtml::all'))
     ->saveRel();
 
-$user = Mage::getModel('Mage_User_Model_User');
+$user = Mage::getModel('Magento_User_Model_User');
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',

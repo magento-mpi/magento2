@@ -15,12 +15,12 @@
             <version>1.11.0.2</version>
             <active>false</active>
             <depends>
-                <Mage_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Checkout/>
-                <Mage_Wishlist/>
-                <Mage_SalesRule/>
-                <Mage_Rule/>
+                <Magento_Customer/>
+                <Magento_Adminhtml/>
+                <Magento_Checkout/>
+                <Magento_Wishlist/>
+                <Magento_SalesRule/>
+                <Magento_Rule/>
             </depends>
         </Enterprise_Reminder>
     </modules>
@@ -90,7 +90,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_reminder before="Mage_Adminhtml">Enterprise_Reminder_Adminhtml</enterprise_reminder>
+                        <enterprise_reminder before="Magento_Adminhtml">Enterprise_Reminder_Adminhtml</enterprise_reminder>
                     </modules>
                 </args>
             </adminhtml>

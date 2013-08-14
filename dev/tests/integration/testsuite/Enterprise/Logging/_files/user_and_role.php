@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
-$user = Mage::getModel('Mage_User_Model_User');
+Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+$user = Mage::getModel('Magento_User_Model_User');
 $user->setUsername('newuser')
     ->setFirstname('first_name')
     ->setLastname('last_name')
@@ -19,5 +19,5 @@ $user->setUsername('newuser')
     ->setRoleId(1)
     ->save();
 
-$role = Mage::getModel('Mage_User_Model_Role');
+$role = Mage::getModel('Magento_User_Model_Role');
 $role->setName('newrole')->save();

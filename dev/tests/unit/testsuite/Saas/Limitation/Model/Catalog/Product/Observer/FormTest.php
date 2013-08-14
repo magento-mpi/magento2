@@ -52,12 +52,12 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
     /**
      * Retrieve newly created button instance with mocked dependencies
      *
-     * @return Mage_Backend_Block_Widget_Button
+     * @return Magento_Backend_Block_Widget_Button
      */
     protected function _createButton()
     {
-        return new Mage_Backend_Block_Widget_Button(
-            $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false)
+        return new Magento_Backend_Block_Widget_Button(
+            $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false)
         );
     }
 
@@ -85,12 +85,12 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
 
         $product = null;
         if ($isProductNew !== null) {
-            $product = $this->getMock('Mage_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
+            $product = $this->getMock('Magento_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
             $product->expects($this->any())->method('isObjectNew')->will($this->returnValue($isProductNew));
         }
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
+            'Magento_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
         );
         $block->expects($this->once())
             ->method('getChildBlock')->with('save-split-button')->will($this->returnValue($button));
@@ -121,7 +121,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
         $this->_emulateThresholdIsReached(false);
 
         $block = $this->getMock(
-            'Mage_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
+            'Magento_Adminhtml_Block_Catalog_Product_Edit', array('getProduct', 'getChildBlock'), array(), '', false
         );
         $block->expects($this->never())->method('getChildBlock');
 
@@ -138,7 +138,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
 
-        $block = $this->getMock('Mage_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock('Magento_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
         $block->expects($this->never())->method('getChildBlock');
 
         $this->_model->removeSavingButtons(new Magento_Event_Observer(array(

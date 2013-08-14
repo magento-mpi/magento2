@@ -15,10 +15,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine');
@@ -36,7 +36,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
             array(
                 array( // self
                     'value' => $this->getType(),
-                    'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Conditions Combination')
+                    'label' => Mage::helper('Magento_Rule_Helper_Data')->__('Conditions Combination')
                 )
             )
         );

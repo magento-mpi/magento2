@@ -9,11 +9,11 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Utility_Controller
+class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testIndexActionRestricted()
     {
@@ -33,7 +33,7 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
     /**
      * @magentoConfigFixture limitations/catalog_product 1
      * @magentoConfigFixture limitations/catalog_category 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditActionRestricted()
     {
@@ -59,7 +59,7 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
 
     /**
      * @magentoConfigFixture limitations/catalog_product 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditActionAllowedNewProduct()
     {
@@ -78,9 +78,9 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
      */
     public function testNewActionAllowedNewProduct()
     {
-        /** @var $installer Mage_Catalog_Model_Resource_Setup */
+        /** @var $installer Magento_Catalog_Model_Resource_Setup */
         $installer = Mage::getResourceModel(
-            'Mage_Catalog_Model_Resource_Setup',
+            'Magento_Catalog_Model_Resource_Setup',
             array('resourceName' => 'catalog_setup')
         );
         $attributeSetId = $installer->getDefaultAttributeSetId('catalog_product');
@@ -112,7 +112,7 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
 
     /**
      * @magentoConfigFixture limitations/catalog_product 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider validateActionOnVariationsLimitReachedDataProvider
      */
     public function testValidateActionOnVariationsLimitReached($productId, $expectedMessage)
@@ -149,7 +149,7 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
 
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndDuplicateLimitationReached()
     {
@@ -159,14 +159,14 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
         );
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), Mage_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), Magento_Core_Model_Message::SUCCESS
         );
-        $this->assertSessionMessages($this->contains("You can't create new product."), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->contains("You can't create new product."), Magento_Core_Model_Message::ERROR);
     }
 
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndNewLimitationReached()
     {
@@ -176,14 +176,14 @@ class Saas_Limitation_Mage_Adminhtml_Controller_Catalog_ProductTest extends Mage
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
         );
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), Mage_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), Magento_Core_Model_Message::SUCCESS
         );
-        $this->assertSessionMessages($this->contains("You can't create new product."), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->contains("You can't create new product."), Magento_Core_Model_Message::ERROR);
     }
 
     /**
      * @magentoConfigFixture limitations/catalog_category 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditActionAllowedNewCategory()
     {

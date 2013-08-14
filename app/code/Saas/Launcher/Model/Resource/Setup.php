@@ -15,6 +15,6 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
+class Saas_Launcher_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
 }

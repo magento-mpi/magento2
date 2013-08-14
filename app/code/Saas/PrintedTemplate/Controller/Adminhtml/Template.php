@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Controllers
  */
-class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Mage_Adminhtml_Controller_Action
+class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Index action
@@ -164,11 +164,11 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Mage_Adminhtml_
             $pdf = Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getConverter($mockModel, $template)->getPdf();
 
             $this->_prepareDownloadResponse(
-                'preview' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                'preview' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf,
                 'application/pdf'
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // @todo Create AJAX validation to display this error in the 'alert' window
             $this->getResponse()->setBody($e->getMessage());
         }
@@ -188,7 +188,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Mage_Adminhtml_
 
         try {
             $template->delete();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $template->getId()));
             return;
@@ -356,17 +356,17 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Template extends Mage_Adminhtml_
             Mage::getSingleton('Saas_PrintedTemplate_Model_Wysiwyg_TemplateParser')->exportContent($template)
         );
 
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($template->getData()));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($template->getData()));
     }
 
     /**
-     * Get Mage_Core_Model_Variable model
+     * Get Magento_Core_Model_Variable model
      *
-     * @return Mage_Core_Model_Variable
+     * @return Magento_Core_Model_Variable
      */
     protected function _getCoreVariableModel()
     {
-        return Mage::getModel('Mage_Core_Model_Variable');
+        return Mage::getModel('Magento_Core_Model_Variable');
     }
 
     /**

@@ -20,16 +20,16 @@ class Saas_Launcher_Model_Storelauncher_Tax_SaveHandler extends Saas_Launcher_Mo
     /**
      * Tax rule prototype
      *
-     * @var Mage_Tax_Model_Calculation_Rule
+     * @var Magento_Tax_Model_Calculation_Rule
      */
     protected $_taxRule;
 
     /**
      * Constructor
      *
-     * @param Mage_Tax_Model_Calculation_Rule $taxRule
+     * @param Magento_Tax_Model_Calculation_Rule $taxRule
      */
-    public function __construct(Mage_Tax_Model_Calculation_Rule $taxRule)
+    public function __construct(Magento_Tax_Model_Calculation_Rule $taxRule)
     {
         $this->_taxRule = $taxRule;
     }

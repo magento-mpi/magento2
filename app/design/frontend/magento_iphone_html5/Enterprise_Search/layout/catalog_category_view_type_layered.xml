@@ -11,7 +11,7 @@
     <catalog_category_view_type_layered>
         <reference name="content">
             <remove name="catalog.leftnav"/>
-            <block type="Enterprise_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" after="-" template="Mage_Catalog::layer/view.phtml"/>
+            <block type="Enterprise_Search_Block_Catalog_Layer_View" name="enterprisecatalog.leftnav" after="-" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
     </catalog_category_view_type_layered>
 </layout>

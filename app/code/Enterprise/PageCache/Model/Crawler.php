@@ -34,7 +34,7 @@
  * @package     Enterprise_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
+class Enterprise_PageCache_Model_Crawler extends Magento_Core_Model_Abstract
 {
     /**
      * Crawler settings

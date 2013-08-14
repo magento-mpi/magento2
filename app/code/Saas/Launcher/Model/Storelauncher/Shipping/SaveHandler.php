@@ -18,12 +18,12 @@
 class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Saas_Launcher_Model_Tile_MinimalSaveHandler
 {
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @var Mage_Backend_Model_Config
+     * @var Magento_Backend_Model_Config
      */
     protected $_backendConfigModel;
 
@@ -35,13 +35,13 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Saas_Launch
     protected $_saveHandlerFactory;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Backend_Model_Config $backendConfigModel
      * @param Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory $saveHandlerFactory
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel,
+        Magento_Core_Model_Config $config,
+        Magento_Backend_Model_Config $backendConfigModel,
         Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory $saveHandlerFactory
     ) {
         $this->_config = $config;

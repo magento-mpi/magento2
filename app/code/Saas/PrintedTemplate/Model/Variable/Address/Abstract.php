@@ -9,7 +9,7 @@
  */
 
 /**
- * Container for Mage_Sales_Model_Order_Address for address variable
+ * Container for Magento_Sales_Model_Order_Address for address variable
  *
  * Container that can restrict access to properties and method
  * with white list.
@@ -49,7 +49,7 @@ abstract class Saas_PrintedTemplate_Model_Variable_Address_Abstract
      */
     protected function _getCountryModel()
     {
-        return Mage::getModel('Mage_Directory_Model_Country');
+        return Mage::getModel('Magento_Directory_Model_Country');
     }
 
     /**

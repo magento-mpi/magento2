@@ -9,13 +9,13 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Saas_Saas_Model_Cache extends Mage_Core_Model_Cache
+class Saas_Saas_Model_Cache extends Magento_Core_Model_Cache
 {
     /**
      * Refresh cache
      *
      * @param array|string $typeCode
-     * @return Mage_Core_Model_CacheInterface
+     * @return Magento_Core_Model_CacheInterface
      */
     public function invalidateType($typeCode)
     {
@@ -23,7 +23,7 @@ class Saas_Saas_Model_Cache extends Mage_Core_Model_Cache
             $typeCode = array($typeCode);
         }
 
-        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
         $eventManager->dispatch(
             'application_process_refresh_cache',
             array('cache_types' => $typeCode)
@@ -33,7 +33,7 @@ class Saas_Saas_Model_Cache extends Mage_Core_Model_Cache
 
     /**
      * @param array $typeCode
-     * @return Mage_Core_Model_CacheInterface
+     * @return Magento_Core_Model_CacheInterface
      */
     protected function  _callOriginInvalidateType($typeCode)
     {

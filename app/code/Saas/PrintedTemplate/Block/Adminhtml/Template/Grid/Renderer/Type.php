@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Type extends
-    Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders row type value

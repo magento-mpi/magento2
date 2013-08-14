@@ -19,7 +19,7 @@ class Saas_Newsletter_Model_Limitation_Specification_Backend_NewsletterTest exte
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelSpecification = $objectManagerHelper->getObject(
@@ -46,8 +46,8 @@ class Saas_Newsletter_Model_Limitation_Specification_Backend_NewsletterTest exte
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('Mage_Adminhtml', 'newsletter_subscriber'), // the allowed controller
-            array('Mage_Adminhtml', 'unknown'), // a controller without newsletter functionality
+            array('Magento_Adminhtml', 'newsletter_subscriber'), // the allowed controller
+            array('Magento_Adminhtml', 'unknown'), // a controller without newsletter functionality
             array('unknown', 'newsletter_subscriber'), // a controller with the same name in other module
             array('unknown', 'unknown') // an another module
         );
@@ -56,7 +56,7 @@ class Saas_Newsletter_Model_Limitation_Specification_Backend_NewsletterTest exte
     public function testIsNotAllowed()
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Adminhtml'));
+            ->will($this->returnValue('Magento_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('newsletter_controller'));
 

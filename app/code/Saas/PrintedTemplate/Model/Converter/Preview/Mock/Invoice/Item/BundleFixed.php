@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice_Item_BundleFixed
-    extends Mage_Sales_Model_Order_Invoice_Item
+    extends Magento_Sales_Model_Order_Invoice_Item
 {
     /**
      * @var Saas_PrintedTemplate_Helper_Data
@@ -41,7 +41,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice_Item_BundleFixed
     {
         $items = array();
         foreach ($this->_getChildrenMockData() as $data) {
-            $items[] = Mage::getModel('Mage_Sales_Model_Order_Invoice_Item')
+            $items[] = Mage::getModel('Magento_Sales_Model_Order_Invoice_Item')
                 ->setData($data)
                 ->setInvoice($this->getInvoice());
         }

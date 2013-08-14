@@ -12,7 +12,7 @@
  * Adminhtml customer view gift registry items block
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
 
     protected function _construct()
@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
             'index'  => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('qty', array(

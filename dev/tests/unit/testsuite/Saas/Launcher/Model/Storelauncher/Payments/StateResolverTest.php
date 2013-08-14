@@ -13,10 +13,10 @@ class Saas_Launcher_Model_Storelauncher_Payments_StateResolverTest
     extends Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
 {
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @return Saas_Launcher_Model_Storelauncher_Payments_StateResolver
      */
-    protected function _getStateResolverInstance(Mage_Core_Model_App $app)
+    protected function _getStateResolverInstance(Magento_Core_Model_App $app)
     {
         return new Saas_Launcher_Model_Storelauncher_Payments_StateResolver($app);
     }

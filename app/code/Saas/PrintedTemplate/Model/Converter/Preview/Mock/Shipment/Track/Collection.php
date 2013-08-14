@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Track_Collection
-    extends Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
+    extends Magento_Sales_Model_Resource_Order_Shipment_Track_Collection
 {
     /**
      * Initialize collection with mock data

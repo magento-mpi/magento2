@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Mage_Adminhtml_Block_System_Store_Edit
+class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Magento_Adminhtml_Block_System_Store_Edit
 {
     /**
      * Store type 'store'
@@ -15,18 +15,18 @@ class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Mage_Adminhtml_Bloc
     const STORE_TYPE_STORE = 'store';
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Registry $registry,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;

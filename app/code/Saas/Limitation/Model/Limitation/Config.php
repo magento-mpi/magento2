@@ -13,14 +13,14 @@ class Saas_Limitation_Model_Limitation_Config
     const XML_PATH_THRESHOLD = 'limitations/%s';
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     private $_config;
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Config $config)
+    public function __construct(Magento_Core_Model_Config $config)
     {
         $this->_config = $config;
     }

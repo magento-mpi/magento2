@@ -29,7 +29,7 @@
                 <use>admin</use>
                 <args>
                     <modules>
-                        <Saas_Apps before="Mage_Adminhtml">Saas_Apps</Saas_Apps>
+                        <Saas_Apps before="Magento_Adminhtml">Saas_Apps</Saas_Apps>
                     </modules>
                 </args>
             </adminhtml>

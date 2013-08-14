@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize Grid Block
@@ -36,7 +36,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Eav_Model_Form_Type')
+        $collection = Mage::getModel('Magento_Eav_Model_Form_Type')
             ->getCollection();
 
         $this->setCollection($collection);
@@ -66,8 +66,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'type'      => 'store'
         ));
 
-        /** @var $label Mage_Core_Model_Theme_Label */
-        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',

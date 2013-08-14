@@ -52,7 +52,7 @@ class Enterprise_Checkout_Model_Observer
      */
     public function addBySku(Magento_Event_Observer $observer)
     {
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getRequestModel();
         $cart = $this->_getBackendCart($observer);
 
@@ -85,7 +85,7 @@ class Enterprise_Checkout_Model_Observer
             $sku = isset($params['sku']) ? $params['sku'] : $id;
             $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
         }
-        /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+        /* @var $orderCreateModel Magento_Adminhtml_Model_Sales_Order_Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart->saveAffectedProducts($orderCreateModel, false);
         // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
@@ -109,7 +109,7 @@ class Enterprise_Checkout_Model_Observer
             return;
         }
 
-        /* @var $orderCreateModel Mage_Adminhtml_Model_Sales_Order_Create */
+        /* @var $orderCreateModel Magento_Adminhtml_Model_Sales_Order_Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart = $this->_getBackendCart($observer);
         $cart->prepareAddProductsBySku($rows);
@@ -119,13 +119,13 @@ class Enterprise_Checkout_Model_Observer
     /**
      * Copy real address to the quote
      *
-     * @param Mage_Sales_Model_Quote $quote
-     * @param Mage_Sales_Model_Quote_Address $realAddress
-     * @return Mage_Sales_Model_Quote_Address
+     * @param Magento_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote_Address $realAddress
+     * @return Magento_Sales_Model_Quote_Address
      */
     protected function _copyAddress($quote, $realAddress)
     {
-        $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
+        $address = Mage::getModel('Magento_Sales_Model_Quote_Address');
         $address->setData($realAddress->getData());
         $address
             ->setId(null)
@@ -149,19 +149,19 @@ class Enterprise_Checkout_Model_Observer
             return;
         }
 
-        /** @var $realQuote Mage_Sales_Model_Quote */
-        $realQuote = Mage::getSingleton('Mage_Sales_Model_Quote');
+        /** @var $realQuote Magento_Sales_Model_Quote */
+        $realQuote = Mage::getSingleton('Magento_Sales_Model_Quote');
         $affectedItems = $this->_getCart()->getFailedItems();
         if (empty($affectedItems)) {
             return;
         }
 
-        /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var $quote Magento_Sales_Model_Quote */
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $collection = new Magento_Data_Collection();
 
         foreach (Mage::helper('Enterprise_Checkout_Helper_Data')->getFailedItems(false) as $item) {
-            /** @var $item Mage_Sales_Model_Quote_Item */
+            /** @var $item Magento_Sales_Model_Quote_Item */
             if ((float)$item->getQty() <= 0) {
                 $item->setSkuRequestedQty($item->getQty());
                 $item->setData('qty', 1);
@@ -177,7 +177,7 @@ class Enterprise_Checkout_Model_Observer
         $quote->setTotalsCollectedFlag(false)->collectTotals();
 
         foreach ($quote->getAllItems() as $item) {
-            /** @var $item Mage_Sales_Model_Quote_Item */
+            /** @var $item Magento_Sales_Model_Quote_Item */
             if ($item->hasSkuRequestedQty()) {
                 $item->setData('qty', $item->getSkuRequestedQty());
             }
@@ -193,7 +193,7 @@ class Enterprise_Checkout_Model_Observer
     public function addCartLink($observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block instanceof Mage_Checkout_Block_Cart_Sidebar) {
+        if (!$block instanceof Magento_Checkout_Block_Cart_Sidebar) {
             return;
         }
 

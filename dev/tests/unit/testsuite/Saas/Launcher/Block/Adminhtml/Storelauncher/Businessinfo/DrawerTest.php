@@ -31,12 +31,12 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
     public function setUp()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $regionModel = $this->getMock('Mage_Directory_Model_Region', array(), array(), '', false);
+        $regionModel = $this->getMock('Magento_Directory_Model_Region', array(), array(), '', false);
 
         $arguments = array(
             'storeConfig' => $config,

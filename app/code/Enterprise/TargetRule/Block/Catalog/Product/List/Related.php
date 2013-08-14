@@ -44,7 +44,7 @@ class Enterprise_TargetRule_Block_Catalog_Product_List_Related
     public function getExcludeProductIds()
     {
         if (is_null($this->_excludeProductIds)) {
-            $cartProductIds = Mage::getSingleton('Mage_Checkout_Model_Cart')->getProductIds();
+            $cartProductIds = Mage::getSingleton('Magento_Checkout_Model_Cart')->getProductIds();
             $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
         }
         return $this->_excludeProductIds;

@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Block_Widget
+class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Magento_Backend_Block_Widget
 {
     /**
      * Set template
@@ -28,12 +28,12 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
     /**
      * Prepares buttons
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Back'),
@@ -43,7 +43,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
                 )
         );
         $this->setChild('reset_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'   => $this->__('Reset'),
@@ -52,7 +52,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
                 )
         );
         $this->setChild('continue_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
                         'label'     => $this->__('Continue'),

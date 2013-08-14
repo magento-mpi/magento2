@@ -10,7 +10,7 @@
  * Filter for system configuration. Removes restricted configuration options
  */
 class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter
-    extends Mage_Backend_Model_Config_Structure_Converter
+    extends Magento_Backend_Model_Config_Structure_Converter
 {
     /**
      * @var Saas_Saas_Model_DisabledConfiguration_Config
@@ -18,10 +18,10 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter
     private $_disabledConfig;
 
     /**
-     * @param Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory
+     * @param Magento_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory
      * @param Saas_Saas_Model_DisabledConfiguration_Config $disabledConfig
      */
-    public function __construct(Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory,
+    public function __construct(Magento_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory,
         Saas_Saas_Model_DisabledConfiguration_Config $disabledConfig
     ) {
         $this->_disabledConfig = $disabledConfig;

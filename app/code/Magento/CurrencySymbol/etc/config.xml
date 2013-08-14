@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CurrencySymbol
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Magento_CurrencySymbol>
+            <version>1.0.0.0.0</version>
+            <active>true</active>
+            <depends>
+                <Magento_Widget/>
+            </depends>
+        </Magento_CurrencySymbol>
+    </modules>
+
+    <global>
+        <events>
+            <currency_display_options_forming>
+                <observers>
+                    <magento_currencysymbol_currency_display_options>
+                        <class>Magento_CurrencySymbol_Model_Observer</class>
+                        <method>currencyDisplayOptions</method>
+                    </magento_currencysymbol_currency_display_options>
+                </observers>
+            </currency_display_options_forming>
+        </events>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <currencysymbol>Magento_CurrencySymbol_Adminhtml</currencysymbol>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_CurrencySymbol>
+                     <files>
+                          <default>Magento_CurrencySymbol.csv</default>
+                     </files>
+                </Magento_CurrencySymbol>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

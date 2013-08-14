@@ -15,12 +15,12 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_GiftCards extends Mage_Backend_Block_Template
+class Saas_PrintedTemplate_Block_GiftCards extends Magento_Backend_Block_Template
 {
     /**
      * Order
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order;
 
@@ -33,7 +33,7 @@ class Saas_PrintedTemplate_Block_GiftCards extends Mage_Backend_Block_Template
 
     /**
      * Initializes template
-     * @see Mage_Core_Block_Template::_construct()
+     * @see Magento_Core_Block_Template::_construct()
      */
     protected function _construct()
     {
@@ -43,10 +43,10 @@ class Saas_PrintedTemplate_Block_GiftCards extends Mage_Backend_Block_Template
     /**
      * Set order
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return Saas_PrintedTemplate_Block_GiftCards Self
      */
-    public function setOrder(Mage_Sales_Model_Order $order)
+    public function setOrder(Magento_Sales_Model_Order $order)
     {
         $this->_order = $order;
 
@@ -87,7 +87,7 @@ class Saas_PrintedTemplate_Block_GiftCards extends Mage_Backend_Block_Template
      * If cards array is empty return empty string.
      *
      * @return string HTML
-     * @see Mage_Core_Block_Template::_toHtml()
+     * @see Magento_Core_Block_Template::_toHtml()
      */
     protected function _toHtml()
     {
@@ -98,7 +98,7 @@ class Saas_PrintedTemplate_Block_GiftCards extends Mage_Backend_Block_Template
     /**
      * Return the order used by this block
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

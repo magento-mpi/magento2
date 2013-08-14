@@ -15,7 +15,7 @@
  * @package     Saas_Saas
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Apps_Controller_Adminhtml_Apps extends Mage_Backend_Controller_ActionAbstract
+class Saas_Apps_Controller_Adminhtml_Apps extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Apps helper
@@ -35,17 +35,17 @@ class Saas_Apps_Controller_Adminhtml_Apps extends Mage_Backend_Controller_Action
      * Apps backend controller constructor
      *
      * @param Saas_Apps_Helper_Data $helper
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_Apps_Model_Adminhtml_App $appsModel
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_Apps_Helper_Data $helper,
         Saas_Apps_Model_Adminhtml_App $appsModel
     ) {
         $this->_appsHelper = $helper;
         $this->_appsModel = $appsModel;
-        parent::__construct($context, Mage_Backend_Helper_Data::BACKEND_AREA_CODE);
+        parent::__construct($context, Magento_Backend_Helper_Data::BACKEND_AREA_CODE);
     }
 
     /**

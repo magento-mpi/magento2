@@ -60,7 +60,7 @@ class Enterprise_Queue_Model_QueueTest extends PHPUnit_Framework_TestCase
             'Enterprise_Queue_Model_TaskRepository', array(), array(), '', false
         );
         $this->_taskMock = $this->getMock(
-            'Mage_Core_Model_Task',
+            'Magento_Core_Model_Task',
             array('getHandle', 'setStatus', 'setHandle', 'isEnqueued', 'getId', 'save'),
             array(),
             '',

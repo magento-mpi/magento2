@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block_System_Account_Edit_Form
+class Saas_Backend_Block_System_Account_Edit_Form extends Magento_Adminhtml_Block_System_Account_Edit_Form
 {
     /**
      * Locale source model
@@ -17,12 +17,12 @@ class Saas_Backend_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block_S
     protected  $_locale;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Backend_Model_Config_Source_Locale_Translated $locale
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Backend_Model_Config_Source_Locale_Translated $locale,
         array $data = array()
     ) {

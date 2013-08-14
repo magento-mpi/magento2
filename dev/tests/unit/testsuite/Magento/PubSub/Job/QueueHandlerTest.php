@@ -55,17 +55,17 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Object mocks
-        $this->_subscriptionMockA = $this->getMockBuilder('Mage_Webhook_Model_Subscription')
+        $this->_subscriptionMockA = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_subscriptionMockB = clone $this->_subscriptionMockA;
 
-        $this->_eventMockA = $this->getMockBuilder('Mage_Webhook_Model_Event')
+        $this->_eventMockA = $this->getMockBuilder('Magento_Webhook_Model_Event')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_eventMockB = clone $this->_eventMockA;
 
-        $this->_jobMockA = $this->getMockBuilder('Mage_Webhook_Model_Job')
+        $this->_jobMockA = $this->getMockBuilder('Magento_Webhook_Model_Job')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -77,7 +77,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_queueMock = $this->getMockBuilder('Mage_Webhook_Model_Job_QueueReader')
+        $this->_queueMock = $this->getMockBuilder('Magento_Webhook_Model_Job_QueueReader')
             ->disableOriginalConstructor()
             ->getMock();
 

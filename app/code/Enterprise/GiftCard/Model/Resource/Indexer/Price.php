@@ -16,14 +16,14 @@
  * @package     Enterprise_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
+class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
 {
     /**
      * Register data required by product type process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    public function registerEvent(Mage_Index_Model_Event $event)
+    public function registerEvent(Magento_Index_Model_Event $event)
     {
         $attributes = array(
             'allow_open_amount',
@@ -32,10 +32,10 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
         );
 
         $entity = $event->getEntity();
-        if ($entity == Mage_Catalog_Model_Product::ENTITY) {
+        if ($entity == Magento_Catalog_Model_Product::ENTITY) {
             switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_SAVE:
-                    /* @var $product Mage_Catalog_Model_Product */
+                case Magento_Index_Model_Event::TYPE_SAVE:
+                    /* @var $product Magento_Catalog_Model_Product */
                     $product      = $event->getDataObject();
                     $reindexPrice = $product->getAmountsHasChanged();
                     foreach ($attributes as $code) {
@@ -52,7 +52,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
 
                     break;
 
-                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                     /* @var $actionObject Magento_Object */
                     $actionObject = $event->getDataObject();
                     $reindexPrice = false;
@@ -102,7 +102,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
             ->where('e.type_id = ?', $this->getTypeId());
 
         // add enable products limitation
-        $statusCond = $write->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $write->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
 
         $allowOpenAmount = $this->_addAttributeToSelect($select, 'allow_open_amount', 'e.entity_id', 'cs.store_id');

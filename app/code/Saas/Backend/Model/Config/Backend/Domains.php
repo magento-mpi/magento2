@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_Data
+class Saas_Backend_Model_Config_Backend_Domains extends Magento_Core_Model_Config_Data
 {
     /**
      * Path to default Magento Go domain in configuration
@@ -42,39 +42,39 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     /**
      * Main Magento config
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected  $_config;
 
     /**
      * Config writer (in most cases DB)
      *
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
     /**
      * Store model, used for access some constants
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_storeModel;
 
     /**
      * Create instance of current class with appropriate parameters
      *
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -127,14 +127,14 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     {
         $secureUrl = $this->formatUrl(self::HTTPS, $domain);
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
+            Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
             $secureUrl,
-            Mage_Core_Model_Config::SCOPE_DEFAULT
+            Magento_Core_Model_Config::SCOPE_DEFAULT
         );
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
             $secureUrl,
-            Mage_Core_Model_Config::SCOPE_DEFAULT
+            Magento_Core_Model_Config::SCOPE_DEFAULT
         );
 
         return $this;
@@ -150,14 +150,14 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     {
         $unsecureUrl = $this->formatUrl(self::HTTP, $domain);
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
             $unsecureUrl,
-            Mage_Core_Model_Config::SCOPE_DEFAULT
+            Magento_Core_Model_Config::SCOPE_DEFAULT
         );
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL,
+            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL,
             $unsecureUrl,
-            Mage_Core_Model_Config::SCOPE_DEFAULT
+            Magento_Core_Model_Config::SCOPE_DEFAULT
         );
         return $this;
     }
@@ -171,15 +171,15 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     {
         $secureUrl = $this->formatUrl(self::HTTPS, $domain);
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
+            Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
             $secureUrl,
-            Mage_Core_Model_Config::SCOPE_WEBSITES,
+            Magento_Core_Model_Config::SCOPE_WEBSITES,
             1
         );
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
             $secureUrl,
-            Mage_Core_Model_Config::SCOPE_WEBSITES,
+            Magento_Core_Model_Config::SCOPE_WEBSITES,
             1
         );
     }
@@ -194,15 +194,15 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
         $unsecureUrl   =  $this->formatUrl(self::HTTP, $domain);
 
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
             $unsecureUrl,
-            Mage_Core_Model_Config::SCOPE_WEBSITES,
+            Magento_Core_Model_Config::SCOPE_WEBSITES,
             1
         );
         $this->_configWriter->save(
-            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL,
+            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL,
             $unsecureUrl,
-            Mage_Core_Model_Config::SCOPE_WEBSITES,
+            Magento_Core_Model_Config::SCOPE_WEBSITES,
             1
         );
     }

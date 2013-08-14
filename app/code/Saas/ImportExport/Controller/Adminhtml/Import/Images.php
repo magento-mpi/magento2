@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Mage_Adminhtml_Controller_Action
+class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Magento_Adminhtml_Controller_Action
 {
     /**
      * @var Saas_ImportExport_Model_Service_Image_Import
@@ -20,13 +20,13 @@ class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Mage_Adminhtm
     protected $_helper;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_ImportExport_Model_Service_Image_Import $importService
      * @param Saas_ImportExport_Helper_Data $helper
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_ImportExport_Model_Service_Image_Import $importService,
         Saas_ImportExport_Helper_Data $helper,
         $areaCode = null
@@ -55,7 +55,7 @@ class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Mage_Adminhtm
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_ImportExport::export');
+        return $this->_authorization->isAllowed('Magento_ImportExport::export');
     }
 
     /**
@@ -67,7 +67,7 @@ class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Mage_Adminhtm
     {
         if ($this->getRequest()->isPost()) {
             $this->loadLayout(false);
-            /** @var $resultBlock Mage_ImportExport_Block_Adminhtml_Import_Frame_Result */
+            /** @var $resultBlock Magento_ImportExport_Block_Adminhtml_Import_Frame_Result */
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
 
             if (empty($_FILES)) {

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_GiftCardAccount_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Maximal gift card code length according to database table definitions (longer codes are truncated)

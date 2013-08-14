@@ -28,14 +28,14 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_CollectionTest extends 
      */
     public function testAddFilterByInvoice()
     {
-        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId('100000001');
+        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId('100000001');
         $items = array();
         $orderItems = $order->getAllItems();
         foreach ($orderItems as $item) {
             $items[$item->getItemId()] = $item->getQtyOrdered();
         }
 
-        $invoice = Mage::getModel('Mage_Sales_Model_Service_Order', array('order' => $order))
+        $invoice = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
             ->prepareInvoice($items)->save();
         $this->_collection->addFilterByInvoice($invoice);
 

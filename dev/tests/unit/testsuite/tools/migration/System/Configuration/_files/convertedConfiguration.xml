@@ -17,7 +17,7 @@
         <section id="section_1" sortOrder="10" type="text">
             <class>css class</class>
             <label>section label</label>
-            <resource>Mage_Adminhtml::acl</resource>
+            <resource>Magento_Adminhtml::acl</resource>
             <header_css>some css class</header_css>
             <tab>tab_1</tab>
             <group id="group_1" sortOrder="10" type="text">
@@ -35,7 +35,7 @@
                     <frontend_class>frontend_class_test</frontend_class>
                     <validate>validate_test</validate>
                     <can_be_empty>1</can_be_empty>
-                    <if_module_enabled>Mage_Backend</if_module_enabled>
+                    <if_module_enabled>Magento_Backend</if_module_enabled>
                     <frontend_model>Mage_Some_Model_Name</frontend_model>
                     <backend_model>Mage_Some_Model_Name</backend_model>
                     <source_model>Mage_Some_Model_Name</source_model>

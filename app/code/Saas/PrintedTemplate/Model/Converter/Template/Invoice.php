@@ -22,13 +22,13 @@ class Saas_PrintedTemplate_Model_Converter_Template_Invoice extends Saas_Printed
      *
      * @param array $args Array with arguments and they should be:
      *     Saas_PrintedTemplate_Model_Template $template
-     *     Mage_Sales_Model_Order_Invoice $invoice
+     *     Magento_Sales_Model_Order_Invoice $invoice
      */
     public function __construct(array $data = array())
     {
         // Check arguments
         if (isset($data['template']) && $data['template'] instanceof Saas_PrintedTemplate_Model_Template
-            && isset($data['model']) && $data['model'] instanceof Mage_Sales_Model_Order_Invoice
+            && isset($data['model']) && $data['model'] instanceof Magento_Sales_Model_Order_Invoice
         ) {
             $template = $data['template'];
             $invoice = $data['model'];

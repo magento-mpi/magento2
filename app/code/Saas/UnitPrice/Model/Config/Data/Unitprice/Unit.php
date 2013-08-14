@@ -14,7 +14,7 @@
  * @category   Saas
  * @package    Saas_UnitPrice
  */
-class Saas_UnitPrice_Model_Config_Data_Unitprice_Unit extends Mage_Core_Model_Config_Data
+class Saas_UnitPrice_Model_Config_Data_Unitprice_Unit extends Magento_Core_Model_Config_Data
 {
 
     /**

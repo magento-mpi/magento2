@@ -12,9 +12,9 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::marketing">
-                    <resource id="Mage_Adminhtml::marketing_communications">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::marketing">
+                    <resource id="Magento_Adminhtml::marketing_communications">
                         <resource id="Saas_PrintedTemplate::printed_template"
                                     module="Saas_PrintedTemplate" title="PDF Print-outs" sortOrder="41">
                             <resource id="Saas_PrintedTemplate::print" title="Print" />

@@ -16,7 +16,7 @@ return function (array $params)
 
     $config = new Saas_Saas_Model_Tenant_Config($rootDir, $params['config']);
     $appParams = $config->getApplicationParams();
-    $configPrimary = new Mage_Core_Model_Config_Primary($rootDir, $appParams);
+    $configPrimary = new Magento_Core_Model_Config_Primary($rootDir, $appParams);
     $entryPoint = new Saas_Core_Model_EntryPoint_Tmt($configPrimary, null, $params);
     $entryPoint->processRequest();
 };

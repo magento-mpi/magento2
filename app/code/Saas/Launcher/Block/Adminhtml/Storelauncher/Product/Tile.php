@@ -28,13 +28,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Laun
     protected $_limitation;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Limitation_Model_Limitation_Validator $limitationValidator
      * @param Saas_Limitation_Model_Limitation_LimitationInterface $limitation
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Limitation_Model_Limitation_Validator $limitationValidator,
         Saas_Limitation_Model_Limitation_LimitationInterface $limitation,
         array $data = array()

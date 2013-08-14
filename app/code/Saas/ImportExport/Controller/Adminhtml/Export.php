@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Controller_Adminhtml_Export extends Mage_Adminhtml_Controller_Action
+class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Controller_Action
 {
     /**
      * @var Saas_ImportExport_Helper_Export_State
@@ -20,31 +20,31 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Mage_Adminhtml_Contr
     protected $_fileHelper;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_logger;
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_coreHelper;
 
     /**
      * Constructor
      *
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param Saas_ImportExport_Helper_Export_File $fileHelper
-     * @param Mage_Core_Helper_Data $coreHelper
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_Logger $logger
      * @param string|null $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Export_State $stateHelper,
         Saas_ImportExport_Helper_Export_File $fileHelper,
-        Mage_Core_Helper_Data $coreHelper,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Helper_Data $coreHelper,
+        Magento_Core_Model_Logger $logger,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -72,7 +72,7 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Mage_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_ImportExport::export');
+        return $this->_authorization->isAllowed('Magento_ImportExport::export');
     }
 
     /**
@@ -100,7 +100,7 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Mage_Adminhtml_Contr
      */
     public function exportAction()
     {
-        if ($this->getRequest()->getPost(Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
+        if ($this->getRequest()->getPost(Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
             try {
                 $this->_stateHelper->saveTaskAsQueued();
                 $this->_eventManager->dispatch($this->_getEventName(), array(

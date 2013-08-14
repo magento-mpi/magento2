@@ -35,7 +35,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public function testIsAllowedSessionIdGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
+        $_GET[Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
         $this->assertFalse($this->_model->isAllowed());
     }
 

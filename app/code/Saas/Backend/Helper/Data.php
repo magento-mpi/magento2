@@ -7,6 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Helper_Data extends Mage_Backend_Helper_Data
+class Saas_Backend_Helper_Data extends Magento_Backend_Helper_Data
 {
 }

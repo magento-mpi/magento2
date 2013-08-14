@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Index_Model_Flag extends Mage_Core_Model_Flag
+class Saas_Index_Model_Flag extends Magento_Core_Model_Flag
 {
     const STATE_QUEUED     = 1;
     const STATE_PROCESSING = 2;

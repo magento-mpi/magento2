@@ -1,6 +1,6 @@
 <?php
 /**
- * Entity Export interface. Adaptive interface for export entities from Mage_ImportExport module
+ * Entity Export interface. Adaptive interface for export entities from Magento_ImportExport module
  *
  * {license_notice}
  *

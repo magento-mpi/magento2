@@ -13,7 +13,7 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_ImportExport />
+                <Magento_ImportExport />
                 <Enterprise_PageCache />
             </depends>
         </Saas_ImportExport>
@@ -139,7 +139,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Saas_ImportExport before="Mage_ImportExport_Adminhtml">Saas_ImportExport_Adminhtml</Saas_ImportExport>
+                        <Saas_ImportExport before="Magento_ImportExport_Adminhtml">Saas_ImportExport_Adminhtml</Saas_ImportExport>
                     </modules>
                 </args>
             </adminhtml>

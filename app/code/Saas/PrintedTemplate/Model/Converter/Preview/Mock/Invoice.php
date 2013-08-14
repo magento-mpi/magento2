@@ -15,15 +15,15 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice extends Mage_Sales_Model_Order_Invoice
+class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice extends Magento_Sales_Model_Order_Invoice
 {
     /**
      * Initialize order with mock data
      *
-     * @param   Mage_Sales_Model_Order $order
+     * @param   Magento_Sales_Model_Order $order
      * @return  Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice
      */
-    public function setOrder(Mage_Sales_Model_Order $order)
+    public function setOrder(Magento_Sales_Model_Order $order)
     {
         parent::setOrder($order);
         $cacheKey = Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY;
@@ -114,7 +114,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice extends Mage_Sal
             'store_currency_code' => 'USD',
             'transaction_id' => NULL,
             'order_currency_code' => (string) Mage::getStoreConfig(
-                Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'base_currency_code' => 'USD',
             'global_currency_code' => 'USD',
             'increment_id' => '100000008',

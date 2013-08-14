@@ -15,20 +15,20 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Controller_Testtransaction extends Mage_Core_Controller_Front_Action
+class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_Front_Action
 {
     /**
-     * @var Mage_Checkout_Model_Cart
+     * @var Magento_Checkout_Model_Cart
      */
     protected $_cartModel;
 
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_productModel;
 
     /**
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
@@ -40,18 +40,18 @@ class Saas_Launcher_Controller_Testtransaction extends Mage_Core_Controller_Fron
     /**
      * Constructor
      *
-     * @param Mage_Core_Controller_Varien_Action_Context $context
-     * @param Mage_Checkout_Model_Cart $cartModel
-     * @param Mage_Catalog_Model_Product $productModel
-     * @param Mage_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Checkout_Model_Cart $cartModel
+     * @param Magento_Catalog_Model_Product $productModel
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
-        Mage_Checkout_Model_Cart $cartModel,
-        Mage_Catalog_Model_Product $productModel,
-        Mage_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Checkout_Model_Cart $cartModel,
+        Magento_Catalog_Model_Product $productModel,
+        Magento_Checkout_Model_Session $checkoutSession,
         Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null
     ) {
@@ -72,10 +72,10 @@ class Saas_Launcher_Controller_Testtransaction extends Mage_Core_Controller_Fron
     {
         if (!$this->_cartModel->getQuote()->getItemsCount()) {
             $products = $this->_productModel->getResourceCollection()
-                ->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                ->addFieldToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addFieldToFilter('type_id', array(
-                    Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-                    Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                    Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL,
+                    Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
                 ));
             if ($products->count()) {
                 $productId = $products->addAttributeToSort('entity_id', 'ASC')->getFirstItem()->getId();

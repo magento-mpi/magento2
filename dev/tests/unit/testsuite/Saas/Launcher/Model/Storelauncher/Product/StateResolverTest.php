@@ -18,8 +18,8 @@ class Saas_Launcher_Model_Storelauncher_Product_StateResolverTest extends PHPUni
      */
     public function testIsTileComplete($collectionSize, $expectedResult)
     {
-        /** @var $productCollection Mage_Catalog_Model_Resource_Product_Collection */
-        $productCollection = $this->getMock('Mage_Catalog_Model_Resource_Product_Collection',
+        /** @var $productCollection Magento_Catalog_Model_Resource_Product_Collection */
+        $productCollection = $this->getMock('Magento_Catalog_Model_Resource_Product_Collection',
             array('getSize'),
             array(),
             '',

@@ -19,7 +19,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
     extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -29,15 +29,15 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
     protected $_validator;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Backend_Model_Config $backendConfigModel
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Validator_Float $validator
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel,
-        Mage_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Config $config,
+        Magento_Backend_Model_Config $backendConfigModel,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Validator_Float $validator
     ) {
         parent::__construct($config, $backendConfigModel);

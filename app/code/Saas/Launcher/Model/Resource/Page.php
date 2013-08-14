@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
+class Saas_Launcher_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Tile Collection Prototype
@@ -28,11 +28,11 @@ class Saas_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
      * Class constructor
      *
      * @param Saas_Launcher_Model_Resource_Tile_Collection $tileCollectionBase
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
         Saas_Launcher_Model_Resource_Tile_Collection $tileCollectionBase,
-        Mage_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource
     ) {
         parent::__construct($resource);
         $this->_tileCollectionBase = $tileCollectionBase;
@@ -49,10 +49,10 @@ class Saas_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Perform actions after object load
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         parent::_afterLoad($object);
 

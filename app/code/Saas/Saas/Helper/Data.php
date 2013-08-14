@@ -10,20 +10,20 @@
 class Saas_Saas_Helper_Data
 {
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_StoreManagerInterface $storeManage
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_StoreManagerInterface $storeManage
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_StoreManagerInterface $storeManage, Mage_Core_Model_Config $config)
+    public function __construct(Magento_Core_Model_StoreManagerInterface $storeManage, Magento_Core_Model_Config $config)
     {
         $this->_storeManager = $storeManage;
         $this->_config = $config;
@@ -32,11 +32,11 @@ class Saas_Saas_Helper_Data
     /**
      * Customize a request and if needed CurrentStore for noRout forward
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @see Mage_Core_Controller_Varien_Router_Default::match
+     * @param Magento_Core_Controller_Request_Http $request
+     * @see Magento_Core_Controller_Varien_Router_Default::match
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function customizeNoRoutForward(Mage_Core_Controller_Request_Http $request)
+    public function customizeNoRoutForward(Magento_Core_Controller_Request_Http $request)
     {
         $noRoute        = $this->_getNoRouteParams();
         $moduleName     = isset($noRoute[0]) && $noRoute[0] ? $noRoute[0] : 'core';

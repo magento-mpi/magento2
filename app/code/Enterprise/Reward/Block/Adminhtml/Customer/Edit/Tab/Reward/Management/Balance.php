@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
-    extends Mage_Adminhtml_Block_Template
+    extends Magento_Adminhtml_Block_Template
 {
     protected $_template = 'customer/edit/management/balance.phtml';
 

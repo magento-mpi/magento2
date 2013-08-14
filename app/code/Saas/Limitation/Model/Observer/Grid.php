@@ -48,10 +48,10 @@ class Saas_Limitation_Model_Observer_Grid
     /**
      * Whether a block is an instance of an expected class
      *
-     * @param Mage_Backend_Block_Widget_Container $block
+     * @param Magento_Backend_Block_Widget_Container $block
      * @return bool
      */
-    protected function _isRelevantBlock(Mage_Backend_Block_Widget_Container $block)
+    protected function _isRelevantBlock(Magento_Backend_Block_Widget_Container $block)
     {
         return ($block instanceof $this->_blockClass);
     }
@@ -73,7 +73,7 @@ class Saas_Limitation_Model_Observer_Grid
      */
     public function disableButton(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Backend_Block_Widget_Container $block */
+        /** @var Magento_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');
         if ($this->_isRelevantBlock($block) && $this->_isThresholdReached()) {
             $block->updateButton($this->_buttonId, 'disabled', true);
@@ -87,7 +87,7 @@ class Saas_Limitation_Model_Observer_Grid
      */
     public function disableSplitButton(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Backend_Block_Widget_Container $block */
+        /** @var Magento_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');
         if ($this->_isRelevantBlock($block) && $this->_isThresholdReached()) {
             $block->updateButton($this->_buttonId, 'disabled', true);
@@ -102,7 +102,7 @@ class Saas_Limitation_Model_Observer_Grid
      */
     public function removeButton(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Backend_Block_Widget_Container $block */
+        /** @var Magento_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');
         if ($this->_isRelevantBlock($block) && $this->_isThresholdReached()) {
             $block->removeButton($this->_buttonId);

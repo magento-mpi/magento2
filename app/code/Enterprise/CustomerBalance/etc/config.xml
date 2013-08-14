@@ -15,7 +15,8 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Customer />
+                <Magento_Customer />
+                <Magento_Sales />
             </depends>
         </Enterprise_CustomerBalance>
     </modules>
@@ -258,7 +259,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <customerbalance before="Mage_Adminhtml">Enterprise_CustomerBalance_Adminhtml</customerbalance>
+                        <customerbalance before="Magento_Adminhtml">Enterprise_CustomerBalance_Adminhtml</customerbalance>
                     </modules>
                 </args>
             </adminhtml>

@@ -99,7 +99,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_storeIdentifier = $this->getMock('Enterprise_PageCache_Model_Store_Identifier', array(),
             array(), '', false
         );
-        $this->_storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
+        $this->_storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
 
         $this->_model = new  Enterprise_PageCache_Model_Processor(
             $this->_restrictionMock,
@@ -148,7 +148,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Mage_Core_Model_Store::COOKIE_NAME)
+            ->with(Magento_Core_Model_Store::COOKIE_NAME)
             ->will($this->returnValue(false));
         $expected = 'recently_viewed_count';
 
@@ -159,12 +159,12 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Mage_Core_Model_Store::COOKIE_NAME)
+            ->with(Magento_Core_Model_Store::COOKIE_NAME)
             ->will($this->returnValue(true));
 
         $this->_environmentMock->expects($this->once())
             ->method('getCookie')
-            ->with(Mage_Core_Model_Store::COOKIE_NAME)
+            ->with(Magento_Core_Model_Store::COOKIE_NAME)
             ->will($this->returnValue('100'));
 
         $expected = 'recently_viewed_count_100';
@@ -176,7 +176,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Mage_Core_Model_Store::COOKIE_NAME)
+            ->with(Magento_Core_Model_Store::COOKIE_NAME)
             ->will($this->returnValue(false));
         $expected = 'full_page_cache_session_info';
 
@@ -187,12 +187,12 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(Mage_Core_Model_Store::COOKIE_NAME)
+            ->with(Magento_Core_Model_Store::COOKIE_NAME)
             ->will($this->returnValue(true));
 
         $this->_environmentMock->expects($this->once())
             ->method('getCookie')
-            ->with(Mage_Core_Model_Store::COOKIE_NAME)
+            ->with(Magento_Core_Model_Store::COOKIE_NAME)
             ->will($this->returnValue('100'));
 
         $expected = 'full_page_cache_session_info_100';

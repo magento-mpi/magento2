@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_Abstract
+abstract class Saas_ImportExport_Helper_StateAbstract extends Magento_Core_Helper_Abstract
 {
     /**
      * Process flag
@@ -19,12 +19,12 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
     /**
      * Constructor
      *
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Saas_ImportExport_Model_State_Flag $stateFlag
      * @param Saas_ImportExport_Helper_Data $dataHelper
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
+        Magento_Core_Helper_Context $context,
         Saas_ImportExport_Model_State_Flag $stateFlag,
         Saas_ImportExport_Helper_Data $dataHelper
     ) {

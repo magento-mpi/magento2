@@ -15,7 +15,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adminhtml_Block_Customer_Edit
+class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Magento_Adminhtml_Block_Customer_Edit
 {
     /**
      * Add "Manage Shopping Cart" button on customer management page
@@ -31,8 +31,8 @@ class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adm
             return $this;
         }
         $container = $this->getParentBlock();
-        if ($container instanceof Mage_Backend_Block_Template && $container->getCustomerId()) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/checkout/index', array(
+        if ($container instanceof Magento_Backend_Block_Template && $container->getCustomerId()) {
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/checkout/index', array(
                 'customer' => $container->getCustomerId()
             ));
             $container->addButton('manage_quote', array(

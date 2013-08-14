@@ -9,11 +9,11 @@ class Saas_Saas_Model_Tenant_Command_ResetAdminPasswordTest extends PHPUnit_Fram
 {
     public function testExecute()
     {
-        $userModelMock = $this->getMockBuilder('Mage_User_Model_User')
+        $userModelMock = $this->getMockBuilder('Magento_User_Model_User')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backendHelperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
+        $backendHelperMock = $this->getMockBuilder('Magento_Backend_Helper_Data')
             ->disableOriginalConstructor()
             ->getMock();
 

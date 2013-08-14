@@ -15,8 +15,8 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Set form id prefix, declare fields for banner properties
@@ -83,7 +83,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
             'can_be_empty' => true,
         ));
 
-        $afterFormBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+        $afterFormBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');

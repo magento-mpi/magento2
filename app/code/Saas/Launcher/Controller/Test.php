@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Controller_Test extends Mage_Core_Controller_Varien_Action
+class Saas_Launcher_Controller_Test extends Magento_Core_Controller_Varien_Action
 {
     /**
      * Add product to cart if needed and redirect to 'checkout/cart' page
@@ -24,8 +24,8 @@ class Saas_Launcher_Controller_Test extends Mage_Core_Controller_Varien_Action
      */
     public function transactionAction()
     {
-        $cart = $this->_objectManager->create('Mage_Checkout_Model_Cart');
-        $productModel = $this->_objectManager->create('Mage_Catalog_Model_Product');
+        $cart = $this->_objectManager->create('Magento_Checkout_Model_Cart');
+        $productModel = $this->_objectManager->create('Magento_Catalog_Model_Product');
         if (!$cart->getQuote()->getItemsCount()) {
             $products = $productModel->getResourceCollection();
             if ($products->count()) {
@@ -33,7 +33,7 @@ class Saas_Launcher_Controller_Test extends Mage_Core_Controller_Varien_Action
                 $product = $productModel->load($productId);
                 $cart->addProduct($product, 1);
                 $cart->save();
-                $this->_objectManager->create('Mage_Checkout_Model_Session')->setCartWasUpdated(true);
+                $this->_objectManager->create('Magento_Checkout_Model_Session')->setCartWasUpdated(true);
             }
         }
         $this->_redirect('checkout/cart');

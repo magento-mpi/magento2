@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Saas_JobNotification_Model_Resource_Notification extends Mage_Core_Model_Resource_Db_Abstract
+class Saas_JobNotification_Model_Resource_Notification extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization

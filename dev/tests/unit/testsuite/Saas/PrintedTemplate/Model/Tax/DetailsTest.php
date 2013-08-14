@@ -135,7 +135,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                 $nonNominalItems[] = $addressItem;
             }
 
-            $quoteAddress = $this->getMockBuilder('Mage_Sales_Model_Quote_Address')
+            $quoteAddress = $this->getMockBuilder('Magento_Sales_Model_Quote_Address')
                 ->setMethods(array('getAllNonNominalItems'))
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -270,11 +270,11 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param array $rates
      * @param Magento_Object $rateRequest
      *
-     * @return Mage_Tax_Model_Calculation
+     * @return Magento_Tax_Model_Calculation
      */
     protected function _prepareTaxCalculatorMock($rates, $rateRequest)
     {
-        $calculator = $this->getMockBuilder('Mage_Tax_Model_Calculation')
+        $calculator = $this->getMockBuilder('Magento_Tax_Model_Calculation')
             ->setMethods(array('getRateRequest','getAppliedRates'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -299,7 +299,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param array $childrenData
      * @param bool $isChildrenCalculated
      *
-     * @return Mage_Sales_Model_Quote_Address_Item
+     * @return Magento_Sales_Model_Quote_Address_Item
      */
     protected function _prepareAddressItem($parentItemId, $addressId, $addressProduct, $childrenData = array(),
         $isChildrenCalculated = false
@@ -321,7 +321,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
 
         $addressProductItem = new Magento_Object($addressProduct);
 
-        $addressItem = $this->getMockBuilder('Mage_Sales_Model_Quote_Address_Item')
+        $addressItem = $this->getMockBuilder('Magento_Sales_Model_Quote_Address_Item')
             ->disableOriginalConstructor()
             ->setMethods(array(
                 'getParentItemId', 'getId', 'getProduct', 'getHasChildren', 'isChildrenCalculated', 'getChildren')
@@ -361,11 +361,11 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param bool $isTaxAfterDiscount
      * @param bool $isDiscountOnInclTax
      *
-     * @return Mage_Tax_Model_Config
+     * @return Magento_Tax_Model_Config
      */
     protected function _prepareTaxConfigMock($shippingTaxClass, $isTaxAfterDiscount, $isDiscountOnInclTax)
     {
-        $config = $this->getMockBuilder('Mage_Tax_Model_Config')
+        $config = $this->getMockBuilder('Magento_Tax_Model_Config')
             ->setMethods(array('applyTaxAfterDiscount','discountTax','getShippingTaxClass'))
             ->getMock();
 
@@ -390,25 +390,25 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      *
      * @param null $quoteAddresses
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _prepareQuoteMock($quoteAddresses = null)
     {
-        $quote = $this->getMockBuilder('Mage_Sales_Model_Quote')
+        $quote = $this->getMockBuilder('Magento_Sales_Model_Quote')
             ->setMethods(array('getCustomer', 'getShippingAddress', 'getBillingAddress', 'getCustomerTaxClassId',
                 'getStore', 'getAllAddresses')
             )->disableOriginalConstructor()
             ->getMock();
 
-        $customer = $this->getMockBuilder('Mage_Customer_Model_Customer')
+        $customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $store = $this->getMockBuilder('Mage_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $address = $this->getMockBuilder('Mage_Sales_Model_Quote_Address')
+        $address = $this->getMockBuilder('Magento_Sales_Model_Quote_Address')
             ->disableOriginalConstructor()
             ->getMock();
 

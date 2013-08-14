@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Mage_Adminhtml_Block_Template
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Magento_Adminhtml_Block_Template
 {
     public function getCustomerWebsite()
     {
@@ -40,6 +40,6 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             }
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 }

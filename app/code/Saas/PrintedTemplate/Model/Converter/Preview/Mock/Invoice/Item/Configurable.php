@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice_Item_Configurable
-    extends Mage_Sales_Model_Order_Invoice_Item
+    extends Magento_Sales_Model_Order_Invoice_Item
 {
     /**
      * @var Saas_PrintedTemplate_Helper_Data
@@ -35,12 +35,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice_Item_Configurabl
     /**
      * Returns mocks of children
      *
-     * @return array Array that contains one Mage_Sales_Model_Order_Invoice_Item
+     * @return array Array that contains one Magento_Sales_Model_Order_Invoice_Item
      */
     public function getChildrenItemMocks()
     {
         return array (
-            Mage::getModel('Mage_Sales_Model_Order_Invoice_Item')->setData($this->_getChildMockData())
+            Mage::getModel('Magento_Sales_Model_Order_Invoice_Item')->setData($this->_getChildMockData())
         );
     }
 

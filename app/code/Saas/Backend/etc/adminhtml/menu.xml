@@ -9,6 +9,6 @@
 -->
 <config>
     <menu>
-        <remove id="Mage_Adminhtml::system_cache"/>
+        <remove id="Magento_Adminhtml::system_cache"/>
     </menu>
 </config>

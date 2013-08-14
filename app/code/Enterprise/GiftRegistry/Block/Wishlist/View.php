@@ -11,7 +11,7 @@
 /**
  * Wishlist view block
  */
-class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Customer_Wishlist
+class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Customer_Wishlist
 {
     /**
      * Prepare block layout, override wishlist block with different template
@@ -20,7 +20,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
      */
     protected function _prepareLayout()
     {
-        $outputEnabled = Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled($this->getModuleName());
+        $outputEnabled = Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
             if ($this->_layout->hasElement('my.account.wrapper')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
@@ -67,7 +67,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     /**
      * Check if wishlist item can be added to gift registry
      *
-     * @param Mage_Catalog_Model_Product $item
+     * @param Magento_Catalog_Model_Product $item
      * @return bool
      */
     public function checkProductType($item)

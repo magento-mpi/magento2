@@ -13,12 +13,12 @@ class Saas_Launcher_Model_Storelauncher_Shipping_StateResolverTest
     extends Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
 {
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @return Saas_Launcher_Model_Storelauncher_Shipping_StateResolver
      */
-    protected function _getStateResolverInstance(Mage_Core_Model_App $app)
+    protected function _getStateResolverInstance(Magento_Core_Model_App $app)
     {
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
             ->with($this->equalTo('shipping_enabled'), $this->equalTo(null))
@@ -28,8 +28,8 @@ class Saas_Launcher_Model_Storelauncher_Shipping_StateResolverTest
 
     public function testIsTileCompleteWhenShippingEnabledCheckboxIsNotChecked()
     {
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->any())->method('getPost')
             ->with($this->equalTo('shipping_enabled'), $this->equalTo(null))
             ->will($this->returnValue('0'));
@@ -126,7 +126,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_StateResolverTest
      */
     protected function _getShippingStateResolverForConfiguredMethodsTest(array $configSettings)
     {
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
 
         $store->expects($this->any())
             ->method('getConfig')
@@ -136,11 +136,11 @@ class Saas_Launcher_Model_Storelauncher_Shipping_StateResolverTest
             }
         ));
 
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $app->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $stateResolver = new Saas_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
         return $stateResolver;
     }

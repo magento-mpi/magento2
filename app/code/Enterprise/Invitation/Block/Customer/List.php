@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Account_Dashboard
+class Enterprise_Invitation_Block_Customer_List extends Magento_Customer_Block_Account_Dashboard
 {
     /**
      * Return list of invitations
@@ -26,7 +26,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Acco
         if (!$this->hasInvitationCollection()) {
             $this->setData('invitation_collection', Mage::getModel('Enterprise_Invitation_Model_Invitation')->getCollection()
                 ->addOrder('invitation_id', Magento_Data_Collection::SORT_ORDER_DESC)
-                ->loadByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->loadByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             );
         }
         return $this->_getData('invitation_collection');

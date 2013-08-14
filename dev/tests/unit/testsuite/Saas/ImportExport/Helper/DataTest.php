@@ -25,7 +25,7 @@ class Saas_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_fileSizeMock = $this->getMock('Magento_File_Size', array(), array(), '', false);
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helper = $objectManager->getObject('Saas_ImportExport_Helper_Data', array(
@@ -47,7 +47,7 @@ class Saas_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->at(0))->method('invalidateType')
             ->with(Enterprise_PageCache_Model_Cache_Type::TYPE_IDENTIFIER);
         $this->_cacheMock->expects($this->at(1))->method('invalidateType')
-            ->with(Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER);
+            ->with(Magento_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER);
 
         $this->_helper->cleanPageCache();
     }

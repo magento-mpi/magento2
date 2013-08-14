@@ -20,7 +20,7 @@ class Enterprise_PageCache_Model_Validator
     /**
      * General config object
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 

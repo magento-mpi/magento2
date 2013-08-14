@@ -453,11 +453,11 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Magento_Object
     }
 
     /**
-     * @return Mage_Core_Helper_Data
+     * @return Magento_Core_Helper_Data
      */
     protected function _getCoreHelper()
     {
-        return Mage::helper('Mage_Core_Helper_Data');
+        return Mage::helper('Magento_Core_Helper_Data');
     }
 }
 

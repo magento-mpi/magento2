@@ -16,7 +16,7 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
+class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query
@@ -27,10 +27,10 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_
     public function getSqlOperator($operator)
     {
         /*
-            '{}'  => Mage::helper('Mage_Rule_Helper_Data')->__('contains'),
-            '!{}' => Mage::helper('Mage_Rule_Helper_Data')->__('does not contain'),
-            '()'  => Mage::helper('Mage_Rule_Helper_Data')->__('is one of'),
-            '!()' => Mage::helper('Mage_Rule_Helper_Data')->__('is not one of'),
+            '{}'  => Mage::helper('Magento_Rule_Helper_Data')->__('contains'),
+            '!{}' => Mage::helper('Magento_Rule_Helper_Data')->__('does not contain'),
+            '()'  => Mage::helper('Magento_Rule_Helper_Data')->__('is one of'),
+            '!()' => Mage::helper('Magento_Rule_Helper_Data')->__('is not one of'),
             requires custom selects
         */
 

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstract
+class Saas_Saas_Model_EntryPoint_Worker extends Magento_Core_Model_EntryPointAbstract
 {
     /**
      * Event area for worker observers
@@ -39,22 +39,22 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
      */
     protected function _processRequest()
     {
-        /** @var $app Mage_Core_Model_App */
-        $app = $this->_objectManager->get('Mage_Core_Model_App');
+        /** @var $app Magento_Core_Model_App */
+        $app = $this->_objectManager->get('Magento_Core_Model_App');
         $app->setUseSessionInUrl(false);
         $app->requireInstalledInstance();
 
         //Set default invoker.
         //All events fired through this dispatcher will be processed directly
         /**
-         * @var Mage_Core_Model_Event_Manager $dispatcher
+         * @var Magento_Core_Model_Event_Manager $dispatcher
          */
         $dispatcher = $this->_objectManager->create(
-            'Mage_Core_Model_Event_Manager',
-            array('invoker' => 'Mage_Core_Model_Event_Invoker_InvokerDefault')
+            'Magento_Core_Model_Event_Manager',
+            array('invoker' => 'Magento_Core_Model_Event_Invoker_InvokerDefault')
         );
 
-        $primaryConfig = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
+        $primaryConfig = $this->_objectManager->get('Magento_Core_Model_Config_Primary');
         $taskOptions = $primaryConfig->getParam(self::TASK_OPTIONS_KEY);
 
         foreach ($taskOptions as $option) {

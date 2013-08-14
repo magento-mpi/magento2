@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Banner::cms_enterprise_banner" title="Banners" module="Enterprise_Banner" sortOrder="40" parent="Mage_Adminhtml::content_elements" action="adminhtml/banner" resource="Enterprise_Banner::enterprise_banner"/>
+        <add id="Enterprise_Banner::cms_enterprise_banner" title="Banners" module="Enterprise_Banner" sortOrder="40" parent="Magento_Adminhtml::content_elements" action="adminhtml/banner" resource="Enterprise_Banner::enterprise_banner"/>
     </menu>
 </config>

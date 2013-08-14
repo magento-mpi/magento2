@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Block_Adminhtml_Import_Busy extends Mage_Backend_Block_Template
+class Saas_ImportExport_Block_Adminhtml_Import_Busy extends Magento_Backend_Block_Template
 {
     /**
      * Block status message

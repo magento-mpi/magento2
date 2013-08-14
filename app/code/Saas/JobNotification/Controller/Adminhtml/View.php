@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_JobNotification_Controller_Adminhtml_View extends Mage_Backend_Controller_ActionAbstract
+class Saas_JobNotification_Controller_Adminhtml_View extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Check whether controller actions is allowed

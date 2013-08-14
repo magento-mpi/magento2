@@ -39,7 +39,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
         $this->_environmentMock = $this->getMock(
             'Enterprise_PageCache_Model_Environment', array(), array(), '', false
         );
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
         $this->_model = new Saas_PageCache_Model_Processor_Restriction(
             $this->_cacheMock, $this->_environmentMock
         );
@@ -84,7 +84,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
 
         $this->_environmentMock->expects($this->once())
             ->method('hasQuery')
-            ->with(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)
+            ->with(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)
             ->will($this->returnValue(true));
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));

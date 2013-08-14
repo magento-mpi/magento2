@@ -15,9 +15,9 @@
             <version>1.11.0.0.1</version>
             <active>false</active>
             <depends>
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Cms />
+                <Magento_Core/>
+                <Magento_Customer/>
+                <Magento_Cms />
             </depends>
         </Enterprise_WebsiteRestriction>
     </modules>

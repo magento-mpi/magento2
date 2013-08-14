@@ -21,14 +21,14 @@ class Saas_PrintedTemplate_Model_Tax_Details
     /**
      * Tax calculation model
      *
-     * @var Mage_Tax_Model_Calculation
+     * @var Magento_Tax_Model_Calculation
      */
     protected $_calculator;
 
     /**
      * Tax configuration object
      *
-     * @var Mage_Tax_Model_Config
+     * @var Magento_Tax_Model_Config
      */
     protected $_config;
 
@@ -40,19 +40,19 @@ class Saas_PrintedTemplate_Model_Tax_Details
     public function __construct($data = array())
     {
         $this->_calculator = isset($data['calculator']) ? $data['calculator']
-            : Mage::getSingleton('Mage_Tax_Model_Calculation');
-        $this->_config = isset($data['config']) ? $data['config'] : Mage::getSingleton('Mage_Tax_Model_Config');
+            : Mage::getSingleton('Magento_Tax_Model_Calculation');
+        $this->_config = isset($data['config']) ? $data['config'] : Mage::getSingleton('Magento_Tax_Model_Config');
     }
 
     /**
      * Calculate tax details information for quote items
      * Return array with tax rates grouped by item IDs
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return array
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function calculateItemsTaxInfo(Mage_Sales_Model_Quote $quote)
+    public function calculateItemsTaxInfo(Magento_Sales_Model_Quote $quote)
     {
         $taxRateRequest = $this->_prepareRateRequest($quote);
 
@@ -88,10 +88,10 @@ class Saas_PrintedTemplate_Model_Tax_Details
     /**
      * Calculate tax details information for shipping method
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return array
      */
-    public function calculateShippingTaxInfo(Mage_Sales_Model_Quote $quote)
+    public function calculateShippingTaxInfo(Magento_Sales_Model_Quote $quote)
     {
         $taxRateRequest = $this->_prepareRateRequest($quote);
         $taxClass = $this->_config->getShippingTaxClass($quote->getStore());
@@ -107,10 +107,10 @@ class Saas_PrintedTemplate_Model_Tax_Details
     /**
      * Prepare tax rate request object from quote model
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Magento_Object
      */
-    protected function _prepareRateRequest(Mage_Sales_Model_Quote $quote)
+    protected function _prepareRateRequest(Magento_Sales_Model_Quote $quote)
     {
         $taxRateRequest = $this->_calculator->setCustomer($quote->getCustomer())
             ->getRateRequest(

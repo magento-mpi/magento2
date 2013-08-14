@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Controllers
  */
-class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Controller_Action
+class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Print PDF for entity: invoice, creditmemo or shipment
@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
         }
 
         try {
-            $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
+            $entity = Mage::getModel(uc_words("Magento_Sales_Model_Order_$type"));
             if (!$entity) {
                 Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
             }
@@ -44,10 +44,10 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
             }
 
             $pdf = Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getConverter($entity)->getPdf();
-            $fileName = $type . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
+            $fileName = $type . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
 
             $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
         } catch (Exception $e) {
@@ -77,7 +77,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
             return;
         }
 
-        $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
+        $entity = Mage::getModel(uc_words("Magento_Sales_Model_Order_$type"));
         if (!$entity) {
             Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
         }
@@ -95,7 +95,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
                 ->getPdf();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
             return;
@@ -106,7 +106,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
             return;
         }
 
-        $fileName = $type . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
+        $fileName = $type . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
         $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
     }
 
@@ -130,7 +130,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
                 ->getPdf();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
             return;
@@ -141,7 +141,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
             return;
         }
 
-        $fileName = 'docs' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
+        $fileName = 'docs' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
         $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
     }
 
@@ -155,13 +155,13 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Mage_Adminhtml_Con
     {
         $collection = array();
         foreach ($orderIds as $orderId) {
-            $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
+            $invoices = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Invoice_Collection')
                 ->setOrderFilter($orderId)
                 ->getItems();
-            $creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
+            $creditmemos = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Collection')
                 ->setOrderFilter($orderId)
                 ->getItems();
-            $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
+            $shipments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Shipment_Collection')
                 ->setOrderFilter($orderId)
                 ->getItems();
 

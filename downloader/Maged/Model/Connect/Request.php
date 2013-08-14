@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Connect
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Class request
  *
  * @category   Mage
- * @package    Mage_Connect
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Maged_Model_Connect_Request extends Maged_Model

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExport_Block_Adminhtml_Import_Edit_Form
+class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_ImportExport_Block_Adminhtml_Import_Edit_Form
 {
     /**
      * @var Saas_ImportExport_Helper_Import_Image_Configuration
@@ -20,13 +20,13 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
     protected $_helper;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_ImportExport_Helper_Import_Image_Configuration $configuration
      * @param Saas_ImportExport_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_ImportExport_Helper_Import_Image_Configuration $configuration,
         Saas_ImportExport_Helper_Data $helper,
         array $data = array()
@@ -40,7 +40,7 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
     /**
      * Add fieldsets
      *
-     * @return Mage_ImportExport_Block_Adminhtml_Import_Edit_Form
+     * @return Magento_ImportExport_Block_Adminhtml_Import_Edit_Form
      */
     protected function _prepareForm()
     {

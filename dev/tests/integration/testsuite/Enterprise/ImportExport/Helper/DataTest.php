@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Magento_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_ImportExport_Helper_Data

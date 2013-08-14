@@ -14,14 +14,14 @@ class Enterprise_Queue_Model_Config
     const XML_PATH_QUEUE_ADAPTER_GEARMAN_TASK_PARAMS = 'global/queue/adapter/gearman/task/params';
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Config_Modules $config)
+    public function __construct(Magento_Core_Model_Config $config)
     {
         $this->_config = $config;
     }

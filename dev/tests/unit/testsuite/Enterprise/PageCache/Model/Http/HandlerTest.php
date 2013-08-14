@@ -41,7 +41,7 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
     {
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false, false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false, false);
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false, false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false, false);
         $this->_factoryMock = $this->getMock('Enterprise_PageCache_Model_RequestProcessorFactory',
             array(), array(), '', false, false);
     }

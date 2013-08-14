@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
-    extends Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
+    extends Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address
     implements Saas_ImportExport_Model_Export_EntityInterface
 {
     /**

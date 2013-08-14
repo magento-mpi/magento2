@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Model_Resource_TemplateTest extends PHPUnit_Framework
         $model->setHeader('bla-bla-bla')->setUpdatedAt('0000-00-00 00:00:00')->save();
         $this->assertNotEquals('0000-00-00 00:00:00', $model->getUpdatedAt());
 
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
         $model->delete();
     }
 }

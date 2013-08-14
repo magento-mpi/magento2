@@ -35,7 +35,7 @@ class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_modelSpecificationFirstMock = $this->getMock('Saas_Saas_Model_Limitation_SpecificationInterface');
         $this->_modelSpecificationSecondMock = $this->getMock('Saas_Saas_Model_Limitation_SpecificationInterface');
 

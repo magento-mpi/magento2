@@ -15,8 +15,8 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Sales/>
-                <Mage_Checkout/>
+                <Magento_Sales/>
+                <Magento_Checkout/>
             </depends>
         </Enterprise_SalesArchive>
     </modules>
@@ -137,7 +137,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_salesarchive before="Mage_Adminhtml">Enterprise_SalesArchive_Adminhtml</enterprise_salesarchive>
+                        <enterprise_salesarchive before="Magento_Adminhtml">Enterprise_SalesArchive_Adminhtml</enterprise_salesarchive>
                     </modules>
                 </args>
             </adminhtml>

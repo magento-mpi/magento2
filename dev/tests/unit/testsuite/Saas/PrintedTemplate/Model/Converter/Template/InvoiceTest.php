@@ -47,7 +47,7 @@ class Saas_PrintedTemplate_Model_Converter_InvoiceTest extends PHPUnit_Framework
 
     protected function _prepareInvoice($billingAddress, $shippingAddress, $payment)
     {
-        $orderMock = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $orderMock = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getPayment'))
             ->getMock();
@@ -55,7 +55,7 @@ class Saas_PrintedTemplate_Model_Converter_InvoiceTest extends PHPUnit_Framework
             ->method('getPayment')
             ->will($this->returnValue($payment));
 
-        $invoiceMock = $this->getMockBuilder('Mage_Sales_Model_Order_Invoice')
+        $invoiceMock = $this->getMockBuilder('Magento_Sales_Model_Order_Invoice')
             ->disableOriginalConstructor()
             ->setMethods(array('getOrder', 'getBillingAddress', 'getShippingAddress'))
             ->getMock();

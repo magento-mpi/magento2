@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Helper_Import_Image_Configuration extends Mage_Core_Helper_Abstract
+class Saas_ImportExport_Helper_Import_Image_Configuration extends Magento_Core_Helper_Abstract
 {
     /**#@+
      * Config xml paths
@@ -24,24 +24,24 @@ class Saas_ImportExport_Helper_Import_Image_Configuration extends Mage_Core_Help
     /**#@-*/
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Dir
+     * @var Magento_Core_Model_Dir
      */
     protected $_dir;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Dir $dir
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Dir $dir
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Dir $dir
     ) {
         parent::__construct($context);
 

@@ -13,12 +13,12 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest exten
      */
     public function testConvert($baseConfig, $restrictedOptions, $expected)
     {
-        $map = $this->getMockForAbstractClass('Mage_Backend_Model_Config_Structure_MapperAbstract');
+        $map = $this->getMockForAbstractClass('Magento_Backend_Model_Config_Structure_MapperAbstract');
         $map->expects($this->any())
             ->method('map')
             ->will($this->returnValue($baseConfig));
 
-        $mapperFactory = $this->getMock('Mage_Backend_Model_Config_Structure_Mapper_Factory', array(), array(), '',
+        $mapperFactory = $this->getMock('Magento_Backend_Model_Config_Structure_Mapper_Factory', array(), array(), '',
             false);
         $mapperFactory->expects($this->any())
             ->method('create')

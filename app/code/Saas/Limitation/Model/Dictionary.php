@@ -8,7 +8,7 @@
 class Saas_Limitation_Model_Dictionary
 {
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var Magento_Core_Helper_Abstract
      */
     private $_translationHelper;
 
@@ -18,10 +18,10 @@ class Saas_Limitation_Model_Dictionary
     private $_messages;
 
     /**
-     * @param Mage_Core_Helper_Abstract $translationHelper
+     * @param Magento_Core_Helper_Abstract $translationHelper
      * @param array $messages Format: array(<message_code> => <message_text>, ...)
      */
-    public function __construct(Mage_Core_Helper_Abstract $translationHelper, array $messages)
+    public function __construct(Magento_Core_Helper_Abstract $translationHelper, array $messages)
     {
         $this->_translationHelper = $translationHelper;
         $this->_messages = $messages;

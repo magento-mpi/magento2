@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-class Enterprise_Queue_Model_Resource_Task extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Queue_Model_Resource_Task extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Primery key auto increment flag
