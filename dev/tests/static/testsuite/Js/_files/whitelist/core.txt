@@ -10,7 +10,7 @@ app/code/Magento/Checkout
 app/code/Magento/Captcha
 app/code/Magento/Customer
 app/code/Magento/Downloadable
-app/code/Mage/Persistent
+app/code/Magento/Persistent
 app/code/Magento/Wishlist
 app/code/Magento/Bundle
 app/code/Magento/Adminhtml

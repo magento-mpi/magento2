@@ -76,7 +76,7 @@ dev/tests/unit/testsuite/Magento/Webapi
 dev/tests/unit/testsuite/Magento/Webhook
 pub/lib/mage/directpost.js
 ########################################################################################################################
-# following functionality introduced in Mage/Enterprise modules is overlapped in Saas modules
+# following functionality introduced in Magento/Enterprise modules is overlapped in Saas modules
 dev/tests/integration/testsuite/Enterprise/Enterprise/CodeIntegrityTest.php
 dev/tests/integration/testsuite/Enterprise/PageCache/Model/Processor/RestrictionTest.php
 dev/tests/integration/testsuite/Magento/Adminhtml/Controller/CacheTest.php
