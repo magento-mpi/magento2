@@ -75,17 +75,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Translates array of errors into string
-     *
-     * @param array $errors
-     * @return string
-     */
-    public static function translateCallback(array $errors)
-    {
-        return implode("\n", $errors);
-    }
-
-    /**
      * Internal factory for mock subscription, stubs necessary magic methods
      *
      * @return PHPUnit_Framework_MockObject_MockObject
@@ -234,8 +223,7 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->method('setName');
 
         $expectedErrors = array(
-            "Invalid config data for subscription '%s'.",
-            'name_missing'
+            __("Invalid config data for subscription '%1'.", 'name_missing'),
         );
 
         $this->_stubMock($configNode, null, $expectedErrors);
