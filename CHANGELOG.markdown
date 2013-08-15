@@ -226,9 +226,10 @@
   * Prevented tracking of merged Javascript files metadata (and re-merging them) in production mode
   * Fixed incorrect memory usage calculation in Integration tests
   * Fixed issues in performance test scenarios
-  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
+  * Fixed inability to delete customer's address on frontend
   * Fixed incorrect "No file chosen" message, shown after a successful upload of product image placeholder in Chrome
   * Made "Print Order" page to display theme-customized logo instead of a default one
+  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Product creation fixes:
      * Fixed inability to search and select category in IE8, including via mouse
      * Fixed usability of category search tree field to not hang after entering each symbol
