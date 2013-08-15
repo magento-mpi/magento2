@@ -294,10 +294,13 @@ class Magento_Test_Application
         $updater->updateScheme();
         $updater->updateData();
 
-        /* Enable configuration cache by default in order to improve tests performance */
+        /* Enable cross-cutting caches in order to improve tests performance */
         /** @var $cacheTypes Mage_Core_Model_Cache_Types */
         $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
         $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
+        $cacheTypes->setEnabled(Mage_Eav_Model_Cache_Type::TYPE_IDENTIFIER, true);
         $cacheTypes->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */

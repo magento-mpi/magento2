@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require Mage::getBaseDir() . '/app/code/Mage/Catalog/controllers/ProductController.php';
+require Mage::getBaseDir() . '/app/code/Mage/Catalog/Controller/Product.php';
 
 class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
-     * @var Mage_Catalog_ProductController
+     * @var Mage_Catalog_Controller_Product
      */
     protected $_controller;
 
@@ -37,7 +37,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         );
         $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $this->_controller = Mage::getModel(
-            'Mage_Catalog_ProductController',
+            'Mage_Catalog_Controller_Product',
             array(
                 'context'  => $context,
                 'areaCode' => 'frontend',

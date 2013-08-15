@@ -47,7 +47,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect
      */
     public function restrictNewEntityCreation(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Adminhtml_Catalog_ProductController $controller */
+        /** @var Mage_Adminhtml_Controller_Catalog_Product $controller */
         $controller = $observer->getEvent()->getData('controller');
         $redirectTarget = $controller->getRequest()->getParam('back');
         if ($redirectTarget == 'new' && $this->_limitationValidator->exceedsThreshold($this->_limitation)) {

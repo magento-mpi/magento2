@@ -92,37 +92,6 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     /**
      * @param string $module
      * @param string $controller
-     * @param string $fileName
-     *
-     * @covers Mage_Backend_Controller_Router_Default::getControllerFileName
-     * @dataProvider getControllerFileNameDataProvider
-     */
-    public function testGetControllerFileName($module, $controller, $fileName)
-    {
-        $file = $this->_model->getControllerFileName($module, $controller);
-        $this->assertStringEndsWith($fileName, $file);
-    }
-
-    public function getControllerFileNameDataProvider()
-    {
-        return array(
-            array('Mage_Adminhtml', 'index', 'Adminhtml' . DS . 'controllers' . DS . 'IndexController.php'),
-            array(
-                'Mage_Index',
-                'process',
-                'Index' . DS . 'controllers' . DS . 'Adminhtml' . DS . 'ProcessController.php'
-            ),
-            array(
-                'Mage_Index_Adminhtml',
-                'process',
-                'Index' . DS . 'controllers' . DS . 'Adminhtml' . DS . 'ProcessController.php'
-            ),
-        );
-    }
-
-    /**
-     * @param string $module
-     * @param string $controller
      * @param string $className
      *
      * @covers Mage_Backend_Controller_Router_Default::getControllerClassName
@@ -136,9 +105,9 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     public function getControllerClassNameDataProvider()
     {
         return array(
-            array('Mage_Adminhtml', 'index', 'Mage_Adminhtml_IndexController'),
-            array('Mage_Index', 'process', 'Mage_Index_Adminhtml_ProcessController'),
-            array('Mage_Index_Adminhtml', 'process', 'Mage_Index_Adminhtml_ProcessController'),
+            array('Mage_Adminhtml', 'index', 'Mage_Adminhtml_Controller_Index'),
+            array('Mage_Index', 'process', 'Mage_Index_Controller_Adminhtml_Process'),
+            array('Mage_Index_Adminhtml', 'process', 'Mage_Index_Controller_Adminhtml_Process'),
         );
     }
 }
