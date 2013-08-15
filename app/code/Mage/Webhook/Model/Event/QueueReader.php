@@ -12,7 +12,7 @@
  */
 class Mage_Webhook_Model_Event_QueueReader implements Magento_PubSub_Event_QueueReaderInterface
 {
-   /** @var ArrayIterator */
+    /** @var ArrayIterator */
     protected $_iterator;
 
     /**
