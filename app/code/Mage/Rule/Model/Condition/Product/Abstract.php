@@ -241,7 +241,7 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
     /**
      * Collect validated attributes
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $productCollection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
      * @return Mage_CatalogRule_Model_Rule_Condition_Product
      */
     public function collectValidatedAttributes($productCollection)
@@ -337,6 +337,8 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
                 case 'date':
                     $element->setImage($this->_viewUrl->getViewFileUrl('images/grid-cal.gif'));
                     break;
+                default:
+                    break;
             }
         }
 
@@ -428,7 +430,7 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
     }
 
     /**
-     * Validate product attrbute value for condition
+     * Validate product attribute value for condition
      *
      * @param Magento_Object $object
      * @return bool

@@ -10,7 +10,7 @@
 
 
 /**
- * Enter description here ...
+ * Enterprise banner sales rule model
  *
  * @method Enterprise_Banner_Model_Resource_Salesrule _getResource()
  * @method Enterprise_Banner_Model_Resource_Salesrule getResource()

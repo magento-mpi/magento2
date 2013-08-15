@@ -15,6 +15,9 @@
  */
 class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_template = 'config.phtml';
 
     /**
@@ -39,8 +42,7 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
             $data = Mage::getSingleton('Mage_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
                 $data = Mage::getModel('Mage_Install_Model_Installer_Config')->getFormData();
-            }
-            else {
+            } else {
                 $data = new Magento_Object($data);
             }
             $this->setFormData($data);
@@ -48,16 +50,25 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
         return $data;
     }
 
+    /**
+     * @return bool
+     */
     public function getSkipUrlValidation()
     {
         return Mage::getSingleton('Mage_Install_Model_Session')->getSkipUrlValidation();
     }
 
+    /**
+     * @return bool
+     */
     public function getSkipBaseUrlValidation()
     {
         return Mage::getSingleton('Mage_Install_Model_Session')->getSkipBaseUrlValidation();
     }
 
+    /**
+     * @return array
+     */
     public function getSessionSaveOptions()
     {
         return array(
@@ -66,6 +77,9 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
         );
     }
 
+    /**
+     * @return string
+     */
     public function getSessionSaveSelect()
     {
         $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')

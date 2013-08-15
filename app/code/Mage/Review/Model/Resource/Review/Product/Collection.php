@@ -79,7 +79,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     public function addStoreFilter($storeId = null)
     {
-        if (is_null($storeId)) {
+        if (null === $storeId) {
             $storeId = $this->getStoreId();
         }
 
@@ -110,11 +110,11 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
             $storeId = array_shift($storeId);
         }
 
-        if (!is_array($storeId)){
+        if (!is_array($storeId)) {
             $storeId = array($storeId);
         }
 
-        if (!empty($this->_storesIds)){
+        if (!empty($this->_storesIds)) {
             $this->_storesIds = array_intersect($this->_storesIds, $storeId);
         } else {
             $this->_storesIds = $storeId;
@@ -133,7 +133,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     {
         $adapter = $this->getConnection();
         $storesIds = $this->_storesIds;
-        if (is_null($select)){
+        if (null === $select) {
             $select = $this->getSelect();
         }
 
@@ -147,8 +147,6 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 'rt.review_id=store.review_id AND ' . $inCond,
                 array())
             ->group('rt.review_id');
-
-            $this->_useAnalyticFunction = true;
         } else {
             $select->join(array('store' => $this->_reviewStoreTable),
                 $adapter->quoteInto('rt.review_id=store.review_id AND store.store_id = ?', (int)$storesIds),
@@ -279,8 +277,8 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     /**
      * Retrive all ids for collection
      *
-     * @param unknown_type $limit
-     * @param unknown_type $offset
+     * @param null|int|string $limit
+     * @param null|int|string $offset
      * @return array
      */
     public function getAllIds($limit = null, $offset = null)
@@ -351,6 +349,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 break;
             default:
                 parent::setOrder($attribute, $dir);
+                break;
         }
         return $this;
     }
@@ -382,7 +381,10 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 if ($condition == 1) {
                     $conditionParts = array(
                         $this->_getConditionSql('rdt.customer_id', array('is' => new Zend_Db_Expr('NULL'))),
-                        $this->_getConditionSql('rdt.store_id', array('eq' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID))
+                        $this->_getConditionSql(
+                            'rdt.store_id',
+                            array('eq' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+                        )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);
                 } elseif ($condition == 2) {
@@ -390,7 +392,10 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 } else {
                     $conditionParts = array(
                         $this->_getConditionSql('rdt.customer_id', array('is' => new Zend_Db_Expr('NULL'))),
-                        $this->_getConditionSql('rdt.store_id', array('neq' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID))
+                        $this->_getConditionSql(
+                            'rdt.store_id',
+                            array('neq' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+                        )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);
                 }

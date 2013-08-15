@@ -159,29 +159,29 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
     /**
      * Loading cache data
      *
-     * @param   string $id
+     * @param   string $cacheId
      * @return  mixed
      */
-    public function loadCache($id);
+    public function loadCache($cacheId);
 
     /**
      * Saving cache data
      *
      * @param mixed $data
-     * @param string $id
+     * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
      * @return Mage_Core_Model_AppInterface
      */
-    public function saveCache($data, $id, $tags = array(), $lifeTime = false);
+    public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false);
 
     /**
      * Remove cache
      *
-     * @param   string $id
+     * @param   string $cacheId
      * @return  Mage_Core_Model_AppInterface
      */
-    public function removeCache($id);
+    public function removeCache($cacheId);
 
     /**
      * Cleaning cache

@@ -31,8 +31,8 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
     public function testSaveValueIsFormedNicely()
     {
         $value = array(
-            '1' => array('search' => '/Opera/', 'value' => 'default/blank'),
-            '2' => array('search' => '/Firefox/', 'value' => 'default/blank')
+            '1' => array('search' => '/Opera/', 'value' => 'magento_blank'),
+            '2' => array('search' => '/Firefox/', 'value' => 'magento_blank')
         );
 
         $this->_model->setValue($value);
@@ -53,9 +53,9 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
     public function testSaveEmptyValueIsSkipped()
     {
         $value = array(
-            '1' => array('search' => '/Opera/', 'value' => 'default/blank'),
-            '2' => array('search' => '', 'value' => 'default/blank'),
-            '3' => array('search' => '/Firefox/', 'value' => 'default/blank')
+            '1' => array('search' => '/Opera/', 'value' => 'magento_blank'),
+            '2' => array('search' => '', 'value' => 'magento_blank'),
+            '3' => array('search' => '/Firefox/', 'value' => 'magento_blank')
         );
 
         $this->_model->setValue($value);
@@ -88,19 +88,19 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
     {
         $result = array(
             array(
-                array('search' => 'Opera', 'value' => 'default/blank'),
+                array('search' => 'Opera', 'value' => 'magento_blank'),
                 '/Opera/i'
             ),
             array(
-                array('search' => '/Opera/', 'value' => 'default/blank'),
+                array('search' => '/Opera/', 'value' => 'magento_blank'),
                 '/Opera/'
             ),
             array(
-                array('search' => '#iPad|iPhone#i', 'value' => 'default/blank'),
+                array('search' => '#iPad|iPhone#i', 'value' => 'magento_blank'),
                 '#iPad|iPhone#i'
             ),
             array(
-                array('search' => 'Mozilla (3.6+)/Firefox', 'value' => 'default/blank'),
+                array('search' => 'Mozilla (3.6+)/Firefox', 'value' => 'magento_blank'),
                 '/Mozilla \\(3\\.6\\+\\)\\/Firefox/i'
             )
         );
@@ -127,28 +127,28 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
     {
         $result = array(
             array(array(
-                '1' => array('search' => '/Opera/', 'value' => 'default/blank'),
-                '2' => array('search' => '/invalid_regexp(/', 'value' => 'default/blank'),
+                '1' => array('search' => '/Opera/', 'value' => 'magento_blank'),
+                '2' => array('search' => '/invalid_regexp(/', 'value' => 'magento_blank'),
             )),
             array(array(
-                '1' => array('search' => '/invalid_regexp', 'value' => 'default/blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
+                '1' => array('search' => '/invalid_regexp', 'value' => 'magento_blank'),
+                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
             )),
             array(array(
-                '1' => array('search' => 'invalid_regexp/iU', 'value' => 'default/blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
+                '1' => array('search' => 'invalid_regexp/iU', 'value' => 'magento_blank'),
+                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
             )),
             array(array(
-                '1' => array('search' => 'invalid_regexp#', 'value' => 'default/blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
+                '1' => array('search' => 'invalid_regexp#', 'value' => 'magento_blank'),
+                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
             )),
             array(array(
                 '1' => array('search' => '/Firefox/'),
-                '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
+                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
             )),
             array(array(
-                '1' => array('value' => 'default/default/blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
+                '1' => array('value' => 'magento_blank'),
+                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
             ))
         );
 

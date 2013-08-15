@@ -18,7 +18,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Instance of Enterprise_Logging_Model_Logging
      *
-     * @var object Enterprise_Logging_Model_Logging
+     * @var Enterprise_Logging_Model_Processor
      */
     protected $_processor;
 
@@ -159,7 +159,9 @@ class Enterprise_Logging_Model_Observer
             $userId = Mage::getSingleton('Mage_User_Model_User')->loadByUsername($username)->getId();
         }
         $request = Mage::app()->getRequest();
-        return Mage::getSingleton('Enterprise_Logging_Model_Event')->setData(array(
+        /** @var Enterprise_Logging_Model_Event $event */
+        $event = Mage::getSingleton('Enterprise_Logging_Model_Event');
+        $event->setData(array(
             'ip'         => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
@@ -167,7 +169,8 @@ class Enterprise_Logging_Model_Observer
             'fullaction' => "{$request->getRouteName()}_{$request->getControllerName()}_{$request->getActionName()}",
             'event_code' => $eventCode,
             'action'     => 'login',
-        ))->save();
+        ));
+        return $event->save();
     }
 
     /**

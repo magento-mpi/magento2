@@ -42,10 +42,6 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
                 array('wishlists' => new Zend_Db_Expr('COUNT(wi.wishlist_item_id)')))
             ->where('wi.product_id = e.entity_id')
             ->group('wi.product_id');
-        /*
-         * Allow Analytic Functions Usage
-         */
-        $this->_useAnalyticFunction = true;
 
         $this->getEntity()->setStore(0);
         return $this;

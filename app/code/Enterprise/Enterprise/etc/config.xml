@@ -36,7 +36,7 @@
     <frontend>
         <design>
             <theme>
-                <full_name>enterprise/fixed</full_name>
+                <full_name>magento_fixed_width</full_name>
             </theme>
         </design>
     </frontend>
@@ -53,7 +53,7 @@
         </events>
         <design>
             <theme>
-                <full_name>default/backend</full_name>
+                <full_name>magento_backend</full_name>
             </theme>
         </design>
     </adminhtml>
@@ -71,7 +71,7 @@
         </events>
         <design>
             <theme>
-                <full_name>default/enterprise</full_name>
+                <full_name>magento_enterprise</full_name>
             </theme>
         </design>
     </install>

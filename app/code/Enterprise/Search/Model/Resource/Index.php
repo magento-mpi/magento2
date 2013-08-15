@@ -164,12 +164,11 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
-
+        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $helper */
         $helper = Mage::getResourceHelper('Mage_Core');
         $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
         $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
         $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');
-        $select  = $helper->getQueryUsingAnalyticFunction($select);
 
         $result = array();
         foreach ($adapter->fetchAll($select) as $row) {

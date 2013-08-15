@@ -1,0 +1,18 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Design
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme>
+    <title>Iphone</title>
+    <version>2.0.0.1</version>
+    <media>
+        <preview_image>images/preview.png</preview_image>
+    </media>
+</theme>

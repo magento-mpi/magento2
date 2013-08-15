@@ -64,4 +64,5 @@ return array(
     array('decoratedIsOdd', null, 'getDecoratedIsOdd'),
     array('decoratedIsLast', null, 'getDecoratedIsLast'),
     array('static', 'Mage_Core_Model_Email_Template_Filter'),
+    array('_useAnalyticFunction'),
 );

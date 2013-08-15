@@ -30,12 +30,11 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      * Tear down
      */
     /**
-     * @magentoConfigFixture current_store design/theme/full_name default/demo
+     * @magentoConfigFixture current_store design/theme/full_name magento_demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/order.php
      */
     public function testFilterByOrder()
     {
-        $this->markTestIncomplete('MAGETWO-7075');
         $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId('100000001');
 
         $items = $this->_collection->addFilterByOrder($order);
@@ -45,7 +44,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name default/demo
+     * @magentoConfigFixture current_store design/theme/full_name magento_demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/invoice.php
      */
     public function testFilterByInvoice()
@@ -59,7 +58,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name default/demo
+     * @magentoConfigFixture current_store design/theme/full_name magento_demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/creditmemo.php
      */
     public function testFilterByCreditmemo()

@@ -50,7 +50,7 @@ class Mage_Core_Model_Layout_File_Source_Override_Theme implements Mage_Core_Mod
         $themePath = $theme->getFullPath();
         $files = $this->_filesystem->searchKeys(
             $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES),
-            "{$themePath}/{$namespace}_{$module}/layout/override/*/*/*.xml"
+            "{$themePath}/{$namespace}_{$module}/layout/override/*/*.xml"
         );
 
         if (empty($files)) {
@@ -65,9 +65,9 @@ class Mage_Core_Model_Layout_File_Source_Override_Theme implements Mage_Core_Mod
 
         $result = array();
         foreach ($files as $filename) {
-            if (preg_match("#([^/]+)/layout/override/([^/]+)/([^/]+)/[^/]+\.xml$#i", $filename, $matches)) {
+            if (preg_match("#([^/]+)/layout/override/([^/]+)/[^/]+\.xml$#i", $filename, $matches)) {
                 $moduleFull = $matches[1];
-                $ancestorThemeCode = $matches[2] . Mage_Core_Model_Theme::CODE_SEPARATOR . $matches[3];
+                $ancestorThemeCode = $matches[2];
                 if (!isset($themes[$ancestorThemeCode])) {
                     throw new Mage_Core_Exception(sprintf(
                         "Trying to override layout file '%s' for theme '%s', which is not ancestor of theme '%s'",

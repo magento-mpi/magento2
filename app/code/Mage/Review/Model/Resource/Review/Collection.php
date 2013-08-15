@@ -90,9 +90,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
-     *
-     * @param unknown_type $customerId
+     * @param int|string $customerId
      * @return Mage_Review_Model_Resource_Review_Collection
      */
     public function addCustomerFilter($customerId)
@@ -225,11 +223,6 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
             array('total_reviews' => new Zend_Db_Expr('COUNT(r.review_id)'))
         )
         ->group('main_table.review_id');
-
-        /*
-         * Allow analytic functions usage
-         */
-        $this->_useAnalyticFunction = true;
 
         return $this;
     }

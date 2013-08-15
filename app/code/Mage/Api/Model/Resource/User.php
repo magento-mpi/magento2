@@ -145,16 +145,16 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     {
         $result = array();
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('api_session'))
-            ->where('sessid = ?', $sessId);
-        if ($apiSession = $adapter->fetchRow($select)) {
+        $select = $adapter->select()->from($this->getTable('api_session'))->where('sessid = ?', $sessId);
+        $apiSession = $adapter->fetchRow($select);
+        if ($apiSession) {
             $selectUser = $adapter->select()
                 ->from($this->getTable('api_user'))
                 ->where('user_id = ?', $apiSession['user_id']);
-                if ($user = $adapter->fetchRow($selectUser)) {
-                    $result = array_merge($user, $apiSession);
-                }
+            $user = $adapter->fetchRow($selectUser);
+            if ($user) {
+                $result = array_merge($user, $apiSession);
+            }
         }
         return $result;
     }
@@ -177,8 +177,8 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Retrieve api user role data if it was assigned to role
      *
-     * @param int | Mage_Api_Model_User $user
-     * @return null | array
+     * @param int|Mage_Api_Model_User $user
+     * @return null|array
      */
     public function hasAssigned2Role($user)
     {
@@ -220,6 +220,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
      *
      * @param Mage_Core_Model_Abstract $user
      * @return boolean
+     * @throws Exception|Mage_Core_Exception
      */
     public function delete(Mage_Core_Model_Abstract $user)
     {
@@ -244,7 +245,8 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
      * Save user roles
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return unknown
+     * @return $this|\Mage_Core_Model_Abstract
+     * @throws Exception|Mage_Core_Exception
      */
     public function _saveRelations(Mage_Core_Model_Abstract $user)
     {
@@ -326,7 +328,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         $adapter = $this->_getWriteAdapter();
         $aRoles  = $this->hasAssigned2Role($user);
         if (sizeof($aRoles) > 0) {
-            foreach ($aRoles as $idx => $data) {
+            foreach ($aRoles as $data) {
                 $adapter->delete(
                     $this->getTable('api_role'),
                     array('role_id = ?' => $data['role_id'])
@@ -413,7 +415,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         $select = $adapter->select()
             ->from($usersTable)
             ->where(implode(' OR ', $condition))
-            ->where($usersTable.'.user_id != ?', (int) $user->getId());
+            ->where($usersTable . '.user_id != ?', (int)$user->getId());
         return $adapter->fetchRow($select);
     }
 }

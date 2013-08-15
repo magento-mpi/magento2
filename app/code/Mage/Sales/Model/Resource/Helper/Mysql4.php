@@ -26,23 +26,20 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_H
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Sales_Model_Resource_Helper_Abstract
+     * @return Mage_Sales_Model_Resource_Helper_Mysql4
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable
     ) {
-        /** @var $reportsResourceHelper Mage_Reports_Model_Resource_Helper_Interface */
-        $reportsResourceHelper = Mage::getResourceHelper('Mage_Reports');
+        /** @var $reportsHelper Mage_Reports_Model_Resource_Helper_Interface */
+        $reportsHelper = Mage::getResourceHelper('Mage_Reports');
 
         if ($aggregation == $aggregationAliases['monthly']) {
-            $reportsResourceHelper
-                ->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
+            $reportsHelper->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
         } elseif ($aggregation == $aggregationAliases['yearly']) {
-            $reportsResourceHelper
-                ->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
+            $reportsHelper->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
         } else {
-            $reportsResourceHelper
-                ->updateReportRatingPos('day', 'qty_ordered', $mainTable, $aggregationTable);
+            $reportsHelper->updateReportRatingPos('day', 'qty_ordered', $mainTable, $aggregationTable);
         }
 
         return $this;
