@@ -33,7 +33,7 @@ class Mage_Core_Model_Event_Config_Reader extends Magento_Config_Reader_Filesyst
         Mage_Core_Model_Event_Config_Converter $converter,
         Mage_Core_Model_Event_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
-        $fileName = 'event.xml',
+        $fileName = 'events.xml',
         $idAttributes = array(),
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
