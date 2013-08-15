@@ -17,6 +17,31 @@ class Mage_Webhook_Model_Resource_Job_Collection extends Mage_Core_Model_Resourc
     const PAGE_SIZE = 100;
 
     /**
+     * Default time to wait for job handler to process events
+     */
+    const DEFAULT_TIMEOUT_IDLING_JOBS = 7200;
+
+    /** @var int timeout to wait until decide that event is failed */
+    protected $_timeoutIdling;
+
+    /**
+     * Collection constructor
+     *
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param int $timeoutIdling
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Mage_Core_Model_Resource_Db_Abstract $resource = null,
+        $timeoutIdling = null
+    ) {
+        parent::__construct($fetchStrategy, $resource);
+        $this->_timeoutIdling = is_null($timeoutIdling) ?
+            self::DEFAULT_TIMEOUT_IDLING_JOBS : $timeoutIdling;
+    }
+
+    /**
      * Initialize Collection
      */
     public function _construct()
@@ -112,7 +137,7 @@ class Mage_Webhook_Model_Resource_Job_Collection extends Mage_Core_Model_Resourc
         $this->getConnection()->beginTransaction();
         try {
             /* if event is in progress state for less than hour we do nothing with it*/
-            $lastUpdatedTime = time() - 60*60;
+            $lastUpdatedTime = time() - $this->_timeoutIdling;
             $this->addFieldToFilter('status', Magento_PubSub_JobInterface::IN_PROGRESS)
                 ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($lastUpdatedTime),
                     'datetime' => true));

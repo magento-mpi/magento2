@@ -26,6 +26,7 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
     public function setUp()
     {
         $this->_user = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')
+            ->setApiKey(md5(rand(0, time())))
             ->save();
         $this->_endpoint = Mage::getObjectManager()->create('Mage_Webhook_Model_Endpoint')
             ->setEndpointUrl('test')
