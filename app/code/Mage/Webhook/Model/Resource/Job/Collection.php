@@ -112,9 +112,9 @@ class Mage_Webhook_Model_Resource_Job_Collection extends Mage_Core_Model_Resourc
         $this->getConnection()->beginTransaction();
         try {
             /* if event is in progress state for less than hour we do nothing with it*/
-            $appropriateLastUpdatedTime = time() - 60*60;
+            $lastUpdatedTime = time() - 60*60;
             $this->addFieldToFilter('status', Magento_PubSub_JobInterface::IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($appropriateLastUpdatedTime),
+                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($lastUpdatedTime),
                     'datetime' => true));
             $idsToRevoke = $this->_getLoadedIds();
             if (count($idsToRevoke)) {
