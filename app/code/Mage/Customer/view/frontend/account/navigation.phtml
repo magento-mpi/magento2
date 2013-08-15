@@ -2,16 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var $this Mage_Page_Block_Links */
 ?>
-<?php /** @var $this Mage_Customer_Block_Account_Navigation */ ?>
 <div class="block block-account">
     <div class="block-title">
-        <strong><span><?php echo $this->__('My Account'); ?></span></strong>
+        <strong><span><?php echo $this->__('My Account');?></span></strong>
     </div>
     <div class="block-content">
         <ul>
@@ -27,5 +25,14 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
+
+        <?php echo $this->getChildHtml();?>
+<!--        --><?php //if ($links = $this->getLinks()):?>
+<!--        <ul>-->
+<!--            --><?php //foreach ($links as $link):?>
+<!--                --><?php //echo $this->renderLink($link)?>
+<!--            --><?php //endforeach;?>
+<!--        </ul>-->
+<!--        --><?php //endif;?>
     </div>
 </div>

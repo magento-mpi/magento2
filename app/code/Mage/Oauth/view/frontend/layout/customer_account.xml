@@ -9,12 +9,14 @@
 -->
 <layout version="0.1.0">
     <customer_account>
-        <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Mage_Oauth">
-                <name>OAuth Customer Tokens</name>
-                <path>oauth/customer_token</path>
-                <label>My Applications</label>
-            </action>
+        <reference name="customer-account-navigation">
+            <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-applications-link">
+                <arguments translate="label">
+                    <name>OAuth Customer Tokens</name>
+                    <path>oauth/customer_token</path>
+                    <label>My Applications</label>
+                </arguments>
+            </block>
         </reference>
     </customer_account>
 </layout>
