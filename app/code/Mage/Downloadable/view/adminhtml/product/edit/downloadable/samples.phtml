@@ -10,7 +10,7 @@
 ?>
 <?php
 /**
- * @var $this Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
+ * @var $this Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples
  */
 
 $_product = $this->getProduct();
@@ -27,7 +27,7 @@ $this->getConfigJson();
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
+            <?php echo !$this->getStoreManager()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
