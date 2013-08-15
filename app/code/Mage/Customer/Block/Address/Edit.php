@@ -21,6 +21,29 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     protected $_countryCollection;
     protected $_regionCollection;
 
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Config $config
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_Config $config,
+        array $data = array()
+    )
+    {
+        parent::__construct($context, $configCacheType, $data);
+        $this->_config = $config;
+    }
+
+
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -160,5 +183,13 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
         } else {
             return $this->getUrl('customer/account/');
         }
+    }
+
+    /**
+     * @return Mage_Core_Model_Config
+     */
+    public function getConfig()
+    {
+        return $this->_config;
     }
 }
