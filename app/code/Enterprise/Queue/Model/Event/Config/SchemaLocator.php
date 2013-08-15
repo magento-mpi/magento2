@@ -14,6 +14,6 @@ class Enterprise_Queue_Model_Event_Config_SchemaLocator extends Mage_Core_Model_
      */
     public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Enterprise_Queue') . DIRECTORY_SEPARATOR . 'event.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Enterprise_Queue') . DIRECTORY_SEPARATOR . 'events.xsd';
     }
  }

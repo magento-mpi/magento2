@@ -27,7 +27,7 @@ class Mage_Core_Model_Event_Config_SchemaLocatorTest extends PHPUnit_Framework_T
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'event.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'events.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()

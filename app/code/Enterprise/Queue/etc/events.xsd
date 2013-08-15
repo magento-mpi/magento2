@@ -8,8 +8,8 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <!-- redefine default event.xsd -->
-    <xs:redefine schemaLocation="../../../Mage/Core/etc/event.xsd">
+    <!-- redefine default events.xsd -->
+    <xs:redefine schemaLocation="../../../Mage/Core/etc/events.xsd">
         <xs:complexType name="observerDeclaration">
             <xs:complexContent>
                 <xs:extension base="observerDeclaration">
