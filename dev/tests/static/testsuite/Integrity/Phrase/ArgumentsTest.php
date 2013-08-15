@@ -1,6 +1,7 @@
 <?php
 /**
- * Class to detects invocations of __() function, analyzes arguments and fails on errors.
+ * Scan source code for detects invocations of __() function, analyzes placeholders with arguments
+ * and see if they not equal
  *
  * {license_notice}
  *
@@ -9,74 +10,76 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class PhraseArgumentsTest extends PHPUnit_Framework_TestCase
+class ArgumentsTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $_scanPath;
+    const FILES_MASK = '/\.(php|phtml)$/';
 
     /**
      * @var Tokenizer
      */
     private $_tokenizer;
 
-    /**
-     * Init Tokenizer
-     */
-    protected function _initTokenizer()
-    {
-        $this->_scanPath = __DIR__ . '/../../../../../../app/';
-        $this->_tokenizer = new Tokenizer($this->_scanPath);
-    }
-
     protected function setUp()
     {
-        $this->_initTokenizer();
+        $this->_tokenizer = new Tokenizer();
     }
 
-    /**
-     * @param string $file
-     * @dataProvider filesDataProvider
-     */
-    public function testPhraseArguments($file)
+    public function testPhraseArguments()
     {
-        $this->_tokenizer->parse($file);
-        foreach ($this->_tokenizer->getPhrases() as $phrase) {
-            if (!is_null($phrase['phrase'])
-                && (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0)
-            ) {
-                $placeholdersInPhrase = array_unique($matches[1]);
-                $message = 'The number of arguments is not equal to the number of placeholders.' .
-                    "\nPhrase: " . $phrase['phrase'] .
-                    "\nFile: " . $phrase['file'] .
-                    "\nLine: " . $phrase['line'];
-                $this->assertEquals(count($placeholdersInPhrase), $phrase['arguments'], $message);
+        $errors = array();
+        foreach ($this->_getFiles() as $file) {
+            $this->_tokenizer->parse($file);
+            foreach ($this->_tokenizer->getPhrases() as $phrase) {
+                if (!is_null($phrase['phrase'])
+                    && (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0)
+                ) {
+                    $placeholdersInPhrase = array_unique($matches[1]);
+                    if (count($placeholdersInPhrase) != $phrase['arguments']) {
+                        $errors[] = 'The number of arguments is not equal to the number of placeholders.' .
+                            "\nPhrase: " . $phrase['phrase'] .
+                            "\nFile: " . $phrase['file'] .
+                            "\nLine: " . $phrase['line'];
+                    }
+                }
             }
         }
+        $this->assertEmpty($errors, $this->_prepareErrorMessage($errors));
     }
 
     /**
-     * Init tokenizer here, because "dataProvider" runs before setUp()
+     * Prepare error message
+     *
+     * @param array $errors
+     * @return string
+     */
+    protected function _prepareErrorMessage($errors) {
+        $errorMessage = "\n" . implode("\n\n", $errors);
+        return sprintf('We have found %s error(s): %s', count($errors), $errorMessage);
+    }
+
+    /**
+     * Get files for scan
      *
      * @return array
      */
-    public function filesDataProvider()
+    protected function _getFiles()
     {
-        $this->_initTokenizer();
-        $filesArray = array();
-        foreach ($this->_tokenizer->getFiles() as $file) {
-            $filesArray[] = array($file);
-        }
-        return $filesArray;
+        $path = Utility_Files::init()->getPathToSource() . '/app/';
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        return new RegexIterator($files, self::FILES_MASK);
     }
 }
 
-
+/**
+ * Class TokenException
+ */
 class TokenException extends Exception
 {
 }
 
+/**
+ * Class Token
+ */
 class Token
 {
     /**
@@ -141,10 +144,11 @@ class Token
     }
 }
 
+/**
+ * Class Tokenizer
+ */
 class Tokenizer
 {
-    const FILES_MASK = '/\.(php|phtml)$/';
-
     /**
      * @var array
      */
@@ -181,18 +185,6 @@ class Tokenizer
     private $_closeBrackets;
 
     /**
-     * Construct for Tokenizer
-     *
-     * @param string $scanPath
-     */
-    public function __construct($scanPath)
-    {
-        $this->_scanPath = $scanPath;
-        $this->_files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_scanPath));
-        $this->_files = new RegexIterator($this->_files, self::FILES_MASK);
-    }
-
-    /**
      * Get phrases array
      *
      * @return array
@@ -203,22 +195,13 @@ class Tokenizer
     }
 
     /**
-     * Get files
-     *
-     * @return RecursiveIteratorIterator
-     */
-    public function getFiles()
-    {
-        return $this->_files;
-    }
-
-    /**
      * Parse given file
      *
      * @param string $file
      */
     public function parse($file)
     {
+        $this->_phrases = array();
         $content = file_get_contents($file);
         $this->_file = $file;
         $this->_tokens = token_get_all($content);
@@ -229,7 +212,6 @@ class Tokenizer
         } catch (TokenException $pe) {
         }
     }
-
 
     /**
      * Find phrases into given token. e.g.: __('phrase', args)

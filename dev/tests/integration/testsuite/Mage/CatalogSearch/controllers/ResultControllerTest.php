@@ -20,13 +20,10 @@ class Mage_CatalogSearch_ResultControllerTest extends Magento_Test_TestCase_Cont
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 
-        $fixtureTranslate = Mage::getSingleton('Mage_Core_Model_Translate')->translate(array('Fixture string'));
-        $this->assertSame('Fixture translation', $fixtureTranslate);
-
         $responseBody = $this->getResponse()->getBody();
 
         $this->assertNotContains('Search:', $responseBody);
-        $this->assertStringMatchesFormat('%aSuche%s:%a', $responseBody);
+        $this->assertStringMatchesFormat('%aSuche%S:%a', $responseBody);
 
         $this->assertNotContains('Search entire store here...', $responseBody);
         $this->assertContains('Den gesamten Shop durchsuchen...', $responseBody);

@@ -77,7 +77,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
             __('E-mail is invalid')
         );
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
-            __("Required attribute '%1' has an empty value")
+            __("Required attribute '%s' has an empty value")
         );
         $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
             __("Customer with such email and website code doesn't exist")
