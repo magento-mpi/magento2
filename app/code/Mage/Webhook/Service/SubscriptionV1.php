@@ -16,9 +16,6 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
     /** @var Mage_Webhook_Model_Subscription_Factory $_subscriptionFactory */
     private $_subscriptionFactory;
 
-    /** @var Mage_Webhook_Model_User_Factory $_whUserFactory */
-    private $_whUserFactory;
-
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
     private $_subscriptionSet;
 
@@ -27,18 +24,15 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
 
     /**
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Mage_Webhook_Model_User_Factory $whUserFactory
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
      * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Mage_Webhook_Model_User_Factory $whUserFactory,
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
         Mage_Core_Model_Translate $translator
     ) {
         $this->_subscriptionFactory = $subscriptionFactory;
-        $this->_whUserFactory = $whUserFactory;
         $this->_subscriptionSet = $subscriptionSet;
         $this->_translator = $translator;
     }
@@ -262,27 +256,6 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
                 $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
-            );
-        }
-    }
-
-    /**
-     * Returns trues if a given userId is associated with a subscription
-     *
-     * @param int $apiUserId
-     * @param int $subscriptionId
-     * @throws Mage_Webhook_Exception
-     */
-    public function validateOwnership($apiUserId, $subscriptionId)
-    {
-        $subscription = $this->_loadSubscriptionById($subscriptionId);
-        if ($subscription->getApiUserId() != $apiUserId) {
-            throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array(
-                    "User with id %s doesn't have permission to modify subscription %s",
-                    $apiUserId,
-                    $subscriptionId,
-                ))
             );
         }
     }

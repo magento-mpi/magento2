@@ -12,11 +12,19 @@
 interface Magento_PubSub_EventInterface
 {
     /**
-     * Status codes for events
+     * Status is assigned to newly created Event, identify that it is good to be sent to subscribers
      */
-    const PREPARING     = 0;
-    const READY_TO_SEND = 1;
-    const PROCESSED     = 2;
+    const STATUS_READY_TO_SEND = 0;
+
+    /**
+     * Status is assigned to event when queue handler pick it up for processing
+     */
+    const STATUS_IN_PROGRESS   = 1;
+
+    /**
+     * Status is assigned to event when queue handler successfully processed the event
+     */
+    const STATUS_PROCESSED     = 2;
 
     /**
      * Returns the status code of the event. Status indicates if the event has been processed
@@ -48,16 +56,16 @@ interface Magento_PubSub_EventInterface
     public function getTopic();
 
     /**
-     * Mark event as ready to send
-     *
-     * @return Magento_PubSub_EventInterface
-     */
-    public function markAsReadyToSend();
-
-    /**
      * Mark event as processed
      *
      * @return Magento_PubSub_EventInterface
      */
-    public function markAsProcessed();
+    public function complete();
+
+    /**
+     * Mark event as In Progress
+     *
+     * @return Magento_PubSub_Event
+     */
+    public function markAsInProgress();
 }

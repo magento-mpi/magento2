@@ -11,6 +11,7 @@
  */
 interface Magento_Outbound_FormatterInterface
 {
+    /** content type header */
     const CONTENT_TYPE_HEADER = 'Content-Type';
 
     /**

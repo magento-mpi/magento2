@@ -50,21 +50,10 @@ class Mage_Webhook_Model_Webapi_EventHandler
     public function roleChanged($role)
     {
         // get all users that contain this role (role_id)
-        $users = $this->_getUserIdsFromRole($role->getId());
+        $users = $this->_resourceAclUser->getRoleUsers($role->getId());
         
         // for each user, call helper that finds and notifies subscription (user_id)
         $this->_validateSubscriptionsForUsers($users);
-    }
-
-    /**
-     * Queries Webapi for all the user ids that are currently using this role
-     *
-     * @param  int $roleId 
-     * @return array int[] User ids
-     */
-    private function _getUserIdsFromRole($roleId)
-    {
-        return $this->_resourceAclUser->getRoleUsers($roleId);
     }
 
     /**

@@ -8,6 +8,10 @@
  * @package     Mage_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @method Mage_Webhook_Model_Event setStatus()
+ * @method Mage_Webhook_Model_Event setUpdatedAt()
+ * @method Mage_Webhook_Model_Event setCreatedAt()
  */
 class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magento_PubSub_EventInterface
 {
@@ -18,6 +22,7 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     {
         parent::_construct();
         $this->_init('Mage_Webhook_Model_Resource_Event');
+        $this->setStatus(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND);
     }
 
     /**
@@ -29,7 +34,6 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->markAsReadyToSend();
             $this->setCreatedAt($this->_getResource()->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
             $this->setUpdatedAt($this->_getResource()->formatDate(true));
@@ -119,22 +123,25 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     }
 
     /**
-     * Mark event as ready to send
+     * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Mage_Webhook_Model_Event
      */
-    public function markAsReadyToSend()
+    public function complete()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_PROCESSED)
+            ->save();
+        return $this;
     }
 
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Mage_Webhook_Model_Event
      */
-    public function markAsProcessed()
+    public function markAsInProgress()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::PROCESSED);
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS);
+        return $this;
     }
 }
