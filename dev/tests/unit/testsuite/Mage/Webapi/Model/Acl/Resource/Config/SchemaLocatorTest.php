@@ -27,7 +27,7 @@ class Mage_Webapi_Model_Acl_Resource_Config_SchemaLocatorTest extends PHPUnit_Fr
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR. 'acl.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'acl.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
