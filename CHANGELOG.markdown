@@ -107,7 +107,7 @@
   * Enabled following cache types in integration tests to improve performance: configuration, layouts, translations, EAV
   * Improved and refreshed design for backend
   * Removed "demo_blue", "iphone" and "modern" themes
-* GitHub requests
+* GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
   * [#110](https://github.com/magento/magento2/pull/110) -- Fixes `Varien_Io_Sftp::write`, `Varien_Db_Adapter_Pdo_Mysql::insertOnDuplicate`
@@ -120,8 +120,7 @@
   * [#202](https://github.com/magento/magento2/pull/202) -- Installer fails to detect `InnoDB` on `MySQL 5.6+`
   * [#215](https://github.com/magento/magento2/pull/215) -- There is no sort-order "best value"
   * [#217](https://github.com/magento/magento2/pull/217) -- Update `app/code/core/Mage/Adminhtml/locale/de_DE/Mage_Adminhtml.csv`
-  * [#237](https://github.com/magento/magento2/pull/237) -- Helper for determining system memory usage on Windows
-  * [#243](https://github.com/magento/magento2/pull/243) -- Fix helper for determining system memory usage on Windows
+  * [#243](https://github.com/magento/magento2/pull/243) -- Fix helper for determining system memory usage on Windows (pull request for issue #237)
   * [#267](https://github.com/magento/magento2/pull/267) -- Issue with camel case in cusutom defined source models
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
