@@ -73,7 +73,16 @@ class Mage_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework
         $event2->delete();
     }
 
+    public function testRevokeIdlingInProgress()
+    {
+        /** @var Mage_Webhook_Model_Resource_Event_Collection $collection */
+        $collection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
+        $this->assertNull($collection->revokeIdlingInProgress());
+    }
+
     /**
+     * Emulates concurrent transactions. Executes 50 seconds because of lock timeout
+     *
      * @expectedException Zend_Db_Statement_Exception
      * @expectedMessage SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
      */

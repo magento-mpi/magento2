@@ -88,4 +88,35 @@ class Mage_Webhook_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
         }
         return $result;
     }
+
+    /**
+     * Change event status back to READY_TO_SEND if stays in IN_PROGRESS longer than hour
+     *
+     * Regularly run by scheduling mechanism
+     *
+     * @throws Exception
+     * @return null
+     */
+    public function revokeIdlingInProgress()
+    {
+        $this->getConnection()->beginTransaction();
+        try {
+            /* if event is in progress state for less than hour we do nothing with it*/
+            $appropriateLastUpdatedTime = time() - 60*60;
+            $this->addFieldToFilter('status', Magento_PubSub_EventInterface::IN_PROGRESS)
+                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($appropriateLastUpdatedTime),
+                    'datetime' => true));
+            $idsToRevoke = $this->_getLoadedIds();
+            if (count($idsToRevoke)) {
+                $this->getConnection()->update($this->getMainTable(),
+                    array('status' => Magento_PubSub_EventInterface::READY_TO_SEND),
+                    array('event_id IN (?)' => $idsToRevoke));
+            }
+        } catch (Exception $e) {
+            $this->getConnection()->rollBack();
+            $this->clear();
+            throw $e;
+        }
+        $this->getConnection()->commit();
+    }
 }
