@@ -13,7 +13,7 @@
  * Resource transaction model
  *
  * @todo need collect conection by name
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */

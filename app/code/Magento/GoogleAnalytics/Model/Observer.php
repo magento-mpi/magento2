@@ -12,7 +12,7 @@
 /**
  * Google Analytics module observer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
 class Magento_GoogleAnalytics_Model_Observer

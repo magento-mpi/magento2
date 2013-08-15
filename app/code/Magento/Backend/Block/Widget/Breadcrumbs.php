@@ -11,7 +11,7 @@
 /**
  * Magento_Backend page breadcrumbs
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */

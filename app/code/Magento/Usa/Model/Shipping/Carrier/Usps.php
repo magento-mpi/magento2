@@ -13,7 +13,7 @@
  * USPS shipping rates estimation
  *
  * @link       http://www.usps.com/webtools/htm/Development-Guide-v3-0b.htm
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Usa
  * @author      Magento Core Team <core@magentocommerce.com>
  */

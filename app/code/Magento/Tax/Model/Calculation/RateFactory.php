@@ -11,7 +11,7 @@
 /**
  * Tax rate factory
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tax
  * @author     Magento Core Team <core@magentocommerce.com>
  */

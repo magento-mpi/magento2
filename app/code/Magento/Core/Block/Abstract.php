@@ -15,7 +15,7 @@
  * For block generation you must define Data source class, data source class method,
  * parameters array and block template
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)

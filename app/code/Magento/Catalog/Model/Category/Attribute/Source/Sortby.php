@@ -12,7 +12,7 @@
 /**
  * Catalog Category *_sort_by Attributes Source Model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */

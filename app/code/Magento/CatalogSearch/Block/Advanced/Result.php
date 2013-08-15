@@ -11,7 +11,7 @@
 /**
  * Advanced search result
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */

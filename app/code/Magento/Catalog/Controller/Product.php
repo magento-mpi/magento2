@@ -11,7 +11,7 @@
 /**
  * Product controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  */
 class Magento_Catalog_Controller_Product

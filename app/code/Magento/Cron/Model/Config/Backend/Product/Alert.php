@@ -12,7 +12,7 @@
 /**
  * Backend Model for product alerts
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Multishipping checkout address matipulation controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * GoogleAnalytics data helper
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
 class Magento_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract

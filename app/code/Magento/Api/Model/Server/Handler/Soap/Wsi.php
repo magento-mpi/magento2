@@ -11,7 +11,7 @@
 /**
  * Webservices server handler WSI
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */

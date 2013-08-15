@@ -11,7 +11,7 @@
 /**
  * OAuth Consumer grid block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */

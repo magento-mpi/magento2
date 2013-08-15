@@ -11,7 +11,7 @@
 /**
  * Entity rating block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */

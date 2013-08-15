@@ -12,7 +12,7 @@
 /**
  * Wsdl element model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  */
 class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element

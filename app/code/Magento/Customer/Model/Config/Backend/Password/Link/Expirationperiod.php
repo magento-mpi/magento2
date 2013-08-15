@@ -12,7 +12,7 @@
 /**
  * Customer Reset Password Link Expiration period backend model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */

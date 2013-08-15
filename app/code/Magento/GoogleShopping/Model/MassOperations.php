@@ -11,7 +11,7 @@
 /**
  * Controller for mass opertions with items
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */

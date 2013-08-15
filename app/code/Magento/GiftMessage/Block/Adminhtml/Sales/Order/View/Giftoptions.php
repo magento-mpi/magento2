@@ -11,7 +11,7 @@
 /**
  * Adminhtml sales order view gift options block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */

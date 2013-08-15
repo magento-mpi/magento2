@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @copyright  {copyright}
  * @license    {license_link}
@@ -11,7 +11,7 @@
 /**
  * Customer tagged products tab
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  *

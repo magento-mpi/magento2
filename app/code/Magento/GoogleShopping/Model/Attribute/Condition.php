@@ -11,7 +11,7 @@
 /**
  * Condition attribute's model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */

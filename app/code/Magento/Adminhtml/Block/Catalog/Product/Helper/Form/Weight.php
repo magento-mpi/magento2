@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
     /**
      * Is virtual checkbox element
      *
-     * @var Magenton_Data_Form_Element_Checkbox
+     * @var Magento_Data_Form_Element_Checkbox
      */
     protected $_virtual;
 

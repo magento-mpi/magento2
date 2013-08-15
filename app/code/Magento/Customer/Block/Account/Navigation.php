@@ -11,7 +11,7 @@
 /**
  * Customer account navigation sidebar
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */

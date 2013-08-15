@@ -12,7 +12,7 @@
 /**
  * Config config system template source
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */

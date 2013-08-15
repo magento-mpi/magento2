@@ -11,7 +11,7 @@
 /**
  * Tag rss catalog controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */

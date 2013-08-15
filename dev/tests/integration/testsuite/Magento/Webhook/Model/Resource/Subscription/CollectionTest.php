@@ -8,7 +8,7 @@
  *
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}

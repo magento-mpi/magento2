@@ -11,7 +11,7 @@
 /**
  * OAuth abstract authorization block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  * @method string getToken()

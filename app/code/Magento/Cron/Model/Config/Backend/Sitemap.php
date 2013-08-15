@@ -11,7 +11,7 @@
 /**
  * Backend Model for Currency import options
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Catalog Product tier price api V2
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */

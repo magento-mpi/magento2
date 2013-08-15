@@ -11,7 +11,7 @@
 /**
  * Minimum product qty backend model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */

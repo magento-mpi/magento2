@@ -12,7 +12,7 @@
 /**
  * Adminhtml Google Shopping Item Id Renderer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */

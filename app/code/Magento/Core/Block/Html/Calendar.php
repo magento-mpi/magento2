@@ -12,7 +12,7 @@
  * Calendar block for page header
  * Prepares localization data for calendar
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */

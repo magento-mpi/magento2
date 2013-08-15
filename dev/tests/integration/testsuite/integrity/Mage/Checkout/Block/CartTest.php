@@ -4,7 +4,7 @@
  *
  * {license_notice}
  *
- * @category Mage
+ * @category Magento
  * @package Magento_Checkout
  * @subpackage integration_tests
  * @copyright  {copyright}

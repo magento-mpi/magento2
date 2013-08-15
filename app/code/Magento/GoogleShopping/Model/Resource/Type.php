@@ -11,7 +11,7 @@
 /**
  * Google Content Type resource model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */

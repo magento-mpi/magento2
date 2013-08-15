@@ -11,7 +11,7 @@
 /**
  * Tags list in customer's account
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */

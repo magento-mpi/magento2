@@ -12,7 +12,7 @@
 /**
  * Config backend model for "Use secret key in Urls" option
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

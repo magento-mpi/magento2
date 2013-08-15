@@ -12,7 +12,7 @@
 /**
  * Persistent Config Model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */

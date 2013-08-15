@@ -11,7 +11,7 @@
 /**
  * Payment information container block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */

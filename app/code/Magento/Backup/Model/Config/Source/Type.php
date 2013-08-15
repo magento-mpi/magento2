@@ -11,7 +11,7 @@
 /**
  * Backups types' source model for system configuration
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */

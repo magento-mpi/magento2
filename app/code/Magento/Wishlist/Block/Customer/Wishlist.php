@@ -12,7 +12,7 @@
 /**
  * Wishlist block customer items
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */

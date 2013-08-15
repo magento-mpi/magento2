@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -14,7 +14,7 @@
  * This save handler does not save any information it is given
  * It can be used by tiles that do not store any information when drawer 'Save' button is clicked
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */

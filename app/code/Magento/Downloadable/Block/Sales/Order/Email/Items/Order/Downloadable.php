@@ -12,7 +12,7 @@
 /**
  * Downloadable Sales Order Email items renderer
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */

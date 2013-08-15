@@ -12,7 +12,7 @@
 /**
  * Product price block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  */
 class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
  *
  * Class that extends this state resolver must at least override its isTileComplete method
  *
- * @category   Mage
+ * @category   Magento
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * Media library data helper
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Media
  * @author      Magento Core Team <core@magentocommerce.com>
  */

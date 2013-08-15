@@ -11,7 +11,7 @@
 /**
  * Adminhtml block for fieldset of bundle product
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
  *
  * Class that implements this interface is fully responsible for identifying of correct state of the tile related to it
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */

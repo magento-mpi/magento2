@@ -12,7 +12,7 @@
 /**
  * Rma Item Form Attribute Resource Collection
  *
- * @category    Mage
+ * @category    Magento
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */

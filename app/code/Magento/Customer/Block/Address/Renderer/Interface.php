@@ -12,7 +12,7 @@
 /**
  * Address renderer interface
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Customer Shared Wishlist Rss Block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */

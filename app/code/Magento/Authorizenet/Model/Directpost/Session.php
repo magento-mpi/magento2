@@ -11,7 +11,7 @@
 /**
  * Authorize.net DirectPost session model.
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */

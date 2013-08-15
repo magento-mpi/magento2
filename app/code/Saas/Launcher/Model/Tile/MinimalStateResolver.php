@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
  *
  * This save handler can be used by tiles that are considered to be complete when drawer 'Save' button is clicked
  *
- * @category    Mage
+ * @category    Magento
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */

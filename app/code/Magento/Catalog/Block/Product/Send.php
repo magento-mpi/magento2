@@ -12,7 +12,7 @@
 /**
  * Product send to friend block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  * @module     Catalog
  */

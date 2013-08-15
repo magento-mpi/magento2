@@ -12,7 +12,7 @@
 /**
  * Admin system config sturtup page
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

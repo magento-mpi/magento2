@@ -11,7 +11,7 @@
 /**
  * Currency rate import model (From www.webservicex.net)
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */

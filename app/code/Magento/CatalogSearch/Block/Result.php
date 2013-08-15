@@ -12,7 +12,7 @@
 /**
  * Product search result block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogSearch
  * @module     Catalog
  */

@@ -11,7 +11,7 @@
 /**
  * Backup file item model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  *

@@ -11,7 +11,7 @@
 /**
  * Validation EAV entity via EAV attributes' backend models
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */

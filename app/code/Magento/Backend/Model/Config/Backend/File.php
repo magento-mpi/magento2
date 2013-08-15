@@ -11,7 +11,7 @@
 /**
  * System config file field backend model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Gift message adminhtml sales order view items
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */

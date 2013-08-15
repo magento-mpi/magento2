@@ -11,7 +11,7 @@
 /**
  * Onepage checkout block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */

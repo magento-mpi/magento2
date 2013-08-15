@@ -11,7 +11,7 @@
 /**
  * Catalog Search Controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogSearch
  * @module     Catalog
  */

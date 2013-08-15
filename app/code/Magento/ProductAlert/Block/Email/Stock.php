@@ -12,7 +12,7 @@
 /**
  * ProductAlert email back in stock grid
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */

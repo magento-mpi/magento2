@@ -11,7 +11,7 @@
 /**
  * Mustishipping checkout base abstract block
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */

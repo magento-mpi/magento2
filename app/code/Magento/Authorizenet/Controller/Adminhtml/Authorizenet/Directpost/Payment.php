@@ -11,7 +11,7 @@
 /**
  * Admihtml DirtectPost Payment Controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Mage_DirtectPost
  * @author     Magento Core Team <core@magentocommerce.com>
  */

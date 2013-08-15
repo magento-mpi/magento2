@@ -11,7 +11,7 @@
 /**
  * Reports Recently Compared Products Widget
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * EAV entity model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Eav
  */
 class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract

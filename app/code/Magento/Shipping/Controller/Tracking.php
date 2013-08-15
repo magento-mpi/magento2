@@ -11,7 +11,7 @@
 /**
  * Sales orders controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */

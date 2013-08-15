@@ -11,7 +11,7 @@
 /**
  * Contacts index controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Contacts
  * @author      Magento Core Team <core@magentocommerce.com>
  */

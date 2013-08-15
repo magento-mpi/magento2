@@ -14,7 +14,7 @@
  * @method Magento_Log_Model_Resource_Aggregation getResource()
  * @method Magento_Log_Model_Resource_Aggregation _getResource()
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */

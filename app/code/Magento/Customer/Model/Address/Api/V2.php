@@ -11,7 +11,7 @@
 /**
  * Customer address api V2
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * Catalog Search change Search Type backend model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */

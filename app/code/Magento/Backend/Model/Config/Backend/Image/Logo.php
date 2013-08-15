@@ -12,7 +12,7 @@
 /**
  * System config Logo image field backend model
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */

@@ -11,7 +11,7 @@
 /**
  * Sales orders controller
  *
- * @category   Mage
+ * @category   Magento
  * @package    MAbout This Orderage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */

@@ -12,7 +12,7 @@
 /**
  * Catalog products per page on List mode source
  *
- * @category   Mage
+ * @category   Magento
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
