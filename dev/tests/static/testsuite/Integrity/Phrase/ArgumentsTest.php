@@ -161,19 +161,9 @@ class Tokenizer
     protected $_tokens = array();
 
     /**
-     * @var RecursiveIteratorIterator
-     */
-    protected $_files;
-
-    /**
      * @var string
      */
     protected $_file;
-
-    /**
-     * @var string
-     */
-    protected $_scanPath;
 
     /**
      * @var int
