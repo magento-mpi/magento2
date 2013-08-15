@@ -18,6 +18,25 @@
 class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
 {
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve count of currencies
      * Return 0 if only one currency
      *
@@ -95,5 +114,13 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
         }
 
         return $this->_getData('current_currency_code');
+    }
+
+    /**
+     * @return Mage_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }
