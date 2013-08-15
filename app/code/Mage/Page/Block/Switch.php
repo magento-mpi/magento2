@@ -158,4 +158,12 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
         }
         return $this->_storeInUrl;
     }
+
+    /**
+     * @return Mage_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
+    }
 }
