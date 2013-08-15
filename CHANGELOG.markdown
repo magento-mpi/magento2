@@ -8,6 +8,8 @@
   * Improved visual styles and business logic for new category creation from product creation page
   * Updated button names for Grouped and Bundle products, added an ability to translate them
   * Changed design of all popup windows on product creation page
+  * Simplified UI to add an attribute: made less fields there by default, restructured element positions, hidden rarely-used controls
+  * Created a popup to select image for product variations
 * JavaScript improvements:
   * Eliminated `json2.js` library since JSON parsing is bundled in all supported browsers
   * `Ajax.Autocompleter` is replaced with jQuery suggest widget for search in backend
@@ -103,6 +105,8 @@
   * Implemented proper exceptions instead of PHP warnings in `Magento_Filesystem` component
   * Introduced `Mage_Core_Model_ModuleManager` to provide "enabled" information about modules
   * Enabled following cache types in integration tests to improve performance: configuration, layouts, translations, EAV
+  * Improved and refreshed design for backend
+  * Removed "demo_blue", "iphone" and "modern" themes
 * GitHub requests
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
@@ -180,6 +184,7 @@
   * Fixed calculation for amount of items, remaining in an order, after shipping and invoicing
   * Fixed wrong price, calculated, when ordering multiple bundle products in backend
   * Fixed issues with changing order statuses in backend
+  * Tested backend design, fixed the discovered issues - general and browser-related bugs
   * Fixed order items, that have been shipped with Free Shipping method, to have "free shipping" status
   * Fixed issue with a State field being required in countries, where it is not mandatory
   * Fixed inability to upload a file via File custom option, when ordering a product at frontend
@@ -223,6 +228,8 @@
   * Fixed incorrect memory usage calculation in Integration tests
   * Fixed issues in performance test scenarios
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
+  * Fixed incorrect "No file chosen" message, shown after a successful upload of product image placeholder in Chrome
+  * Made "Print Order" page to display theme-customized logo instead of a default one
   * Product creation fixes:
      * Fixed inability to search and select category in IE8, including via mouse
      * Fixed usability of category search tree field to not hang after entering each symbol
@@ -234,9 +241,13 @@
      * Fixed inability to upload an image in the WYSIWYG editor
      * Fixed Javascript error, when replacing variation image in IE
      * Fixed Javascript errors in production mode
+     * Unified look of all the popups
+     * Removed "Add Attribute" link, when Product Details section is collapsed
+     * Fixed issue with product template selector menu, which was not shown
   * Shopping Cart Price Rule fixes:
      * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
      * Fixed saving of Shopping Cart Price Rule having specific coupon
+     * Fixed absence of fields on rule information tab
   * Payment fixes:
      * Fixed PayPal Pro (formerly Website Payment Pro) to pass shipping address in request to PayPal service
      * Fixed triggering of a credit memo creation when Charge Back notification comes from PayPal
@@ -248,7 +259,6 @@
      * Fixed issues in configuration for payment methods: absence of "Sort Order" field, excessive fields with class name as a value, issues with form elements and groups
      * Fixed exception, when using 2-level cache backend
      * Fixed inability to place order with PayPal Payments Advanced and Payflow Link payment methods
-  * Fixed inability to delete customer's address on frontend
   * VDE fixes:
      * Removed full file path information from the title of an uploaded store logo
      * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
@@ -264,6 +274,11 @@
      * Added validation to the theme name field
      * Fixed absence of error message in IE, when uploading unsupported file type in Theme Javascript
      * Fixed corrupting of a `custom.css` file, when saving Custom CSS text
+     * Fixed wrong design of "Chain" and "Reset to Original" image buttons
+     * Fixed color picker, being cut off by small browser window
+     * Fixed bottom indent in "Quick Styles" panel - it was too big
+     * Fixed corrupted layout of "Image Sizing" tab, when resizing browser window
+     * Fixed "We found no files", being displayed all the time in the form to upload theme Javascript files
   * API fixes:
      * Added missing fields to SOAP API
      * Fixed inability to set default customer address
