@@ -27,6 +27,6 @@ class Enterprise_Queue_Model_Event_Config_SchemaLocatorTest extends PHPUnit_Fram
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR. 'event.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'event.xsd', $this->_model->getSchema());
     }
 }
