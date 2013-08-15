@@ -17,7 +17,7 @@ interface Magento_Config_SchemaLocatorInterface
     public function getSchema();
 
     /**
-     * Get path to pre file validation schema
+     * Get path to per file validation schema
      *
      * @return string|null
      */

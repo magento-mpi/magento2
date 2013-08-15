@@ -31,8 +31,8 @@ class Mage_Core_Model_Event_Config_ConverterTest extends PHPUnit_Framework_TestC
 
     public function testConvert()
     {
-        $this->_source->loadXML(file_get_contents($this->_filePath. 'event_config.xml'));
-        $convertedFile = include ($this->_filePath. 'event_config.php');
+        $this->_source->loadXML(file_get_contents($this->_filePath . 'event_config.xml'));
+        $convertedFile = include ($this->_filePath . 'event_config.php');
         $this->assertEquals($convertedFile, $this->_model->convert($this->_source));
     }
 
@@ -40,9 +40,9 @@ class Mage_Core_Model_Event_Config_ConverterTest extends PHPUnit_Framework_TestC
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Attribute name is missed
      */
-    public function testConvertWithoutName()
+    public function testConvertThrowsExceptionWhenDomIsInvalid()
     {
-        $this->_source->loadXML(file_get_contents($this->_filePath. 'event_invalid_config.xml'));
+        $this->_source->loadXML(file_get_contents($this->_filePath . 'event_invalid_config.xml'));
         $this->_model->convert($this->_source);
     }
 }
