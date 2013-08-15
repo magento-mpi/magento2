@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * @var $this Mage_Adminhtml_Block_Sales_Order_View_Info
+ */
 ?>
 <?php $_order = $this->getOrder() ?>
 <?php
@@ -47,7 +51,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                     <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Order Status') ?></th>
                     <td><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></td>
                 </tr>
-                <?php if (Mage::app()->isSingleStoreMode() == false):?>
+                <?php if ($this->getStoreManager()->isSingleStoreMode() == false):?>
                 <tr>
                     <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Purchased From') ?></th>
                     <td><?php echo $this->getOrderStoreName() ?></td>
