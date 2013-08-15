@@ -69,9 +69,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscription;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockTranslator;
-
     public function setUp()
     {
         $this->_mockSubscription = $this->_createMockSubscription();
@@ -151,10 +148,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockTranslator = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // Stub create
         $this->_mockSubscribFactory->expects($this->any())
             ->method('create')
@@ -180,14 +173,8 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             $this->_mockCollection = $this->_createMockSubscriptionCollection();
         }
 
-        // Stub translate
-        $this->_mockTranslator->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(array($this, 'translateCallback')));
-
         // Create config object
         $this->_config = new Mage_Webhook_Model_Subscription_Config(
-            $this->_mockTranslator,
             $this->_mockCollection,
             $this->_mockMageConfig,
             $this->_mockSubscribFactory,
