@@ -142,7 +142,7 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $action Mage_Checkout_OnepageController */
+        /** @var $action Mage_Checkout_Controller_Onepage */
         $action = $observer->getEvent()->getControllerAction();
         $actionName = $action->getFullActionName();
 
@@ -233,7 +233,7 @@ class Mage_Persistent_Model_Observer
      * Check if checkout session should NOT be cleared
      *
      * @param Magento_Event_Observer $observer
-     * @return bool|Mage_Persistent_IndexController
+     * @return bool|Mage_Persistent_Controller_Index
      */
     protected function _checkClearCheckoutSessionNecessity($observer)
     {
@@ -241,9 +241,9 @@ class Mage_Persistent_Model_Observer
             return false;
         }
 
-        /** @var $action Mage_Persistent_IndexController */
+        /** @var $action Mage_Persistent_Controller_Index */
         $action = $observer->getEvent()->getControllerAction();
-        if ($action instanceof Mage_Persistent_IndexController) {
+        if ($action instanceof Mage_Persistent_Controller_Index) {
             return $action;
         }
 
@@ -320,7 +320,7 @@ class Mage_Persistent_Model_Observer
                 Mage::helper('Mage_Persistent_Helper_Data')->__('To check out, please log in using your email address.')
             );
             $controllerAction->redirectLogin();
-            if ($controllerAction instanceof Mage_GoogleCheckout_RedirectController
+            if ($controllerAction instanceof Mage_GoogleCheckout_Controller_Redirect
                 || $controllerAction instanceof Mage_Paypal_Controller_Express_Abstract
             ) {
                 Mage::getSingleton('Mage_Customer_Model_Session')
@@ -460,7 +460,7 @@ class Mage_Persistent_Model_Observer
             && !$this->_isPersistent()
             && !$customerSession->isLoggedIn()
             && Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId()
-            && !($observer->getControllerAction() instanceof Mage_Checkout_OnepageController)
+            && !($observer->getControllerAction() instanceof Mage_Checkout_Controller_Onepage)
             // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
             Mage::dispatchEvent('persistent_session_expired');
