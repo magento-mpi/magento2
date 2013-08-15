@@ -20,7 +20,8 @@ $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 Magento_Autoload_IncludePath::addIncludePath(array(
     "{$testsBaseDir}/framework",
     "{$testsBaseDir}/testsuite",
-    "{$integrationTestsDir}/framework"
+    "{$integrationTestsDir}/framework",
+    "{$integrationTestsDir}/lib"
 ));
 
 /* Bootstrap the application */
