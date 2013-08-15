@@ -21,6 +21,25 @@ class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
     protected $_template = 'admin/page.phtml';
 
     /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Class constructor
      *
      */
@@ -60,4 +79,11 @@ class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
         return $this;
     }
 
+    /**
+     * @return Mage_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
+    }
 }
