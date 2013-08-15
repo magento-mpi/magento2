@@ -16,15 +16,6 @@
 class Mage_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Controller_Sales_Creditmemo

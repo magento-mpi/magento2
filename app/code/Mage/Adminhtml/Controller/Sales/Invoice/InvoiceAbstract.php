@@ -17,15 +17,6 @@ class Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
     extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Controller_Sales_Invoice
