@@ -89,6 +89,11 @@ final class Mage
     const DEFAULT_TIMEZONE  = 'UTC';
 
     /**
+     * Magento version
+     */
+    const VERSION = '2.0.0.0-dev43';
+
+    /**
      * Registry collection
      *
      * @var array
