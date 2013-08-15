@@ -20,33 +20,17 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
     protected $_moduleTableMap;
 
     /**
-     * Regexp for matching table names in scripts
-     *
-     * @var string
-     */
-    protected $_pattern;
-
-    /**
-     * Regexp for matching file path
-     *
-     * @var string
-     */
-    protected $_dbFilePattern;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $replaceFilePattern = str_replace('\\', '/', realpath(__DIR__)) . '/_files/*.php';
+
         $this->_moduleTableMap = array();
         foreach (glob($replaceFilePattern) as $fileName) {
             $tables = @include $fileName;
             $this->_moduleTableMap = array_merge($this->_moduleTableMap, $tables);
         }
-
-        $this->_pattern = '#>gettable(name)?\([\'"]([^\'"]+)[\'"]\)#i';
-        $this->_dbFilePattern = '#/app/.*/(sql|data|resource)/.*\.php$#';
     }
 
     /**
@@ -60,13 +44,13 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
      */
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if (!preg_match($this->_dbFilePattern, $file)) {
+        if (!preg_match('#/app/.*/(sql|data|resource)/.*\.php$#', $file)) {
             return array();
         }
 
         $dependenciesInfo = array();
         $unKnowTables     = array();
-        if (preg_match_all($this->_pattern, $contents, $matches)) {
+        if (preg_match_all('#>gettable(name)?\([\'"]([^\'"]+)[\'"]\)#i', $contents, $matches)) {
             $tables = array_pop($matches);
             foreach ($tables as $table) {
                 if (!isset($this->_moduleTableMap[$table])) {
@@ -76,12 +60,13 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
                 if (strtolower($currentModule) !== strtolower($this->_moduleTableMap[$table])) {
                     $dependenciesInfo[] = array(
                         'module' => $this->_moduleTableMap[$table],
+                        'type'   => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
                         'source' => $table,
                     );
                 }
             }
         }
-        foreach ($unKnowTables as $file => $tables) {
+        foreach ($unKnowTables as $tables) {
             foreach ($tables as $table) {
                 $dependenciesInfo[] = array(
                     'module' => 'Unknown',

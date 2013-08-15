@@ -14,11 +14,6 @@
 interface Integrity_DependencyTest_RuleInterface
 {
     /**
-     * Constructor
-     */
-    public function __construct();
-
-    /**
      * Gets alien dependencies information for current module by analyzing file's contents
      *
      * @param string $currentModule

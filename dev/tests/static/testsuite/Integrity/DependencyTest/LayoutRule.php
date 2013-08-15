@@ -147,7 +147,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      */
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if (!in_array($fileType, array('layout'))) {
+        if ('layout' != $fileType) {
             return array();
         }
 
@@ -204,6 +204,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
@@ -225,8 +226,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
             '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
@@ -250,12 +253,16 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
         );
@@ -284,7 +291,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $check = $this->_checkDependencyLayoutHandle($currentModule, $area, $element->getName());
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
-                $result[$module] = $element->getName();
+                $result[$module] = array(
+                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                    'source' => $element->getName(),
+                );
             }
         }
         return $this->_getUniqueDependencies($result);
@@ -312,7 +322,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $check = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
-                $result[$module] = (string)$element;
+                $result[$module] = array(
+                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
+                    'source' => (string)$element,
+                );
             }
         }
         return $this->_getUniqueDependencies($result);
@@ -340,7 +353,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $check = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
-                $result[$module] = (string)$element;
+                $result[$module] = array(
+                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                    'source' => (string)$element,
+                );
             }
         }
         return $this->_getUniqueDependencies($result);
@@ -368,7 +384,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $check = $this->_checkDependencyLayoutBlock($currentModule, $area, (string)$element);
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
-                $result[$module] = (string)$element;
+                $result[$module] = array(
+                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                    'source' => (string)$element,
+                );
             }
         }
         return $this->_getUniqueDependencies($result);
@@ -385,12 +404,15 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _checkDependenciesByRegexp($currentModule, &$contents, $patterns = array())
     {
         $result = array();
-        foreach ($patterns as $pattern) {
+        foreach ($patterns as $type => $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
                     $module = $match['namespace'] . '_' . $match['module'];
                     if ($currentModule != $module) {
-                        $result[$module] = $match['source'];
+                        $result[$module] = array(
+                            'type' => $type,
+                            'source' => $match['source'],
+                        );
                     }
                 }
             }
@@ -535,10 +557,11 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _getUniqueDependencies($dependencies = array())
     {
         $result = array();
-        foreach ($dependencies as $key => $val) {
+        foreach ($dependencies as $module => $value) {
             $result[] = array(
-                'module' => $key,
-                'source' => $val,
+                'module' => $module,
+                'type'   => $value['type'],
+                'source' => $value['source'],
             );
         }
         return $result;

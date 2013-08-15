@@ -23,32 +23,17 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     const DEPENDENCIES_REPORT_FILE = 'dependencies_report.xml';
 
     /**
+     * Types of dependencies between modules
+     */
+    const DEPENDENCY_TYPE_SOFT = 'soft';
+    const DEPENDENCY_TYPE_HARD = 'hard';
+
+    /**
      * Path to report directory
      *
      * @var string
      */
     protected static $_reportDir = '';
-
-    /**
-     * XML report structure
-     *
-     * @var DOMDocument
-     */
-    protected static $_document;
-
-    /**
-     * Root XML element of errors report
-     *
-     * @var DOMElement
-     */
-    protected static $_rootErrors;
-
-    /**
-     * Root XML element of results report
-     *
-     * @var DOMElement
-     */
-    protected static $_rootResults;
 
     /**
      * List of config.xml files by modules
@@ -104,13 +89,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_modulesDependencies = array();
 
     /**
-     * Modules dependency errors
-     *
-     * @var array
-     */
-    protected static $_modulesDependencyErrors = array();
-
-    /**
      * Modules dependency results
      *
      * @var array
@@ -123,13 +101,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @var string
      */
     protected static $_defaultThemes = '';
-
-    /**
-     * Corrected modules dependencies map
-     *
-     * @var array
-     */
-    protected static $_correctedModulesDependencies = array();
 
     /**
      * Rule list
@@ -156,9 +127,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::_initReportDir();
-        self::_initReportXml();
-
         self::_prepareListConfigXml();
 
         self::_prepareMapRouters();
@@ -167,97 +135,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
         self::_instantiateConfiguration();
         self::_instantiateRules();
-    }
-    /**
-     * Save XML reports
-     */
-    public static function tearDownAfterClass()
-    {
-        self::_processDependencyErrors();
-        self::_processDependencyResults();
-    }
-
-    /**
-     * Initialize report directory
-     */
-    protected static function _initReportDir()
-    {
-        self::$_reportDir = Utility_Files::init()->getPathToSource() . '/dev/tests/static/report';
-        if (!is_dir(self::$_reportDir)) {
-            mkdir(self::$_reportDir, 0777);
-        }
-    }
-
-    /**
-     * Initialize XML report
-     */
-    protected static function _initReportXml()
-    {
-        self::$_document = new DOMDocument('1.0', 'UTF-8');
-        self::$_document->formatOutput = true;
-        self::$_rootErrors = self::$_document->createElement('errors');
-        self::$_rootResults = self::$_document->createElement('results');
-    }
-
-
-    /**
-     *  Process dependency errors and build XML report
-     */
-    protected static function _processDependencyErrors()
-    {
-        if (empty(self::$_modulesDependencyErrors)) {
-            return;
-        }
-        foreach (self::$_modulesDependencyErrors as $moduleName => $moduleData) {
-            $moduleNode = self::$_document->createElement('module');
-            $moduleNode->setAttribute('name', $moduleName);
-            foreach ($moduleData as $error) {
-                $fileNode = self::$_document->createElement('file');
-                $fileNode->setAttribute('path', $error['file']);
-                foreach ($error['dependencies'] as $dependency) {
-                    $dependencyNode = self::$_document->createElement('dependency');
-                    $dependencyNode->setAttribute('module', $dependency['module']);
-                    self::$_modulesDependencyResults[$moduleName][] = $dependency['module'];
-                    self::$_modulesDependencyResults[$moduleName] =
-                        array_unique(self::$_modulesDependencyResults[$moduleName]);
-                    $sourceCdata = self::$_document->createCDATASection($dependency['source']);
-                    $dependencyNode->appendChild($sourceCdata);
-                    $fileNode->appendChild($dependencyNode);
-                }
-                $moduleNode->appendChild($fileNode);
-
-            }
-            self::$_rootErrors->appendChild($moduleNode);
-        }
-        self::$_document->appendChild(self::$_rootErrors);
-        self::$_document->save(self::$_reportDir . DIRECTORY_SEPARATOR . self::ERROR_REPORT_FILE);
-    }
-
-    /**
-     *  Process dependency results and build XML report
-     */
-    protected static function _processDependencyResults()
-    {
-        if (empty(self::$_modulesDependencyResults)) {
-            return;
-        }
-        foreach (self::$_modulesDependencyResults as $moduleName => $moduleData) {
-            $moduleNode = self::$_document->createElement('module');
-            $moduleNode->setAttribute('name', $moduleName);
-            $dependsNode = self::$_document->createElement('depends');
-            foreach ($moduleData as $depends) {
-                $dependencyNode = self::$_document->createElement($depends);
-                $dependsNode->appendChild($dependencyNode);
-            }
-            $moduleNode->appendChild($dependsNode);
-            self::$_rootResults->appendChild($moduleNode);
-        }
-
-        $rootNodeList = self::$_document->getElementsByTagName('errors');
-        foreach ($rootNodeList as $domElement) {
-            self::$_document->replaceChild(self::$_rootResults, $domElement);
-        }
-        self::$_document->save(self::$_reportDir . DIRECTORY_SEPARATOR . self::DEPENDENCIES_REPORT_FILE);
     }
 
     /**
@@ -271,7 +148,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         foreach (self::$_listConfigXml as $module => $file) {
             $config = simplexml_load_file($file);
 
-            $nodes = $config->xpath("/config/modules/$module/depends/*") ?: array();
+            // TODO: change 'sequence' to 'depends'
+            $nodes = $config->xpath("/config/modules/$module/sequence/*") ?: array();
             foreach ($nodes as $node) {
                 /** @var SimpleXMLElement $node */
                 self::$_modulesDependencies[$module][] = $node->getName();
@@ -370,53 +248,72 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public function testDependencies($fileType, $file)
     {
-        $contents = $this->_getCleanedFileContents($fileType, $file);
         if (strpos($file, 'app/code') === false && !$this->_isThemeFile($file)) {
             return;
         }
 
         $module = $this->_getModuleName($file);
+        $contents = $this->_getCleanedFileContents($fileType, $file);
 
-        $dependenciesInfo = array();
+        // Apply rules
+        $dependencies = array();
         foreach (self::$_rulesInstances as $rule) {
             /** @var Integrity_DependencyTest_RuleInterface $rule */
-            $dependenciesInfo = array_merge($dependenciesInfo,
+            $dependencies = array_merge($dependencies,
                 $rule->getDependencyInfo($module, $fileType, $file, $contents));
         }
 
-        $declaredDependencies = isset(self::$_modulesDependencies[$module])
-            ? self::$_modulesDependencies[$module]
-            : array();
-
-        $undeclaredDependencies = array();
-        $undeclaredDependenciesInfo = array();
-        foreach ($dependenciesInfo as $dependencyInfo) {
-            if (!in_array($dependencyInfo['module'], $declaredDependencies)) {
-                $undeclaredDependencies[] = $dependencyInfo['module'];
-                $undeclaredDependenciesInfo[] = $dependencyInfo;
-            }
-            if (!isset(self::$_correctedModulesDependencies[$module])) {
-                self::$_correctedModulesDependencies[$module] = array();
-            }
-            if (!in_array($dependencyInfo['module'], self::$_correctedModulesDependencies[$module])) {
-                self::$_correctedModulesDependencies[$module][] = $dependencyInfo['module'];
+        // Collect undeclared dependencies
+        $declared = isset(self::$_modulesDependencies[$module]) ? self::$_modulesDependencies[$module] : array();
+        $undeclared = array();
+        foreach ($dependencies as $dependency) {
+            if (!in_array($dependency['module'], $declared)) {
+                $undeclared[] = $dependency;
             }
         }
 
-        if (count($undeclaredDependencies) > 0) {
-            self::$_modulesDependencyErrors[$module][] =
-                array(
-                    'file' => self::_getRelativeFilename($file),
-                    'dependencies' => $undeclaredDependenciesInfo
-                );
-
-            $dependency = array();
-            foreach ($undeclaredDependenciesInfo as $depend) {
-                $dependency[] = $depend['module'];
-                $dependency = array_unique($dependency);
-            }
-            $this->fail('Undeclared module dependencies found: ' . implode(', ', $dependency));
+        // Prepare output
+        if (count($undeclared)) {
+            $result = $this->_prepareOutput($undeclared);
+            $this->fail('Undeclared module dependencies found: ' . implode(', ', $result));
         }
+    }
+
+    /**
+     * Prepare output array
+     *
+     * Return array of strings: array(
+     *  '{DependencyType} [{ModuleName}, {ModuleName}, ...]',
+     * )
+     *
+     * @param array $items
+     * @return array
+     */
+    protected function _prepareOutput($items = array())
+    {
+        $dependencies = array(
+            self::DEPENDENCY_TYPE_HARD => array(),
+            self::DEPENDENCY_TYPE_SOFT => array(),
+        );
+
+        foreach ($items as $item) {
+            if (isset($item['type']) && ($item['type'] == self::DEPENDENCY_TYPE_SOFT)) {
+                $dependencies[self::DEPENDENCY_TYPE_SOFT][$item['module']] = $item['module'];
+            } else {
+                $dependencies[self::DEPENDENCY_TYPE_HARD][$item['module']] = $item['module'];
+            }
+        }
+
+        $dependencies[self::DEPENDENCY_TYPE_SOFT] = array_diff($dependencies[self::DEPENDENCY_TYPE_SOFT],
+            $dependencies[self::DEPENDENCY_TYPE_HARD]);
+
+        $result = array();
+        foreach ($dependencies as $type => $modules) {
+            if (count($modules)) {
+                $result[] = sprintf("%s [%s]", $type, implode(', ', $modules));
+            }
+        }
+        return $result;
     }
 
     /**
@@ -475,15 +372,20 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public function getAllFiles()
     {
         $files = array();
+
         // Get all php files
         $files = array_merge($files,
             $this->_prepareFiles('php', Utility_Files::init()->getPhpFiles(true, false, false, true)));
+
         // Get all configuration files
         $files = array_merge($files, $this->_prepareFiles('config', Utility_Files::init()->getConfigFiles()));
+
         //Get all layout updates files
         $files = array_merge($files, $this->_prepareFiles('layout', Utility_Files::init()->getLayoutFiles()));
+
         // Get all template files
         $files = array_merge($files, $this->_prepareFiles('template', Utility_Files::init()->getPhtmlFiles()));
+
         return $files;
     }
 

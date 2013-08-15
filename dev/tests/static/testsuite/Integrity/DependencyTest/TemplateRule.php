@@ -127,7 +127,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      */
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if (!in_array($fileType, array('template'))) {
+        if ('template' != $fileType) {
             return array();
         }
 
@@ -186,6 +186,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
             '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
                 . '(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
@@ -208,6 +209,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
             '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
@@ -228,6 +230,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
             '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
@@ -248,6 +251,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
             '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
                 . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
         );
@@ -268,6 +272,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
+            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
             '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
         );
@@ -298,6 +303,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
                     if ($currentModule != $moduleName) {
                         $dependencies[] = array(
                             'module' => $moduleName,
+                            'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
                             'source' => $item['source'],
                         );
                     }
@@ -328,7 +334,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
                 $check = $this->_checkDependencyLayoutBlock($currentModule, $area, $match['block']);
                 $module = isset($check['module']) ? $check['module'] : null;
                 if ($module) {
-                    $result[$module] = $match['source'];
+                    $result[$module] = array(
+                        'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
+                        'source' => $match['source'],
+                    );
                 }
             }
         }
@@ -346,12 +355,15 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _checkDependenciesByRegexp($currentModule, $contents, $patterns = array())
     {
         $result = array();
-        foreach ($patterns as $pattern) {
+        foreach ($patterns as $type => $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
                     $module = $match['namespace'] . '_' . $match['module'];
                     if ($currentModule != $module) {
-                        $result[$module] = $match['source'];
+                        $result[$module] = array(
+                            'type' => $type,
+                            'source' => $match['source'],
+                        );
                     }
                 }
             }
@@ -440,10 +452,11 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _getUniqueDependencies($dependencies = array())
     {
         $result = array();
-        foreach ($dependencies as $key => $val) {
+        foreach ($dependencies as $module => $value) {
             $result[] = array(
-                'module' => $key,
-                'source' => $val,
+                'module' => $module,
+                'type'   => $value['type'],
+                'source' => $value['source'],
             );
         }
         return $result;
