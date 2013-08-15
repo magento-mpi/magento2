@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-This schema should be applied for validation of merged router.xml file
+This schema should be applied for validation of separate router.xml files
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="config">
@@ -26,10 +26,6 @@ This schema should be applied for validation of merged router.xml file
                             </xs:choice>
                         </xs:sequence>
                         <xs:attribute name="id" use="required" type="routerIdType" />
-                        <xs:attribute name="instance" use="required" type="instanceType" />
-                        <xs:attribute name="area" use="required" type="areaType" />
-                        <xs:attribute name="frontName" use="optional" type="routerFrontNameType" />
-                        <xs:attribute name="disabled" use="optional" default="false" type="xs:boolean" />
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
@@ -47,39 +43,6 @@ This schema should be applied for validation of merged router.xml file
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="instanceType">
-        <xs:annotation>
-            <xs:documentation>
-                Router class name.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z0-9_]{3,}" />
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="areaType">
-        <xs:annotation>
-            <xs:documentation>
-                Area to be processed by this router.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z]{3,}" />
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="routerFrontNameType">
-        <xs:annotation>
-            <xs:documentation>
-                URL part associated with router.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z0-9_\-]{3,}" />
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="routeType">
         <xs:annotation>
             <xs:documentation>
@@ -92,7 +55,7 @@ This schema should be applied for validation of merged router.xml file
             </xs:choice>
         </xs:sequence>
         <xs:attribute name="id" use="required" type="routeIdType" />
-        <xs:attribute name="frontName" use="required" type="routeFrontNameType" />
+        <xs:attribute name="frontName" use="optional" type="routeFrontNameType" />
     </xs:complexType>
 
     <xs:simpleType name="routeIdType">
@@ -142,7 +105,7 @@ This schema should be applied for validation of merged router.xml file
     <xs:simpleType name="routeFrontNameType">
         <xs:annotation>
             <xs:documentation>
-                URL key associated with route.
+                URL part associated with route.
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
