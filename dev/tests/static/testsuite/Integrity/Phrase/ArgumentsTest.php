@@ -52,7 +52,8 @@ class ArgumentsTest extends PHPUnit_Framework_TestCase
      * @param array $errors
      * @return string
      */
-    protected function _prepareErrorMessage($errors) {
+    protected function _prepareErrorMessage($errors)
+    {
         $errorMessage = "\n" . implode("\n\n", $errors);
         return sprintf('We have found %s error(s): %s', count($errors), $errorMessage);
     }
@@ -210,6 +211,7 @@ class Tokenizer
                 $this->_findPhrases();
             }
         } catch (TokenException $pe) {
+            // probably syntax error. do nothing
         }
     }
 
@@ -278,6 +280,7 @@ class Tokenizer
                 }
             }
         } catch (Exception $e) {
+            return array();
         }
         return $arguments;
     }
