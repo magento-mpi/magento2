@@ -91,7 +91,7 @@ class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
         $pattern .= ' %s';
         $texts[] = $exception;
 
-        return call_user_func_array(array($this, '__'), array_merge(array($pattern), $texts));
+        return call_user_func_array('__', array_merge(array($pattern), $texts));
     }
 
     /**

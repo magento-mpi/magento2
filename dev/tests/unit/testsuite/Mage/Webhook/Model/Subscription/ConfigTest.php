@@ -75,13 +75,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         $this->_mockSubscription = $this->_createMockSubscription();
-
-        // Hack needed since _config isn't set in Mage
-        Mage::unregister('_helper/Mage_Webhook_Helper_Data');
-        $mockHelper = $this->getMockBuilder('Mage_Webhook_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::register('_helper/Mage_Webhook_Helper_Data', $mockHelper);
     }
 
     /**
