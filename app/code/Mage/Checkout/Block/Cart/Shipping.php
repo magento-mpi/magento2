@@ -35,16 +35,24 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
     protected $_storeManager;
 
     /**
+     * @var Mage_Directory_Block_Data
+     */
+    protected $_directoryBlock;
+
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Directory_Block_Data $directoryBlock
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Directory_Block_Data $directoryBlock,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
+        $this->_directoryBlock = $directoryBlock;
         parent::__construct($context, $data);
     }
 
@@ -56,6 +64,14 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
     public function getStore()
     {
         return $this->_storeManager->getStore();
+    }
+
+    /**
+     * @return Mage_Directory_Block_Data
+     */
+    public function getDirectoryBlock()
+    {
+        return $this->_directoryBlock;
     }
 
     /**
