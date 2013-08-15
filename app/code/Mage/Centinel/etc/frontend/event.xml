@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="payment_form_block_to_html_before">
-        <observer name="centinel" instance="Mage_Centinel_Model_Observer" method="paymentFormBlockToHtmlBefore" shared="true" />
+        <observer name="centinel" instance="Mage_Centinel_Model_Observer" method="paymentFormBlockToHtmlBefore" shared="false" />
     </event>
-</config>
+</config>
