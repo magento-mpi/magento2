@@ -39,7 +39,7 @@
             </p>
             <ul class="launch-actions">
                 <li>
-                    <a href="<?php echo Mage::getBaseUrl(); ?>">
+                    <a href="<?php echo $this->getBaseUrl(); ?>">
                         <?php echo $this->__('Preview your store'); ?>
                     </a>
                 </li>
@@ -49,13 +49,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo Mage::getBaseUrl() . 'launcher/testtransaction'; ?>">
+                    <a href="<?php echo $this->getBaseUrl() . 'launcher/testtransaction'; ?>">
                         <?php echo $this->__('Run a test transaction'); ?>
                     </a>
                 </li>
             </ul>
             <a id="action-launch-store"
-               href="<?php echo Mage::getBaseUrl(); ?>"
+               href="<?php echo $this->getBaseUrl(); ?>"
                target="_blank"
                class="action-store-launcher-popup-primary">
                 <?php echo $this->__('Launch your store now'); ?>

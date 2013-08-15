@@ -17,16 +17,47 @@
  */
 class Mage_Adminhtml_Block_Page_Header extends Mage_Adminhtml_Block_Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page/header.phtml';
+
+    /**
+     * @var Mage_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Backend_Model_Auth_Session $authSession
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Model_Auth_Session $authSession,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_authSession = $authSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $data);
+    }
+
 
     public function getHomeLink()
     {
-        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
+        return $this->helper('Mage_Backend_Helper_Data')->getHomePageUrl();
     }
 
     public function getUser()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+        return $this->_authSession->getUser();
     }
 
     public function getLogoutLink()
@@ -43,5 +74,4 @@ class Mage_Adminhtml_Block_Page_Header extends Mage_Adminhtml_Block_Template
     {
         return Mage::getStoreConfig('web/browser_capabilities/javascript');
     }
-
 }
