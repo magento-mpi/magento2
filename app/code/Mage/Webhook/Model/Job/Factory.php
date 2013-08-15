@@ -38,8 +38,7 @@ class Mage_Webhook_Model_Job_Factory implements Magento_PubSub_Job_FactoryInterf
         return $this->_objectManager->create('Mage_Webhook_Model_Job', array(
             'data' => array(
                 'event' => $event,
-                'subscription' => $subscription,
-                'status' => Magento_PubSub_JobInterface::READY_TO_SEND
+                'subscription' => $subscription
             )
         ));
     }

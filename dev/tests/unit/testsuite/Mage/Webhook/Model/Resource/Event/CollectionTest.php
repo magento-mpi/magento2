@@ -13,7 +13,7 @@ class Mage_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework
 {
     public function setUp()
     {
-        $mockDBAdapter = $this->getMockBuilder('Zend_Db_Adapter_Abstract')
+        $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('_connect', '_quote'))
             ->getMockForAbstractClass();

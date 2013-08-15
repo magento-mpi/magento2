@@ -78,6 +78,7 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
         if ($this->hasSubscription()) {
             $this->setSubscriptionId($this->getSubscription()->getId());
         }
+        $this->setStatus(Magento_PubSub_JobInterface::READY_TO_SEND);
     }
 
     /**

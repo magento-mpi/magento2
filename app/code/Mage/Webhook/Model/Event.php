@@ -8,6 +8,10 @@
  * @package     Mage_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @method Mage_Webhook_Model_Event setStatus()
+ * @method Mage_Webhook_Model_Event setUpdatedAt()
+ * @method Mage_Webhook_Model_Event setCreatedAt()
  */
 class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magento_PubSub_EventInterface
 {

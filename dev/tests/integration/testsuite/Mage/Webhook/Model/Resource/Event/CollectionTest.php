@@ -30,7 +30,6 @@ class Mage_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework
     public function testGetData()
     {
         $event = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
-            ->setStatus(Magento_PubSub_EventInterface::READY_TO_SEND)
             ->save();
 
         /** @var Mage_Webhook_Model_Resource_Event_Collection $collection */
@@ -48,6 +47,32 @@ class Mage_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework
         $event->delete();
     }
 
+    public function testNewEventInNewCollection()
+    {
+        $event1 = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
+            ->save();
+
+        /** @var Mage_Webhook_Model_Resource_Event_Collection $collection */
+        $collection = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
+        $this->assertEquals(1, count($collection->getItems()));
+        $this->assertEquals($event1->getId(), $collection->getFirstItem()->getId());
+
+        $event2 = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
+            ->save();
+
+        /** @var Mage_Webhook_Model_Resource_Event_Collection $collectionSecond */
+        $collectionSecond = Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
+        $this->assertEquals(1, count($collectionSecond->getItems()));
+        $this->assertEquals($event2->getId(), $collectionSecond->getFirstItem()->getId(),
+            sprintf("Event #%s is expected in second collection,"
+                    . "found event #%s. It could lead to race conditions issue if it is #%s",
+            $event2->getId(), $collectionSecond->getFirstItem()->getId(), $event1->getId())
+        );
+
+        $event1->delete();
+        $event2->delete();
+    }
+
     /**
      * @expectedException Zend_Db_Statement_Exception
      * @expectedMessage SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
@@ -55,10 +80,8 @@ class Mage_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework
     public function testParallelTransactions()
     {
         $event = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
-            ->setStatus(Magento_PubSub_EventInterface::READY_TO_SEND)
             ->save();
         $event2 = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
-            ->setStatus(Magento_PubSub_EventInterface::READY_TO_SEND)
             ->save();
         /** @var Mage_Webhook_Model_Event $event3 */
         $event3 = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')

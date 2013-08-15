@@ -11,6 +11,11 @@
  */
 class Mage_Webhook_Model_Resource_Event_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
+    /**
+     * Number of events to load at once;
+     */
+    const PAGE_SIZE = 100;
+
     public function _construct()
     {
         parent::_construct();
@@ -26,7 +31,9 @@ class Mage_Webhook_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
     {
         parent::_initSelect();
         $this->getSelect()->forUpdate(true);
-        $this->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+        $this->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND)
+            ->setOrder('created_at', Magento_Data_Collection::SORT_ORDER_ASC)
+            ->setPageSize(self::PAGE_SIZE);
         return $this;
     }
 

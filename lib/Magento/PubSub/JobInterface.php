@@ -15,9 +15,10 @@ interface Magento_PubSub_JobInterface
      * Status codes for job
      */
     const READY_TO_SEND         = 0;
-    const SUCCEEDED             = 1;
-    const FAILED                = 2;
-    const RETRY                 = 3;
+    const IN_PROGRESS           = 1;
+    const SUCCEEDED             = 2;
+    const FAILED                = 3;
+    const RETRY                 = 4;
 
     /**
      * Get the event this job is responsible for processing
