@@ -8,12 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php
-
-/**
- * @var $this Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
- */
-?>
+<?php /** @var $this Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links */ ?>
 <?php $_product = $this->getProduct()?>
 <?php $this->getConfigJson() ?>
 <div class="form-inline">
@@ -27,7 +22,7 @@
             <?php endif; ?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
+            <?php echo !$this->getStoreManager()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[STORE VIEW]') : ''; ?>
         </div>
     </div>
 
@@ -37,7 +32,7 @@
             <?php echo $this->getPurchasedSeparatelySelect()?>
         </div>
         <div class="field-service">
-            <?php echo !Mage::app()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') : ''; ?>
+            <?php echo !$this->getStoreManager()->isSingleStoreMode() ? $this->helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') : ''; ?>
         </div>
     </div>
 
@@ -82,7 +77,7 @@ var linkTemplate = '<tr>'+
     <?php if ($this->getCanReadPrice() !== false) : ?>
     '<td class="input-price">'+
         '<input type="text" id="downloadable_link_{{id}}_price_value" class="input-text validate-number link-prices<?php if ($this->getCanEditPrice() === false) : ?> disabled<?php endif; ?>" name="downloadable[link][{{id}}][price]" value="{{price}}"<?php if ($this->getCanEditPrice() === false) : ?> disabled="disabled"<?php endif; ?> /> ' +
-        '<label>[<?php echo Mage::app()->getStore($_product->getStoreId())->getBaseCurrencyCode() ?>]</label>' +
+        '<label>[<?php echo $this->getStoreManager()->getStore($_product->getStoreId())->getBaseCurrencyCode() ?>]</label>' +
         <?php if ($_product->getStoreId() && $this->getIsPriceWebsiteScope()) : ?>
         '<br /><input type="checkbox" id="downloadable_link_{{id}}_price" name="downloadable[link][{{id}}][use_default_price]" value="1"<?php if ($this->getCanEditPrice() === false) : ?> disabled="disabled"<?php endif; ?> /> <label for="downloadable_link_{{id}}_price">Use Default Value</label>' +
         <?php endif; ?>
