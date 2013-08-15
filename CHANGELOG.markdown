@@ -68,7 +68,6 @@
      * Covered new layout customization mechanism with integrity tests
   * Relocated several files, declared in layouts
   * Streamlined several design customizations
-  * Converted more backend grids from PHP implementation to layout declarations
 * Various improvements:
   * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails
@@ -107,6 +106,7 @@
   * Enabled following cache types in integration tests to improve performance: configuration, layouts, translations, EAV
   * Improved and refreshed design for backend
   * Removed "demo_blue", "iphone" and "modern" themes
+  * Converted more backend grids from PHP implementation to layout declarations
   * Refactored experimental implementation of Service Calls Framework
      * All code from to `lib/Magento/Datasource` and `app/code/Mage/Core/Datasource` moved to `app/code/Mage/Core/DataService`
      * Added service calls support in Layout model
