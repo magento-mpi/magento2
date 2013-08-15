@@ -36,17 +36,6 @@
             </customization>
         </theme>
     </default>
-    <frontend>
-        <routers>
-            <designeditor>
-                <use>standard</use>
-                <args>
-                    <module>Mage_DesignEditor</module>
-                    <frontName>design</frontName>
-                </args>
-            </designeditor>
-        </routers>
-    </frontend>
     <vde>
         <design_editor>
             <frontName>vde</frontName>
@@ -56,15 +45,4 @@
             </disabledCacheTypes>
         </design_editor>
     </vde>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <mage_designeditor before="Mage_Adminhtml">Mage_DesignEditor_Adminhtml</mage_designeditor>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

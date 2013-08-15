@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <admin>
-        <routers>
-            <launcher>
-                <use>admin</use>
-                <args>
-                    <module>Saas_Launcher</module>
-                    <frontName>launcher</frontName>
-                </args>
-            </launcher>
-        </routers>
-    </admin>
     <global>
         <resources>
             <launcher_setup>
@@ -134,15 +123,4 @@
             </pages>
         </launcher>
     </adminhtml>
-    <frontend>
-        <routers>
-            <launcher>
-                <use>standard</use>
-                <args>
-                    <module>Saas_Launcher</module>
-                    <frontName>launcher</frontName>
-                </args>
-            </launcher>
-        </routers>
-    </frontend>
 </config>

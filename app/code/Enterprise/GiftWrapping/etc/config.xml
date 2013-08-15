@@ -81,17 +81,6 @@
             </modules>
         </translate>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_giftwrapping before="Mage_Adminhtml">Enterprise_GiftWrapping_Adminhtml</enterprise_giftwrapping>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

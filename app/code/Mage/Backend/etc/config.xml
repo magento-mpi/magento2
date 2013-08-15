@@ -24,15 +24,4 @@
             </adminhtml>
         </areas>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <module>Mage_Backend</module>
-                    <frontName>admin</frontName>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

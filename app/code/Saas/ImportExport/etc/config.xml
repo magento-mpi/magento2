@@ -74,15 +74,4 @@
             </export_file_formats>
         </importexport>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Saas_ImportExport before="Mage_ImportExport_Adminhtml">Saas_ImportExport_Adminhtml</Saas_ImportExport>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
 </config>

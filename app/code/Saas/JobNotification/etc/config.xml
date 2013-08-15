@@ -42,15 +42,4 @@
             </refresh_cache>
         </tasks>
     </global>
-    <admin>
-        <routers>
-            <jobnotification>
-                <use>admin</use>
-                <args>
-                    <module>Saas_JobNotification_Adminhtml</module>
-                    <frontName>jobnotification</frontName>
-                </args>
-            </jobnotification>
-        </routers>
-    </admin>
 </config>

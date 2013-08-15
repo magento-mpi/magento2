@@ -31,17 +31,6 @@
             </banner>
         </enterprise>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_banner before="Mage_Adminhtml">Enterprise_Banner_Adminhtml</enterprise_banner>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

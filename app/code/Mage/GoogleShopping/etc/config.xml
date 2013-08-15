@@ -19,17 +19,6 @@
             </googleshopping_setup>
         </resources>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_GoogleShopping before="Mage_Adminhtml">Mage_GoogleShopping_Adminhtml</Mage_GoogleShopping>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

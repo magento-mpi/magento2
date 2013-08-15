@@ -30,17 +30,6 @@
             </enterprise_search_setup>
         </resources>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_search before="Mage_Adminhtml">Enterprise_Search_Adminhtml</enterprise_search>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

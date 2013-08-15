@@ -53,15 +53,6 @@
                 <full_name>magento_demo</full_name>
             </theme>
         </design>
-        <routers>
-            <core>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Core</module>
-                    <frontName>core</frontName>
-                </args>
-            </core>
-        </routers>
         <translate>
             <modules>
                 <Mage_Core>

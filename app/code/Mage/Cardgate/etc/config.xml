@@ -32,15 +32,6 @@
         </payment>
     </global>
     <frontend>
-        <routers>
-            <cardgate>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Cardgate</module>
-                    <frontName>cardgate</frontName>
-                </args>
-            </cardgate>
-        </routers>
         <translate>
             <modules>
                 <Mage_Cardgate>
@@ -105,4 +96,4 @@
             </cardgate_mistercash>
         </payment>
     </default>
-</config>
+</config>

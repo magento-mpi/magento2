@@ -17,16 +17,4 @@
             <en_GB>https://golinks.magento.com/uk/app-tab</en_GB>
         </app_tab_url>
     </default>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <modules>
-                        <Saas_Apps before="Mage_Adminhtml">Saas_Apps</Saas_Apps>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

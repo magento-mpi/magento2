@@ -41,15 +41,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <sendfriend>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Sendfriend</module>
-                    <frontName>sendfriend</frontName>
-                </args>
-            </sendfriend>
-        </routers>
         <translate>
             <modules>
                 <Mage_Sendfriend>

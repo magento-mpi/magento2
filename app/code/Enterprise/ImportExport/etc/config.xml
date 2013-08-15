@@ -53,17 +53,6 @@
             </import_entities>
         </importexport>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_importexport before="Mage_Adminhtml">Enterprise_ImportExport_Adminhtml</enterprise_importexport>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -97,4 +86,4 @@
             </customer_page_size>
         </export>
     </default>
-</config>
+</config>

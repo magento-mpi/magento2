@@ -20,15 +20,6 @@
                 </Mage_Centinel>
             </modules>
         </translate>
-        <routers>
-            <centinel>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Centinel</module>
-                    <frontName>centinel</frontName>
-                </args>
-            </centinel>
-        </routers>
         <secure_url>
             <centinel>/centinel/</centinel>
         </secure_url>
@@ -44,17 +35,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Centinel before="Mage_Adminhtml">Mage_Centinel_Adminhtml</Mage_Centinel>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <global>
         <payment>
             <cc>

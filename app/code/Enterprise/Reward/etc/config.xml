@@ -75,17 +75,6 @@
             </totals>
         </pdf>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <reward before="Mage_Adminhtml">Enterprise_Reward_Adminhtml</reward>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -107,15 +96,6 @@
                 </Enterprise_Reward>
             </modules>
         </translate>
-        <routers>
-            <enterprise_reward>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_Reward</module>
-                    <frontName>reward</frontName>
-                </args>
-            </enterprise_reward>
-        </routers>
     </frontend>
     <default>
         <enterprise_reward>

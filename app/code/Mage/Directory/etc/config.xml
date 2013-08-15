@@ -39,15 +39,6 @@
         </template>
     </global>
     <frontend>
-        <routers>
-            <directory>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Directory</module>
-                    <frontName>directory</frontName>
-                </args>
-            </directory>
-        </routers>
         <translate>
             <modules>
                 <Mage_Directory>
@@ -117,4 +108,4 @@
             </currency_rates_update>
         </jobs>
     </crontab>
-</config>
+</config>

@@ -945,17 +945,6 @@
             </page_orientation>
         </saas_printedtemplate>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Saas_PrintedTemplate before="Mage_Adminhtml">Saas_PrintedTemplate_Adminhtml</Saas_PrintedTemplate>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

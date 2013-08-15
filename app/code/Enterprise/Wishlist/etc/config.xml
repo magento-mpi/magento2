@@ -20,17 +20,6 @@
             </enterprise_wishlist_setup>
         </resources>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_wishlist before="Mage_Adminhtml">Enterprise_Wishlist_Adminhtml</enterprise_wishlist>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -43,22 +32,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <wishlist>
-                <args>
-                    <modules>
-                        <enterprise_wishlist before="Mage_Wishlist">Enterprise_Wishlist</enterprise_wishlist>
-                    </modules>
-                </args>
-            </wishlist>
-            <enterprise_wishlist>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_Wishlist</module>
-                    <frontName>wishlists</frontName>
-                </args>
-            </enterprise_wishlist>
-        </routers>
         <translate>
             <modules>
                 <Enterprise_Wishlist>

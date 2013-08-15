@@ -60,17 +60,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_cms before="Mage_Adminhtml">Enterprise_Cms_Adminhtml</enterprise_cms>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <cms>
             <hierarchy>

@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <modules>
-                        <Mage_Adminhtml>Mage_Adminhtml</Mage_Adminhtml>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <global_search>
             <products>
@@ -125,4 +113,4 @@
             </web>
         </admin>
     </websites>
-</config>
+</config>

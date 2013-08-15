@@ -21,15 +21,6 @@
         </resources>
     </global>
     <frontend>
-        <routers>
-            <restriction>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_WebsiteRestriction</module>
-                    <frontName>restriction</frontName>
-                </args>
-            </restriction>
-        </routers>
         <enterprise>
             <websiterestriction>
                 <full_action_names>

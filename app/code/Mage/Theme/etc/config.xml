@@ -20,18 +20,6 @@
             </js>
         </theme>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <modules>
-                        <theme>Mage_Theme_Adminhtml</theme>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <theme>
             <customization>
@@ -39,4 +27,4 @@
             </customization>
         </theme>
     </default>
-</config>
+</config>

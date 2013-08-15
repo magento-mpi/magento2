@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="standard">
+        <route id="wishlist">
+            <module name="Enterprise_Wishlist" before="Mage_Wishlist" />
+        </route>
+        <route id="enterprise_wishlist" frontName="wishlists">
+            <module name="Enterprise_Wishlist" />
+        </route>
+    </router>
+</config>

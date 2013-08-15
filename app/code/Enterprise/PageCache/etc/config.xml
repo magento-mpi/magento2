@@ -62,15 +62,6 @@
         </cache>
     </adminhtml>
     <frontend>
-        <routers>
-            <enterprise_pagecache>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_PageCache</module>
-                    <frontName>pagecache</frontName>
-                </args>
-            </enterprise_pagecache>
-        </routers>
         <cache>
             <requests>
                 <cms>Enterprise_PageCache_Model_Processor_Default</cms>

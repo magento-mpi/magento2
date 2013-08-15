@@ -48,17 +48,6 @@
             </allowed_requests>
         </cache>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_PageCache before="Mage_Adminhtml">Mage_PageCache_Adminhtml</Mage_PageCache>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <system>
             <external_page_cache>

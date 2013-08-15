@@ -90,27 +90,7 @@
                 </Enterprise_GiftCardAccount>
             </modules>
         </translate>
-        <routers>
-            <enterprise_giftcardaccount>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_GiftCardAccount</module>
-                    <frontName>giftcard</frontName>
-                </args>
-            </enterprise_giftcardaccount>
-        </routers>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_giftcardaccount before="Mage_Adminhtml">Enterprise_GiftCardAccount_Adminhtml</enterprise_giftcardaccount>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

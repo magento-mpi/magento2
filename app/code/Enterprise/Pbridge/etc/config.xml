@@ -15,15 +15,6 @@
             <enterprise_pbridge_pbridge>/enterprise_pbridge/pbridge/</enterprise_pbridge_pbridge>
             <enterprise_pbridge_payment_profile>/enterprise_pbridge/payment_profile/</enterprise_pbridge_payment_profile>
         </secure_url>
-        <routers>
-            <enterprise_pbridge>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_Pbridge</module>
-                    <frontName>enterprise_pbridge</frontName>
-                </args>
-            </enterprise_pbridge>
-        </routers>
         <translate>
             <modules>
                 <Enterprise_Pbridge>
@@ -34,17 +25,6 @@
             </modules>
         </translate>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_Pbridge after="Mage_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <payment>
             <pbridge translate="title" module="Enterprise_Pbridge">

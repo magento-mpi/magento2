@@ -20,15 +20,6 @@
         </resources>
     </global>
     <frontend>
-        <routers>
-            <captcha>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Captcha</module>
-                    <frontName>captcha</frontName>
-                </args>
-            </captcha>
-        </routers>
         <translate>
             <modules>
                 <Mage_Captcha>
@@ -39,17 +30,6 @@
             </modules>
         </translate>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <captcha>Mage_Captcha_Adminhtml</captcha>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

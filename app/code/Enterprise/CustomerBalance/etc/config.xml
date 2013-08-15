@@ -85,30 +85,10 @@
                 </Enterprise_CustomerBalance>
             </modules>
         </translate>
-        <routers>
-            <enterprise_customerbalance>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_CustomerBalance</module>
-                    <frontName>storecredit</frontName>
-                </args>
-            </enterprise_customerbalance>
-        </routers>
         <secure_url>
             <storecredit_info>/storecredit/info/</storecredit_info>
         </secure_url>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <customerbalance before="Mage_Adminhtml">Enterprise_CustomerBalance_Adminhtml</customerbalance>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
