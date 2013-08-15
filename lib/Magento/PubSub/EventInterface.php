@@ -60,7 +60,7 @@ interface Magento_PubSub_EventInterface
      *
      * @return Magento_PubSub_EventInterface
      */
-    public function markAsProcessed();
+    public function complete();
 
     /**
      * Mark event as In Progress

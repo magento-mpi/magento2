@@ -127,7 +127,7 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
      *
      * @return Mage_Webhook_Model_Event
      */
-    public function markAsProcessed()
+    public function complete()
     {
         $this->setData('status', Magento_PubSub_EventInterface::STATUS_PROCESSED)
             ->save();
@@ -141,8 +141,7 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
      */
     public function markAsInProgress()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
-            ->save();
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS);
         return $this;
     }
 }

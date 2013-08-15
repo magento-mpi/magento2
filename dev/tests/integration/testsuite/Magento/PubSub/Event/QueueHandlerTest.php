@@ -29,7 +29,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $events = $eventCollection->getItems();
         /** @var Mage_Webhook_Model_Event $event */
         foreach ($events as $event) {
-            $event->markAsProcessed();
+            $event->complete();
             $event->save();
         }
 

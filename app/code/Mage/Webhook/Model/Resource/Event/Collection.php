@@ -127,9 +127,9 @@ class Mage_Webhook_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
         $this->getConnection()->beginTransaction();
         try {
             /* if event is in progress state for less than hour we do nothing with it*/
-            $acceptableUpdatedTime = time() - $this->_timeoutIdling;
+            $okUpdatedTime = time() - $this->_timeoutIdling;
             $this->addFieldToFilter('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
-                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($acceptableUpdatedTime),
+                ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($okUpdatedTime),
                     'datetime' => true));
             $idsToRevoke = $this->_getLoadedIds();
             if (count($idsToRevoke)) {

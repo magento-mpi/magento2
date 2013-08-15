@@ -28,7 +28,7 @@ class Magento_PubSub_EventTest extends PHPUnit_Framework_TestCase
         $topic = 'topic';
         $event = new Magento_PubSub_Event($topic, $bodyData);
 
-        $event->markAsProcessed();
+        $event->complete();
 
         $this->assertEquals(Magento_PubSub_Event::STATUS_PROCESSED, $event->getStatus());
     }

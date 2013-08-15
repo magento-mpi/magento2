@@ -42,7 +42,7 @@ class Mage_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
     public function testMarkAsProcessed()
     {
-        $this->_event->markAsProcessed();
+        $this->_event->complete();
         $this->assertEquals(Magento_PubSub_EventInterface::STATUS_PROCESSED, $this->_event->getStatus());
     }
 

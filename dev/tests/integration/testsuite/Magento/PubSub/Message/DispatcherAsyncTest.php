@@ -30,7 +30,7 @@ class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_Test
         $events = $eventCollection->getItems();
         /** @var Mage_Webhook_Model_Event $event */
         foreach ($events as $event) {
-            $event->markAsProcessed();
+            $event->complete();
             $event->save();
         }
 

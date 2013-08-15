@@ -79,7 +79,7 @@ class Magento_PubSub_Event implements Magento_PubSub_EventInterface
      *
      * @return Magento_PubSub_Event
      */
-    public function markAsProcessed()
+    public function complete()
     {
         $this->_status = Magento_PubSub_EventInterface::STATUS_PROCESSED;
         return $this;
