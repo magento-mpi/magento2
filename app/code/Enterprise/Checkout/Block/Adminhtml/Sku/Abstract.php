@@ -38,7 +38,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
 
         // Used by JS to tell accordions from each other
         $this->setId('sku');
-        /* @see Enterprise_Checkout_Adminhtml_CheckoutController::_getListItemInfo() */
+        /* @see Enterprise_Checkout_Controller_Adminhtml_Checkout::_getListItemInfo() */
         $this->setListType(self::LIST_TYPE);
         $this->setDataContainerId('sku_container');
     }

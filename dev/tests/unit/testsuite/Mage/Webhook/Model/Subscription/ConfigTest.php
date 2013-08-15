@@ -81,9 +81,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
         $mockHelper = $this->getMockBuilder('Mage_Webhook_Helper_Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $mockHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
         Mage::register('_helper/Mage_Webhook_Helper_Data', $mockHelper);
     }
 
