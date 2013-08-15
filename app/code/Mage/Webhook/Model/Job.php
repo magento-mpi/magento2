@@ -15,7 +15,6 @@
  * @method bool hasSubscription()
  * @method Mage_Webhook_Model_Job setSubscriptionId()
  * @method int getSubscriptionId()
- * @method Mage_Webhook_Model_Job setStatus()
  * @method int getRetryCount()
  * @method Mage_Webhook_Model_Job setRetryCount()
  * @method Mage_Webhook_Model_Job setRetryAt()
@@ -78,7 +77,7 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
         if ($this->hasSubscription()) {
             $this->setSubscriptionId($this->getSubscription()->getId());
         }
-        $this->setStatus(Magento_PubSub_JobInterface::READY_TO_SEND);
+        $this->setStatus(Magento_PubSub_JobInterface::STATUS_READY_TO_SEND);
     }
 
     /**
@@ -142,15 +141,20 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
 
     /**
      * Update the Job status to indicate it has completed successfully
+     *
+     * @return Mage_Webhook_Model_Job
      */
     public function complete()
     {
-        $this->setStatus(Magento_PubSub_JobInterface::SUCCEEDED);
-        $this->save();
+        $this->setStatus(Magento_PubSub_JobInterface::STATUS_SUCCEEDED)
+            ->save();
+        return $this;
     }
 
     /**
      * Handles failed HTTP response
+     *
+     * @return Mage_Webhook_Model_Job
      */
     public function handleFailure()
     {
@@ -160,9 +164,32 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
             $this->setRetryCount($retryCount + 1);
             $this->setRetryAt(Magento_Date::formatDate($addedTimeInMinutes));
             $this->setUpdatedAt(Magento_Date::formatDate(time(), true));
-            $this->setStatus(Magento_PubSub_JobInterface::RETRY);
+            $this->setStatus(Magento_PubSub_JobInterface::STATUS_RETRY);
         } else {
-            $this->setStatus(Magento_PubSub_JobInterface::FAILED);
+            $this->setStatus(Magento_PubSub_JobInterface::STATUS_FAILED);
         }
+        return $this;
+    }
+
+    /**
+     * Retrieve the status of the Job
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->getData('status');
+    }
+
+    /**
+     * Set the status of the Job
+     *
+     * @param int $status
+     * @return Mage_Webhook_Model_Job
+     */
+    public function setStatus($status)
+    {
+        $this->setData('status', $status);
+        return $this;
     }
 }

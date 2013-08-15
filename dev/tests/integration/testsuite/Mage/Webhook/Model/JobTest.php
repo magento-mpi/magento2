@@ -105,7 +105,7 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_job->setData('event_id', $eventId);
 
         $this->_job->complete();
-        $this->assertEquals(Magento_PubSub_JobInterface::SUCCEEDED, $this->_job->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_SUCCEEDED, $this->_job->getStatus());
     }
 
     public function testHandleResponseRetry()
@@ -123,7 +123,7 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_job->setData('event_id', $eventId);
 
         $this->_job->handleFailure();
-        $this->assertEquals(Magento_PubSub_JobInterface::RETRY, $this->_job->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $this->_job->getStatus());
     }
 
     public function testHandleFailure()
@@ -131,11 +131,11 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $count = 1;
         while ($count <= 8) {
             $this->_job->handleFailure();
-            $this->assertEquals(Magento_PubSub_JobInterface::RETRY, $this->_job->getStatus());
+            $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $this->_job->getStatus());
             $this->assertEquals($count, $this->_job->getRetryCount());
             $count++;
         }
         $this->_job->handleFailure();
-        $this->assertEquals(Magento_PubSub_JobInterface::FAILED, $this->_job->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_FAILED, $this->_job->getStatus());
     }
 }

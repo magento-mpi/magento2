@@ -106,7 +106,7 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
         $job3 = Mage::getObjectManager()->create('Mage_Webhook_Model_Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
-            ->setStatus(Magento_PubSub_JobInterface::IN_PROGRESS)
+            ->setStatus(Magento_PubSub_JobInterface::STATUS_IN_PROGRESS)
             ->save();
 
         /** @var Mage_Webhook_Model_Resource_Job_Collection $collection */

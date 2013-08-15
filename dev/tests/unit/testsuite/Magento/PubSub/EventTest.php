@@ -19,7 +19,7 @@ class Magento_PubSub_EventTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $event->getHeaders());
         $this->assertEquals($bodyData, $event->getBodyData());
         $this->assertEquals($topic, $event->getTopic());
-        $this->assertEquals(Magento_PubSub_Event::READY_TO_SEND, $event->getStatus());
+        $this->assertEquals(Magento_PubSub_Event::STATUS_READY_TO_SEND, $event->getStatus());
     }
 
     public function testMarkProcessed()
@@ -30,6 +30,6 @@ class Magento_PubSub_EventTest extends PHPUnit_Framework_TestCase
 
         $event->markAsProcessed();
 
-        $this->assertEquals(Magento_PubSub_Event::PROCESSED, $event->getStatus());
+        $this->assertEquals(Magento_PubSub_Event::STATUS_PROCESSED, $event->getStatus());
     }
 }

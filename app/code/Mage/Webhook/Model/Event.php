@@ -22,7 +22,7 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     {
         parent::_construct();
         $this->_init('Mage_Webhook_Model_Resource_Event');
-        $this->setStatus(Magento_PubSub_EventInterface::READY_TO_SEND);
+        $this->setStatus(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND);
     }
 
     /**
@@ -125,10 +125,24 @@ class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magen
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Mage_Webhook_Model_Event
      */
     public function markAsProcessed()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::PROCESSED);
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_PROCESSED)
+            ->save();
+        return $this;
+    }
+
+    /**
+     * Mark event as processed
+     *
+     * @return Mage_Webhook_Model_Event
+     */
+    public function markAsInProgress()
+    {
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS)
+            ->save();
+        return $this;
     }
 }
