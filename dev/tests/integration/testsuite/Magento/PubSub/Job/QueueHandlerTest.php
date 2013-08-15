@@ -100,7 +100,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $loadedJob = $this->_objectManager->create('Mage_Webhook_Model_Job')
             ->load($jobId);
 
-        $this->assertEquals(Magento_PubSub_JobInterface::SUCCEEDED, $loadedJob->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_SUCCEEDED, $loadedJob->getStatus());
     }
 
     public function testHandleFailure()
@@ -140,6 +140,6 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $loadedJob = $this->_objectManager->create('Mage_Webhook_Model_Job')
             ->load($jobId);
 
-        $this->assertEquals(Magento_PubSub_JobInterface::RETRY, $loadedJob->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $loadedJob->getStatus());
     }
 }

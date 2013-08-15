@@ -429,10 +429,6 @@ class Mage_Webhook_Model_Subscription
         }
     }
 
-
-
-
-
     /**
      * Set data by calling setter functions
      *

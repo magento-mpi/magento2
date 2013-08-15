@@ -28,7 +28,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_CollectionTest extends 
      */
     public function testAddFilterByInvoice()
     {
-        $this->markTestIncomplete('MAGETWO-7075');
         $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId('100000001');
         $items = array();
         $orderItems = $order->getAllItems();

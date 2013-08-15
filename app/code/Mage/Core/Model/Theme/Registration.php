@@ -134,17 +134,14 @@ class Mage_Core_Model_Theme_Registration
      */
     protected function _savePreviewImage(Mage_Core_Model_Theme $theme)
     {
-        $themeDirectory = $theme->getData('theme_directory');
+        $themeDirectory = $theme->getCustomization()->getThemeFilesPath();
         if (!$theme->getPreviewImage() || !$themeDirectory) {
             return $this;
         }
-        $currentWorkingDir = getcwd();
-        chdir($themeDirectory);
-        $imagePath = realpath($theme->getPreviewImage());
+        $imagePath = realpath($themeDirectory . DIRECTORY_SEPARATOR . $theme->getPreviewImage());
         if (0 === strpos($imagePath, $themeDirectory)) {
             $theme->getThemeImage()->createPreviewImage($imagePath);
         }
-        chdir($currentWorkingDir);
         return $this;
     }
 

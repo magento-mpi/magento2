@@ -23,12 +23,12 @@ app/code/Enterprise/Wishlist
 app/code/Mage/Authorizenet
 app/code/Mage/Ogone
 app/code/Mage/PageCache
-app/design/frontend/enterprise/fixed/Enterprise_GiftRegistry
-app/design/frontend/enterprise/fixed/Mage_Downloadable
-app/design/frontend/enterprise/iphone_html5/Mage_Downloadable
-app/design/frontend/enterprise/iphone_html5/Enterprise_GiftRegistry
-app/design/frontend/enterprise/iphone_html5/Enterprise_TargetRule
-app/design/frontend/enterprise/iphone_html5/Enterprise_Wishlist
+app/design/frontend/magento_fixed_width/Enterprise_GiftRegistry
+app/design/frontend/magento_fixed_width/Mage_Downloadable
+app/design/frontend/magento_iphone_html5/Mage_Downloadable
+app/design/frontend/magento_iphone_html5/Enterprise_GiftRegistry
+app/design/frontend/magento_iphone_html5/Enterprise_TargetRule
+app/design/frontend/magento_iphone_html5/Enterprise_Wishlist
 app/etc/modules/XEnterprise_Edition.xml.dist
 dev/tests/integration/testsuite/Design/Frontend/Enterprise/Fixed/Enterprise/GiftRegistry
 dev/tests/integration/testsuite/Enterprise/AdminGws
@@ -79,12 +79,12 @@ pub/lib/mage/directpost.js
 # following functionality introduced in Mage/Enterprise modules is overlapped in Saas modules
 dev/tests/integration/testsuite/Enterprise/Enterprise/CodeIntegrityTest.php
 dev/tests/integration/testsuite/Enterprise/PageCache/Model/Processor/RestrictionTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/CacheControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterQueueControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateControllerTest.php
-dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/CacheTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/NewsletterQueueTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/NewsletterTemplateTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/Controller/System/DesignTest.php
 # multi-address checkout is disabled
-dev/tests/integration/testsuite/Mage/Checkout/controllers/MultishippingControllerTest.php
+dev/tests/integration/testsuite/Mage/Checkout/Controller/MultishippingTest.php
 ########################################################################################################################
 # following tests must be refactored to be applicable in Saas Edition
 # MAGETWO-10542, test requires Mage_Downloadable module,
@@ -94,4 +94,4 @@ dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
 # MAGETWO-10544, test requires Mage_Downloadable module
 dev/tests/integration/testsuite/Mage/Catalog/Model/Product/TypeTest.php
 # MAGETWO-10543, test requires Mage_Downloadable module
-dev/tests/integration/testsuite/Mage/Checkout/controllers/CartControllerTest.php
+dev/tests/integration/testsuite/Mage/Checkout/Controller/CartTest.php

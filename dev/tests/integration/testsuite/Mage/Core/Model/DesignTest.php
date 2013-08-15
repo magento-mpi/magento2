@@ -36,7 +36,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
         $designChange = Mage::getModel('Mage_Core_Model_Design');
         $designChange->loadChange($storeId)->changeDesign($design);
-        $this->assertEquals('default/blank', $design->getDesignTheme()->getThemePath());
+        $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 
     public function testCRUD()
@@ -44,7 +44,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $this->_model->setData(
             array(
                 'store_id'  => 1,
-                'design'    => 'default/demo',
+                'design'    => 'magento_demo',
                 /* Note: in order to load a design change it should be active within the store's time zone */
                 'date_from' => date('Y-m-d', strtotime('-1 day')),
                 'date_to'   => date('Y-m-d', strtotime('+1 day')),
@@ -110,7 +110,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('design', $cachedDesign);
         $this->assertEquals($cachedDesign['design'], $design->getDesign());
 
-        $design->setDesign('default/demo')->save();
+        $design->setDesign('magento_demo')->save();
 
         $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId, $date);

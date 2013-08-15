@@ -14,8 +14,6 @@
  * @method Mage_Webhook_Model_Endpoint setEndpointUrl(string $value)
  * @method string getUpdatedAt()
  * @method Mage_Webhook_Model_Endpoint setUpdatedAt(string $value)
- * @method string getAlias()
- * @method Mage_Webhook_Model_Endpoint setAlias(string $value)
  * @method Mage_Webhook_Model_Endpoint setFormat(string $value)
  * @method string getApiUserId()
  * @method Mage_Webhook_Model_Endpoint setApiUserId(string $value)

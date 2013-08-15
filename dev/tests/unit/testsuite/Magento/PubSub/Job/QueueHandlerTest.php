@@ -9,7 +9,6 @@
  */
 class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
-
     /** @var  Magento_PubSub_Job_QueueHandler */
     private $_queueHandler;
 
@@ -43,68 +42,63 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_transportMock;
 
+    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    private $_endpointMockA;
+
+    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    private $_endpointMockB;
+
     public function setUp()
     {
         // Object mocks
-        $this->_subscriptionMockA = $this->getMockBuilder('Mage_Webhook_Model_Subscription')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_subscriptionMockA = $this->_makeMock('Mage_Webhook_Model_Subscription');
+        $this->_subscriptionMockB =  $this->_makeMock('Mage_Webhook_Model_Subscription');
+        $this->_eventMockA = $this->_makeMock('Mage_Webhook_Model_Event');
+        $this->_eventMockB = $this->_makeMock('Mage_Webhook_Model_Event');
+        $this->_msgFactoryMock = $this->_makeMock('Magento_Outbound_Message_Factory');
+        $this->_transportMock = $this->_makeMock('Magento_Outbound_Transport_Http');
+        $this->_queueReaderMock = $this->_makeMock('Mage_Webhook_Model_Job_QueueReader');
+        $this->_queueWriterMock = $this->_makeMock('Mage_Webhook_Model_Job_QueueWriter');
+        $this->_messageMockA = $this->_makeMock('Magento_Outbound_Message');
+        $this->_messageMockB = $this->_makeMock('Magento_Outbound_Message');
+        $this->_endpointMockA = $this->_makeMock('Magento_Outbound_EndpointInterface');
+        $this->_endpointMockB = $this->_makeMock('Magento_Outbound_EndpointInterface');
 
-        $this->_subscriptionMockB = clone $this->_subscriptionMockA;
+        $this->_subscriptionMockA->expects($this->any())
+            ->method('getEndpoint')
+            ->will($this->returnValue($this->_endpointMockA));
 
-        $this->_eventMockA = $this->getMockBuilder('Mage_Webhook_Model_Event')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_eventMockB = clone $this->_eventMockA;
+        $this->_subscriptionMockB->expects($this->any())
+            ->method('getEndpoint')
+            ->will($this->returnValue($this->_endpointMockB));
 
-        $this->_msgFactoryMock = $this->getMockBuilder('Magento_Outbound_Message_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_eventMockA->expects($this->any())
+            ->method('getTopic')
+            ->will($this->returnValue('topicA'));
 
-        $this->_transportMock = $this->getMockBuilder('Magento_Outbound_Transport_Http')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_eventMockA->expects($this->any())
+            ->method('getBodyData')
+            ->will($this->returnValue(array('BodyDataA')));
 
-        $this->_queueReaderMock = $this->getMockBuilder('Mage_Webhook_Model_Job_QueueReader')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_eventMockB->expects($this->any())
+            ->method('getTopic')
+            ->will($this->returnValue('topicB'));
 
-        $this->_queueWriterMock = $this->getMockBuilder('Mage_Webhook_Model_Job_QueueWriter')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_messageMockA = $this->getMockBuilder('Magento_Outbound_Message')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_messageMockB = clone $this->_messageMockA;
-
+        $this->_eventMockB->expects($this->any())
+            ->method('getBodyData')
+            ->will($this->returnValue(array('BodyDataB')));
     }
 
     public function testHandle()
     {
-        $endpointA = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $endpointB = clone $endpointA;
-
-        $this->_subscriptionMockA->expects($this->any())
-            ->method('getEndpoint')
-            ->will($this->returnValue($endpointA));
-
-        $this->_subscriptionMockB->expects($this->any())
-            ->method('getEndpoint')
-            ->will($this->returnValue($endpointB));
-
         // Resources for stubs
         $jobMsgMap = array(
-            array($endpointA, $this->_eventMockA, $this->_messageMockA),
-            array($endpointB, $this->_eventMockB, $this->_messageMockB),
+            array($this->_endpointMockA, 'topicA', array('BodyDataA'), $this->_messageMockA),
+            array($this->_endpointMockB, 'topicB', array('BodyDataB'), $this->_messageMockB),
         );
 
-        $responseA = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $responseB = clone $responseA;
+        $responseA = $this->_makeMock('Magento_Outbound_Transport_Http_Response');
+        $responseB = $this->_makeMock('Magento_Outbound_Transport_Http_Response');
 
         $responseA->expects($this->once())
             ->method('isSuccessful')
@@ -130,10 +124,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($msgResponseMap));
 
         // Job stubs
-        $jobMockA = $this->getMockBuilder('Mage_Webhook_Model_Job')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $jobMockB = clone $jobMockA;
+        $jobMockA = $this->_makeMock('Mage_Webhook_Model_Job');
+        $jobMockB = $this->_makeMock('Mage_Webhook_Model_Job');
 
         $jobMockA->expects($this->once())
             ->method('complete');
@@ -209,5 +201,18 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         );
 
         $this->_queueHandler->handle();
+    }
+
+    /**
+     * Generates a mock object of the given class
+     *
+     * @param string $className
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    private function _makeMock($className)
+    {
+        return $this->getMockBuilder($className)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 }

@@ -13,16 +13,16 @@ class Mage_Webhook_Model_Subscription_Options_Status implements Mage_Core_Model_
 {
 
     /**
-     * @var Mage_Webhook_Helper_Data
+     * @var Mage_Core_Model_Translate
      */
-    protected $_helper;
+    protected $_translator;
 
     /**
-     * @param Mage_Webhook_Helper_Data $helper
+     * @param Mage_Core_Model_Translate $translator
      */
-    public function __construct(Mage_Webhook_Helper_Data $helper)
+    public function __construct(Mage_Core_Model_Translate $translator)
     {
-        $this->_helper = $helper;
+        $this->_translator = $translator;
     }
 
     /**
@@ -33,9 +33,9 @@ class Mage_Webhook_Model_Subscription_Options_Status implements Mage_Core_Model_
     public function toOptionArray()
     {
         return array(
-            Mage_Webhook_Model_Subscription::STATUS_ACTIVE => $this->_helper->__('Active'),
-            Mage_Webhook_Model_Subscription::STATUS_REVOKED => $this->_helper->__('Revoked'),
-            Mage_Webhook_Model_Subscription::STATUS_INACTIVE => $this->_helper->__('Inactive'),
+            Mage_Webhook_Model_Subscription::STATUS_ACTIVE => $this->_translator->translate(array('Active')),
+            Mage_Webhook_Model_Subscription::STATUS_REVOKED => $this->_translator->translate(array('Revoked')),
+            Mage_Webhook_Model_Subscription::STATUS_INACTIVE => $this->_translator->translate(array('Inactive')),
         );
     }
 }

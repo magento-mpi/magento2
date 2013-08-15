@@ -71,7 +71,8 @@ class Mage_Install_Model_Installer_Abstract
             return 'backend';
         }
         if (!preg_match('/^[a-z]+[a-z0-9_]+$/', $value)) {
-            throw new Exception('backend_frontname value must contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter.');
+            throw new Exception('backend_frontname value must contain only letters (a-z), numbers (0-9)'
+                . ' or underscore(_), first character should be a letter.');
         }
         return $value;
     }

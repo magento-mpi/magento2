@@ -65,7 +65,7 @@ interface Magento_PubSub_SubscriptionInterface extends Magento_Outbound_Endpoint
     /**
      * Return endpoint with the subscription
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Magento_Outbound_EndpointInterface
      */
     public function getEndpoint();
 }

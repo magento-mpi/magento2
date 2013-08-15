@@ -40,16 +40,10 @@ class Mage_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('customer/topic', $this->_event->getTopic());
     }
 
-    public function testMarkAsReadyToSend()
-    {
-        $this->_event->markAsReadyToSend();
-        $this->assertEquals(Magento_PubSub_EventInterface::READY_TO_SEND, $this->_event->getStatus());
-    }
-
     public function testMarkAsProcessed()
     {
-        $this->_event->markAsProcessed();
-        $this->assertEquals(Magento_PubSub_EventInterface::PROCESSED, $this->_event->getStatus());
+        $this->_event->complete();
+        $this->assertEquals(Magento_PubSub_EventInterface::STATUS_PROCESSED, $this->_event->getStatus());
     }
 
     public function testSaveAndLoad()

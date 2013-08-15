@@ -57,8 +57,6 @@ class Mage_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
             'theme_version'        => '2.0.0.0',
             'parent_theme'         => null,
             'is_featured'          => true,
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
             'preview_image'        => '',
             'theme_directory'      => implode(
                 DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default')

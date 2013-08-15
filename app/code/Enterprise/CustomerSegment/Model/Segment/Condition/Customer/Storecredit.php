@@ -47,8 +47,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(),
-            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Store Credit')));
+        return array(array(
+            'value' => $this->getType(),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Store Credit')
+         ));
     }
 
     /**
@@ -60,9 +62,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     {
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml()
-            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Store Credit Amount %s %s:', $operator, $element)
-            .$this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . Mage::helper('Enterprise_CustomerSegment_Helper_Data')
+            ->__('Customer Store Credit Amount %s %s:', $operator, $element) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -79,13 +80,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
 
         $select = $this->getResource()->createSelect();
         $select->from($table, array(new Zend_Db_Expr(1)));
-
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
         $select->where('website_id=?', $website);
         $select->where("amount {$operator} ?", $this->getValue());
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 }

@@ -35,7 +35,6 @@ class Saas_PrintedTemplate_Model_Wysiwyg_ConfigTest extends Magento_Test_TestCas
      */
     public function testGetConfig()
     {
-        $this->markTestIncomplete('MAGETWO-7075');
         $configModel = Mage::getModel('Saas_PrintedTemplate_Model_Wysiwyg_Config');
 
         $this->dispatch('backend/admin/template/edit/entity_type/invoice');

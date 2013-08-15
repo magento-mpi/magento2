@@ -13,18 +13,29 @@ class Mage_Webhook_Model_Subscription_Options_StatusTest extends PHPUnit_Framewo
 {
     public function testToOptionArray()
     {
-        $webhookHelperMock = $this->getMockBuilder('Mage_Webhook_Helper_Data')
+        $translatorMock = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
-        $webhookHelperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-        $object = new Mage_Webhook_Model_Subscription_Options_Status($webhookHelperMock);
+        $translatorMock->expects($this->any())
+            ->method('translate')
+            ->will($this->returnCallback(array($this, 'translateCallback')));
+        $object = new Mage_Webhook_Model_Subscription_Options_Status($translatorMock);
         $expectedArray = array(
             Mage_Webhook_Model_Subscription::STATUS_ACTIVE => 'Active',
             Mage_Webhook_Model_Subscription::STATUS_REVOKED => 'Revoked',
             Mage_Webhook_Model_Subscription::STATUS_INACTIVE => 'Inactive',
         );
         $this->assertEquals($expectedArray, $object->toOptionArray());
+    }
+
+    /**
+     * Translates array of inputs into string
+     *
+     * @param array $inputs
+     * @return string
+     */
+    public static function translateCallback(array $inputs)
+    {
+        return implode("\n", $inputs);
     }
 }

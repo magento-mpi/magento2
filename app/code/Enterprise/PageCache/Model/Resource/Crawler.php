@@ -8,19 +8,10 @@
  * @license     {license_link}
  */
 
-
-/**
- * Enter description here ...
- *
- * @category    Enterprise
- * @package     Enterprise_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Internal constructor
-     *
      */
     protected function _construct()
     {

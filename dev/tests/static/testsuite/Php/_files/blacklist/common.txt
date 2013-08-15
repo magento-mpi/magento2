@@ -100,12 +100,10 @@ lib/Magento/Convert/Exception.php
 lib/Magento/Convert/Mapper/Column.php
 lib/Magento/Convert/Mapper/Interface.php
 lib/Magento/DB/Adapter/Interface.php
-lib/Magento/DB/Adapter/Mysqli.php
 lib/Magento/DB/Adapter/Pdo/Mysql.php
 lib/Magento/DB/Ddl/Table.php
 lib/Magento/DB/Exception.php
 lib/Magento/DB/Helper.php
-lib/Magento/DB/Mysqli.php
 lib/Magento/DB/Profiler.php
 lib/Magento/DB/Select.php
 lib/Magento/DB/Statement/Parameter.php

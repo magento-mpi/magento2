@@ -178,32 +178,6 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     }
 
     /**
-     * Build controller file name based on moduleName and controllerName
-     *
-     * @param string $realModule
-     * @param string $controller
-     * @return string
-     */
-    public function getControllerFileName($realModule, $controller)
-    {
-        /**
-         * Start temporary block
-         * TODO: Sprint#27. Delete after adminhtml refactoring
-         */
-        if ($realModule == 'Mage_Adminhtml') {
-            return parent::getControllerFileName($realModule, $controller);
-        }
-        /**
-         * End temporary block
-         */
-
-        $parts = explode('_', $realModule);
-        $realModule = implode('_', array_splice($parts, 0, 2));
-        $file = Mage::getModuleDir('controllers', $realModule);
-        return $file . DS . ucfirst($this->_areaCode) . DS . uc_words($controller, DS) . 'Controller.php';
-    }
-
-    /**
      * Build controller class name based on moduleName and controllerName
      *
      * @param string $realModule
@@ -225,7 +199,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
 
         $parts = explode('_', $realModule);
         $realModule = implode('_', array_splice($parts, 0, 2));
-        return $realModule . '_' . ucfirst($this->_areaCode) . '_' . uc_words($controller) . 'Controller';
+        return $realModule . '_' . 'Controller' . '_'. ucfirst($this->_areaCode) . '_' . uc_words($controller);
     }
 
     /**

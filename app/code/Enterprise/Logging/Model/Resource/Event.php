@@ -49,11 +49,13 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      * Convert data before save ip
      *
      * @param Mage_Core_Model_Abstract $event
+     * @return $this|\Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->formatDate($event->getTime()));
+        return $this;
     }
 
     /**
@@ -63,11 +65,8 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     public function rotate($lifetime)
     {
-        // $this->beginTransaction();
-        // try {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
-        $table = $this->getTable('enterprise_logging_event');
 
         // get the latest log entry required to the moment
         $clearBefore = $this->formatDate(time() - $lifetime);
@@ -84,7 +83,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
             $archive = Mage::getModel('Enterprise_Logging_Model_Archive');
             $archive->createNew();
 
-            $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr('ip');
+            $expr = new Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
             $select = $readAdapter->select()
                 ->from($this->getMainTable())
                 ->where('log_id <= ?', $latestLogEntry)
@@ -101,10 +100,6 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
 
             $writeAdapter->delete($this->getMainTable(), array('log_id <= ?' => $latestLogEntry));
         }
-        // $this->commit();
-        // } catch (Exception $e) {
-        //  $this->rollBack();
-        // }
     }
 
     /**
@@ -127,7 +122,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Get all admin usernames that are currently in event log table
+     * Get all admin user names that are currently in event log table
      * Possible SQL-performance issue
      *
      * @return array
@@ -141,7 +136,8 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
             ->joinInner(
                 array('events' => $this->getTable('enterprise_logging_event')),
                 'admins.username = events.' . $adapter->quoteIdentifier('user'),
-                array());
+                array()
+        );
         return $adapter->fetchCol($select);
     }
 

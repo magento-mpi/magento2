@@ -12,11 +12,6 @@
 class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var array
-     */
-    private static $_brokenModules = array('Social_Facebook');
-
-    /**
      * @return array
      */
     public function testDeclaredLocales()
@@ -94,9 +89,6 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);
             $moduleName = str_replace('/', '_', $moduleName[1]);
-            if (in_array($moduleName, self::$_brokenModules)) {
-                continue;
-            }
             $data[$configFile] = $moduleName;
         }
         return $data;
