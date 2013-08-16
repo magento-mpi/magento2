@@ -41,7 +41,7 @@ class Magento_Core_Model_Validator_Factory
         $this->_objectManager = $objectManager;
         $this->_translator = $translator;
 
-        $this->_configFiles = $moduleReader->getModuleConfigurationFiles('validation.xml');
+        $this->_configFiles = $moduleReader->getConfigurationFiles('validation.xml');
         $this->_initializeDefaultTranslator();
     }
 

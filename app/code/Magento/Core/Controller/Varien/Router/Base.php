@@ -45,9 +45,15 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_app;
 
     /**
+     * @var Magento_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Config_Scope $configScope
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -56,6 +62,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_App $app,
+        Magento_Core_Model_Config_Scope $configScope,
         $areaCode,
         $baseController
     ) {
@@ -65,6 +72,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_filesystem     = $filesystem;
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
+        $this->_configScope  = $configScope;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -381,10 +389,10 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
                 continue;
             }
 
-            Mage::getConfig()->setCurrentAreaCode($this->_areaCode);
+            $this->_configScope->setCurrentScope($this->_areaCode);
             // instantiate controller class
             $controllerInstance = $this->_controllerFactory->createController($controllerClassName,
-                array('request' => $request, 'areaCode' => $this->_areaCode)
+                array('request' => $request)
             );
 
             $found = true;

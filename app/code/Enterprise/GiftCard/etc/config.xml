@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_GiftCard>
-            <version>1.11.0.1</version>
-            <active>false</active>
-            <depends>
-                <Magento_Catalog/>
-                <Enterprise_GiftCardAccount/>
-            </depends>
-        </Enterprise_GiftCard>
-    </modules>
     <global>
         <resources>
             <enterprise_giftcard_setup>
@@ -44,9 +34,9 @@
                 </type>
                 <attributes>
                     <unassignable>
-                        <allow_open_amount/>
-                        <giftcard_amounts/>
-                        <giftcard_type/>
+                        <allow_open_amount />
+                        <giftcard_amounts />
+                        <giftcard_type />
                     </unassignable>
                 </attributes>
             </product>
@@ -64,17 +54,17 @@
             <quote>
                 <item>
                     <product_attributes>
-                        <giftcard_type/>
-                        <giftcard_amounts/>
-                        <allow_open_amount/>
-                        <open_amount_min/>
-                        <open_amount_max/>
-                        <use_config_lifetime/>
-                        <lifetime/>
-                        <use_config_is_redeemable/>
-                        <is_redeemable/>
-                        <use_config_email_template/>
-                        <email_template/>
+                        <giftcard_type />
+                        <giftcard_amounts />
+                        <allow_open_amount />
+                        <open_amount_min />
+                        <open_amount_max />
+                        <use_config_lifetime />
+                        <lifetime />
+                        <use_config_is_redeemable />
+                        <is_redeemable />
+                        <use_config_email_template />
+                        <email_template />
                     </product_attributes>
                 </item>
             </quote>
@@ -110,15 +100,15 @@
         <product>
             <collection>
                 <attributes>
-                    <giftcard_type/>
-                    <giftcard_amounts/>
-                    <allow_open_amount/>
-                    <open_amount_min/>
-                    <open_amount_max/>
-                    <use_config_lifetime/>
-                    <lifetime/>
-                    <use_config_is_redeemable/>
-                    <is_redeemable/>
+                    <giftcard_type />
+                    <giftcard_amounts />
+                    <allow_open_amount />
+                    <open_amount_min />
+                    <open_amount_max />
+                    <use_config_lifetime />
+                    <lifetime />
+                    <use_config_is_redeemable />
+                    <is_redeemable />
                 </attributes>
             </collection>
         </product>
@@ -159,7 +149,7 @@
             <order>
                 <create>
                     <available_product_types>
-                        <giftcard/>
+                        <giftcard />
                     </available_product_types>
                 </create>
             </order>

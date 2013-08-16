@@ -10,6 +10,17 @@
 class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loader_Resource
 {
     /**
+     * @param Magento_Webapi_Model_Acl_Resource_ProviderInterface $resourceProvider
+     * @param Magento_Acl_ResourceFactory $resourceFactory
+     */
+    public function __construct(
+        Magento_Webapi_Model_Acl_Resource_ProviderInterface $resourceProvider,
+        Magento_Acl_ResourceFactory $resourceFactory
+    ) {
+        parent::__construct($resourceProvider, $resourceFactory);
+    }
+
+    /**
      * Deny each resource for all roles.
      *
      * @param Magento_Acl $acl
@@ -28,18 +39,14 @@ class Magento_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loa
      */
     protected function _loadVirtualResources(Magento_Acl $acl)
     {
-        $virtualResources = $this->_configReader->getAclVirtualResources();
-        /** @var $resourceConfig DOMElement */
-        foreach ($virtualResources as $resourceConfig) {
-            if (!($resourceConfig instanceof DOMElement)) {
-                continue;
-            }
-            $parent = $resourceConfig->getAttribute('parent');
-            $resourceId = $resourceConfig->getAttribute('id');
-            if ($acl->has($parent) && !$acl->has($resourceId)) {
+        $virtualResources = $this->_resourceProvider->getAclVirtualResources();
+        foreach ($virtualResources as $virtualResource) {
+            $resourceParent = $virtualResource['parent'];
+            $resourceId = $virtualResource['id'];
+            if ($acl->has($resourceParent) && !$acl->has($resourceId)) {
                 /** @var $resource Magento_Acl_Resource */
                 $resource = $this->_resourceFactory->createResource(array('resourceId' => $resourceId));
-                $acl->addResource($resource, $parent);
+                $acl->addResource($resource, $resourceParent);
             }
         }
     }

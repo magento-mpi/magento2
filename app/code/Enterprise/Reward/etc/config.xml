@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Reward>
-            <version>1.11.0.2</version>
-            <active>false</active>
-            <depends>
-                <Magento_Customer />
-                <Magento_Checkout />
-            </depends>
-        </Enterprise_Reward>
-    </modules>
     <global>
         <resources>
             <enterprise_reward_setup>

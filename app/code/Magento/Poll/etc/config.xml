@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Poll>
-            <version>1.6.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Core/>
-                <Magento_Cms/>
-            </depends>
-        </Magento_Poll>
-    </modules>
     <frontend>
         <routers>
             <poll>

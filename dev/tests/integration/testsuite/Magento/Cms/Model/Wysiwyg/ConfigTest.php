@@ -21,7 +21,8 @@ class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Config');
     }
 

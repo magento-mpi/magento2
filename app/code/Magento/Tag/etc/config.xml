@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Tag>
-            <version>1.6.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Catalog />
-                <Magento_Customer />
-                <Magento_Rss />
-                <Magento_Reports />
-            </depends>
-        </Magento_Tag>
-    </modules>
     <global>
         <resources>
             <tag_setup>

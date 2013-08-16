@@ -20,7 +20,7 @@ class Magento_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_Te
 
         $frontendMock = $this->getMock('Magento_Cache_FrontendInterface');
 
-        $cacheEnabler = $this->getMock('Magento_Core_Model_Cache_Types', array(), array(), '', false);
+        $cacheEnabler = $this->getMock('Magento_Core_Model_Cache_StateInterface');
         $cacheEnabler->expects($this->at(0))
             ->method('isEnabled')
             ->with($identifier)

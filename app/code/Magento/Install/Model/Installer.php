@@ -43,28 +43,36 @@ class Magento_Install_Model_Installer extends Magento_Object
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Cache_Types
+     * @var Magento_Core_Model_Cache_StateInterface
      */
-    protected $_cacheTypes;
+    protected $_cacheState;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
 
     /**
      * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Cache_Types $cacheTypes
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Cache_Types $cacheTypes,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
-        $this->_cacheTypes = $cacheTypes;
+        $this->_cacheState = $cacheState;
+        $this->_cacheTypeList = $cacheTypeList;
         parent::__construct($data);
     }
 
@@ -327,10 +335,10 @@ class Magento_Install_Model_Installer extends Magento_Object
         Mage::getSingleton('Magento_Install_Model_Installer_Config')->replaceTmpInstallDate();
         $this->_refreshConfig();
         /* Enable all cache types */
-        foreach (array_keys($this->_cache->getTypes()) as $cacheTypeCode) {
-            $this->_cacheTypes->setEnabled($cacheTypeCode, true);
+        foreach (array_keys($this->_cacheTypeList->getTypes()) as $cacheTypeCode) {
+            $this->_cacheState->setEnabled($cacheTypeCode, true);
         }
-        $this->_cacheTypes->persist();
+        $this->_cacheState->persist();
         return $this;
     }
 

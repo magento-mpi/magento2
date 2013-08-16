@@ -21,7 +21,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Frame
     public function testPrepareForm()
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         Mage::register('cms_page', Mage::getObjectManager()->create('Magento_Cms_Model_Page'));
 
         $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design');

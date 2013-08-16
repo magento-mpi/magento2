@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_CurrencySymbol>
-            <version>1.0.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Widget/>
-            </depends>
-        </Magento_CurrencySymbol>
-    </modules>
-
     <global>
         <events>
             <currency_display_options_forming>
@@ -32,7 +22,6 @@
             </currency_display_options_forming>
         </events>
     </global>
-
     <admin>
         <routers>
             <adminhtml>
@@ -44,14 +33,13 @@
             </adminhtml>
         </routers>
     </admin>
-
     <adminhtml>
         <translate>
             <modules>
                 <Magento_CurrencySymbol>
-                     <files>
-                          <default>Magento_CurrencySymbol.csv</default>
-                     </files>
+                    <files>
+                        <default>Magento_CurrencySymbol.csv</default>
+                    </files>
                 </Magento_CurrencySymbol>
             </modules>
         </translate>

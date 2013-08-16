@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_DesignEditor>
-            <version>1.0.0.3</version>
-            <active>true</active>
-            <depends>
-                <Magento_Adminhtml />
-                <Magento_Page />
-                <Magento_Theme />
-            </depends>
-        </Magento_DesignEditor>
-    </modules>
     <global>
         <resources>
             <designeditor_setup>

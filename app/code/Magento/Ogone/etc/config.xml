@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Ogone>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Sales/>
-                <Magento_Payment/>
-            </depends>
-        </Magento_Ogone>
-    </modules>
     <global>
         <resources>
             <ogone_setup>
@@ -66,12 +56,12 @@
                 <states>
                     <pending_payment>
                         <statuses>
-                            <pending_ogone/>
+                            <pending_ogone />
                         </statuses>
                     </pending_payment>
                     <processing>
                         <statuses>
-                            <processed_ogone/>
+                            <processed_ogone />
                         </statuses>
                     </processing>
                 </states>
@@ -106,7 +96,7 @@
             <ogone>
                 <model>Magento_Ogone_Model_Api</model>
                 <title>Ogone</title>
-                <secret_key backend_model="Magento_Backend_Model_Config_Backend_Encrypted"/>
+                <secret_key backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
                 <payment_action>authorize</payment_action>
                 <hashing_algorithm>sha256</hashing_algorithm>
                 <template>ogone</template>

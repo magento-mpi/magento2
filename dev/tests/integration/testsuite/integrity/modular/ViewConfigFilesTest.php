@@ -33,7 +33,7 @@ class Integrity_Modular_ViewConfigFilesTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         $files = Mage::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader')
-            ->getModuleConfigurationFiles('view.xml');
+            ->getConfigurationFiles('view.xml');
         foreach ($files as $file) {
             $result[] = array($file);
         }

@@ -42,14 +42,12 @@ class Magento_Wishlist_Controller_Index
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Wishlist_Model_Config $wishlistConfig
-     * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Wishlist_Model_Config $wishlistConfig,
-        $areaCode = null
+        Magento_Wishlist_Model_Config $wishlistConfig
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_wishlistConfig = $wishlistConfig;
     }
 

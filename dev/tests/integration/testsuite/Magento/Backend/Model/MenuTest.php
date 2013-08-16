@@ -26,7 +26,8 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         parent::setUp();
         Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_model = Mage::getModel('Magento_Backend_Model_Auth');
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
     }
 
     public function testMenuItemManipulation()

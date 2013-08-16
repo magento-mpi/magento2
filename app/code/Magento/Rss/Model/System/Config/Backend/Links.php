@@ -21,7 +21,9 @@ class Magento_Rss_Model_System_Config_Backend_Links extends Magento_Core_Model_C
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::app()->getCacheInstance()->invalidateType(Magento_Core_Block_Abstract::CACHE_GROUP);
+            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList->invalidate(Magento_Core_Block_Abstract::CACHE_GROUP);
         }
     }
 

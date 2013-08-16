@@ -10,20 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Enterprise>
-            <version>1.11.0.3</version>
-            <active>false</active>
-            <depends>
-                <Magento_Cms />
-                <Magento_Install />
-                <Magento_Adminhtml />
-                <Magento_AdminNotification />
-                <Magento_Widget />
-                <Magento_User/>
-            </depends>
-        </Enterprise_Enterprise>
-    </modules>
     <global>
         <resources>
             <enterprise_enterprise_setup>

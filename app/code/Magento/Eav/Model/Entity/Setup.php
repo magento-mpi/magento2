@@ -28,21 +28,22 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     /**
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param string $resourceName
+     * @param $resourceName
      */
     public function __construct(
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
         $resourceName
-    )
-    {
-        parent::__construct($resourcesConfig, $modulesConfig, $resource, $modulesReader, $resourceName);
+    ) {
+        parent::__construct($resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $resourceName);
         $this->_cache = $cache;
     }
 

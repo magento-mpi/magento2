@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require Mage::getBaseDir() . '/app/code/Magento/Catalog/Controller/Product.php';
+require Mage::getBaseDir() . '/app/code/Mage/Catalog/Controller/Product.php';
 
 class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
@@ -40,7 +40,6 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'Magento_Catalog_Controller_Product',
             array(
                 'context'  => $context,
-                'areaCode' => 'frontend',
             )
         );
     }
@@ -75,7 +74,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
      * @magentoAppArea frontend
      */
@@ -97,7 +96,6 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             array(
                 'request'  => new Magento_Test_Request,
                 'response' => new Magento_Test_Response,
-                'areaCode' => 'frontend'
             )
         );
         $this->_helper->prepareAndRender(10, $controller);
@@ -115,7 +113,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     /**
      * Test for _getSessionMessageModels
      *
-     * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
      * @covers Magento_Catalog_Helper_Product_View::_getSessionMessageModels
      * @magentoAppArea frontend

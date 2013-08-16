@@ -12,7 +12,7 @@
 class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Magento/Paypal/_files/order_payflowpro.php
+     * @magentoDataFixture Mage/Paypal/_files/order_payflowpro.php
      * @magentoConfigFixture current_store payment/verisign/active 1
      */
     public function testPayflowProVoid()
@@ -21,7 +21,10 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
-        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'));
+        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro',
+            array('_postRequest'),
+            array($this->getMock('Magento_Core_Model_ModuleListInterface'))
+        );
         $response = new Magento_Object(array(
             'result' => '0',
             'pnref' => 'V19A3D27B61E',

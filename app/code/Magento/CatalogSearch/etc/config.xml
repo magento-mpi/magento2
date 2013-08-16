@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_CatalogSearch>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Catalog />
-            </depends>
-        </Magento_CatalogSearch>
-    </modules>
     <global>
         <resources>
             <catalogsearch_setup>

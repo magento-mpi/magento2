@@ -54,18 +54,18 @@ class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Co
     protected $_elements;
 
     /**
-     * @param Magento_Backend_Model_Config_Structure_Reader $structureReader
+     * @param Magento_Backend_Model_Config_Structure_Data $structureData
      * @param Magento_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
      * @param Magento_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory
      * @param Magento_Backend_Model_Config_ScopeDefiner $scopeDefiner
      */
     public function __construct(
-        Magento_Backend_Model_Config_Structure_Reader $structureReader,
+        Magento_Backend_Model_Config_Structure_Data $structureData,
         Magento_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
         Magento_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory,
         Magento_Backend_Model_Config_ScopeDefiner $scopeDefiner
     ) {
-        $this->_data = $structureReader->getData();
+        $this->_data = $structureData->get();
         $this->_tabIterator = $tabIterator;
         $this->_flyweightFactory = $flyweightFactory;
         $this->_scopeDefiner = $scopeDefiner;

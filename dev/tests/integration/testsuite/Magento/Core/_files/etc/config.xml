@@ -3,18 +3,13 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <modules>
-        <Magento_Core>
-            <version>1.6.0.2</version>
-        </Magento_Core>
-    </modules>
     <global>
         <areas>
             <test_area1>

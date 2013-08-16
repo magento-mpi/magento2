@@ -66,13 +66,10 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
 
     /**
      * @param Magento_Backend_Controller_Context $context
-     * @param null $areaCode
      */
-    public function __construct(
-        Magento_Backend_Controller_Context $context,
-        $areaCode = null
-    ) {
-        parent::__construct($context, $areaCode);
+    public function __construct(Magento_Backend_Controller_Context $context)
+    {
+        parent::__construct($context);
         $this->_helper = $context->getHelper();
         $this->_session = $context->getSession();
         $this->_eventManager = $context->getEventManager();
@@ -436,8 +433,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
-        $this->_objectManager->get('Magento_Core_Model_Layout_Filter_Acl')
-            ->filterAclNodes($this->getLayout()->getNode());
+        $this->_objectManager->get('Magento_Core_Model_Layout_Filter_Acl')->filterAclNodes($this->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;

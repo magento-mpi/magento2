@@ -3,23 +3,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <modules>
-        <Magento_Wishlist>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Customer />
-                <Magento_Catalog />
-            </depends>
-        </Magento_Wishlist>
-    </modules>
     <global>
         <resources>
             <wishlist_setup>
@@ -130,4 +120,4 @@
             </email>
         </wishlist>
     </default>
-</config>
+</config>

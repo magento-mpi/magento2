@@ -144,7 +144,7 @@ class Magento_Core_Model_Translate
      *
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
      * @param Magento_Core_Model_Locale_Hierarchy_Loader $loader
-     * @param Magento_Core_Model_Translate_Factory $translateFactory
+     * @param Magento_core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      */
@@ -271,12 +271,13 @@ class Magento_Core_Model_Translate
      * Parse and save edited translate
      *
      * @param array $translate
-     * @return Magento_Core_Model_Translate_TranslateInterface
+     * @return Magento_Core_Model_Translate_InlineInterface
      */
     public function processAjaxPost($translate)
     {
-        Mage::getObjectManager()->get('Magento_Core_Model_CacheInterface')
-            ->invalidateType(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList->invalidate(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
         Mage::getObjectManager()->get('Magento_Core_Model_Translate_InlineParser')
             ->processAjaxPost($translate, $this->getInlineObject());
     }

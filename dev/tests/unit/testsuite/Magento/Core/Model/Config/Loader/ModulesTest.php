@@ -23,87 +23,52 @@ class Magento_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_Tes
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_primaryConfigMock;
+    protected $_resourceMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_resourceConfigMock;
+    protected $_readerMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectManagerMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_fileReaderMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_dirMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_sortedFactoryMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_localLoaderMock;
+    protected $_loaderMock;
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
-        $this->_primaryConfigMock =
-            $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false, false);
-        $this->_resourceConfigMock =
-            $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false, false);
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $this->_fileReaderMock =
-            $this->getMock('Magento_Core_Model_Config_Loader_Modules_File', array(), array(), '', false);
-        $this->_sortedFactoryMock =
-            $this->getMock('Magento_Core_Model_Config_Modules_SortedFactory', array('create'), array(), '', false);
-        $this->_localLoaderMock = $this->getMock('Magento_Core_Model_Config_Loader_Local', array(), array(), '', false);
-        $arguments = array(
-            'primaryConfig' => $this->_primaryConfigMock,
-            'resourceConfig' => $this->_resourceConfigMock,
-            'objectManager' => $this->_objectManagerMock,
-            'dirs' => $this->_dirMock,
-            'sortedFactory' => $this->_sortedFactoryMock,
-            'fileReader' => $this->_fileReaderMock,
-            'localLoader' => $this->_localLoaderMock
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false, false);
+        $this->_resourceMock = $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false, false);
+        $this->_readerMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $this->_loaderMock = $this->getMock('Magento_Core_Model_Config_Loader_Local', array(), array(), '', false);
+
+        $this->_model = new Magento_Core_Model_Config_Loader_Modules(
+            $this->_configMock,
+            $this->_resourceMock,
+            $this->_readerMock,
+            $this->_loaderMock
         );
-        $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_model = $helper->getObject('Magento_Core_Model_Config_Loader_Modules', $arguments);
     }
 
     public function testLoad()
     {
-        $path = realpath(__DIR__ . '/../_files/modules/');
-        $this->_dirMock->expects($this->any())->method("getDir")->will($this->returnValue($path));
+        $configMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false);
 
-        $sortedConfigMock = $this->getMock('Magento_Core_Model_Config_Modules_Sorted', array(), array(), '', false);
-        $this->_sortedFactoryMock
-            ->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($sortedConfigMock));
+        $configMock->expects($this->once())->method('extend')->with($this->_configMock);
 
-        $this->_configMock
-            ->expects($this->exactly(2))
-            ->method('extend')
-            ->with($this->logicalOr($this->equalTo($this->_primaryConfigMock), $this->equalTo($sortedConfigMock)));
+        $this->_resourceMock->expects($this->any())
+            ->method('getResourceConnectionModel')->with('core')->will($this->returnValue('mysql'));
 
-        $this->_localLoaderMock->expects($this->once())->method('load')->with($this->_configMock);
+        $this->_readerMock->expects($this->once())
+            ->method('loadModulesConfiguration')
+            ->with(array('config.xml', 'config.mysql.xml'), $configMock);
 
-        $this->_fileReaderMock->expects($this->once())->method('loadConfigurationFromFile');
+        $this->_loaderMock->expects($this->once())->method('load')->with($configMock);
 
-        $this->_configMock->expects($this->once())->method('applyExtends');
+        $configMock->expects($this->once())->method('applyExtends');
 
-        $this->_model->load($this->_configMock);
+        $this->_resourceMock->expects($this->once())->method('setConfig')->with($configMock);
+
+        $this->_model->load($configMock);
     }
 }

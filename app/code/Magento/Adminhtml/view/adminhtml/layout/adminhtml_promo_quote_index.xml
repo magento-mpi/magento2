@@ -77,7 +77,16 @@
                                 <align>left</align>
                                 <index>is_active</index>
                                 <type>options</type>
-                                <options type="options">Magento_SalesRule_Model_Resource_Rule_Quote_StatusesArray</options>
+                                <options>
+                                    <active>
+                                        <value>1</value>
+                                        <label translate="true" module="Magento_SalesRule">Active</label>
+                                    </active>
+                                    <inactive>
+                                        <value>0</value>
+                                        <label translate="true" module="Magento_SalesRule">Inactive</label>
+                                    </inactive>
+                                </options>
                             </arguments>
                         </block>
                         <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">

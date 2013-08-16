@@ -120,9 +120,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
         $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
 
-        $args = array(
-            'context' => $contextMock, 'areaCode' => Magento_Core_Model_App_Area::AREA_ADMINHTML
-        );
+        $args = array('context' => $contextMock);
 
         $helperObjectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_testedObject = $helperObjectManager->getObject('Magento_Adminhtml_Controller_Customer', $args);

@@ -82,11 +82,13 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         $objectManager->addSharedInstance($this->_config, 'Magento_Webapi_Model_Config_Soap');
         $wsdlFactory = new Magento_Webapi_Model_Soap_Wsdl_Factory($objectManager);
         $cache = $this->getMock('Magento_Core_Model_CacheInterface');
+        $cacheStateMock = $this->getMock('Magento_Core_Model_Cache_StateInterface');
         $this->_autoDiscover = new Magento_Webapi_Model_Soap_AutoDiscover(
             $this->_config,
             $wsdlFactory,
             $this->_helper,
-            $cache
+            $cache,
+            $cacheStateMock
         );
 
         $this->_resourceName = 'vendorModuleB';

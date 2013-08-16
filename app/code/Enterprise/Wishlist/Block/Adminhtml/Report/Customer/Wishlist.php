@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist
-    extends Magento_Adminhtml_Block_Widget_Grid_Container
+    extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Constructor

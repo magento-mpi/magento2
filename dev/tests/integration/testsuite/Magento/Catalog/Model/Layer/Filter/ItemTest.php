@@ -53,7 +53,6 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
             array(
                 'request' => new Magento_Test_Request(),
                 'response' => new Magento_Test_Response(),
-                'areaCode' => 'frontend',
             )
         );
         Mage::app()->getFrontController()->setAction($action); // done in action's constructor
@@ -61,7 +60,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/categories.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
      */
     public function testGetRemoveUrl()
     {

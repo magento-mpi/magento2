@@ -386,17 +386,6 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     }
 
     /**
-     * Check whether to use cache for specific component
-     *
-     * @param null|string $type
-     * @return boolean
-     */
-    public function useCache($type = null)
-    {
-        return $this->_getApp()->useCache($type);
-    }
-
-    /**
      * Deletes all session files
      *
      * @return Magento_Core_Model_AppInterface

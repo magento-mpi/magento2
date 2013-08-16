@@ -41,11 +41,13 @@ class EnterpriseConfigurator implements ConfiguratorInterface
         $enablerPath = $this->_basePath
             . DIRECTORY_SEPARATOR . 'app'
             . DIRECTORY_SEPARATOR . 'etc'
-            . DIRECTORY_SEPARATOR . 'modules'
             . DIRECTORY_SEPARATOR;
 
         //enable enterprise edition modules
-        $this->_filesystem->cp($enablerPath . 'XEnterprise_Edition.xml.dist', $enablerPath . 'XEnterprise_Edition.xml');
+        $this->_filesystem->cp(
+            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml.dist',
+            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml'
+        );
 
         //set edition constant
         $mageFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';

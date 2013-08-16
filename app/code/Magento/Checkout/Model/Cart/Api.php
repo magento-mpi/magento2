@@ -18,8 +18,20 @@
 
 class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resource
 {
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
-    {
+    /**
+     * @var Magento_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiHelper
+     * @param Magento_Core_Model_Config_Scope $configScope
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiHelper,
+        Magento_Core_Model_Config_Scope $configScope
+    ) {
+        $this->_configScope = $configScope;
         parent::__construct($apiHelper);
         $this->_storeIdSessionField = "cart_store_id";
         $this->_attributesMap['quote'] = array('quote_id' => 'entity_id');
@@ -210,7 +222,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             $this->_fault('guest_checkout_is_not_enabled');
         }
 
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $customerResource Magento_Checkout_Model_Api_Resource_Customer */
         $customerResource = Mage::getModel("Magento_Checkout_Model_Api_Resource_Customer");
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);

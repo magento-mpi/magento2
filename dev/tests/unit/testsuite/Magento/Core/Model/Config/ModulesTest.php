@@ -62,26 +62,4 @@ class Magento_Core_Model_Config_ModulesTest extends PHPUnit_Framework_TestCase
         $this->_configMock->expects($this->once())->method('getXpath')->with($path)->will($this->returnValue($result));
         $this->assertEquals($result, $this->_model->getXpath($path));
     }
-
-    public function testGetModuleConfigReturnsRequestedModuleConfig()
-    {
-        $this->_prepareModulesConfig();
-        $this->assertEquals('backend', $this->_model->getModuleConfig('backend'));
-    }
-
-    public function testGetModuleConfigReturnsAllModulesConfigIfNoModuleIsSpecified()
-    {
-        $modulesConfig = $this->_prepareModulesConfig();
-        $this->assertEquals($modulesConfig, $this->_model->getModuleConfig());
-    }
-
-    public function _prepareModulesConfig()
-    {
-        $modulesConfig = new stdClass();
-        $modulesConfig->core = 'core';
-        $modulesConfig->backend = 'backend';
-        $this->_configMock->expects($this->once())->method('getNode')->with('modules')
-            ->will($this->returnValue($modulesConfig));
-        return $modulesConfig;
-    }
 }

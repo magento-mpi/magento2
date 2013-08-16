@@ -36,19 +36,16 @@ class Magento_Checkout_Controller_Cart
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
         Magento_Core_Model_Store_ConfigInterface $storeConfig,
-        Magento_Checkout_Model_Session $checkoutSession,
-        $areaCode = null
+        Magento_Checkout_Model_Session $checkoutSession
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_storeConfig = $storeConfig;
         $this->_checkoutSession = $checkoutSession;
     }
-
 
     /**
      * Retrieve shopping cart model object

@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Shipping>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core/>
-                <Magento_Catalog/>
-            </depends>
-        </Magento_Shipping>
-    </modules>
     <global>
         <resources>
             <shipping_setup>

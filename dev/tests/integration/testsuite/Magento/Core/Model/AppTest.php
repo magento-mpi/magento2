@@ -222,12 +222,6 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_mageModel->loadCache('test_id'));
     }
 
-    public function testUseCache()
-    {
-        $this->assertTrue($this->_mageModel->useCache('config'));
-        $this->assertFalse($this->_mageModel->useCache('not_existing_type'));
-    }
-
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Magento_Core_Controller_Request_Http', $this->_model->getRequest());

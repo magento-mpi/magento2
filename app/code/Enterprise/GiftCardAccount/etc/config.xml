@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_GiftCardAccount>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Sales />
-                <Magento_Checkout />
-                <Enterprise_CustomerBalance />
-            </depends>
-        </Enterprise_GiftCardAccount>
-    </modules>
     <global>
         <resources>
             <enterprise_giftcardaccount_setup>

@@ -21,7 +21,7 @@ class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_config;
+    private $_moduleList;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -30,65 +30,34 @@ class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $configXml = new SimpleXMLElement('<?xml version="1.0"?>
-            <config>
-                <modules>
-                    <Module_EnabledOne><active>1</active></Module_EnabledOne>
-                    <Module_EnabledTwo><active>true</active></Module_EnabledTwo>
-                    <Module_DisabledOne><active>0</active></Module_DisabledOne>
-                    <Module_DisabledTwo><active>false</active></Module_DisabledTwo>
-                    <Module_DisabledOutputOne><active>true</active></Module_DisabledOutputOne>
-                    <Module_DisabledOutputTwo><active>true</active></Module_DisabledOutputTwo>
-                </modules>
-            </config>
-        ');
-        $this->_config = $this->getMockForAbstractClass('Magento_Core_Model_ConfigInterface');
-        $this->_config
-            ->expects($this->any())
-            ->method('getNode')
-            ->will($this->returnCallback(
-                function ($path) use ($configXml) {
-                    $nodes = $configXml->xpath($path);
-                    return reset($nodes);
-                }
-            ))
-        ;
+        $this->_moduleList = $this->getMockForAbstractClass('Magento_Core_Model_ModuleListInterface');
         $this->_storeConfig = $this->getMockForAbstractClass('Magento_Core_Model_Store_ConfigInterface');
-        $this->_model = new Magento_Core_Model_ModuleManager($this->_config, $this->_storeConfig, array(
+        $this->_model = new Magento_Core_Model_ModuleManager($this->_storeConfig, $this->_moduleList, array(
             'Module_DisabledOutputOne' => self::XML_PATH_OUTPUT_ENABLED,
             'Module_DisabledOutputTwo' => 'Magento_Core_Model_ModuleManagerTest::XML_PATH_OUTPUT_ENABLED',
         ));
     }
 
-    /**
-     * @param string $moduleName
-     * @param bool $expectedResult
-     * @dataProvider isEnabledDataProvider
-     */
-    public function testIsEnabled($moduleName, $expectedResult)
+    public function testIsEnabledReturnsTrueForActiveModule()
     {
-        $this->assertEquals($expectedResult, $this->_model->isEnabled($moduleName));
+        $this->_moduleList->expects($this->once())->method('getModule')
+            ->will($this->returnValue(array('name' => 'Some_Module')));
+        $this->assertTrue($this->_model->isEnabled('Some_Module'));
     }
 
-    public function isEnabledDataProvider()
+    public function testIsEnabledReturnsFalseForInactiveModule()
     {
-        return array(
-            'enabled module, int status'    => array('Module_EnabledOne', true),
-            'enabled module, bool status'   => array('Module_EnabledTwo', true),
-            'disabled module, int status'   => array('Module_DisabledOne', false),
-            'disabled module, bool status'  => array('Module_DisabledTwo', false),
-            'unknown module, no status'     => array('Module_Unknown', false),
-        );
+        $this->_moduleList->expects($this->once())->method('getModule');
+        $this->assertFalse($this->_model->isEnabled('Some_Module'));
     }
 
-    /**
-     * @param string $moduleName
-     * @param bool $expectedResult
-     * @dataProvider isEnabledDataProvider
-     */
-    public function testIsOutputEnabledModuleStatus($moduleName, $expectedResult)
+    public function testIsOutputEnabledReturnsFalseForDisabledModule()
     {
-        $this->assertEquals($expectedResult, $this->_model->isOutputEnabled($moduleName));
+        $this->_storeConfig
+            ->expects($this->any())
+            ->method('getConfigFlag')
+            ->will($this->returnValue(true));
+        $this->assertFalse($this->_model->isOutputEnabled('Nonexisting_Module'));
     }
 
     /**
@@ -98,6 +67,9 @@ class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabledGenericConfigPath($configValue, $expectedResult)
     {
+        $this->_moduleList->expects($this->any())->method('getModule')->will(
+            $this->returnValue(array('name' => 'Module_EnabledOne'))
+        );
         $this->_storeConfig
             ->expects($this->once())
             ->method('getConfigFlag')
@@ -123,6 +95,9 @@ class Magento_Core_Model_ModuleManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabledCustomConfigPath($configValue, $moduleName, $expectedResult)
     {
+        $this->_moduleList->expects($this->any())->method('getModule')->will(
+            $this->returnValue(array('name' => $moduleName))
+        );
         $this->_storeConfig
             ->expects($this->at(0))
             ->method('getConfigFlag')

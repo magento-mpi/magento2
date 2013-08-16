@@ -114,12 +114,7 @@ class Magento_Backend_Model_Menu_Item
     protected $_submenu;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_appConfig;
-
-    /**
-     * @var Magento_Backend_Model_Menu_Factory
+     * @var Magento_Backend_Model_MenuFactory
      */
     protected $_menuFactory;
 
@@ -146,34 +141,41 @@ class Magento_Backend_Model_Menu_Item
     protected $_serializedSubmenu;
 
     /**
+     * Module list
+     *
+     * @var Magento_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
      * @param Magento_Backend_Model_Menu_Item_Validator $validator
      * @param Magento_AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Backend_Model_Menu_Factory $menuFactory
+     * @param Magento_Backend_Model_MenuFactory $menuFactory
      * @param Magento_Backend_Model_Url $urlModel
      * @param Magento_Core_Helper_Abstract $helper
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Model_Menu_Item_Validator $validator,
         Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Config $applicationConfig,
         Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Backend_Model_Menu_Factory $menuFactory,
+        Magento_Backend_Model_MenuFactory $menuFactory,
         Magento_Backend_Model_Url $urlModel,
         Magento_Core_Helper_Abstract $helper,
+        Magento_Core_Model_ModuleListInterface $moduleList,
         array $data = array()
     ) {
         $this->_validator = $validator;
         $this->_validator->validate($data);
 
         $this->_acl = $authorization;
-        $this->_appConfig = $applicationConfig;
         $this->_storeConfig = $storeConfig;
         $this->_menuFactory = $menuFactory;
         $this->_urlModel = $urlModel;
         $this->_moduleHelper = $helper;
+        $this->_moduleList = $moduleList;
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];
@@ -225,8 +227,7 @@ class Magento_Backend_Model_Menu_Item
     public function getChildren()
     {
         if (!$this->_submenu) {
-            $this->_submenu = $this->_menuFactory
-                ->getMenuInstance();
+            $this->_submenu = $this->_menuFactory->create();
         }
         return $this->_submenu;
     }
@@ -423,8 +424,7 @@ class Magento_Backend_Model_Menu_Item
     {
         if ($this->_dependsOnModule) {
             $module = $this->_dependsOnModule;
-            $modulesConfig = $this->_appConfig->getNode('modules');
-            return ($modulesConfig->$module && $modulesConfig->$module->is('active'));
+            return !!$this->_moduleList->getModule($module);
         }
         return true;
     }
@@ -488,12 +488,12 @@ class Magento_Backend_Model_Menu_Item
             $this->_moduleHelper = Mage::helper($this->_moduleHelperName);
             $this->_validator = Mage::getSingleton('Magento_Backend_Model_Menu_Item_Validator');
             $this->_acl = Mage::getSingleton('Magento_AuthorizationInterface');
-            $this->_appConfig = Mage::getConfig();
             $this->_storeConfig =  Mage::getSingleton('Magento_Core_Model_Store_Config');
-            $this->_menuFactory = Mage::getSingleton('Magento_Backend_Model_Menu_Factory');
+            $this->_menuFactory = Mage::getSingleton('Magento_Backend_Model_MenuFactory');
             $this->_urlModel = Mage::getSingleton('Magento_Backend_Model_Url');
+            $this->_moduleList = Mage::getSingleton('Magento_Core_Model_ModuleListInterface');
             if ($this->_serializedSubmenu) {
-                $this->_submenu = $this->_menuFactory->getMenuInstance();
+                $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);
             }
         }

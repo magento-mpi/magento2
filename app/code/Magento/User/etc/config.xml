@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_User>
-            <version>1.6.1.4</version>
-            <active>true</active>
-            <depends>
-                <Magento_Backend />
-            </depends>
-        </Magento_User>
-    </modules>
     <global>
         <areas>
             <adminhtml>

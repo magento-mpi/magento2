@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_SalesArchive>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Sales/>
-                <Magento_Checkout/>
-            </depends>
-        </Enterprise_SalesArchive>
-    </modules>
     <global>
         <resources>
             <enterprise_salesarchive_setup>

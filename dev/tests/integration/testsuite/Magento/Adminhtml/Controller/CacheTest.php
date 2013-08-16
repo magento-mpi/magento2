@@ -12,8 +12,8 @@
 class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/non_application_cache.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/non_application_cache.php
      */
     public function testFlushAllAction()
     {
@@ -32,8 +32,8 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/non_application_cache.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/non_application_cache.php
      */
     public function testFlushSystemAction()
     {
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToEnable
      */
@@ -62,20 +62,22 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->getRequest()->setParams(array('types' => $typesToEnable));
         $this->dispatch('backend/admin/cache/massEnable');
 
-        $types = array_keys(Mage::getModel('Magento_Core_Model_Cache')->getTypes());
-        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Magento_Core_Model_Cache_Types');
+        /** @var  Magento_Core_Model_Cache_TypeListInterface$cacheTypeList */
+        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Magento_Core_Model_Cache_StateInterface');
         foreach ($types as $type) {
             if (in_array($type, $typesToEnable)) {
-                $this->assertTrue($cacheTypes->isEnabled($type), "Type '$type' has not been enabled");
+                $this->assertTrue($cacheState->isEnabled($type), "Type '$type' has not been enabled");
             } else {
-                $this->assertFalse($cacheTypes->isEnabled($type), "Type '$type' must remain disabled");
+                $this->assertFalse($cacheState->isEnabled($type), "Type '$type' must remain disabled");
             }
         }
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToDisable
      */
@@ -84,20 +86,22 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->getRequest()->setParams(array('types' => $typesToDisable));
         $this->dispatch('backend/admin/cache/massDisable');
 
-        $types = array_keys(Mage::getModel('Magento_Core_Model_Cache')->getTypes());
-        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Magento_Core_Model_Cache_Types');
+        /** @var  Magento_Core_Model_Cache_TypeListInterface$cacheTypeList */
+        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Magento_Core_Model_Cache_StateInterface');
         foreach ($types as $type) {
             if (in_array($type, $typesToDisable)) {
-                $this->assertFalse($cacheTypes->isEnabled($type), "Type '$type' has not been disabled");
+                $this->assertFalse($cacheState->isEnabled($type), "Type '$type' has not been disabled");
             } else {
-                $this->assertTrue($cacheTypes->isEnabled($type), "Type '$type' must remain enabled");
+                $this->assertTrue($cacheState->isEnabled($type), "Type '$type' must remain enabled");
             }
         }
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_invalidated.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_invalidated.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToRefresh
      */
@@ -106,9 +110,9 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->getRequest()->setParams(array('types' => $typesToRefresh));
         $this->dispatch('backend/admin/cache/massRefresh');
 
-        /** @var $cache Magento_Core_Model_Cache */
-        $cache = Mage::getModel('Magento_Core_Model_Cache');
-        $invalidatedTypes = array_keys($cache->getInvalidatedTypes());
+        /** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
+        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $invalidatedTypes = array_keys($cacheTypeList->getInvalidated());
         $failed = array_intersect($typesToRefresh, $invalidatedTypes);
         $this->assertEmpty($failed, 'Could not refresh following cache types: ' . join(', ', $failed));
 

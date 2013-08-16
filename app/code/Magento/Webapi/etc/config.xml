@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Webapi>
-            <version>1.0.0.3</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core />
-                <Magento_Oauth />
-                <Magento_Backend />
-            </depends>
-        </Magento_Webapi>
-    </modules>
     <global>
         <areas>
             <webapi>
@@ -37,15 +26,6 @@
                 </setup>
             </webapi_setup>
         </resources>
-        <cache>
-            <types>
-                <config_webservice translate="label,description" module="Magento_Webapi">
-                    <label>Web Services Configuration</label>
-                    <description>REST and SOAP configurations, generated WSDL file.</description>
-                    <class>Magento_Webapi_Model_Cache_Type</class>
-                </config_webservice>
-            </types>
-        </cache>
         <webapi>
             <rest>
                 <request>

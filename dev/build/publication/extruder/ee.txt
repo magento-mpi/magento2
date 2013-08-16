@@ -8,9 +8,7 @@ app/design/adminhtml/magento_enterprise
 app/design/frontend/magento_fixed_width
 app/design/frontend/magento_iphone_html5
 app/design/install/magento_enterprise
-app/etc/enterprise.xml
-app/etc/modules/XEnterprise_Edition.xml.dist
-app/etc/di/enterprise.xml
+app/etc/enterprise
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
 dev/tests/integration/testsuite/Design/Frontend/Enterprise

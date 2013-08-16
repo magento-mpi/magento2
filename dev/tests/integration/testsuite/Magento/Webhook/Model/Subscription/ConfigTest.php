@@ -35,13 +35,29 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         $dirs = Mage::getObjectManager()->create(
             'Magento_Core_Model_Dir',
             array(
-                'baseDir' => array(BP),
-                'dirs'    => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'),
+                'baseDir' => BP,
+                'dirs'    => array(
+                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+                ),
             )
         );
+
+        $fileResolver = Mage::getObjectManager()->create(
+            'Magento_Core_Model_Module_Declaration_FileResolver', array('applicationDirs' => $dirs)
+        );
+        $filesystemReader = Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
+            array('fileResolver' => $fileResolver)
+        );
+        $moduleList = Mage::getObjectManager()->create(
+            'Magento_Core_Model_ModuleList',
+            array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento_Config_CacheInterface"))
+        );
+        $reader = Mage::getObjectManager()->create(
+            'Magento_Core_Model_Config_Modules_Reader', array('dirs' => $dirs, 'moduleList' => $moduleList)
+        );
         $modulesLoader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Loader_Modules',
-            array('dirs' => $dirs)
+            'Magento_Core_Model_Config_Loader_Modules', array('dirs' => $dirs, 'fileReader' => $reader)
         );
 
         /**
@@ -65,9 +81,6 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             )
         );
 
-        $config = new Magento_Core_Model_Config_Base('<config />');
-        $modulesLoader->load($config);
-
         /** @var Magento_Core_Model_Config_Modules $modulesConfig */
         $modulesConfig = Mage::getObjectManager()->create(
             'Magento_Core_Model_Config_Modules', array(
@@ -75,17 +88,10 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             )
         );
 
-        /** @var Magento_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Loader_Modules_File', array(
-                'dirs' => $dirs
-            )
-        );
-
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = Mage::getObjectManager()->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
-                'fileReader' => $fileReader,
+                'dirs' => $dirs,
                 'modulesConfig' => $modulesConfig
             )
         );

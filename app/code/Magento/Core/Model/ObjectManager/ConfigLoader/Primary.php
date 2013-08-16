@@ -8,18 +8,16 @@
 class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
 {
     /**
-     * Directory manager
-     *
-     * @var Magento_Core_Model_Dir
-     */
-    protected $_dirs;
-
-    /**
      * Application mode
      *
      * @var string
      */
     protected $_appMode;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
 
     /**
      * @param Magento_Core_Model_Dir $dirs
@@ -39,12 +37,11 @@ class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
     public function load()
     {
         $reader = new Magento_ObjectManager_Config_Reader_Dom(
-            glob($this->_dirs->getDir(Magento_Core_Model_Dir::CONFIG)
-                . DIRECTORY_SEPARATOR . 'di' . DIRECTORY_SEPARATOR . '*'
-            ),
+            new Magento_Core_Model_Config_FileResolver_Primary($this->_dirs),
             new Magento_ObjectManager_Config_Mapper_Dom(),
-            $this->_appMode == Magento_Core_Model_App_State::MODE_DEVELOPER
+            new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State($this->_appMode))
         );
-        return $reader->read();
+
+        return $reader->read('primary');
     }
 }

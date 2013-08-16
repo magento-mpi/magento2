@@ -36,12 +36,21 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $configLoader->expects($this->once())->method('load')->will($this->returnValue(array()));
         $configCache = $this->getMock('Magento_Core_Model_ObjectManager_ConfigCache', array(), array(), '', false);
         $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
-        $model = new Magento_Test_ObjectManager($primaryConfig, $instanceConfig, array(
-            'Magento_Core_Model_Dir_Verification' => $verification,
-            'Magento_Core_Model_Cache_Type_Config' => $cache,
-            'Magento_Core_Model_ObjectManager_ConfigLoader' => $configLoader,
-            'Magento_Core_Model_ObjectManager_ConfigCache' => $configCache
-        ));
+        $primaryLoaderMock = $this->getMock(
+            'Mage_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
+        );
+
+        $model = new Magento_Test_ObjectManager(
+            $primaryConfig, $instanceConfig,
+            array(
+                'Magento_Core_Model_Dir_Verification' => $verification,
+                'Magento_Core_Model_Cache_Type_Config' => $cache,
+                'Magento_Core_Model_ObjectManager_ConfigLoader' => $configLoader,
+                'Magento_Core_Model_ObjectManager_ConfigCache' => $configCache,
+            ),
+            $primaryLoaderMock
+        );
+
         $model->addSharedInstance($resource, 'Magento_Core_Model_Resource');
         $instance1 = $model->get('Magento_Test_Request');
 

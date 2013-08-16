@@ -78,6 +78,11 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     protected $_viewConfig;
 
     /**
+     * @var Magento_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
+
+    /**
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -91,6 +96,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
      * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_Config $viewConfig
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param array $data
      */
     public function __construct(
@@ -107,6 +113,7 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
         Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_Config $viewConfig,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -115,13 +122,14 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
         $this->_urlBuilder      = $urlBuilder;
         $this->_translator      = $translator;
         $this->_cache           = $cache;
-        $this->_design   = $design;
+        $this->_design          = $design;
         $this->_session         = $session;
         $this->_storeConfig     = $storeConfig;
         $this->_frontController = $frontController;
         $this->_helperFactory   = $helperFactory;
         $this->_viewUrl         = $viewUrl;
         $this->_viewConfig      = $viewConfig;
+        $this->_cacheState      = $cacheState;
     }
 
     /**
@@ -226,5 +234,13 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
     public function getViewConfig()
     {
         return $this->_viewConfig;
+    }
+
+    /**
+     * @return \Magento_Core_Model_Cache_StateInterface
+     */
+    public function getCacheState()
+    {
+        return $this->_cacheState;
     }
 }

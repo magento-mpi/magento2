@@ -209,7 +209,9 @@ class Magento_Eav_Model_Config
     protected function _isCacheEnabled()
     {
         if ($this->_isCacheEnabled === null) {
-            $this->_isCacheEnabled = Mage::app()->useCache(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
+            /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+            $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+            $this->_isCacheEnabled = $cacheState->isEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
         }
         return $this->_isCacheEnabled;
     }

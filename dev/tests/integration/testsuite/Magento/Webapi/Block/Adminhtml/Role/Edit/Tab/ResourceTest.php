@@ -26,7 +26,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configReader;
+    protected $_resourceProvider;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -47,10 +47,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     {
         parent::setUp();
 
-        $this->_configReader = $this->getMockBuilder('Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getAclResources'))
-            ->getMock();
+        $this->_resourceProvider = $this->getMock('Magento_Webapi_Model_Acl_Resource_ProviderInterface');
 
         $this->_ruleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Rule')
             ->disableOriginalConstructor()
@@ -60,19 +57,17 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
         $this->_objectManager = Mage::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
-            array(
-                'configReader' => $this->_configReader,
-                'ruleResource' => $this->_ruleResource
-            )
-        );
+        $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource', array(
+            'resourceProvider' => $this->_resourceProvider,
+            'ruleResource' => $this->_ruleResource
+        ));
         $this->_layout->addBlock($this->_block);
     }
 
     protected function tearDown()
     {
         $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
-        unset($this->_objectManager, $this->_layout, $this->_configReader, $this->_blockFactory, $this->_block);
+        unset($this->_objectManager, $this->_layout, $this->_resourceProvider, $this->_blockFactory, $this->_block);
     }
 
     /**
@@ -93,7 +88,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
 
         $this->_block->setApiRole($apiRole);
 
-        $this->_configReader->expects($this->once())
+        $this->_resourceProvider->expects($this->once())
             ->method('getAclResources')
             ->will($this->returnValue($originResTree));
 

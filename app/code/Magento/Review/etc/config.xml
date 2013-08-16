@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Review>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Catalog />
-                <Magento_Core />
-            </depends>
-        </Magento_Review>
-    </modules>
     <global>
         <resources>
             <review_setup>

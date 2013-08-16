@@ -93,10 +93,9 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_config;
 
     /**
-     * Initialize resource configurations, setup connection, etc
-     *
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param string $resourceName
@@ -104,12 +103,13 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     public function __construct(
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
-        $resourcesConfig->setConfig($modulesConfig);
         $this->_config = $modulesConfig;
+        $resourcesConfig->setConfig($modulesConfig);
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;
@@ -122,7 +122,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         }
 
         $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $this->_config->getModuleConfig($modName);
+        $this->_moduleConfig = $moduleList->getModule($modName);
         $connection = $this->_resourceModel->getConnection($this->_resourceName);
         /**
          * If module setup configuration wasn't loaded
@@ -204,7 +204,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     public function applyDataUpdates()
     {
         $dataVer= $this->_getResource()->getDataVersion($this->_resourceName);
-        $configVer = (string)$this->_moduleConfig->version;
+        $configVer = $this->_moduleConfig['version'];
         if ($dataVer !== false) {
             $status = version_compare($configVer, $dataVer);
             if ($status == self::VERSION_COMPARE_GREATER) {
@@ -224,7 +224,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     public function applyUpdates()
     {
         $dbVer = $this->_getResource()->getDbVersion($this->_resourceName);
-        $configVer = (string)$this->_moduleConfig->version;
+        $configVer = $this->_moduleConfig['version'];
 
         // Module is installed
         if ($dbVer !== false) {
@@ -343,7 +343,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
         $resModel   = (string)$this->_connectionConfig->model;
-        $modName    = (string)$this->_moduleConfig[0]->getName();
+        $modName    = (string)$this->_moduleConfig['name'];
 
         $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
         if (!is_dir($filesDir) || !is_readable($filesDir)) {
@@ -386,7 +386,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     protected function _getAvailableDataFiles($actionType, $fromVersion, $toVersion)
     {
-        $modName    = (string)$this->_moduleConfig[0]->getName();
+        $modName    = (string)$this->_moduleConfig['name'];
         $files      = array();
 
         $filesDir   = Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;

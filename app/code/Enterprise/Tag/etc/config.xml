@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Tag>
-            <version>1.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Tag/>
-                <Enterprise_Reward/>
-                <Enterprise_AdminGws/>
-            </depends>
-        </Enterprise_Tag>
-    </modules>
     <frontend>
         <events>
             <controller_action_predispatch_enterprise_reward_customer_info>

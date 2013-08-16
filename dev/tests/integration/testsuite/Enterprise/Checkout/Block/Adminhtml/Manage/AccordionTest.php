@@ -23,7 +23,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Magento_Backend_Helper_Data")->getAreaCode());
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion');
     }
@@ -32,7 +33,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     {
         $this->_block = null;
         $this->_layout = null;
-        Mage::getConfig()->setCurrentAreaCode(null);
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')->setCurrentScope(null);
     }
 
     public function testToHtml()

@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Oauth>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core/>
-            </depends>
-            <depends>
-                <Magento_User/>
-            </depends>
-        </Magento_Oauth>
-    </modules>
     <global>
         <resources>
             <oauth_setup>

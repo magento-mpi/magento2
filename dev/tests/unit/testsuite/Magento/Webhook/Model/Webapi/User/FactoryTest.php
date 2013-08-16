@@ -84,18 +84,9 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
         );
         $this->_initializeRoleRuleUser();
 
-        $mockDomResource = $this->getMockBuilder('DOMElement')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockDomResource->expects($this->atLeastOnce())
-            ->method('getAttribute')
-            ->will($this->returnValueMap(array(
-                array('id'        , 'topic'),
-                array('parent'    , 'resource'),
-            )));
         $this->_mockAuthConfig->expects($this->once())
             ->method('getAclVirtualResources')
-            ->will($this->returnValue(array($mockDomResource)));
+            ->will($this->returnValue(array(array('id' => 'topic', 'parent' => 'resource'))));
 
         $this->_mockRule->expects($this->once())
             ->method('setResources')
@@ -244,7 +235,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->withAnyParameters()
             ->will($this->returnSelf());
 
-        $this->_mockAuthConfig = $this->getMockBuilder('Magento_Webapi_Model_Acl_Loader_Resource_ConfigReader')
+        $this->_mockAuthConfig = $this->getMockBuilder('Magento_Webapi_Model_Acl_Resource_Provider')
             ->disableOriginalConstructor()
             ->getMock();
     }

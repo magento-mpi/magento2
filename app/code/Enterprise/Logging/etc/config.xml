@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Logging>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Adminhtml/>
-                <Magento_Sales/>
-                <Magento_Catalog/>
-                <Magento_User/>
-            </depends>
-        </Enterprise_Logging>
-    </modules>
     <global>
         <resources>
             <enterprise_logging_setup>

@@ -265,9 +265,13 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function invalidateCache()
     {
-        if ($cacheTypesNode = Mage::getConfig()->getNode(Magento_Core_Model_Cache::XML_PATH_TYPES)) {
-            $cacheTypesList = array_keys($cacheTypesNode->asArray());
-            Mage::app()->getCacheInstance()->invalidateType($cacheTypesList);
+        /** @var Magento_Core_Model_Cache_Config $config */
+        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
+        if ($cacheTypes = $config->getTypes()) {
+            $cacheTypesList = array_keys($cacheTypes);
+            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList->invalidate($cacheTypesList);
         }
         return $this;
     }

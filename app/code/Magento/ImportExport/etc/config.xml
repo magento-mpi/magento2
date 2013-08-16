@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_ImportExport>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends>
-                <Magento_Catalog/>
-            </depends>
-        </Magento_ImportExport>
-    </modules>
     <global>
         <resources>
             <importexport_setup>

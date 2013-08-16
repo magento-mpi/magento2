@@ -117,9 +117,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_sessionMock));
         $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($this->_translatorMock));
 
-        $args = array(
-            'context' => $contextMock, 'areaCode' => Magento_Core_Model_App_Area::AREA_ADMINHTML
-        );
+        $args = array('context' => $contextMock);
 
         $testHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_controller = $testHelper->getObject('Magento_Adminhtml_Controller_System_Account', $args);

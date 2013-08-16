@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Reports>
-            <version>1.6.0.0.2</version>
-            <active>true</active>
-            <depends>
-                <Magento_Customer />
-                <Magento_Catalog />
-                <Magento_Sales />
-                <Magento_Cms />
-            </depends>
-        </Magento_Reports>
-    </modules>
     <global>
         <resources>
             <reports_setup>

@@ -38,7 +38,10 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
      */
     protected function _construct()
     {
-        if (Mage::app()->useCache(Magento_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+
+        if ($cacheState->isEnabled(Magento_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
             if ($this->loadCache()) {
                 return $this;
             }
@@ -47,7 +50,7 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
         $config = Mage::getSingleton('Magento_Core_Model_Config_Modules_Reader')->loadModulesConfiguration('api.xml');
         $this->setXml($config->getNode('api'));
 
-        if (Mage::app()->useCache(Magento_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
+        if ($cacheState->isEnabled(Magento_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
             $this->saveCache();
         }
         return $this;

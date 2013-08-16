@@ -52,7 +52,16 @@
                                 <type>options</type>
                                 <id>is_system</id>
                                 <index>is_system</index>
-                                <options type="options">Magento_Adminhtml_Model_UrlRewriteOptions</options>
+                                <options>
+                                    <system>
+                                        <value>1</value>
+                                        <label translate="true" module="Magento_Backend">System</label>
+                                    </system>
+                                    <custom>
+                                        <value>0</value>
+                                        <label translate="true" module="Magento_Backend">Custom</label>
+                                    </custom>
+                                </options>
                             </arguments>
                         </block>
                         <block type="Magento_Backend_Block_Widget_Grid_Column" as="id_path">

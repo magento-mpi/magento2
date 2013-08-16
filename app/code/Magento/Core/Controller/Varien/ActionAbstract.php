@@ -15,8 +15,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Controller_Varien_ActionAbstract
-    implements Magento_Core_Controller_Varien_DispatchableInterface
+abstract class Magento_Core_Controller_Varien_ActionAbstract implements Magento_Core_Controller_Varien_DispatchableInterface
 {
     /**
      * @var Magento_Core_Controller_Request_Http
@@ -29,23 +28,15 @@ abstract class Magento_Core_Controller_Varien_ActionAbstract
     protected $_response;
 
     /**
-     * @var string
-     */
-    protected $_currentArea;
-
-    /**
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
-     * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Controller_Response_Http $response,
-        $areaCode = null
+        Magento_Core_Controller_Response_Http $response
     ) {
-        $this->_request     = $request;
-        $this->_response    = $response;
-        $this->_currentArea = $areaCode;
+        $this->_request  = $request;
+        $this->_response = $response;
     }
 
     /**

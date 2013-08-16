@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_CatalogInventory>
-            <version>1.6.0.0.4</version>
-            <active>true</active>
-            <depends>
-                <Magento_Catalog/>
-            </depends>
-        </Magento_CatalogInventory>
-    </modules>
     <global>
         <resources>
             <cataloginventory_setup>
@@ -215,12 +206,12 @@
                 </cataloginventory_stock>
                 <catalog_product_attribute>
                     <depends>
-                        <cataloginventory_stock/>
+                        <cataloginventory_stock />
                     </depends>
                 </catalog_product_attribute>
                 <catalog_product_price>
                     <depends>
-                        <cataloginventory_stock/>
+                        <cataloginventory_stock />
                     </depends>
                 </catalog_product_price>
             </indexer>

@@ -30,6 +30,11 @@ class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Mo
         if (false === ($valueInstance instanceof Magento_Core_Model_Option_ArrayInterface)) {
             throw new InvalidArgumentException('Incorrect option model');
         }
-        return $valueInstance->toOptionArray();
+        $options = $valueInstance->toOptionArray();
+        $output = array();
+        foreach ($options as $value => $label) {
+            $output[] = array('value' => $value, 'label' => $label);
+        }
+        return $output;
     }
 }

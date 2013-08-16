@@ -30,6 +30,7 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
      * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_Config $viewConfig
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
@@ -53,6 +54,7 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
         Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_Config $viewConfig,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
@@ -62,8 +64,8 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
-            $frontController, $helperFactory, $viewUrl, $viewConfig, $dirs, $logger, $filesystem, $viewFileSystem,
-            $engineFactory
+            $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
+            $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory
         );
         $this->_authorization = $authorization;
     }

@@ -40,14 +40,7 @@ class Magento_Test_Application
      *
      * @var array
      */
-    protected $_globalEtcFiles;
-
-    /**
-     * Global DI configuration files
-     *
-     * @var array
-     */
-    protected $_globalDiFiles;
+    protected $_globalConfigDir;
 
     /**
      * Module declaration *.xml configuration files
@@ -104,19 +97,17 @@ class Magento_Test_Application
      * @param Magento_Test_Db_DbAbstract $dbInstance
      * @param string $installDir
      * @param Magento_Simplexml_Element $localXml
-     * @param array $globalEtcFiles
-     * @param array $globalDiFiles
+     * @param $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
         Magento_Test_Db_DbAbstract $dbInstance, $installDir, Magento_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $globalDiFiles, array $moduleEtcFiles, $appMode
+        $globalConfigDir, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
-        $this->_globalEtcFiles  = $globalEtcFiles;
-        $this->_globalDiFiles   = $globalDiFiles;
+        $this->_globalConfigDir = realpath($globalConfigDir);
         $this->_moduleEtcFiles  = $moduleEtcFiles;
         $this->_appMode = $appMode;
 
@@ -259,18 +250,20 @@ class Magento_Test_Application
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'static');
 
-        /* Copy configuration files */
-        $etcDirsToFilesMap = array(
-            $this->_installEtcDir              => $this->_globalEtcFiles,
-            $this->_installEtcDir . '/di'      => $this->_globalDiFiles,
-            $this->_installEtcDir . '/modules' => $this->_moduleEtcFiles,
+        // Copy configuration files
+        $globalConfigFiles = glob(
+            $this->_globalConfigDir . DIRECTORY_SEPARATOR . '{*,*' . DIRECTORY_SEPARATOR . '*}.xml', GLOB_BRACE
         );
-        foreach ($etcDirsToFilesMap as $targetEtcDir => $sourceEtcFiles) {
-            $this->_ensureDirExists($targetEtcDir);
-            foreach ($sourceEtcFiles as $sourceEtcFile) {
-                $targetEtcFile = $targetEtcDir . '/' . basename($sourceEtcFile);
-                copy($sourceEtcFile, $targetEtcFile);
-            }
+        foreach ($globalConfigFiles as $file) {
+            $targetFile = $this->_installEtcDir . str_replace($this->_globalConfigDir, '', $file);
+            $this->_ensureDirExists(dirname($targetFile));
+            copy($file, $targetFile);
+        }
+
+        foreach ($this->_moduleEtcFiles as $file) {
+            $targetModulesDir = $this->_installEtcDir . '/modules';
+            $this->_ensureDirExists($targetModulesDir);
+            copy($file, $targetModulesDir . DIRECTORY_SEPARATOR . basename($file));
         }
 
         /* Make sure that local.xml contains an invalid installation date */
@@ -293,10 +286,13 @@ class Magento_Test_Application
         $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
-        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
-        $cacheTypes->persist();
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER, true);
+        $cacheState->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */
         $localXml = file_get_contents($targetLocalXml);
@@ -432,7 +428,6 @@ class Magento_Test_Application
             Mage::app()->loadAreaPart($area, Magento_Core_Model_App_Area::PART_EVENTS);
         } else {
             Mage::app()->loadArea($area);
-            Mage::getConfig()->setCurrentAreaCode($area);
         }
     }
 }

@@ -10,20 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Reminder>
-            <version>1.11.0.2</version>
-            <active>false</active>
-            <depends>
-                <Magento_Customer/>
-                <Magento_Adminhtml/>
-                <Magento_Checkout/>
-                <Magento_Wishlist/>
-                <Magento_SalesRule/>
-                <Magento_Rule/>
-            </depends>
-        </Enterprise_Reminder>
-    </modules>
     <global>
         <resources>
             <enterprise_reminder_setup>

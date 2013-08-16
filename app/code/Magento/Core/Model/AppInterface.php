@@ -192,14 +192,6 @@ interface Magento_Core_Model_AppInterface extends Magento_Core_Model_StoreManage
     public function cleanCache($tags = array());
 
     /**
-     * Check whether to use cache for specific component
-     *
-     * @param null|string $type
-     * @return boolean
-     */
-    public function useCache($type = null);
-
-    /**
      * Deletes all session files
      *
      * @return Magento_Core_Model_AppInterface

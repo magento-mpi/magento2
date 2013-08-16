@@ -13,7 +13,6 @@ class Enterprise_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Frame
 {
 
     /**
-     * @magentoConfigFixture modules/Enterprise_CustomerBalance/active 1
      * @magentoDataFixture Enterprise/CustomerBalance/_files/history.php
      */
     public function testToHtml()

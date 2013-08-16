@@ -10,22 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Rss>
-            <version>1.6.0.0</version>
-            <active>true</active>
-             <depends>
-                <Magento_Catalog/>
-                <Magento_CatalogInventory/>
-                <Magento_Sales/>
-                <Magento_SalesRule/>
-                <Magento_Wishlist/>
-             </depends>
-        </Magento_Rss>
-    </modules>
-    <admin>
-
-    </admin>
     <adminhtml>
         <translate>
             <modules>

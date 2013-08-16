@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Persistent>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Adminhtml />
-                <Magento_Checkout />
-            </depends>
-        </Magento_Persistent>
-    </modules>
     <global>
         <resources>
             <persistent_setup>

@@ -10,30 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Core>
-            <version>1.6.0.15</version>
-            <active>true</active>
-            <system_requirements>
-                <php>
-                    <extensions>
-                        <spl />
-                        <dom />
-                        <simplexml />
-                        <mcrypt />
-                        <hash />
-                        <curl />
-                        <iconv />
-                        <ctype />
-                        <any>
-                            <gd />
-                            <imagick min_version="3.0.0" />
-                        </any>
-                    </extensions>
-                </php>
-            </system_requirements>
-        </Magento_Core>
-    </modules>
     <global>
         <helpers>
             <core>
@@ -43,35 +19,6 @@
         <template>
             <email />
         </template>
-        <cache>
-            <types>
-                <config translate="label,description" module="Magento_Core">
-                    <label>Configuration</label>
-                    <description>System(config.xml, local.xml) and modules configuration files(config.xml).</description>
-                    <class>Magento_Core_Model_Cache_Type_Config</class>
-                </config>
-                <layout translate="label,description" module="Magento_Core">
-                    <label>Layouts</label>
-                    <description>Layout building instructions.</description>
-                    <class>Magento_Core_Model_Cache_Type_Layout</class>
-                </layout>
-                <block_html translate="label,description" module="Magento_Core">
-                    <label>Blocks HTML output</label>
-                    <description>Page blocks HTML.</description>
-                    <class>Magento_Core_Model_Cache_Type_Block</class>
-                </block_html>
-                <translate translate="label,description" module="Magento_Core">
-                    <label>Translations</label>
-                    <description>Translation files.</description>
-                    <class>Magento_Core_Model_Cache_Type_Translate</class>
-                </translate>
-                <collections translate="label,description" module="Magento_Core">
-                    <label>Collections Data</label>
-                    <description>Collection data files.</description>
-                    <class>Magento_Core_Model_Cache_Type_Collection</class>
-                </collections>
-            </types>
-        </cache>
         <design>
             <theme>
                 <allow_view_files_duplication>1</allow_view_files_duplication>

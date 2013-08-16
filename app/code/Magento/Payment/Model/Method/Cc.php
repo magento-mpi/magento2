@@ -16,6 +16,19 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     protected $_canSaveCc     = false;
 
     /**
+     * @var Magento_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     */
+    public function __construct(Magento_Core_Model_ModuleListInterface $moduleList)
+    {
+        $this->_moduleList = $moduleList;
+    }
+
+    /**
      * Assign data to info model instance
      *
      * @param   mixed $data
@@ -268,7 +281,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      */
     public function getIsCentinelValidationEnabled()
     {
-        return false !== Mage::getConfig()->getNode('modules/Magento_Centinel') && 1 == $this->getConfigData('centinel');
+        return null !== $this->_moduleList->getModule('Magento_Centinel') && 1 == $this->getConfigData('centinel');
     }
 
     /**

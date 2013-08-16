@@ -29,6 +29,25 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected $_values;
 
     /**
+     * @var Magento_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_moduleList = $moduleList;
+    }
+
+    /**
      * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
@@ -36,7 +55,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     {
         $html = $this->_getHeaderHtml($element);
 
-        $modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
+        $modules = array_keys($this->_moduleList->getModules());
 
         $dispatchResult = new Magento_Object($modules);
         $this->_eventManager->dispatch('adminhtml_system_config_advanced_disableoutput_render_before',

@@ -1608,23 +1608,19 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      */
     public static function findTranslationModuleName(Magento_Simplexml_Element $node)
     {
-        // Commented out code uses not yet implemented functionality.
         $result = (string) $node->getAttribute('module');
         if ($result) {
-            //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
             return $result;
         }
         foreach (array_reverse($node->xpath('ancestor::*[@module]')) as $element) {
             $result = (string)$element->getAttribute('module');
             if ($result) {
-                //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
                 return $result;
             }
         }
         foreach ($node->xpath('ancestor-or-self::*[last()-1]') as $handle) {
             $name = Mage::getConfig()->determineOmittedNamespace($handle->getName(), true);
             if ($name) {
-                //return Mage::getConfig()->getModuleConfig($name) ? $name : 'core';
                 return $name;
             }
         }

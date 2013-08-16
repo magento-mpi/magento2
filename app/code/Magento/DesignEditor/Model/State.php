@@ -53,9 +53,9 @@ class Magento_DesignEditor_Model_State
     /**
      * Application Cache Manager
      *
-     * @var Magento_Core_Model_Cache_Types
+     * @var Magento_Core_Model_Cache_StateInterface
      */
-    protected $_cacheTypes;
+    protected $_cacheState;
 
     /**
      * @var Magento_DesignEditor_Helper_Data
@@ -76,7 +76,7 @@ class Magento_DesignEditor_Model_State
      * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_Core_Model_Layout_Factory $layoutFactory
      * @param Magento_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Magento_Core_Model_Cache_Types $cacheTypes
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_App $application
@@ -86,7 +86,7 @@ class Magento_DesignEditor_Model_State
         Magento_Backend_Model_Session $backendSession,
         Magento_Core_Model_Layout_Factory $layoutFactory,
         Magento_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Magento_Core_Model_Cache_Types $cacheTypes,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_App $application,
@@ -95,7 +95,7 @@ class Magento_DesignEditor_Model_State
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
         $this->_urlModelFactory = $urlModelFactory;
-        $this->_cacheTypes      = $cacheTypes;
+        $this->_cacheState      = $cacheState;
         $this->_dataHelper      = $dataHelper;
         $this->_objectManager   = $objectManager;
         $this->_application     = $application;
@@ -189,8 +189,8 @@ class Magento_DesignEditor_Model_State
     protected function _disableCache()
     {
         foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
-            if ($this->_cacheTypes->isEnabled($cacheCode)) {
-                $this->_cacheTypes->setEnabled($cacheCode, false);
+            if ($this->_cacheState->isEnabled($cacheCode)) {
+                $this->_cacheState->setEnabled($cacheCode, false);
             }
         }
     }

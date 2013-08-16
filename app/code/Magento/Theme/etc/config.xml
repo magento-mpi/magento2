@@ -10,12 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Theme>
-            <version>1.6.0.0</version>
-            <active>true</active>
-        </Magento_Theme>
-    </modules>
     <global>
         <theme>
             <css>

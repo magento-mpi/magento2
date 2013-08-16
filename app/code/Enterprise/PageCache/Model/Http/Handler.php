@@ -17,19 +17,17 @@ class Enterprise_PageCache_Model_Http_Handler implements Magento_HTTP_HandlerInt
     protected $_processors = array();
 
     /**
-     * @param Magento_Core_Model_Config_Primary $config
+     * @param array $requestProcessors
      * @param Enterprise_PageCache_Model_RequestProcessorFactory $factory
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $config,
+        array $requestProcessors,
         Enterprise_PageCache_Model_RequestProcessorFactory $factory
     ) {
-        $processors = $config->getNode('global/cache/request_processors');
-        if ($processors) {
-            $processors = $processors->asArray();
-            usort($processors, array($this, '_cmp'));
+        if ($requestProcessors) {
+            usort($requestProcessors, array($this, '_cmp'));
 
-            foreach($processors as $processorConfig) {
+            foreach($requestProcessors as $processorConfig) {
                 $this->_processors[] = $factory->create($processorConfig['class']);
             }
         }

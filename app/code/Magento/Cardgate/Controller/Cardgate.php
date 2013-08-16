@@ -68,7 +68,6 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Sales_Model_Order $salesOrder
      * @param Magento_Core_Model_Registry $registry
-     * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
@@ -76,10 +75,9 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
         Magento_Cardgate_Model_BaseFactory $baseFactory,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Sales_Model_Order $salesOrder,
-        Magento_Core_Model_Registry $registry,
-        $areaCode = null
+        Magento_Core_Model_Registry $registry
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
 
         $this->_base = $base;
         $this->_baseFactory = $baseFactory;

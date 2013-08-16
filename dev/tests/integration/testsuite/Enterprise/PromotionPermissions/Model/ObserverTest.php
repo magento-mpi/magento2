@@ -14,12 +14,22 @@
  */
 class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /**
+     * @var Magento_Core_Model_Layout
+     */
     protected $_layout = null;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_moduleListMock;
 
     protected function setUp()
     {
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Magento_Backend_Helper_Data")->getAreaCode());
+        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        Mage::getObjectManager()->addSharedInstance($this->_moduleListMock, 'Mage_Core_Model_ModuleList');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 
@@ -40,7 +50,8 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
             $gridBlock,
             $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer')
         );
-        Mage::getConfig()->setNode('modules/Enterprise_Banner/active', '1');
+        $this->_moduleListMock->expects($this->any())->method('getModule')->with('Enterprise_Banner')
+            ->will($this->returnValue(true));
         $event = new Magento_Event_Observer();
         $event->setBlock($block);
         $observer = Mage::getModel('Enterprise_PromotionPermissions_Model_Observer');

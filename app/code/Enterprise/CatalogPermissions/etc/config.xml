@@ -10,20 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_CatalogPermissions>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Adminhtml/>
-                <Magento_Catalog/>
-                <Magento_CatalogSearch/>
-                <Magento_Sales/>
-                <Magento_Checkout/>
-                <Enterprise_WebsiteRestriction/>
-            </depends>
-        </Enterprise_CatalogPermissions>
-    </modules>
     <global>
         <resources>
             <enterprise_catalogpermissions_setup>
@@ -314,7 +300,7 @@
                 <grant_catalog_product_price>0</grant_catalog_product_price>
                 <grant_checkout_items>0</grant_checkout_items>
                 <restricted_landing_page>no-route</restricted_landing_page>
-                <deny_catalog_search/>
+                <deny_catalog_search />
                 <enabled>0</enabled>
             </enterprise_catalogpermissions>
         </catalog>

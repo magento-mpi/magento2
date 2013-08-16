@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Webhook>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core />
-                <Magento_Webapi />
-                <Magento_Backend />
-            </depends>
-        </Magento_Webhook>
-    </modules>
     <global>
         <resources>
             <webhook_setup>

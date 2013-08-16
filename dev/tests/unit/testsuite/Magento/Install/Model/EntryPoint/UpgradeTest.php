@@ -32,20 +32,13 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
             'Magento_Core_Model_Cache_Frontend_Pool', array('valid', 'current'), array(
-                $this->_config,
                 $this->getMock('Magento_Core_Model_Cache_Frontend_Factory', array(), array(), '', false),
             )
         );
         $cacheFrontendPool->expects($this->at(0))->method('valid')->will($this->returnValue(true));
         $cacheFrontendPool->expects($this->once())->method('current')->will($this->returnValue($cacheFrontend));
 
-        $update = $this->getMock(
-            'Magento_Core_Model_Db_Updater',
-            array('updateScheme', 'updateData'),
-            array(),
-            '',
-            false
-        );
+        $update = $this->getMock('Magento_Core_Model_Db_Updater', array('updateScheme', 'updateData'), array(), '', false);
         $update->expects($this->once())->method('updateScheme');
         $update->expects($this->once())->method('updateData');
 
@@ -73,9 +66,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
     {
         $this->_indexer->expects($this->exactly($reindexAllCount))->method('reindexAll');
         $this->_indexer->expects($this->exactly($reindexReqCount))->method('reindexRequired');
-        $this->_config->expects($this->once())
-            ->method('getParam')
-            ->with(Magento_Install_Model_EntryPoint_Upgrade::REINDEX)
+        $this->_config->expects($this->once())->method('getParam')->with(Magento_Install_Model_EntryPoint_Upgrade::REINDEX)
             ->will($this->returnValue($reindexMode));
         $upgrade = $this->getMock('Magento_Install_Model_EntryPoint_Upgrade', array('_setGlobalObjectManager'),
             array($this->_config, $this->_objectManager));

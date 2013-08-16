@@ -113,17 +113,14 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param string $areaCode
      */
-    public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        $areaCode = null
-    ) {
-        parent::__construct($context->getRequest(), $context->getResponse(), $areaCode);
+    public function __construct(Magento_Core_Controller_Varien_Action_Context $context)
+    {
+        parent::__construct($context->getRequest(), $context->getResponse());
 
         $this->_objectManager   = $context->getObjectManager();
         $this->_frontController = $context->getFrontController();
-        $this->_layout   = $context->getLayout();
+        $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
         $this->_frontController->setAction($this);
 
@@ -132,18 +129,6 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
 
     protected function _construct()
     {
-    }
-
-    /**
-     * Set currently used area code
-     * @param string $areaCode
-     * @return Magento_Core_Controller_Varien_Action
-     */
-    public function setCurrentArea($areaCode)
-    {
-        Mage::getConfig()->setCurrentAreaCode($areaCode);
-        $this->_currentArea = $areaCode;
-        return $this;
     }
 
     /**
@@ -202,7 +187,9 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      */
     public function getLayout()
     {
-        $this->_layout->setArea($this->_currentArea);
+        /** @var Magento_Config_ScopeInterface $configScope */
+        $configScope = $this->_objectManager->get('Magento_Config_ScopeInterface');
+        $this->_layout->setArea($configScope->getCurrentScope());
         return $this->_layout;
     }
 
@@ -420,8 +407,6 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
 
             $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
             Magento_Profiler::start($profilerKey);
-
-            Mage::getConfig()->setCurrentAreaCode($this->_currentArea);
 
             Magento_Profiler::start('predispatch');
             $this->preDispatch();

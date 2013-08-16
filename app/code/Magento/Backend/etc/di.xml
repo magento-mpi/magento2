@@ -24,9 +24,7 @@
             <instance type="Magento_Core_Model_Cache_Type_Layout" />
         </param>
     </type>
-    <virtualType name="Magento_Backend_Model_Cache_Resource_Grid_Options_Statuses" type="Magento_Backend_Model_Config_Source_Statuses_Options">
-        <param name="helper">
-            <instance type="Magento_Index_Helper_Data" />
-        </param>
-    </virtualType>
+    <type name="Magento_Backend_Model_Menu_Config">
+        <param name="menuDirector"><instance type="Magento_Backend_Model_Menu_Director_Director"/></param>
+    </type>
 </config>

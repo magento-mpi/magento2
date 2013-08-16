@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_GoogleAnalytics>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core/>
-            </depends>
-        </Magento_GoogleAnalytics>
-    </modules>
     <frontend>
         <translate>
             <modules>

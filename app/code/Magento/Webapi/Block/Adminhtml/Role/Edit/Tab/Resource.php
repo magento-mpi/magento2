@@ -7,19 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method
- *  Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole() setApiRole(Magento_Webapi_Model_Acl_Role $role)
+ * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole() setApiRole(Magento_Webapi_Model_Acl_Role $role)
  * @method Magento_Webapi_Model_Acl_Role getApiRole() getApiRole()
- * @method
- *  Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
+ * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
  * @method array getSelectedResources() getSelectedResources()
  */
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Backend_Block_Widget_Form
 {
     /**
-     * @var Magento_Acl_Loader_Resource_ConfigReaderInterface
+     * @var Magento_Acl_Resource_ProviderInterface
      */
-    protected $_reader;
+    protected $_resourceProvider;
 
     /**
      * @var Magento_Webapi_Model_Resource_Acl_Rule
@@ -45,20 +43,20 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Acl_Loader_Resource_ConfigReaderInterface $configReader
+     * @param Magento_Acl_Resource_ProviderInterface $resourceProvider
      * @param Magento_Webapi_Model_Resource_Acl_Rule $ruleResource
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Magento_Acl_Loader_Resource_ConfigReaderInterface $configReader,
+        Magento_Acl_Resource_ProviderInterface $resourceProvider,
         Magento_Webapi_Model_Resource_Acl_Rule $ruleResource,
         Magento_Core_Model_Acl_RootResource $rootResource,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_reader = $configReader;
+        $this->_resourceProvider = $resourceProvider;
         $this->_ruleResource = $ruleResource;
         $this->_rootResource = $rootResource;
     }
@@ -72,9 +70,9 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
     {
         /** @var $translator Magento_Webapi_Helper_Data */
         $translator = $this->helper('Magento_Webapi_Helper_Data');
-        $resources = $this->_reader->getAclResources();
+        $resources = $this->_resourceProvider->getAclResources();
         $this->_aclResourcesTree = $this->_mapResources(
-            isset($resources[1]['children']) ? $resources[1]['children'] : array(),
+            $resources[1]['children'],
             $translator
         );
         return parent::_prepareForm();

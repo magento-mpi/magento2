@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Log>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core />
-                <Magento_Customer />
-            </depends>
-        </Magento_Log>
-    </modules>
     <global>
         <ignoredModules>
             <entities>

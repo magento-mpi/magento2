@@ -42,7 +42,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             ->disableOriginalConstructor()
             ->getMock();
         $modulesReaderMock->expects($this->any())
-            ->method('getModuleConfigurationFiles')
+            ->method('getConfigurationFiles')
             ->will($this->returnValue(array()));
 
         $this->_dataServiceConfig = new Magento_Core_Model_DataService_Config(

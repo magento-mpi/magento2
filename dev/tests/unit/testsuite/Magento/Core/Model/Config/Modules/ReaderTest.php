@@ -8,9 +8,9 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Config_Modules_Reader
+ * Test class for Magento_Core_Model_Config_Loader_Modules_File
  */
-class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Config_Loader_Modules_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_Config_Modules_Reader
@@ -20,72 +20,80 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configMock;
+    protected $_moduleListMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fileReaderMock;
+    protected $_protFactoryMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dirsMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_baseConfigMock;
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Modules', array(), array(), '', false, false);
-        $this->_fileReaderMock = $this->getMock('Magento_Core_Model_Config_Loader_Modules_File',
+        $this->_protFactoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
-        $this->_model = new Magento_Core_Model_Config_Modules_Reader(
-            $this->_configMock,
-            $this->_fileReaderMock
-        );
-    }
+        $this->_dirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_baseConfigMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
+        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
 
-    protected function tearDown()
-    {
-        unset($this->_configMock);
-        unset($this->_fileReaderMock);
-        unset($this->_model);
+        $this->_model = new Magento_Core_Model_Config_Modules_Reader(
+            $this->_dirsMock,
+            $this->_protFactoryMock,
+            $this->_moduleListMock
+        );
     }
 
     public function testLoadModulesConfiguration()
     {
+        $modulesConfig = array('mod1' => array());
         $fileName = 'acl.xml';
-        $mergeToObjectMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
-        $mergeModelMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
-        $this->_fileReaderMock->expects($this->once())
-            ->method('loadConfigurationFromFile')
-            ->with($this->equalTo($this->_configMock),
-                   $this->equalTo($fileName),
-                   $this->equalTo($mergeToObjectMock),
-                   $this->equalTo($mergeModelMock))
-            ->will($this->returnValue('test_data')
-        );
-        $result = $this->_model->loadModulesConfiguration($fileName, $mergeToObjectMock, $mergeModelMock);
-        $this->assertEquals('test_data', $result);
+        $this->_protFactoryMock->expects($this->exactly(2))
+            ->method('create')
+            ->with($this->equalTo('<config/>'))
+            ->will($this->returnValue($this->_baseConfigMock));
+
+        $this->_moduleListMock->expects($this->once())
+            ->method('getModules')
+            ->will($this->returnValue($modulesConfig));
+
+        $result = $this->_model->loadModulesConfiguration($fileName, null, null, array());
+        $this->assertInstanceOf('Magento_Core_Model_Config_Base', $result);
     }
 
-    public function testGetModuleConfigurationFiles()
+    public function testLoadModulesConfigurationMergeToObject()
     {
         $fileName = 'acl.xml';
-        $this->_fileReaderMock->expects($this->once())
-            ->method('getConfigurationFiles')
-            ->with($this->equalTo($this->_configMock),
-                   $this->equalTo($fileName))
-            ->will($this->returnValue('test_data')
-        );
-        $result = $this->_model->getModuleConfigurationFiles($fileName);
-        $this->assertEquals('test_data', $result);
+        $mergeToObject = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
+        $mergeModel = null;
+        $modulesConfig = array('mod1' => array());
+
+        $this->_moduleListMock->expects($this->once())
+            ->method('getModules')
+            ->will($this->returnValue($modulesConfig));
+
+        $this->_protFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo('<config/>'))
+            ->will($this->returnValue($mergeToObject));
+
+        $this->_model->loadModulesConfiguration($fileName, $mergeToObject, $mergeModel);
     }
 
-    public function testGetModuleDir()
+    public function testGetModuleDirWithData()
     {
-        $type = 'some_type';
-        $moduleName = 'some_module';
-        $this->_fileReaderMock->expects($this->once())
-            ->method('getModuleDir')
-            ->with($this->equalTo($type),
-                   $this->equalTo($moduleName))
-            ->will($this->returnValue('test_data')
-        );
-        $result = $this->_model->getModuleDir($type, $moduleName);
-        $this->assertEquals('test_data', $result);
+        $moduleName = 'test';
+        $type = 'etc';
+        $path = realpath(__DIR__. '/../../_files/testdir/etc');
+        $this->_model->setModuleDir($moduleName, $type, $path);
+        $this->assertEquals($path, $this->_model->getModuleDir($type, $moduleName));
     }
 }

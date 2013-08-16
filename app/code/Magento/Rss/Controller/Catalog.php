@@ -18,6 +18,23 @@
 class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Action
 {
     /**
+     * @var Magento_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Config_Scope $configScope
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Config_Scope $configScope
+    ) {
+        $this->_configScope = $configScope;
+        parent::__construct($context);
+    }
+
+    /**
      * Emulate admin area for certain actions
      */
     public function preDispatch()
@@ -28,7 +45,7 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
          */
         $acl = array('notifystock' => 'Magento_Catalog::products', 'review' => 'Magento_Review::reviews_all');
         if (isset($acl[$action])) {
-            $this->setCurrentArea('adminhtml');
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
             if (Magento_Rss_Controller_Order::authenticateAndAuthorizeAdmin($this, $acl[$action])) {
                 return;
             }

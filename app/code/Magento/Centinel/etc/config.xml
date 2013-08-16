@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Centinel>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Payment />
-                <Magento_Checkout />
-            </depends>
-        </Magento_Centinel>
-    </modules>
     <global>
         <events>
             <sales_convert_quote_to_order>

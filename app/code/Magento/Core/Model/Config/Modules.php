@@ -46,18 +46,6 @@ class Magento_Core_Model_Config_Modules implements Magento_Core_Model_ConfigInte
     }
 
     /**
-     * Create node by $path and set its value
-     *
-     * @param string $path separated by slashes
-     * @param string $value
-     * @param boolean $overwrite
-     */
-    public function setNode($path, $value, $overwrite = true)
-    {
-        $this->_data->setNode($path, $value, $overwrite);
-    }
-
-    /**
      * Returns nodes found by xpath expression
      *
      * @param string $xpath
@@ -69,19 +57,15 @@ class Magento_Core_Model_Config_Modules implements Magento_Core_Model_ConfigInte
     }
 
     /**
-     * Get module config node
+     * Create node by $path and set its value
      *
-     * @param string $moduleName
-     * @return Magento_Simplexml_Element
+     * @param string $path separated by slashes
+     * @param string $value
+     * @param boolean $overwrite
      */
-    public function getModuleConfig($moduleName = '')
+    public function setNode($path, $value, $overwrite = true)
     {
-        $modules = $this->getNode('modules');
-        if ('' === $moduleName) {
-            return $modules;
-        } else {
-            return $modules->$moduleName;
-        }
+        $this->_data->setNode($path, $value, $overwrite);
     }
 
     /**

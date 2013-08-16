@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Sitemap>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Catalog />
-            </depends>
-        </Magento_Sitemap>
-    </modules>
     <global>
         <resources>
             <sitemap_setup>
@@ -65,7 +56,7 @@
             <product>
                 <priority>1</priority>
                 <changefreq>daily</changefreq>
-                <image_include>all</image_include>
+                <imagento_include>all</imagento_include>
             </product>
             <generate>
                 <enabled>0</enabled>

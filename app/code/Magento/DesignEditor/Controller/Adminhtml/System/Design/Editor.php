@@ -29,18 +29,16 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Theme_Model_Config $themeConfig
      * @param Magento_Theme_Model_Config_Customization $customizationConfig
-     * @param null $areaCode
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Theme_Model_Config $themeConfig,
-        Magento_Theme_Model_Config_Customization $customizationConfig,
-        $areaCode = null
+        Magento_Theme_Model_Config_Customization $customizationConfig
     ) {
         $this->_themeConfig         = $themeConfig;
         $this->_customizationConfig = $customizationConfig;
 
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
     }
 
     /**
@@ -296,10 +294,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
 
         $virtualTheme = $this->_loadThemeById($themeId);
         if (!$virtualTheme->isVirtual()) {
-            throw new Magento_Core_Exception(
-                $this->_helper->__('Theme "%s" is not editable.',
-                $virtualTheme->getId())
-            );
+            throw new Magento_Core_Exception($this->_helper->__('Theme "%s" is not editable.', $virtualTheme->getId()));
         }
 
         try {
@@ -455,8 +450,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      */
     protected function _isFirstEntrance()
     {
-        $isCustomized = (bool)$this->_objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory')
-            ->create()
+        $isCustomized = (bool)$this->_objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory')->create()
             ->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL)
             ->getSize();
         return !$isCustomized;

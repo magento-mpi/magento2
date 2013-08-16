@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Checkout>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Sales/>
-            </depends>
-        </Enterprise_Checkout>
-    </modules>
-    <global>
-    </global>
     <admin>
         <routers>
             <adminhtml>

@@ -122,6 +122,11 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     protected $_eventManager;
 
     /**
+     * @var Magento_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_CacheInterface $cache
@@ -130,6 +135,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
         Magento_Core_Model_Config $config,
@@ -139,7 +145,8 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
         Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_App_State $appState
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Config_Scope $configScope
     ) {
         $this->_config = $config;
         $this->_cache = $cache;
@@ -149,6 +156,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
         $this->_frontController = $frontController;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
+        $this->_configScope = $configScope;
     }
 
     /**
@@ -241,7 +249,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
                 if (isset($areaInfo['front_controller'])
                     && isset($areaInfo['frontName']) && ($frontName == $areaInfo['frontName'])
                 ) {
-                    $this->getConfig()->setCurrentAreaCode($areaCode);
+                    $this->_configScope->setCurrentScope($areaCode);
                     $frontControllerClass = $areaInfo['front_controller'];
                     break;
                 }
@@ -270,6 +278,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function loadArea($code)
     {
+        $this->_configScope->setCurrentScope($code);
         $this->getArea($code)->load();
         return $this;
     }
@@ -451,18 +460,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
         $this->_cache->clean($tags);
         $this->_eventManager->dispatch('application_clean_cache', array('tags' => $tags));
         return $this;
-    }
-
-    /**
-     * Check whether to use cache for specific component
-     *
-     * @param null|string $type
-     * @return boolean
-     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Magento_Core_Model_Cache_Types::isEnabled()
-     */
-    public function useCache($type = null)
-    {
-        return $this->_cache->canUse($type);
     }
 
     /**

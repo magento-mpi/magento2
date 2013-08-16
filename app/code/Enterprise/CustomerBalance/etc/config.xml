@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_CustomerBalance>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Customer />
-                <Magento_Sales />
-            </depends>
-        </Enterprise_CustomerBalance>
-    </modules>
     <global>
         <resources>
             <enterprise_customerbalance_setup>

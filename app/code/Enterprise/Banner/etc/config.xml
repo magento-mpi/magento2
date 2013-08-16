@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Banner>
-            <version>1.11.0.1</version>
-            <active>false</active>
-            <depends>
-                <Magento_Adminhtml/>
-                <Magento_CatalogRule/>
-                <Magento_SalesRule/>
-                <Enterprise_Cms/>
-            </depends>
-        </Enterprise_Banner>
-    </modules>
     <global>
         <resources>
             <enterprise_banner_setup>
@@ -43,8 +31,6 @@
             </banner>
         </enterprise>
     </global>
-    <frontend>
-    </frontend>
     <admin>
         <routers>
             <adminhtml>

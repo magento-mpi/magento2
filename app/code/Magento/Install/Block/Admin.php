@@ -27,7 +27,7 @@ class Magento_Install_Block_Admin extends Magento_Install_Block_Abstract
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getFormData()
     {

@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Media>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core/>
-            </depends>
-        </Magento_Media>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

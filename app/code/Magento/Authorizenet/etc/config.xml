@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Authorizenet>
-            <version>1.5.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Paygate />
-                <Magento_Sales />
-                <Magento_Checkout />
-            </depends>
-        </Magento_Authorizenet>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

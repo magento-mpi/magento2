@@ -16,6 +16,16 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configScopeMock;
+
+    /**
+     * @var Magento_Core_Model_ModuleListInterface
+     */
+    protected $_moduleListMock;
+
     public function setUp()
     {
         $xml = '<config>
@@ -55,9 +65,12 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $invalidatorMock = $this->getMock('Magento_Core_Model_Config_InvalidatorInterface');
+        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
+        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
 
         $this->_model = new Magento_Core_Model_Config(
-            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $invalidatorMock
+            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $this->_moduleListMock,
+            $invalidatorMock, $this->_configScopeMock
         );
     }
 
@@ -81,13 +94,13 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testSetNodeData()
     {
-        $this->_model->setNode('modules/Module/active', 'true');
+        $this->_model->setNode('some/custom/node', 'true');
 
         /** @var Magento_Core_Model_Config_Element $tmp */
         $node = 'true';
         $expected = array($node);
 
-        $actual = $this->_model->getXpath('modules/Module/active');
+        $actual = $this->_model->getXpath('some/custom/node');
         $this->assertEquals($expected, $actual);
     }
 
@@ -95,19 +108,6 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento_Core_Model_Config_Element', $this->_model->getNode(
             'global/resources/module_setup/setup/module'));
-    }
-
-    public function testSetCurrentAreaCode()
-    {
-        $this->assertInstanceOf('Magento_Core_Model_Config', $this->_model->setCurrentAreaCode('adminhtml'));
-    }
-
-    public function testGetCurrentAreaCode()
-    {
-        $areaCode = 'adminhtml';
-        $this->_model->setCurrentAreaCode($areaCode);
-        $actual = $this->_model->getCurrentAreaCode();
-        $this->assertEquals($areaCode, $actual);
     }
 
     public function testGetAreas()
@@ -125,7 +125,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         $areaCode = 'adminhtml';
-        $this->_model->setCurrentAreaCode($areaCode);
+        $this->_configScopeMock->expects($this->any())
+            ->method('getCurrentScope')->will($this->returnValue($areaCode));
         $this->assertEquals($expected, $this->_model->getAreas());
     }
 
@@ -141,10 +142,5 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $this->_model->getRouters());
-    }
-
-    public function testGetModuleConfig()
-    {
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $this->_model->getModuleConfig('Module'));
     }
 }

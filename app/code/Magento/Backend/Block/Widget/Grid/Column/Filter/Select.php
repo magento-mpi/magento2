@@ -30,8 +30,13 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Select extends Magento_Bac
         $colOptions = $this->getColumn()->getOptions();
         if (!empty($colOptions) && is_array($colOptions) ) {
             $options = array($emptyOption);
-            foreach ($colOptions as $value => $label) {
-                $options[] = array('value' => $value, 'label' => $label);
+
+            foreach ($colOptions as $key => $option) {
+                if (is_array($option)) {
+                    $options[] = $option;
+                } else {
+                    $options[] = array('value' => $key, 'label' => $option);
+                }
             }
             return $options;
         }

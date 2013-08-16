@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_PageCache>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core/>
-            </depends>
-        </Magento_PageCache>
-    </modules>
     <global>
         <external_cache>
             <controls>
@@ -71,15 +62,15 @@
         </events>
         <cache>
             <allowed_requests>
-                <cms/>
+                <cms />
                 <catalog>
                     <category>
-                        <view/>
+                        <view />
                     </category>
                 </catalog>
                 <catalog>
                     <product>
-                        <view/>
+                        <view />
                     </product>
                 </catalog>
             </allowed_requests>

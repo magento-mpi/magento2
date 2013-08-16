@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Install>
-            <version>0.7.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core/>
-            </depends>
-        </Magento_Install>
-    </modules>
     <frontend>
         <secure_url>
             <install>/install/wizard/checkSecureHost</install>

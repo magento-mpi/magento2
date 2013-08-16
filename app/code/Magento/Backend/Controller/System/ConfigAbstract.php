@@ -33,15 +33,13 @@ abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param Magento_Backend_Model_Auth_StorageInterface $authSession
-     * @param string $areaCode
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Backend_Model_Auth_StorageInterface $authSession,
-        $areaCode = null
+        Magento_Backend_Model_Auth_StorageInterface $authSession
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_configStructure = $configStructure;
         $this->_authSession = $authSession;
     }

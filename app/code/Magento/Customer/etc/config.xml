@@ -3,23 +3,13 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <modules>
-        <Magento_Customer>
-            <version>1.6.2.0.3</version>
-            <active>true</active>
-            <depends>
-                <Magento_Eav />
-                <Magento_Directory />
-            </depends>
-        </Magento_Customer>
-    </modules>
     <global>
         <customer>
             <address>

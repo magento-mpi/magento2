@@ -8,17 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_GoogleOptimizer>
-            <version>2.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Magento_GoogleAnalytics/>
-                <Magento_Catalog/>
-                <Magento_Cms/>
-            </depends>
-        </Magento_GoogleOptimizer>
-    </modules>
     <global>
         <resources>
             <googleoptimizer_setup>

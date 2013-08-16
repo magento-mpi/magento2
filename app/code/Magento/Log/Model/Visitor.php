@@ -214,7 +214,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return $this
      */
     public function bindQuoteCreate($observer)
@@ -230,7 +230,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return $this
      */
     public function bindQuoteDestroy($observer)
@@ -287,7 +287,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return bool
      */
     public function isModuleIgnored($observer)

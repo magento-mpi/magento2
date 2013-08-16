@@ -19,62 +19,30 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         /** @var Magento_Core_Model_Dir $dirs */
         $dirs = Mage::getObjectManager()->create(
             'Magento_Core_Model_Dir', array(
-                'baseDir' => array(BP),
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
-        );
-
-        /** @var Magento_Core_Model_Config_Loader_Modules $modulesLoader */
-        $modulesLoader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Loader_Modules', array(
-                'dirs' => $dirs
+                'baseDir' => BP,
+                'dirs' => array(
+                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
+                )
             )
         );
 
-        /**
-         * Mock is used to disable caching, as far as Integration Tests Framework loads main
-         * modules configuration first and it gets cached
-         *
-         * @var PHPUnit_Framework_MockObject_MockObject $cache
-         */
-        $cache = $this->getMock('Magento_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
-            array(), '', false);
-        
-        $cache->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(false));
-
-        /** @var Magento_Core_Model_Config_Storage $storage */
-        $storage = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Storage', array(
-                'loader' => $modulesLoader,
-                'cache' => $cache
-            )
-        );
-
-        $config = new Magento_Core_Model_Config_Base('<config />');
-        $modulesLoader->load($config);
-
-        /** @var Magento_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
-
-        /** @var Magento_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Loader_Modules_File', array(
-                'dirs' => $dirs
-            )
-        );
+        $moduleList = Mage::getObjectManager()->create('Magento_Core_Model_ModuleList', array(
+            'reader' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
+                'fileResolver' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_FileResolver',
+                    array(
+                        'applicationDirs' => $dirs
+                    )
+                )
+            )),
+            'cache' => $this->getMock('Magento_Config_CacheInterface')
+        ));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
-            'Magento_Core_Model_Config_Modules_Reader', array(
-                'fileReader' => $fileReader,
-                'modulesConfig' => $modulesConfig
-            )
-        );
+        $moduleReader = Mage::getObjectManager()->create('Magento_Core_Model_Config_Modules_Reader', array(
+            'dirs' => $dirs,
+            'moduleList' => $moduleList
+        ));
 
         /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = Mage::getObjectManager()->create(

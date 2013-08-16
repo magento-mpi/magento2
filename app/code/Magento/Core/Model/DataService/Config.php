@@ -74,7 +74,7 @@ class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataSe
      */
     protected function _getServiceCallsFiles()
     {
-        return $this->_moduleReader->getModuleConfigurationFiles('service_calls.xml');
+        return $this->_moduleReader->getConfigurationFiles('service_calls.xml');
     }
 
     /**

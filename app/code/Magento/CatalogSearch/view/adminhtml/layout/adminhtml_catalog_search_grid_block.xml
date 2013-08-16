@@ -95,7 +95,16 @@
                             <width>100px</width>
                             <align>left</align>
                             <type>options</type>
-                            <options type="options">Magento_CatalogSearch_Model_Terms_Grid_OptionsArray</options>
+                            <options>
+                                <yes>
+                                    <value>1</value>
+                                    <label translate="true" module="Magento_Catalog">yes</label>
+                                </yes>
+                                <no>
+                                    <value>0</value>
+                                    <label translate="true" module="Magento_Catalog">no</label>
+                                </no>
+                            </options>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">

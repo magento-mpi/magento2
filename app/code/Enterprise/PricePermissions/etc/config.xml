@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_PricePermissions>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Magento_Bundle/>
-                <Magento_Catalog/>
-                <Magento_Downloadable/>
-                <Enterprise_GiftCard/>
-            </depends>
-        </Enterprise_PricePermissions>
-    </modules>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>

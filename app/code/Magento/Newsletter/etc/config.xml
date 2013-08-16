@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Newsletter>
-            <version>1.6.0.2</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core />
-                <Magento_Customer />
-                <Magento_Eav />
-                <Magento_Widget />
-            </depends>
-        </Magento_Newsletter>
-    </modules>
     <global>
         <resources>
             <newsletter_setup>

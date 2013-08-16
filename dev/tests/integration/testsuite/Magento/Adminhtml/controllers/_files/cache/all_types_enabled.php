@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-/** @var $cache Magento_Core_Model_Cache */
-$cache = Mage::getModel('Magento_Core_Model_Cache');
-$types = array_keys($cache->getTypes());
+/** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
+$cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+$types = array_keys($cacheTypeList->getTypes());
 
-/** @var $cacheTypes Magento_Core_Model_Cache_Types */
-$cacheTypes = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Types');
+/** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+$cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
 foreach ($types as $type) {
-    $cacheTypes->setEnabled($type, true);
+    $cacheState->setEnabled($type, true);
 }
-$cacheTypes->persist();
+$cacheState->persist();

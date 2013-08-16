@@ -23,7 +23,9 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::app()->getCacheInstance()->allowUse('full_page');
+        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
             'Enterprise_PageCache_Model_Cookie',
             array('set', 'delete', 'updateCustomerCookies'),
@@ -52,13 +54,16 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Magento_Core_Controller_Front_Action',
-                array('context' => $context, 'areaCode' => 'frontend')
+                array('context' => $context)
             )
         )));
 
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
-        Mage::app()->getCacheInstance()->allowUse(Magento_Core_Block_Abstract::CACHE_GROUP);
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+
+        $cacheState->setEnabled(Magento_Core_Block_Abstract::CACHE_GROUP, true);
 
         /** @var $session Magento_Catalog_Model_Session */
         $session = Mage::getSingleton('Magento_Catalog_Model_Session');
@@ -66,7 +71,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_observer->processPreDispatch($observerData);
 
-        $this->assertFalse(Mage::app()->useCache(Magento_Core_Block_Abstract::CACHE_GROUP));
+        $this->assertFalse($cacheState->isEnabled(Magento_Core_Block_Abstract::CACHE_GROUP));
         $this->assertTrue(Mage::getSingleton('Magento_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
@@ -85,7 +90,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Magento_Core_Controller_Front_Action',
-                array('context' => $context, 'areaCode' => 'frontend')
+                array('context' => $context)
             )
         )));
         $this->_cookie

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Converter
+class Magento_Backend_Model_Config_Structure_Converter implements Magento_Config_ConverterInterface
 {
     /**
      * @var Magento_Backend_Model_Config_Structure_Mapper_Factory
@@ -52,14 +52,14 @@ class Magento_Backend_Model_Config_Structure_Converter
     }
 
     /**
-     * Retrieve DOMDocument as array
+     * Convert dom document
      *
-     * @param DOMNode $root
-     * @return mixed
+     * @param mixed $source
+     * @return array
      */
-    public function convert(DOMNode $root)
+    public function convert($source)
     {
-        $result = $this->_convertDOMDocument($root);
+        $result = $this->_convertDOMDocument($source);
 
         foreach ($this->_mapperList as $type) {
             /** @var $mapper Magento_Backend_Model_Config_Structure_MapperInterface */

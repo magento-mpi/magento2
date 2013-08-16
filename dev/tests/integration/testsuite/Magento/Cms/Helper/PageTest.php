@@ -13,7 +13,7 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Cms/_files/pages.php
+     * @magentoDataFixture Mage/Cms/_files/pages.php
      */
     public function testRenderPage()
     {
@@ -27,13 +27,7 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
         /** @var $pageHelper Magento_Cms_Helper_Page */
         $pageHelper = Mage::helper('Magento_Cms_Helper_Page');
         $result = $pageHelper->renderPage(
-            Mage::getModel(
-                'Magento_Core_Controller_Front_Action',
-                array(
-                    'context' => $context,
-                    'areaCode' => 'frontend'
-                )
-            ),
+            Mage::getModel('Magento_Core_Controller_Front_Action', array('context' => $context)),
             $page->getId()
         );
         $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());

@@ -34,11 +34,6 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_appConfigMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_storeConfigMock;
 
     /**
@@ -50,6 +45,11 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_moduleListMock;
 
     /**
      * @var array
@@ -67,23 +67,23 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_aclMock = $this->getMock('Magento_AuthorizationInterface');
-        $this->_appConfigMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config');
-        $this->_menuFactoryMock = $this->getMock('Magento_Backend_Model_Menu_Factory', array(), array(), '', false);
+        $this->_menuFactoryMock = $this->getMock('Magento_Backend_Model_MenuFactory', array('create'), array(), '', false);
         $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento_Backend_Model_Menu_Item_Validator');
         $this->_validatorMock->expects($this->any())
             ->method('validate');
+        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
 
         $this->_model = new Magento_Backend_Model_Menu_Item(
             $this->_validatorMock,
             $this->_aclMock,
-            $this->_appConfigMock,
             $this->_storeConfigMock,
             $this->_menuFactoryMock,
             $this->_urlModelMock,
             $this->_helperMock,
+            $this->_moduleListMock,
             $this->_params
         );
     }
@@ -94,11 +94,11 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $item = new Magento_Backend_Model_Menu_Item(
             $this->_validatorMock,
             $this->_aclMock,
-            $this->_appConfigMock,
             $this->_storeConfigMock,
             $this->_menuFactoryMock,
             $this->_urlModelMock,
             $this->_helperMock,
+            $this->_moduleListMock,
             $this->_params
         );
         $this->assertEquals('#', $item->getUrl());
@@ -126,11 +126,11 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $item = new Magento_Backend_Model_Menu_Item(
             $this->_validatorMock,
             $this->_aclMock,
-            $this->_appConfigMock,
             $this->_storeConfigMock,
             $this->_menuFactoryMock,
             $this->_urlModelMock,
             $this->_helperMock,
+            $this->_moduleListMock,
             $this->_params
         );
         $this->assertTrue($item->hasClickCallback());
@@ -142,11 +142,11 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $item = new Magento_Backend_Model_Menu_Item(
             $this->_validatorMock,
             $this->_aclMock,
-            $this->_appConfigMock,
             $this->_storeConfigMock,
             $this->_menuFactoryMock,
             $this->_urlModelMock,
             $this->_helperMock,
+            $this->_moduleListMock,
             $this->_params
         );
         $this->assertEquals('return false;', $item->getClickCallback());
@@ -171,15 +171,9 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->method('isModuleOutputEnabled')
             ->will($this->returnValue(true));
 
-        $moduleConfig = new stdClass();
-        $moduleConfig->{'Magento_Backend'} = $this->getMock('Magento_Test_Module_Config');
-        $moduleConfig->{'Magento_Backend'}->expects($this->once())
-            ->method('is')
-            ->will($this->returnValue(false));
-
-        $this->_appConfigMock->expects($this->once())
-            ->method('getNode')
-            ->will($this->returnValue($moduleConfig));
+        $this->_moduleListMock->expects($this->once())
+            ->method('getModule')
+            ->will($this->returnValue(array('name' => 'Magento_Backend')));
 
         $this->assertTrue($this->_model->isDisabled());
     }
@@ -190,15 +184,9 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->method('isModuleOutputEnabled')
             ->will($this->returnValue(true));
 
-        $moduleConfig = new stdClass();
-        $moduleConfig->{'Magento_Backend'} = $this->getMock('Magento_Test_Module_Config', array('is'));
-        $moduleConfig->{'Magento_Backend'}->expects($this->once())
-            ->method('is')
-            ->will($this->returnValue(true));
-
-        $this->_appConfigMock->expects($this->once())
-            ->method('getNode')
-            ->will($this->returnValue($moduleConfig));
+        $this->_moduleListMock->expects($this->once())
+            ->method('getModule')
+            ->will($this->returnValue(array('name' => 'Magento_Backend')));
 
         $this->assertTrue($this->_model->isDisabled());
     }
@@ -209,15 +197,9 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->method('isModuleOutputEnabled')
             ->will($this->returnValue(true));
 
-        $moduleConfig = new stdClass();
-        $moduleConfig->{'Magento_Backend'} = $this->getMock('Magento_Test_Module_Config', array('is'));
-        $moduleConfig->{'Magento_Backend'}->expects($this->once())
-            ->method('is')
-            ->will($this->returnValue(true));
-
-        $this->_appConfigMock->expects($this->once())
-            ->method('getNode')
-            ->will($this->returnValue($moduleConfig));
+        $this->_moduleListMock->expects($this->once())
+            ->method('getModule')
+            ->will($this->returnValue(array('name' => 'Magento_Backend')));
 
         $this->_storeConfigMock->expects($this->once())
             ->method('getConfigFlag')
@@ -249,7 +231,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
 
         $this->_menuFactoryMock->expects($this->once())
-            ->method('getMenuInstance')
+            ->method('create')
             ->will($this->returnValue($menuMock));
 
         $this->_model->getChildren();

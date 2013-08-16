@@ -1588,7 +1588,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     /**
      * Delete entity using current object's data
      *
-     * @param Varien_Object|int|string $object
+     * @param Magento_Object|int|string $object
      * @return Magento_Eav_Model_Entity_Abstract
      * @throws Exception
      */

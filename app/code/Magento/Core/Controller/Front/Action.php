@@ -19,13 +19,6 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
     const SESSION_NAMESPACE = 'frontend';
 
     /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea = 'frontend';
-
-    /**
      * Namespace for session.
      *
      * @var string

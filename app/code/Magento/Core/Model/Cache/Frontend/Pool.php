@@ -13,22 +13,10 @@
  */
 class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
 {
-    /**#@+
-     * XPaths where cache frontend settings reside
-     */
-    const XML_PATH_SETTINGS_DEFAULT = 'global/cache';
-    const XML_PATH_SETTINGS_CUSTOM  = 'global/cache_advanced';
-    /**#@-*/
-
     /**
      * Frontend identifier associated with the default settings
      */
     const DEFAULT_FRONTEND_ID = 'generic';
-
-    /**
-     * @var Magento_Core_Model_ConfigInterface
-     */
-    private $_config;
 
     /**
      * @var Magento_Core_Model_Cache_Frontend_Factory
@@ -41,17 +29,32 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     private $_instances;
 
     /**
-     * Store references to objects, necessary to perform delayed initialization
+     * Advanced config settings
      *
-     * @param Magento_Core_Model_Config_Primary $cacheConfig
+     * @var array
+     */
+    private $_advancedSettings;
+
+    /**
+     * Default cache settings
+     *
+     * @var array
+     */
+    private $_defaultSettings;
+
+    /**
      * @param Magento_Core_Model_Cache_Frontend_Factory $frontendFactory
+     * @param array $defaultSettings
+     * @param array $advancedSettings
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $cacheConfig,
-        Magento_Core_Model_Cache_Frontend_Factory $frontendFactory
+        Magento_Core_Model_Cache_Frontend_Factory $frontendFactory,
+        array $defaultSettings = array(),
+        array $advancedSettings = array()
     ) {
-        $this->_config = $cacheConfig;
         $this->_factory = $frontendFactory;
+        $this->_advancedSettings = $advancedSettings;
+        $this->_defaultSettings = empty($defaultSettings) == false ? $defaultSettings : array();
     }
 
     /**
@@ -62,16 +65,12 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
         if ($this->_instances === null) {
             $this->_instances = array();
             // default front-end
-            $frontendNode = $this->_config->getNode(self::XML_PATH_SETTINGS_DEFAULT);
-            $frontendOptions = $frontendNode ? $frontendNode->asArray() : array();
-            $this->_instances[self::DEFAULT_FRONTEND_ID] = $this->_factory->create($frontendOptions);
+            $this->_instances[self::DEFAULT_FRONTEND_ID] = $this->_factory->create($this->_defaultSettings);
             // additional front-ends
-            $frontendNodes = $this->_config->getNode(self::XML_PATH_SETTINGS_CUSTOM);
-            if ($frontendNodes) {
+
+            if ($this->_advancedSettings) {
                 /** @var $frontendNode Magento_Simplexml_Element */
-                foreach ($frontendNodes->children() as $frontendNode) {
-                    $frontendId = $frontendNode->getName();
-                    $frontendOptions = $frontendNode->asArray();
+                foreach ($this->_advancedSettings as  $frontendId => $frontendOptions) {
                     $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
                 }
             }

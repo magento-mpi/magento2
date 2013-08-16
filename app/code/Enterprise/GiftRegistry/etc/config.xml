@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_GiftRegistry>
-            <version>1.11.0.0.1</version>
-            <active>false</active>
-            <depends>
-                <Magento_Adminhtml/>
-                <Magento_Sales />
-            </depends>
-        </Enterprise_GiftRegistry>
-    </modules>
     <global>
         <resources>
             <enterprise_giftregistry_setup>

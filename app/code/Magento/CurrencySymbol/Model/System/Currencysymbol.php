@@ -239,9 +239,11 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      */
     public function clearCache()
     {
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {
-            Mage::app()->getCacheInstance()->invalidateType($cacheType);
+            $cacheTypeList->invalidate($cacheType);
         }
         return $this;
     }

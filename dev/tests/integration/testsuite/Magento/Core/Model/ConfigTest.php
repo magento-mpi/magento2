@@ -20,7 +20,9 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        Mage::app()->getCacheInstance()->banUse('config');
+        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('config', false);
     }
 
     public function testSetNode()
@@ -47,20 +49,13 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/', $this->_createModel()->getDistroBaseUrl());
     }
 
-    public function testGetModuleConfig()
-    {
-        $model = $this->_createModel();
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $model->getModuleConfig());
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $model->getModuleConfig('Magento_Core'));
-    }
-
     public function testGetModuleDir()
     {
         $model = $this->_createModel();
         foreach (array('etc', 'controllers', 'sql', 'data', 'locale') as $type) {
             $dir = $model->getModuleDir($type, 'Magento_Core');
             $this->assertStringEndsWith($type, $dir);
-            $this->assertContains('Magento' . DIRECTORY_SEPARATOR . 'Core', $dir);
+            $this->assertContains('Mage' . DIRECTORY_SEPARATOR . 'Core', $dir);
         }
         $this->assertTrue(is_dir($this->_createModel()->getModuleDir('etc', 'Magento_Core')));
     }

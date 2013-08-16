@@ -15,11 +15,9 @@ class Enterprise_PageCache_Model_Processor_Restriction
 {
 
     /**
-     * Application cache model
-     *
-     * @var Magento_Core_Model_CacheInterface
+     * @var Magento_Core_Model_Cache_StateInterface
      */
-    protected $_cache;
+    protected $_cacheState;
 
     /**
      * Flag is denied mode
@@ -36,14 +34,14 @@ class Enterprise_PageCache_Model_Processor_Restriction
     protected $_environment;
 
     /**
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Enterprise_PageCache_Model_Environment $environment
      */
     public function __construct(
-        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         Enterprise_PageCache_Model_Environment $environment
     ) {
-        $this->_cache = $cache;
+        $this->_cacheState = $cacheState;
         $this->_environment = $environment;
     }
 
@@ -75,7 +73,7 @@ class Enterprise_PageCache_Model_Processor_Restriction
             return false;
         }
 
-        if (!$this->_cache->canUse('full_page')) {
+        if (!$this->_cacheState->isEnabled('full_page')) {
             return false;
         }
 

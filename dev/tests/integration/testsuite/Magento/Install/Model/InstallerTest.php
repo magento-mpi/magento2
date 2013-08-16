@@ -157,7 +157,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
      */
     public function testFinish()
     {
@@ -167,12 +167,15 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
         $this->_model->finish();
 
-        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Magento_Core_Model_Cache_Types');
-        $types = array_keys(Mage::getModel('Magento_Core_Model_Cache')->getTypes());
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Magento_Core_Model_Cache_StateInterface');
+
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(
-                $cacheTypes->isEnabled($type),
+                $cacheState->isEnabled($type),
                 "'$type' cache type has not been enabled after installation"
             );
         }

@@ -376,13 +376,12 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            Mage::app()->getCacheInstance()->invalidateType(array_keys($types));
+            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList->invalidate(array_keys($types));
         }
         return $this;
     }
-
-
-
 
     /**
      * @deprecated after 1.11.2.0

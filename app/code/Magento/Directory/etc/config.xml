@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Magento_Directory>
-            <version>1.6.0.1</version>
-            <active>true</active>
-            <depends>
-                <Magento_Core />
-            </depends>
-        </Magento_Directory>
-    </modules>
     <global>
         <currency>
             <import>
