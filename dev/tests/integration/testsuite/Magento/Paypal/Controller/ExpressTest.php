@@ -14,6 +14,7 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_Test_TestCase_Contro
      */
     public function testReviewAction()
     {
+        $this->markTestSkipped('There is a dependency that needs to be identified for this test');
         $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         echo "Quote ID: {$quote->getId}\n";
