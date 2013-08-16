@@ -44,7 +44,6 @@
                 <Enterprise_PricePermissions/>
                 <Enterprise_PromotionPermissions/>
                 <Enterprise_SalesArchive/>
-                <Enterprise_Staging/>
                 <Enterprise_TargetRule/>
                 <Enterprise_WebsiteRestriction/>
                 <Enterprise_Rma/>

@@ -20,7 +20,6 @@
                 <Mage_Adminhtml/>
                 <Mage_Oauth/>
                 <Mage_Catalog/>
-                <Mage_Xml/>
             </depends>
             <sequence>
                 <Mage_Core />

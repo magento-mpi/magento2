@@ -25,14 +25,12 @@
                 <Mage_Adminhtml/>
                 <Mage_DesignEditor/>
                 <Mage_AdminNotification/>
-                <Mage_CatalogIndex/>
                 <Mage_CatalogInventory/>
                 <Mage_CatalogRule/>
                 <Mage_CatalogSearch/>
                 <Mage_CurrencySymbol/>
                 <Mage_GiftMessage/>
                 <Mage_GoogleAnalytics/>
-                <Mage_GoogleBase/>
                 <Mage_GoogleCheckout/>
                 <Mage_ImportExport/>
                 <Mage_PaypalUk/>

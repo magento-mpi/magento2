@@ -22,6 +22,7 @@
                 <Mage_Adminhtml/>
                 <Mage_Page/>
                 <Mage_Payment/>
+                <Mage_Paygate/>
                 <Mage_Backend/>
                 <Mage_Tax/>
                 <Mage_Directory/>

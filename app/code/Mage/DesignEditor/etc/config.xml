@@ -21,6 +21,7 @@
                 <Mage_Theme/>
                 <Mage_Catalog/>
                 <Mage_Cms/>
+                <Mage_Page/>
                 <Mage_Eav/>
             </depends>
             <sequence>

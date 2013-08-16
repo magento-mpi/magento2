@@ -21,6 +21,7 @@
                 <Mage_Backend/>
                 <Mage_Page/>
                 <Mage_Index/>
+                <Mage_User/>
             </depends>
             <sequence>
                 <Mage_Core/>

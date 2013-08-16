@@ -24,7 +24,6 @@
                 <Mage_Eav/>
                 <Mage_Sales/>
                 <Mage_Tax/>
-                <Mage_GoogleBase/>
                 <Mage_GoogleCheckout/>
                 <Mage_Cms/>
                 <Mage_Page/>
