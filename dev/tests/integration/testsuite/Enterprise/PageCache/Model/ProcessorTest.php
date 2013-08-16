@@ -17,7 +17,9 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     public static function setUpBeforeClass()
     {
-        Mage::app()->getCacheInstance()->allowUse('full_page');
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('full_page', true);
     }
 
     protected function setUp()
@@ -45,7 +47,9 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public function testIsAllowedUseCacheFlag()
     {
         $this->assertTrue($this->_model->isAllowed());
-        Mage::app()->getCacheInstance()->banUse('full_page');
+        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('full_page', false);
         $this->assertFalse($this->_model->isAllowed());
     }
 }

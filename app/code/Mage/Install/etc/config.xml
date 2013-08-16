@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Install>
-            <version>0.7.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core/>
-            </depends>
-        </Mage_Install>
-    </modules>
     <frontend>
         <secure_url>
             <install>/install/wizard/checkSecureHost</install>

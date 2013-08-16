@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Tax>
-            <version>1.6.0.5</version>
-            <active>true</active>
-            <depends>
-                <Mage_Catalog/>
-                <Mage_Customer/>
-                <Mage_User/>
-            </depends>
-        </Mage_Tax>
-    </modules>
     <global>
         <resources>
             <tax_setup>
@@ -138,7 +127,7 @@
             <product>
                 <attributes>
                     <unassignable>
-                        <tax_class_id/>
+                        <tax_class_id />
                     </unassignable>
                 </attributes>
             </product>
@@ -169,7 +158,7 @@
     <default>
         <tax>
             <classes>
-                <shipping_tax_class/>
+                <shipping_tax_class />
             </classes>
             <calculation>
                 <algorithm>TOTAL_BASE_CALCULATION</algorithm>

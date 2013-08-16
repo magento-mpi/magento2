@@ -11,14 +11,14 @@
 class Mage_Adminhtml_Controller_Cache extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_Cache_TypeListInterface
      */
-    private $_cache;
+    private $_cacheTypeList;
 
     /**
-     * @var Mage_Core_Model_Cache_Types
+     * @var Mage_Core_Model_Cache_StateInterface
      */
-    private $_cacheTypes;
+    private $_cacheState;
 
     /**
      * @var Mage_Core_Model_Cache_Frontend_Pool
@@ -27,21 +27,19 @@ class Mage_Adminhtml_Controller_Cache extends Mage_Adminhtml_Controller_Action
 
     /**
      * @param Mage_Backend_Controller_Context $context
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Cache_Types $cacheTypes
+     * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Cache_Types $cacheTypes,
-        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        $areaCode = null
+        Mage_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Mage_Core_Model_Cache_StateInterface $cacheState,
+        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
     ) {
-        parent::__construct($context, $areaCode);
-        $this->_cache = $cache;
-        $this->_cacheTypes = $cacheTypes;
+        parent::__construct($context);
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_cacheState = $cacheState;
         $this->_cacheFrontendPool = $cacheFrontendPool;
     }
 
@@ -109,13 +107,13 @@ class Mage_Adminhtml_Controller_Cache extends Mage_Adminhtml_Controller_Action
             $updatedTypes = 0;
             $this->_validateTypes($types);
             foreach ($types as $code) {
-                if (!$this->_cacheTypes->isEnabled($code)) {
-                    $this->_cacheTypes->setEnabled($code, true);
+                if (!$this->_cacheState->isEnabled($code)) {
+                    $this->_cacheState->setEnabled($code, true);
                     $updatedTypes++;
                 }
             }
             if ($updatedTypes > 0) {
-                $this->_cacheTypes->persist();
+                $this->_cacheState->persist();
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
                 );
@@ -142,14 +140,14 @@ class Mage_Adminhtml_Controller_Cache extends Mage_Adminhtml_Controller_Action
             $updatedTypes = 0;
             $this->_validateTypes($types);
             foreach ($types as $code) {
-                if ($this->_cacheTypes->isEnabled($code)) {
-                    $this->_cacheTypes->setEnabled($code, false);
+                if ($this->_cacheState->isEnabled($code)) {
+                    $this->_cacheState->setEnabled($code, false);
                     $updatedTypes++;
                 }
-                $this->_cache->cleanType($code);
+                $this->_cacheTypeList->cleanType($code);
             }
             if ($updatedTypes > 0) {
-                $this->_cacheTypes->persist();
+                $this->_cacheState->persist();
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
                 );
@@ -176,7 +174,7 @@ class Mage_Adminhtml_Controller_Cache extends Mage_Adminhtml_Controller_Action
             $updatedTypes = 0;
             $this->_validateTypes($types);
             foreach ($types as $type) {
-                $this->_cache->cleanType($type);
+                $this->_cacheTypeList->cleanType($type);
                 $this->_eventManager->dispatch('adminhtml_cache_refresh_type', array('type' => $type));
                 $updatedTypes++;
             }
@@ -207,7 +205,7 @@ class Mage_Adminhtml_Controller_Cache extends Mage_Adminhtml_Controller_Action
         if (empty($types)) {
             return;
         }
-        $allTypes = array_keys($this->_cache->getTypes());
+        $allTypes = array_keys($this->_cacheTypeList->getTypes());
         $invalidTypes = array_diff($types, $allTypes);
         if (count($invalidTypes) > 0) {
             Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')

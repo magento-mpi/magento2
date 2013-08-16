@@ -51,7 +51,16 @@
                                 <type>options</type>
                                 <width>100</width>
                                 <sortable>0</sortable>
-                                <options type="options">Mage_Sales_Model_Resource_Status_Options_Statuses</options>
+                                <options>
+                                    <no>
+                                        <value>0</value>
+                                        <label translate="true" module="Mage_Sales">No</label>
+                                    </no>
+                                    <yes>
+                                        <value>1</value>
+                                        <label translate="true" module="Mage_Sales">Yes</label>
+                                    </yes>
+                                </options>
                             </arguments>
                         </block>
                         <block type="Mage_Sales_Block_Status_Grid_Column_State" as="state">

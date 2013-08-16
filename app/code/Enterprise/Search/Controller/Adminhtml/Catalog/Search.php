@@ -42,7 +42,7 @@ class Enterprise_Search_Controller_Adminhtml_Catalog_Search extends Mage_Adminht
 
         Mage::register('current_catalog_search', $model);
 
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 }

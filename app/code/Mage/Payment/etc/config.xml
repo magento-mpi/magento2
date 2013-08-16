@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Payment>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core/>
-                <Mage_Catalog/>
-            </depends>
-        </Mage_Payment>
-    </modules>
     <global>
         <resources>
             <payment_setup>
@@ -81,7 +71,8 @@
             <sales_order_save_before>
                 <observers>
                     <payment_sales_order_save_before>
-                        <class>Mage_Payment_Model_Observer</class>                        <method>salesOrderBeforeSave</method>
+                        <class>Mage_Payment_Model_Observer</class>
+                        <method>salesOrderBeforeSave</method>
                     </payment_sales_order_save_before>
                 </observers>
             </sales_order_save_before>

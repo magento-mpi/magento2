@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Persistent>
-            <version>1.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Persistent/>
-            </depends>
-        </Enterprise_Persistent>
-    </modules>
     <default>
         <persistent>
             <options>

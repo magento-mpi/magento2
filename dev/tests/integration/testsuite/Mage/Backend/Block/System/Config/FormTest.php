@@ -18,7 +18,8 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     {
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $block Mage_Backend_Block_System_Config_Form */
         $block = $layout->createBlock('Mage_Backend_Block_System_Config_Form', 'block');
 
@@ -44,7 +45,8 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     public function testInitFieldsUseDefaultCheckbox($section, $group, $field, array $configData, $expectedUseDefault)
     {
         $this->markTestIncomplete('MAGETWO-9058');
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
@@ -96,7 +98,8 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     public function testInitFieldsUseConfigPath($section, $group, $field, array $configData, $expectedUseDefault)
     {
         $this->markTestIncomplete('MAGETWO-9058');
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
@@ -124,11 +127,12 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_BAN_CACHE => true,
         ));
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
 
         $configMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
-        $configMock->expects($this->any())->method('getModuleConfigurationFiles')
+        $configMock->expects($this->any())->method('getConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')
             ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));
@@ -169,9 +173,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     {
         Mage::getModel(
             'Mage_Core_Controller_Front_Action',
-            array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse(),
-                'areaCode' => 'adminhtml'
-            )
+            array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
         );
         Mage::app()->getRequest()->setParam('section', 'general');
         /** @var $block Mage_Backend_Block_System_Config_Form */

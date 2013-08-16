@@ -34,14 +34,12 @@ class Enterprise_WebsiteRestriction_Controller_Index extends Mage_Core_Controlle
     /**
      * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Context $context,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        $areaCode = null
+        Mage_Core_Model_Cache_Type_Config $configCacheType
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_configCacheType = $configCacheType;
     }
 

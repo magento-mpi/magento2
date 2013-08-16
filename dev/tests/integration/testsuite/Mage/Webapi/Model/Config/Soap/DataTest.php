@@ -44,7 +44,11 @@ class Mage_Webapi_Model_Config_Soap_DataTest extends PHPUnit_Framework_TestCase
         $helper = $objectManager->get('Mage_Webapi_Helper_Config');
         /** @var Mage_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector */
         $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap_ClassReflector');
-        $reader = new Mage_Webapi_Model_Config_Reader_Soap($classReflector, $appConfig, $cache);
+        $cacheState = $objectManager->get('Mage_Core_Model_Cache_StateInterface');
+        $moduleList = $objectManager->get('Mage_Core_Model_ModuleListInterface');
+        $reader = new Mage_Webapi_Model_Config_Reader_Soap(
+            $classReflector, $appConfig, $cache, $moduleList, $cacheState
+        );
         $reader->setDirectoryScanner($directoryScanner);
 
         $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $helper, $app);

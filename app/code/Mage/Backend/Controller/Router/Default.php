@@ -34,6 +34,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Config_Scope $configScope
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -42,10 +43,11 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
+        Mage_Core_Model_Config_Scope $configScope,
         $areaCode,
         $baseController
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $areaCode, $baseController);
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $areaCode, $baseController);
 
         $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
         if (empty($this->_areaFrontName)) {

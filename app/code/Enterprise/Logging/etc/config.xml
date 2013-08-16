@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Logging>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Adminhtml/>
-                <Mage_Sales/>
-                <Mage_Catalog/>
-            </depends>
-        </Enterprise_Logging>
-    </modules>
     <global>
         <resources>
             <enterprise_logging_setup>

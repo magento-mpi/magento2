@@ -55,7 +55,16 @@
                             <align>left</align>
                             <index>is_active</index>
                             <type>options</type>
-                            <options type="options">Mage_Rating_Model_Resource_Rating_Grid_Statuses</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true" module="Mage_Rating">Active</label>
+                                </active>
+                                <inative>
+                                    <value>0</value>
+                                    <label translate="true" module="Mage_Rating">Inactive</label>
+                                </inative>
+                            </options>
                         </arguments>
                     </block>
                 </block>

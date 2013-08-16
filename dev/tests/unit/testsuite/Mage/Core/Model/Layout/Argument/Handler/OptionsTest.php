@@ -51,6 +51,10 @@ class Mage_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Framew
     public function testProcess()
     {
         $optionArray = array('value' => 'LABEL');
+        $expectedOptionArray = array(
+            0 => array('value' => 'value',
+                       'label' => 'LABEL',
+            ));
         $optionsModel = $this->getMock(
             'Mage_Core_Model_Option_ArrayInterface',
             array(),
@@ -62,6 +66,6 @@ class Mage_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Framew
             ->method('create')
             ->with('Option_Array_Model')
             ->will($this->returnValue($optionsModel));
-        $this->assertEquals($optionArray, $this->_model->process('Option_Array_Model'));
+        $this->assertEquals($expectedOptionArray, $this->_model->process('Option_Array_Model'));
     }
 }

@@ -54,18 +54,18 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     protected $_elements;
 
     /**
-     * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
+     * @param Mage_Backend_Model_Config_Structure_Data $structureData
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
      * @param Mage_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory
      * @param Mage_Backend_Model_Config_ScopeDefiner $scopeDefiner
      */
     public function __construct(
-        Mage_Backend_Model_Config_Structure_Reader $structureReader,
+        Mage_Backend_Model_Config_Structure_Data $structureData,
         Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
         Mage_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory,
         Mage_Backend_Model_Config_ScopeDefiner $scopeDefiner
     ) {
-        $this->_data = $structureReader->getData();
+        $this->_data = $structureData->get();
         $this->_tabIterator = $tabIterator;
         $this->_flyweightFactory = $flyweightFactory;
         $this->_scopeDefiner = $scopeDefiner;

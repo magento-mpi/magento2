@@ -23,6 +23,11 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Model_Config_Soap */
     protected $_resourceConfigMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheStateMock;
+
     protected function setUp()
     {
         /** Prepare arguments for SUT constructor. */
@@ -57,12 +62,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'), array(), '', false, false);
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
+        $this->_cacheStateMock = $this->getMock('Mage_Core_Model_Cache_StateInterface');
         /** Initialize SUT. */
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
             $this->_resourceConfigMock,
             $wsdlFactory,
             $helper,
-            $this->_cacheMock
+            $this->_cacheMock,
+            $this->_cacheStateMock
         );
         parent::setUp();
     }
@@ -148,8 +155,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleLoadWsdlFromCache()
     {
-        /** Mock cache canUse method to return true. */
-        $this->_cacheMock->expects($this->once())->method('canUse')->will($this->returnValue(true));
+        /** Mock cache isEnabled method to return true. */
+        $this->_cacheStateMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         /** Mock cache load method to return cache ID. */
         $this->_cacheMock->expects($this->once())->method('load')->will($this->returnArgument(0));
         $requestedResources = array(
@@ -170,8 +177,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleWithException()
     {
-        /** Mock cache canUse method to return false. */
-        $this->_cacheMock->expects($this->once())->method('canUse')->will($this->returnValue(false));
+        /** Mock cache isEnabled method to return false. */
+        $this->_cacheStateMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
         $requestedResources = array('res1' => 'v1');
         $exception = new LogicException('getResourceDataMerged Exception');
         $this->_resourceConfigMock->expects($this->once())->method('getResourceDataMerged')->will(
