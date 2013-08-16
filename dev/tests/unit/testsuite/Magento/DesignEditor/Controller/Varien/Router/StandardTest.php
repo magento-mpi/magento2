@@ -84,8 +84,8 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         $matchedRequest = $this->getMock('Magento_Core_Controller_Request_Http', $silencedMethods, array($vdeUrl));
         $routerMockedMethods = array('match');
 
-        $matchedController = $this->getMockForAbstractClass('Magento_Core_Controller_Varien_ActionAbstract', array(), '',
-            false);
+        $matchedController = $this->getMockForAbstractClass(
+            'Magento_Core_Controller_Varien_ActionAbstract', array(), '', false);
 
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock(
@@ -160,7 +160,8 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         array $routers
     ) {
         // default mocks - not affected on method functionality
-        $controllerFactory  = $this->getMock('Magento_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
+        $controllerFactory  = $this->getMock(
+            'Magento_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
         $objectManager      = $this->getMock('Magento_ObjectManager');
         $filesystem         = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
 

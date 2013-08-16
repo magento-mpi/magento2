@@ -60,7 +60,8 @@ class Magento_Backend_Model_Config_Structure_Reader extends Magento_Config_Reade
         $domDocumentClass = 'Magento_Config_Dom'
     ) {
         $schema = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
-        $perFileSchema = $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system_file.xsd';
+        $perFileSchema =
+            $moduleReader->getModuleDir('etc', 'Magento_Backend') . DIRECTORY_SEPARATOR . 'system_file.xsd';
         parent::__construct(
             $fileResolver, $converter, $fileName, $idAttributes,
             $schema, $perFileSchema, $isValidated, $domDocumentClass

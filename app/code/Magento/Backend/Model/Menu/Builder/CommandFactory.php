@@ -33,6 +33,7 @@ class Magento_Backend_Model_Menu_Builder_CommandFactory
      */
     public function create($commandName, array $data = array())
     {
-        return $this->_objectManager->create('Magento_Backend_Model_Menu_Builder_Command_' . ucfirst($commandName), $data);
+        return $this->_objectManager->
+            create('Magento_Backend_Model_Menu_Builder_Command_' . ucfirst($commandName), $data);
     }
 }

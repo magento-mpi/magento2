@@ -28,7 +28,8 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         );
 
         $moduleList = Mage::getObjectManager()->create('Magento_Core_Model_ModuleList', array(
-            'reader' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
+            'reader' => Mage::getObjectManager()
+                ->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
                 'fileResolver' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_FileResolver',
                     array(
                         'applicationDirs' => $dirs

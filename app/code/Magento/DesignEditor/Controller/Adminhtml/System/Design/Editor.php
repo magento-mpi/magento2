@@ -450,7 +450,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      */
     protected function _isFirstEntrance()
     {
-        $isCustomized = (bool)$this->_objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory')->create()
+        $isCustomized = (bool)$this->_objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory')
+            ->create()
             ->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL)
             ->getSize();
         return !$isCustomized;

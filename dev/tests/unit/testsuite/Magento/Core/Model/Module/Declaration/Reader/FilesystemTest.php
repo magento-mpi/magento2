@@ -22,7 +22,8 @@ class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUni
                     Magento_Core_Model_Dir::CONFIG, $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
                 ),
                 array(
-                    Magento_Core_Model_Dir::MODULES, $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
+                    Magento_Core_Model_Dir::MODULES,
+                        $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
                 ),
             )));
         $fileResolver = new Magento_Core_Model_Module_Declaration_FileResolver($applicationDirs);

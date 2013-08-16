@@ -15,7 +15,8 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Controller_Varien_ActionAbstract implements Magento_Core_Controller_Varien_DispatchableInterface
+abstract class Magento_Core_Controller_Varien_ActionAbstract
+    implements Magento_Core_Controller_Varien_DispatchableInterface
 {
     /**
      * @var Magento_Core_Controller_Request_Http
