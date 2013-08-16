@@ -24,7 +24,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Bloc
     protected $_options;
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 

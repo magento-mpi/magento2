@@ -24,7 +24,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     {
         parent::setUp();
         Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion');
     }
@@ -33,7 +33,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     {
         $this->_block = null;
         $this->_layout = null;
-        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')->setCurrentScope(null);
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope(null);
     }
 
     public function testToHtml()

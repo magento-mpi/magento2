@@ -23,8 +23,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
             'Enterprise_PageCache_Model_Cookie',
@@ -60,8 +60,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
-        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
 
         $cacheState->setEnabled(Magento_Core_Block_Abstract::CACHE_GROUP, true);
 

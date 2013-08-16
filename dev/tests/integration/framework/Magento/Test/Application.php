@@ -288,9 +288,9 @@ class Magento_Test_Application
         /* Enable configuration cache by default in order to improve tests performance */
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
         $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
-        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
-        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
-        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
         $cacheState->setEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER, true);
         $cacheState->persist();
 

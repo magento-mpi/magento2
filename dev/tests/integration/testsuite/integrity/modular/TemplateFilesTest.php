@@ -68,7 +68,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                     Magento_Core_Model_App_Area::AREA_ADMINHTML,
                     Magento_Core_Model_App_Area::PART_CONFIG
                 );
-                Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')->setCurrentScope($area);
+                Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope($area);
 
                 $block = Mage::getModel($blockClass);
                 $template = $block->getTemplate();

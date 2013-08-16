@@ -37,7 +37,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $configCache = $this->getMock('Magento_Core_Model_ObjectManager_ConfigCache', array(), array(), '', false);
         $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
         $primaryLoaderMock = $this->getMock(
-            'Mage_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
+            'Magento_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
         );
 
         $model = new Magento_Test_ObjectManager(

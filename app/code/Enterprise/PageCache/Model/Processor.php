@@ -460,8 +460,8 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
-                    /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
-                    $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+                    /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+                    $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
                     $cacheTypeList->invalidate('full_page');
                     return $this;
                 }

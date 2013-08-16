@@ -27,9 +27,9 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
-        Mage::getObjectManager()->addSharedInstance($this->_moduleListMock, 'Mage_Core_Model_ModuleList');
-        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
-            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Mage::getObjectManager()->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 

@@ -21,11 +21,11 @@
     <preference for="Magento_Core_Model_UrlInterface" type="Magento_Core_Model_Url" />
     <preference for="Magento_Core_Model_Event_InvokerInterface" type="Magento_Core_Model_Event_Invoker_InvokerDefault" />
     <preference for="Magento_Data_Collection_Db_FetchStrategyInterface" type="Magento_Data_Collection_Db_FetchStrategy_Query" />
-    <preference for="Magento_Config_ScopeInterface" type="Mage_Core_Model_Config_Scope" />
-    <preference for="Magento_Config_FileResolverInterface" type="Mage_Core_Model_Config_FileResolver" />
-    <preference for="Magento_Config_CacheInterface" type="Mage_Core_Model_Cache_Type_Config" />
-    <preference for="Magento_Config_ValidationStateInterface" type="Mage_Core_Model_Config_ValidationState" />
-    <preference for="Mage_Core_Model_ModuleListInterface" type="Mage_Core_Model_ModuleList" />
+    <preference for="Magento_Config_ScopeInterface" type="Magento_Core_Model_Config_Scope" />
+    <preference for="Magento_Config_FileResolverInterface" type="Magento_Core_Model_Config_FileResolver" />
+    <preference for="Magento_Config_CacheInterface" type="Magento_Core_Model_Cache_Type_Config" />
+    <preference for="Magento_Config_ValidationStateInterface" type="Magento_Core_Model_Config_ValidationState" />
+    <preference for="Magento_Core_Model_ModuleListInterface" type="Magento_Core_Model_ModuleList" />
     <type name="Magento_Core_Model_App_State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
@@ -207,12 +207,12 @@
             <instance type="Magento_Core_Model_Cache_Type_Config"/>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Config_Reader">
+    <type name="Magento_Core_Model_Cache_Config_Reader">
         <param name="fileName">
             <value>cache.xml</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Config_Data">
+    <type name="Magento_Core_Model_Cache_Config_Data">
         <param name="cacheId">
             <value>config_cache</value>
         </param>

@@ -20,17 +20,17 @@
 class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_Cms_Controller_Adminhtml_Cms_Page
 {
     /**
-     * @var Mage_Core_Model_Config_Scope
+     * @var Magento_Core_Model_Config_Scope
      */
     protected $_configScope;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
-     * @param Mage_Core_Model_Config_Scope $configScope
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
-        Mage_Core_Model_Config_Scope $configScope
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Config_Scope $configScope
     ) {
         $this->_configScope = $configScope;
         parent::__construct($context);

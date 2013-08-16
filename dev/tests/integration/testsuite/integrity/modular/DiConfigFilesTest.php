@@ -33,7 +33,7 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
 
         $configPath = $dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'etc' . DS . '*' . DS;
         self::$_primaryFiles = glob($configPath . DS. 'di.xml');
-        array_unshift(self::$_primaryFiles, $dir->getDir(Mage_Core_Model_Dir::APP) . DS . 'etc' . DS . 'di.xml');
+        array_unshift(self::$_primaryFiles, $dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'etc' . DS . 'di.xml');
 
         //init module global configs
         /** @var $modulesReader Magento_Core_Model_Config_Modules_Reader */

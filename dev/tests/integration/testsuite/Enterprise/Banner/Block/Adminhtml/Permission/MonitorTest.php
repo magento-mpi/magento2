@@ -25,7 +25,7 @@ class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_F
     {
         $layout = Mage::getModel('Magento_Core_Model_Layout');
         Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);
         $tab = $layout->addBlock(

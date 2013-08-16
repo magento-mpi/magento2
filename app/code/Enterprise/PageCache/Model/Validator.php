@@ -43,8 +43,8 @@ class Enterprise_PageCache_Model_Validator
      */
     protected function _invalidateCache()
     {
-        /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
         $cacheTypeList->invalidate('full_page');
     }
 
