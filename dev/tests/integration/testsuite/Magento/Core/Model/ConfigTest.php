@@ -55,7 +55,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         foreach (array('etc', 'controllers', 'sql', 'data', 'locale') as $type) {
             $dir = $model->getModuleDir($type, 'Magento_Core');
             $this->assertStringEndsWith($type, $dir);
-            $this->assertContains('Mage' . DIRECTORY_SEPARATOR . 'Core', $dir);
+            $this->assertContains('Magento' . DIRECTORY_SEPARATOR . 'Core', $dir);
         }
         $this->assertTrue(is_dir($this->_createModel()->getModuleDir('etc', 'Magento_Core')));
     }
