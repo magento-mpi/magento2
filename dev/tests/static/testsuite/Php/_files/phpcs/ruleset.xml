@@ -36,4 +36,5 @@
     <rule ref="PEAR.ControlStructures.ControlSignature"/>
     <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
     <rule ref="Squiz.Commenting.DocCommentAlignment"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
 </ruleset>

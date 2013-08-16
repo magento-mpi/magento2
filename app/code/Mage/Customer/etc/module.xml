@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Mage_Customer" version="1.6.2.0.3" active="true">
+    <module name="Mage_Customer" version="1.6.2.0.4" active="true">
         <depends>
             <module name="Mage_Eav" />
             <module name="Mage_Directory" />

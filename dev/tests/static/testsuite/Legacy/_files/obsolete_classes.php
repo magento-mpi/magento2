@@ -585,6 +585,8 @@ return array(
     array('Mage_Customer_Block_Account'),
     array('Mage_Customer_Model_Convert_Adapter_Customer'),
     array('Mage_Customer_Model_Convert_Parser_Customer'),
+    array('Mage_Customer_Model_Resource_Address_Attribute_Backend_Street',
+        'Mage_Eav_Model_Entity_Attribute_Backend_Default'),
     array('Mage_DesignEditor_Block_Page_Html_Head_Vde'),
     array('Mage_DesignEditor_Block_Page_Html_Head'),
     array('Mage_Directory_Model_Resource_Currency_Collection'),

@@ -182,4 +182,9 @@
             <instance type="Mage_Core_Model_Theme_Image_UploaderProxy" />
         </param>
     </type>
+    <type name="Mage_Core_Model_Translate_InlineParser">
+        <param name="inputFilter">
+            <instance type="Mage_Core_Model_Input_Filter_MaliciousCode" />
+        </param>
+    </type>
 </config>

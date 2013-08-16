@@ -96,8 +96,6 @@ $address->setData(
         'use_for_shipping' => true
     )
 );
-//Implode street address (this method is overridden)
-$address->setStreet($address->getData('street'));
 
 //Assign address to cart
 $quote->setBillingAddress($address);

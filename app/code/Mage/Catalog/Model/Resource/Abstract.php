@@ -472,23 +472,6 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     }
 
     /**
-     * Prepare value for save
-     *
-     * @param mixed $value
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return mixed
-     */
-    protected function _prepareValueForSave($value, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
-    {
-        $type = $attribute->getBackendType();
-        if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
-            $value = null;
-        }
-
-        return parent::_prepareValueForSave($value, $attribute);
-    }
-
-    /**
      * Retrieve attribute's raw value from DB.
      *
      * @param int $entityId

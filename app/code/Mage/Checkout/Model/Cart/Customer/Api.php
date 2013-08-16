@@ -97,16 +97,8 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
         }
 
         foreach ($customerAddressData as $addressItem) {
-//            switch($addressItem['mode']) {
-//            case self::ADDRESS_BILLING:
-                /** @var $address Mage_Sales_Model_Quote_Address */
-                $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
-//                break;
-//            case self::ADDRESS_SHIPPING:
-//                /** @var $address Mage_Sales_Model_Quote_Address */
-//                $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
-//                break;
-//            }
+            /** @var $address Mage_Sales_Model_Quote_Address */
+            $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
             $addressMode = $addressItem['mode'];
             unset($addressItem['mode']);
 
@@ -120,8 +112,6 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
             } else {
                 $address->setData($addressItem);
             }
-
-            $address->implodeStreetAddress();
 
             if (($validateRes = $address->validate())!==true) {
                 $this->_fault('customer_address_invalid', implode(PHP_EOL, $validateRes));

@@ -761,8 +761,7 @@ class Mage_Adminhtml_Controller_Sales_Order extends Mage_Adminhtml_Controller_Ac
         if ($data && $address->getId()) {
             $address->addData($data);
             try {
-                $address->implodeStreetAddress()
-                    ->save();
+                $address->save();
                 $this->_getSession()->addSuccess($this->__('You updated the order address.'));
                 $this->_redirect('*/*/view', array('order_id' => $address->getParentId()));
                 return;

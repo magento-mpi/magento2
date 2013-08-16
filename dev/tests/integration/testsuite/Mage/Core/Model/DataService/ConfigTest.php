@@ -16,16 +16,10 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Dir', array(
-                'baseDir' => BP,
-                'dirs' => array(
-                    Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files',
-                    Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
-                )
-            )
-        );
+        $dirs = new Mage_Core_Model_Dir(__DIR__, array(), array(
+            Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+            Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
+        ));
 
         $moduleList = Mage::getObjectManager()->create('Mage_Core_Model_ModuleList', array(
             'reader' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_Reader_Filesystem', array(
@@ -59,5 +53,4 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('last_value', $classInfo['methodArguments']['last_arg']);
         $this->assertEquals('last_value_two', $classInfo['methodArguments']['last_arg_two']);
     }
-
 }
