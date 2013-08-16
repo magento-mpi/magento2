@@ -15,8 +15,9 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_TokenController extends Mage_Oauth_Controller_Abstract
 {
+
     /**
      * Dispatch event before action
      *
@@ -37,9 +38,36 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        /** @var $server Mage_Oauth_Model_Server */
-        $server = Mage::getModel('Mage_Oauth_Model_Server');
+        try {
+            if (!$this->getRequest()->isPost()) {
+                throw Mage::exception('Mage_Oauth', "Only POST allowed on token access", self::HTTP_METHOD_NOT_ALLOWED);
+            }
 
-        $server->accessToken();
+            //Fetch and populate protocol information from request body and header into this controller class variables
+            $this->_fetchParams();
+
+            //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
+            $this->_oauthService->setRequestUrl(
+                $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() .
+                $this->getRequest()->getRequestUri()
+            );
+
+            $this->_oauthService->setRequestMethod($this->getRequest()->getMethod());
+
+            //Combine request and header parameters
+            $accessTokenData = array_merge($this->_params, $this->_protocolParams);
+
+            //Request access token in exchange of a pre-authorized token
+            $response = $this->_oauthService->getAccessToken($accessTokenData);
+
+        } catch (Exception $exception) {
+            $response = $this->reportProblem(
+                $this->_oauthService->getErrorMap(),
+                $this->_oauthService->getErrorToHttpCodeMap(),
+                $exception
+            );
+        }
+        $this->getResponse()->setBody($response);
     }
+
 }

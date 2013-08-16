@@ -80,7 +80,7 @@ class Mage_Oauth_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             // fallback to mt_rand() if openssl is not installed
             /** @var $helper Mage_Core_Helper_Data */
-            $helper = Mage::helper('core');
+            $helper = Mage::helper('Mage_Core_Helper_Data');
             $randomString = $helper->getRandomString(
                 $length, Mage_Core_Helper_Data::CHARS_DIGITS . Mage_Core_Helper_Data::CHARS_LOWERS
             );

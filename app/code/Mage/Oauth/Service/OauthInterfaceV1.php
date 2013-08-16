@@ -64,7 +64,7 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      * @return array output containing the request token
      * @throws Mage_Oauth_Exception
      */
-    public function authorize($request);
+    public function getRequestToken($request);
 
     /**
      * Get the

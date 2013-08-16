@@ -15,217 +15,57 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_AuthorizeController extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_AuthorizeController extends Mage_Oauth_Controller_Abstract
 {
     /**
-     * Session name
-     *
-     * @var string
-     */
-    protected $_sessionName = 'customer/session';
-
-    /**
-     * Init authorize page
-     *
-     * @param bool $simple      Is simple page?
-     * @return Mage_Oauth_AuthorizeController
-     */
-    protected function _initForm($simple = false)
-    {
-        /** @var $server Mage_Oauth_Model_Server */
-        $server = Mage::getModel('Mage_Oauth_Model_Server');
-        /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton($this->_sessionName);
-
-        $isException = false;
-        try {
-            $server->checkAuthorizeRequest();
-        } catch (Mage_Core_Exception $e) {
-            $session->addError($e->getMessage());
-        } catch (Mage_Oauth_Exception $e) {
-            $isException = true;
-            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
-        } catch (Exception $e) {
-            $isException = true;
-            $session->addException($e, $this->__('An error occurred.'));
-        }
-
-        $this->loadLayout();
-        $layout = $this->getLayout();
-        $logged = $session->isLoggedIn();
-
-        $contentBlock = $layout->getBlock('content');
-        if ($logged) {
-            $contentBlock->unsetChild('oauth.authorize.form');
-            /** @var $block Mage_Oauth_Block_Authorize_Button */
-            $block = $contentBlock->getChildBlock('oauth.authorize.button');
-        } else {
-            $contentBlock->unsetChild('oauth.authorize.button');
-            /** @var $block Mage_Oauth_Block_Authorize */
-            $block = $contentBlock->getChildBlock('oauth.authorize.form');
-        }
-
-        /** @var $helper Mage_Core_Helper_Url */
-        $helper = Mage::helper('Mage_Core_Helper_Url');
-        $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
-                ->setBeforeAuthUrl($helper->getCurrentUrl());
-
-        $block->setIsSimple($simple)
-            ->setToken($this->getRequest()->getQuery('oauth_token'))
-            ->setHasException($isException);
-        return $this;
-    }
-
-    /**
-     * Init confirm page
-     *
-     * @param bool $simple      Is simple page?
-     * @return Mage_Oauth_AuthorizeController
-     */
-    protected function _initConfirmPage($simple = false)
-    {
-        /** @var $helper Mage_Oauth_Helper_Data */
-        $helper = Mage::helper('Mage_Oauth_Helper_Data');
-
-        /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton($this->_sessionName);
-        if (!$session->getCustomerId()) {
-            $session->addError($this->__('Please login to proceed authorization.'));
-            $url = $helper->getAuthorizeUrl(Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER);
-            $this->_redirectUrl($url);
-            return $this;
-        }
-
-        $this->loadLayout();
-
-        /** @var $block Mage_Oauth_Block_Authorize */
-        $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
-        $block->setIsSimple($simple);
-
-        try {
-            /** @var $server Mage_Oauth_Model_Server */
-            $server = Mage::getModel('Mage_Oauth_Model_Server');
-
-            /** @var $token Mage_Oauth_Model_Token */
-            $token = $server->authorizeToken($session->getCustomerId(), Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER);
-
-            if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
-                $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
-                return $this;
-            } else {
-                $block->setVerifier($token->getVerifier());
-                $session->addSuccess($this->__('Authorization confirmed.'));
-            }
-        } catch (Mage_Core_Exception $e) {
-            $session->addError($e->getMessage());
-        } catch (Mage_Oauth_Exception $e) {
-            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
-        } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred on confirm authorize.'));
-        }
-
-        $this->_initLayoutMessages($this->_sessionName);
-        $this->renderLayout();
-
-        return $this;
-    }
-
-    /**
-     * Init reject page
-     *
-     * @param bool $simple      Is simple page?
-     * @return Mage_Oauth_AuthorizeController
-     */
-    protected function _initRejectPage($simple = false)
-    {
-        $this->loadLayout();
-
-        /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton($this->_sessionName);
-        try {
-            /** @var $server Mage_Oauth_Model_Server */
-            $server = Mage::getModel('Mage_Oauth_Model_Server');
-
-            /** @var $block Mage_Oauth_Block_Authorize */
-            $block = $this->getLayout()->getBlock('oauth.authorize.reject');
-            $block->setIsSimple($simple);
-
-            /** @var $token Mage_Oauth_Model_Token */
-            $token = $server->checkAuthorizeRequest();
-            /** @var $helper Mage_Oauth_Helper_Data */
-            $helper = Mage::helper('Mage_Oauth_Helper_Data');
-
-            if (($callback = $helper->getFullCallbackUrl($token, true))) {
-                $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
-                return $this;
-            } else {
-                $session->addNotice($this->__('The application access request is rejected.'));
-            }
-        } catch (Mage_Core_Exception $e) {
-            $session->addError($e->getMessage());
-        } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred on reject authorize.'));
-        }
-
-        $this->_initLayoutMessages($this->_sessionName);
-        $this->renderLayout();
-
-        return $this;
-    }
-
-    /**
-     * Index action.
+     * Dispatch event before action
      *
      * @return void
+     */
+    public function preDispatch()
+    {
+        $this->setFlag('', self::FLAG_NO_START_SESSION, 1);
+        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, 1);
+        $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, 0);
+        $this->setFlag('', self::FLAG_NO_PRE_DISPATCH, 1);
+
+        parent::preDispatch();
+    }
+
+
+    /**
+     * Index action. Process request and response permanent token
      */
     public function indexAction()
     {
-        $this->_initForm();
-        $this->_initLayoutMessages($this->_sessionName);
-        $this->renderLayout();
-    }
+        try {
+            if (!$this->getRequest()->isPost()) {
+                throw new Mage_Oauth_Exception(
+                    $this->_translator->translate(
+                        array('Only POST allowed on token access')),
+                    self::HTTP_METHOD_NOT_ALLOWED);
+            }
 
-    /**
-     * OAuth authorize or allow decline access simple page
-     *
-     * @return void
-     */
-    public function simpleAction()
-    {
-        $this->_initForm(true);
-        $this->_initLayoutMessages($this->_sessionName);
-        $this->renderLayout();
-    }
+            //Fetch and populate protocol information from request body and header into this controller class variables
+            $this->_fetchParams();
 
-    /**
-     * Confirm token authorization action
-     */
-    public function confirmAction()
-    {
-        $this->_initConfirmPage();
-    }
+            //Combine request and header parameters
+            $signedRequest = array_merge($this->_params, $this->_protocolParams);
+            //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
+            $signedRequest['request_url'] = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() .
+                $this->getRequest()->getRequestUri();
+            $signedRequest['http_method'] = $this->getRequest()->getMethod();
 
-    /**
-     * Confirm token authorization simple page
-     */
-    public function confirmSimpleAction()
-    {
-        $this->_initConfirmPage(true);
-    }
+            //Request access token in exchange of a pre-authorized token
+            $response = $this->_oauthService->authorize($signedRequest);
 
-    /**
-     * Reject token authorization action
-     */
-    public function rejectAction()
-    {
-        $this->_initRejectPage();
-    }
-
-    /**
-     * Reject token authorization simple page
-     */
-    public function rejectSimpleAction()
-    {
-        $this->_initRejectPage(true);
+        } catch (Exception $exception) {
+            $response = $this->reportProblem(
+                $this->_oauthService->getErrorMap(),
+                $this->_oauthService->getErrorToHttpCodeMap(),
+                $exception
+            );
+        }
+        $this->getResponse()->setBody($response);
     }
 }
