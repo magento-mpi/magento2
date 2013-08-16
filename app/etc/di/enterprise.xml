@@ -43,9 +43,4 @@
             </value>
         </param>
     </type>
-    <type name="Enterprise_Queue_Model_Queue">
-        <param name="taskNamePrefix">
-            <value type="argument">Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX</value>
-        </param>
-    </type>
 </config>

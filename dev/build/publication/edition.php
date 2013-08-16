@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee|saas>" [--build] [--additional="<dev_build_ce.txt>"]' . PHP_EOL);
+define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build] [--additional="<dev_build_ce.txt>"]' . PHP_EOL);
 try {
     $options = getopt('', array('dir:', 'edition:', 'build', 'additional:'));
     if (!isset($options['dir']) || !isset($options['edition'])) {
@@ -36,16 +36,10 @@ try {
     switch ($options['edition']) {
         case 'ce':
             $lists[] = 'ee.txt';
-            $lists[] = 'saas.txt';
             $configurator = new CommunityConfigurator();
             break;
         case 'ee':
-            $lists[] = 'saas.txt';
             $configurator = new EnterpriseConfigurator($basePath, new Magento_Io_File());
-            break;
-        case 'saas':
-            $lists[] = 'not_saas.txt';
-            $configurator = new SaasConfigurator($basePath, new Magento_Io_File());
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
