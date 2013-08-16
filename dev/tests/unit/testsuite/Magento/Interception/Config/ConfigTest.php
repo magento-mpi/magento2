@@ -21,7 +21,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
@@ -97,7 +97,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
     public function hasPluginsDataProvider()
     {
         return array(
-            // item container has plugins only in the frontend scope
+            // item container has plugins only in the backend scope
             array(
                 true,
                 'Custom_Module_Model_ItemContainer',
