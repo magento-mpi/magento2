@@ -45,7 +45,7 @@
                 selenium_browser: ' (e.g. firefox, googlechrome etc; see config.yml)',
                 selenium_host: '',
                 selenium_port: '',
-                selenium_testsuite: ' (e.g. ce, ee, saas)',
+                selenium_testsuite: ' (e.g. ce, ee)',
                 selenium_timeout: '',
             };
             for (var name in variables) {
@@ -154,7 +154,6 @@
         </replace>
     </target>
 
-    <!-- @TODO Eliminate code duplication when build for Saas Edition will be created and common parts of code will be clear -->
     <target name="run-ee" description="Deploy multiple Magento Enterprise instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
@@ -186,7 +185,7 @@
                 selenium_browser: ' (e.g. firefox, googlechrome etc; see config.yml)',
                 selenium_host: '',
                 selenium_port: '',
-                selenium_testsuite: ' (e.g. ce, ee, saas)',
+                selenium_testsuite: ' (e.g. ce, ee)',
                 selenium_timeout: '',
             };
             for (var name in variables) {
@@ -292,145 +291,6 @@
             <replacefilter token="{{selenium_timeout}}" value="${env.selenium_timeout}"/>
             <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
             <replacefilter token="{{selenium_testsuite}}" value="${env.selenium_testsuite}"/>
-        </replace>
-    </target>
-
-    <target name="run-saas" description="Run functional tests on preconfigured tenants">
-        <script language="javascript"><![CDATA[
-            if (project.getProperty('env.bamboo_desired_agent')
-                && project.getProperty('env.bamboo_desired_agent') != ''
-                && project.getProperty('env.agent_name')
-                && project.getProperty('env.bamboo_desired_agent') != project.getProperty('env.agent_name')
-            ) {
-                project.setProperty('error_message', 'This plan should be executed on agent "'
-                    + project.getProperty('env.bamboo_desired_agent') + '", while currently it is executed on "'
-                    + project.getProperty('env.agent_name') + '".');
-            }
-        ]]></script>
-        <fail if="error_message" message="${error_message}"/>
-
-        <fail if="max_instances" message="'max_instances' must be not set explicitly, use 'instance_count' instead."/>
-        <script language="javascript"><![CDATA[
-            var errorMessages = [];
-
-            var variables = {
-                build_customization_dir: '',
-                deploy_directory: '',
-                instance_count: '',
-                selenium_browser: ' (e.g. firefox, googlechrome etc; see config.yml)',
-                selenium_host: '',
-                selenium_port: '',
-                selenium_testsuite: ' (e.g. ce, ee, saas)',
-                selenium_timeout: '',
-            };
-            for (var name in variables) {
-                if (project.getProperty('env.' + name) === null) {
-                    errorMessages.push('Environment variable "' + name + '" must be defined' + variables[name] + '.');
-                }
-            }
-
-            variables = {
-                executer_options: '',
-                instance_count: '',
-                tests_executed_saas: ' (relative path or few paths combined into one mask, for instance testsuite/{dir1/subdir1/*name1,dir2/*subdir2*,dir3/name3*})',
-                domain_pattern: '',
-                tmt_host: '',
-            };
-            for (name in variables) {
-                if (project.getProperty('env.bamboo_' + name) === null) {
-                    errorMessages.push('Bamboo variable "' + name + '" must be defined' + variables[name] + '.');
-                }
-            }
-
-            if (errorMessages.length > 0) {
-                project.setProperty('error_message', errorMessages.join('\n'));
-            } else {
-                project.setProperty('max_instances', Math.min(project.getProperty('env.instance_count'),
-                    project.getProperty('env.bamboo_instance_count')
-                ));
-                var echo = project.createTask('echo');
-                echo.setMessage('Maximum ' + project.getProperty('env.instance_count')
-                    + ' instances supported by environment, '
-                    + project.getProperty('env.bamboo_instance_count') + ' expected by plan.');
-                echo.execute();
-            }
-        ]]></script>
-
-        <fail if="error_message" message="${error_message}"/>
-
-        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
-        <delete dir="${dir.build_directory}"/>
-
-        <antcall target="_product_edition">
-            <param name="product_edition_code" value="saas"/>
-        </antcall>
-
-        <script language="javascript"><![CDATA[
-            var parallel = project.createTask('parallel');
-
-            var maxInstances = project.getProperty('max_instances');
-            var domainPattern = project.getProperty('env.bamboo_domain_pattern');
-            for (var instanceIndex = 0; instanceIndex < maxInstances; instanceIndex++) {
-                var antcall = project.createTask('antcall');
-                antcall.setTarget('deploy-magento-saas-instance');
-                antcall.setInheritAll(true);
-
-                var param = antcall.createParam();
-                param.setName('instanceIndex');
-                param.setValue(instanceIndex);
-
-                var domain = domainPattern.toString().replace('{index}', instanceIndex.toString());
-                var paramAdminUrl = antcall.createParam();
-                paramAdminUrl.setName('adminUrl');
-                paramAdminUrl.setValue('https://' + domain +'/index.php/backend/admin/');
-                var paramFrontUrl = antcall.createParam();
-                paramFrontUrl.setName('url');
-                paramFrontUrl.setValue('http://' + domain);
-
-                parallel.addTask(antcall);
-            }
-
-            parallel.execute();
-        ]]></script>
-
-        <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed_saas} --
-                --log-junit ${basedir}/test-cases-report.xml
-                --max-instances ${max_instances}
-                --no-install
-                ${env.bamboo_executer_options}
-                "/>
-        </exec>
-    </target>
-
-    <target name="deploy-magento-saas-instance">
-        <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
-            <fileset dir="${basedir}"/>
-        </copy>
-        <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
-
-        <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml"/>
-        <copy file="${basedir}/${env.build_customization_dir}/config.yml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml"/>
-
-        <antcall target="_installation_requirements" inheritAll="true">
-            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>
-        </antcall>
-
-        <antcall target="_product_edition">
-            <param name="product_edition_code" value="saas"/>
-        </antcall>
-
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/config.yml">
-            <replacefilter token="{{saas_admin_url}}" value="${adminUrl}"/>
-            <replacefilter token="{{saas_url}}" value="${url}"/>
-            <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
-            <replacefilter token="{{selenium_port}}" value="${env.selenium_port}"/>
-            <replacefilter token="{{selenium_timeout}}" value="${env.selenium_timeout}"/>
-            <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
-            <replacefilter token="{{selenium_testsuite}}" value="${env.selenium_testsuite}"/>
-            <replacefilter token="{{tmt_url}}" value="${env.bamboo_tmt_host}"/>
         </replace>
     </target>
 

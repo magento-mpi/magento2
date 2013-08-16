@@ -56,12 +56,6 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Mage_Sales_Block_Adminhtml_Billing_Agreement_View',
             'Mage_User_Block_Role_Tab_Edit',
             'Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
-            // Fails only in SAAS, could be something wrong list of classes being deleted
-            'Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit',
-            'Mage_Adminhtml_Block_Sales_Order_Invoice_View',
-            'Mage_AdminNotification_Block_Window',
-            'Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer',
-            'Saas_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen',
         );
 
         try {
