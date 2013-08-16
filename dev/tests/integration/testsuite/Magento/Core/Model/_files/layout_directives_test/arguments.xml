@@ -8,7 +8,7 @@
  */
 -->
 <layout>
-    <block type="Magento_Core_Block_Text" name="block_with_args">
+    <block class="Magento_Core_Block_Text" name="block_with_args">
         <arguments>
             <one>1</one>
             <two>2</two>

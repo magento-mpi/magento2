@@ -9,13 +9,13 @@
 -->
 <layout>
     <container name="root" label="Root">
-        <block type="Magento_Core_Block_Text" name="element1" before="element2">
+        <block class="Magento_Core_Block_Text" name="element1" before="element2">
             <action method="setText"><text>1</text></action>
         </block>
-        <block type="Magento_Core_Block_Text" name="element2" after="element3">
+        <block class="Magento_Core_Block_Text" name="element2" after="element3">
             <action method="setText"><text>2</text></action>
         </block>
-        <block type="Magento_Core_Block_Text" name="element3" after="-">
+        <block class="Magento_Core_Block_Text" name="element3" after="-">
             <action method="setText"><text>3</text></action>
         </block>
     </container>

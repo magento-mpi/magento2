@@ -13,10 +13,10 @@
         <action method="addText"><value>1</value></action>
     </reference>
     <container name="container1" label="Container 1">
-        <block type="Magento_Core_Block_Text" name="block1">
+        <block class="Magento_Core_Block_Text" name="block1">
             <action method="addText"><value>2</value></action>
         </block>
-        <block type="Magento_Core_Block_Text" name="block2">
+        <block class="Magento_Core_Block_Text" name="block2">
             <action method="setText"><value>3</value></action>
         </block>
     </container>

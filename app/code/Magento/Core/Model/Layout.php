@@ -737,7 +737,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
                 Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                        . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                    . 'because the latter doesn\'t exist', Zend_Log::CRIT
                 );
             }
         }
@@ -826,8 +826,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         // create block
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
-        } else {
-            $className = (string)$node['type'];
         }
 
         $arguments = $this->_argumentProcessor->process($arguments);

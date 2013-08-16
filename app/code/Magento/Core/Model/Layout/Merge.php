@@ -23,7 +23,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * XPath of handles originally declared in layout updates
      */
-    const XPATH_HANDLE_DECLARATION = '/layout/*[@* or label]';
+    const XPATH_HANDLE_DECLARATION = '/layout/*[@*[local-name()!="id"] or label]';
 
     /**
      * @var Magento_Core_Model_Theme
@@ -262,11 +262,15 @@ class Magento_Core_Model_Layout_Merge
     protected function _getPageHandleNode($handleName)
     {
         /* quick validation for non-existing page types */
-        if (!$handleName || !isset($this->getFileLayoutUpdatesXml()->$handleName)) {
+        if (!$handleName) {
+            return null;
+        }
+        $handles = $this->getFileLayoutUpdatesXml()->xpath("handle[@id='$handleName']");
+        if (empty($handles)) {
             return null;
         }
         $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$handleName}[{$condition}][1]");
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -330,7 +334,7 @@ class Magento_Core_Model_Layout_Merge
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
         /** @var $node Magento_Core_Model_Layout_Element */
         foreach ($nodes as $node) {
-            $name = $node->getName();
+            $name = $node->getAttribute('id');
             $info = array(
                 'name'     => $name,
                 'label'    => (string)$node->label,
@@ -450,7 +454,7 @@ class Magento_Core_Model_Layout_Merge
         $_profilerKey = 'layout_package_update:' . $handle;
         Magento_Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
-        foreach ($layout->$handle as $updateXml) {
+        foreach ($layout->xpath("handle[@id='$handle']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }

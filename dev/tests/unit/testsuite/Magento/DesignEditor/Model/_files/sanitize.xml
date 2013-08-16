@@ -11,16 +11,16 @@
  */
 -->
 <layout>
-    <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
-        <block name="head" type="Magento_Page_Block_Html_Head">
+    <block name="root" class="Magento_Core_Block_Template" template="template.phtml">
+        <block name="head" class="Magento_Page_Block_Html_Head">
             <action method="safeMethod"><arg>1</arg></action>
         </block>
-        <block name="custom.safe" type="Namespace_Module_Block_Safe"/>
+        <block name="custom.safe" class="Namespace_Module_Block_Safe"/>
         <container name="content">
-            <block name="custom.not_safe" type="Namespace_Module_Block_NotSafe">
+            <block name="custom.not_safe" class="Namespace_Module_Block_NotSafe">
                 <action method="setTemplate"><arg>some_template.phtml</arg></action>
             </block>
-            <block type="Magento_Page_Block_Safe"/>
+            <block class="Magento_Page_Block_Safe"/>
         </container>
     </block>
     <reference name="head">

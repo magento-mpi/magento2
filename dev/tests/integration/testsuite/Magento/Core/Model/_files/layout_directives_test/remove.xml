@@ -9,14 +9,14 @@
 -->
 <layout>
     <container name="container1" label="Container 1">
-        <block type="Magento_Core_Block_Text" name="no_name2"/>
+        <block class="Magento_Core_Block_Text" name="no_name2"/>
     </container>
     <remove name="container1"/>
 
     <remove name="child_block1"/>
-    <block type="Magento_Core_Block_Text" name="block_container" as="block.container">
-        <block type="Magento_Core_Block_Text" name="child_block1"/>
-        <block type="Magento_Core_Block_Text" name="child_block2"/>
+    <block class="Magento_Core_Block_Text" name="block_container" as="block.container">
+        <block class="Magento_Core_Block_Text" name="child_block1"/>
+        <block class="Magento_Core_Block_Text" name="child_block2"/>
     </block>
     <remove name="not_exist"/>
 </layout>

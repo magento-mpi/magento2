@@ -53,9 +53,9 @@
         <label>One Page Checkout Progress</label>
     </checkout_onepage_progress>
     <fixture_handle_one>
-        <block type="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
+        <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
     </fixture_handle_one>
     <fixture_handle_two>
-        <block type="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+        <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
     </fixture_handle_two>
 </layouts>

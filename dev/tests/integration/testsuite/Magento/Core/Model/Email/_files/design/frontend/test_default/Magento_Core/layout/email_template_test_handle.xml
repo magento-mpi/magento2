@@ -10,11 +10,11 @@
  * @license     {license_link}
  */
 -->
-<layout>
-    <email_template_test_handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="email_template_test_handle">
         <block type="Magento_Core_Block_Template" name="sample_email_content" template="sample_email_content.phtml"/>
         <block type="Magento_Core_Block_Text" name="ignored_email_content">
             <action method="setText"><text>Ignored e-mail content, only the first block is used</text></action>
         </block>
-    </email_template_test_handle>
+    </handle>
 </layout>

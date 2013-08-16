@@ -10,6 +10,6 @@
 <layout>
     <block name="block1" type="Magento_Core_Block_Text">
         <action method="getChildBlock"><value>block2</value></action>
-        <block name="block2" type="Magento_Core_Block_Text"/>
+        <block name="block2" class="Magento_Core_Block_Text"/>
     </block>
 </layout>

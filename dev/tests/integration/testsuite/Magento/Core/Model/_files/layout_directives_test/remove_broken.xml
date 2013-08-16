@@ -10,7 +10,7 @@
 <layout>
     <block name="test.broken.block" type="Magento_Core_Block_Text"/>
     <remove name="test.broken.block"/>
-    <block type="Magento_Core_Block_Template" name="bug.without.name.action.is.ignored">
+    <block class="Magento_Core_Block_Template" name="bug.without.name.action.is.ignored">
         <action method="insert"><element>test.broken.block</element></action>
         <action method="append"><element>test.broken.block</element></action>
     </block>

@@ -17,7 +17,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
         $this->dispatch("catalog/category/view/foo/bar");
-        $fixtureFileName = __DIR__ . DS . "_files" . DS . 'Magento' . DS . 'Catalog' . DS . 'Service'
+        $fixtureFileName = __DIR__ . DS . "_files" . DS . 'Mage' . DS . 'Catalog' . DS . 'Service'
             . DS . 'TestProduct.php';
         include $fixtureFileName;
         $invoker = Mage::getObjectManager()->create(
@@ -33,8 +33,11 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
 
     protected function _loadServiceCallsConfig()
     {
-        $dirs = new Magento_Core_Model_Dir(
-            __DIR__, array(), array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files')
+        /** @var Magento_Core_Model_Dir $dirs */
+        $dirs = Mage::getObjectManager()->create(
+            'Magento_Core_Model_Dir', array(
+                'baseDir' => array(BP),
+                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
         );
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
@@ -91,7 +94,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
         $layout = Mage::getObjectManager()
             ->create('Magento_Core_Model_Layout', array('dataServiceGraph' => $this->_dataServiceGraph));
         $xml = simplexml_load_file(__DIR__ . "/_files/{$fixtureFile}", 'Magento_Core_Model_Layout_Element');
-        $layout->setXml($xml);
+        $layout->loadString($xml->handle->asXml());
         $layout->generateElements();
         return $layout;
     }
