@@ -77,7 +77,7 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
                 array('subscriptionConfig' => $this->_config));
 
         $subscriptions   = $gridCollection->getItems();
-        $this->assertEquals(5, count($subscriptions));
+        $this->assertEquals(4, count($subscriptions));
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
         $dirs = Mage::getObjectManager()->create(
             'Mage_Core_Model_Dir',
             array(
-                'baseDir' => array(BP),
+                'baseDir' => BP,
                 'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),
             )
         );
@@ -125,27 +125,24 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
         $config = new Mage_Core_Model_Config_Base('<config />');
         $modulesLoader->load($config);
 
-        /** @var Mage_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
 
-        /** @var Mage_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules_File', array(
-                'dirs' => $dirs
-            )
-        );
+        $moduleList = Mage::getObjectManager()->create('Mage_Core_Model_ModuleList', array(
+            'reader' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_Reader_Filesystem', array(
+                'fileResolver' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_FileResolver',
+                    array(
+                        'applicationDirs' => $dirs
+                    )
+                )
+            )),
+            'cache' => $this->getMock('Magento_Config_CacheInterface')
+        ));
 
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules_Reader', array(
-                'fileReader' => $fileReader,
-                'modulesConfig' => $modulesConfig
-            )
-        );
+        $moduleReader = Mage::getObjectManager()->create('Mage_Core_Model_Config_Modules_Reader', array(
+            'dirs' => $dirs,
+            'moduleList' => $moduleList
+        ));
+
 
         $mageConfig = Mage::getObjectManager()->create(
             'Mage_Core_Model_Config',
