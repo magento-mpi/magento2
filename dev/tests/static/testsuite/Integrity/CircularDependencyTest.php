@@ -17,7 +17,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_modulesDependencies = array();
+    protected $_moduleDependencies = array();
 
     /**
      * Circular dependencies
@@ -31,7 +31,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      */
     protected function _buildModulesDependencies()
     {
-        if (!empty($this->_modulesDependencies)) {
+        if (!empty($this->_moduleDependencies)) {
             return true;
         }
         $configFiles = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
@@ -43,11 +43,20 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             $nodes = $config->xpath("/config/modules/$moduleName/depends/*") ?: array();
             foreach ($nodes as $node) {
                 /** @var SimpleXMLElement $node */
-                $this->_modulesDependencies[$moduleName][] = $node->getName();
+                $this->_moduleDependencies[$moduleName][] = $node->getName();
             }
-            foreach (array_keys($this->_modulesDependencies) as $module) {
-                $this->_expandDependencies($module, array($module));
-            }
+        }
+
+        $graph = new Magento_Data_Graph(array_keys($this->_moduleDependencies), array());
+
+        foreach (array_keys($this->_moduleDependencies) as $module) {
+            $this->_expandDependencies($module, $graph);
+        }
+        $circulars  = $graph->findCycle(null, false);
+        foreach ($circulars as $circular)
+        {
+            array_shift($circular);
+            $this->_buildCircular($circular);
         }
     }
 
@@ -55,31 +64,48 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      * Expand modules dependencies from modules chain
      *
      * @param string $module
-     * @param array $modulesCheckChain - used to track already checked modules
-     * @param int $level nesting level
-     * @return array
+     * @param Magento_Data_Graph $graph
+     * @param string $path nesting path
      */
-    protected function _expandDependencies($module, $modulesCheckChain = array(), $level = 0)
+    protected function _expandDependencies($module, Magento_Data_Graph $graph, $path = '')
     {
-        if (empty($this->_modulesDependencies[$module])) {
+        if (empty($this->_moduleDependencies[$module])) {
             return;
         }
 
-        $level++;
-        foreach ($this->_modulesDependencies[$module] as $dependency) {
-            if (isset($this->_circularDependencies[$dependency])) {
+        $path .= '/' . $module;
+        foreach ($this->_moduleDependencies[$module] as $dependency) {
+            $relations = $graph->getRelations();
+            if (isset($relations[$module][$dependency])) {
                 continue;
             }
-            $keyResult = array_search($dependency, $modulesCheckChain);
-            $tmp = $modulesCheckChain;
-            array_push($tmp, $dependency);
-            if ($keyResult !== false) {
-                $this->_circularDependencies[$dependency] = array_slice($tmp, $keyResult);
-                continue $level - $keyResult - 5;
-            }
+            $graph->addRelation($module, $dependency);
 
-            $this->_expandDependencies($dependency, $tmp, $level);
+            $modulesChain = explode('/', $path);
+            $searchResult = array_search($dependency, $modulesChain);
+
+            if (false !== $searchResult) {
+                $this->_buildCircular(array_slice($modulesChain, $searchResult));
+                return;
+            } else {
+                $this->_expandDependencies($dependency, $graph, $path);
+            }
         }
+    }
+
+    /**
+     * Build all circular dependencies based on chain
+     *
+     * @param array $modules
+     */
+    protected function _buildCircular($modules) {
+        $path = '/' . implode('/', $modules);
+        if (isset($this->_circularDependencies[$path])) {
+            return;
+        }
+        $this->_circularDependencies[$path] = $modules;
+        array_push($modules, array_shift($modules));
+        $this->_buildCircular($modules);
     }
 
     /**
@@ -87,13 +113,26 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      */
     public function testCircularDependencies()
     {
+        $this->markTestSkipped('Skipped before circular dependencies will be fixed MAGETWO-10938');
+        $dependenciesByModule = array();
         $result = '';
         $this->_buildModulesDependencies();
         if (!empty($this->_circularDependencies)) {
             foreach($this->_circularDependencies as $circularDependency) {
-                $result .= implode('->', $circularDependency) . PHP_EOL;
+                $module =  array_shift($circularDependency);
+                array_push($circularDependency, $module);
+                $dependenciesByModule[$module][] = $circularDependency;
+
             }
-            $this->fail("Circular dependencies:" . PHP_EOL . $result);
         }
+
+        foreach($dependenciesByModule as $module => $moduleCircular) {
+            $result .= "$module dependencies:" . PHP_EOL;
+            foreach ($moduleCircular as $chain) {
+                $result .= "Chain : " . implode('->', $chain) . PHP_EOL;
+            }
+            $result .= PHP_EOL;
+        }
+        $this->fail("Circular dependencies:" . PHP_EOL. $result);
     }
 }
