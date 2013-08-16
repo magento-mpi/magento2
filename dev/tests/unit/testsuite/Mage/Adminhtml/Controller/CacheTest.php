@@ -46,16 +46,15 @@ class Mage_Adminhtml_Controller_CacheTest extends PHPUnit_Framework_TestCase
             ->method('getHelper')
             ->will($this->returnValue($backendHelper));
 
-        $cache = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
-        $cacheTypes = $this->getMock('Mage_Core_Model_Cache_Types', array(), array(), '', false);
+        $cacheTypeListMock = $this->getMock('Mage_Core_Model_Cache_TypeListInterface');
+        $cacheStateMock = $this->getMock('Mage_Core_Model_Cache_StateInterface');
         $cacheFrontendPool = $this->getMock('Mage_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
 
         $controller = new Mage_Adminhtml_Controller_Cache(
             $context,
-            $cache,
-            $cacheTypes,
-            $cacheFrontendPool,
-            null
+            $cacheTypeListMock,
+            $cacheStateMock,
+            $cacheFrontendPool
         );
 
         // Setup expectations

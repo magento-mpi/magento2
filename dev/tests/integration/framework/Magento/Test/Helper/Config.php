@@ -22,10 +22,9 @@ class Magento_Test_Helper_Config
     public function getEnabledModules()
     {
         $result = array();
-        foreach (Mage::getConfig()->getNode('modules')->children() as $moduleNode) {
-            if ($moduleNode->is('active')) {
-                $result[] = $moduleNode->getName();
-            }
+        $moduleList = Mage::getObjectManager()->get('Mage_Core_Model_ModuleListInterface');
+        foreach ($moduleList->getModules() as $module) {
+            $result[] = $module['name'];
         }
         return $result;
     }

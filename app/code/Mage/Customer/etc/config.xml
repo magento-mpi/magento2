@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Customer>
-            <version>1.6.2.0.3</version>
-            <active>true</active>
-            <depends>
-                <Mage_Eav />
-                <Mage_Directory />
-            </depends>
-        </Mage_Customer>
-    </modules>
     <global>
         <customer>
             <address>

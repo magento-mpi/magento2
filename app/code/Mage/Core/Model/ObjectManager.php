@@ -19,12 +19,14 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Magento_ObjectManager_Config $config
      * @param array $sharedInstances
+     * @param Mage_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader
      * @throws Magento_BootstrapException
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $primaryConfig,
         Magento_ObjectManager_Config $config = null,
-        $sharedInstances = array()
+        $sharedInstances = array(),
+        Mage_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader = null
     ) {
         $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
         $definitions = $definitionFactory->createClassDefinition($primaryConfig);
@@ -55,7 +57,7 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
         Mage::setObjectManager($this);
 
         Magento_Profiler::start('global_primary');
-        $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary(
+        $primaryLoader = $primaryLoader ?: new Mage_Core_Model_ObjectManager_ConfigLoader_Primary(
             $primaryConfig->getDirectories(),
             $appMode
         );

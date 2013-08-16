@@ -8,15 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_GoogleAdwords>
-            <version>2.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Checkout/>
-            </depends>
-        </Mage_GoogleAdwords>
-    </modules>
     <frontend>
         <events>
             <checkout_onepage_controller_success_action>
@@ -89,7 +80,8 @@
                     <zh_TW>zh_TW</zh_TW>
                     <zh_CN>zh_CN</zh_CN>
                 </languages>
-                <language_convert> <!--convert google language code to current locale-->
+                <language_convert>
+                    <!--convert google language code to current locale-->
                     <zh_CN>zh_Hans</zh_CN>
                     <zh_TW>zh_Hant</zh_TW>
                     <iw>he</iw>

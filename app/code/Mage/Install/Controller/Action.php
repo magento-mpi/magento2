@@ -12,13 +12,27 @@
 class Mage_Install_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
     /**
-     * Set current area
+     * @var Mage_Core_Model_Config_Scope
      */
+    protected $_configScope;
+
+    /**
+     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Mage_Core_Model_Config_Scope $configScope
+     */
+    public function __construct(
+        Mage_Core_Controller_Varien_Action_Context $context,
+        Mage_Core_Model_Config_Scope $configScope
+    ) {
+        $this->_configScope = $configScope;
+        parent::__construct($context);
+    }
+
     protected function _construct()
     {
         parent::_construct();
 
-        $this->setCurrentArea('install');
+        $this->_configScope->setCurrentScope('install');
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
     }
 

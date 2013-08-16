@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Log>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core />
-                <Mage_Customer />
-            </depends>
-        </Mage_Log>
-    </modules>
     <global>
         <ignoredModules>
             <entities>

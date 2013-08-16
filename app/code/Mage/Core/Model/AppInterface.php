@@ -192,14 +192,6 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
     public function cleanCache($tags = array());
 
     /**
-     * Check whether to use cache for specific component
-     *
-     * @param null|string $type
-     * @return boolean
-     */
-    public function useCache($type = null);
-
-    /**
      * Deletes all session files
      *
      * @return Mage_Core_Model_AppInterface

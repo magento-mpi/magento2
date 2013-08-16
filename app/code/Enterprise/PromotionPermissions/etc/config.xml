@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_PromotionPermissions>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_CatalogRule/>
-                <Mage_SalesRule/>
-            </depends>
-        </Enterprise_PromotionPermissions>
-    </modules>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>

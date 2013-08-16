@@ -10,8 +10,8 @@
 
 require_once 'Magento/Db/Tree/Exception.php';
 Zend_Loader::loadClass('Zend_Db_Select');
-Zend_Loader::loadClass('Varien_Db_Tree_Node');
-Zend_Loader::loadClass('Varien_Db_Tree_NodeSet');
+Zend_Loader::loadClass('Magento_Db_Tree_Node');
+Zend_Loader::loadClass('Magento_Db_Tree_NodeSet');
 
 /**
  * Magento Library
@@ -50,7 +50,7 @@ class Magento_DB_Tree
 
     /**
      * @param array $config
-     * @throws Varien_Db_Tree_Exception
+     * @throws Magento_Db_Tree_Exception
      */
     public function __construct($config = array())
     {
@@ -316,7 +316,7 @@ class Magento_DB_Tree
 
     /**
      * @param string|int $nodeId
-     * @return bool|Varien_Db_Tree_Node
+     * @return bool|Magento_Db_Tree_Node
      */
     public function removeNode($nodeId)
     {
@@ -570,7 +570,7 @@ class Magento_DB_Tree
      * @param string|int $nodeId
      * @param int $startLevel
      * @param int $endLevel
-     * @return Varien_Db_Tree_NodeSet
+     * @return Magento_Db_Tree_NodeSet
      */
     public function getChildren($nodeId, $startLevel = 0, $endLevel = 0)
     {
@@ -610,7 +610,7 @@ class Magento_DB_Tree
 
     /**
      * @param string|int $nodeId
-     * @return Varien_Db_Tree_Node
+     * @return Magento_Db_Tree_Node
      */
     public function getNode($nodeId)
     {

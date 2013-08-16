@@ -19,13 +19,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
     protected $_usedModuleName = 'adminhtml';
 
     /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea = 'adminhtml';
-
-    /**
      * Translate a phrase
      *
      * @return string

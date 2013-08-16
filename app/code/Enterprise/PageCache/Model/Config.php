@@ -26,12 +26,12 @@ class Enterprise_PageCache_Model_Config extends Magento_Simplexml_Config
         $data = null
     ) {
         parent::__construct($data);
-        $cacheId = 'cache_config';
+        $cacheId = 'placeholders_config';
         $cachedXml = $configCacheType->load($cacheId);
         if ($cachedXml) {
             $this->loadString($cachedXml);
         } else {
-            $config = $configReader->loadModulesConfiguration('cache.xml');
+            $config = $configReader->loadModulesConfiguration('placeholder.xml');
             $xmlConfig = $config->getNode();
             $configCacheType->save($xmlConfig->asNiceXml(), $cacheId);
             $this->setXml($xmlConfig);

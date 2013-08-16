@@ -31,18 +31,19 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
         /** @var $dir Mage_Core_Model_Dir */
         $dir = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
 
-        $configPath = $dir->getDir(Mage_Core_Model_Dir::APP) . DS . 'etc' . DS . 'di';
-        self::$_primaryFiles = glob($configPath . DS. '*.xml');
+        $configPath = $dir->getDir(Mage_Core_Model_Dir::APP) . DS . 'etc' . DS . '*' . DS;
+        self::$_primaryFiles = glob($configPath . DS. 'di.xml');
+        array_unshift(self::$_primaryFiles, $dir->getDir(Mage_Core_Model_Dir::APP) . DS . 'etc' . DS . 'di.xml');
 
         //init module global configs
         /** @var $modulesReader Mage_Core_Model_Config_Modules_Reader */
         $modulesReader = Mage::getObjectManager()->get('Mage_Core_Model_Config_Modules_Reader');
-        self::$_moduleGlobalFiles = $modulesReader->getModuleConfigurationFiles('di.xml');
+        self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs
         $areas = array('adminhtml', 'frontend');
         foreach ($areas as $area) {
-            $moduleAreaFiles = $modulesReader->getModuleConfigurationFiles($area . DS . 'di.xml');
+            $moduleAreaFiles = $modulesReader->getConfigurationFiles($area . DS . 'di.xml');
             self::$_moduleAreaFiles[$area] = $moduleAreaFiles;
         }
     }
@@ -54,9 +55,9 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testDiConfigFileWithoutMerging($file)
     {
-        /** @var $reader Magento_ObjectManager_Config_Reader_Dom */
-        $reader = $this->getMock('Magento_ObjectManager_Config_Reader_Dom', array('_merge'), array(), '', false);
-        $xsd = $reader->getSchemaFile();
+        /** @var $readerMock Magento_ObjectManager_Config_Reader_Dom */
+        $readerMock = $this->getMock('Magento_ObjectManager_Config_Reader_Dom', array('_merge'), array(), '', false);
+        $xsd = $readerMock->getSchemaFile();
 
         $dom = new DOMDocument();
         $dom->load($file);
@@ -91,8 +92,13 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testMergedDiConfig(array $files)
     {
-        $mapper = $this->getMock('Magento_ObjectManager_Config_Mapper_Dom', array(), array(), '', false);
-        new Magento_ObjectManager_Config_Reader_Dom($files, $mapper, true);
+        $mapperMock = $this->getMock('Magento_ObjectManager_Config_Mapper_Dom', array(), array(), '', false);
+        $fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
+        $fileResolverMock->expects($this->any())->method('read')->will($this->returnValue($files));
+        $validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
+
+        new Magento_ObjectManager_Config_Reader_Dom($fileResolverMock, $mapperMock, $validationStateMock);
     }
 
     public function mixedFilesProvider()

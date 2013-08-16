@@ -27,13 +27,7 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
         /** @var $pageHelper Mage_Cms_Helper_Page */
         $pageHelper = Mage::helper('Mage_Cms_Helper_Page');
         $result = $pageHelper->renderPage(
-            Mage::getModel(
-                'Mage_Core_Controller_Front_Action',
-                array(
-                    'context' => $context,
-                    'areaCode' => 'frontend'
-                )
-            ),
+            Mage::getModel('Mage_Core_Controller_Front_Action', array('context' => $context)),
             $page->getId()
         );
         $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());

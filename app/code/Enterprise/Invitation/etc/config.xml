@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Invitation>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Adminhtml/>
-                <Mage_Customer/>
-                <Mage_Reports/>
-                <Enterprise_WebsiteRestriction/>
-            </depends>
-        </Enterprise_Invitation>
-    </modules>
     <global>
         <resources>
             <enterprise_invitation_setup>
@@ -67,8 +55,8 @@
             <websiterestriction>
                 <full_action_names>
                     <generic>
-                        <enterprise_invitation_customer_account_create/>
-                        <enterprise_invitation_customer_account_createpost/>
+                        <enterprise_invitation_customer_account_create />
+                        <enterprise_invitation_customer_account_createpost />
                     </generic>
                 </full_action_names>
             </websiterestriction>

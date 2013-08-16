@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_SalesRule>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends>
-                <Mage_Rule />
-                <Mage_Catalog />
-                <Mage_Sales />
-            </depends>
-        </Mage_SalesRule>
-    </modules>
     <global>
         <resources>
             <salesrule_setup>

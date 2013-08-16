@@ -17,10 +17,9 @@ class Legacy_Mage_Install_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file($file);
         $path = '/config/check/php/extensions';
-        $newPath = '/config/modules/*/system_requirements/php/extensions';
         $this->assertEmpty(
             $xml->xpath($path),
-            "Nodes from '{$path}' in install.xml have been moved to '{$newPath}' in config.xml"
+            "Nodes from '{$path}' in install.xml have been moved module.xml"
         );
     }
 
