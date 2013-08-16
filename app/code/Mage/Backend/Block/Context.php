@@ -30,6 +30,7 @@ class Mage_Backend_Block_Context extends Mage_Core_Block_Context
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_View_Config $viewConfig
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_AuthorizationInterface $authorization
      * @param array $data
      *
@@ -49,12 +50,13 @@ class Mage_Backend_Block_Context extends Mage_Core_Block_Context
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_View_Url $viewUrl,
         Mage_Core_Model_View_Config $viewConfig,
+        Mage_Core_Model_Cache_StateInterface $cacheState,
         Magento_AuthorizationInterface $authorization,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
-            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $data
+            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $data
         );
     }
 

@@ -32,8 +32,8 @@ class Integrity_Modular_ViewConfigFilesTest extends PHPUnit_Framework_TestCase
     public function viewConfigFileDataProvider()
     {
         $result = array();
-        $files = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Modules_Reader')
-            ->getModuleConfigurationFiles('view.xml');
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $files = $objectManager->get('Mage_Core_Model_Config_Modules_Reader')->getConfigurationFiles('view.xml');
         foreach ($files as $file) {
             $result[] = array($file);
         }

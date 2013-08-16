@@ -27,7 +27,8 @@ class Mage_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_auth  = Mage::getModel('Mage_Backend_Model_Auth');
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth_Session');
         $this->_auth->setAuthStorage($this->_model);
@@ -36,7 +37,8 @@ class Mage_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_model = null;
-        Mage::getConfig()->setCurrentAreaCode(null);
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(null);
     }
 
     /**

@@ -28,7 +28,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
             ->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Core_Controller_Varien_Action',
-            array($context, 'frontend')
+            array($context)
         );
     }
 
@@ -80,10 +80,10 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLayout($controllerClass, $expectedArea)
     {
-        Mage::getConfig()->setCurrentAreaCode($expectedArea);
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Mage_Core_Model_Config_Scope')->setCurrentScope($expectedArea);
         /** @var $controller Mage_Core_Controller_Varien_Action */
-        $controller = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create($controllerClass, array('areaCode' => $expectedArea));
+        $controller = $objectManager->create($controllerClass);
         $this->assertInstanceOf('Mage_Core_Model_Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }
@@ -237,16 +237,15 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
             'request'  => $request,
             'response' => new Magento_Test_Response(),
         );
-        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $context = $objectManager->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
-        $this->_model = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Mage_Core_Controller_Front_Action',
-            array(
-                'context'  => $context,
-                'areaCode' => 'frontend'
-            )
+        $this->_model = $objectManager->create('Mage_Core_Controller_Front_Action',
+            array('context'  => $context)
         );
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope('frontend');
         $this->_model->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());
@@ -262,13 +261,18 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoAppArea adminhtml
+     * @magentoAppArea frontend
      */
     public function testNoCookiesAction()
     {
         $this->assertEmpty($this->_model->getResponse()->getBody());
         $this->_model->noCookiesAction();
-        $this->assertNotEmpty($this->_model->getResponse()->getBody());
+        $redirect = array(
+            'name' => 'Location',
+            'value' => 'http://localhost/index.php/enable-cookies',
+            'replace' => true,
+        );
+        $this->assertEquals($redirect, $this->_model->getResponse()->getHeader('Location'));
     }
 
     /**
@@ -286,18 +290,12 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
-        Mage::getConfig()->setCurrentAreaCode($expectedArea);
         Mage::app()->loadArea($expectedArea);
 
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var $controller Mage_Core_Controller_Varien_Action */
-        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create($context, array('response' => new Magento_Test_Response()));
-        $controller = Magento_Test_Helper_Bootstrap::getObjectManager()->create($controllerClass,
-            array(
-                'areaCode' => $expectedArea,
-                'context' => $context,
-            )
-        );
+        $context = $objectManager->create($context, array('response' => new Magento_Test_Response()));
+        $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
         $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
@@ -353,34 +351,5 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
             $message = $e->getMessage();
         }
         $this->assertFalse($caughtException, $message);
-    }
-
-    /**
-     * @return array
-     */
-    public function controllerAreaSetDataProvider()
-    {
-        return array(
-            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend', 'frontend'),
-            'adminhtml' => array('Mage_Core_Controller_Front_Action', 'adminhtml', 'adminhtml'),
-            'test' => array('Mage_Core_Controller_Front_Action', 'test', 'test'),
-
-        );
-    }
-
-    /**
-     * @param string $controllerClass
-     * @param string $setArea
-     * @param string $expectedArea
-     * @dataProvider controllerAreaSetDataProvider
-     * @magentoAppIsolation enabled
-     */
-    public function testSetCurrentArea($controllerClass, $setArea, $expectedArea)
-    {
-        /** @var $controller Mage_Core_Controller_Varien_Action */
-        $controller = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create($controllerClass, array('areaCode' => 'random_area'));
-        $this->assertInstanceOf($controllerClass, $controller->setCurrentArea($setArea));
-        $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }
 }

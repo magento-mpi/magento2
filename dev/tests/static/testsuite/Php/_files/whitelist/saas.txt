@@ -1,6 +1,0 @@
-# A list similar to "common.txt", but distinguishes items that belong to Magento Saas Edition
-# These items and this file are not published in Magento CE and EE
-#
-saas
-app/code/Saas
-dev/tests/unit/testsuite/Saas

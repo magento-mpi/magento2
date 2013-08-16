@@ -16,68 +16,37 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $dirs = $objectManager->create(
             'Mage_Core_Model_Dir', array(
-                'baseDir' => array(BP),
-                'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
-        );
-
-        /** @var Mage_Core_Model_Config_Loader_Modules $modulesLoader */
-        $modulesLoader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules', array(
-                'dirs' => $dirs
+                'baseDir' => BP,
+                'dirs' => array(
+                    Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+                    Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
+                )
             )
         );
 
-        /**
-         * Mock is used to disable caching, as far as Integration Tests Framework loads main
-         * modules configuration first and it gets cached
-         *
-         * @var PHPUnit_Framework_MockObject_MockObject $cache
-         */
-        $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
-            array(), '', false);
-        
-        $cache->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(false));
-
-        /** @var Mage_Core_Model_Config_Storage $storage */
-        $storage = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Storage', array(
-                'loader' => $modulesLoader,
-                'cache' => $cache
-            )
-        );
-
-        $config = new Mage_Core_Model_Config_Base('<config />');
-        $modulesLoader->load($config);
-
-        /** @var Mage_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
-
-        /** @var Mage_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules_File', array(
-                'dirs' => $dirs
-            )
-        );
+        $moduleList = $objectManager->create('Mage_Core_Model_ModuleList', array(
+            'reader' => $objectManager->create('Mage_Core_Model_Module_Declaration_Reader_Filesystem', array(
+                'fileResolver' => $objectManager->create('Mage_Core_Model_Module_Declaration_FileResolver',
+                    array(
+                        'applicationDirs' => $dirs
+                    )
+                )
+            )),
+            'cache' => $this->getMock('Magento_Config_CacheInterface')
+        ));
 
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules_Reader', array(
-                'fileReader' => $fileReader,
-                'modulesConfig' => $modulesConfig
-            )
-        );
+        $moduleReader = $objectManager->create('Mage_Core_Model_Config_Modules_Reader', array(
+            'dirs' => $dirs,
+            'moduleList' => $moduleList
+        ));
 
         /** @var Mage_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $dsCfgReaderFactory = $objectManager->create(
             'Mage_Core_Model_DataService_Config_Reader_Factory');
 
         $this->_config = new Mage_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);

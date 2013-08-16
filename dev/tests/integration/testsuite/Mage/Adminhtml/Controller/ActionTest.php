@@ -29,10 +29,7 @@ class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
             ->create('Mage_Backend_Controller_Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Adminhtml_Controller_Action',
-            array(
-                'context'  => $context,
-                'areaCode' => 'adminhtml'
-            )
+            array('context' => $context)
         );
     }
 

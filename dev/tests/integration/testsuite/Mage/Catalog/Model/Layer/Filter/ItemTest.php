@@ -53,7 +53,6 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
             array(
                 'request' => new Magento_Test_Request(),
                 'response' => new Magento_Test_Response(),
-                'areaCode' => 'frontend',
             )
         );
         Mage::app()->getFrontController()->setAction($action); // done in action's constructor

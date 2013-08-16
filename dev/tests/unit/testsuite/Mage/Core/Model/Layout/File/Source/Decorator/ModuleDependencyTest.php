@@ -21,27 +21,27 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest extends 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_config;
+    private $_moduleListMock;
 
     protected function setUp()
     {
-        $configXml = new SimpleXMLElement('<?xml version="1.0"?>
-            <config>
-                <modules>
-                    <Fixture_ModuleB/>
-                    <Fixture_ModuleA>
-                        <depends>
-                            <Fixture_ModuleB/>
-                        </depends>
-                    </Fixture_ModuleA>
-                </modules>
-            </config>
-        ');
+        $modulesConfig = array(
+            'Fixture_ModuleB' => array(
+                'name' => 'Fixture_ModuleB',
+            ),
+            'Fixture_ModuleA' => array(
+                'name' => 'Fixture_ModuleA',
+                'depends' => array(
+                    'module' => array('Fixture_ModuleB'),
+                )
+            ),
+        );
+
         $this->_fileSource = $this->getMockForAbstractClass('Mage_Core_Model_Layout_File_SourceInterface');
-        $this->_config = $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false);
-        $this->_config->expects($this->any())->method('getModuleConfig')->will($this->returnValue($configXml->modules));
+        $this->_moduleListMock = $this->getMock('Mage_Core_Model_ModuleListInterface');
+        $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
         $this->_model = new Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency(
-            $this->_fileSource, $this->_config
+            $this->_fileSource, $this->_moduleListMock
         );
     }
 

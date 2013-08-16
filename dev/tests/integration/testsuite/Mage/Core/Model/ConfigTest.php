@@ -20,7 +20,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        Mage::app()->getCacheInstance()->banUse('config');
+        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('config', false);
     }
 
     public function testSetNode()
@@ -45,13 +47,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $_SERVER['SCRIPT_NAME'] = __FILE__;
         $_SERVER['HTTP_HOST'] = 'example.com';
         $this->assertEquals('http://example.com/', $this->_createModel()->getDistroBaseUrl());
-    }
-
-    public function testGetModuleConfig()
-    {
-        $model = $this->_createModel();
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig());
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig('Mage_Core'));
     }
 
     public function testGetModuleDir()

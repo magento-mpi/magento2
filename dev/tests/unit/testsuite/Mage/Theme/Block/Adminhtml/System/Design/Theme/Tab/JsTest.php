@@ -28,10 +28,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
-            array(
-                 'objectManager' => Mage::getObjectManager(),
-                 'urlBuilder'    => $this->_urlBuilder
-            )
+            array('urlBuilder' => $this->_urlBuilder)
         );
 
         $this->_model = $this->getMock(

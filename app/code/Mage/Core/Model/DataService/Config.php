@@ -74,7 +74,7 @@ class Mage_Core_Model_DataService_Config implements Mage_Core_Model_DataService_
      */
     protected function _getServiceCallsFiles()
     {
-        return $this->_moduleReader->getModuleConfigurationFiles('service_calls.xml');
+        return $this->_moduleReader->getConfigurationFiles('service_calls.xml');
     }
 
     /**

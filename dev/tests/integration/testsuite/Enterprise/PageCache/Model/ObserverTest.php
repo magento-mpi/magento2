@@ -23,7 +23,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::app()->getCacheInstance()->allowUse('full_page');
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = $objectManager->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
             'Enterprise_PageCache_Model_Cookie',
             array('set', 'delete', 'updateCustomerCookies'),
@@ -33,8 +36,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_observer = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Enterprise_PageCache_Model_Observer', array('cookie' => $this->_cookie));
+        $this->_observer = $objectManager->create(
+            'Enterprise_PageCache_Model_Observer',
+            array('cookie' => $this->_cookie)
+        );
     }
 
     public function testProcessPreDispatchCanProcessRequest()
@@ -53,13 +58,16 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('context' => $context, 'areaCode' => 'frontend')
+                array('context' => $context)
             )
         )));
 
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
-        Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+
+        $cacheState->setEnabled(Mage_Core_Block_Abstract::CACHE_GROUP, true);
 
         /** @var $session Mage_Catalog_Model_Session */
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
@@ -67,7 +75,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_observer->processPreDispatch($observerData);
 
-        $this->assertFalse(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
+        $this->assertFalse($cacheState->isEnabled(Mage_Core_Block_Abstract::CACHE_GROUP));
         $this->assertTrue(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
@@ -87,7 +95,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('context' => $context, 'areaCode' => 'frontend')
+                array('context' => $context)
             )
         )));
         $this->_cookie

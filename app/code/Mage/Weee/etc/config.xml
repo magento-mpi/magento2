@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Weee>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Catalog />
-                <Mage_Tax />
-                <Mage_Sales />
-            </depends>
-        </Mage_Weee>
-    </modules>
     <global>
         <resources>
             <weee_setup>
@@ -86,7 +75,7 @@
                     <weee>
                         <class>Mage_Weee_Model_Total_Invoice_Weee</class>
                         <after>subtotal,tax,discount,grand_total,cost_total,shipping</after>
-                        <before></before>
+                        <before />
                     </weee>
                 </totals>
             </order_invoice>

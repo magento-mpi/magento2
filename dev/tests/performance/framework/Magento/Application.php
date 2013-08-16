@@ -179,12 +179,13 @@ class Magento_Application
      */
     protected function _bootstrap()
     {
-        if (!Mage::getObjectManager()) {
-            new Mage_Core_Model_ObjectManager(new Mage_Core_Model_Config_Primary(BP, $_SERVER));
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        if (!$objectManager) {
+            $objectManager = new Mage_Core_Model_ObjectManager(new Mage_Core_Model_Config_Primary(BP, $_SERVER));
+            Magento_Test_Helper_Bootstrap::setObjectManager($objectManager);
         }
 
-        /** @var $app Mage_Core_Model_App */
-        Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $objectManager->get('Mage_Core_Model_App');
         return $this;
     }
 

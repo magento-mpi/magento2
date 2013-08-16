@@ -13,6 +13,7 @@ class Mage_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Contr
 
     public function setUp()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         // Need to call this first so we get proper config
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
@@ -20,12 +21,12 @@ class Mage_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Contr
         $fixtureFileName = __DIR__ . DS . "_files" . DS . 'Mage' . DS . 'Catalog' . DS . 'Service'
             . DS . 'TestProduct.php';
         include $fixtureFileName;
-        $invoker = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $invoker = $objectManager->create(
             'Mage_Core_Model_DataService_Invoker',
             array('config' => $config)
         );
         /** @var Mage_Core_Model_DataService_Graph $dataServiceGraph */
-        $this->_dataServiceGraph = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $this->_dataServiceGraph = $objectManager->create(
             'Mage_Core_Model_DataService_Graph',
             array('dataServiceInvoker' => $invoker)
         );
@@ -33,68 +34,23 @@ class Mage_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Contr
 
     protected function _loadServiceCallsConfig()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $dirs = $objectManager->create(
             'Mage_Core_Model_Dir', array(
                 'baseDir' => array(BP),
                 'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
         );
 
-        /** @var Mage_Core_Model_Config_Loader_Modules $modulesLoader */
-        $modulesLoader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules', array(
-                'dirs' => $dirs
-            )
-        );
-
-        /**
-         * Mock is used to disable caching, as far as Integration Tests Framework loads main
-         * modules configuration first and it gets cached
-         *
-         * @var PHPUnit_Framework_MockObject_MockObject $cache
-         */
-        $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
-            array(), '', false);
-
-        $cache->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(false));
-
-        /** @var Mage_Core_Model_Config_Storage $storage */
-        $storage = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Storage', array(
-                'loader' => $modulesLoader,
-                'cache' => $cache
-            )
-        );
-
-        $config = new Mage_Core_Model_Config_Base('<config />');
-        $modulesLoader->load($config);
-
-        /** @var Mage_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
-
-        /** @var Mage_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules_File', array(
-                'dirs' => $dirs
-            )
-        );
-
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $moduleReader = $objectManager->create(
             'Mage_Core_Model_Config_Modules_Reader', array(
-                'fileReader' => $fileReader,
-                'modulesConfig' => $modulesConfig
+                'dirs' => $dirs,
             )
         );
 
         /** @var Mage_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $dsCfgReaderFactory = $objectManager->create(
             'Mage_Core_Model_DataService_Config_Reader_Factory');
 
         /** @var Mage_Core_Model_DataService_Config $config */

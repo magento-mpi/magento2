@@ -70,7 +70,6 @@
         </item>
         <item>
             <word>enterprise</word>
-            <word>saas</word>
             <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
         </item>
         <item>
@@ -79,7 +78,6 @@
         </item>
         <item>
             <word>enterprise</word>
-            <word>saas</word>
             <path>dev/tests/functional/framework/Mage/Selenium/TestCase.php</path>
         </item>
         <item>
@@ -87,7 +85,6 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <word>enterprise</word>
-            <word>saas</word>
             <path>dev/tests/functional/config/config.yml.dist</path>
         </item>
         <item>
@@ -137,11 +134,6 @@
             <path>dev/tools/translate/generate_emailtemplates.php</path>
         </item>
         <item>
-            <word>saas</word>
-            <path>dev/tests/static/testsuite/Legacy/_files/</path>
-        </item>
-        <item>
-            <word>saas</word>
             <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
         </item>

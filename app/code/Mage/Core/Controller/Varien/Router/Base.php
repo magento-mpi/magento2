@@ -45,9 +45,15 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     protected $_app;
 
     /**
+     * @var Mage_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Config_Scope $configScope
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -56,6 +62,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
+        Mage_Core_Model_Config_Scope $configScope,
         $areaCode,
         $baseController
     ) {
@@ -65,6 +72,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         $this->_filesystem     = $filesystem;
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
+        $this->_configScope  = $configScope;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -381,10 +389,10 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
                 continue;
             }
 
-            Mage::getConfig()->setCurrentAreaCode($this->_areaCode);
+            $this->_configScope->setCurrentScope($this->_areaCode);
             // instantiate controller class
             $controllerInstance = $this->_controllerFactory->createController($controllerClassName,
-                array('request' => $request, 'areaCode' => $this->_areaCode)
+                array('request' => $request)
             );
 
             $found = true;
@@ -441,47 +449,12 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      */
     protected function _validateControllerClassName($realModule, $controller)
     {
-        $controllerFileName = $this->getControllerFileName($realModule, $controller);
-        if (!$this->validateControllerFileName($controllerFileName)) {
-            return false;
-        }
-
         $controllerClassName = $this->getControllerClassName($realModule, $controller);
         if (!$controllerClassName) {
             return false;
         }
 
-        // include controller file if needed
-        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
-            return false;
-        }
-
         return $controllerClassName;
-    }
-
-    /**
-     * Include the file containing controller class if this class is not defined yet
-     *
-     * @param $controllerFileName
-     * @param $controllerClassName
-     * @return bool
-     * @throws Mage_Core_Exception
-     */
-    protected function _includeControllerClass($controllerFileName, $controllerClassName)
-    {
-        if (!class_exists($controllerClassName, false)) {
-            if (!$this->_filesystem->isFile($controllerFileName)) {
-                return false;
-            }
-            include $controllerFileName;
-
-            if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist')
-                );
-            }
-        }
-        return true;
     }
 
     public function addModule($frontName, $moduleName, $routeName)
@@ -534,33 +507,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         return array_search($frontName, $this->_routes);
     }
 
-    public function getControllerFileName($realModule, $controller)
-    {
-        $parts = explode('_', $realModule);
-        $realModule = implode('_', array_splice($parts, 0, 2));
-        $file = Mage::getModuleDir('controllers', $realModule);
-        if (count($parts)) {
-            $file .= DS . implode(DS, $parts);
-        }
-        $file .= DS . uc_words($controller, DS) . 'Controller.php';
-        return $file;
-    }
-
-    public function validateControllerFileName($fileName)
-    {
-        if ($fileName
-            && $this->_filesystem->isFile($fileName)
-            && $this->_filesystem->isReadable($fileName)
-            && false === strpos($fileName, '//')
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     public function getControllerClassName($realModule, $controller)
     {
-        $class = $realModule . '_' . uc_words($controller) . 'Controller';
+        $class = $realModule . '_' . 'Controller'  . '_' . uc_words($controller);
         return $class;
     }
 

@@ -77,7 +77,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
             $this->_dbUpdaterMock,
             $this->_storeManagerMock,
             $this->_eventManagerMock,
-            $this->_appStateMock
+            $this->_appStateMock,
+            $this->getMock('Mage_Core_Model_Config_Scope', array(), array(), '', false)
         );
     }
 

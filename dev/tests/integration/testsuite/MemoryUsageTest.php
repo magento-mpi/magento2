@@ -31,6 +31,9 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
      */
     public function testAppReinitializationNoMemoryLeak()
     {
+        if (extension_loaded('xdebug')) {
+            $this->markTestSkipped('Xdebug extension may significantly affect memory consumption of a process.');
+        }
         $this->_deallocateUnusedMemory();
         $actualMemoryUsage = $this->_helper->getRealMemoryUsage();
         for ($i = 0; $i < self::APP_REINITIALIZATION_LOOPS; $i++) {

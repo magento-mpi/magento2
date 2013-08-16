@@ -49,16 +49,12 @@ class Mage_Core_Model_Config_Loader_Primary implements Mage_Core_Model_Config_Lo
         if (!$config->getNode()) {
             $config->loadString('<config/>');
         }
+        $files = glob($etcDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'config.xml');
+        array_unshift($files, $etcDir . DIRECTORY_SEPARATOR . 'config.xml');
         // 1. app/etc/*.xml (except local config)
-        foreach (scandir($etcDir) as $filename) {
-            if ('.' == $filename || '..' == $filename || '.xml' != substr($filename, -4)
-                || Mage_Core_Model_Config_Loader_Local::LOCAL_CONFIG_FILE == $filename
-            ) {
-                continue;
-            }
-            $baseConfigFile = $etcDir . DIRECTORY_SEPARATOR . $filename;
+        foreach ($files as $filename) {
             $baseConfig = new Mage_Core_Model_Config_Base('<config/>');
-            $baseConfig->loadFile($baseConfigFile);
+            $baseConfig->loadFile($filename);
             $config->extend($baseConfig);
         }
         // 2. local configuration

@@ -10,12 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Adminhtml>
-            <version>0.7.1</version>
-            <active>true</active>
-        </Mage_Adminhtml>
-    </modules>
     <global>
         <events>
             <adminhtml_controller_action_predispatch_start>
@@ -128,7 +122,9 @@
         </general>
         <hints>
             <store_switcher>
-                <url><![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]></url>
+                <url>
+                    <![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]>
+</url>
                 <enabled>1</enabled>
             </store_switcher>
         </hints>

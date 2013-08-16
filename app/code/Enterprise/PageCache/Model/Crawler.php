@@ -122,7 +122,9 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
      */
     public function crawl()
     {
-        if (!Mage::app()->useCache('full_page')) {
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        if (!$cacheState->isEnabled('full_page')) {
             return $this;
         }
         $storesInfo  = $this->getStoresInfo();

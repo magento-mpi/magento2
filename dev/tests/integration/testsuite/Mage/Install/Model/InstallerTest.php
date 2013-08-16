@@ -167,12 +167,15 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
         $this->_model->finish();
 
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
-        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Mage_Core_Model_Cache_StateInterface');
+
+        /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(
-                $cacheTypes->isEnabled($type),
+                $cacheState->isEnabled($type),
                 "'$type' cache type has not been enabled after installation"
             );
         }

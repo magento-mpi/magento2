@@ -28,7 +28,8 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_helper = Mage::helper('Mage_Backend_Helper_Data');
     }
 
@@ -36,7 +37,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper = null;
         $this->_auth = null;
-        Mage::getConfig()->setCurrentAreaCode(null);
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Scope')->setCurrentScope(null);
     }
 
     /**

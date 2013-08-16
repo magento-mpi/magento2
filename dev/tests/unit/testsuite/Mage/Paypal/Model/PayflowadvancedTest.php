@@ -27,6 +27,11 @@ class Mage_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
      */
     static public $request;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_moduleList;
+
     /**#@+
      *
      * Test response parameters
@@ -69,6 +74,7 @@ class Mage_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnValue($order));
         $request = new Mage_Paypal_Model_Payflow_Request;
+        $this->_moduleListMock = $this->getMock('Mage_Core_Model_ModuleListInterface');
         $this->_modelClass = $this->getMock(
             'Mage_Paypal_Model_Payflowadvanced',
             array(
@@ -79,6 +85,9 @@ class Mage_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
                 '_generateSecureSilentPostHash',
                 '_buildTokenRequest',
                 '_getCallbackUrl'
+            ),
+            array(
+                $this->_moduleListMock
             )
         );
         $this->_modelClass->expects($this->any())

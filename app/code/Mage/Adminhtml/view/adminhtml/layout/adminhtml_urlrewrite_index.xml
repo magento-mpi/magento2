@@ -52,7 +52,16 @@
                                 <type>options</type>
                                 <id>is_system</id>
                                 <index>is_system</index>
-                                <options type="options">Mage_Adminhtml_Model_UrlRewriteOptions</options>
+                                <options>
+                                    <system>
+                                        <value>1</value>
+                                        <label translate="true" module="Mage_Backend">System</label>
+                                    </system>
+                                    <custom>
+                                        <value>0</value>
+                                        <label translate="true" module="Mage_Backend">Custom</label>
+                                    </custom>
+                                </options>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="id_path">

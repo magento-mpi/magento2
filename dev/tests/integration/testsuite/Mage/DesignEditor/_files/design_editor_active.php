@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Mage::setCurrentArea('adminhtml');
-/** @var $session Mage_DesignEditor_Model_Session */
+Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+    ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
 $session = Mage::getModel('Mage_DesignEditor_Model_Session');
 /** @var $auth Mage_Backend_Model_Auth */
 $auth = Mage::getModel('Mage_Backend_Model_Auth');

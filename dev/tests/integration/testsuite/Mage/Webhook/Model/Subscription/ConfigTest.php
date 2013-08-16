@@ -31,17 +31,33 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-
-        $dirs = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $dirs = $objectManager->create(
             'Mage_Core_Model_Dir',
             array(
-                'baseDir' => array(BP),
-                'dirs'    => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),
+                'baseDir' => BP,
+                'dirs'    => array(
+                    Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+                    Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+                ),
             )
         );
-        $modulesLoader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules',
-            array('dirs' => $dirs)
+
+        $fileResolver = $objectManager->create(
+            'Mage_Core_Model_Module_Declaration_FileResolver', array('applicationDirs' => $dirs)
+        );
+        $filesystemReader = $objectManager->create('Mage_Core_Model_Module_Declaration_Reader_Filesystem',
+            array('fileResolver' => $fileResolver)
+        );
+        $moduleList = $objectManager->create(
+            'Mage_Core_Model_ModuleList',
+            array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento_Config_CacheInterface"))
+        );
+        $reader = $objectManager->create(
+            'Mage_Core_Model_Config_Modules_Reader', array('dirs' => $dirs, 'moduleList' => $moduleList)
+        );
+        $modulesLoader = $objectManager->create(
+            'Mage_Core_Model_Config_Loader_Modules', array('dirs' => $dirs, 'fileReader' => $reader)
         );
 
         /**
@@ -58,56 +74,51 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue(false));
 
         /** @var Mage_Core_Model_Config_Storage $storage */
-        $storage = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $storage = $objectManager->create(
             'Mage_Core_Model_Config_Storage', array(
                 'loader' => $modulesLoader,
                 'cache' => $cache
             )
         );
 
-        $config = new Mage_Core_Model_Config_Base('<config />');
-        $modulesLoader->load($config);
-
         /** @var Mage_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $modulesConfig = $objectManager->create(
             'Mage_Core_Model_Config_Modules', array(
                 'storage' => $storage
             )
         );
 
         /** @var Mage_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $fileReader = $objectManager->create(
             'Mage_Core_Model_Config_Loader_Modules_File', array(
                 'dirs' => $dirs
             )
         );
 
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $moduleReader = $objectManager->create(
             'Mage_Core_Model_Config_Modules_Reader', array(
-                'fileReader' => $fileReader,
+                'dirs' => $dirs,
                 'modulesConfig' => $modulesConfig
             )
         );
 
-        $mageConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->create(
+        $mageConfig = $objectManager->create(
             'Mage_Core_Model_Config',
             array('storage' => $storage, 'moduleReader' => $moduleReader)
         );
 
         /** @var Mage_Webhook_Model_Subscription_Config $config */
-        $this->_config = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Webhook_Model_Subscription_Config',
+        $this->_config = $objectManager->create('Mage_Webhook_Model_Subscription_Config',
             array('mageConfig' => $mageConfig)
         );
     }
 
     public function testReadingConfig()
     {
-
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var Mage_Webhook_Model_Resource_Subscription_Collection $subscriberCollection */
-        $subscriptionSet = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Webhook_Model_Resource_Subscription_Collection');
+        $subscriptionSet = $objectManager->create('Mage_Webhook_Model_Resource_Subscription_Collection');
 
         // Sanity check
         $subscriptions = $subscriptionSet->getSubscriptionsByAlias(self::SUBSCRIPTION_ALIAS);
