@@ -15,7 +15,7 @@
 class Mage_Payment_Block_Info_InstructionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_method;
 
@@ -32,7 +32,7 @@ class Mage_Payment_Block_Info_InstructionsTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_method = new Varien_Object();
+        $this->_method = new Magento_Object();
         $this->_info = $objectManagerHelper->getObject('Mage_Payment_Model_Info');
         $this->_instructions = $objectManagerHelper->getObject('Mage_Payment_Block_Info_Instructions');
 

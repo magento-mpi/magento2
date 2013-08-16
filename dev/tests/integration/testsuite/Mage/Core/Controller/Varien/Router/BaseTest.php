@@ -84,20 +84,8 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
         $this->assertTrue($this->_model->getModuleByName('test', array('test')));
     }
 
-    /**
-     * @covers Mage_Core_Controller_Varien_Router_Base::getControllerFileName
-     * @covers Mage_Core_Controller_Varien_Router_Base::validateControllerFileName
-     */
-    public function testGetControllerFileName()
-    {
-        $file = $this->_model->getControllerFileName('Mage_Core', 'index');
-        $this->assertStringEndsWith('IndexController.php', $file);
-        $this->assertTrue($this->_model->validateControllerFileName($file));
-        $this->assertFalse($this->_model->validateControllerFileName(''));
-    }
-
     public function testGetControllerClassName()
     {
-        $this->assertEquals('Mage_Core_IndexController', $this->_model->getControllerClassName('Mage_Core', 'index'));
+        $this->assertEquals('Mage_Core_Controller_Index', $this->_model->getControllerClassName('Mage_Core', 'index'));
     }
 }

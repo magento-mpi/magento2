@@ -37,8 +37,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     {
         /** @var $collection Enterprise_CustomerSegment_Model_Resource_Segment_Collection */
         $collection = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getCollection();
-        $collection->addCustomerCountToSelect()
-            ->addWebsitesToResult();
+        $collection->addCustomerCountToSelect()->addWebsitesToResult();
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -110,17 +109,17 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     {
         $this->setMassactionIdField('segment_id');
         $this->getMassactionBlock()->addItem('view', array(
-            'label'=> Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('View Combined Report'),
-            'url'  => $this->getUrl('*/*/detail', array('_current'=>true)),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('View Combined Report'),
+            'url'  => $this->getUrl('*/*/detail', array('_current' => true)),
             'additional' => array(
                 'visibility' => array(
-                         'name'     => 'view_mode',
-                         'type'     => 'select',
-                         'class'    => 'required-entry',
-                         'label'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Set'),
-                         'values'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getOptionsArray()
-                     )
-             )
+                     'name'     => 'view_mode',
+                     'type'     => 'select',
+                     'class'    => 'required-entry',
+                     'label'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Set'),
+                     'values'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getOptionsArray()
+                )
+            )
         ));
         return $this;
     }
@@ -128,7 +127,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     /**
      * Retrieve row click URL
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      *
      * @return string
      */

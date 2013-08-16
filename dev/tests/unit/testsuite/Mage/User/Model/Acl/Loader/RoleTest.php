@@ -42,12 +42,12 @@ class Mage_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(1));
 
 
-        $selectMock = $this->getMock('Varien_Db_Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
         $selectMock->expects($this->any())
             ->method('from')
             ->will($this->returnValue($selectMock));
 
-        $this->_adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $this->_adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
         $this->_adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($selectMock));

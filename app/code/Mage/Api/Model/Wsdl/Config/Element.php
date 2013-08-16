@@ -15,11 +15,11 @@
  * @category   Mage
  * @package    Mage_Core
  */
-class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
+class Mage_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
 {
     public function extend($source, $overwrite = false)
     {
-        if (!$source instanceof Varien_Simplexml_Element) {
+        if (!$source instanceof Magento_Simplexml_Element) {
             return $this;
         }
 
@@ -35,9 +35,9 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
     /**
      * Extends one node
      *
-     * @param Varien_Simplexml_Element $source
+     * @param Magento_Simplexml_Element $source
      * @param boolean $overwrite
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function extendChild($source, $overwrite = false, $elmNamespace = '')
     {
@@ -127,7 +127,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
      *   )
      * )
      *
-     * @param Varien_Simplexml_Element $source
+     * @param Magento_Simplexml_Element $source
      * @return array
      */
     public function getAttributes($source, $namespace = null)
@@ -151,7 +151,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
     /**
      * Return children of all namespaces
      *
-     * @param Varien_Simplexml_Element $source
+     * @param Magento_Simplexml_Element $source
      */
     public function getChildren($source)
     {
@@ -195,9 +195,9 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
     /**
      * Return element by tag name, and checking attributes with namespaces
      *
-     * @param Varien_Simplexml_Element $source
+     * @param Magento_Simplexml_Element $source
      * @param string $namespace
-     * @return null|Varien_Simplexml_Element
+     * @return null|Magento_Simplexml_Element
      */
     public function getElementByName($source, $elmNamespace = '')
     {

@@ -79,10 +79,10 @@ class Mage_Core_Model_Store_Storage_Default implements Mage_Core_Model_Store_Sto
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $id
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      */
-    public function getStore($id = null)
+    public function getStore($storeId = null)
     {
         return $this->_store;
     }
@@ -102,14 +102,14 @@ class Mage_Core_Model_Store_Storage_Default implements Mage_Core_Model_Store_Sto
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      * @return Mage_Core_Model_Website
      * @throws Mage_Core_Exception
      */
-    public function getWebsite($id = null)
+    public function getWebsite($websiteId = null)
     {
-        if ($id instanceof Mage_Core_Model_Website) {
-            return $id;
+        if ($websiteId instanceof Mage_Core_Model_Website) {
+            return $websiteId;
         }
 
         return $this->_website;
@@ -137,14 +137,14 @@ class Mage_Core_Model_Store_Storage_Default implements Mage_Core_Model_Store_Sto
     /**
      * Retrieve application store group object
      *
-     * @param null|Mage_Core_Model_Store_Group|string $id
+     * @param null|Mage_Core_Model_Store_Group|string $groupId
      * @return Mage_Core_Model_Store_Group
      * @throws Mage_Core_Exception
      */
-    public function getGroup($id = null)
+    public function getGroup($groupId = null)
     {
-        if ($id instanceof Mage_Core_Model_Store_Group) {
-            return $id;
+        if ($groupId instanceof Mage_Core_Model_Store_Group) {
+            return $groupId;
         }
 
         return $this->_group;
@@ -191,9 +191,9 @@ class Mage_Core_Model_Store_Storage_Default implements Mage_Core_Model_Store_Sto
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      */
-    public function clearWebsiteCache($id = null)
+    public function clearWebsiteCache($websiteId = null)
     {
         //not applicable for default storage
     }

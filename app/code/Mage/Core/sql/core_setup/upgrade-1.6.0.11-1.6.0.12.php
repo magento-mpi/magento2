@@ -46,7 +46,7 @@ $newTableName = $installer->getTable($newName);
 $oldColumn = 'files_link_id';
 $newColumn = 'file_update_id';
 $connection->changeColumn($newTableName, $oldColumn, $newColumn, array(
-    'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
+    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
     'primary'  => true,
     'nullable' => false,
     'unsigned' => true,
@@ -59,7 +59,7 @@ $connection->changeColumn($newTableName, $oldColumn, $newColumn, array(
 $oldColumn = 'layout_link_id';
 $newColumn = 'layout_update_id';
 $connection->changeColumn($newTableName, $oldColumn, $newColumn, array(
-    'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
+    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
     'nullable' => false,
     'unsigned' => true,
     'comment'  => 'Theme layout update id'
@@ -70,9 +70,9 @@ $connection->changeColumn($newTableName, $oldColumn, $newColumn, array(
  */
 $connection->addIndex(
     $newTableName,
-    $installer->getIdxName($newTableName, 'theme_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName($newTableName, 'theme_id', Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE),
     'theme_id',
-    Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    Magento_DB_Adapter_Interface::INDEX_TYPE_UNIQUE
 );
 $connection->addForeignKey(
     $installer->getFkName($newTableName, 'theme_id', 'core_theme', 'theme_id'),
@@ -80,13 +80,13 @@ $connection->addForeignKey(
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
-    Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
+    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
 );
 $connection->addIndex(
     $newTableName,
-    $installer->getIdxName($newTableName, 'layout_update_id', Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX),
+    $installer->getIdxName($newTableName, 'layout_update_id', Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX),
     'layout_update_id',
-    Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX
+    Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX
 );
 $connection->addForeignKey(
     $installer->getFkName($newTableName, 'layout_update_id', 'core_layout_update', 'layout_update_id'),
@@ -94,7 +94,7 @@ $connection->addForeignKey(
     'layout_update_id',
     $installer->getTable('core_layout_update'),
     'layout_update_id',
-    Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
+    Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
 );
 
 /**

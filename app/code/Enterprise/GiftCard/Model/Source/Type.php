@@ -74,7 +74,7 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
             $column['nullable'] = true;
             $column['comment']  = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
         }
@@ -86,7 +86,7 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Varien_Db_Select|null
+     * @return Magento_DB_Select|null
      */
     public function getFlatUpdateSelect($store)
     {

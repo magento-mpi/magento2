@@ -32,7 +32,7 @@ class Mage_Payment_Model_Observer
     /**
      * Set forced canCreditmemo flag
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Payment_Model_Observer
      */
     public function salesOrderBeforeSave($observer)
@@ -64,7 +64,7 @@ class Mage_Payment_Model_Observer
      *
      * Also sets the collected information and schedule as informational static options
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function prepareProductRecurringProfileOptions($observer)
     {
@@ -107,10 +107,10 @@ class Mage_Payment_Model_Observer
     /**
      * Sets current instructions for bank transfer account
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
-    public function beforeOrderPaymentSave(Varien_Event_Observer $observer)
+    public function beforeOrderPaymentSave(Magento_Event_Observer $observer)
     {
         /** @var Mage_Sales_Model_Order_Payment $payment */
         $payment = $observer->getEvent()->getPayment();
@@ -121,9 +121,9 @@ class Mage_Payment_Model_Observer
     }
 
     /**
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function updateOrderStatusForPaymentMethods(Varien_Event_Observer $observer)
+    public function updateOrderStatusForPaymentMethods(Magento_Event_Observer $observer)
     {
         if ($observer->getEvent()->getState() !== Mage_Sales_Model_Order::STATE_NEW) {
             return;

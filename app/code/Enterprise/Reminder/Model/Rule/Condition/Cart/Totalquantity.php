@@ -57,8 +57,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
      * Get SQL select for matching shopping cart products count
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @param int|Zend_Db_Expr $website
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -72,7 +72,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
         $select->where('quote.is_active = 1');
         $select->where("quote.items_qty {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
+        $select->limit(1);
 
         return $select;
     }

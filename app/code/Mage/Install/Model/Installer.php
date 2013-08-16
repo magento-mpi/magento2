@@ -11,17 +11,13 @@
 
 /**
  * Installer model
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Install_Model_Installer extends Varien_Object
+class Mage_Install_Model_Installer extends Magento_Object
 {
     /**
      * Installer data model used to store data between installation steps
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_dataModel;
 
@@ -85,11 +81,11 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Get data model
      *
-     * @return Mage_Install_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     public function getDataModel()
     {
-        if (is_null($this->_dataModel)) {
+        if (null === $this->_dataModel) {
             $this->setDataModel(Mage::getSingleton('Mage_Install_Model_Session'));
         }
         return $this->_dataModel;
@@ -98,10 +94,10 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param Varien_Object $model
+     * @param Magento_Object $model
      * @return Mage_Install_Model_Installer
      */
-    public function setDataModel(Varien_Object $model)
+    public function setDataModel(Magento_Object $model)
     {
         $this->_dataModel = $model;
         return $this;
@@ -144,7 +140,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Retrieve server checking result status
      *
-     * @return unknown
+     * @return bool
      */
     public function getServerCheckStatus()
     {
@@ -225,8 +221,7 @@ class Mage_Install_Model_Installer extends Varien_Object
             if (!empty($data['use_secure_admin'])) {
                 $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
-        }
-        elseif (!empty($data['unsecure_base_url'])) {
+        } elseif (!empty($data['unsecure_base_url'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
         }
 
@@ -324,6 +319,9 @@ class Mage_Install_Model_Installer extends Varien_Object
         return $key;
     }
 
+    /**
+     * @return $this
+     */
     public function finish()
     {
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();

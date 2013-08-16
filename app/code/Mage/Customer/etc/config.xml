@@ -52,9 +52,6 @@
                     <pdf translate="title" module="Mage_Customer">
                         <title>PDF</title>
                     </pdf>
-                    <js_template template="title" module="Mage_Customer">
-                        <title>JavaScript Template</title>
-                    </js_template>
                 </formats>
             </address>
         </customer>
@@ -129,13 +126,6 @@
                 </Mage_Customer>
             </modules>
         </translate>
-        <di>
-            <Mage_Customer_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Customer_Model_Session>
-        </di>
     </adminhtml>
     <frontend>
         <secure_url>
@@ -169,13 +159,6 @@
                 </Mage_Customer>
             </modules>
         </translate>
-        <di>
-            <Mage_Customer_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Customer_Model_Session>
-        </di>
     </frontend>
     <default>
         <customer>
@@ -205,13 +188,13 @@
             </password>
             <address>
                 <street_lines>2</street_lines>
-                <prefix_show/>
-                <prefix_options/>
-                <middlename_show/>
-                <suffix_show/>
-                <suffix_options/>
-                <dob_show/>
-                <gender_show/>
+                <prefix_show />
+                <prefix_options />
+                <middlename_show />
+                <suffix_show />
+                <suffix_options />
+                <dob_show />
+                <gender_show />
             </address>
             <startup>
                 <redirect_dashboard>1</redirect_dashboard>
@@ -254,7 +237,6 @@ T: {{var telephone}}
 {{depend telephone}}T: {{var telephone}}{{/depend}}|
 {{depend fax}}<br/>F: {{var fax}}{{/depend}}|
 {{depend vat_id}}<br/>VAT: {{var vat_id}}{{/depend}}|]]></pdf>
-                <js_template><![CDATA[#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}<br/>#{company}<br/>#{street0}<br/>#{street1}<br/>#{street2}<br/>#{street3}<br/>#{city}, #{region}, #{postcode}<br/>#{country_id}<br/>T: #{telephone}<br/>F: #{fax}<br/>VAT: #{vat_id}]]></js_template>
             </address_templates>
         </customer>
     </default>

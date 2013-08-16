@@ -83,7 +83,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_captcha));
         $this->_customerSession->expects($this->never())->method('addError');
 
-        $this->_observer->checkContactUsForm(new Varien_Event_Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(new Magento_Event_Observer(array('controller_action' => $controller)));
     }
 
     public function testCheckContactUsFormRedirectsCustomerWithWarningMessageWhenCaptchaIsRequiredAndInvalid()
@@ -127,7 +127,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $controller->expects($this->once())->method('setFlag')
             ->with('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
 
-        $this->_observer->checkContactUsForm(new Varien_Event_Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(new Magento_Event_Observer(array('controller_action' => $controller)));
     }
 
     public function testCheckContactUsFormDoesNotCheckCaptchaWhenItIsNotRequired()
@@ -138,6 +138,6 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_captcha->expects($this->any())->method('isRequired')->will($this->returnValue(false));
         $this->_captcha->expects($this->never())->method('isCorrect');
 
-        $this->_observer->checkContactUsForm(new Varien_Event_Observer());
+        $this->_observer->checkContactUsForm(new Magento_Event_Observer());
     }
 }

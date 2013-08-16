@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Enterprise_GiftCardAccount_Model_Resource_History _getResource()
  * @method Enterprise_GiftCardAccount_Model_Resource_History getResource()
  * @method int getGiftcardaccountId()
@@ -55,7 +53,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Backend_Model_Auth_Session $adminSession
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -63,7 +61,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Backend_Model_Auth_Session $adminSession,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -205,7 +203,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
             break;
             case self::ACTION_EXPIRED:
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
-            break;            
+            break;
             default:
                 Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Unknown history action.'));
             break;

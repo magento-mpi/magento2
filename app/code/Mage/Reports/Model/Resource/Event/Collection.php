@@ -26,14 +26,6 @@ class Mage_Reports_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
     protected $_storeIds;
 
     /**
-     * Use analytic function flag
-     * If true - allows to prepare final select with analytic function
-     *
-     * @var bool
-     */
-    protected $_useAnalyticFunction         = true;
-
-    /**
      * Resource initializations
      *
      */

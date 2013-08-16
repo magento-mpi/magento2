@@ -46,8 +46,8 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_configData = array();
 
     /**
-    * @var Magento_Filesystem
-    */
+     * @var Magento_Filesystem
+     */
     protected $_filesystem;
 
     /**
@@ -57,8 +57,8 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Model_Config $config, 
-        Mage_Core_Model_Dir $dirs, 
+        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_Resource $resourceConfig,
         Magento_Filesystem $filesystem
     ) {
@@ -155,7 +155,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         $connectDefault = $this->_resourceConfig
                 ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
-        $data = new Varien_Object();
+        $data = new Magento_Object();
         $data->setDbHost($connectDefault->host)
             ->setDbName($connectDefault->dbname)
             ->setDbUser($connectDefault->username)
@@ -181,10 +181,9 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $pubLibDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
             $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
-            $client = new Varien_Http_Client($staticUrl);
+            $client = new Magento_HTTP_ZendClient($staticUrl);
             $response = $client->request('GET');
-        }
-        catch (Exception $e){
+        } catch (Exception $e){
             $this->_getInstaller()->getDataModel()->addError(
                 Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $baseUrl)
             );

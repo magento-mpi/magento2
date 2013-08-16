@@ -409,12 +409,12 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
     /**
      * Add attribute data to select
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param string $attributeCode
      * @param Mage_Core_Model_Website $website
      * @return Mage_Bundle_Model_Resource_Price_Index
      */
-    protected function _addAttributeDataToSelect(Varien_Db_Select $select, $attributeCode,
+    protected function _addAttributeDataToSelect(Magento_DB_Select $select, $attributeCode,
         Mage_Core_Model_Website $website)
     {
         $attribute  = $this->_getAttribute($attributeCode);

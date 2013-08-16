@@ -12,7 +12,7 @@ class Mage_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
     /**
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_dummyElement;
 
@@ -27,10 +27,10 @@ class Mage_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected $_values;
 
     /**
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = '';
 
@@ -43,12 +43,12 @@ class Mage_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Varien_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
+            $this->_dummyElement = new Magento_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
@@ -65,7 +65,7 @@ class Mage_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param string $id
      * @param string $status
      * @return string

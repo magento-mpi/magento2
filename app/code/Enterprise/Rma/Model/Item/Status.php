@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Item_Status extends Varien_Object
+class Enterprise_Rma_Model_Item_Status extends Magento_Object
 {
     /**
      * Artificial "maximal" item status when whole order is closed

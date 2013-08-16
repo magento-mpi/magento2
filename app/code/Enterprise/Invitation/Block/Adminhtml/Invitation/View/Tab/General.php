@@ -100,7 +100,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     public function formatDate($date=null, $format='short', $showTime=false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);

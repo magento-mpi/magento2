@@ -160,11 +160,11 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     /**
      * Authorize payment
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         return $this->_placeOrder($payment, $amount);
     }
@@ -175,7 +175,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -188,7 +188,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param float $amount
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->_placeOrder($payment, $amount);
@@ -203,7 +203,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param float $amount
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -215,7 +215,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         $this->_pro->cancel($payment);
         return $this;

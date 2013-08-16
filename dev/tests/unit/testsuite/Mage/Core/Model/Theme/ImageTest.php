@@ -25,7 +25,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     protected $_filesystemMock;
 
     /**
-     * @var Varien_Image|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Image|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageMock;
 
@@ -43,7 +43,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     {
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false, false);
         $imageFactory = $this->getMock('Mage_Core_Model_Image_Factory', array(), array(), '', false, false);
-        $this->_imageMock = $this->getMock('Varien_Image', array(), array(), '', false, false);
+        $this->_imageMock = $this->getMock('Magento_Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false, false);
@@ -101,8 +101,6 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             'theme_id'             => 1,
             'theme_title'          => 'Sample theme',
             'preview_image'        => 'images/preview.png',
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
             'area'                 => Mage_Core_Model_App_Area::AREA_FRONTEND,
             'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
         );

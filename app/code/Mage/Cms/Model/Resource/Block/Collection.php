@@ -68,7 +68,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {
@@ -90,11 +90,6 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
                 'main_table.block_id = store_table.block_id',
                 array()
             )->group('main_table.block_id');
-
-            /*
-             * Allow analytic functions usage because of one field grouping
-             */
-            $this->_useAnalyticFunction = true;
         }
         return parent::_renderFiltersBefore();
     }

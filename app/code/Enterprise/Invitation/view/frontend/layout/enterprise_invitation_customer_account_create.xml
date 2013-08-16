@@ -12,19 +12,11 @@
         <label>Customer Account Registration by Invitation Form</label>
         <update handle="customer_account_create"/>
         <reference name="content">
+            <block type="Enterprise_Invitation_Block_Customer_Form_Register" name="customer_form_register_invitation" template="Mage_Customer::form/register.phtml"/>
+            <move element="customer.form.register.fields.before" destination="customer_form_register_invitation" as="form_fields_before"/>
+            <move element="customer_form_user_attributes" destination="customer_form_register_invitation"/>
+            <move element="customer_form_address_user_attributes" destination="customer_form_register_invitation"/>
             <remove name="customer_form_register"/>
-            <block type="Enterprise_Invitation_Block_Customer_Form_Register" name="customer_form_register_invitation" template="Mage_Customer::form/register.phtml">
-                <action method="append">
-                    <element>customer.form.register.fields.before</element>
-                    <alias>form_fields_before</alias>
-                </action>
-                <action method="append">
-                    <element>customer_form_user_attributes</element>
-                </action>
-                <action method="append">
-                    <element>customer_form_address_user_attributes</element>
-                </action>
-            </block>
         </reference>
     </enterprise_invitation_customer_account_create>
 </layout>

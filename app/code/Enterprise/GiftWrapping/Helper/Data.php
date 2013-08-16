@@ -256,7 +256,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Return totals of data object
      *
-     * @param  Varien_Object $dataObject
+     * @param  Magento_Object $dataObject
      * @return array
      */
     public function getTotals($dataObject)
@@ -401,7 +401,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get gift wrapping items price with tax processing
      *
-     * @param  Varien_Object $item
+     * @param  Magento_Object $item
      * @param  float $price
      * @param  bool $includingTax
      * @param  null|Mage_Customer_Model_Address $shippingAddress

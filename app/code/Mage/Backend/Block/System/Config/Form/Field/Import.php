@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Block_System_Config_Form_Field_Import extends Varien_Data_Form_Element_Abstract
+class Mage_Backend_Block_System_Config_Form_Field_Import extends Magento_Data_Form_Element_Abstract
 {
 
     protected function _construct()

@@ -38,22 +38,6 @@
         </Enterprise_Reward>
     </modules>
     <global>
-        <di>
-            <Mage_Core_Model_ModuleManager>
-                <parameters>
-                    <outputConfigPaths>
-                        <Enterprise_Reward>Enterprise_Reward_Helper_Data::XML_PATH_ENABLED</Enterprise_Reward>
-                    </outputConfigPaths>
-                </parameters>
-            </Mage_Core_Model_ModuleManager>
-            <Enterprise_Reward_Model_Observer>
-                <parameters>
-                    <authorization>
-                        <instance>Magento_Authorization_Proxy</instance>
-                    </authorization>
-                </parameters>
-            </Enterprise_Reward_Model_Observer>
-        </di>
         <resources>
             <enterprise_reward_setup>
                 <setup>
@@ -252,11 +236,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <di>
-            <preferences>
-                <Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>Enterprise_Reward_Model_Observer_PlaceOrder_Restriction_Backend</Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>
-            </preferences>
-        </di>
         <translate>
             <modules>
                 <Enterprise_Reward>
@@ -358,11 +337,6 @@
         </events>
     </adminhtml>
     <frontend>
-        <di>
-            <preferences>
-                <Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>Enterprise_Reward_Model_Observer_PlaceOrder_Restriction_Frontend</Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface>
-            </preferences>
-        </di>
         <translate>
             <modules>
                 <Enterprise_Reward>

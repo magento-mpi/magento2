@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
         $group      = $this->getGroup();
         $attributes = $this->getAttributes();
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('group_' . $group->getId());
         $form->setDataObject($this->getCategory());
 

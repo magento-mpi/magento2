@@ -76,16 +76,11 @@
                 </setup>
             </enterprise_enterprise_setup>
         </resources>
-        <di>
-            <preferences>
-                <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
-            </preferences>
-        </di>
     </global>
     <frontend>
         <design>
             <theme>
-                <full_name>enterprise/fixed</full_name>
+                <full_name>magento_fixed_width</full_name>
             </theme>
         </design>
     </frontend>
@@ -102,7 +97,7 @@
         </events>
         <design>
             <theme>
-                <full_name>default/backend</full_name>
+                <full_name>magento_backend</full_name>
             </theme>
         </design>
     </adminhtml>
@@ -120,7 +115,7 @@
         </events>
         <design>
             <theme>
-                <full_name>default/enterprise</full_name>
+                <full_name>magento_enterprise</full_name>
             </theme>
         </design>
     </install>

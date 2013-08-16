@@ -33,11 +33,6 @@
         </Enterprise_Search>
     </modules>
     <global>
-        <di>
-            <preferences>
-                <Enterprise_Search_Helper_ClientInterface>Enterprise_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
-            </preferences>
-        </di>
         <!--  Example of manual addition locale code with language code to support new language -->
         <!--
         <enterprise_search>
@@ -56,7 +51,6 @@
                 </setup>
             </enterprise_search_setup>
         </resources>
-
         <events>
             <catalogsearch_index_process_start>
                 <observers>
@@ -66,7 +60,6 @@
                     </enterprise_search>
                 </observers>
             </catalogsearch_index_process_start>
-
             <catalogsearch_index_process_complete>
                 <observers>
                     <enterprise_search>
@@ -98,7 +91,6 @@
                     </enterprise_search>
                 </observers>
             </adminhtml_catalog_product_attribute_edit_prepare_form>
-
             <catelogsearch_searchable_attributes_load_after>
                 <observers>
                     <enterprise_search>
@@ -107,7 +99,6 @@
                     </enterprise_search>
                 </observers>
             </catelogsearch_searchable_attributes_load_after>
-
             <catalogsearch_query_save_after>
                 <observers>
                     <enterprise_search>
@@ -164,7 +155,6 @@
                     </enterprise_search>
                 </observers>
             </store_delete_after>
-
             <after_reindex_process_catalog_product_price>
                 <observers>
                     <enterprise_search>
@@ -173,7 +163,6 @@
                     </enterprise_search>
                 </observers>
             </after_reindex_process_catalog_product_price>
-
         </events>
         <translate>
             <modules>

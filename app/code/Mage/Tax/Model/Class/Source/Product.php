@@ -76,7 +76,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Varien_Db_Ddl_Table::TYPE_INTEGER;
+            $column['type']     = Magento_DB_Ddl_Table::TYPE_INTEGER;
             $column['nullable'] = true;
             $column['comment']  = $attributeCode . ' tax column';
         }
@@ -88,7 +88,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
      * Retrieve Select for update attribute value in flat table
      *
      * @param   int $store
-     * @return  Varien_Db_Select|null
+     * @return  Magento_DB_Select|null
      */
     public function getFlatUpdateSelect($store)
     {

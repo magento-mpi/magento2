@@ -14,14 +14,14 @@ abstract class Mage_Core_Model_Resource_Entity_Abstract
     /**
      * Configuration object
      *
-     * @var Varien_Simplexml_Config
+     * @var Magento_Simplexml_Config
      */
     protected $_config = array();
 
     /**
      * Set config
      *
-     * @param Varien_Simplexml_Config $config
+     * @param Magento_Simplexml_Config $config
      */
     public function __construct($config)
     {

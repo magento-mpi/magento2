@@ -177,6 +177,6 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetPageTemplateProcessor()
     {
-        $this->assertInstanceOf('Varien_Filter_Template', $this->_helper->getPageTemplateProcessor());
+        $this->assertInstanceOf('Magento_Filter_Template', $this->_helper->getPageTemplateProcessor());
     }
 }

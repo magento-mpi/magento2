@@ -44,7 +44,7 @@ class Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestC
     public function getAdapterDataProvider()
     {
         return array(
-            array('Varien_Db_Adapter_Pdo_Mysql'),
+            array('Magento_DB_Adapter_Pdo_Mysql'),
             array(''),
             array(null),
         );
@@ -66,6 +66,6 @@ class Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestC
      */
     public function testGetAdapterWithInvalidType()
     {
-        $this->_model->getAdapter($this->_config, 'Varien_Object');
+        $this->_model->getAdapter($this->_config, 'Magento_Object');
     }
 }

@@ -125,11 +125,11 @@ class Mage_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
     /**
      * Mocked HTTP adapter to get VERIFIED PayPal IPN postback result
      *
-     * @return Varien_Http_Adapter_Curl
+     * @return Magento_HTTP_Adapter_Curl
      */
     protected function _createMockedHttpAdapter()
     {
-        $adapter = $this->getMock('Varien_Http_Adapter_Curl', array('read', 'write'));
+        $adapter = $this->getMock('Magento_HTTP_Adapter_Curl', array('read', 'write'));
 
         $adapter->expects($this->once())
             ->method('read')

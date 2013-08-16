@@ -17,11 +17,6 @@
  */
 class Mage_Tag_Model_Resource_Reports_Customer_Collection extends Mage_Tag_Model_Resource_Customer_Collection
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_useAnalyticFunction = true;
-    }
     /**
      * Add target count
      *

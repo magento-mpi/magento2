@@ -15,12 +15,12 @@ class Mage_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Framewor
      * Retrieve new invoice collection from an array of invoices' data
      *
      * @param array $invoicesData
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     protected function _getInvoiceCollection(array $invoicesData)
     {
         $className = 'Mage_Sales_Model_Order_Invoice';
-        $result = new Varien_Data_Collection();
+        $result = new Magento_Data_Collection();
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         foreach ($invoicesData as $oneInvoiceData) {
             $arguments = $objectManagerHelper->getConstructArguments($className, array('data' => $oneInvoiceData));

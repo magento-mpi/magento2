@@ -95,7 +95,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     /**
      * Get catagories of current store
      *
-     * @return Varien_Data_Tree_Node_Collection
+     * @return Magento_Data_Tree_Node_Collection
      */
     public function getStoreCategories()
     {
@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     /**
      * Retrieve child categories of current category
      *
-     * @return Varien_Data_Tree_Node_Collection
+     * @return Magento_Data_Tree_Node_Collection
      */
     public function getCurrentChildCategories()
     {
@@ -123,7 +123,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     /**
      * Checkin activity of category
      *
-     * @param   Varien_Object $category
+     * @param   Magento_Object $category
      * @return  bool
      */
     public function isCategoryActive($category)

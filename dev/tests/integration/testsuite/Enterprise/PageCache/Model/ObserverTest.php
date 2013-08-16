@@ -46,10 +46,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setControllerName('product');
         $request->setActionName('view');
 
-        $observerData = new Varien_Event_Observer();
+        $observerData = new Magento_Event_Observer();
         $arguments = array('request' => $request, 'response' => $response);
         $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
-        $observerData->setEvent(new Varien_Event(array(
+        $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
                 array('context' => $context, 'areaCode' => 'frontend')
@@ -79,10 +79,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_RestrictionInterface');
         $restriction->setIsDenied();
 
-        $observerData = new Varien_Event_Observer();
+        $observerData = new Magento_Event_Observer();
         $arguments = array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response());
         $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
-        $observerData->setEvent(new Varien_Event(array(
+        $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
                 array('context' => $context, 'areaCode' => 'frontend')
@@ -104,7 +104,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('set')
             ->with(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
-        $this->_observer->setNoCacheCookie(new Varien_Event_Observer());
+        $this->_observer->setNoCacheCookie(new Magento_Event_Observer());
     }
 
     public function testDeleteNoCacheCookie()
@@ -114,6 +114,6 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('delete')
             ->with(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
-        $this->_observer->deleteNoCacheCookie(new Varien_Event_Observer());
+        $this->_observer->deleteNoCacheCookie(new Magento_Event_Observer());
     }
 }

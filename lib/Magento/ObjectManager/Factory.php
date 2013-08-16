@@ -15,20 +15,6 @@ interface Magento_ObjectManager_Factory
     public function setObjectManager(Magento_ObjectManager $objectManager);
 
     /**
-     * Set object manager configuration
-     *
-     * @param Magento_ObjectManager_Config $config
-     */
-    public function setConfig(Magento_ObjectManager_Config $config);
-
-    /**
-     * Retrieve definitions
-     *
-     * @return Magento_ObjectManager_Definition
-     */
-    public function getDefinitions();
-
-    /**
      * Create instance with call time arguments
      *
      * @param string $requestedType

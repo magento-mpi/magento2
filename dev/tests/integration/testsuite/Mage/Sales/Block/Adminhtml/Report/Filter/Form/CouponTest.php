@@ -38,7 +38,7 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUnit_F
     {
         /** @var $block Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon */
         $block = $this->_application->getLayout()->createBlock('Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
-        $block->setFilterData(new Varien_Object());
+        $block->setFilterData(new Magento_Object());
         $html = $block->toHtml();
 
         $expectedStrings = array(

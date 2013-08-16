@@ -37,7 +37,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Address_Abstract
         $items      = array();
         $itemIds    = array();
         foreach ($entities as $item) {
-            /** @var $item Varien_Object */
+            /** @var $item Magento_Object */
             $itemIds[] = $item->getId();
             $items[$item->getId()] = $item;
         }

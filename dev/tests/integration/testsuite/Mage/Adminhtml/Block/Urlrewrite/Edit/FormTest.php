@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      * Get form instance
      *
      * @param array $args
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      */
     protected function _getFormInstance($args = array())
     {
@@ -27,6 +27,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', array('data' => $args));
+        $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
     }
@@ -37,8 +38,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
     public function testPrepareForm()
     {
         // Test form was configured correctly
-        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
-        $this->assertInstanceOf('Varien_Data_Form', $form);
+        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
+        $this->assertInstanceOf('Magento_Data_Form', $form);
         $this->assertNotEmpty($form->getAction());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());
@@ -76,7 +77,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
         );
         Mage::getModel('Mage_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
-        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object()));
+        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object()));
 
         // Check that all fields values are restored from session
         foreach ($sessionValues as $field => $value) {
@@ -91,10 +92,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testStoreElementSingleStore()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
-        /** @var $storeElement Varien_Data_Form_Element_Abstract */
+        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
+        /** @var $storeElement Magento_Data_Form_Element_Abstract */
         $storeElement = $form->getElement('store_id');
-        $this->assertInstanceOf('Varien_Data_Form_Element_Hidden', $storeElement);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Hidden', $storeElement);
 
         // Check that store value set correctly
         $defaultStore = Mage::app()->getStore(true)->getId();
@@ -109,12 +110,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testStoreElementMultiStores()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
-        /** @var $storeElement Varien_Data_Form_Element_Abstract */
+        $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object(array('id' => 3))));
+        /** @var $storeElement Magento_Data_Form_Element_Abstract */
         $storeElement = $form->getElement('store_id');
 
         // Check store selection elements has correct type
-        $this->assertInstanceOf('Varien_Data_Form_Element_Select', $storeElement);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $storeElement);
 
         // Check store selection elements has correct renderer
         $this->assertInstanceOf('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
@@ -146,7 +147,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
     {
         return array(
             array(
-                new Varien_Object(),
+                new Magento_Object(),
                 array(
                     'is_system'    => true,
                     'id_path'      => false,
@@ -157,7 +158,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
                 )
             ),
             array(
-                new Varien_Object(array('id' => 3)),
+                new Magento_Object(array('id' => 3)),
                 array(
                     'is_system'    => true,
                     'id_path'      => false,

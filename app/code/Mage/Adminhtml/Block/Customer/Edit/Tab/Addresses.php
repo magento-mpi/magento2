@@ -39,8 +39,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             'name'   => 'add_address_button',
             'element_name' => 'add_address_button',
             'disabled' => $this->isReadonly(),
-            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : ''),
-            'onclick'=> 'customerAddresses.addNewAddress()'
+            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
         ));
         $this->addChild('cancel_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Cancel'),
@@ -48,8 +47,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             'name'   => 'cancel_address',
             'element_name' => 'cancel_address',
             'class'  => 'cancel delete-address'  . ($this->isReadonly() ? ' disabled' : ''),
-            'disabled' => $this->isReadonly(),
-            'onclick'=> 'customerAddresses.cancelAdd(this)',
+            'disabled' => $this->isReadonly()
         ));
         return parent::_prepareLayout();
     }
@@ -80,7 +78,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::registry('current_customer');
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset('address_fieldset', array(
             'legend'    => Mage::helper('Mage_Customer_Helper_Data')->__("Edit Customer's Address"))
         );

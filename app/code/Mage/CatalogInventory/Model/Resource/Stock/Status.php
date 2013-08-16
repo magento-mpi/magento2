@@ -185,11 +185,11 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
     /**
      * Add stock status to prepare index select
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param Mage_Core_Model_Website $website
      * @return Mage_CatalogInventory_Model_Resource_Stock_Status
      */
-    public function addStockStatusToSelect(Varien_Db_Select $select, Mage_Core_Model_Website $website)
+    public function addStockStatusToSelect(Magento_DB_Select $select, Mage_Core_Model_Website $website)
     {
         $websiteId = $website->getId();
         $select->joinLeft(
@@ -204,12 +204,12 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
     /**
      * Add stock status limitation to catalog product price index select object
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param string|Zend_Db_Expr $entityField
      * @param string|Zend_Db_Expr $websiteField
      * @return Mage_CatalogInventory_Model_Resource_Stock_Status
      */
-    public function prepareCatalogProductIndexSelect(Varien_Db_Select $select, $entityField, $websiteField)
+    public function prepareCatalogProductIndexSelect(Magento_DB_Select $select, $entityField, $websiteField)
     {
         $select->join(
             array('ciss' => $this->getMainTable()),

@@ -44,7 +44,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function testGetLinkData()
     {
-        Mage::register('product', new Varien_Object(array('type_id' => 'simple')));
+        Mage::register('product', new Magento_Object(array('type_id' => 'simple')));
         $block = Mage::app()->getLayout()
             ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
         $this->assertEmpty($block->getLinkData());
@@ -63,7 +63,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function testGetLinksTitle($productType, $linksTitle, $expectedResult)
     {
-        Mage::register('product', new Varien_Object(array(
+        Mage::register('product', new Magento_Object(array(
             'type_id' => $productType,
             'id' => '1',
             'links_title' => $linksTitle

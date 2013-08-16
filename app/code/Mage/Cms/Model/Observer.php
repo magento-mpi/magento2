@@ -21,10 +21,10 @@ class Mage_Cms_Model_Observer
     /**
      * Modify No Route Forward object
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Cms_Model_Observer
      */
-    public function noRoute(Varien_Event_Observer $observer)
+    public function noRoute(Magento_Event_Observer $observer)
     {
         $observer->getEvent()->getStatus()
             ->setLoaded(true)
@@ -37,10 +37,10 @@ class Mage_Cms_Model_Observer
     /**
      * Modify no Cookies forward object
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Cms_Model_Observer
      */
-    public function noCookies(Varien_Event_Observer $observer)
+    public function noCookies(Magento_Event_Observer $observer)
     {
         $redirect = $observer->getEvent()->getRedirect();
 

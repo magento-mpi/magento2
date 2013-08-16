@@ -75,7 +75,7 @@ abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -101,7 +101,7 @@ abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {

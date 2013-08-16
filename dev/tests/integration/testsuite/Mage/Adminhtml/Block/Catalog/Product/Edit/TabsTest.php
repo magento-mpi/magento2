@@ -30,6 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Framewo
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock('Mage_Core_Block_Text', 'head');
+        $layout->setArea('nonexisting'); // prevent block templates rendering
         /** @var $block Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs');
         $this->assertArrayHasKey(0, $block->getTabsIds());

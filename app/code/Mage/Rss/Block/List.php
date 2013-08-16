@@ -63,7 +63,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
             $param = array_merge($param, array('cid' => $this->getCurrentCustomerGroupId()));
         }
 
-        $this->_rssFeeds[] = new Varien_Object(
+        $this->_rssFeeds[] = new Magento_Object(
             array(
                 'url'   => Mage::getUrl($url, $param),
                 'label' => $label

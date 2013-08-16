@@ -119,7 +119,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
                 ? $this->_prepareSystemAttributeOptionValues($option, $inputType, $defaultValues)
                 : $this->_prepareUserDefinedAttributeOptionValues($option, $inputType, $defaultValues);
             foreach ($bunch as $value) {
-                $values[] = new Varien_Object($value);
+                $values[] = new Magento_Object($value);
             }
         }
 

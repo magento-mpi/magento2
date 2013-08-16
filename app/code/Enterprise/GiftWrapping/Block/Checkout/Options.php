@@ -69,7 +69,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     /**
      * Calculate including tax price
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @param mixed $basePrice
      * @param Mage_Sales_Model_Quote_Address $shippingAddress
      * @param bool $includeTax
@@ -90,7 +90,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     /**
      * Return gift wrapping designs info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getDesignsInfo()
     {
@@ -123,13 +123,13 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
             $temp['path'] = $item->getImageUrl();
             $data[$item->getId()] = $temp;
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**
      * Prepare and return quote items info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getItemsInfo()
     {
@@ -141,7 +141,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         } else {
             $this->_processItems($this->getQuote()->getAllItems(), $this->getQuote()->getShippingAddress(), $data);
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**
@@ -165,19 +165,19 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(
-                            new Varien_Object(),
+                            new Magento_Object(),
                             $price,
                             $shippingAddress,
                             true
                         );
                         $temp['price_excl_tax'] = $this->calculatePrice(
-                            new Varien_Object(),
+                            new Magento_Object(),
                             $price,
                             $shippingAddress
                         );
                     } else {
                         $temp['price'] = $this->calculatePrice(
-                            new Varien_Object(),
+                            new Magento_Object(),
                             $price,
                             $shippingAddress,
                             $this->getDisplayWrappingIncludeTaxPrice()
@@ -193,7 +193,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     /**
      * Prepare and return printed card info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getCardInfo()
     {
@@ -207,19 +207,19 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
 
                 if ($this->getDisplayCardBothPrices()) {
                     $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
-                        new Varien_Object(),
+                        new Magento_Object(),
                         $price,
                         $address,
                         true
                     );
                     $data[$entityId]['price_excl_tax'] = $this->calculatePrice(
-                        new Varien_Object(),
+                        new Magento_Object(),
                         $price,
                         $address
                     );
                 } else {
                     $data[$entityId]['price'] = $this->calculatePrice(
-                        new Varien_Object(),
+                        new Magento_Object(),
                         $price,
                         $address,
                         $this->getDisplayCardIncludeTaxPrice()
@@ -227,7 +227,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                 }
             }
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**

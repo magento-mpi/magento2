@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_WebsiteRestriction_Model_System_Config_Source_Http
-extends Varien_Object
+extends Magento_Object
 {
     /**
      * Get options for select

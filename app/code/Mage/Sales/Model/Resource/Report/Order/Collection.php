@@ -44,7 +44,7 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
      *
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Sales_Model_Resource_Report $resource
     ) {
         $resource->init($this->_aggregationTable);
@@ -62,7 +62,7 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
         if ('month' == $this->_period) {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
-            $this->_periodFormat = $adapter->getDateExtractSql('period', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
+            $this->_periodFormat = $adapter->getDateExtractSql('period', Magento_DB_Adapter_Interface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }

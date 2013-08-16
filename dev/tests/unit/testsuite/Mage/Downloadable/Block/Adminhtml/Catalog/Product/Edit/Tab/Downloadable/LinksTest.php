@@ -29,10 +29,10 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     }
 
     /**
-     * Test that getConfig method retrieve Varien_Object object
+     * Test that getConfig method retrieve Magento_Object object
      */
     public function testGetConfig()
     {
-        $this->assertInstanceOf('Varien_Object', $this->_block->getConfig());
+        $this->assertInstanceOf('Magento_Object', $this->_block->getConfig());
     }
 }

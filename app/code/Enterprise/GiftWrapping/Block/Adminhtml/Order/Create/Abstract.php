@@ -39,7 +39,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     /**
      * Return gift wrapping designs info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getDesignsInfo()
     {
@@ -55,13 +55,13 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
             $temp['design'] = $item->getDesign();
             $data[$item->getId()] = $temp;
         }
-       return new Varien_Object($data);
+       return new Magento_Object($data);
     }
 
     /**
      * Prepare and return printed card info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getCardInfo()
     {
@@ -69,19 +69,19 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
         if ($this->getAllowPrintedCard()) {
             $price = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrintedCardPrice($this->getStoreId());
              if ($this->getDisplayCardBothPrices()) {
-                 $data['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
-                 $data['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
+                 $data['price_incl_tax'] = $this->calculatePrice(new Magento_Object(), $price, true);
+                 $data['price_excl_tax'] = $this->calculatePrice(new Magento_Object(), $price);
              } else {
-                $data['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->getDisplayCardPriceInclTax());
+                $data['price'] = $this->calculatePrice(new Magento_Object(), $price, $this->getDisplayCardPriceInclTax());
              }
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**
      * Calculate price
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @param mixed $basePrice
      * @param bool $includeTax
      * @return string

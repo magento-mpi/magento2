@@ -396,9 +396,6 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
      */
     public function testSaveMediaImage()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('bug: MAGETWO-4227');
-        }
         $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute');
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(',', array(
@@ -431,11 +428,11 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
-        $this->assertInstanceOf('Varien_Data_Collection', $gallery);
+        $this->assertInstanceOf('Magento_Data_Collection', $gallery);
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);
-        $this->assertInstanceOf('Varien_Object', $item);
+        $this->assertInstanceOf('Magento_Object', $item);
         $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }
@@ -456,8 +453,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     public static function mediaImportImageFixtureRollback()
     {
         $media = Mage::getBaseDir('media');
-        Varien_Io_File::rmdirRecursive("{$media}/import");
-        Varien_Io_File::rmdirRecursive("{$media}/catalog");
+        Magento_Io_File::rmdirRecursive("{$media}/import");
+        Magento_Io_File::rmdirRecursive("{$media}/catalog");
     }
 
     /**

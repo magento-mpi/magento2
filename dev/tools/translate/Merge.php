@@ -22,9 +22,9 @@ class tools_translate_Merge
     protected $_usage;
     protected $_args;
     /**
-     * Varien File CSV
+     * Magento File CSV
      *
-     * @var Varien_File_Csv
+     * @var Magento_File_Csv
      */
     protected $_csv;
 
@@ -46,8 +46,8 @@ OPTIONAL PARAMETRS:
 ';
 
         $this->_checkArgs();
-        require_once(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
-        $this->_csv = new Varien_File_Csv();
+        require_once(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+        $this->_csv = new Magento_File_Csv();
     }
 
     protected function _getArgs()

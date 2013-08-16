@@ -10,7 +10,7 @@
 
 class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
  extends Mage_Adminhtml_Block_Widget
- implements Varien_Data_Form_Element_Renderer_Interface
+ implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
     protected $_websites = null;
@@ -25,10 +25,10 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
     /**
      *  Render Amounts Element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
@@ -42,7 +42,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
         return $this->toHtml();
     }
 
-    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    public function setElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;

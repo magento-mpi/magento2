@@ -18,7 +18,7 @@
  
 class Mage_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Sender extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $str = '';
         if($row->getTemplateSenderName()) {

@@ -23,9 +23,9 @@ class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestC
             'Created object must implement Magento_Cache_FrontendInterface'
         );
         $this->assertInstanceOf(
-            'Varien_Cache_Core',
+            'Magento_Cache_Core',
             $result->getLowLevelFrontend(),
-            'Created object must have Varien_Cache_Core frontend by default'
+            'Created object must have Magento_Cache_Core frontend by default'
         );
         $this->assertInstanceOf(
             'Zend_Cache_Backend_BlackHole',

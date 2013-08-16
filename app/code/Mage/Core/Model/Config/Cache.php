@@ -93,7 +93,7 @@ class Mage_Core_Model_Config_Cache
      *
      * @param   string $idPrefix cache id prefix
      * @param   string $sectionName
-     * @param   Varien_Simplexml_Element $source
+     * @param   Magento_Simplexml_Element $source
      * @param   int $recursionLevel
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */

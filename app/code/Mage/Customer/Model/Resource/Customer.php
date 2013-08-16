@@ -47,12 +47,12 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param Varien_Object $customer
+     * @param Magento_Object $customer
      * @throws Mage_Customer_Exception
      * @throws Mage_Core_Exception
      * @return Mage_Customer_Model_Resource_Customer
      */
-    protected function _beforeSave(Varien_Object $customer)
+    protected function _beforeSave(Magento_Object $customer)
     {
         /** @var Mage_Customer_Model_Customer $customer */
         parent::_beforeSave($customer);
@@ -120,10 +120,10 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Save customer addresses and set default addresses in attributes backend
      *
-     * @param Varien_Object $customer
+     * @param Magento_Object $customer
      * @return Mage_Eav_Model_Entity_Abstract
      */
-    protected function _afterSave(Varien_Object $customer)
+    protected function _afterSave(Magento_Object $customer)
     {
         $this->_saveAddresses($customer);
         return parent::_afterSave($customer);
@@ -182,9 +182,9 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param mixed $rowId
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadRowSelect($object, $rowId)
     {
@@ -203,10 +203,9 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param string $email
-     * @param bool $testOnly
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly = false)
+    public function loadByEmail(Mage_Customer_Model_Customer $customer, $email)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array('customer_email' => $email);
@@ -309,10 +308,10 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Custom setter of increment ID if its needed
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function setNewIncrementId(Varien_Object $object)
+    public function setNewIncrementId(Magento_Object $object)
     {
         if (Mage::getStoreConfig(Mage_Customer_Model_Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
             parent::setNewIncrementId($object);
@@ -325,15 +324,15 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      *
      * Stores new reset password link token and its creation time
      *
-     * @param Mage_Customer_Model_Customer $newResetPasswordLinkToken
-     * @param string $newResetPasswordLinkToken
+     * @param Mage_Customer_Model_Customer $customer
+     * @param string $passwordLinkToken
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $newResetPasswordLinkToken)
+    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $passwordLinkToken)
     {
-        if (is_string($newResetPasswordLinkToken) && !empty($newResetPasswordLinkToken)) {
-            $customer->setRpToken($newResetPasswordLinkToken);
-            $currentDate = Varien_Date::now();
+        if (is_string($passwordLinkToken) && !empty($passwordLinkToken)) {
+            $customer->setRpToken($passwordLinkToken);
+            $currentDate = Magento_Date::now();
             $customer->setRpTokenCreatedAt($currentDate);
             $this->saveAttribute($customer, 'rp_token');
             $this->saveAttribute($customer, 'rp_token_created_at');

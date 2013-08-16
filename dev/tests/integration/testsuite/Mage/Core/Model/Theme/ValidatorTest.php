@@ -64,8 +64,6 @@ class Mage_Core_Model_Theme_ValidatorTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Space theme',
             'theme_version'        => '2.0.0.0',
             'parent_theme'         => null,
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
         );
@@ -83,8 +81,6 @@ class Mage_Core_Model_Theme_ValidatorTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Space theme',
             'theme_version'        => 'last version',
             'parent_theme'         => null,
-            'magento_version_from' => 'new version',
-            'magento_version_to'   => '*',
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
         );

@@ -44,13 +44,6 @@
                 </sitemap_generate_error_email_template>
             </email>
         </template>
-        <di>
-            <Mage_Sitemap_Model_Sitemap>
-                <parameters>
-                    <resource><instance>Mage_Sitemap_Model_Resource_Sitemap</instance></resource>
-                </parameters>
-            </Mage_Sitemap_Model_Sitemap>
-        </di>
     </global>
     <adminhtml>
         <translate>
@@ -84,7 +77,7 @@
             </product>
             <generate>
                 <enabled>0</enabled>
-                <error_email/>
+                <error_email />
                 <error_email_template>sitemap_generate_error_email_template</error_email_template>
                 <error_email_identity>general</error_email_identity>
             </generate>

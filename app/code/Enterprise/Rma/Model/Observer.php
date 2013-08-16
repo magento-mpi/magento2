@@ -21,9 +21,9 @@ class Enterprise_Rma_Model_Observer
     /**
      * Add rma availability option to options column in customer's order grid
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addRmaOption(Varien_Event_Observer $observer)
+    public function addRmaOption(Magento_Event_Observer $observer)
     {
         $renderer = $observer->getEvent()->getRenderer();
         /** @var $row Mage_Sales_Model_Order */

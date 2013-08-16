@@ -13,7 +13,7 @@ $installer = $this;
 
 $installer->getConnection()
     ->addColumn($installer->getTable('paypal_settlement_report_row'), 'payment_tracking_id', array(
-        'type'    => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type'    => Magento_DB_Ddl_Table::TYPE_TEXT,
         'comment' => 'Payment Tracking ID',
         'length'  => '255'
     ));

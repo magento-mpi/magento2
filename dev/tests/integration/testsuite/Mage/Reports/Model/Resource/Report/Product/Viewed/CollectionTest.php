@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class Mage_Reports_Model_Resource_Report_Product_Viewed_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**

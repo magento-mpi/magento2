@@ -166,7 +166,7 @@ class Mage_Core_Model_Translate
      * Initialization translation data
      *
      * @param string $area
-     * @param Varien_Object $initParams
+     * @param Magento_Object $initParams
      * @param bool $forceReload
      * @return Mage_Core_Model_Translate
      */
@@ -442,7 +442,7 @@ class Mage_Core_Model_Translate
     {
         $data = array();
         if (file_exists($file)) {
-            $parser = new Varien_File_Csv();
+            $parser = new Magento_File_Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);
         }
@@ -667,7 +667,7 @@ class Mage_Core_Model_Translate
     /**
      * Returns the translate interface object.
      *
-     * @param Varien_Object $initParams
+     * @param Magento_Object $initParams
      * @return Mage_Core_Model_Translate_InlineInterface
      */
     private function getInlineObject($initParams = null)

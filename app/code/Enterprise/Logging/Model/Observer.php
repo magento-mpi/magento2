@@ -18,7 +18,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Instance of Enterprise_Logging_Model_Logging
      *
-     * @var object Enterprise_Logging_Model_Logging
+     * @var Enterprise_Logging_Model_Processor
      */
     protected $_processor;
 
@@ -34,7 +34,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Mark actions for logging, if required
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function controllerPredispatch($observer)
     {
@@ -75,7 +75,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Model after save observer.
      *
-     * @param Varien_Event_Observer
+     * @param Magento_Event_Observer
      */
     public function modelSaveAfter($observer)
     {
@@ -85,7 +85,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Model after delete observer.
      *
-     * @param Varien_Event_Observer
+     * @param Magento_Event_Observer
      */
     public function modelDeleteAfter($observer)
     {
@@ -95,7 +95,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Model after load observer.
      *
-     * @param Varien_Event_Observer
+     * @param Magento_Event_Observer
      */
     public function modelLoadAfter($observer)
     {
@@ -105,7 +105,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Log marked actions
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function controllerPostdispatch($observer)
     {
@@ -117,7 +117,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Log successful admin sign in
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function adminSessionLoginSuccess($observer)
     {
@@ -127,7 +127,7 @@ class Enterprise_Logging_Model_Observer
     /**
      * Log failure of sign in
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function adminSessionLoginFailed($observer)
     {
@@ -159,7 +159,9 @@ class Enterprise_Logging_Model_Observer
             $userId = Mage::getSingleton('Mage_User_Model_User')->loadByUsername($username)->getId();
         }
         $request = Mage::app()->getRequest();
-        return Mage::getSingleton('Enterprise_Logging_Model_Event')->setData(array(
+        /** @var Enterprise_Logging_Model_Event $event */
+        $event = Mage::getSingleton('Enterprise_Logging_Model_Event');
+        $event->setData(array(
             'ip'         => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
@@ -167,7 +169,8 @@ class Enterprise_Logging_Model_Observer
             'fullaction' => "{$request->getRouteName()}_{$request->getControllerName()}_{$request->getActionName()}",
             'event_code' => $eventCode,
             'action'     => 'login',
-        ))->save();
+        ));
+        return $event->save();
     }
 
     /**

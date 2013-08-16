@@ -45,7 +45,7 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
 
-        $data = new Varien_Object();
+        $data = new Magento_Object();
         $data->setOptionId($object->getId())
             ->setStoreId($object->getStoreId())
             ->setTitle($object->getTitle());

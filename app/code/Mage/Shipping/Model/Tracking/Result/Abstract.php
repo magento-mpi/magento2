@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Shipping_Model_Tracking_Result_Abstract extends Varien_Object
+class Mage_Shipping_Model_Tracking_Result_Abstract extends Magento_Object
 {
 
 }

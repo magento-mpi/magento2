@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
      * Apply attribute option filter to product collection
      *
      * @param   Zend_Controller_Request_Abstract $request
-     * @param   Varien_Object $filterBlock
+     * @param   Magento_Object $filterBlock
      * @return  Mage_Catalog_Model_Layer_Filter_Attribute
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)

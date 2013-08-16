@@ -144,7 +144,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
      *
      * @param array $statuses
      * @param int $archiveAge
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getOrderIdsForArchiveSelect($statuses, $archiveAge)
     {
@@ -157,7 +157,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         if ($archiveAge) { // Check archive age
             $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(true)),
                 (int) $archiveAge,
-                Varien_Db_Adapter_Interface::INTERVAL_DAY
+                Magento_DB_Adapter_Interface::INTERVAL_DAY
             );
             $select->where($archivePeriodExpr . ' >= updated_at');
         }

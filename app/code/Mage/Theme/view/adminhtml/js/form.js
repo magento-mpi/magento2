@@ -12,7 +12,5 @@ function parentThemeOnChange(selected, defaultsById) {
     if (!isChanged) {
         var defaults = defaultsById[selected];
         $('theme_title').value = defaults.theme_title;
-        $('magento_version_from').value = defaults.magento_version_from;
-        $('magento_version_to').value = defaults.magento_version_to;
     }
 }

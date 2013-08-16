@@ -212,13 +212,13 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     /**
      * Return Data Form Input/Output Filter
      *
-     * @return Varien_Data_Form_Filter_Interface|false
+     * @return Magento_Data_Form_Filter_Interface|false
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttribute()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Varien_Data_Form_Filter_' . ucfirst($filterCode);
+            $filterClass = 'Magento_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $filter = new $filterClass($this->_dateFilterFormat(), Mage::app()->getLocale()->getLocale());
             } else {
@@ -439,7 +439,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                     }
                     break;
                 case 'date':
-                    $validator = new Zend_Validate_Date(Varien_Date::DATE_INTERNAL_FORMAT);
+                    $validator = new Zend_Validate_Date(Magento_Date::DATE_INTERNAL_FORMAT);
                     $validator->setMessage(
                         $this->_translationHelper->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Date::INVALID

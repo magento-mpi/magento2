@@ -18,19 +18,6 @@
  */
 class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_Helper_Mysql4
 {
-
-    /**
-     * Returns columns for select
-     *
-     * @param string $tableAlias
-     * @param string $eavType
-     * @return array
-     */
-    public function attributeSelectFields($tableAlias, $eavType)
-    {
-        return '*';
-    }
-
     /**
      * Compare Flat style with Describe style columns
      * If column a different - return false
@@ -79,12 +66,12 @@ class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_
     /**
      * Getting condition isNull(f1,f2) IS NOT Null
      *
-     * @param string $field1
-     * @param string $field2
+     * @param string $firstField
+     * @param string $secondField
      * @return string
      */
-    public function getIsNullNotNullCondition($field1, $field2)
+    public function getIsNullNotNullCondition($firstField, $secondField)
     {
-        return sprintf('%s IS NOT NULL', $this->_getReadAdapter()->getIfNullSql($field1, $field2));
+        return sprintf('%s IS NOT NULL', $this->_getReadAdapter()->getIfNullSql($firstField, $secondField));
     }
 }

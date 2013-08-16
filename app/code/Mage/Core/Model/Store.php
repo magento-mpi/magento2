@@ -236,7 +236,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Url $urlModel
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -245,7 +245,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         Mage_Core_Model_Url $urlModel,
         Mage_Core_Model_App_State $appState,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_urlModel = $urlModel;
@@ -478,7 +478,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      *
      * @param string $fullPath
      * @param string $path
-     * @param Varien_Simplexml_Element $node
+     * @param Magento_Simplexml_Element $node
      * @return string
      */
     protected function _processConfigValue($fullPath, $path, $node)
@@ -1020,7 +1020,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Get store price filter
      *
-     * @return Varien_Filter_Sprintf
+     * @return Magento_Filter_Sprintf
      */
     public function getPriceFilter()
     {
@@ -1031,7 +1031,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             } elseif($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
             } else {
-                $this->_priceFilter = new Varien_Filter_Sprintf('%s', 2);
+                $this->_priceFilter = new Magento_Filter_Sprintf('%s', 2);
             }
         }
         return $this->_priceFilter;

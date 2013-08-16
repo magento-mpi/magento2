@@ -16,9 +16,16 @@
  * @package    Mage_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Install_Model_Config extends Varien_Simplexml_Config
+class Mage_Install_Model_Config extends Magento_Simplexml_Config
 {
+    /**
+     * Wizard steps path
+     */
     const XML_PATH_WIZARD_STEPS     = 'wizard/steps';
+
+    /**
+     * Path to filesystem check writable list
+     */
     const XML_PATH_CHECK_WRITEABLE  = 'check/filesystem/writeable';
 
     /**
@@ -34,7 +41,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     /**
      * Get array of wizard steps
      *
-     * array($inndex => Varien_Object )
+     * array($index => Magento_Object)
      *
      * @return array
      */
@@ -42,7 +49,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     {
         $steps = array();
         foreach ((array)$this->getNode(self::XML_PATH_WIZARD_STEPS) as $stepName => $step) {
-            $stepObject = new Varien_Object((array)$step);
+            $stepObject = new Magento_Object((array)$step);
             $stepObject->setName($stepName);
             $steps[] = $stepObject;
         }
@@ -69,10 +76,10 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     {
         $res = array();
 
-        $items = (array) $this->getNode(self::XML_PATH_CHECK_WRITEABLE);
+        $items = (array)$this->getNode(self::XML_PATH_CHECK_WRITEABLE);
 
         foreach ($items as $item) {
-            $res['writeable'][] = (array) $item;
+            $res['writeable'][] = (array)$item;
         }
 
         return $res;
@@ -86,7 +93,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     public function getWritableFullPathsForCheck()
     {
         $paths = array();
-        $items = (array) $this->getNode(self::XML_PATH_CHECK_WRITEABLE);
+        $items = (array)$this->getNode(self::XML_PATH_CHECK_WRITEABLE);
         foreach ($items as $nodeKey => $item) {
             $value = (array)$item;
             $value['path'] = Mage::getBaseDir($nodeKey);

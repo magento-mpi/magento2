@@ -93,54 +93,7 @@
                 </admin_emails_reset_password_template>
             </email>
         </template>
-        <di>
-            <Mage_User_Model_User>
-                <shared>0</shared>
-            </Mage_User_Model_User>
-            <Mage_User_Model_Role>
-                <shared>0</shared>
-            </Mage_User_Model_Role>
-            <Mage_User_Model_Resource_Rules>
-                <parameters>
-                    <rootResource>
-                        <instance>Mage_Core_Model_Acl_RootResource_Proxy</instance>
-                    </rootResource>
-                    <aclCache>
-                        <instance>Mage_Core_Model_Acl_Cache_Proxy</instance>
-                    </aclCache>
-                </parameters>
-            </Mage_User_Model_Resource_Rules>
-            <Mage_User_Model_Resource_User>
-                <parameters>
-                    <aclCache>
-                        <instance>Mage_Core_Model_Acl_Cache_Proxy</instance>
-                    </aclCache>
-                </parameters>
-            </Mage_User_Model_Resource_User>
-            <Mage_User_Model_Resource_Rules>
-                <parameters>
-                    <aclCache>Mage_Core_Model_Acl_Cache_Proxy</aclCache>
-                </parameters>
-            </Mage_User_Model_Resource_Rules>
-            <preferences>
-                <Mage_Backend_Model_Auth_Credential_StorageInterface>Mage_User_Model_User</Mage_Backend_Model_Auth_Credential_StorageInterface>
-            </preferences>
-        </di>
     </global>
-    <adminhtml>
-        <di>
-            <Magento_Acl_Builder>
-                <parameters>
-                    <ruleLoader>
-                        <instance>Mage_User_Model_Acl_Loader_Rule</instance>
-                    </ruleLoader>
-                    <roleLoader>
-                        <instance>Mage_User_Model_Acl_Loader_Role</instance>
-                    </roleLoader>
-                </parameters>
-            </Magento_Acl_Builder>
-        </di>
-    </adminhtml>
     <default>
         <admin>
             <emails>

@@ -1119,7 +1119,7 @@
 "Wrong transaction ID specified.","指定的交易ID有误。"
 "XML","XML"
 "XML data is invalid.","XML数据无效。"
-"XML object is not instance of ""Varien_Simplexml_Element"".","XML对象并非“Varien_Simplexml_Element”的实例。"
+"XML object is not instance of ""Magento_Simplexml_Element"".","XML对象并非“Magento_Simplexml_Element”的实例。"
 "YTD","YTD"
 "Year","年"
 "Yes","是"

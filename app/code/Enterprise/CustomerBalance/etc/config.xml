@@ -33,15 +33,6 @@
         </Enterprise_CustomerBalance>
     </modules>
     <global>
-        <di>
-            <Mage_Core_Model_ModuleManager>
-                <parameters>
-                    <outputConfigPaths>
-                        <Enterprise_CustomerBalance>Enterprise_CustomerBalance_Helper_Data::XML_PATH_ENABLED</Enterprise_CustomerBalance>
-                    </outputConfigPaths>
-                </parameters>
-            </Mage_Core_Model_ModuleManager>
-        </di>
         <resources>
             <enterprise_customerbalance_setup>
                 <setup>

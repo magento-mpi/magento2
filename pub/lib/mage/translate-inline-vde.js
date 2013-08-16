@@ -76,13 +76,15 @@
             }
         },
 
-        open: function(e, widget, callback) {
-            this.callback = callback;
-            this.element.html(this._prepareContent($(widget.element).data('translate')));
-            this.triggerElement = widget.element;
-            $(window).on('resize.translateInlineDialogVde', $.proxy(this._positionNearTarget, this));
-            this._positionNearTarget();
-            this._superApply(arguments);
+        openWithWidget: function(e, widget, callback) {
+            if (widget && callback) {
+                this.callback = callback;
+                this.element.html(this._prepareContent($(widget.element).data('translate')));
+                this.triggerElement = widget.element;
+                $(window).on('resize.translateInlineDialogVde', $.proxy(this._positionNearTarget, this));
+                this._positionNearTarget();
+            }
+            this.open(arguments);
         },
 
         _positionNearTarget: function() {

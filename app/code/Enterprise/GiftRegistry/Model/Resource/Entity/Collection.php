@@ -79,11 +79,9 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
                 'qty_remaining' => new Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
             ))
             ->group('entity_id');
-        $helper = Mage::getResourceHelper('Mage_Core');
-        $query = $helper->getQueryUsingAnalyticFunction($select);
 
         $this->getSelect()->joinLeft(
-            array('items' => new Zend_Db_Expr(sprintf('(%s)', $query))),
+            array('items' => new Zend_Db_Expr(sprintf('(%s)', $select))),
             'main_table.entity_id = items.entity_id',
             array('qty', 'qty_fulfilled', 'qty_remaining')
         );
@@ -117,12 +115,12 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
             ->from($this->getTable('enterprise_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
+        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $helper */
         $helper = Mage::getResourceHelper('Mage_Core');
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
-        $query  = $helper->getQueryUsingAnalyticFunction($select);
 
         $this->getSelect()->joinLeft(
-            array('person' => new Zend_Db_Expr(sprintf('(%s)', $query))),
+            array('person' => new Zend_Db_Expr(sprintf('(%s)', $select))),
             'main_table.entity_id = person.entity_id',
             array('registrants')
         );
@@ -218,10 +216,9 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
         }
 
         $select->group('m.entity_id');
-
-        $helper = Mage::getResourceHelper('Mage_Core');
-        $query  = $helper->getQueryUsingAnalyticFunction($select);
-        $this->getSelect()->reset()->from(array('main_table' => new Zend_Db_Expr(sprintf('(%s)', $query))), array('*'));
+        $this->getSelect()->reset()->from(
+            array('main_table' => new Zend_Db_Expr(sprintf('(%s)', $select))), array('*')
+        );
 
         return $this;
     }

@@ -138,7 +138,7 @@ EOT;
         // Discount is negative value
         $discount += $shippingAddress->getBaseShippingDiscountAmount();
 
-        $discountItem = new Varien_Object(array(
+        $discountItem = new Magento_Object(array(
             'price' => $discount,
             'name'  => $this->__('Cart Discount'),
             'description' => $this->__('A virtual item to reflect the discount total')

@@ -77,15 +77,6 @@
                 </product_attributes>
             </item>
         </wishlist>
-        <di>
-            <Mage_Wishlist_Model_Resource_Item_Collection_Grid>
-                <parameters>
-                    <resource>
-                        <instance>Mage_Wishlist_Model_Resource_Item</instance>
-                    </resource>
-                </parameters>
-            </Mage_Wishlist_Model_Resource_Item_Collection_Grid>
-        </di>
     </global>
     <frontend>
         <routers>
@@ -127,13 +118,6 @@
         <secure_url>
             <wishlist>/wishlist/</wishlist>
         </secure_url>
-        <di>
-            <Mage_Wishlist_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Wishlist_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -145,13 +129,6 @@
                 </Mage_Wishlist>
             </modules>
         </translate>
-        <di>
-            <Mage_Wishlist_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Wishlist_Model_Session>
-        </di>
     </adminhtml>
     <default>
         <wishlist>

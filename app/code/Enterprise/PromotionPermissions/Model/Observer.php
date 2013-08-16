@@ -80,7 +80,7 @@ class Enterprise_PromotionPermissions_Model_Observer
     /**
      * Handle core_block_abstract_to_html_before event
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function coreBlockAbstractToHtmlBefore($observer)
@@ -101,7 +101,7 @@ class Enterprise_PromotionPermissions_Model_Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
@@ -217,7 +217,7 @@ class Enterprise_PromotionPermissions_Model_Observer
     /**
      * Handle controller_action_predispatch event
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function controllerActionPredispatch($observer)
@@ -228,11 +228,11 @@ class Enterprise_PromotionPermissions_Model_Observer
 
         if (in_array($controllerActionName, $forbiddenActionNames)
             && ((!$this->_canEditSalesRules
-            && $controllerAction instanceof Mage_Adminhtml_Promo_QuoteController)
+            && $controllerAction instanceof Mage_Adminhtml_Controller_Promo_Quote)
             || (!$this->_canEditCatalogRules
-            && $controllerAction instanceof Mage_Adminhtml_Promo_CatalogController)
+            && $controllerAction instanceof Mage_Adminhtml_Controller_Promo_Catalog)
             || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
-            && $controllerAction instanceof Enterprise_Reminder_Adminhtml_ReminderController))
+            && $controllerAction instanceof Enterprise_Reminder_Controller_Adminhtml_Reminder))
         ) {
             $this->_forward();
         }

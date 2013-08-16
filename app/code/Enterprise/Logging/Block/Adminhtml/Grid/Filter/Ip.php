@@ -25,8 +25,9 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip extends Mage_Adminhtml_B
             return ip2long($value);
         }
 
-        $resHelper = Mage::getResourceHelper('Enterprise_Logging');
-        $fieldExpression = $resHelper->getInetNtoaExpr();
+        $fieldExpression = new Zend_Db_Expr('INET_NTOA(#?)');
+        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $resHelper */
+        $resHelper = Mage::getResourceHelper('Mage_Core');
         $likeExpression = $resHelper->addLikeEscape($value, array('position' => 'any'));
         return array('field_expr' => $fieldExpression, 'like' => $likeExpression);
     }

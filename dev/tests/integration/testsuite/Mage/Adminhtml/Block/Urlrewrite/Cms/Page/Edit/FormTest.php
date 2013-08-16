@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      * Get form instance
      *
      * @param array $args
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      */
     protected function _getFormInstance($args = array())
     {
@@ -29,6 +29,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
         $block = $layout->createBlock(
             'Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', array('data' => $args)
         );
+        $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
     }
@@ -51,7 +52,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
     {
         $args = array();
         if ($cmsPageData) {
-            $args['cms_page'] = new Varien_Object($cmsPageData);
+            $args['cms_page'] = new Magento_Object($cmsPageData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());

@@ -274,15 +274,6 @@
                 </enterprise_giftcardaccount>
             </totals>
         </pdf>
-        <di>
-            <Enterprise_GiftCardAccount_Model_History>
-                <parameters>
-                    <adminSession>
-                        <instance>Mage_Backend_Model_Auth_Session_Proxy</instance>
-                    </adminSession>
-                </parameters>
-            </Enterprise_GiftCardAccount_Model_History>
-        </di>
     </global>
     <frontend>
         <translate>

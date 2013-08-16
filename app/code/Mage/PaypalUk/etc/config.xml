@@ -67,13 +67,6 @@
                 </Mage_PaypalUk>
             </modules>
         </translate>
-        <di>
-            <Mage_PaypalUk_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_PaypalUk_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -85,13 +78,6 @@
                 </Mage_PaypalUk>
             </modules>
         </translate>
-        <di>
-            <Mage_PaypalUk_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_PaypalUk_Model_Session>
-        </di>
     </adminhtml>
     <default>
         <payment>

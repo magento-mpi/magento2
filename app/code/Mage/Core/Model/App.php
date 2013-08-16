@@ -304,6 +304,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         return $this->_areas[$code];
     }
 
+    /**
+     * Get distro locale code
+     *
+     * @return string
+     */
     public function getDistroLocaleCode()
     {
         return self::DISTRO_LOCALE_CODE;
@@ -350,7 +355,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function getBaseCurrencyCode()
     {
-        return (string) $this->_config->getNode('default/' . Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+        return (string)$this->_config->getNode('default/' . Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
     }
 
     /**
@@ -400,38 +405,38 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Loading cache data
      *
-     * @param   string $id
+     * @param   string $cacheId
      * @return  mixed
      */
-    public function loadCache($id)
+    public function loadCache($cacheId)
     {
-        return $this->_cache->load($id);
+        return $this->_cache->load($cacheId);
     }
 
     /**
      * Saving cache data
      *
      * @param mixed $data
-     * @param string $id
+     * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
      * @return Mage_Core_Model_App
      */
-    public function saveCache($data, $id, $tags = array(), $lifeTime = false)
+    public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
-        $this->_cache->save($data, $id, $tags, $lifeTime);
+        $this->_cache->save($data, $cacheId, $tags, $lifeTime);
         return $this;
     }
 
     /**
      * Remove cache
      *
-     * @param   string $id
+     * @param   string $cacheId
      * @return  Mage_Core_Model_App
      */
-    public function removeCache($id)
+    public function removeCache($cacheId)
     {
-        $this->_cache->remove($id);
+        $this->_cache->remove($cacheId);
         return $this;
     }
 
@@ -584,14 +589,14 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Mage_Core_Model_Store $id
+     * @param string|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      *
      * @deprecated use Mage_Core_Model_StoreManagerInterface::getSafeStore()
      */
-    public function getSafeStore($id = null)
+    public function getSafeStore($storeId = null)
     {
-        return $this->_storeManager->getSafeStore($id);
+        return $this->_storeManager->getSafeStore($storeId);
     }
 
     /**
@@ -643,15 +648,15 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $id
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      * @throws Mage_Core_Model_Store_Exception
      *
      * @deprecated use Mage_Core_Model_StoreManager::getStore()
      */
-    public function getStore($id = null)
+    public function getStore($storeId = null)
     {
-        return $this->_storeManager->getStore($id);
+        return $this->_storeManager->getStore($storeId);
     }
 
     /**
@@ -671,15 +676,15 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      * @return Mage_Core_Model_Website
      * @throws Mage_Core_Exception
      *
      * @deprecated use Mage_Core_Model_StoreManager::getWebsite()
      */
-    public function getWebsite($id = null)
+    public function getWebsite($websiteId = null)
     {
-        return $this->_storeManager->getWebsite($id);
+        return $this->_storeManager->getWebsite($websiteId);
     }
 
     /**
@@ -746,15 +751,15 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|Mage_Core_Model_Store_Group|string $id
+     * @param null|Mage_Core_Model_Store_Group|string $groupId
      * @return Mage_Core_Model_Store_Group
      * @throws Mage_Core_Exception
      *
      * @deprecated use Mage_Core_Model_StoreManager::getGroup()
      */
-    public function getGroup($id = null)
+    public function getGroup($groupId = null)
     {
-        return $this->_storeManager->getGroup($id);
+        return $this->_storeManager->getGroup($groupId);
     }
 
     /**
@@ -776,13 +781,13 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      *
      * @deprecated use Mage_Core_Model_StoreManager::clearWebsiteCache()
      */
-    public function clearWebsiteCache($id = null)
+    public function clearWebsiteCache($websiteId = null)
     {
-        $this->_storeManager->clearWebsiteCache($id);
+        $this->_storeManager->clearWebsiteCache($websiteId);
     }
 
     /**

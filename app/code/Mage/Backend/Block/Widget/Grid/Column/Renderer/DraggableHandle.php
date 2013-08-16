@@ -14,10 +14,10 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_DraggableHandle
     /**
      * Render grid row
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         return '<span class="' . $this->getColumn()->getInlineCss() . '"></span>'
             . '<input type="hidden" name="entity_id" value="' . $row->getData($this->getColumn()->getIndex()) . '"/>'

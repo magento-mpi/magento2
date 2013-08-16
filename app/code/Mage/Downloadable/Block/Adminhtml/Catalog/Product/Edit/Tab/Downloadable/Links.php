@@ -21,7 +21,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     /**
      * Block config data
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_config;
 
@@ -212,7 +212,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
                 $tmpLinkItem['website_price'] = $item->getWebsitePrice();
             }
-            $linkArr[] = new Varien_Object($tmpLinkItem);
+            $linkArr[] = new Magento_Object($tmpLinkItem);
         }
         return $linkArr;
     }
@@ -312,12 +312,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     /**
      * Retrieve config object
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-            $this->_config = new Varien_Object();
+            $this->_config = new Magento_Object();
         }
 
         return $this->_config;

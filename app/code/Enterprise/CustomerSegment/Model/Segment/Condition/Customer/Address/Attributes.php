@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         $conditions = array_merge($conditions, Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Address Attributes')
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Address Attributes')
         );
     }
 
@@ -92,13 +92,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Country')
-                        ->toOptionArray();
+                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Allregion')
-                        ->toOptionArray();
+                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Allregion')->toOptionArray();
                     break;
 
                 default:
@@ -113,18 +111,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
                             $options = $this->getAttributeObject()->getSource()->getAllOptions($addEmptyOption);
                         }
                     }
+                    break;
             }
-
             $this->setData('value_select_options', $options);
         }
-
         return $this->getData('value_select_options');
     }
 
     /**
      * Retrieve attribute element
      *
-     * @return Varien_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getAttributeElement()
     {
@@ -212,7 +209,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -226,9 +223,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         $select->where('val.attribute_id = ?', $attribute->getId())
             ->where("val.entity_id = customer_address.entity_id")
             ->where($condition);
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 }

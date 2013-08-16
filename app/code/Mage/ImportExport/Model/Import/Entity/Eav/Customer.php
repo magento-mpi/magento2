@@ -269,8 +269,8 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
             'store_id'   => empty($rowData[self::COLUMN_STORE])
                 ? 0 : $this->_storeCodeToId[$rowData[self::COLUMN_STORE]],
 
-            'created_at' => $createdAt->format(Varien_Date::DATETIME_PHP_FORMAT),
-            'updated_at' => $now->format(Varien_Date::DATETIME_PHP_FORMAT),
+            'created_at' => $createdAt->format(Magento_Date::DATETIME_PHP_FORMAT),
+            'updated_at' => $now->format(Magento_Date::DATETIME_PHP_FORMAT),
         );
 
         $emailInLowercase = strtolower($rowData[self::COLUMN_EMAIL]);
@@ -302,7 +302,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
                     $value = $attributeParameters['options'][strtolower($value)];
                 } elseif ('datetime' == $attributeParameters['type']) {
                     $value = new DateTime('@' . strtotime($value));
-                    $value = $value->format(Varien_Date::DATETIME_PHP_FORMAT);
+                    $value = $value->format(Magento_Date::DATETIME_PHP_FORMAT);
                 } elseif ($backendModel) {
                     $attribute->getBackend()->beforeSave($this->_customerModel->setData($attributeCode, $value));
                     $value = $this->_customerModel->getData($attributeCode);

@@ -41,7 +41,7 @@ class Mage_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testHasDataChanged()
     {
-        $object = new Varien_Object(
+        $object = new Magento_Object(
             array(
                 'code'  => 'value1',
                 'value' => 'value2'
@@ -55,21 +55,14 @@ class Mage_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->hasDataChanged($object));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetSaveAllOptions()
     {
         $options = $this->_model->getAllOptions();
-        $this->assertEquals(array('config' => 1), $options);
+        $this->assertArrayNotHasKey('test_option', $options);
         $options['test_option'] = 1;
-        $this->_model->saveAllOptions($options);
-        try {
-            $this->assertEquals($options, $this->_model->getAllOptions());
-        } catch (Exception $e) {
-            unset($options['test_option']);
-            $this->_model->saveAllOptions($options);
-            throw $e;
-        }
-
-        unset($options['test_option']);
         $this->_model->saveAllOptions($options);
         $this->assertEquals($options, $this->_model->getAllOptions());
     }

@@ -30,18 +30,6 @@
                 <upload_limit>2M</upload_limit>
             </js>
         </theme>
-        <di>
-            <Mage_Theme_Model_Config>
-                <parameters>
-                    <configCache>
-                        <instance>Mage_Core_Model_Cache_Type_Config</instance>
-                    </configCache>
-                    <layoutCache>
-                        <instance>Mage_Core_Model_Cache_Type_Layout</instance>
-                    </layoutCache>
-                </parameters>
-            </Mage_Theme_Model_Config>
-        </di>
     </global>
     <admin>
         <routers>
@@ -55,8 +43,6 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-    </adminhtml>
     <default>
         <theme>
             <customization>

@@ -52,7 +52,7 @@ class Magento_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framewo
                 $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
             ),
             'design' => array(
-                $this->_testDir . '/app/design/adminhtml/default/backend/layout.xml',
+                $this->_testDir . '/app/design/adminhtml/magento_backend/layout.xml',
             ),
             'etc' => array(
                 $this->_testDir . '/app/etc/additional.xml',

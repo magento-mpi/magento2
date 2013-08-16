@@ -171,7 +171,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
      */
     protected function _prepareResourceModel()
     {
-        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(
+        $adapter = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(
             '_connect', 'delete', 'describeTable', 'fetchRow', 'insert', 'lastInsertId', 'quote', 'update',
         ), array(), '', false);
         $adapter->expects($this->any())
@@ -192,8 +192,8 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
             ->method('getStores')
             ->with(true)
             ->will($this->returnValue(array(
-                new Varien_Object(array('id' => 0)),
-                new Varien_Object(array('id' => 1)),
+                new Magento_Object(array('id' => 0)),
+                new Magento_Object(array('id' => 1)),
             )));
 
         /** @var $resource Mage_Core_Model_Resource */

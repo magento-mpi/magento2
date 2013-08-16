@@ -62,7 +62,7 @@ class Mage_Core_Model_Config_Modules_Sorted extends Mage_Core_Model_Config_Base
             }
             $dependencies = array();
             if ($moduleNode->sequence) {
-                /** @var $dependencyNode Varien_Simplexml_Element */
+                /** @var $dependencyNode Magento_Simplexml_Element */
                 foreach ($moduleNode->sequence->children() as $dependencyNode) {
                     $dependencyModuleName = $dependencyNode->getName();
                     $dependencies[$dependencyModuleName] = $this->_getDependencyType($dependencyNode);
@@ -79,11 +79,11 @@ class Mage_Core_Model_Config_Modules_Sorted extends Mage_Core_Model_Config_Base
     /**
      * Determine dependency type from XML node that defines module dependency
      *
-     * @param Varien_Simplexml_Element $dependencyNode
+     * @param Magento_Simplexml_Element $dependencyNode
      * @return string
      * @throws UnexpectedValueException
      */
-    protected function _getDependencyType(Varien_Simplexml_Element $dependencyNode)
+    protected function _getDependencyType(Magento_Simplexml_Element $dependencyNode)
     {
         $result = $dependencyNode->getAttribute('type') ?: self::DEPENDENCY_TYPE_HARD;
         if (!in_array($result, array(self::DEPENDENCY_TYPE_HARD, self::DEPENDENCY_TYPE_SOFT))) {

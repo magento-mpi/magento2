@@ -33,7 +33,7 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive($this->_tmpDir);
+        Magento_Io_File::rmdirRecursive($this->_tmpDir);
     }
 
     /**

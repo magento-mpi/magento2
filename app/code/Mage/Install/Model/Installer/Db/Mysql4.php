@@ -11,10 +11,6 @@
 
 /**
  * Mysql resource data model
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Installer_Db_Mysql4 extends Mage_Install_Model_Installer_Db_Abstract
 {
@@ -25,8 +21,7 @@ class Mage_Install_Model_Installer_Db_Mysql4 extends Mage_Install_Model_Installe
      */
     public function getVersion()
     {
-        $version  = $this->_getConnection()
-            ->fetchOne('SELECT VERSION()');
+        $version  = $this->_getConnection()->fetchOne('SELECT VERSION()');
         $version    = $version ? $version : 'undefined';
         $match = array();
         if (preg_match("#^([0-9\.]+)#", $version, $match)) {
@@ -42,8 +37,7 @@ class Mage_Install_Model_Installer_Db_Mysql4 extends Mage_Install_Model_Installe
      */
     public function supportEngine()
     {
-        $variables  = $this->_getConnection()
-            ->fetchPairs('SHOW ENGINES');
+        $variables  = $this->_getConnection()->fetchPairs('SHOW ENGINES');
         return isset($variables['InnoDB']) && ($variables['InnoDB'] == 'DEFAULT' || $variables['InnoDB'] == 'YES');
     }
 

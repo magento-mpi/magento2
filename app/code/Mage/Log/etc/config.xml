@@ -27,18 +27,11 @@
         </Mage_Log>
     </modules>
     <global>
-        <di>
-            <Mage_Log_Model_Shell_Command_Clean>
-                <parametes>
-                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
-                </parametes>
-            </Mage_Log_Model_Shell_Command_Clean>
-        </di>
         <ignoredModules>
             <entities>
-                <install/>
-                <adminhtml/>
-                <admin/>
+                <install />
+                <adminhtml />
+                <admin />
             </entities>
         </ignoredModules>
         <ignore_user_agents>
@@ -136,9 +129,9 @@
             <log>
                 <clean_after_day>180</clean_after_day>
                 <enabled>0</enabled>
-                <time/>
+                <time />
                 <frequency>D</frequency>
-                <error_email/>
+                <error_email />
                 <error_email_identity>general</error_email_identity>
                 <error_email_template>system_log_error_email_template</error_email_template>
             </log>

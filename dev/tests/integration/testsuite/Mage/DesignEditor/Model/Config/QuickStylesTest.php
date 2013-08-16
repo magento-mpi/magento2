@@ -32,7 +32,7 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
-        $this->_design->setDesignTheme('package/test', Mage_Core_Model_View_DesignInterface::DEFAULT_AREA);
+        $this->_design->setDesignTheme('vendor_test', Mage_Core_Model_View_DesignInterface::DEFAULT_AREA);
         $this->_viewFileSystem = Mage::getObjectManager()->get('Mage_Core_Model_View_FileSystem');
         $quickStylesPath = $this->_viewFileSystem->getFilename('Mage_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);

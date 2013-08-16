@@ -10,10 +10,6 @@
 
 /**
  * Abstract Rule entity data model
- *
- * @category Mage
- * @package Mage_Rule
- * @author Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
 {
@@ -34,7 +30,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
     /**
      * Store rule form instance
      *
-     * @var Varien_Data_Form
+     * @var Magento_Data_Form
      */
     protected $_form;
 
@@ -235,12 +231,12 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
     /**
      * Rule form getter
      *
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      */
     public function getForm()
     {
         if (!$this->_form) {
-            $this->_form = new Varien_Data_Form();
+            $this->_form = new Magento_Data_Form();
         }
         return $this->_form;
     }
@@ -279,10 +275,10 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
         $arr = array();
         foreach ($data as $key => $value) {
             if (($key === 'conditions' || $key === 'actions') && is_array($value)) {
-                foreach ($value as $id=>$data) {
+                foreach ($value as $id => $data) {
                     $path = explode('--', $id);
                     $node =& $arr;
-                    for ($i=0, $l=sizeof($path); $i<$l; $i++) {
+                    for ($i = 0, $l = sizeof($path); $i < $l; $i++) {
                         if (!isset($node[$key][$path[$i]])) {
                             $node[$key][$path[$i]] = array();
                         }
@@ -299,7 +295,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
                     $value = Mage::app()->getLocale()->date(
                         $value,
-                        Varien_Date::DATE_INTERNAL_FORMAT,
+                        Magento_Date::DATE_INTERNAL_FORMAT,
                         null,
                         false
                     );
@@ -314,11 +310,11 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
     /**
      * Validate rule conditions to determine if rule can run
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      *
      * @return bool
      */
-    public function validate(Varien_Object $object)
+    public function validate(Magento_Object $object)
     {
         return $this->getConditions()->validate($object);
     }
@@ -326,11 +322,11 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
     /**
      * Validate rule data
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      *
      * @return bool|array - return true if validation passed successfully. Array with errors description otherwise
      */
-    public function validateData(Varien_Object $object)
+    public function validateData(Magento_Object $object)
     {
         $result   = array();
         $fromDate = $toDate = null;
@@ -341,8 +337,8 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
         }
 
         if ($fromDate && $toDate) {
-            $fromDate = new Zend_Date($fromDate, Varien_Date::DATE_INTERNAL_FORMAT);
-            $toDate = new Zend_Date($toDate, Varien_Date::DATE_INTERNAL_FORMAT);
+            $fromDate = new Zend_Date($fromDate, Magento_Date::DATE_INTERNAL_FORMAT);
+            $toDate = new Zend_Date($toDate, Magento_Date::DATE_INTERNAL_FORMAT);
 
             if ($fromDate->compare($toDate) === 1) {
                 $result[] = Mage::helper('Mage_Rule_Helper_Data')->__('End Date must follow Start Date.');
@@ -384,7 +380,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (bool) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 
@@ -407,7 +403,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function setIsReadonly($value)
     {
-        $this->_isReadonly = (bool) $value;
+        $this->_isReadonly = (bool)$value;
         return $this;
     }
 
@@ -435,7 +431,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
      *
      * @return string
      */
-    public function asString($format='')
+    public function asString($format = '')
     {
         return '';
     }

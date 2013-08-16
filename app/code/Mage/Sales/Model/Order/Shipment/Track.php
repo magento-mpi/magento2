@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Track _getResource()
  * @method Mage_Sales_Model_Resource_Order_Shipment_Track getResource()
  * @method int getParentId()
@@ -51,7 +49,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
     /**
      * Initialize resource model
      */
-    function _construct()
+    protected function _construct()
     {
         $this->_init('Mage_Sales_Model_Resource_Order_Shipment_Track');
     }
@@ -70,7 +68,7 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      * Tracking number setter
      *
      * @param string $number
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function setNumber($number)
     {
@@ -130,7 +128,8 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')
+            ->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title'] = $this->getTitle();

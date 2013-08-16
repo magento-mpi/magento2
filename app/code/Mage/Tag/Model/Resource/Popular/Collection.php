@@ -45,7 +45,7 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
                 'tag.tag_id = tag_summary.tag_id AND tag.status = ' . Mage_Tag_Model_Tag::STATUS_APPROVED)
             ->where('tag_summary.store_id = ?', $storeId)
             ->where('tag_summary.products > ?', 0)
-            ->order('popularity ' . Varien_Db_Select::SQL_DESC);
+            ->order('popularity ' . Magento_DB_Select::SQL_DESC);
 
         return $this;
     }
@@ -93,7 +93,7 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
     /**
      * Get SQL for get record count
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {

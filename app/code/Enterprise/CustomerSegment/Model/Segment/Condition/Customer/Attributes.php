@@ -174,7 +174,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve value element
      *
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getValueElement()
     {
@@ -208,7 +208,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve attribute element
      *
-     * @return Varien_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getAttributeElement()
     {
@@ -279,11 +279,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     {
         if ($this->getOperator() == '==') {
             $dateObj = Mage::app()->getLocale()
-                ->date($this->getValue(), Varien_Date::DATE_INTERNAL_FORMAT, null, false)
+                ->date($this->getValue(), Magento_Date::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(
-                'start' => $dateObj->toString(Varien_Date::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+                'start' => $dateObj->toString(Magento_Date::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
             );
             return $value;
         }
@@ -308,19 +308,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
-        $addressTable = $this->getResource()->getTable('customer_address_entity');
-
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));
-
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
+        $select->limit(1);
 
         if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
             $value    = $this->getValue();

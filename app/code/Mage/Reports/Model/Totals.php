@@ -23,7 +23,7 @@ class Mage_Reports_Model_Totals
      * @param Mage_Adminhtml_Block_Widget_Grid $grid
      * @param string $from
      * @param string $to
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function countTotals($grid, $from, $to)
     {
@@ -33,6 +33,9 @@ class Mage_Reports_Model_Totals
         }
 
         $count = 0;
+        /**
+         * This method doesn't work because of commit 6e15235, see MAGETWO-4751
+         */
         $report = $grid->getCollection()->getReportFull($from, $to);
         foreach ($report as $item) {
             if ($grid->getSubReportSize() && $count >= $grid->getSubReportSize()) {
@@ -68,7 +71,7 @@ class Mage_Reports_Model_Totals
             }
         }
 
-        $totals = new Varien_Object();
+        $totals = new Magento_Object();
         $totals->setData($data);
 
         return $totals;

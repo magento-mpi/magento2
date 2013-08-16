@@ -192,28 +192,28 @@
                 </nominal_totals>
                 <item>
                     <product_attributes>
-                        <sku/>
-                        <type_id/>
-                        <name/>
-                        <status/>
-                        <visibility/>
-                        <price/>
-                        <weight/>
-                        <url_path/>
-                        <url_key/>
-                        <thumbnail/>
-                        <small_image/>
-                        <tax_class_id/>
-                        <special_from_date/>
-                        <special_to_date/>
-                        <special_price/>
-                        <cost/>
-                        <is_recurring/>
-                        <recurring_profile/>
-                        <gift_message_available/>
-                        <msrp_enabled/>
-                        <msrp/>
-                        <msrp_display_actual_price_type/>
+                        <sku />
+                        <type_id />
+                        <name />
+                        <status />
+                        <visibility />
+                        <price />
+                        <weight />
+                        <url_path />
+                        <url_key />
+                        <thumbnail />
+                        <small_image />
+                        <tax_class_id />
+                        <special_from_date />
+                        <special_to_date />
+                        <special_price />
+                        <cost />
+                        <is_recurring />
+                        <recurring_profile />
+                        <gift_message_available />
+                        <msrp_enabled />
+                        <msrp />
+                        <msrp_display_actual_price_type />
                     </product_attributes>
                 </item>
             </quote>
@@ -255,56 +255,56 @@
                     <new translate="label">
                         <label>New</label>
                         <statuses>
-                            <pending default="1"/>
+                            <pending default="1" />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </new>
                     <pending_payment translate="label">
                         <label>Pending Payment</label>
                         <statuses>
-                            <pending_payment default="1"/>
+                            <pending_payment default="1" />
                         </statuses>
                     </pending_payment>
                     <processing translate="label">
                         <label>Processing</label>
                         <statuses>
-                            <processing default="1"/>
+                            <processing default="1" />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </processing>
                     <complete translate="label">
                         <label>Complete</label>
                         <statuses>
-                            <complete default="1"/>
+                            <complete default="1" />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </complete>
                     <closed translate="label">
                         <label>Closed</label>
                         <statuses>
-                            <closed default="1"/>
+                            <closed default="1" />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </closed>
                     <canceled translate="label">
                         <label>Canceled</label>
                         <statuses>
-                            <canceled default="1"/>
+                            <canceled default="1" />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </canceled>
                     <holded translate="label">
                         <label>On Hold</label>
                         <statuses>
-                            <holded default="1"/>
+                            <holded default="1" />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </holded>
                     <payment_review translate="label">
                         <label>Payment Review</label>
                         <statuses>
-                            <payment_review default="1"/>
-                            <fraud/>
+                            <payment_review default="1" />
+                            <fraud />
                         </statuses>
                         <visible_on_front>1</visible_on_front>
                     </payment_review>
@@ -392,7 +392,7 @@
                 <discount translate="title">
                     <title>Discount</title>
                     <source_field>discount_amount</source_field>
-                    <amount_prefix></amount_prefix>
+                    <amount_prefix />
                     <title_source_field>discount_description</title_source_field>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
@@ -438,11 +438,6 @@
                 </observers>
             </sales_order_place_after>
         </events>
-        <di>
-            <Mage_Sales_Model_Resource_Report>
-                <shared>0</shared>
-            </Mage_Sales_Model_Resource_Report>
-        </di>
     </global>
     <frontend>
         <secure_url>

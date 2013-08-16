@@ -85,11 +85,6 @@
                 </Mage_Directory>
             </modules>
         </translate>
-        <di>
-            <preferences>
-                <Mage_Core_Model_LocaleInterface>Mage_Backend_Model_Locale</Mage_Core_Model_LocaleInterface>
-            </preferences>
-        </di>
     </adminhtml>
     <default>
         <system>
@@ -108,7 +103,7 @@
             </webservicex>
             <import>
                 <enabled>0</enabled>
-                <error_email/>
+                <error_email />
                 <error_email_identity>general</error_email_identity>
                 <error_email_template>currency_import_error_email_template</error_email_template>
             </import>

@@ -36,7 +36,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
         $fixtureDir = realpath(dirname(__FILE__).'/../../../../_files');
         self::$_mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 
-        $ioFile = new Varien_Io_File();
+        $ioFile = new Magento_Io_File();
         if (!is_dir(self::$_mediaTmpDir)) {
             $ioFile->mkdir(self::$_mediaTmpDir, 0777, true);
         }
@@ -51,8 +51,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public static function tearDownAfterClass()
     {
-        Varien_Io_File::rmdirRecursive(self::$_mediaTmpDir);
-        Varien_Io_File::rmdirRecursive(self::$_mediaDir);
+        Magento_Io_File::rmdirRecursive(self::$_mediaTmpDir);
+        Magento_Io_File::rmdirRecursive(self::$_mediaDir);
     }
 
     protected function setUp()

@@ -64,7 +64,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     /**
      * Installer data model to store data between installations steps
      *
-     * @var Mage_Install_Model_Installer_Data|Mage_Install_Model_Session
+     * @var Mage_Install_Model_Installer_Data|Mage_Core_Model_Session_Generic
      */
     protected $_dataModel;
 
@@ -85,6 +85,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     /**
      * @param Mage_Core_Model_Config_Resource $resourceConfig
      * @param Mage_Core_Model_Db_UpdaterInterface $daUpdater
+     * @param Magento_Filesystem $filesystem
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourceConfig,
@@ -187,7 +188,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
      */
     protected function _getDataModel()
     {
-        if (is_null($this->_dataModel)) {
+        if (null === $this->_dataModel) {
             $this->_dataModel = Mage::getModel('Mage_Install_Model_Installer_Data');
         }
         return $this->_dataModel;

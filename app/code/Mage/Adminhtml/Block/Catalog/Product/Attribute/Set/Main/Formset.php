@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
         $data = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset('set_name', array('legend'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text', array(
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),

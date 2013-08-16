@@ -16,7 +16,7 @@ $installer->installEntities();
 $invoiceTable = $installer->getTable('sales_flat_invoice');
 $installer->getConnection()
     ->addColumn($invoiceTable, 'discount_description', array(
-            'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
             'length'    => 255,
             'comment'   => 'Discount Description'
     ));
@@ -24,7 +24,7 @@ $installer->getConnection()
 $creditmemoTable = $installer->getTable('sales_flat_creditmemo');
 $installer->getConnection()
     ->addColumn($creditmemoTable, 'discount_description', array(
-            'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
             'length'    => 255,
             'comment'   => 'Discount Description'
     ));

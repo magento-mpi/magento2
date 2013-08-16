@@ -30,9 +30,9 @@ class Mage_Core_Controller_Varien_Action_Context implements Magento_ObjectManage
     protected $_frontController = null;
 
     /**
-     * @var Mage_Core_Model_Layout_Factory
+     * @var Mage_Core_Model_Layout
      */
-    protected $_layoutFactory;
+    protected $_layout;
 
     /**
      * @var Mage_Core_Model_Event_Manager
@@ -44,7 +44,7 @@ class Mage_Core_Controller_Varien_Action_Context implements Magento_ObjectManage
      * @param Mage_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
@@ -52,14 +52,14 @@ class Mage_Core_Controller_Varien_Action_Context implements Magento_ObjectManage
         Mage_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Model_Layout $layout,
         Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_request         = $request;
         $this->_response        = $response;
         $this->_objectManager   = $objectManager;
         $this->_frontController = $frontController;
-        $this->_layoutFactory   = $layoutFactory;
+        $this->_layout          = $layout;
         $this->_eventManager    = $eventManager;
     }
 
@@ -72,11 +72,11 @@ class Mage_Core_Controller_Varien_Action_Context implements Magento_ObjectManage
     }
 
     /**
-     * @return \Mage_Core_Model_Layout_Factory
+     * @return \Mage_Core_Model_Layout
      */
-    public function getLayoutFactory()
+    public function getLayout()
     {
-        return $this->_layoutFactory;
+        return $this->_layout;
     }
 
     /**

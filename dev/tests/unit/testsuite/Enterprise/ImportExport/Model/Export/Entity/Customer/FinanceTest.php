@@ -88,8 +88,8 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
             ->method('__')
             ->will($this->returnArgument(0));
 
-        /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
                 'Mage_Eav_Model_Entity_Attribute_Abstract'
@@ -138,7 +138,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Varien_Object($websiteData);
+            $websites[$id] = new Magento_Object($websiteData);
         }
 
         return $websites;

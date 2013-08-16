@@ -372,7 +372,7 @@ class Maged_Model_Connect extends Maged_Model
 
             $confFile = $configObj->downloader_path.DIRECTORY_SEPARATOR.$configTestFile;
             try {
-                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj = new Magento_Connect_Ftp();
                 $ftpObj->connect($p['ftp']);
                 $tempFile = tempnam(sys_get_temp_dir(),'config');
                 $serial = md5('config test file');

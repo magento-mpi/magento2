@@ -16,21 +16,19 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review_Summary_Collection extends Varien_Data_Collection_Db
+class Mage_Review_Model_Resource_Review_Summary_Collection extends Magento_Data_Collection_Db
 {
     /**
-     * Enter description here ...
-     *
-     * @var unknown
+     * @var string
      */
     protected $_summaryTable;
 
     /**
-     * Enter description here ...
-     *
+     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Mage_Core_Model_Resource $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Core_Model_Resource $resource
     ) {
         $this->_setIdFieldName('primary_id');
@@ -46,8 +44,8 @@ class Mage_Review_Model_Resource_Review_Summary_Collection extends Varien_Data_C
     /**
      * Add entity filter
      *
-     * @param unknown_type $entityId
-     * @param unknown_type $entityType
+     * @param int|string $entityId
+     * @param int $entityType
      * @return Mage_Review_Model_Resource_Review_Summary_Collection
      */
     public function addEntityFilter($entityId, $entityType = 1)

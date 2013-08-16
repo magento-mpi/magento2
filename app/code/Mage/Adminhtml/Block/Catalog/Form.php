@@ -19,19 +19,19 @@ class Mage_Adminhtml_Block_Catalog_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     protected function _prepareLayout()
     {
-        Varien_Data_Form::setElementRenderer(
+        Magento_Data_Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        Varien_Data_Form::setFieldsetRenderer(
+        Magento_Data_Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        Varien_Data_Form::setFieldsetElementRenderer(
+        Magento_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'

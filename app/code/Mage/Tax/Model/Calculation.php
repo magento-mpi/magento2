@@ -158,7 +158,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     /**
      * Get calculation tax rate by specific request
      *
-     * @param   Varien_Object $request
+     * @param   Magento_Object $request
      * @return  float
      */
     public function getRate($request)
@@ -205,7 +205,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      * This rate can be used for conversion store price including tax to
      * store price excluding tax
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @param null|string|bool|int|Mage_Core_Model_Store $store
      * @return float
      */
@@ -220,11 +220,11 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      * Get request object for getting tax rate based on store shipping original address
      *
      * @param   null|string|bool|int|Mage_Core_Model_Store $store
-     * @return  Varien_Object
+     * @return  Magento_Object
      */
     public function getRateOriginRequest($store = null)
     {
-        $request = new Varien_Object();
+        $request = new Magento_Object();
         $request->setCountryId(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
             ->setRegionId(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $store))
             ->setPostcode(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $store))
@@ -242,11 +242,11 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      *  customer_class_id (->getCustomerClassId())
      *  store (->getStore())
      *
-     * @param   null|bool|Varien_Object $shippingAddress
-     * @param   null|bool||Varien_Object $billingAddress
+     * @param   null|bool|Magento_Object $shippingAddress
+     * @param   null|bool||Magento_Object $billingAddress
      * @param   null|int $customerTaxClass
      * @param   null|int $store
-     * @return  Varien_Object
+     * @return  Magento_Object
      */
     public function getRateRequest(
         $shippingAddress = null,
@@ -257,7 +257,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         if ($shippingAddress === false && $billingAddress === false && $customerTaxClass === false) {
             return $this->getRateOriginRequest($store);
         }
-        $address    = new Varien_Object();
+        $address    = new Magento_Object();
         $customer   = $this->getCustomer();
         $basedOn    = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
 
@@ -315,7 +315,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 
-        $request = new Varien_Object();
+        $request = new Magento_Object();
         $request
             ->setCountryId($address->getCountryId())
             ->setRegionId($address->getRegionId())
@@ -333,8 +333,8 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      * a) productClassId MUST be identical for both requests, because we intend to check selling SAME products to DIFFERENT locations
      * b) due to optimization productClassId can be array of ids, not only single id
      *
-     * @param   Varien_Object $first
-     * @param   Varien_Object $second
+     * @param   Magento_Object $first
+     * @param   Magento_Object $second
      * @return  bool
      */
     public function compareRequests($first, $second)
@@ -412,7 +412,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     /**
      * Get information about tax rates applied to request
      *
-     * @param   Varien_Object $request
+     * @param   Magento_Object $request
      * @return  array
      */
     public function getAppliedRates($request)

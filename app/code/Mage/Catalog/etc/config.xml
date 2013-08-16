@@ -319,22 +319,6 @@
                 </product>
             </catalog>
         </session>
-        <di>
-            <Mage_Catalog_Model_Product_Attribute_Api>
-                <parameters>
-                    <attributeLabelCache>
-                        <instance>Mage_Core_Model_Cache_Type_Translate</instance>
-                    </attributeLabelCache>
-                </parameters>
-            </Mage_Catalog_Model_Product_Attribute_Api>
-            <Mage_Catalog_Model_Product_Attribute_Api_V2>
-                <parameters>
-                    <attributeLabelCache>
-                        <instance>Mage_Core_Model_Cache_Type_Translate</instance>
-                    </attributeLabelCache>
-                </parameters>
-            </Mage_Catalog_Model_Product_Attribute_Api_V2>
-        </di>
     </global>
     <adminhtml>
         <translate>
@@ -356,13 +340,6 @@
                 </observers>
             </cms_wysiwyg_images_static_urls_allowed>
         </events>
-        <di>
-            <Mage_Catalog_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Catalog_Model_Session>
-        </di>
     </adminhtml>
     <frontend>
         <routers>
@@ -454,13 +431,6 @@
                 </attributes>
             </collection>
         </category>
-        <di>
-            <Mage_Catalog_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Catalog_Model_Session>
-        </di>
     </frontend>
     <default>
         <catalog>

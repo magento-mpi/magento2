@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Model_Options extends Varien_Object
+class Enterprise_GiftWrapping_Model_Options extends Magento_Object
 {
     /**
      * Current data object
@@ -25,12 +25,12 @@ class Enterprise_GiftWrapping_Model_Options extends Varien_Object
     /**
      * Set gift wrapping options data object
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return Enterprise_GiftWrapping_Model_Options
      */
     public function setDataObject($item)
     {
-        if ($item instanceof Varien_Object && $item->getGiftwrappingOptions()) {
+        if ($item instanceof Magento_Object && $item->getGiftwrappingOptions()) {
             $this->addData(unserialize($item->getGiftwrappingOptions()));
             $this->_dataObject = $item;
         }

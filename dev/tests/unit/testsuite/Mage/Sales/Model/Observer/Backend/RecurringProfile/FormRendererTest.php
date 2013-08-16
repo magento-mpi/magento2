@@ -28,7 +28,7 @@ class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extend
         $this->_blockFactoryMock = $this->getMock(
             'Mage_Core_Model_BlockFactory', array('createBlock'), array(), '', false
         );
-        $this->_observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_model = new Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer(
             $this->_blockFactoryMock
         );
@@ -48,10 +48,10 @@ class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extend
 
         );
         $event = $this->getMock(
-            'Varien_Event', array('getProductElement', 'getProduct', 'getResult'), array(), '', false
+            'Magento_Event', array('getProductElement', 'getProduct', 'getResult'), array(), '', false
         );
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($event));
-        $profileElement = $this->getMock('Varien_Data_Form_Element_Abstract', array(), array(), '', false);
+        $profileElement = $this->getMock('Magento_Data_Form_Element_Abstract', array(), array(), '', false);
         $event->expects($this->once())->method('getProductElement')->will($this->returnValue($profileElement));
         $product = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
