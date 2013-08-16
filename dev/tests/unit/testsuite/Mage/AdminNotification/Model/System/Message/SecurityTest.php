@@ -28,11 +28,6 @@ class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_F
     protected $_curlFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperFactoryMock;
-
-    /**
      * @var Mage_AdminNotification_Model_System_Message_Security
      */
     protected $_messageModel;
@@ -45,14 +40,12 @@ class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_F
             array('getConfig'), array(), '', false);
         $this->_curlFactoryMock = $this->getMock('Magento_HTTP_Adapter_CurlFactory',
             array('create'), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(
             'cache' => $this->_cacheMock,
             'storeConfig' => $this->_storeConfigMock,
             'curlFactory' => $this->_curlFactoryMock,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $this->_messageModel = $objectManagerHelper->getObject('Mage_AdminNotification_Model_System_Message_Security',
             $arguments);

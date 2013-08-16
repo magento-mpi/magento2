@@ -47,29 +47,21 @@ class Mage_AdminNotification_Model_System_Message_Security
     protected $_curlFactory;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Model_Config $config
      * @param Magento_HTTP_Adapter_CurlFactory $curlFactory
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Mage_Core_Model_CacheInterface $cache,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Model_Config $config,
-        Magento_HTTP_Adapter_CurlFactory $curlFactory,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Magento_HTTP_Adapter_CurlFactory $curlFactory
     ) {
         $this->_cache = $cache;
         $this->_storeConfig = $storeConfig;
         $this->_config = $config;
         $this->_curlFactory = $curlFactory;
-        $this->_helperFactory = $helperFactory;
     }
 
     /**

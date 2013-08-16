@@ -18,13 +18,6 @@
 class Mage_Tax_Model_Rate_CsvImportHandler
 {
     /**
-     * Helper factory
-     *
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * Collection of publicly available stores
      *
      * @var Mage_Core_Model_Resource_Store_Collection
@@ -55,20 +48,17 @@ class Mage_Tax_Model_Rate_CsvImportHandler
     protected $_taxRateFactory;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Resource_Store_Collection $storeCollection
      * @param Mage_Directory_Model_Resource_Region_Collection $regionCollection
      * @param Mage_Directory_Model_CountryFactory $countryFactory
      * @param Mage_Tax_Model_Calculation_RateFactory $taxRateFactory
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Resource_Store_Collection $storeCollection,
         Mage_Directory_Model_Resource_Region_Collection $regionCollection,
         Mage_Directory_Model_CountryFactory $countryFactory,
         Mage_Tax_Model_Calculation_RateFactory $taxRateFactory
     ) {
-        $this->_helperFactory = $helperFactory;
         // prevent admin store from loading
         $this->_publicStores = $storeCollection->setLoadDefault(false);
         $this->_regionCollection = $regionCollection;

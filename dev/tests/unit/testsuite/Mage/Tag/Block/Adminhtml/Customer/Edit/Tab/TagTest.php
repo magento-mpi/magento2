@@ -33,13 +33,6 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Framewo
         'tab_class' => 'ajax',
     );
 
-    /**
-     * Array of data helpers
-     *
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperMock;
-
     public function setUp()
     {
         $authorization = $this->getMock('Magento_AuthorizationInterface');
@@ -82,7 +75,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Framewo
         $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $helperFactoryMock->expects($this->any())
             ->method('get')
-            ->will($this->returnValue($this->_helperMock));
+            ->will($this->returnValue($this->getMock('Mage_Tag_Helper_Data', array(), array(), '', false)));
 
         $arguments = array(
             'authorization' => $authorization,

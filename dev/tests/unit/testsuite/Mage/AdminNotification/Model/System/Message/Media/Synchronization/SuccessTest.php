@@ -14,11 +14,6 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_syncFlagMock;
 
     /**
@@ -38,14 +33,12 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
         );
 
         $this->_fileStorage = $this->getMock('Mage_Core_Model_File_Storage', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_fileStorage->expects($this->any())->method('getSyncFlag')
             ->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $this->_model = $objectManagerHelper
             ->getObject('Mage_AdminNotification_Model_System_Message_Media_Synchronization_Success', $arguments);
@@ -71,7 +64,6 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
     {
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
