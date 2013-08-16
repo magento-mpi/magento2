@@ -1,12 +1,19 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 class Magento_Interception_Config_Config extends Magento_Config_Data implements Magento_Interception_Config
 {
+    /**
+     * Scope priority loading scheme
+     *
+     * @var array
+     */
+    protected $_scopePriorityScheme = array('global');
+
     /**
      * @var Magento_ObjectManager_Config
      */
@@ -48,7 +55,7 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
         Magento_ObjectManager_Relations $relations,
         Magento_ObjectManager_Config $omConfig,
         Magento_Interception_Definition $definitions,
-        Magento_Interception_CodeGenerator $codeGenerator,
+        Magento_Interception_CodeGenerator $codeGenerator = null,
         $cacheId
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
@@ -101,9 +108,9 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
                 foreach ($this->_configScope->getAllScopes() as $scope) {
                     $config = array_replace_recursive($config, $this->_reader->read($scope));
                 }
-                foreach ($config as $type) {
-                    if (isset($type['plugins'])) {
-                        $this->_interceptedRaw[$type['name']] = true;
+                foreach ($config as $typeName => $typeConfig) {
+                    if (!empty($typeConfig['plugins'])) {
+                        $this->_interceptedRaw[$typeName] = true;
                     }
                 }
                 $this->_cache->put(serialize($this->_interceptedRaw), 'all', 'interceptedRaw');
@@ -149,20 +156,23 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
                 $plugins = array();
             }
 
-            if (isset($this->_data[$type])) {
+            if (isset($this->_data[$type]['plugins'])) {
                 if (!$plugins) {
-                    $plugins = $this->_data[$type];
+                    $plugins = $this->_data[$type]['plugins'];
                 } else {
-                    $plugins = array_replace_recursive($plugins, $this->_data[$type]);
+                    $plugins = array_replace_recursive($plugins, $this->_data[$type]['plugins']);
                 }
             }
-            usort($plugins, array($this, '_sort'));
+            uasort($plugins, array($this, '_sort'));
             $this->_data['inherited'][$type] = $plugins;
             foreach ($plugins as $plugin) {
-                foreach ($this->_definitions->getMethodList($plugin) as $method) {
-                    foreach ($method as $scenario) {
-                        $this->_data['processed'][$type][$method][$scenario][] = $plugin;
-                    }
+                // skip disabled plugins
+                if (isset($plugin['disabled']) && $plugin['disabled']) {
+                    continue;
+                }
+                $pluginType = $this->_omConfig->getInstanceType($plugin['instance']);
+                foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod) {
+                    $this->_data['processed'][$type][$pluginMethod][] = $plugin['instance'];
                 }
             }
             return $plugins;
@@ -197,10 +207,14 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
     public function getPlugins($type, $method, $scenario)
     {
         $this->_loadScopedData();
-        if (!isset($this->_data['processed'][$this->_omConfig->getInstanceType($type)][$method][$scenario])) {
+        $pluginMethodName = $scenario . ucfirst($method);
+        $realType = $this->_omConfig->getInstanceType($type);
+        if (!isset($this->_data['processed'][$realType])) {
             $this->_inheritPlugins($type);
         }
-        return $this->_data['processed'][$this->_omConfig->getInstanceType($type)][$method][$scenario];
+        return isset($this->_data['processed'][$realType][$pluginMethodName])
+            ? $this->_data['processed'][$realType][$pluginMethodName]
+            : array();
     }
 
     /**
