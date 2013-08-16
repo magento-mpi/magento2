@@ -14,7 +14,6 @@
                 <template>Magento_Bundle::catalog/product/view.phtml</template>
             </action>
             <block type="Magento_Bundle_Block_Catalog_Product_View" name="bundle.summary" as="bundleSummary" after="product.info.bundle" template="catalog/product/view/summary.phtml" translate="label">
-                <label>Bundle Product View Summary</label>
                 <block type="Magento_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
                 <block type="Magento_Catalog_Block_Product_View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
             </block>

@@ -16,7 +16,7 @@
                     <dataSource type="object">Magento_Newsletter_Model_Resource_Subscriber_Grid_Collection</dataSource>
                     <default_sort>subscriber_id</default_sort>
                     <default_dir>desc</default_dir>
-                    <use_ajax>1</use_ajax>>
+                    <use_ajax>1</use_ajax>
                 </arguments>
                 <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.newslettrer.subscriber.grid.massaction" as="grid.massaction">
                     <arguments>

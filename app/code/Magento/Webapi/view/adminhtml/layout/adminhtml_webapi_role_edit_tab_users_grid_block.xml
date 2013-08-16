@@ -43,7 +43,6 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
                         <arguments>
                             <id>in_role_users</id>
-                            <index>in_role_users</index>
                             <html_name>in_role_users</html_name>
                             <header_css_class>a-center</header_css_class>
                             <type>checkbox</type>

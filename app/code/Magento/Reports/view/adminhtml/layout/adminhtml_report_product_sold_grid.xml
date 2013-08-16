@@ -50,7 +50,6 @@
                     <type>number</type>
                     <index>ordered_qty</index>
                     <id>ordered_qty</id>
-                    <total>sum</total>
                     <column_css_class>col-qty</column_css_class>
                     <header_css_class>col-qty</header_css_class>
                 </arguments>

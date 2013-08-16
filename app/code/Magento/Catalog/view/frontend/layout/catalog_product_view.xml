@@ -61,7 +61,6 @@
                 <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
                 <block type="Magento_Core_Block_Template" name="product.info.container" as="options_container">
                     <block type="Magento_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml" translate="label">
-                        <label>Info Column Options Wrapper</label>
                         <block type="Magento_Catalog_Block_Product_View_Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
                             <action method="addOptionRenderer">
                                 <type>text</type>
@@ -87,7 +86,6 @@
                         <block type="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
                     </block>
                     <block type="Magento_Catalog_Block_Product_View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="product/view/options/wrapper/bottom.phtml" translate="label">
-                        <label>Bottom Block Options Wrapper</label>
                         <block type="Magento_Catalog_Block_Product_View" name="product.tierprices.additional" as="product.tierprices" template="product/view/tierprices.phtml"/>
                         <block type="Magento_Catalog_Block_Product_View" name="product.clone_prices" as="prices" template="product/view/price_clone.phtml"/>
                         <block type="Magento_Catalog_Block_Product_View" name="product.info.addtocart.additional" as="addtocart" template="product/view/addtocart.phtml"/>
