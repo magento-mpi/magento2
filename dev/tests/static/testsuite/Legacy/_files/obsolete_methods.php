@@ -471,6 +471,7 @@ return array(
     array('init', 'Mage_Core_Model_App'),
     array('init', 'Mage_Core_Model_Config'),
     array('initCache'),
+    array('initControllerRouters', 'Mage_Cms_Controller_Router'),
     array('initLabels', 'Mage_Catalog_Model_Resource_Eav_Attribute'),
     array('initSpecified', 'Mage_Core_Model_App'),
     array('insertProductPrice', 'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),

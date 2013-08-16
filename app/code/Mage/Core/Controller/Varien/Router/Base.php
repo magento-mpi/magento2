@@ -103,7 +103,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      */
     public function _getRoutes()
     {
-        $this->_routerConfig->getRoutes($this->_areaCode, $this->_routerId);
+        return $this->_routerConfig->getRoutes($this->_areaCode, $this->_routerId);
     }
 
     public function fetchDefault()
@@ -483,11 +483,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         $routes = $this->_getRoutes();
         $routeId = $this->getRouteByFrontName($frontName);
         if ($routeId && isset($routes[$routeId]) && isset($routes[$routeId]['modules'])) {
-
             $modules = $routes[$routeId]['modules'];
-            if (false === is_array($this->_modules[$frontName])) {
-                $modules = array($modules);
-            }
         }
         return $modules;
     }
@@ -515,7 +511,13 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      */
     public function getRouteByFrontName($frontName)
     {
-        return array_search($frontName, array_column($this->_getRoutes(), 'frontName', 'id'));
+        foreach ($this->_getRoutes() as $routeId => $routeData) {
+            if ($routeData['frontName'] == $frontName) {
+                return $routeId;
+            }
+        }
+
+        return false;
     }
 
     public function getControllerClassName($realModule, $controller)

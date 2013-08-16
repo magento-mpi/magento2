@@ -25,22 +25,10 @@ class Mage_Core_Controller_Varien_Router_Factory
 
     /**
      * @param string $className
-     * @param array $routerInfo
      * @return Mage_Core_Controller_Varien_Router_Abstract
      */
-    public function createRouter($className, array $routerInfo = array())
+    public function createRouter($className)
     {
-        $arguments = array(
-            'areaCode'       => null,
-            'baseController' => null,
-        );
-        if (isset($routerInfo['area'])) {
-            $arguments['areaCode'] = $routerInfo['area'];
-        }
-        if (isset($routerInfo['base_controller'])) {
-            $arguments['baseController'] = $routerInfo['base_controller'];
-        }
-
-        return $this->_objectManager->create($className, $arguments);
+        return $this->_objectManager->create($className);
     }
 }

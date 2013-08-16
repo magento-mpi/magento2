@@ -188,6 +188,7 @@
                 <admin>Mage_Backend_Controller_Router_Default</admin>
                 <standard>Mage_Core_Controller_Varien_Router_Base</standard>
                 <vde>Mage_DesignEditor_Controller_Varien_Router_Standard</vde>
+                <cms>Mage_Cms_Controller_Router</cms>
                 <default>Mage_Core_Controller_Varien_Router_Default</default>
             </value>
         </param>

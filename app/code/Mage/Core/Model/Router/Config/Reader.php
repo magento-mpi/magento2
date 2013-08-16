@@ -13,9 +13,9 @@ class Mage_Core_Model_Router_Config_Reader extends Magento_Config_Reader_Filesys
      * @var array
      */
     protected $_idAttributes = array(
-        '/config/routers'               => 'id',
-        '/config/routers/route'         => 'id',
-        '/config/routers/route/module'  => 'name'
+        '/config/router'               => 'id',
+        '/config/router/route'         => 'id',
+        '/config/router/route/module'  => 'name'
     );
 
     /**
@@ -30,7 +30,7 @@ class Mage_Core_Model_Router_Config_Reader extends Magento_Config_Reader_Filesys
         Mage_Core_Model_Router_Config_Converter $converter,
         Mage_Core_Model_Router_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
-        $fileName = 'router.xml'
+        $fileName = 'routes.xml'
     ) {
         parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, $fileName,
             $this->_idAttributes);
