@@ -144,6 +144,7 @@ class Mage_Webhook_Model_Resource_Job_Collection extends Mage_Core_Model_Resourc
 
             if (!count($this->getItems())) {
                 $this->getConnection()->commit();
+                return;
             }
 
             /** @var Mage_Webhook_Model_Job $job */
