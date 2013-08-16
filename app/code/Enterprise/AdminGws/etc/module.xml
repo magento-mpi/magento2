@@ -12,6 +12,7 @@
         <depends>
             <module name="Magento_Adminhtml" />
             <module name="Magento_Sales" />
+            <module name="Magento_User" />
         </depends>
     </module>
 </config>
