@@ -343,7 +343,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPUnit
             'subscriptionService' => $this->_mockSubSvc,
         );
 
-        /** Create SubscriptionController to test */
+        /** @var Mage_Webhook_Controller_Adminhtml_Webhook_Registration $registrationContr */
         $registrationContr = $this->_objectManagerHelper
             ->getObject('Mage_Webhook_Controller_Adminhtml_Webhook_Registration',
                 $regControllerParams);

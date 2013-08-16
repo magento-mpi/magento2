@@ -77,7 +77,7 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
                 array('subscriptionConfig' => $this->_config));
 
         $subscriptions   = $gridCollection->getItems();
-        $this->assertEquals(4, count($subscriptions));
+        $this->assertEquals(5, count($subscriptions));
     }
 
     /**
@@ -91,14 +91,38 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
             'Mage_Core_Model_Dir',
             array(
                 'baseDir' => BP,
-                'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'),
+                'dirs' => array(
+                    Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files',
+                    Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
+                ),
             )
         );
 
+        $moduleList = Mage::getObjectManager()->create('Mage_Core_Model_ModuleList', array(
+            'reader' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_Reader_Filesystem', array(
+                'fileResolver' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_FileResolver',
+                    array(
+                        'applicationDirs' => $dirs
+                    )
+                )
+            )),
+            'cache' => $this->getMock('Magento_Config_CacheInterface')
+        ));
+
+        /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
+        $moduleReader = Mage::getObjectManager()->create('Mage_Core_Model_Config_Modules_Reader', array(
+            'dirs' => $dirs,
+            'moduleList' => $moduleList
+        ));
+
+        /** @var Mage_Core_Model_Config_Loader_Modules $modulesLoader */
         $modulesLoader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules',
-            array('dirs' => $dirs)
-        );
+            'Mage_Core_Model_Config_Loader_Modules', array(
+                'fileReader' => $moduleReader
+        ));
+
+        $config = new Mage_Core_Model_Config_Base('<config />');
+        $modulesLoader->load($config);
 
         /**
          * Mock is used to disable caching, as far as Integration Tests Framework loads main
@@ -122,37 +146,17 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
             )
         );
 
-        $config = new Mage_Core_Model_Config_Base('<config />');
-        $modulesLoader->load($config);
-
-
-        $moduleList = Mage::getObjectManager()->create('Mage_Core_Model_ModuleList', array(
-            'reader' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_Reader_Filesystem', array(
-                'fileResolver' => Mage::getObjectManager()->create('Mage_Core_Model_Module_Declaration_FileResolver',
-                    array(
-                        'applicationDirs' => $dirs
-                    )
-                )
-            )),
-            'cache' => $this->getMock('Magento_Config_CacheInterface')
-        ));
-
-        /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create('Mage_Core_Model_Config_Modules_Reader', array(
-            'dirs' => $dirs,
+        /** @var Mage_Core_Model_Config $mageConfig */
+        $mageConfig = Mage::getObjectManager()->create('Mage_Core_Model_Config', array(
+            'storage' => $storage,
+            'moduleReader' => $moduleReader,
             'moduleList' => $moduleList
         ));
 
-
-        $mageConfig = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config',
-            array('storage' => $storage, 'moduleReader' => $moduleReader)
-        );
-
         /** @var Mage_Webhook_Model_Subscription_Config $config */
-        return Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription_Config',
-            array('mageConfig' => $mageConfig)
-        );
+        return Mage::getObjectManager()->create('Mage_Webhook_Model_Subscription_Config', array(
+            'mageConfig' => $mageConfig
+        ));
     }
 
     protected function _createSubscriptions()
