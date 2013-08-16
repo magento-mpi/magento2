@@ -21,15 +21,6 @@
         </resources>
     </global>
     <default>
-        <web>
-            <routers>
-                <vde>
-                    <area>frontend</area>
-                    <class>Mage_DesignEditor_Controller_Varien_Router_Standard</class>
-                    <base_controller>Mage_Core_Controller_Varien_Action</base_controller>
-                </vde>
-            </routers>
-        </web>
         <theme>
             <customization>
                 <quick_style_css>Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss</quick_style_css>

@@ -35,8 +35,10 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config_Scope $configScope
+     * @param Mage_Core_Model_Router_Config $routerConfig
      * @param string $areaCode
      * @param string $baseController
+     * @param string $routerId
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -44,10 +46,13 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config_Scope $configScope,
+        Mage_Core_Model_Router_Config $routerConfig,
         $areaCode,
-        $baseController
+        $baseController,
+        $routerId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $areaCode, $baseController);
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routerConfig, $areaCode,
+            $baseController, $routerId);
 
         $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
         if (empty($this->_areaFrontName)) {
@@ -155,18 +160,6 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     {
         return Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
-    }
-
-    /**
-     * Emulate custom admin url
-     *
-     * @param string $configArea
-     * @param bool $useRouterName
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function collectRoutes($configArea, $useRouterName)
-    {
-        parent::collectRoutes('admin', $useRouterName);
     }
 
     /**

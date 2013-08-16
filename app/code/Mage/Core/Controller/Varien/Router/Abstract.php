@@ -53,9 +53,9 @@ abstract class Mage_Core_Controller_Varien_Router_Abstract
         return $this->_front;
     }
 
-    public function getFrontNameByRoute($routeName)
+    public function getFrontNameByRoute($routeId)
     {
-        return $routeName;
+        return $routeId;
     }
 
     public function getRouteByFrontName($frontName)

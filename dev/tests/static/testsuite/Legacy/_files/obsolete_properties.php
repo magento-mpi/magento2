@@ -56,6 +56,7 @@ return array(
     array('_persistentCustomerGroupId'),
     array('_ratingOptionTable', 'Mage_Rating_Model_Resource_Rating_Option_Collection'),
     array('_readerFactory', 'Mage_Core_Model_ObjectManager_ConfigLoader'),
+    array('_routes', 'Mage_Core_Controller_Varien_Router_Base'),
     array('_saveTemplateFlag', 'Mage_Newsletter_Model_Queue'),
     array('_searchTextFields'),
     array('_setAttributes', 'Mage_Catalog_Model_Product_Type_Abstract'),

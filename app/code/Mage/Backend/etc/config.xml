@@ -13,13 +13,6 @@
     <global>
         <areas>
             <adminhtml>
-                <base_controller>Mage_Backend_Controller_ActionAbstract</base_controller>
-                <routers>
-                    <admin>
-                        <class>Mage_Backend_Controller_Router_Default</class>
-                    </admin>
-                </routers>
-                <frontName>backend</frontName>
                 <auth />
             </adminhtml>
         </areas>

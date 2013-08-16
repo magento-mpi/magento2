@@ -34,6 +34,13 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     protected $_defaults = array();
 
     /**
+     * Available router classes
+     *
+     * @var array
+     */
+    protected $_routerTypes = array();
+
+    /**
      * Available routers array
      *
      * @var array
@@ -43,17 +50,20 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     /**
      * @param Mage_Core_Controller_Varien_Router_Factory $routerFactory
      * @param Mage_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param array $routerTypes
      * @param array $data
      */
     public function __construct(
         Mage_Core_Controller_Varien_Router_Factory $routerFactory,
         Mage_Core_Model_Url_RewriteFactory $rewriteFactory,
+        $routerTypes,
         array $data = array()
     ) {
         parent::__construct($data);
 
         $this->_routerFactory  = $routerFactory;
         $this->_rewriteFactory = $rewriteFactory;
+        $this->_routersTypes = $routerTypes;
     }
 
     public function setDefault($key, $value=null)
@@ -143,31 +153,12 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     {
         Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
-        $routersInfo = array_merge(
-            Mage::app()->getConfig()->getRouters(),
-            Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH) ?: array()
-        );
-
-        Magento_Profiler::start('collect_routers');
-        foreach ($routersInfo as $routerCode => $routerInfo) {
-            if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
-                continue;
-            }
-            if (isset($routerInfo['class'])) {
-                $router = $this->_routerFactory->createRouter($routerInfo['class'], $routerInfo);
-                if (isset($routerInfo['area'])) {
-                    $router->collectRoutes($routerInfo['area'], $routerCode);
-                }
-                $this->addRouter($routerCode, $router);
-            }
+        foreach ($this->_routersTypes as $routerCode => $routerClass) {
+            $router = $this->_routerFactory->createRouter($routerClass);
+            $this->addRouter($routerCode, $router);
         }
-        Magento_Profiler::stop('collect_routers');
 
         Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
-
-        // Add default router at the last
-        $default = $this->_routerFactory->createRouter('Mage_Core_Controller_Varien_Router_Default');
-        $this->addRouter('default', $default);
 
         return $this;
     }
@@ -240,18 +231,18 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
         Magento_Profiler::stop('config_url_rewrite');
     }
 
-    public function getRouterByRoute($routeName)
+    public function getRouterByRoute($routeId)
     {
         // empty route supplied - return base url
         if (empty($routeName)) {
             $router = $this->getRouter('standard');
-        } elseif ($this->getRouter('admin') && $this->getRouter('admin')->getFrontNameByRoute($routeName)) {
+        } elseif ($this->getRouter('admin') && $this->getRouter('admin')->getFrontNameByRoute($routeId)) {
             // try standard router url assembly
             $router = $this->getRouter('admin');
-        } elseif ($this->getRouter('standard')->getFrontNameByRoute($routeName)) {
+        } elseif ($this->getRouter('standard')->getFrontNameByRoute($routeId)) {
             // try standard router url assembly
             $router = $this->getRouter('standard');
-        } elseif ($router = $this->getRouter($routeName)) {
+        } elseif ($router = $this->getRouter($routeId)) {
             // try custom router url assembly
         } else {
             // get default router url
@@ -331,11 +322,11 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
         $startPos = strpos($url, '{');
         if ($startPos!==false) {
             $endPos = strpos($url, '}');
-            $routeName = substr($url, $startPos+1, $endPos-$startPos-1);
-            $router = $this->getRouterByRoute($routeName);
+            $routeId = substr($url, $startPos+1, $endPos-$startPos-1);
+            $router = $this->getRouterByRoute($routeId);
             if ($router) {
-                $fronName = $router->getFrontNameByRoute($routeName);
-                $url = str_replace('{'.$routeName.'}', $fronName, $url);
+                $frontName = $router->getFrontNameByRoute($routeId);
+                $url = str_replace('{'.$routeId.'}', $frontName, $url);
             }
         }
         return $url;
