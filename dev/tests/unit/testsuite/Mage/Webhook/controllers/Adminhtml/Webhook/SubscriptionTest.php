@@ -106,15 +106,15 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit
         $this->_mockTranslateModel->expects($this->at(0))
             ->method('translate')
             ->with($this->equalTo(
-                    array(new Mage_Core_Model_Translate_Expr('System'))));
+                    array(new Mage_Core_Model_Translate_Expr('System', 'Mage_Webhook'))));
         $this->_mockTranslateModel->expects($this->at(1))
             ->method('translate')
             ->with($this->equalTo(
-                    array(new Mage_Core_Model_Translate_Expr('Web Services'))));
+                    array(new Mage_Core_Model_Translate_Expr('Web Services', 'Mage_Webhook'))));
         $this->_mockTranslateModel->expects($this->at(2))
             ->method('translate')
             ->with($this->equalTo(
-                    array(new Mage_Core_Model_Translate_Expr('WebHook Subscriptions'))));
+                    array(new Mage_Core_Model_Translate_Expr('WebHook Subscriptions', 'Mage_Webhook'))));
 
         // renderLayout
         $this->_subscriptionContr = $this->_createSubscriptionController();
@@ -140,7 +140,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit
         $this->_verifyLoadAndRenderLayout();
 
         // verify title is 'Edit Subscription'
-        $expected = new Mage_Core_Model_Translate_Expr('Edit Subscription');
+        $expected = new Mage_Core_Model_Translate_Expr('Edit Subscription', 'Mage_Webhook');
         $this->_mockTranslateModel->expects($this->at(3))
             ->method('translate')
             ->with($this->equalTo(
@@ -158,7 +158,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit
         $this->_verifyLoadAndRenderLayout();
 
         // verify title is 'Add Subscription'
-        $expected = new Mage_Core_Model_Translate_Expr('Add Subscription');
+        $expected = new Mage_Core_Model_Translate_Expr('Add Subscription', 'Mage_Webhook');
         $this->_mockTranslateModel->expects($this->at(3))
             ->method('translate')
             ->with($this->equalTo(
