@@ -1,5 +1,7 @@
 <?php
 /**
+ * Cache configuration model. Provides cache configuration data to the application
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

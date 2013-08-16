@@ -437,18 +437,8 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      */
     protected function _validateControllerClassName($realModule, $controller)
     {
-        $controllerFileName = $this->getControllerFileName($realModule, $controller);
-        if (!$this->validateControllerFileName($controllerFileName)) {
-            return false;
-        }
-
         $controllerClassName = $this->getControllerClassName($realModule, $controller);
         if (!$controllerClassName) {
-            return false;
-        }
-
-        // include controller file if needed
-        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
             return false;
         }
 
@@ -528,33 +518,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         return array_search($frontName, array_column($this->_getRoutes(), 'frontName', 'id'));
     }
 
-    public function getControllerFileName($realModule, $controller)
-    {
-        $parts = explode('_', $realModule);
-        $realModule = implode('_', array_splice($parts, 0, 2));
-        $file = Mage::getModuleDir('controllers', $realModule);
-        if (count($parts)) {
-            $file .= DS . implode(DS, $parts);
-        }
-        $file .= DS . uc_words($controller, DS) . 'Controller.php';
-        return $file;
-    }
-
-    public function validateControllerFileName($fileName)
-    {
-        if ($fileName
-            && $this->_filesystem->isFile($fileName)
-            && $this->_filesystem->isReadable($fileName)
-            && false === strpos($fileName, '//')
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     public function getControllerClassName($realModule, $controller)
     {
-        $class = $realModule . '_' . uc_words($controller) . 'Controller';
+        $class = $realModule . '_' . 'Controller'  . '_' . uc_words($controller);
         return $class;
     }
 

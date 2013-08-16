@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Mage_Theme_Adminhtml_System_Design_ThemeControllerTest extends Mage_Backend_Utility_Controller
+class Mage_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Mage_Backend_Utility_Controller
 {
     /** @var Magento_Filesystem */
     protected $_filesystem;

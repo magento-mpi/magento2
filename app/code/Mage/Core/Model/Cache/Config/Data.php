@@ -1,5 +1,7 @@
 <?php
 /**
+ * Cache configuration data container. Provides cache configuration data based on current config scope
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
