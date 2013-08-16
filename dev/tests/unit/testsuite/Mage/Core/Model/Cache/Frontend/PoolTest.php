@@ -19,11 +19,6 @@ class Mage_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        // Load config from fixture file
-        $cacheConfig = new Mage_Core_Model_Config_Primary(__DIR__, array(Mage::PARAM_APP_DIRS => array(
-            Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
-        )));
-
         // Init frontend factory
         $frontendFactory = $this->getMock('Mage_Core_Model_Cache_Frontend_Factory', array(), array(), '', false);
 
@@ -46,8 +41,17 @@ class Mage_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
                 ))
             );
 
+        $advancedOptions = array(
+            'resource1' => array('r1d1' => 'value1', 'r1d2' => 'value2'),
+            'resource2' => array('r2d1' => 'value1', 'r2d2' => 'value2'),
+        );
+
+        $defaultOptions = array(
+            'data1' => 'value1',
+            'data2' => 'value2',
+        );
         // Create model
-        $this->_model = new Mage_Core_Model_Cache_Frontend_Pool($cacheConfig, $frontendFactory);
+        $this->_model = new Mage_Core_Model_Cache_Frontend_Pool($frontendFactory, $defaultOptions, $advancedOptions);
     }
 
     /**
@@ -60,10 +64,7 @@ class Mage_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('create')
         ;
-        new Mage_Core_Model_Cache_Frontend_Pool(
-            $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false),
-            $frontendFactory
-        );
+        new Mage_Core_Model_Cache_Frontend_Pool($frontendFactory);
     }
 
     public function testCurrent()

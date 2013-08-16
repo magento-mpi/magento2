@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Reports>
-            <version>1.6.0.0.2</version>
-            <active>true</active>
-            <depends>
-                <Mage_Customer />
-                <Mage_Catalog />
-                <Mage_Sales />
-                <Mage_Cms />
-            </depends>
-        </Mage_Reports>
-    </modules>
     <global>
         <resources>
             <reports_setup>

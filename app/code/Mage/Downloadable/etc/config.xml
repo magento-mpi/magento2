@@ -10,23 +10,13 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Downloadable>
-            <version>1.6.0.0.3</version>
-            <active>true</active>
-            <depends>
-                <Mage_Catalog />
-                <!--<Mage_Sales />-->
-            </depends>
-        </Mage_Downloadable>
-    </modules>
     <global>
         <sales>
             <quote>
                 <item>
                     <product_attributes>
-                        <links_purchased_separately/>
-                        <links_title/>
+                        <links_purchased_separately />
+                        <links_title />
                     </product_attributes>
                 </item>
             </quote>
@@ -53,12 +43,12 @@
                     </downloadable>
                     <configurable>
                         <allow_product_types>
-                            <downloadable/>
+                            <downloadable />
                         </allow_product_types>
                     </configurable>
                     <grouped>
                         <allow_product_types>
-                            <downloadable/>
+                            <downloadable />
                         </allow_product_types>
                     </grouped>
                 </type>
@@ -94,7 +84,7 @@
             <order>
                 <create>
                     <available_product_types>
-                        <downloadable/>
+                        <downloadable />
                     </available_product_types>
                 </create>
             </order>

@@ -8,16 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_BannerCustomerSegment>
-            <version>1.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Enterprise_Banner />
-                <Enterprise_CustomerSegment />
-            </depends>
-        </Enterprise_BannerCustomerSegment>
-    </modules>
     <global>
         <resources>
             <enterprise_bannercustomersegment_setup>

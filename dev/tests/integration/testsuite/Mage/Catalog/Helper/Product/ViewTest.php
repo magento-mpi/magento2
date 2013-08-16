@@ -40,7 +40,6 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'Mage_Catalog_Controller_Product',
             array(
                 'context'  => $context,
-                'areaCode' => 'frontend',
             )
         );
     }
@@ -97,7 +96,6 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             array(
                 'request'  => new Magento_Test_Request,
                 'response' => new Magento_Test_Response,
-                'areaCode' => 'frontend'
             )
         );
         $this->_helper->prepareAndRender(10, $controller);

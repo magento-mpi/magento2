@@ -29,7 +29,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
         parent::setUp();
 
         $options = array(
-            'areaCode'        => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
+            'areaCode'        => Mage_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
         );
         $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
