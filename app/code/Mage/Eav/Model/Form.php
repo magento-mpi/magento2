@@ -395,7 +395,7 @@ abstract class Mage_Eav_Model_Form
     {
         if (is_null($this->_validator)) {
             $configFiles = Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
-                ->getModuleConfigurationFiles('validation.xml');
+                ->getConfigurationFiles('validation.xml');
             $validatorFactory = new Magento_Validator_Config($configFiles);
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 

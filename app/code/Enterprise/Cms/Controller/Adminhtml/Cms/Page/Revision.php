@@ -20,6 +20,23 @@
 class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_Cms_Controller_Adminhtml_Cms_Page
 {
     /**
+     * @var Mage_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
+     * @param Mage_Backend_Controller_Context $context
+     * @param Mage_Core_Model_Config_Scope $configScope
+     */
+    public function __construct(
+        Mage_Backend_Controller_Context $context,
+        Mage_Core_Model_Config_Scope $configScope
+    ) {
+        $this->_configScope = $configScope;
+        parent::__construct($context);
+    }
+
+    /**
      * Init actions
      *
      * @return Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision
@@ -398,7 +415,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
     public function preDispatch()
     {
         if ($this->getRequest()->getActionName() == 'drop') {
-            $this->_currentArea = 'frontend';
+            $this->_configScope->setCurrentScope('frontend');
         }
         parent::preDispatch();
     }

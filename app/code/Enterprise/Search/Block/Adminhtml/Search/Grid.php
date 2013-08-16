@@ -15,174 +15,59 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Backend_Block_Widget_Grid
 {
     /**
-     * Init Grid default properties
-     *
+     * @var Enterprise_Search_Model_Adminhtml_Search_Grid_Options
      */
-    protected function _construct()
-    {
-            parent::_construct();
-            $this->setId('catalog_search_grid');
-            $this->setDefaultSort('name');
-            $this->setDefaultDir('ASC');
-            $this->setSaveParametersInSession(true);
-            $this->setUseAjax(true);
-    }
+    protected $_options;
 
-    public function getQuery()
-    {
-        return Mage::registry('current_catalog_search');
+    /**
+     * @var Mage_Core_Model_Registry
+     */
+    protected $_registryManager;
+
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Url $urlModel,
+        Enterprise_Search_Model_Adminhtml_Search_Grid_Options $options,
+        Mage_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+        $this->_options = $options;
+        $this->_registryManager = $registry;
+        $this->setDefaultFilter(array('query_id_selected' => 1));
     }
 
     /**
-     * Prepare collection for Grid
+     *  Retrieve a value from registry by a key
      *
-     * @return Enterprise_Search_Block_Adminhtml_Search_Grid
+     * @return mixed
      */
-    protected function _prepareCollection()
+    public function getQuery()
     {
-        $this->setDefaultFilter(array('query_id_selected' => 1));
-
-        $collection = Mage::getModel('Mage_CatalogSearch_Model_Query')
-            ->getResourceCollection();
-
-        $queryId = $this->getQuery()->getId();
-        if ($queryId) {
-            $collection->addFieldToFilter('query_id', array('nin' => $this->getQuery()->getId()));
-        }
-        $this->setCollection($collection);
-        return parent::_prepareCollection();
+        return $this->_registryManager->registry('current_catalog_search');
     }
 
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for query selected flag
-        if ( $column->getId() == 'query_id_selected' && $this->getQuery()->getId() ) {
-            $selectedIds = $this->_getSelectedQueries();
+        if ($column->getId() == 'query_id_selected' && $this->getQuery()->getId()) {
+            $selectedIds = $this->getSelectedQueries();
             if (empty($selectedIds)) {
                 $selectedIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('query_id', array('in'  => $selectedIds));
-            }
-            elseif(!empty($selectedIds)) {
+                $this->getCollection()->addFieldToFilter('query_id', array('in' => $selectedIds));
+            } elseif (!empty($selectedIds)) {
                 $this->getCollection()->addFieldToFilter('query_id', array('nin' => $selectedIds));
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
-    }
-
-    /**
-     * Prepare Grid columns
-     *
-     * @return Enterprise_Search_Block_Adminhtml_Search_Grid
-     */
-    protected function _prepareColumns()
-    {
-        $this->addColumn('query_id_selected', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'query_id_selected',
-            'values'    => $this->_getSelectedQueries(),
-            'align'     => 'center',
-            'index'     => 'query_id'
-        ));
-
-        $this->addColumn('query_id', array(
-            'header'    => __('ID'),
-            'width'     => '50px',
-            'index'     => 'query_id',
-        ));
-
-        $this->addColumn('search_query', array(
-            'header'    => __('Search Query'),
-            'index'     => 'query_text',
-        ));
-
-        if (!Mage::app()->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
-                'header'        => __('Store'),
-                'index'         => 'store_id',
-                'type'          => 'store',
-                'store_view'    => true,
-                'sortable'      => false
-            ));
-        }
-
-        $this->addColumn('num_results', array(
-            'header'    => __('Results'),
-            'index'     => 'num_results',
-            'type'      => 'number'
-        ));
-
-        $this->addColumn('popularity', array(
-            'header'    => __('Uses'),
-            'index'     => 'popularity',
-            'type'      => 'number'
-        ));
-
-        $this->addColumn('synonym_for', array(
-            'header'    => __('Synonym'),
-            'align'     => 'left',
-            'index'     => 'synonym_for',
-            'width'     => '160px'
-        ));
-
-        $this->addColumn('redirect', array(
-            'header'    => __('Redirect URL'),
-            'align'     => 'left',
-            'index'     => 'redirect',
-            'width'     => '200px'
-        ));
-
-        $this->addColumn('display_in_terms', array(
-            'header'=>__('Suggested Term'),
-            'sortable'=>true,
-            'index'=>'display_in_terms',
-            'type' => 'options',
-            'width' => '100px',
-            'options' => array(
-                '1' => __('Yes'),
-                '0' => __('No'),
-            ),
-            'align' => 'left',
-        ));
-
-        $this->addColumn('action',
-            array(
-                'header'    => __('Action'),
-                'width'     => '100px',
-                'type'      => 'action',
-                'getter'    => 'getId',
-                'actions'   => array(array(
-                    'caption'   => __('Edit'),
-                    'url'       => array(
-                        'base'=>'*/*/edit'
-                    ),
-                    'field'   => 'id'
-                )),
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'catalog',
-        ));
-
-
-        return parent::_prepareColumns();
-    }
-
-    /**
-     * Retrieve Row Click callback URL
-     *
-     * @return string
-     */
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
 
     /**
@@ -190,30 +75,19 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
      *
      * @return array
      */
-    public function _getSelectedQueries()
+    public function getSelectedQueries()
     {
-        $queries = $this->getRequest()->getPost('selected_queries');
-
-        $currentQueryId = $this->getQuery()->getId();
-        $queryIds = array();
-        if (is_null($queries) && !empty($currentQueryId)) {
-            $queryIds = Mage::getResourceModel('Enterprise_Search_Model_Resource_Recommendations')
-                ->getRelatedQueries($currentQueryId);
-        }
-
-        return $queryIds;
+        return $this->_options->toOptionArray();
     }
 
-    public function getGridUrl()
-    {
-        return $this->getUrl('*/*/relatedGrid', array('_current'=>true));
-    }
-
+    /**
+     * @return string
+     */
     public function getQueriesJson()
     {
-        $queries = array_flip($this->_getSelectedQueries());
+        $queries = array_flip($this->getSelectedQueries());
         if (!empty($queries)) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($queries);
+            return $this->helper('Mage_Core_Helper_Data')->jsonEncode($queries);
         }
         return '{}';
     }

@@ -29,7 +29,7 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_readerMock;
+    protected $_structureDataMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -49,8 +49,8 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         $this->_tabIteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Tab', array(), array(), '', false
         );
-        $this->_readerMock = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Reader', array(), array(), '', false
+        $this->_structureDataMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Data', array(), array(), '', false
         );
         $this->_scopeDefinerMock = $this->getMock(
             'Mage_Backend_Model_Config_ScopeDefiner', array(), array(), '', false
@@ -59,11 +59,11 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
 
         $filePath = dirname(__DIR__) . '/_files';
         $this->_structureData = require $filePath . '/converted_config.php';
-        $this->_readerMock->expects($this->once())->method('getData')
+        $this->_structureDataMock->expects($this->once())->method('get')
             ->will($this->returnValue($this->_structureData['config']['system'])
         );
         $this->_model = new Mage_Backend_Model_Config_Structure(
-            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
+            $this->_structureDataMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
         );
     }
 
@@ -73,21 +73,21 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         unset($this->_scopeDefinerMock);
         unset($this->_structureData);
         unset($this->_tabIteratorMock);
-        unset($this->_readerMock);
+        unset($this->_structureDataMock);
         unset($this->_model);
     }
 
     public function testGetTabsBuildsSectionTree()
     {
-        $this->_readerMock = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Reader', array(), array(), '', false
+        $this->_structureDataMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Data', array(), array(), '', false
         );
-        $this->_readerMock->expects($this->any())->method('getData')->will($this->returnValue(
+        $this->_structureDataMock->expects($this->any())->method('get')->will($this->returnValue(
             array('sections' => array('section1' => array('tab' => 'tab1')), 'tabs' => array('tab1' => array()))
         ));
         $expected = array('tab1' => array('children' => array('section1' => array('tab' => 'tab1'))));
         $model = new Mage_Backend_Model_Config_Structure(
-            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
+            $this->_structureDataMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
         );
         $this->_tabIteratorMock->expects($this->once())->method('setElements')->with($expected);
         $this->assertEquals($this->_tabIteratorMock, $model->getTabs());

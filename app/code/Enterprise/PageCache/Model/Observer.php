@@ -44,11 +44,9 @@ class Enterprise_PageCache_Model_Observer
     protected $_isEnabled;
 
     /**
-     * Application cache model
-     *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Mage_Core_Model_Cache_StateInterface
      */
-    protected $_cache;
+    protected $_cacheState;
 
     /**
      * @var Enterprise_PageCache_Model_Cookie
@@ -87,7 +85,7 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
@@ -97,7 +95,7 @@ class Enterprise_PageCache_Model_Observer
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
-        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_Cache_StateInterface $cacheState,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Cookie $cookie,
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
@@ -105,13 +103,13 @@ class Enterprise_PageCache_Model_Observer
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
-        $this->_cache = $cache;
+        $this->_cacheState = $cacheState;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
         $this->_restriction = $restriction;
         $this->_requestIdentifier = $_requestIdentifier;
         $this->_designRules = $designRules;
-        $this->_isEnabled = $this->_cache->canUse('full_page');
+        $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
     }
 
     /**
@@ -161,7 +159,7 @@ class Enterprise_PageCache_Model_Observer
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
-            $this->_cache->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
+            $this->_cacheState->setEnabled(Mage_Core_Block_Abstract::CACHE_GROUP, false); // disable blocks cache
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         } else {
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
@@ -303,7 +301,9 @@ class Enterprise_PageCache_Model_Observer
      */
     public function invalidateCache()
     {
-        Mage::app()->getCacheInstance()->invalidateType('full_page');
+        /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList->invalidate('full_page');
         return $this;
     }
 
@@ -372,8 +372,8 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $listItems = Mage::helper('Mage_Catalog_Helper_Product_Compare')->getItemCollection();
-        $previouseList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
-        $previouseList = (empty($previouseList)) ? array() : explode(',', $previouseList);
+        $previousList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
+        $previousList = (empty($previousList)) ? array() : explode(',', $previousList);
 
         $ids = array();
         foreach ($listItems as $item) {
@@ -389,11 +389,11 @@ class Enterprise_PageCache_Model_Observer
             : explode(',', $recentlyComparedProducts);
 
         //Adding products deleted from compare list to "recently compared products"
-        $deletedProducts = array_diff($previouseList, $ids);
+        $deletedProducts = array_diff($previousList, $ids);
         $recentlyComparedProducts = array_merge($recentlyComparedProducts, $deletedProducts);
 
         //Removing products from recently product list if it's present in compare list
-        $addedProducts = array_diff($ids, $previouseList);
+        $addedProducts = array_diff($ids, $previousList);
         $recentlyComparedProducts = array_diff($recentlyComparedProducts, $addedProducts);
 
         $recentlyComparedProducts = array_unique($recentlyComparedProducts);

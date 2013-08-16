@@ -43,12 +43,15 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
             ),
         ));
 
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+
         foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
                 'name'=>'enable['.$type.']',
                 'label'=>__($label),
                 'value'=>1,
-                'checked'=>(int)Mage::app()->useCache($type),
+                'checked'=>(int)$cacheState->isEnabled($type),
                 //'options'=>$options,
             ));
         }

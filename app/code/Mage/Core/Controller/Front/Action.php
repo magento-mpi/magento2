@@ -19,13 +19,6 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     const SESSION_NAMESPACE = 'frontend';
 
     /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea = 'frontend';
-
-    /**
      * Namespace for session.
      *
      * @var string

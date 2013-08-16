@@ -15,9 +15,9 @@
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @var Magento_Acl_Loader_Resource_ConfigReaderInterface
+     * @var Magento_Acl_Resource_ProviderInterface
      */
-    protected $_reader;
+    protected $_resourceProvider;
 
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Rule
@@ -43,20 +43,20 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Magento_Acl_Loader_Resource_ConfigReaderInterface $configReader
+     * @param Magento_Acl_Resource_ProviderInterface $resourceProvider
      * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
      * @param Mage_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Magento_Acl_Loader_Resource_ConfigReaderInterface $configReader,
+        Magento_Acl_Resource_ProviderInterface $resourceProvider,
         Mage_Webapi_Model_Resource_Acl_Rule $ruleResource,
         Mage_Core_Model_Acl_RootResource $rootResource,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_reader = $configReader;
+        $this->_resourceProvider = $resourceProvider;
         $this->_ruleResource = $ruleResource;
         $this->_rootResource = $rootResource;
     }
@@ -70,9 +70,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     {
         /** @var $translator Mage_Webapi_Helper_Data */
         $translator = $this->helper('Mage_Webapi_Helper_Data');
-        $resources = $this->_reader->getAclResources();
+        $resources = $this->_resourceProvider->getAclResources();
         $this->_aclResourcesTree = $this->_mapResources(
-            isset($resources[1]['children']) ? $resources[1]['children'] : array(),
+            $resources[1]['children'],
             $translator
         );
         return parent::_prepareForm();

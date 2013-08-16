@@ -67,7 +67,16 @@
                             <align>left</align>
                             <width>80px</width>
                             <type>options</type>
-                            <options type="options">Enterprise_Reminder_Model_Reminder_Options_Status</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true" module="Enterprise_Reminder">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>0</value>
+                                    <label translate="true" module="Enterprise_Reminder">Inactive</label>
+                                </inactive>
+                            </options>
                             <index>is_active</index>
                         </arguments>
                     </block>

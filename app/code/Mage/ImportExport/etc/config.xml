@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_ImportExport>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends>
-                <Mage_Catalog/>
-            </depends>
-        </Mage_ImportExport>
-    </modules>
     <global>
         <resources>
             <importexport_setup>

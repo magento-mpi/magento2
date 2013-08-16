@@ -58,7 +58,17 @@
                             <header translate="true">Listed</header>
                             <index>is_listed</index>
                             <type>options</type>
-                            <options type="options">Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed</options>
+                            <type>options</type>
+                            <options>
+                                <yes>
+                                    <value>1</value>
+                                    <label translate="true" module="Enterprise_GiftRegistry">Yes</label>
+                                </yes>
+                                <no>
+                                    <value>0</value>
+                                    <label translate="true" module="Enterprise_GiftRegistry">No</label>
+                                </no>
+                            </options>
                         </arguments>
                     </block>
                 </block>

@@ -18,9 +18,9 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency
     private $_subject;
 
     /**
-     * @var Mage_Core_Model_Config_Modules
+     * @var Mage_Core_Model_ModuleListInterface
      */
-    private $_config;
+    private $_moduleList;
 
     /**
      * Fully-qualified names of modules, ordered by their priority in the system
@@ -31,14 +31,14 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency
 
     /**
      * @param Mage_Core_Model_Layout_File_SourceInterface $subject
-     * @param Mage_Core_Model_Config_Modules $config
+     * @param Mage_Core_Model_ModuleListInterface $listInterface
      */
     public function __construct(
         Mage_Core_Model_Layout_File_SourceInterface $subject,
-        Mage_Core_Model_Config_Modules $config
+        Mage_Core_Model_ModuleListInterface $listInterface
     ) {
         $this->_subject = $subject;
-        $this->_config = $config;
+        $this->_moduleList = $listInterface;
     }
 
     /**
@@ -83,9 +83,8 @@ class Mage_Core_Model_Layout_File_Source_Decorator_ModuleDependency
     {
         if ($this->_orderedModules === null) {
             $this->_orderedModules = array();
-            /** @var SimpleXMLElement $moduleNode */
-            foreach ($this->_config->getModuleConfig()->children() as $moduleNode) {
-                $this->_orderedModules[] = $moduleNode->getName();
+            foreach ($this->_moduleList->getModules() as $module) {
+                $this->_orderedModules[] = $module['name'];
             }
         }
         $result = array_search($moduleName, $this->_orderedModules);

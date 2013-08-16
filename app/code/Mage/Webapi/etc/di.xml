@@ -10,7 +10,7 @@
 <config>
     <preference for="Magento_Authorization_Policy" type="Magento_Authorization_Policy_Acl" />
     <preference for="Magento_Authorization_RoleLocator" type="Mage_Webapi_Model_Authorization_RoleLocator" />
-    <preference for="Magento_Acl_Loader_Resource_ConfigReader_FileListInterface" type="Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader_FileList" />
+    <preference for="Mage_Webapi_Model_Acl_Resource_ProviderInterface" type="Mage_Webapi_Model_Acl_Resource_Provider"/>
     <type name="Magento_Acl_Builder">
         <param name="resourceLoader">
             <instance type="Mage_Webapi_Model_Authorization_Loader_Resource" />
@@ -57,8 +57,18 @@
     <type name="Magento_Code_Scanner_DirectoryScanner" shared="false" />
     <type name="Magento_Server_Reflection" shared="false" />
     <type name="Mage_Webapi_Model_Authorization_Loader_Resource">
-        <param name="reader">
-            <instance type="Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader" />
+        <param name="resourceProvider">
+            <instance type="Mage_Webapi_Model_Acl_Resource_Provider" />
+        </param>
+    </type>
+    <type name="Mage_Webapi_Model_Acl_Resource_Provider">
+        <param name="configReader">
+            <instance type="Mage_Webapi_Model_Acl_Resource_Config_Reader_Filesystem" />
+        </param>
+    </type>
+    <type name="Mage_Webapi_Model_Acl_Resource_Config_Reader_Filesystem">
+        <param name="converter">
+            <instance type="Mage_Webapi_Model_Acl_Resource_Config_Converter_Dom" />
         </param>
     </type>
 </config>

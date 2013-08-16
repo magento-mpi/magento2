@@ -33,15 +33,13 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
      * @param Mage_Backend_Controller_Context $context
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Backend_Model_Config_Structure $configStructure,
-        Mage_Backend_Model_Auth_StorageInterface $authSession,
-        $areaCode = null
+        Mage_Backend_Model_Auth_StorageInterface $authSession
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_configStructure = $configStructure;
         $this->_authSession = $authSession;
     }

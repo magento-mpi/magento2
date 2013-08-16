@@ -19,9 +19,9 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
     protected $_authorization;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_Cache_TypeListInterface
      */
-    protected $_cache;
+    protected $_cacheTypeList;
 
     /**
      * @var Mage_Core_Model_Factory_Helper
@@ -31,18 +31,18 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
     /**
      * @param Magento_AuthorizationInterface $authorization
      * @param Mage_Core_Model_UrlInterface $urlBuilder
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
         Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_authorization = $authorization;
         $this->_urlBuilder = $urlBuilder;
-        $this->_cache = $cache;
+        $this->_cacheTypeList = $cacheTypeList;
         $this->_helperFactory = $helperFactory;
     }
 
@@ -54,7 +54,7 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
     protected function _getCacheTypesForRefresh()
     {
         $output = array();
-        foreach ($this->_cache->getInvalidatedTypes() as $type) {
+        foreach ($this->_cacheTypeList->getInvalidated() as $type) {
             $output[] = $type->getCacheType();
         }
         return $output;

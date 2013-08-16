@@ -92,7 +92,16 @@
                             <index>is_active</index>
                             <align>left</align>
                             <type>options</type>
-                            <options type="options">Enterprise_TargetRule_Model_Rule_Options_Status</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true" module="Enterprise_TargetRule">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>0</value>
+                                    <label translate="true" module="Enterprise_TargetRule">Inactive</label>
+                                </inactive>
+                            </options>
                             <width>1px</width>
                         </arguments>
                     </block>

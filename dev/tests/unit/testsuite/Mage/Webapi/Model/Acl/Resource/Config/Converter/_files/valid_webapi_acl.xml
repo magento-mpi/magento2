@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <mapping>
+            <!-- commented text -->
+            <resource id="Custom_Module::resource_child" parent="Custom_Module::parent_resource" />
+            <resource id="Custom_Module::resource_two" parent="Custom_Module::resource_one" />
+    </mapping>
+    <acl>
+        <resources>
+            <!-- commented text -->
+            <resource id="Custom_Module::resource_one" title="Resource One Title" sortOrder="20" />
+        </resources>
+    </acl>
+</config>

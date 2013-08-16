@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Paypal>
-            <version>1.6.0.3</version>
-            <active>true</active>
-            <depends>
-                <Mage_Paygate />
-                <Mage_Checkout />
-                <Mage_Sales />
-            </depends>
-        </Mage_Paypal>
-    </modules>
     <global>
         <resources>
             <paypal_setup>

@@ -437,7 +437,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            Mage::app()->getCacheInstance()->invalidateType(array_keys($types));
+            /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
+            $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList->invalidate($types);
         }
         return $this;
     }

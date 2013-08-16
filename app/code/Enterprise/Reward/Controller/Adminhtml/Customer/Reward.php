@@ -39,11 +39,8 @@ class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Mage_Adminh
      */
     public function historyAction()
     {
-        $customerId = $this->getRequest()->getParam('id', 0);
-        $history = $this->getLayout()
-            ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History', '',
-                array('data' => array('customer_id' => $customerId)));
-        $this->getResponse()->setBody($history->toHtml());
+        $this->loadLayout(false)
+            ->renderLayout();
     }
 
     /**
@@ -52,11 +49,8 @@ class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Mage_Adminh
      */
     public function historyGridAction()
     {
-        $customerId = $this->getRequest()->getParam('id', 0);
-        $history = $this->getLayout()
-            ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid', '',
-                array('data' => array('customer_id' => $customerId)));
-        $this->getResponse()->setBody($history->toHtml());
+        $this->loadLayout(false)
+            ->renderLayout();
     }
 
     /**

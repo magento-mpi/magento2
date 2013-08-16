@@ -70,7 +70,16 @@
                             <header translate='true' module='Mage_Adminhtml'>Status</header>
                             <index>is_active</index>
                             <type>options</type>
-                            <options type="options">Mage_Api_Model_Resource_User_Options_Statuses</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true" module="Mage_Backend">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>0</value>
+                                    <label translate="true" module="Mage_Backend">Inactive</label>
+                                </inactive>
+                            </options>
                         </arguments>
                     </block>
                 </block>

@@ -38,8 +38,15 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected $_helper;
 
-    /** @var Mage_Core_Model_CacheInterface */
+    /**
+     * @var Mage_Core_Model_CacheInterface
+     */
     protected $_cache;
+
+    /**
+     * @var Mage_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
 
     /**
      * Construct auto discover with resource config and list of requested resources.
@@ -48,19 +55,20 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
-     *
-     * @throws InvalidArgumentException
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      */
     public function __construct(
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_Cache_StateInterface $cacheState
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
+        $this->_cacheState = $cacheState;
     }
 
     /**
@@ -76,7 +84,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
@@ -94,7 +102,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
         }
 

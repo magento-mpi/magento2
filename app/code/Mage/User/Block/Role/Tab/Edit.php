@@ -123,9 +123,9 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
      */
     public function getTree()
     {
-        /** @var $reader Magento_Acl_Loader_Resource_ConfigReaderInterface */
-        $reader = Mage::getSingleton('Magento_Acl_Loader_Resource_ConfigReaderInterface');
-        $resources = $reader->getAclResources();
+        /** @var $resourceProvider Magento_Acl_Resource_ProviderInterface */
+        $resourceProvider = Mage::getSingleton('Magento_Acl_Resource_ProviderInterface');
+        $resources = $resourceProvider->getAclResources();
         $rootArray = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );

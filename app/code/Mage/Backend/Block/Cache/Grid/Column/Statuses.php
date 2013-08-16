@@ -10,25 +10,22 @@
 class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_Widget_Grid_Column
 {
     /**
-     * Invalidated cache types
-     *
-     * @var array
+     * @var Mage_Core_Model_Cache_TypeListInterface
      */
-    protected $_invalidedTypes = array();
+    protected $_cacheTypeList;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_App $app,
+        Mage_Core_Model_Cache_TypeListInterface $cacheTypeList,
         array $data = array()
     ) {
         parent::__construct ($context, $data);
-
-        $this->_app = $app;
+        $this->_cacheTypeList = $cacheTypeList;
     }
 
     /**
@@ -53,8 +50,8 @@ class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_W
      */
     public function decorateStatus($value, $row, $column, $isExport)
     {
-        $this->_invalidatedTypes = $this->_app->getCacheInstance()->getInvalidatedTypes();
-        if (isset($this->_invalidatedTypes[$row->getId()])) {
+        $invalidedTypes = $this->_cacheTypeList->getInvalidated();
+        if (isset($invalidedTypes[$row->getId()])) {
             $cell = '<span class="grid-severity-minor"><span>' . __('Invalidated') . '</span></span>';
         } else {
             if ($row->getStatus()) {

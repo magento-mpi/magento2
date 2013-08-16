@@ -78,7 +78,16 @@
                         <arguments>
                             <header translate="true">Status</header>
                             <type>options</type>
-                            <options type="options">Mage_User_Model_Statuses</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true" module="Mage_User">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>0</value>
+                                    <label translate="true" module="Mage_User">Inactive</label>
+                                </inactive>
+                            </options>
                             <index>is_active</index>
                         </arguments>
                     </block>

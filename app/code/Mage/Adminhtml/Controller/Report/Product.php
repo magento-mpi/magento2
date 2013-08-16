@@ -140,9 +140,8 @@ class Mage_Adminhtml_Controller_Report_Product extends Mage_Adminhtml_Controller
             ->_addBreadcrumb(
                 __('Low Stock'),
                 __('Low Stock')
-            )
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock'))
-            ->renderLayout();
+            );
+            $this->renderLayout();
     }
 
     /**
@@ -151,12 +150,10 @@ class Mage_Adminhtml_Controller_Report_Product extends Mage_Adminhtml_Controller
      */
     public function exportLowstockCsvAction()
     {
-        $fileName   = 'products_lowstock.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock_Grid')
-            ->setSaveParametersInSession(true)
-            ->getCsv();
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout(false);
+        $fileName = 'products_lowstock.csv';
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -165,12 +162,10 @@ class Mage_Adminhtml_Controller_Report_Product extends Mage_Adminhtml_Controller
      */
     public function exportLowstockExcelAction()
     {
-        $fileName   = 'products_lowstock.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock_Grid')
-            ->setSaveParametersInSession(true)
-            ->getExcel($fileName);
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout(false);
+        $fileName = 'products_lowstock.xml';
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile());
     }
 
     /**

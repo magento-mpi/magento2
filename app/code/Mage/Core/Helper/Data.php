@@ -381,10 +381,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCacheTypes()
     {
+        /** @var Mage_Core_Model_Cache_Config $config */
+        $config = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Config');
         $types = array();
-        $config = Mage::getConfig()->getNode(Mage_Core_Model_Cache::XML_PATH_TYPES);
-        foreach ($config->children() as $type=>$node) {
-            $types[$type] = (string)$node->label;
+        foreach ($config->getTypes() as $type => $node) {
+            $types[$type] = $node['label'];
         }
         return $types;
     }

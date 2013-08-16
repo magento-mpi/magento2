@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Eav>
-            <version>1.6.0.2</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core/>
-            </depends>
-        </Mage_Eav>
-    </modules>
     <global>
         <resources>
             <eav_setup>
@@ -28,19 +19,8 @@
                 </setup>
             </eav_setup>
         </resources>
-        <cache>
-            <types>
-                <eav translate="label,description">
-                    <label>EAV types and attributes</label>
-                    <description>Entity types declaration cache.</description>
-                    <class>Mage_Eav_Model_Cache_Type</class>
-                </eav>
-            </types>
-        </cache>
-        <eav_frontendclasses>
-        </eav_frontendclasses>
-        <eav_attributes>
-        </eav_attributes>
+        <eav_frontendclasses />
+        <eav_attributes />
     </global>
     <adminhtml>
         <translate>

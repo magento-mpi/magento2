@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Persistent>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Adminhtml />
-                <Mage_Checkout />
-            </depends>
-        </Mage_Persistent>
-    </modules>
     <global>
         <resources>
             <persistent_setup>

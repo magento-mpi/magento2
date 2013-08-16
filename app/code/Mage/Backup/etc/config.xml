@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Backup>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core/>
-            </depends>
-        </Mage_Backup>
-    </modules>
     <global>
         <resources>
             <backup_setup>

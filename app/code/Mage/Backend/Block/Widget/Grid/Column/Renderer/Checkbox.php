@@ -22,6 +22,25 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
     protected $_values;
 
     /**
+     * @var Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter
+     */
+    protected $_converter;
+
+    /**
+     * @param Mage_Backend_Block_Context $context
+     * @param Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Context $context,
+        Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_converter = $converter;
+    }
+
+    /**
      * Returns values of the column
      *
      * @return array
@@ -33,6 +52,18 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
         }
         return $this->_values;
     }
+
+    /**
+     * Prepare data for renderer
+     *
+     * @return array
+     */
+    protected function _getValues()
+    {
+        $values = $this->getColumn()->getValues();
+        return $this->_converter->toFlatArray($values);
+    }
+
     /**
      * Renders grid column
      *
@@ -41,7 +72,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
      */
     public function render(Magento_Object $row)
     {
-        $values = $this->getColumn()->getValues();
+        $values = $this->_getValues();
         $value  = $row->getData($this->getColumn()->getIndex());
         if (is_array($values)) {
             $checked = in_array($value, $values) ? ' checked="checked"' : '';

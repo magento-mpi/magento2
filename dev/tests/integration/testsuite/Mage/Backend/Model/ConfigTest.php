@@ -23,7 +23,8 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveWithSingleStoreModeEnabled($groups)
     {
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $_configDataObject Mage_Backend_Model_Config */
         $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configData = $_configDataObject->setSection('dev')

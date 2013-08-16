@@ -7,11 +7,4 @@
  */
 interface Mage_Core_Model_Config_ModulesInterface extends Mage_Core_Model_ConfigInterface
 {
-    /**
-     * Get module config node
-     *
-     * @param string $moduleName
-     * @return Magento_Simplexml_Element
-     */
-    public function getModuleConfig($moduleName = '');
 }

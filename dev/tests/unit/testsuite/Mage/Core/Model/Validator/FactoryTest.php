@@ -58,11 +58,11 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
 
         // Config mock
         $this->_config = $this->getMockBuilder('Mage_Core_Model_Config_Modules_Reader')
-            ->setMethods(array('getModuleConfigurationFiles'))
+            ->setMethods(array('getConfigurationFiles'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_config->expects($this->once())
-            ->method('getModuleConfigurationFiles')
+            ->method('getConfigurationFiles')
             ->with('validation.xml')
             ->will($this->returnValue(array('/tmp/moduleOne/etc/validation.xml')));
 

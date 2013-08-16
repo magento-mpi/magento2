@@ -148,18 +148,32 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_invalidator;
 
     /**
+     * @var Magento_Config_ScopeInterface
+     */
+    protected $_configScope;
+
+    /**
+     * @var Mage_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
+     * @param Magento_Config_ScopeInterface $configScope
      */
     public function __construct(
         Mage_Core_Model_ObjectManager $objectManager,
         Mage_Core_Model_Config_StorageInterface $storage,
         Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
-        Mage_Core_Model_Config_InvalidatorInterface $invalidator
+        Mage_Core_Model_ModuleListInterface $moduleList,
+        Mage_Core_Model_Config_InvalidatorInterface $invalidator,
+        Magento_Config_ScopeInterface $configScope
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -167,7 +181,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
+        $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
+        $this->_configScope = $configScope;
         Magento_Profiler::stop('config_load');
     }
 
@@ -267,27 +283,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Get currently used area code
-     * @return string|null
-     */
-    public function getCurrentAreaCode()
-    {
-        return $this->_currentAreaCode;
-    }
-
-    /**
-     * Set currently used area code
-     *
-     * @param $areaCode
-     * @return Mage_Core_Model_Config
-     */
-    public function setCurrentAreaCode($areaCode)
-    {
-        $this->_currentAreaCode = $areaCode;
-        return $this;
-    }
-
-    /**
      * Get allowed areas
      *
      * @return array
@@ -309,7 +304,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function getAreaConfig($areaCode = null)
     {
-        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
+        $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
         $areas = $this->getAreas();
         if (!isset($areas[$areaCode])) {
             throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
@@ -326,7 +321,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function getAreaFrontName($areaCode = null)
     {
-        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
+        $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
         $areaConfig = $this->getAreaConfig($areaCode);
         if (!isset($areaConfig['frontName'])) {
             throw new LogicException(sprintf(
@@ -359,22 +354,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             }
         }
         return $routers;
-    }
-
-    /**
-     * Get module config node
-     *
-     * @param string $moduleName
-     * @return Magento_Simplexml_Element
-     */
-    public function getModuleConfig($moduleName = '')
-    {
-        $modules = $this->getNode('modules');
-        if ('' === $moduleName) {
-            return $modules;
-        } else {
-            return $modules->$moduleName;
-        }
     }
 
     /**
@@ -535,13 +514,10 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     {
         if (null === $this->_moduleNamespaces) {
             $this->_moduleNamespaces = array();
-            /** @var $moduleConfig Magento_Simplexml_Element */
-            foreach ($this->getXpath('modules/*') as $moduleConfig) {
-                if ((string)$moduleConfig->active == 'true') {
-                    $moduleName = $moduleConfig->getName();
-                    $module = strtolower($moduleName);
-                    $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
-                }
+            foreach ($this->_moduleList->getModules() as $module) {
+                $moduleName = $module['name'];
+                $module = strtolower($moduleName);
+                $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
             }
         }
 

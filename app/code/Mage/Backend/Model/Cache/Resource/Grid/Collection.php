@@ -10,16 +10,16 @@
 class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Magento_Data_Collection
 {
     /**
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_Cache_TypeListInterface
      */
-    protected $_app;
+    protected $_cacheTypeList;
 
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
      */
-    public function __construct(Mage_Core_Model_App $app)
+    public function __construct(Mage_Core_Model_Cache_TypeListInterface $cacheTypeList)
     {
-        $this->_app = $app;
+        $this->_cacheTypeList = $cacheTypeList;
     }
 
     /**
@@ -33,7 +33,7 @@ class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Magento_Data_Col
     public function loadData($printQuery = false, $logQuery = false)
     {
         if (!$this->isLoaded()) {
-            foreach ($this->_app->getCacheInstance()->getTypes() as $type) {
+            foreach ($this->_cacheTypeList->getTypes() as $type) {
                 $this->addItem($type);
             }
             $this->_setIsLoaded(true);

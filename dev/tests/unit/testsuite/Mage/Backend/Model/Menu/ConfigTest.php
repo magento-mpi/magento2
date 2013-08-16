@@ -13,32 +13,22 @@
 class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
-     */
-    protected $_configMock;
-
-    /**
-     * @var Mage_Core_Model_CacheInterface
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheInstanceMock;
 
     /**
-     * @var DOMDocument
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_domDocumentMock;
+    protected $_directorMock;
 
     /**
-     * @var Mage_Backend_Model_Menu_Director_Dom
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_directorDomMock;
+    protected $_configReaderMock;
 
     /**
-     * @var Mage_Backend_Model_Menu_Config_Menu
-     */
-    protected $_configMenuMock;
-
-    /**
-     * @var Mage_Backend_Model_Menu_Builder
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuFactoryMock;
 
@@ -46,11 +36,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManagerMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_itemFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -68,38 +53,19 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_logger;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_objectManagerMock;
-
-    /**
      * @var Mage_Backend_Model_Menu_Config
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader',
-            array(), array(), '', false, false
-        );
-
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_objectManagerMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnCallback(array($this, 'getModelInstance')));
-        $this->_objectManagerMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnCallback(array($this, 'get')));
-
         $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
 
-        $this->_directorDomMock = $this->getMock('Mage_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
+        $this->_directorMock = $this->getMock('Mage_Backend_Model_Menu_DirectorAbstract', array(), array(), '', false);
 
-        $this->_menuFactoryMock = $this->getMock('Mage_Backend_Model_Menu_Factory', array(), array(), '', false);
+        $this->_menuFactoryMock = $this->getMock('Mage_Backend_Model_MenuFactory', array('create'), array(), '', false);
 
-        $this->_configMenuMock = $this->getMock('Mage_Backend_Model_Menu_Config_Menu', array(), array(), '', false);
-
-        $this->_domDocumentMock = $this->getMock('DOMDocument', array(), array(), '', false);
+        $this->_configReaderMock = $this->getMock('Mage_Backend_Model_Menu_Config_Reader', array(), array(), '', false);
 
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
 
@@ -111,30 +77,26 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_menuBuilderMock = $this->getMock('Mage_Backend_Model_Menu_Builder', array(), array(), '', false);
 
-        $this->_menuFactoryMock->expects($this->any())
-            ->method('getMenuInstance')
-            ->will($this->returnValue($this->_menuMock));        
-        
+        $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
+
+        $storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+
+        $storeMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+
+        $storeManagerMock->expects($this->atLeastOnce())->method('getStore')->will($this->returnValue($storeMock));
+
+        $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
+
         $this->_model = new Mage_Backend_Model_Menu_Config(
+            $this->_menuBuilderMock,
+            $this->_directorMock,
+            $this->_menuFactoryMock,
+            $this->_configReaderMock,
             $this->_cacheInstanceMock,
-            $this->_objectManagerMock,
-            $this->_configMock,
             $this->_eventManagerMock,
             $this->_logger,
-            $this->_menuFactoryMock
+            $storeManagerMock
         );
-    }
-
-    public function testGetMenuConfigurationFiles()
-    {
-        $this->_configMock->expects($this->any())
-            ->method('getModuleConfigurationFiles')
-            ->will($this->returnValue(array(
-                realpath(__DIR__) . '/../_files/menu_1.xml',
-                realpath(__DIR__) . '/../_files/menu_2.xml'
-            )
-        ));
-        $this->assertNotEmpty($this->_model->getMenuConfigurationFiles());
     }
 
     public function testGetMenuWithCachedObjectReturnsUnserializedObject()
@@ -158,13 +120,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(Mage_Backend_Model_Menu_Config::CACHE_MENU_OBJECT))
             ->will($this->returnValue(false));
 
-        $this->_configMenuMock->expects($this->exactly(1))
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
-        $this->_domDocumentMock->expects($this->exactly(1))
-            ->method('saveXML')
-            ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>'));
+        $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue(array()));
 
         $this->_menuBuilderMock->expects($this->exactly(1))
             ->method('getResult')
@@ -174,125 +130,37 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Backend_Model_Menu_Config::getMenu
+     * @param string $expectedException
+     *
+     * @dataProvider getMenuExceptionLoggedDataProvider
      */
-    public function testGetMenuWhenEnabledCache()
+    public function testGetMenuExceptionLogged($expectedException)
     {
-        $xmlString = '<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>';
-
-        $this->_cacheInstanceMock->expects($this->at(1))
-            ->method('load')
-            ->will($this->returnValue(false));
-
-        $this->_cacheInstanceMock->expects($this->at(1))
-            ->method('load')
-            ->will($this->returnValue($xmlString));
-
-        $this->_directorDomMock->expects($this->exactly(1))
-            ->method('buildMenu')
-            ->with($this->isInstanceOf('Mage_Backend_Model_Menu_Builder'));
-
-        $this->_configMenuMock->expects($this->exactly(1))
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
-        $this->_domDocumentMock->expects($this->exactly(1))
-            ->method('saveXML')
-            ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>'));
-
+        $this->setExpectedException($expectedException);
         $this->_menuBuilderMock->expects($this->exactly(1))
             ->method('getResult')
-            ->will($this->returnValue($this->_menuMock));
-
-        $this->_model->getMenu();
-
-        /*
-         * Recall the same method to ensure that built menu cached in local protected property
-         */
-        $this->_model->getMenu();
-    }
-
-    /**
-     * @covers Mage_Backend_Model_Menu_Config::getMenu
-     */
-    public function testGetMenuWhenCacheEnabledAndCleaned()
-    {
-        $xmlString = '<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>';
-
-        $this->_configMock->expects($this->any())
-            ->method('getModelInstance')
-            ->will($this->returnCallback(array($this, 'getModelInstance')));
-
-        $this->_cacheInstanceMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue(null));
-
-        $this->_domDocumentMock->expects($this->exactly(1))
-            ->method('saveXML')
-            ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>'));
-
-        $this->_configMenuMock->expects($this->exactly(1))
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
-        $this->_cacheInstanceMock->expects($this->at(2))
-            ->method('save')
-            ->with($this->equalTo($xmlString));
-
-        $this->_cacheInstanceMock->expects($this->at(3))
-            ->method('save')
-            ->with($this->equalTo($this->_menuMock->serialize()));
-
-        $this->_menuBuilderMock->expects($this->exactly(1))
-            ->method('getResult')
-            ->will($this->returnValue($this->_menuMock));
+            ->will($this->throwException(new $expectedException()));
 
         $this->_model->getMenu();
     }
 
-    public function testGetMenuTriggersEventOnlyOnceAfterMenuIsCreated()
+    public function getMenuExceptionLoggedDataProvider()
     {
-        $this->_eventManagerMock->expects($this->once())
-            ->method('dispatch')
-            ->with($this->equalTo('backend_menu_load_after'), $this->equalTo(array('menu' => $this->_menuMock)));
-
-        $this->_configMenuMock->expects($this->once())
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
-        $this->_menuBuilderMock->expects($this->exactly(1))
-            ->method('getResult')
-            ->will($this->returnValue($this->_menuMock));
-
-        $this->_model->getMenu();
-        $this->_model->getMenu();
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testGetMenuInvalidArgumentExceptionLogged()
-    {
-        $this->_configMenuMock->expects($this->any())
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
-        $this->_logger->expects($this->exactly(1))->method('logException')
-            ->with($this->isInstanceOf('InvalidArgumentException'));
-
-        $this->_menuBuilderMock->expects($this->exactly(1))
-            ->method('getResult')
-            ->will($this->throwException(new InvalidArgumentException()));
-
-        $this->_model->getMenu();
+        return array(
+            'InvalidArgumentException' => array(
+                'InvalidArgumentException'
+            ),
+            'BadMethodCallException' => array(
+                'BadMethodCallException'
+            ),
+            'OutOfRangeException' => array(
+                'OutOfRangeException'
+            )
+        );
     }
 
     public function testGetMenuGenericExceptionIsNotLogged()
     {
-        $this->_configMenuMock->expects($this->any())
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
         $this->_logger->expects($this->never())->method('logException');
 
         $this->_menuBuilderMock->expects($this->exactly(1))
@@ -304,42 +172,5 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             return;
         }
         $this->fail("Generic Exception was not throwed");
-    }
-
-    /**
-     * Callback method for mock object Mage_Core_Model_Config object
-     *
-     * @param mixed $model
-     * @param mixed $arguments
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    public function getModelInstance($model, $arguments)
-    {
-        if ($model == 'Mage_Backend_Model_Menu_Director_Dom') {
-            return $this->_directorDomMock;
-        } elseif ($model == 'Mage_Backend_Model_Menu_Config_Menu') {
-            return $this->_configMenuMock;
-        } elseif ($model == 'Mage_Backend_Model_Menu_Builder') {
-            return $this->_menuBuilderMock;
-        } elseif ($model == 'Mage_Core_Model_App') {
-            $appMock = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
-            $appMock->expects($this->any())
-                ->method('getStore')
-                ->will($this->returnValue($this->getMock('Mage_Core_Model_Store', array(), array(), '', false)));
-            return $appMock;
-        } else {
-            return $this->getMock($model, array(), $arguments, '', false);
-        }
-    }
-
-    /**
-     * Callback method for mock object Mage_Core_Model_Config object
-     *
-     * @param mixed $model
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    public function get($model)
-    {
-        return $this->getModelInstance($model, array());
     }
 }

@@ -516,6 +516,7 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
     protected function _readArguments(Mage_Core_Model_Layout_Element $node)
     {
         $arguments = array();
+        $moduleName = isset($node['module']) ? (string)$node['module'] : null;
 
         foreach ($node->children() as $argument) {
             /** @var $argument Mage_Core_Model_Layout_Element */
@@ -527,7 +528,7 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
 
             if ($argument->hasChildren()) {
                 $value = array();
-                $this->_fillArgumentsArray($argument, $value);
+                $this->_fillArgumentsArray($argument, $value, $moduleName);
                 unset($value['updater']);
                 unset($value['@']);
 
@@ -541,7 +542,7 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
                     $arguments[$argument->getName()]['value'] = $value;
                 }
             } else {
-                $value = $this->_translator->translateArgument($argument);
+                $value = $this->_translator->translateArgument($argument, $moduleName);
                 if ('' !== $value) {
                     $arguments[$argument->getName()]['value'] = $value;
                 }
@@ -1441,7 +1442,7 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException(__('Invalid block type: %1', $block));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
         }
         return $block;
     }
@@ -1562,7 +1563,7 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
     {
         if (!isset($this->_helpers[$type])) {
             if (!$type) {
-                Mage::throwException(__('Invalid block type: %1', $type));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $type));
             }
 
             $helper = Mage::getModel($type);
