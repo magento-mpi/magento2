@@ -32,7 +32,7 @@ class Magento_Tools_Di_Code_Scanner_XmlInterceptorScannerTest extends PHPUnit_Fr
         $this->_model = new Magento\Tools\Di\Code\Scanner\XmlInterceptorScanner();
         $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
         $this->_testFiles =  array(
-            $this->_testDir . '/app/code/Mage/SomeModule/etc/di.xml',
+            $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
             $this->_testDir . '/app/etc/di/config.xml',
         );
     }
