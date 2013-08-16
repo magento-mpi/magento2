@@ -28,11 +28,6 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     protected $_taxvat;
 
     /**
-     * @var Mage_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -40,12 +35,11 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config $config,
         Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_Config $config,
         array $data = array()
     ) {
-        parent::__construct($context, $configCacheType, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($context, $configCacheType, $storeManager, $data);
         $this->_config = $config;
     }
 
