@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Reward>
-            <version>1.11.0.2</version>
-            <active>false</active>
-            <depends>
-                <Mage_Customer />
-                <Mage_Checkout />
-            </depends>
-        </Enterprise_Reward>
-    </modules>
     <global>
         <resources>
             <enterprise_reward_setup>
@@ -423,4 +413,4 @@
             </enterprise_reward_expire_points>
         </jobs>
     </crontab>
-</config>
+</config>

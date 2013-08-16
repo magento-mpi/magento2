@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Media>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core/>
-            </depends>
-        </Mage_Media>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

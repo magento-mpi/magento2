@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Checkout>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Sales />
-                <Mage_CatalogInventory />
-            </depends>
-        </Mage_Checkout>
-    </modules>
     <global>
         <resources>
             <checkout_setup>

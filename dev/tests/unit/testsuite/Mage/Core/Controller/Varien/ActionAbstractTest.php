@@ -41,22 +41,7 @@ class Mage_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_T
         );
         $this->_response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
         $this->_response->headersSentThrowsException = false;
-        $this->_actionAbstract = new Mage_Core_Controller_Varien_Action_Forward($this->_request, $this->_response,
-            'Area'
-        );
-    }
-
-    /**
-     * Test for __construct method
-     *
-     * @test
-     * @covers Mage_Core_Controller_Varien_ActionAbstract::__construct
-     */
-    public function testConstruct()
-    {
-        $this->assertAttributeInstanceOf('Mage_Core_Controller_Request_Http', '_request', $this->_actionAbstract);
-        $this->assertAttributeInstanceOf('Mage_Core_Controller_Response_Http', '_response', $this->_actionAbstract);
-        $this->assertAttributeEquals('Area', '_currentArea', $this->_actionAbstract);
+        $this->_actionAbstract = new Mage_Core_Controller_Varien_Action_Forward($this->_request, $this->_response);
     }
 
     /**
@@ -92,7 +77,7 @@ class Mage_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_T
         $request = new Mage_Core_Controller_Request_Http();
         $response = new Mage_Core_Controller_Response_Http();
         $response->headersSentThrowsException = false;
-        $action = new Mage_Core_Controller_Varien_Action_Forward($request, $response, 'Area');
+        $action = new Mage_Core_Controller_Varien_Action_Forward($request, $response);
 
         $headers = array(
             array(

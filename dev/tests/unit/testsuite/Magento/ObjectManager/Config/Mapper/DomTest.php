@@ -17,7 +17,7 @@ class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_Test
         $this->_mapper = new Magento_ObjectManager_Config_Mapper_Dom();
     }
 
-    public function testMap()
+    public function testConvert()
     {
         $dom = new DOMDocument();
         $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'simple_di_config.xml';
@@ -25,7 +25,7 @@ class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_Test
 
         $resultFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'mapped_simple_di_config.php';
         $expectedResult = include $resultFile;
-        $this->assertEquals($expectedResult, $this->_mapper->map($dom));
+        $this->assertEquals($expectedResult, $this->_mapper->convert($dom));
     }
 
     /**
@@ -38,7 +38,7 @@ class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_Test
     {
         $dom = new DOMDocument();
         $dom->loadXML($xmlData);
-        $this->_mapper->map($dom);
+        $this->_mapper->convert($dom);
     }
 
     /**

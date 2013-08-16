@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_AdminGws>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Adminhtml/>
-                <Mage_Sales/>
-            </depends>
-        </Enterprise_AdminGws>
-    </modules>
     <global>
         <resources>
             <enterprise_admingws_setup>
@@ -260,8 +250,7 @@
         <enterprise>
             <admingws>
                 <acl_deny>
-                    <website_level>
-                    </website_level>
+                    <website_level></website_level>
                     <store_level>
                         <sales_order_create>Mage_Sales::create</sales_order_create>
                         <customer_attributes>Enterprise_Customer::attributes</customer_attributes>
@@ -399,14 +388,12 @@
                     <adminhtml__catalog_product__edit>validateCatalogProductEdit</adminhtml__catalog_product__edit>
                     <adminhtml__catalog_product__massStatus>validateCatalogProductMassActions</adminhtml__catalog_product__massStatus>
                     <adminhtml__catalog_product_action_attribute__edit>validateCatalogProductMassActions</adminhtml__catalog_product_action_attribute__edit>
-
                     <adminhtml__promo_catalog__>validateRuleEntityAction</adminhtml__promo_catalog__>
                     <adminhtml__promo_catalog__index>promoCatalogIndexAction</adminhtml__promo_catalog__index>
                     <adminhtml__promo_catalog__applyRules>validatePromoCatalogApplyRules</adminhtml__promo_catalog__applyRules>
                     <adminhtml__promo_quote__>validateRuleEntityAction</adminhtml__promo_quote__>
                     <adminhtml__customersegment__>validateRuleEntityAction</adminhtml__customersegment__>
                     <adminhtml__reminder__>validateRuleEntityAction</adminhtml__reminder__>
-
                     <adminhtml__customer__>validateNoWebsiteGeneric</adminhtml__customer__>
                     <adminhtml__customer__edit>validateCustomerEdit</adminhtml__customer__edit>
                     <adminhtml__customerbalance__>validateCustomerbalance</adminhtml__customerbalance__>

@@ -22,6 +22,7 @@
     <preference for="Magento_PubSub_Event_QueueWriterInterface" type="Magento_PubSub_Event_QueueWriter" />
     <preference for="Magento_PubSub_Event_FactoryInterface" type="Magento_PubSub_Event_Factory" />
     <preference for="Magento_PubSub_Message_DispatcherAsyncInterface" type="Magento_PubSub_Message_DispatcherAsync" />
+    <preference for="Magento_Config_ConverterInterface" type="Magento_Config_Converter_Dom"/>
     <type name="Magento_Data_Structure" shared="false" />
     <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">

@@ -40,25 +40,39 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_cache;
 
     /**
+     * @var Mage_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
      * @var array
      */
     protected $_data = array();
 
     /**
-     * Construct config reader.
-     *
+     * @var Mage_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
+
+    /**
      * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
         Mage_Core_Model_Config $appConfig,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_ModuleListInterface $moduleList,
+        Mage_Core_Model_Cache_StateInterface $cacheState
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
+        $this->_moduleList = $moduleList;
+        $this->_cacheState = $cacheState;
     }
 
     /**
@@ -77,15 +91,12 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     {
         if (!$this->_directoryScanner) {
             $this->_directoryScanner = new Zend\Code\Scanner\DirectoryScanner();
-            /** @var Mage_Core_Model_Config_Element $module */
-            foreach ($this->_applicationConfig->getNode('modules')->children() as $moduleName => $module) {
-                if ($module->is('active')) {
-                    /** Invalid type is specified to retrieve path to module directory. */
-                    $moduleDir = $this->_applicationConfig->getModuleDir('invalid_type', $moduleName);
-                    $directory = $moduleDir . DS . 'Controller' . DS . 'Webapi';
-                    if (is_dir($directory)) {
-                        $this->_directoryScanner->addDirectory($directory);
-                    }
+            foreach ($this->_moduleList->getModules() as $module) {
+                /** Invalid type is specified to retrieve path to module directory. */
+                $moduleDir = $this->_applicationConfig->getModuleDir('invalid_type', $module['name']);
+                $directory = $moduleDir . DS . 'Controller' . DS . 'Webapi';
+                if (is_dir($directory)) {
+                    $this->_directoryScanner->addDirectory($directory);
                 }
             }
         }
@@ -162,7 +173,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected function _loadDataFromCache()
     {
         $isLoaded = false;
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedData = $this->_cache->load($this->getCacheId());
             if ($cachedData !== false) {
                 $this->_data = unserialize($cachedData);
@@ -177,7 +188,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      */
     protected function _saveDataToCache()
     {
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save(
                 serialize($this->_data),
                 $this->getCacheId(),

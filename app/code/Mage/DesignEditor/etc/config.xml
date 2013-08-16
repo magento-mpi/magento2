@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_DesignEditor>
-            <version>1.0.0.3</version>
-            <active>true</active>
-            <depends>
-                <Mage_Adminhtml />
-                <Mage_Page />
-                <Mage_Theme />
-            </depends>
-        </Mage_DesignEditor>
-    </modules>
     <global>
         <resources>
             <designeditor_setup>

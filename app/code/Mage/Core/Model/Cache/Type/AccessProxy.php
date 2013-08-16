@@ -18,9 +18,9 @@ class Mage_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_Deco
     /**
      * Cache types manager
      *
-     * @var Mage_Core_Model_Cache_Types
+     * @var Mage_Core_Model_Cache_StateInterface
      */
-    private $_cacheTypes;
+    private $_cacheState;
 
     /**
      * Cache type identifier
@@ -31,16 +31,16 @@ class Mage_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_Deco
 
     /**
      * @param Magento_Cache_FrontendInterface $frontend
-     * @param Mage_Core_Model_Cache_Types $cacheTypes
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      * @param string $identifier Cache type identifier
      */
     public function __construct(
         Magento_Cache_FrontendInterface $frontend,
-        Mage_Core_Model_Cache_Types $cacheTypes,
+        Mage_Core_Model_Cache_StateInterface $cacheState,
         $identifier
     ) {
         parent::__construct($frontend);
-        $this->_cacheTypes = $cacheTypes;
+        $this->_cacheState = $cacheState;
         $this->_identifier = $identifier;
     }
 
@@ -51,7 +51,7 @@ class Mage_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_Deco
      */
     protected function _isEnabled()
     {
-        return $this->_cacheTypes->isEnabled($this->_identifier);
+        return $this->_cacheState->isEnabled($this->_identifier);
     }
 
     /**

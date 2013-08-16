@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Eav>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Eav />
-                <Mage_Adminhtml />
-            </depends>
-        </Enterprise_Eav>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

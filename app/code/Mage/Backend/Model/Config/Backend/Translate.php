@@ -33,7 +33,9 @@ class Mage_Backend_Model_Config_Backend_Translate extends Mage_Core_Model_Config
     {
         $types = array_keys(Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
         if ($this->isValueChanged()) {
-            Mage::app()->getCacheInstance()->invalidateType($types);
+            /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
+            $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList->invalidate($types);
         }
 
         return $this;

@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_GiftCardAccount>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Sales />
-                <Mage_Checkout />
-                <Enterprise_CustomerBalance />
-            </depends>
-        </Enterprise_GiftCardAccount>
-    </modules>
     <global>
         <resources>
             <enterprise_giftcardaccount_setup>
@@ -371,4 +360,4 @@
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>
-</config>
+</config>

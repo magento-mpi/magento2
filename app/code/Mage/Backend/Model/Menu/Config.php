@@ -18,22 +18,12 @@ class Mage_Backend_Model_Menu_Config
     protected $_configCacheType;
 
     /**
-     * @var Magento_ObjectManager
-     */
-    protected $_factory;
-
-    /**
-     * @var Mage_Core_Model_Config_Modules_Reader
-     */
-    protected $_moduleReader;
-
-    /**
      * @var Mage_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Mage_Backend_Model_Menu_Factory
+     * @var Mage_Backend_Model_MenuFactory
      */
     protected $_menuFactory;
     /**
@@ -49,27 +39,48 @@ class Mage_Backend_Model_Menu_Config
     protected $_logger;
 
     /**
+     * @var Mage_Backend_Model_Menu_Config_Reader
+     */
+    protected $_configReader;
+
+    /**
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Mage_Backend_Model_Menu_DirectorAbstract
+     */
+    protected $_director;
+
+    /**
+     * @param Mage_Backend_Model_Menu_Builder $menuBuilder
+     * @param Mage_Backend_Model_Menu_DirectorAbstract $menuDirector
+     * @param Mage_Backend_Model_MenuFactory $menuFactory
+     * @param Mage_Backend_Model_Menu_Config_Reader $configReader
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_ObjectManager $factory
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Backend_Model_Menu_Factory $menuFactory
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Mage_Backend_Model_Menu_Builder $menuBuilder,
+        Mage_Backend_Model_Menu_DirectorAbstract $menuDirector,
+        Mage_Backend_Model_MenuFactory $menuFactory,
+        Mage_Backend_Model_Menu_Config_Reader $configReader,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_ObjectManager $factory,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_Logger $logger,
-        Mage_Backend_Model_Menu_Factory $menuFactory
+        Mage_Core_Model_StoreManagerInterface $storeManager
     ) {
+        $this->_menuBuilder = $menuBuilder;
+        $this->_director = $menuDirector;
         $this->_configCacheType = $configCacheType;
-        $this->_factory = $factory;
-        $this->_moduleReader = $moduleReader;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
         $this->_menuFactory = $menuFactory;
+        $this->_configReader = $configReader;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -80,7 +91,7 @@ class Mage_Backend_Model_Menu_Config
      */
     public function getMenu()
     {
-        $store = $this->_factory->get('Mage_Core_Model_App')->getStore();
+        $store = $this->_storeManager->getStore();
         $this->_logger->addStoreLog(Mage_Backend_Model_Menu::LOGGER_KEY, $store);
         try {
             $this->_initMenu();
@@ -107,7 +118,7 @@ class Mage_Backend_Model_Menu_Config
     protected function _initMenu()
     {
         if (!$this->_menu) {
-            $this->_menu = $this->_menuFactory->getMenuInstance();
+            $this->_menu = $this->_menuFactory->create();
 
             $cache = $this->_configCacheType->load(self::CACHE_MENU_OBJECT);
             if ($cache) {
@@ -115,68 +126,15 @@ class Mage_Backend_Model_Menu_Config
                 return;
             }
 
-            /* @var $director Mage_Backend_Model_Menu_Builder */
-            $menuBuilder = $this->_factory->create('Mage_Backend_Model_Menu_Builder', array(
-                'menu' => $this->_menu,
-                'menuItemFactory' => $this->_factory->get('Mage_Backend_Model_Menu_Item_Factory'),
-            ));
-
-            /* @var $director Mage_Backend_Model_Menu_Director_Dom */
-            $director = $this->_factory->create(
-                'Mage_Backend_Model_Menu_Director_Dom',
-                array(
-                    'menuConfig' => $this->_getDom(),
-                    'factory' => $this->_factory,
-                    'menuLogger' => $this->_logger
-                )
+            $this->_director->direct(
+                $this->_configReader->read(Mage_Core_Model_App_Area::AREA_ADMINHTML),
+                $this->_menuBuilder,
+                $this->_logger
             );
-            $director->buildMenu($menuBuilder);
-            $this->_menu = $menuBuilder->getResult();
+            $this->_menu = $this->_menuBuilder->getResult($this->_menu);
             $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
 
             $this->_configCacheType->save($this->_menu->serialize(), self::CACHE_MENU_OBJECT);
         }
-    }
-
-    /**
-     * @return DOMDocument
-     */
-    protected function _getDom()
-    {
-        $mergedConfigXml = $this->_loadCache();
-        if ($mergedConfigXml) {
-            $mergedConfig = new DOMDocument();
-            $mergedConfig->loadXML($mergedConfigXml);
-        } else {
-            $fileList = $this->getMenuConfigurationFiles();
-            $mergedConfig = $this->_factory
-                ->create('Mage_Backend_Model_Menu_Config_Menu', array('configFiles' => $fileList))
-                ->getMergedConfig();
-            $this->_saveCache($mergedConfig->saveXML());
-        }
-        return $mergedConfig;
-    }
-
-    protected function _loadCache()
-    {
-        return $this->_configCacheType->load(self::CACHE_ID);
-    }
-
-    protected function _saveCache($xml)
-    {
-        $this->_configCacheType->save($xml, self::CACHE_ID);
-        return $this;
-    }
-
-    /**
-     * Return array menu configuration files
-     *
-     * @return array
-     */
-    public function getMenuConfigurationFiles()
-    {
-        $files = $this->_moduleReader
-            ->getModuleConfigurationFiles('adminhtml' . DIRECTORY_SEPARATOR . 'menu.xml');
-        return (array) $files;
     }
 }
