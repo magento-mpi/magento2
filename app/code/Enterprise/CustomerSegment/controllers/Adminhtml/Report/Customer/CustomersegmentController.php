@@ -189,10 +189,10 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     {
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
+            $this->loadLayout();
             $content = $this->getLayout()
-                ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid')
-                ->getExcelFile($fileName);
-            $this->_prepareDownloadResponse($fileName, $content);
+                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;
@@ -206,11 +206,11 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     public function exportCsvAction()
     {
         if ($this->_initSegment()) {
+            $this->loadLayout();
             $fileName = 'customersegment_customers.csv';
             $content = $this->getLayout()
-                ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid')
-                ->getCsvFile();
-            $this->_prepareDownloadResponse($fileName, $content);
+                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;
@@ -225,9 +225,8 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         if (!$this->_initSegment(false)) {
             return;
         }
-        $grid = $this->getLayout()
-            ->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid');
-        $this->getResponse()->setBody($grid->toHtml());
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_customer_customersegment_exportcsv>
+        <update handle="adminhtml_report_customer_customersegment_detail_block"/>
+        <container name="report.customersegment.detail.grid.container" label="Report Customer Detail Grid Container"/>
+    </adminhtml_report_customer_customersegment_exportcsv>
+</layout>
