@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Shell
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Shell scripts abstract class
  *
  * @category    Magento
- * @package     Mage_Shell
+ * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Core_Model_ShellAbstract

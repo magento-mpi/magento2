@@ -38,7 +38,7 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     protected $_criticalCollection;
 
     /**
-     * @var Mage_Adminnotification_Model_Inbox
+     * @var Magento_AdminNotification_Model_Inbox
      */
     protected $_latestItem;
 
@@ -81,7 +81,7 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     /**
      * Retrieve latest critical item
      *
-     * @return bool|Mage_Adminnotification_Model_Inbox
+     * @return bool|Magento_AdminNotification_Model_Inbox
      */
     protected function _getLatestItem()
     {

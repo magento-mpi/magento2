@@ -181,7 +181,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
     {
         parent::_afterLoad();
         foreach($this->_items as $item) {
-            /* @var $item Mage_Model_Wishlist_Item $item*/
+            /* @var $item Enterprise_Wishlist_Model_Item $item*/
             $product = $item->getProduct();
             $item->setProductName($product->getName());
             $item->setProductPrice($product->getPrice());

@@ -22,7 +22,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
     /**
      * Return current customer address attribute instance
      *
-     * @return Mage_Rma_Model_Item_Attribute
+     * @return Enterprise_Rma_Model_Item_Attribute
      */
     protected function _getAttribute()
     {

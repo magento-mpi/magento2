@@ -12,7 +12,7 @@
  * Shell model, used to work with indexers via command line
  *
  * @category    Magento
- * @package     Mage_Shell
+ * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract

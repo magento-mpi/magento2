@@ -210,11 +210,11 @@ $map = array(
     'admin/system/acl/users' => 'Magento_User::acl_users',
     'admin/cms/widget_instance' => 'Magento_Widget::widget_instance',
     'admin/system/config/wishlist' => 'Magento_Wishlist::config_wishlist',
-    'admin/xmlconnect/history' => 'Mage_XmlConnect::history',
-    'admin/xmlconnect/mobile' => 'Mage_XmlConnect::mobile',
-    'admin/xmlconnect/templates' => 'Mage_XmlConnect::templates',
-    'admin/xmlconnect' => 'Mage_XmlConnect::xmlconnect',
-    'admin/xmlconnect/queue' => 'Mage_XmlConnect::xmlconnect_queue',
+    'admin/xmlconnect/history' => 'Magento_XmlConnect::history',
+    'admin/xmlconnect/mobile' => 'Magento_XmlConnect::mobile',
+    'admin/xmlconnect/templates' => 'Magento_XmlConnect::templates',
+    'admin/xmlconnect' => 'Magento_XmlConnect::xmlconnect',
+    'admin/xmlconnect/queue' => 'Magento_XmlConnect::xmlconnect_queue',
     'admin/system/config/facebook' => 'Social_Facebook::facebook',
 );
 

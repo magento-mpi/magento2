@@ -48,8 +48,8 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
          * @var Magento_Core_Model_Encryption
          */
         $model = new Magento_Core_Model_Encryption($objectManager);
-        /** Mock object is not instance of Mage_Code_Helper_Data and should not pass validation */
-        $input = $this->getMock('Mage_Code_Helper_Data', array(), array(), '', false);
+        /** Mock object is not instance of Magento_Code_Helper_Data and should not pass validation */
+        $input = $this->getMock('Magento_Code_Helper_Data', array(), array(), '', false);
         $model->setHelper($input);
     }
 }

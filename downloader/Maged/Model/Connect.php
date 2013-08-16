@@ -43,7 +43,7 @@ class Maged_Model_Connect extends Maged_Model
             $options['force'] = 1;
         }
         $packages = array(
-            'Mage_All_Latest',
+            'Magento_All_Latest',
         );
         $connectConfig = $this->connect()->getConfig();
         $ftp = $connectConfig->remote_config;
@@ -160,7 +160,7 @@ class Maged_Model_Connect extends Maged_Model
         foreach ($packages as $channel=>&$package) {
             foreach ($package as $name=>&$data) {
                 $actions = array();
-                $systemPkg = $name==='Mage_Downloader';
+                $systemPkg = $name==='Magento_Downloader';
                 if (!empty($data['upgrade_latest'])) {
                     $status = 'upgrade-available';
                     $releases = array();

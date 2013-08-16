@@ -56,10 +56,10 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('__')->with('some_label')
             ->will($this->returnValue('translatedLabel'));
-        $this->_factoryHelperMock->expects($this->once())->method('get')->with('Mage_Module_Helper_Data')
+        $this->_factoryHelperMock->expects($this->once())->method('get')->with('Magento_Module_Helper_Data')
             ->will($this->returnValue($helperMock));
         $this->assertEquals('', $this->_model->getLabel());
-        $this->_model->setData(array('label' => 'some_label', 'module' => 'Mage_Module'), 'someScope');
+        $this->_model->setData(array('label' => 'some_label', 'module' => 'Magento_Module'), 'someScope');
         $this->assertEquals('translatedLabel', $this->_model->getLabel());
     }
 
@@ -68,10 +68,10 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('__')->with('some_comment')
             ->will($this->returnValue('translatedComment'));
-        $this->_factoryHelperMock->expects($this->once())->method('get')->with('Mage_Module_Helper_Data')
+        $this->_factoryHelperMock->expects($this->once())->method('get')->with('Magento_Module_Helper_Data')
             ->will($this->returnValue($helperMock));
         $this->assertEquals('', $this->_model->getLabel());
-        $this->_model->setData(array('label' => 'some_comment', 'module' => 'Mage_Module'), 'someScope');
+        $this->_model->setData(array('label' => 'some_comment', 'module' => 'Magento_Module'), 'someScope');
         $this->assertEquals('translatedComment', $this->_model->getLabel());
     }
 

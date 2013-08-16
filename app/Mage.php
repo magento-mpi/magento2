@@ -608,10 +608,7 @@ final class Mage
 
         $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
         $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 5) == 'Mage_') {
-            $connection = substr($connection, 5);
-        }
-        else if (substr($moduleName, 0, 8) == 'Magento_') {
+        if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
         }
         $key = 'resourceHelper/' . $connection;

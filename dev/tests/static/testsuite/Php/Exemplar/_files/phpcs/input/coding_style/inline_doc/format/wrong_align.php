@@ -5,11 +5,11 @@
  * License notice...
  *
  * @category    Magento
- *  @package     Mage_Something
+ *  @package     Magento_Something
  * @copyright   ...
  * @license     ...
  */
-class Mage_Something_Model_Block
+class Magento_Something_Model_Block
 {
     /**
      * Function that does something

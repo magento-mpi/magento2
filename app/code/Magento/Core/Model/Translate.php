@@ -144,7 +144,7 @@ class Magento_Core_Model_Translate
      *
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
      * @param Magento_Core_Model_Locale_Hierarchy_Loader $loader
-     * @param Mage_core_Model_Translate_Factory $translateFactory
+     * @param Magento_Core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      */

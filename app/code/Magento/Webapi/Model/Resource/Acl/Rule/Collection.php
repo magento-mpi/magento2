@@ -12,7 +12,7 @@
  * Web API Rules Resource Collection.
  *
  * @category    Magento
- * @package     Mage_Webpi
+ * @package     Magento_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Webapi_Model_Resource_Acl_Rule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract

@@ -172,7 +172,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $moduleConfig = new stdClass();
-        $moduleConfig->{'Magento_Backend'} = $this->getMock('Mage_Test_Module_Config');
+        $moduleConfig->{'Magento_Backend'} = $this->getMock('Magento_Test_Module_Config');
         $moduleConfig->{'Magento_Backend'}->expects($this->once())
             ->method('is')
             ->will($this->returnValue(false));
@@ -191,7 +191,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $moduleConfig = new stdClass();
-        $moduleConfig->{'Magento_Backend'} = $this->getMock('Mage_Test_Module_Config', array('is'));
+        $moduleConfig->{'Magento_Backend'} = $this->getMock('Magento_Test_Module_Config', array('is'));
         $moduleConfig->{'Magento_Backend'}->expects($this->once())
             ->method('is')
             ->will($this->returnValue(true));
@@ -210,7 +210,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $moduleConfig = new stdClass();
-        $moduleConfig->{'Magento_Backend'} = $this->getMock('Mage_Test_Module_Config', array('is'));
+        $moduleConfig->{'Magento_Backend'} = $this->getMock('Magento_Test_Module_Config', array('is'));
         $moduleConfig->{'Magento_Backend'}->expects($this->once())
             ->method('is')
             ->will($this->returnValue(true));
@@ -257,7 +257,7 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class Mage_Test_Module_Config
+class Magento_Test_Module_Config
 {
     /**
      *

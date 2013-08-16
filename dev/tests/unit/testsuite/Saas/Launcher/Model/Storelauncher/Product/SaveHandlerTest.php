@@ -129,7 +129,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
      * Retrieve save handler instance for save method test
      *
      * @param array $preparedData
-     * @param bool $isDataValid Mage_Catalod_Model_Product::validate() method call result
+     * @param bool $isDataValid Magento_Catalog_Model_Product::validate() method call result
      * @return Saas_Launcher_Model_Storelauncher_Product_SaveHandler
      */
     public function getSaveHandlerInstanceForSaveMethodTest(array $preparedData, $isDataValid = true)

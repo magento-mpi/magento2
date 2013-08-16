@@ -42,7 +42,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     protected $_objectManager;
 
     /**
-     * Real module name (like 'Mage_Module')
+     * Real module name (like 'Magento_Module')
      *
      * @var string
      */
@@ -884,7 +884,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     }
 
     /**
-     * Get real module name (like 'Mage_Module')
+     * Get real module name (like 'Magento_Module')
      *
      * @return  string
      */

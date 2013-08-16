@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Downlodable
+ * @package     Magento_Downlodable
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}

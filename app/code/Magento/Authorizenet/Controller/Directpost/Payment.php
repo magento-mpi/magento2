@@ -9,7 +9,7 @@
  */
 
 /**
- * DirtectPost Payment Controller
+ * DirectPost Payment Controller
  *
  * @category   Magento
  * @package    Magento_Authorizenet

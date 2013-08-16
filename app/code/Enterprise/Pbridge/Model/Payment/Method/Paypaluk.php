@@ -267,7 +267,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     /**
      * Store id setter, also set storeId to helper
      *
-     * @param int|string|Mage_Code_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      *
      * @return Enterprise_Pbridge_Model_Payment_Method_Paypaluk
      */

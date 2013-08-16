@@ -13,7 +13,7 @@
  *  Refresh Statistic Grid collection
  *
  * @category    Magento
- * @package     Mage_Report
+ * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reports_Model_Resource_Refresh_Collection extends Magento_Data_Collection

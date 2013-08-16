@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Firstdata
+ * @package     Enterprise_Pbridge
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,7 +12,7 @@
  * Firstdata Payment Action Dropdown source
  *
  * @category    Magento
- * @package     Mage_Firstdata
+ * @package     Enterprise_Pbridge
  * @author      Magento
  */
 class Enterprise_Pbridge_Model_Source_Firstdata_PaymentAction

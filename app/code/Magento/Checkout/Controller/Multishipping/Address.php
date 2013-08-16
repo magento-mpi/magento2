@@ -30,7 +30,7 @@ class Magento_Checkout_Controller_Multishipping_Address extends Magento_Core_Con
     /**
      * Retrieve checkout state model
      *
-     * @return Mage_Checkot_Model_Type_Multishipping_State
+     * @return Magento_Checkout_Model_Type_Multishipping_State
      */
     protected function _getState()
     {

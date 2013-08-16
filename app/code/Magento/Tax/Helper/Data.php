@@ -78,7 +78,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get tax calculation object
      *
-     * @return  Mage_Tac_Model_Calculation
+     * @return  Magento_Tax_Model_Calculation
      */
     public function getCalculator()
     {

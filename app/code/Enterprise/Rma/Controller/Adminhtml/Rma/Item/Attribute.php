@@ -167,7 +167,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adm
     {
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $attributeObject Mage_Rma_Model_Item_Attribute */
+            /* @var $attributeObject Enterprise_Rma_Model_Item_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Rma_Helper_Eav */
             $helper = Mage::helper('Enterprise_Rma_Helper_Eav');

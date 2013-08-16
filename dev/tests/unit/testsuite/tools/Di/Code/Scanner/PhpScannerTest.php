@@ -42,11 +42,11 @@ class Magento_Tools_Di_Code_Scanner_PhpScannerTest extends PHPUnit_Framework_Tes
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Mage_SomeModule_ElementFactory',
-            'Mage_SomeModule_BlockFactory',
-            'Mage_SomeModule_ModelFactory',
-            'Mage_SomeModule_Model_BlockFactory',
-            'Mage_Bootstrap_ModelFactory',
+            'Magento_SomeModule_ElementFactory',
+            'Magento_SomeModule_BlockFactory',
+            'Magento_SomeModule_ModelFactory',
+            'Magento_SomeModule_Model_BlockFactory',
+            'Magento_Bootstrap_ModelFactory',
         );
         $this->assertEquals($expected, $actual);
     }

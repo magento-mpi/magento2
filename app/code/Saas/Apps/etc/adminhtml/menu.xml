@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Saas_Apps::apps" title="Add - ons" module="Saas_Apps" sortOrder="60" action="adminhtml/apps" resource="Mage_Apps::apps" />
+        <add id="Saas_Apps::apps" title="Add - ons" module="Saas_Apps" sortOrder="60" action="adminhtml/apps" resource="Magento_Apps::apps" />
     </menu>
 </config>

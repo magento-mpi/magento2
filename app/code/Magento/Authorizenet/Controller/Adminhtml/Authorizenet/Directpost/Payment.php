@@ -9,10 +9,10 @@
  */
 
 /**
- * Admihtml DirtectPost Payment Controller
+ * Adminhtml Directpost Payment Controller
  *
  * @category   Magento
- * @package    Mage_DirtectPost
+ * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment

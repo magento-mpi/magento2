@@ -22,10 +22,10 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
     {
         $packages = array(
             'pear/PEAR-stable',
-            'connect.magentocommerce.com/core/Mage_Pear_Helpers',
+            'connect.magentocommerce.com/core/Magento_Pear_Helpers',
             'connect.magentocommerce.com/core/Lib_ZF',
             'connect.magentocommerce.com/core/Lib_Varien',
-            'connect.magentocommerce.com/core/Mage_All',
+            'connect.magentocommerce.com/core/Magento_All',
             'connect.magentocommerce.com/core/Interface_Frontend_Default',
             'connect.magentocommerce.com/core/Interface_Adminhtml_Default',
             'connect.magentocommerce.com/core/Interface_Install_Default',

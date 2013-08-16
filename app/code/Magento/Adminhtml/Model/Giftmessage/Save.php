@@ -68,7 +68,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      * @return Magento_Adminhtml_Model_Giftmessage_Save
      */
     protected function _saveOne($entityId, $giftmessage) {
-        /* @var $giftmessageModel Mage_Giftmessage_Model_Message */
+        /* @var $giftmessageModel Magento_GiftMessage_Model_Message */
         $giftmessageModel = Mage::getModel('Magento_GiftMessage_Model_Message');
         $entityType = $this->_getMappedType($giftmessage['type']);
 

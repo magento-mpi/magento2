@@ -13,7 +13,7 @@
  * Sendfriend Data Helper
  *
  * @category    Magento
- * @package     Mage_Sedfriend
+ * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract

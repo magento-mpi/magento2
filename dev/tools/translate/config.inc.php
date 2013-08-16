@@ -62,7 +62,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/checkout/',
         'app/design/frontend/default/modern/layout/checkout.xml',
     ),
-    'Mage_Chronopay' => array(
+    'Magento_Chronopay' => array(
         'app/code/Mage/Chronopay/',
         'app/design/frontend/base/default/template/chronopay/',
         'app/design/frontend/base/default/layout/chronopay.xml',
@@ -72,7 +72,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/cms/',
         'app/design/frontend/base/default/layout/cms.xml'
     ),
-    'Mage_Compiler' => array(
+    'Magento_Compiler' => array(
         'app/code/Mage/Compiler/',
         'app/design/adminhtml/default/default/template/compiler/',
         'app/design/adminhtml/default/default/layout/compiler.xml',
@@ -104,12 +104,12 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/customer.xml',
         'app/design/frontend/default/modern/layout/customer.xml',
     ),
-    'Mage_Cybermut' => array(
+    'Magento_Cybermut' => array(
         'app/code/Mage/Cybermut/',
         'app/design/frontend/base/default/template/cybermut/',
         'app/design/frontend/base/default/layout/cybermut.xml',
     ),
-    'Mage_Cybersource' => array(
+    'Magento_Cybersource' => array(
         'app/code/Mage/Cybersource/',
         'app/design/frontend/base/default/template/cybersource/',
     ),
@@ -127,13 +127,13 @@ $CONFIG['translates'] = array(
     'Magento_Eav' => array(
         'app/code/Magento/Eav/',
     ),
-    'Mage_Eway' => array(
+    'Magento_Eway' => array(
         'app/code/Mage/Eway/',
         'app/design/frontend/base/default/template/eway/',
         'app/design/frontend/base/default/layout/eway.xml',
         'app/design/adminhtml/default/default/template/eway/',
     ),
-    'Mage_Flo2Cash' => array(
+    'Magento_Flo2Cash' => array(
         'app/code/Mage/Flo2Cash/',
         'app/design/frontend/base/default/template/flo2cash/',
         'app/design/adminhtml/default/default/template/flo2cash/',
@@ -146,7 +146,7 @@ $CONFIG['translates'] = array(
         'app/code/Magento/GoogleAnalytics/',
         'app/design/frontend/base/default/layout/googleanalytics.xml'
     ),
-    'Mage_GoogleBase' => array(
+    'Magento_GoogleBase' => array(
         'app/code/Mage/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
     ),
@@ -164,7 +164,7 @@ $CONFIG['translates'] = array(
         'app/code/Magento/GoogleShopping/',
         'app/design/adminhtml/default/default/template/googleshopping/',
     ),
-    'Mage_Ideal' => array(
+    'Magento_Ideal' => array(
         'app/code/Mage/Ideal/',
         'app/design/frontend/base/default/template/ideal/',
         'app/design/frontend/base/default/layout/ideal.xml',
@@ -219,7 +219,7 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/captcha/',
         'app/design/adminhtml/default/default/layout/captcha.xml'
     ),
-    'Mage_Paybox' => array(
+    'Magento_Paybox' => array(
         'app/code/Mage/Paybox/',
         'app/design/frontend/base/default/template/paybox/',
         'app/design/frontend/base/default/layout/paybox.xml',
@@ -257,7 +257,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/productalert/',
         'app/design/frontend/base/default/layout/productalert.xml',
     ),
-    'Mage_Protx' => array(
+    'Magento_Protx' => array(
         'app/code/Mage/Protx/',
         'app/design/frontend/base/default/template/protx/',
         'app/design/frontend/base/default/layout/protx.xml',
@@ -310,7 +310,7 @@ $CONFIG['translates'] = array(
     'Magento_Sitemap' => array(
         'app/code/Magento/Sitemap/',
     ),
-    'Mage_Strikeiron' => array(
+    'Magento_Strikeiron' => array(
         'app/code/Mage/Strikeiron/',
     ),
     'Magento_Tag' => array(
@@ -574,28 +574,28 @@ $CONFIG['helpers']  = array(
     'catalogsearch'     => 'Magento_CatalogSearch',
     'centinel'          => 'Magento_Centinel',
     'checkout'          => 'Magento_Checkout',
-    'chronopay'         => 'Mage_Chronopay',
+    'chronopay'         => 'Magento_Chronopay',
     'cms'               => 'Magento_Cms',
-    'compiler'          => 'Mage_Compiler',
+    'compiler'          => 'Magento_Compiler',
     'connect'           => 'Magento_Connect',
     'contacts'          => 'Magento_Contacts',
     'core'              => 'Magento_Core',
     'cron'              => 'Magento_Cron',
     'customer'          => 'Magento_Customer',
-    'cybermut'          => 'Mage_Cybermut',
-    'cybersource'       => 'Mage_Cybersource',
+    'cybermut'          => 'Magento_Cybermut',
+    'cybersource'       => 'Magento_Cybersource',
     'directory'         => 'Magento_Directory',
     'downloadable'      => 'Magento_Downloadable',
     'eav'               => 'Magento_Eav',
-    'eway'              => 'Mage_Eway',
-    'flo2cash'          => 'Mage_Flo2Cash',
+    'eway'              => 'Magento_Eway',
+    'flo2cash'          => 'Magento_Flo2Cash',
     'giftmessage'       => 'Magento_GiftMessage',
     'googleanalytics'   => 'Magento_GoogleAnalytics',
-    'googlebase'        => 'Mage_GoogleBase',
+    'googlebase'        => 'Magento_GoogleBase',
     'googlecheckout'    => 'Magento_GoogleCheckout',
     'googleoptimizer'   => 'Magento_GoogleOptimizer',
     'googleshopping'    => 'Magento_GoogleShopping',
-    'ideal'             => 'Mage_Ideal',
+    'ideal'             => 'Magento_Ideal',
     'index'             => 'Magento_Index',
     'install'           => 'Magento_Install',
     'log'               => 'Magento_Log',
@@ -605,7 +605,7 @@ $CONFIG['helpers']  = array(
     'page'              => 'Magento_Page',
     'pagecache'         => 'Magento_PageCache',
     'captcha'           => 'Magento_Captcha',
-    'paybox'            => 'Mage_Paybox',
+    'paybox'            => 'Magento_Paybox',
     'paygate'           => 'Magento_Paygate',
     'payment'           => 'Magento_Payment',
     'paypal'            => 'Magento_Paypal',
@@ -613,7 +613,7 @@ $CONFIG['helpers']  = array(
     'persistent'        => 'Magento_Persistent',
     'poll'              => 'Magento_Poll',
     'productalert'      => 'Magento_ProductAlert',
-    'protx'             => 'Mage_Protx',
+    'protx'             => 'Magento_Protx',
     'rating'            => 'Magento_Rating',
     'reports'           => 'Magento_Reports',
     'review'            => 'Magento_Review',
@@ -624,7 +624,7 @@ $CONFIG['helpers']  = array(
     'sendfriend'        => 'Magento_Sendfriend',
     'shipping'          => 'Magento_Shipping',
     'sitemap'           => 'Magento_Sitemap',
-    'strikeiron'        => 'Mage_Strikeiron',
+    'strikeiron'        => 'Magento_Strikeiron',
     'tag'               => 'Magento_Tag',
     'tax'               => 'Magento_Tax',
     'usa'               => 'Magento_Usa',

@@ -129,19 +129,19 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
 
     public function testGetLabelTranslatesLabelAndPrefix()
     {
-        $this->_model->setData(array('label' => 'element label', 'module' => 'Mage_Module'), 'scope');
+        $this->_model->setData(array('label' => 'element label', 'module' => 'Magento_Module'), 'scope');
         $this->assertEquals('translated some prefix translated element label', $this->_model->getLabel('some prefix'));
     }
 
     public function testGetHintTranslatesElementHint()
     {
-        $this->_model->setData(array('hint' => 'element hint', 'module' => 'Mage_Module'), 'scope');
+        $this->_model->setData(array('hint' => 'element hint', 'module' => 'Magento_Module'), 'scope');
         $this->assertEquals('translated element hint', $this->_model->getHint());
     }
 
     public function testGetCommentTranslatesCommentTextIfNoCommentModelIsProvided()
     {
-        $this->_model->setData(array('comment' => 'element comment', 'module' => 'Mage_Module'), 'scope');
+        $this->_model->setData(array('comment' => 'element comment', 'module' => 'Magento_Module'), 'scope');
         $this->assertEquals('translated element comment', $this->_model->getComment());
     }
 
@@ -163,7 +163,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
 
     public function testGetTooltipRetunrsTranslatedAttributeIfNoBlockIsProvided()
     {
-        $this->_model->setData(array('tooltip' => 'element tooltip', 'module' => 'Mage_Module'), 'scope');
+        $this->_model->setData(array('tooltip' => 'element tooltip', 'module' => 'Magento_Module'), 'scope');
         $this->assertEquals('translated element tooltip', $this->_model->getTooltip());
     }
 
@@ -208,9 +208,9 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
     {
         $this->_backendFactoryMock->expects($this->once())
             ->method('create')
-            ->with('Mage_Model_Name')
+            ->with('Magento_Model_Name')
             ->will($this->returnValue('backend_model_object'));
-        $this->_model->setData(array('backend_model' => 'Mage_Model_Name'), 'scope');
+        $this->_model->setData(array('backend_model' => 'Magento_Model_Name'), 'scope');
         $this->assertEquals('backend_model_object', $this->_model->getBackendModel());
     }
 

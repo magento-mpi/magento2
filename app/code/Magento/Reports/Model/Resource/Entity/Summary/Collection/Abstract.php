@@ -21,7 +21,7 @@ class Magento_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends 
     /**
      * Entity collection for summaries
      *
-     * @var Mage_Entity_Model_Entity_Collection_Abstract
+     * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected $_entityCollection;
 

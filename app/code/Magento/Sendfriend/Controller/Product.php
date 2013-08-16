@@ -12,7 +12,7 @@
  * Email to a Friend Product Controller
  *
  * @category    Magento
- * @package     Mage_Sedfriend
+ * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Front_Action
