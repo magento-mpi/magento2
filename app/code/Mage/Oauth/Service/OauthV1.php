@@ -96,12 +96,6 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /** @var  Mage_Oauth_Model_Token */
     protected $_tokenObj;
 
-    /** @var string */
-    protected $_requestUrl;
-
-    /** @var string */
-    protected $_requestMethod;
-
     /**
      * @param Zend_Controller_Request_Http $request
      * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
@@ -253,17 +247,19 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      * Get an access token in exchange for a pre-authorized token
      * Perform appropriate parameter and signature validation
      *
-     * @param $accessTokenData
-     * @return string token
+     * @param $requestTokenData
+     * @param $requestUrl
+     * @param $method
+     * @return mixed|string
      */
-    public function getAccessToken($accessTokenData)
+    public function getAccessToken($requestTokenData, $requestUrl, $method)
     {
         // make generic validation of request parameters
-        $this->_validateProtocolParams($accessTokenData);
+        $this->_validateProtocolParams($requestTokenData);
 
-        $tokenParam = $accessTokenData['oauth_token'];
+        $tokenParam = $requestTokenData['oauth_token'];
 
-        $consumerKeyParam = $accessTokenData['oauth_consumer_key'];
+        $consumerKeyParam = $requestTokenData['oauth_consumer_key'];
         $consumerObj = $this->_fetchConsumerByConsumerKey($consumerKeyParam);
 
         $tokenObj = $this->_validateAndFetchToken($tokenParam, $consumerObj->getId());
@@ -275,8 +271,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             $this->_throwException('', self::ERR_TOKEN_USED);
         }
 
-        $this->_validateVerifierParam($accessTokenData['oauth_verifier'], $tokenObj->getVerifier());
-
+        $this->_validateVerifierParam($requestTokenData['oauth_verifier'], $tokenObj->getVerifier());
         $this->_validateSignature($accessTokenData, $consumerObj->getSecret(), $tokenObj->getSecret(),
             $this->getRequestMethod(), $this->getRequestUrl());
 
@@ -348,13 +343,15 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         }
     }
 
-
     /**
+     *
      * Validate signature based on the signature method used
      *
      * @param $accessTokenData
      * @param $consumerSecret
      * @param null $tokenSecret
+     * @param $requestUrl
+     * @param $method
      */
     protected function _validateSignature($params, $consumerSecret, $tokenSecret = null, $httpMethod, $requestUrl)
     {
@@ -372,50 +369,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
-     * Set request URL
-     *
-     * @param $requestUrl
-     * @return mixed|void
-     */
-    public function setRequestUrl($requestUrl)
-    {
-        $this->_requestUrl = $requestUrl;
-    }
-
-    /**
-     * Get request URL
-     *
-     * @return string
-     */
-    public function getRequestUrl()
-    {
-        return $this->_requestUrl;
-    }
-
-
-    /**
-     * Set request HTTP method
-     *
-     * @param $requestMethod
-     * @return void
-     */
-    public function setRequestMethod($requestMethod)
-    {
-        $this->_requestMethod = $requestMethod;
-    }
-
-    /**
-     * GET request HTTP method
-     *
-     * @return string
-     */
-    public function getRequestMethod()
-    {
-        return $this->_requestMethod;
-    }
-
-    /**
-     * Validate 'oauth_version' parameter
+     * Validate oauth version
      *
      * @param string $version
      * @throws Mage_Oauth_Exception
