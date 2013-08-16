@@ -238,6 +238,13 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
         $tokenObj = $this->_validateAndFetchToken($tokenParam, $consumerObj->getId());
 
+        //The pre-auth token has a value of "request" in the type when it is requested and created initially
+        //In this flow (token flow) the token has to be of type "request" else its marked as reused
+        //TODO: Need to check security implication of this message
+        if (Mage_Oauth_Model_Token::TYPE_REQUEST != $tokenObj->getType()) {
+            $this->_throwException('', self::ERR_TOKEN_USED);
+        }
+
         $this->_validateVerifierParam($accessTokenData['oauth_verifier'], $tokenObj->getVerifier());
 
         $this->_validateSignature($accessTokenData, $consumerObj->getSecret(), $tokenObj->getSecret());
@@ -249,6 +256,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Validate signature based on the signature method used
+     *
      * @param $accessTokenData
      * @param $consumerSecret
      * @param null $tokenSecret
@@ -273,6 +281,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Set request URL
+     *
      * @param $requestUrl
      * @return mixed|void
      */
@@ -283,6 +292,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Get request URL
+     *
      * @return string
      */
     public function getRequestUrl()
@@ -293,6 +303,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Set request HTTP method
+     *
      * @param $requestMethod
      * @return void
      */
@@ -303,6 +314,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * GET request HTTP method
+     *
      * @return string
      */
     public function getRequestMethod()
@@ -398,6 +410,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Fetch nonce based on the noce string
+     *
      * @param $nonce
      * @return Mage_Oauth_Model_Nonce
      */
@@ -410,6 +423,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Fetch consumer by consumer id
+     *
      * @param $consumerId
      * @return Mage_Oauth_Model_Consumer
      */
@@ -425,6 +439,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Fetch consumer object by consumer key
+     *
      * @param $key
      * @return Mage_Oauth_Model_Consumer
      */
@@ -440,7 +455,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Validate Token param, compare the consumer id from consumer object against token associated consumer id and
-     * retuurn back the token object
+     * return back the token object
+     *
      * @param $tokenParam
      * @param $consumerId
      * @return Mage_Oauth_Model_Token
@@ -450,13 +466,6 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $this->_validateTokenParam($tokenParam);
 
         $tokenObj = $this->_fetchToken($tokenParam);
-
-        //The pre-auth token has a value of "request" in the type when it is requested and created initially
-        //In this flow (token flow) the token has to be of type "request" else its marked as reused
-        //TODO: Need to check security implication of this message
-        if (Mage_Oauth_Model_Token::TYPE_REQUEST != $tokenObj->getType()) {
-            $this->_throwException('', self::ERR_TOKEN_USED);
-        }
 
         if ($tokenObj->getConsumerId() != (int)$consumerId) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
@@ -480,6 +489,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /**
      * //TODO : Can be cached if used more than once in a flow
      * Fetch token based on token param
+     *
      * @param $tokenParam
      * @return Mage_Oauth_Model_Token
      */
@@ -490,6 +500,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Get map of error code and error message
+     *
      * @return array
      */
     public function getErrorMap()
@@ -500,6 +511,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Get map of error code and HTTP code
+     *
      * @return array
      */
     public function getErrorToHttpCodeMap()
