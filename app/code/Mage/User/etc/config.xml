@@ -56,8 +56,6 @@
                 <Mage_Tax/>
                 <Mage_Widget/>
                 <Mage_Wishlist/>
-                <Find_Feed/>
-                <Social_Facebook/>
             </depends>
             <sequence>
                 <Mage_Backend />
