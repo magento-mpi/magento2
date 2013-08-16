@@ -15,7 +15,6 @@ atlassian*
 /app/etc/local.xml
 /app/etc/local.xml.*
 /app/etc/enterprise/module.xml
-/app/etc/saas/module.xml
 /downloader/.cache
 /downloader/cache.cfg
 /downloader/connect.cfg

@@ -304,6 +304,9 @@ class Magento_Test_Application
         /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
         $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
+        $cacheState->setEnabled(Mage_Eav_Model_Cache_Type::TYPE_IDENTIFIER, true);
         $cacheState->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */
