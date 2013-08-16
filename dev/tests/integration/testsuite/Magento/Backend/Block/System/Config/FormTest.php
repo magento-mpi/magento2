@@ -135,7 +135,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $configMock->expects($this->any())->method('getConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')
-            ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));
+            ->will($this->returnValue(BP . '/app/code/Magento/Backend/etc'));
 
         Mage::getObjectManager()->configure(array(
             'Magento_Backend_Model_Config_Structure_Reader' => array(

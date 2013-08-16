@@ -12,8 +12,8 @@
 class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/non_application_cache.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/non_application_cache.php
      */
     public function testFlushAllAction()
     {
@@ -32,8 +32,8 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
     }
 
     /**
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/non_application_cache.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/non_application_cache.php
      */
     public function testFlushSystemAction()
     {
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
     }
 
     /**
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToEnable
      */
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
     }
 
     /**
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToDisable
      */
@@ -101,7 +101,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
     }
 
     /**
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_invalidated.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_invalidated.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToRefresh
      */

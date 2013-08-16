@@ -12,7 +12,7 @@
 class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Paypal/_files/order_payflowpro.php
+     * @magentoDataFixture Magento/Paypal/_files/order_payflowpro.php
      * @magentoConfigFixture current_store payment/verisign/active 1
      */
     public function testPayflowProVoid()

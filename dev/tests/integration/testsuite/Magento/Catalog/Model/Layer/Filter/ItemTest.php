@@ -60,7 +60,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Magento/Catalog/_files/categories.php
      */
     public function testGetRemoveUrl()
     {

@@ -13,7 +13,7 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Cms/_files/pages.php
+     * @magentoDataFixture Magento/Cms/_files/pages.php
      */
     public function testRenderPage()
     {
