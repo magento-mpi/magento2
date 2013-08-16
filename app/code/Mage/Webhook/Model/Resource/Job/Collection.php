@@ -136,7 +136,7 @@ class Mage_Webhook_Model_Resource_Job_Collection extends Mage_Core_Model_Resourc
     {
         $this->getConnection()->beginTransaction();
         try {
-            /* if event is in progress state for less than hour we do nothing with it*/
+            /* if event is in progress state for less than defined delay we do nothing with it */
             $okUpdatedTime = time() - $this->_timeoutIdling;
             $this->addFieldToFilter('status', Magento_PubSub_JobInterface::STATUS_IN_PROGRESS)
                 ->addFieldToFilter('updated_at', array('to' => Magento_Date::formatDate($okUpdatedTime),
