@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
-require 'Mage/Webhook/controllers/Adminhtml/Webhook/SubscriptionController.php';
-
-class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_Framework_TestCase
+class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit_Framework_TestCase
 {
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var Mage_Webhook_Adminhtml_Webhook_SubscriptionController */
+    /** @var Mage_Webhook_Controller_Adminhtml_Webhook_Subscription */
     protected $_subscriptionContr;
 
     /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
@@ -108,15 +106,15 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockTranslateModel->expects($this->at(0))
             ->method('translate')
             ->with($this->equalTo(
-                    array( new Mage_Core_Model_Translate_Expr('System'))));
+                    array(new Mage_Core_Model_Translate_Expr('System'))));
         $this->_mockTranslateModel->expects($this->at(1))
             ->method('translate')
             ->with($this->equalTo(
-                    array( new Mage_Core_Model_Translate_Expr('Web Services'))));
+                    array(new Mage_Core_Model_Translate_Expr('Web Services'))));
         $this->_mockTranslateModel->expects($this->at(2))
             ->method('translate')
             ->with($this->equalTo(
-                    array( new Mage_Core_Model_Translate_Expr('WebHook Subscriptions'))));
+                    array(new Mage_Core_Model_Translate_Expr('WebHook Subscriptions'))));
 
         // renderLayout
         $this->_subscriptionContr = $this->_createSubscriptionController();
@@ -594,7 +592,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         /** Create SubscriptionController to test */
         $subscriptionContr = $this->_objectManagerHelper
-            ->getObject('Mage_Webhook_Adminhtml_Webhook_SubscriptionController',
+            ->getObject('Mage_Webhook_Controller_Adminhtml_Webhook_Subscription',
                 $subControllerParams);
         return $subscriptionContr;
     }

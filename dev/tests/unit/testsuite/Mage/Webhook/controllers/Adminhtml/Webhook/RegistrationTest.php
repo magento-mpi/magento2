@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
-require 'Mage/Webhook/controllers/Adminhtml/Webhook/RegistrationController.php';
-
-class Mage_Webhook_Adminhtml_Webhook_RegistrationControllerTest extends PHPUnit_Framework_TestCase
+class Mage_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPUnit_Framework_TestCase
 {
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var Mage_Webhook_Adminhtml_Webhook_RegistrationController */
+    /** @var Mage_Webhook_Controller_Adminhtml_Webhook_Registration */
     protected $_registrationContr;
 
     /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
@@ -342,7 +340,7 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationControllerTest extends PHPUnit_
 
         /** Create SubscriptionController to test */
         $registrationContr = $this->_objectManagerHelper
-            ->getObject('Mage_Webhook_Adminhtml_Webhook_RegistrationController',
+            ->getObject('Mage_Webhook_Controller_Adminhtml_Webhook_Registration',
                 $regControllerParams);
         return $registrationContr;
     }
