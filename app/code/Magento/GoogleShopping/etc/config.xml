@@ -181,10 +181,10 @@
                             <name>Target country</name>
                             <required>1</required>
                         </target_country>
-                        <imagento_link translate="name">
+                        <image_link translate="name">
                             <name>Image link</name>
                             <required>0</required>
-                        </imagento_link>
+                        </image_link>
                         <item_group_id  translate="name">
                             <name>Item Group ID</name>
                             <required>0</required>
@@ -334,7 +334,7 @@
                     <link />
                     <content />
                     <price />
-                    <imagento_link />
+                    <image_link />
                     <condition />
                     <target_country />
                     <content_language />

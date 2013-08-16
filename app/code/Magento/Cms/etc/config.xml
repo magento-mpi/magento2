@@ -71,12 +71,12 @@
                         <png>1</png>
                         <gif>1</gif>
                     </allowed>
-                    <imagento_allowed>
+                    <image_allowed>
                         <jpg>1</jpg>
                         <jpeg>1</jpeg>
                         <png>1</png>
                         <gif>1</gif>
-                    </imagento_allowed>
+                    </image_allowed>
                     <media_allowed>
                         <flv>1</flv>
                         <swf>1</swf>
@@ -139,7 +139,7 @@
         <system>
             <media_storage_configuration>
                 <allowed_resources>
-                    <wysiwyg_imagento_folder>wysiwyg</wysiwyg_imagento_folder>
+                    <wysiwyg_image_folder>wysiwyg</wysiwyg_image_folder>
                 </allowed_resources>
             </media_storage_configuration>
         </system>

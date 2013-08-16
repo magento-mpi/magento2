@@ -370,9 +370,9 @@
                     <short_description />
                     <thumbnail />
                     <small_image />
-                    <imagento_label />
+                    <image_label />
                     <thumbnail_label />
-                    <small_imagento_label />
+                    <small_image_label />
                     <tax_class_id />
                     <status />
                     <news_from_date />
