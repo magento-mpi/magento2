@@ -73,19 +73,24 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     protected $_helper;
 
     /**
-     * @param Mage_Oauth_Model_Consumer_Factory
-     * @param Mage_Oauth_Model_Nonce_Factory
+     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
+     * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
+     * @param Mage_Oauth_Model_Token_Factory $tokenFactory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Translate
+     * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
+        Zend_Controller_Request_Http $request,
         Mage_Oauth_Model_Consumer_Factory $consumerFactory,
         Mage_Oauth_Model_Nonce_Factory $nonceFactory,
+        Mage_Oauth_Model_Token_Factory $tokenFactory,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Translate $translator
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
+        $this->_tokenFactory = $tokenFactory;
         $this->_helper = $helperFactory->get('Mage_Oauth_Helper_Data');
         $this->_translator = $translator;
     }
@@ -184,4 +189,148 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                 $this->_translator->translate(array('Unexpected error. Unable to create Oauth consumer.')));
         }
     }
+
+	/**
+	 * Issue a pre-authorization request token to the caller
+	 *
+	 * @param array $request input parameters such as consumer key, nonce, signature, signature method, timestamp, oauth version, auth code
+     * @return array output containing the request token key and secret
+     * @throws Mage_Oauth_Exception
+	 */
+	public function authorize($request)
+    {
+        // validate input parameters as much as possible before making database calls
+        $this->_validateVersionParam($request['oauth_version']);
+        $this->_validateVerifierParam($request['oauth_verifier']);
+        $this->_validateNonce($request['nonce'], $request['consumer_key'], $request['oauth_timestamp']);
+
+        $consumer = $this->_getConsumer($request['consumer_key']);
+        $token = $this->_getToken($request['auth_code']);
+
+        if ($token->getConsumerId() != $consumer->getId()) {
+            throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
+        }
+        if (Mage_Oauth_Model_Token::TYPE_AUTH_CODE != $token->getType()) {
+            throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
+        }
+
+        $this->_validateSignature($request['signature'], $request['consumer_key'], $request['auth_code'],
+            $request['oauth_version'], $request['signature_method'], $request['oauth_timestamp'],
+            $request['oauth_nonce'], $consumer->getSecret(), null, $request['http_method'], $request['url']);
+    }
+
+    /**
+     * Initialize consumer
+     *
+     * @param string $consumerKey to load
+     * @return Mage_Oauth_Model_Consumer
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _getConsumer($consumerKey)
+    {
+        if (strlen($consumerKey) != Mage_Oauth_Model_Consumer::KEY_LENGTH) {
+            throw new Mage_Oauth_Exception('', self::ERR_CONSUMER_KEY_REJECTED);
+        }
+
+        $consumerObj = $this->_consumerFactory->create();
+        $consumerObj->load($consumerKey, 'key');
+
+        if (!$consumerObj->getId()) {
+            throw new Mage_Oauth_Exception('', self::ERR_CONSUMER_KEY_REJECTED);
+        }
+
+        return $consumerObj;
+    }
+
+    /**
+     * Load token object, validate it depending on request type, set access data and save
+     * @param string $token to load
+     * @return Mage_Oauth_Model_Server
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _getToken($token)
+    {
+        if (strlen($token) != Mage_Oauth_Model_Token::LENGTH_TOKEN) {
+            throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
+        }
+
+        $tokenObj = $this->_tokenFactory->create();
+        $tokenObj->load($token, 'token');
+
+        if (!$tokenObj->getId()) {
+            throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
+        }
+
+        return $tokenObj;
+    }
+
+    /**
+     * Validate 'oauth_verifier' parameter
+     *
+     * @param string $verifier
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _validateVerifierParam($verifier)
+    {
+        if (!is_string($verifier)) {
+            throw new Mage_Oauth_Exception('', self::ERR_VERIFIER_INVALID);
+        }
+        if (strlen($verifier) != Mage_Oauth_Model_Token::LENGTH_VERIFIER) {
+            throw new Mage_Oauth_Exception('', self::ERR_VERIFIER_INVALID);
+        }
+    }
+
+    /**
+     * Validate 'oauth_version' parameter
+     *
+     * @param string $version
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _validateVersionParam($version)
+    {
+        // validate version if specified
+        if (isset($version) && '1.0' != $version) {
+            throw new Mage_Oauth_Exception('', self::ERR_VERSION_REJECTED);
+        }
+    }
+
+    /**
+     * Validate signature
+     *
+     * @param
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _validateSignature($signature, $consumerKey, $token, $oauthVersion, $signatureMethod,
+        $timestamp, $nonce, $consumerSecret, $tokenSecret = null, $httpMethod = null, $url = null)
+    {
+        if (!in_array($signatureMethod, self::getSupportedSignatureMethods())) {
+            throw new Mage_Oauth_Exception('', self::ERR_SIGNATURE_METHOD_REJECTED);
+        }
+
+        $util = new Zend_Oauth_Http_Utility();
+
+        $calculatedSignature = $util->sign(
+            array(
+                'oauth_consumer_key' => $consumerKey,
+                'oauth_token' => $token,
+                'oauth_version' => $oauthVersion,
+                'oauth_timestamp' => $timestamp,
+                'oauth_signature_method' => $signatureMethod,
+                'oauth_nonce' => $nonce,
+                'http_method' => $httpMethod,
+                'url' => $url
+            ),
+            $signatureMethod,
+            $consumerSecret,
+            $tokenSecret,
+            $httpMethod,
+            $url
+        );
+
+        if ($calculatedSignature != $signature) {
+            throw new Mage_Oauth_Exception(
+                $this->_translator->translate(array('Invalid signature.')), self::ERR_SIGNATURE_INVALID);
+        }
+    }
+
 }

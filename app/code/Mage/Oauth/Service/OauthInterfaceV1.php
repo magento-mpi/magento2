@@ -55,4 +55,13 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      * @throws Mage_Oauth_Exception
      */
     public function createConsumer($addOnData);
+
+	/**
+	 * Issue a pre-authorization request token to the caller
+	 *
+	 * @param array input parameters includes consumer key, nonce, signature, signature method, timestamp, oauth version, auth code
+     * @return array output containing the request token
+     * @throws Mage_Oauth_Exception
+	 */
+	public function authorize($request);
 }
