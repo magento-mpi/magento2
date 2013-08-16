@@ -29,21 +29,6 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
     /** @var  Mage_Oauth_Service_OauthInterfaceV1 */
     protected $_oauthService;
 
-    /**
-     * Protocol parameters
-     *
-     * @var array
-     */
-    protected $_protocolParams = array();
-
-    /**
-     * Request parameters
-     *
-     * @var array
-     */
-    protected $_params = array();
-
-
     public function __construct(
         Mage_Oauth_Service_OauthInterfaceV1 $oauthService,
         Mage_Core_Controller_Varien_Action_Context $context,
@@ -62,6 +47,9 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
      */
     protected function _fetchParams()
     {
+        $protocolParams = array();
+        $bodyParams = array();
+
         $authHeaderValue = $this->getRequest()->getHeader('Authorization');
 
         if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
@@ -74,26 +62,26 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
                     continue;
                 }
                 if ($this->_isProtocolParameter($nameAndValue[0])) {
-                    $this->_protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
+                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
                 }
             }
         }
         $contentTypeHeader = $this->getRequest()->getHeader(Zend_Http_Client::CONTENT_TYPE);
 
         if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
-            $protocolParamsNotSet = !$this->_protocolParams;
+            $protocolParamsNotSet = !$protocolParams;
 
             parse_str($this->getRequest()->getRawBody(), $bodyParams);
 
             foreach ($bodyParams as $bodyParamName => $bodyParamValue) {
                 if (!$this->_isProtocolParameter($bodyParamName)) {
-                    $this->_params[$bodyParamName] = $bodyParamValue;
+                    $bodyParams[$bodyParamName] = $bodyParamValue;
                 } elseif ($protocolParamsNotSet) {
-                    $this->_protocolParams[$bodyParamName] = $bodyParamValue;
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
                 }
             }
         }
-        $protocolParamsNotSet = !$this->_protocolParams;
+        $protocolParamsNotSet = !$protocolParams;
 
         $url = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()
                 ->getRequestUri();
@@ -103,29 +91,30 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
                 $paramData = explode('=', $paramToValue);
 
                 if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
-                    $this->_params[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
+                    $bodyParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
                 }
             }
         }
         if ($protocolParamsNotSet) {
-            $this->_fetchProtocolParamsFromQuery();
+            $this->_fetchProtocolParamsFromQuery($protocolParams);
         }
-        return $this;
+
+        //Combine request and header parameters
+        return array_merge($bodyParams, $protocolParams);
     }
 
     /**
      * Retrieve protocol parameters from query string
      *
-     * @return Mage_Oauth_Model_Server
+     * @param $protocolParams
      */
-    protected function _fetchProtocolParamsFromQuery()
+    protected function _fetchProtocolParamsFromQuery(&$protocolParams)
     {
         foreach ($this->getRequest()->getQuery() as $queryParamName => $queryParamValue) {
             if ($this->_isProtocolParameter($queryParamName)) {
-                $this->_protocolParams[$queryParamName] = $queryParamValue;
+                $protocolParams[$queryParamName] = $queryParamValue;
             }
         }
-        return $this;
     }
 
     /**
