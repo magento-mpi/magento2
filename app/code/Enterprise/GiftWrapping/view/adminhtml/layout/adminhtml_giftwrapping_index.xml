@@ -99,11 +99,11 @@
                                 <options>
                                     <disabled>
                                         <value>0</value>
-                                        <label translate="true" module="Enterprise_GiftWrapping">Disabled</label>
+                                        <label translate="true">Disabled</label>
                                     </disabled>
                                     <enabled>
                                         <value>1</value>
-                                        <label translate="true" module="Enterprise_GiftWrapping">Enabled</label>
+                                        <label translate="true">Enabled</label>
                                     </enabled>
                                 </options>
                                 <header_css_class>col-status</header_css_class>

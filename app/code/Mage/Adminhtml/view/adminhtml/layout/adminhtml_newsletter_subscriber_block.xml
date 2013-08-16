@@ -77,11 +77,11 @@
                             <options>
                                 <guest>
                                     <value>1</value>
-                                    <label translate ="true" module="Mage_Newsletter">Guest</label>
+                                    <label translate="true">Guest</label>
                                 </guest>
                                 <customer>
                                     <value>2</value>
-                                    <label translate ="true" module="Mage_Newsletter">Customer</label>
+                                    <label translate ="true">Customer</label>
                                 </customer>
                             </options>
                             <header_css_class>col-type</header_css_class>
@@ -108,24 +108,24 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='status'>
                         <arguments>
-                            <header translate='true' module='Mage_Newsletter'>Status</header>
+                            <header translate='true'>Status</header>
                             <index>subscriber_status</index>
                             <type>options</type>
                             <status_not_active>
                                 <value>2</value>
-                                <label translate ="true" module="Mage_Newsletter">Not Activated</label>
+                                <label translate="true">Not Activated</label>
                             </status_not_active>
                             <status_subscribed>
                                 <value>1</value>
-                                <label translate ="true" module="Mage_Newsletter">Subscribed</label>
+                                <label translate="true">Subscribed</label>
                             </status_subscribed>
                             <status_unsubscribed>
                                 <value>3</value>
-                                <label translate ="true" module="Mage_Newsletter">Unsubscribed</label>
+                                <label translate="true">Unsubscribed</label>
                             </status_unsubscribed>
                             <status_unconfirmed>
                                 <value>4</value>
-                                <label translate ="true" module="Mage_Newsletter">Unconfirmed</label>
+                                <label translate="true">Unconfirmed</label>
                             </status_unconfirmed>
                             <header_css_class>col-status</header_css_class>
                             <column_css_class>col-status</column_css_class>

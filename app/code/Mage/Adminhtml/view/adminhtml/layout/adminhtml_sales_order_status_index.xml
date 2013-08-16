@@ -54,11 +54,11 @@
                                 <options>
                                     <no>
                                         <value>0</value>
-                                        <label translate="true" module="Mage_Sales">No</label>
+                                        <label translate="true">No</label>
                                     </no>
                                     <yes>
                                         <value>1</value>
-                                        <label translate="true" module="Mage_Sales">Yes</label>
+                                        <label translate="true">Yes</label>
                                     </yes>
                                 </options>
                             </arguments>

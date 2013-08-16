@@ -58,11 +58,11 @@
                             <options>
                                 <active>
                                     <value>1</value>
-                                    <label translate="true" module="Mage_Rating">Active</label>
+                                    <label translate="true">Active</label>
                                 </active>
                                 <inative>
                                     <value>0</value>
-                                    <label translate="true" module="Mage_Rating">Inactive</label>
+                                    <label translate="true">Inactive</label>
                                 </inative>
                             </options>
                         </arguments>

@@ -62,11 +62,11 @@
                             <options>
                                 <yes>
                                     <value>1</value>
-                                    <label translate="true" module="Enterprise_GiftRegistry">Yes</label>
+                                    <label translate="true">Yes</label>
                                 </yes>
                                 <no>
                                     <value>0</value>
-                                    <label translate="true" module="Enterprise_GiftRegistry">No</label>
+                                    <label translate="true">No</label>
                                 </no>
                             </options>
                         </arguments>

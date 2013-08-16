@@ -98,11 +98,11 @@
                             <options>
                                 <yes>
                                     <value>1</value>
-                                    <label translate="true" module="Mage_Catalog">yes</label>
+                                    <label translate="true">yes</label>
                                 </yes>
                                 <no>
                                     <value>0</value>
-                                    <label translate="true" module="Mage_Catalog">no</label>
+                                    <label translate="true">no</label>
                                 </no>
                             </options>
                         </arguments>

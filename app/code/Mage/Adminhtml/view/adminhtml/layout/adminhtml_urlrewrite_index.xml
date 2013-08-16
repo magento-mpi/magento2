@@ -55,11 +55,11 @@
                                 <options>
                                     <system>
                                         <value>1</value>
-                                        <label translate="true" module="Mage_Backend">System</label>
+                                        <label translate="true">System</label>
                                     </system>
                                     <custom>
                                         <value>0</value>
-                                        <label translate="true" module="Mage_Backend">Custom</label>
+                                        <label translate="true">Custom</label>
                                     </custom>
                                 </options>
                             </arguments>
