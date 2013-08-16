@@ -109,16 +109,6 @@
         </antcall>
     </target>
 
-    <target name="integration_tests_saas_dev_mysql" depends="_saas_edition" description="Integration tests in dev mode on MySQL for GO">
-        <antcall target="_integration_tests_magento"/>
-    </target>
-
-    <target name="integration_tests_saas_mysql" depends="_saas_edition" description="Integration tests on MySQL for GO">
-        <antcall target="_integration_tests_magento">
-            <param name="app_mode" value="default"/>
-        </antcall>
-    </target>
-
     <target name="_integration_integrity_tests_magento" depends="_integration_tests_configuration" description="Product integration integrity tests">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/integration_integrity_tests_magento.xml testsuite/integrity"/>
@@ -140,16 +130,6 @@
     </target>
 
     <target name="integration_integrity_tests_ce_mysql" depends="_community_edition" description="Integration integrity tests on MySQL for CE">
-        <antcall target="_integration_integrity_tests_magento">
-            <param name="app_mode" value="default"/>
-        </antcall>
-    </target>
-
-    <target name="integration_integrity_tests_saas_dev_mysql" depends="_saas_edition" description="Integration integrity tests in dev mode on MySQL for Go">
-        <antcall target="_integration_integrity_tests_magento"/>
-    </target>
-
-    <target name="integration_integrity_tests_saas_mysql" depends="_saas_edition" description="Integration integrity tests on MySQL for Go">
         <antcall target="_integration_integrity_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>
