@@ -38,6 +38,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     );
 
     /**
+     * TODO: Possible combine both the error objects
      * Error code to HTTP error code
      *
      * @var array
@@ -247,6 +248,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
 
     /**
+     * Validate signature based on the signature method used
      * @param $accessTokenData
      * @param $consumerSecret
      * @param null $tokenSecret
@@ -270,6 +272,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * Set request URL
      * @param $requestUrl
      * @return mixed|void
      */
@@ -279,6 +282,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * Get request URL
      * @return string
      */
     public function getRequestUrl()
@@ -288,6 +292,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
 
     /**
+     * Set request HTTP method
      * @param $requestMethod
      * @return void
      */
@@ -297,6 +302,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * GET request HTTP method
      * @return string
      */
     public function getRequestMethod()
@@ -391,6 +397,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * Fetch nonce based on the noce string
      * @param $nonce
      * @return Mage_Oauth_Model_Nonce
      */
@@ -402,21 +409,13 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * Fetch consumer by consumer id
      * @param $consumerId
      * @return Mage_Oauth_Model_Consumer
      */
     protected function _fetchConsumer($consumerId)
     {
-        return $this->_consumerFactory->create()->load($consumerId);
-    }
-
-    /**
-     * @param $key
-     * @return Mage_Oauth_Model_Consumer
-     */
-    protected function _fetchConsumerByConsumerKey($key)
-    {
-        $this->_consumerObj = empty($this->_consumerObj) ? $this->_consumerFactory->create()->load($key, 'key')
+        $this->_consumerObj = $this->_consumerObj == null ? $this->_consumerFactory->create()->load($consumerId)
             : $this->_consumerObj;
         if (!$this->_consumerObj->getId()) {
             $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
@@ -425,6 +424,23 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * Fetch consumer object by consumer key
+     * @param $key
+     * @return Mage_Oauth_Model_Consumer
+     */
+    protected function _fetchConsumerByConsumerKey($key)
+    {
+        $this->_consumerObj = $this->_consumerObj == null ? $this->_consumerFactory->create()->load($key, 'key')
+            : $this->_consumerObj;
+        if (!$this->_consumerObj->getId()) {
+            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
+        }
+        return $this->_consumerObj;
+    }
+
+    /**
+     * Validate Token param, compare the consumer id from consumer object against token associated consumer id and
+     * retuurn back the token object
      * @param $tokenParam
      * @param $consumerId
      * @return Mage_Oauth_Model_Token
@@ -462,6 +478,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * //TODO : Can be cached if used more than once in a flow
+     * Fetch token based on token param
      * @param $tokenParam
      * @return Mage_Oauth_Model_Token
      */
@@ -471,6 +489,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * Get map of error code and error message
      * @return array
      */
     public function getErrorMap()
@@ -480,6 +499,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
 
     /**
+     * Get map of error code and HTTP code
      * @return array
      */
     public function getErrorToHttpCodeMap()
