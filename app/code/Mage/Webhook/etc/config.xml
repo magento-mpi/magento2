@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Webhook>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core />
-                <Mage_Webapi />
-                <Mage_Backend />
-            </depends>
-        </Mage_Webhook>
-    </modules>
     <global>
         <resources>
             <webhook_setup>

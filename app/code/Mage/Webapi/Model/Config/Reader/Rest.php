@@ -20,13 +20,17 @@ class Mage_Webapi_Model_Config_Reader_Rest extends Mage_Webapi_Model_Config_Read
      * @param Mage_Webapi_Model_Config_Reader_Rest_ClassReflector $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_Rest_ClassReflector $classReflector,
         Mage_Core_Model_Config $appConfig,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_ModuleListInterface $moduleList,
+        Mage_Core_Model_Cache_StateInterface $cacheState
     ) {
-        parent::__construct($classReflector, $appConfig, $cache);
+        parent::__construct($classReflector, $appConfig, $cache, $moduleList, $cacheState);
     }
 
     /**

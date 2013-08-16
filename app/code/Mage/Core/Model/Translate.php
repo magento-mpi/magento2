@@ -271,12 +271,13 @@ class Mage_Core_Model_Translate
      * Parse and save edited translate
      *
      * @param array $translate
-     * @return Mage_Core_Model_Translate_TranslateInterface
+     * @return Mage_Core_Model_Translate_InlineInterface
      */
     public function processAjaxPost($translate)
     {
-        Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface')
-            ->invalidateType(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
+        /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList->invalidate(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
         Mage::getObjectManager()->get('Mage_Core_Model_Translate_InlineParser')
             ->processAjaxPost($translate, $this->getInlineObject());
     }

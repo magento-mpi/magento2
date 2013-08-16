@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Sales>
-            <version>1.6.0.11</version>
-            <active>true</active>
-            <depends>
-                <Mage_Rule />
-                <Mage_Catalog />
-                <Mage_Customer />
-                <Mage_Payment />
-            </depends>
-        </Mage_Sales>
-    </modules>
     <global>
         <template>
             <email>

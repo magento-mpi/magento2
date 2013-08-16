@@ -257,7 +257,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
         if (is_array($column)) {
             $this->getColumnSet()->setChild(
                 $columnId,
-                $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
+                $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column_Extended')
                     ->setData($column)
                     ->setId($columnId)
                     ->setGrid($this)

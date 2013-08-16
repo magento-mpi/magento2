@@ -117,4 +117,27 @@ customer_segment_report:
 customer_wishlist_report:
     mca: report_customer_wishlist/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
-    title: Customer Wishlist Report / Customers / Reports / Magento Admin
+    title: Customer Wish List Report / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customer_wishlist_report_grid:
+                        xpath: //div[@id='gridReportWishlists']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            export: //button[span='Export']
+                        fields:
+                            filter_from: //input[@name='added_at[from]']
+                            filter_to: //input[@name='added_at[to]']
+                            comment: //input[@id='gridReportWishlists_filter_item_comment']
+                            wishlist_quantity_from: //input[@id='gridReportWishlists_filter_item_qty_from']
+                            wishlist_quantity_to: //input[@id='gridReportWishlists_filter_item_qty_to']
+                            store_quantity_from: //input[@id='gridReportWishlists_filter_product_qty_from']
+                            store_quantity_to: //input[@id='gridReportWishlists_filter_product_qty_to']
+                            surplus_from: //input[@id='gridReportWishlists_filter_qty_diff_from']
+                            surplus_to: //input[@id='gridReportWishlists_filter_qty_diff_to']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_status: //select[@id='gridReportWishlists_filter_visibility']

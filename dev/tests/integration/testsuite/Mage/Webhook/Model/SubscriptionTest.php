@@ -209,10 +209,10 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
         // Test getUser
         $userContext = array(
-            'key' => 'get_user_key',
-            'secret' => 'shh',
+            'key' => 'some_other_key_value',
+            'secret' => 'shh1',
             'company' => 'Corporate Corporations Inc.',
-            'email' => 'get.user@email.com'
+            'email' => 'email.address@email.com'
         );
         /** @var Mage_Webhook_Model_User_Factory $userFactory */
         $userFactory = Mage::getObjectManager()->create('Mage_Webhook_Model_User_Factory');

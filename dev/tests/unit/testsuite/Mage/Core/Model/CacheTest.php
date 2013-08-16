@@ -25,33 +25,9 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
      */
     protected $_cacheFrontendMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_cacheTypesMock;
-
     protected function setUp()
     {
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false);
-        $helperMock
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0))
-        ;
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $helperFactoryMock
-            ->expects($this->any())
-            ->method('get')
-            ->with('Mage_Core_Helper_Data')
-            ->will($this->returnValue($helperMock))
-        ;
-
         $this->_initCacheTypeMocks();
-        $objectManagerMock = $this->getMockForAbstractClass('Magento_ObjectManager');
-        $objectManagerMock
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnCallback(array($this, 'getTypeMock')));
 
         $this->_cacheFrontendMock = $this->getMockForAbstractClass(
             'Magento_Cache_FrontendInterface', array(), '', true, true, true, array('clean')
@@ -61,30 +37,19 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $frontendPoolMock
             ->expects($this->any())
             ->method('valid')
-            ->will($this->onConsecutiveCalls(true, false))
-        ;
+            ->will($this->onConsecutiveCalls(true, false));
+
         $frontendPoolMock
             ->expects($this->any())
             ->method('current')
-            ->will($this->returnValue($this->_cacheFrontendMock))
-        ;
+            ->will($this->returnValue($this->_cacheFrontendMock));
         $frontendPoolMock
             ->expects($this->any())
             ->method('get')
             ->with(Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
-            ->will($this->returnValue($this->_cacheFrontendMock))
-        ;
+            ->will($this->returnValue($this->_cacheFrontendMock));
 
-        $this->_cacheTypesMock = $this->getMock('Mage_Core_Model_Cache_Types', array(), array(), '', false);
-
-        $configFixture = new Mage_Core_Model_Config_Base(file_get_contents(__DIR__ . '/_files/cache_types.xml'));
-
-        $dirsMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-
-        $this->_model = new Mage_Core_Model_Cache(
-            $objectManagerMock, $frontendPoolMock, $this->_cacheTypesMock, $configFixture,
-            $dirsMock, $helperFactoryMock
-        );
+        $this->_model = new Mage_Core_Model_Cache($frontendPoolMock);
     }
 
     /**
@@ -114,7 +79,6 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_cacheTypeMocks = array();
-        $this->_cacheTypesMock = null;
         $this->_cacheFrontendMock = null;
         $this->_model = null;
     }
@@ -223,107 +187,5 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
         $this->assertTrue($this->_model->clean());
-    }
-
-    public function testCanUse()
-    {
-        $this->_cacheTypesMock
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('config')
-            ->will($this->returnValue(true))
-        ;
-        $this->assertTrue($this->_model->canUse('config'));
-    }
-
-    public function testBanUse()
-    {
-        $this->_cacheTypesMock
-            ->expects($this->once())
-            ->method('setEnabled')
-            ->with('config', false)
-        ;
-        $this->_model->banUse('config');
-    }
-
-    public function testAllowUse()
-    {
-        $this->_cacheTypesMock
-            ->expects($this->once())
-            ->method('setEnabled')
-            ->with('config', true)
-        ;
-        $this->_model->allowUse('config');
-    }
-
-    public function testGetTypes()
-    {
-        $expectedCacheTypes = array(
-            'fixture_type_tag_scope' => array(
-                'id'          => 'fixture_type_tag_scope',
-                'cache_type'  => 'Fixture Type One',
-                'description' => 'This is Fixture Type One',
-                'tags'        => 'FIXTURE_TAG',
-                'status'      => 0,
-            ),
-            'fixture_type_bare' => array(
-                'id'          => 'fixture_type_bare',
-                'cache_type'  => 'Fixture Type Two',
-                'description' => 'This is Fixture Type Two',
-                'tags'        => '',
-                'status'      => 0,
-            ),
-        );
-        $actualCacheTypes = $this->_model->getTypes();
-        $this->assertInternalType('array', $actualCacheTypes);
-        $this->assertEquals(array_keys($expectedCacheTypes), array_keys($actualCacheTypes));
-        foreach ($actualCacheTypes as $cacheId => $cacheTypeData) {
-            /** @var $cacheTypeData Magento_Object */
-            $this->assertInstanceOf('Magento_Object', $cacheTypeData);
-            $this->assertEquals($expectedCacheTypes[$cacheId], $cacheTypeData->getData());
-        }
-    }
-
-    public function testGetInvalidatedTypes()
-    {
-        $this->_cacheTypesMock
-            ->expects($this->any())
-            ->method('isEnabled')
-            ->will($this->returnValue(true))
-        ;
-        $this->_cacheFrontendMock
-            ->expects($this->once())
-            ->method('load')
-            ->with(Mage_Core_Model_Cache::INVALIDATED_TYPES)
-            ->will($this->returnValue(serialize(array('fixture_type_tag_scope' => 1))))
-        ;
-        $actualResult = $this->_model->getInvalidatedTypes();
-        $this->assertInternalType('array', $actualResult);
-        $this->assertCount(1, $actualResult);
-        $this->assertArrayHasKey('fixture_type_tag_scope', $actualResult);
-        $this->assertInstanceOf('Magento_Object', $actualResult['fixture_type_tag_scope']);
-    }
-
-    public function testInvalidateType()
-    {
-        $this->_cacheFrontendMock
-            ->expects($this->once())
-            ->method('save')
-            ->with(serialize(array('test' => 1)), Mage_Core_Model_Cache::INVALIDATED_TYPES)
-        ;
-        $this->_model->invalidateType('test');
-    }
-
-    public function testCleanType()
-    {
-        $this->_cacheTypeMocks['Magento_Cache_Frontend_Decorator_TagScope']
-            ->expects($this->once())
-            ->method('clean')
-        ;
-        $this->_cacheTypeMocks['Magento_Cache_Frontend_Decorator_Bare']
-            ->expects($this->never())
-            ->method('clean')
-        ;
-        $this->_model->cleanType('fixture_type_tag_scope');
     }
 }

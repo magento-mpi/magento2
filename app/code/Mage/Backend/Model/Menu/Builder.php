@@ -25,22 +25,12 @@ class Mage_Backend_Model_Menu_Builder
     protected $_itemFactory;
 
     /**
-     * Root menu
-     *
-     * @var Mage_Backend_Model_Menu
-     */
-    protected $_menu;
-
-    /**
      * @param Mage_Backend_Model_Menu_Item_Factory $menuItemFactory
-     * @param Mage_Backend_Model_Menu $menu
      */
     public function __construct(
-        Mage_Backend_Model_Menu_Item_Factory $menuItemFactory,
-        Mage_Backend_Model_Menu $menu
+        Mage_Backend_Model_Menu_Item_Factory $menuItemFactory
     ) {
         $this->_itemFactory = $menuItemFactory;
-        $this->_menu = $menu;
     }
 
     /**
@@ -60,10 +50,13 @@ class Mage_Backend_Model_Menu_Builder
     }
 
     /**
+     * Populate menu object
+     *
+     * @param Mage_Backend_Model_Menu $menu
      * @return Mage_Backend_Model_Menu
      * @throws OutOfRangeException in case given parent id does not exists
      */
-    public function getResult()
+    public function getResult(Mage_Backend_Model_Menu $menu)
     {
         /** @var $items Mage_Backend_Model_Menu_Item[] */
         $params = array();
@@ -86,7 +79,7 @@ class Mage_Backend_Model_Menu_Builder
                 continue;
             }
             if (!$parentId) {
-                $this->_menu->add($item, null, $sortOrder);
+                $menu->add($item, null, $sortOrder);
             } else {
                 if (!isset($items[$parentId])) {
                     throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $parentId));
@@ -98,7 +91,7 @@ class Mage_Backend_Model_Menu_Builder
             }
         }
 
-        return $this->_menu;
+        return $menu;
     }
 
     /**

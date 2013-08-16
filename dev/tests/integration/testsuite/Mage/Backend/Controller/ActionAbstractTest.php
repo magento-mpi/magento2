@@ -22,7 +22,8 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Co
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $backendUrlModel Mage_Backend_Model_Url */
         $backendUrlModel = Mage::getObjectManager()->get('Mage_Backend_Model_Url');
         $url = $backendUrlModel->getStartupPageUrl();
