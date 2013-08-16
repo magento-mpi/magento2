@@ -116,19 +116,19 @@
      * Introduced mechanism to retrieve values from nested arrays by path
      * Added Invoker class to invoke service calls by given name
      * Added ability to define system configuration options via service calls. Refactored implementation for select field in XML
-  * Refactored support of twig templates
-     * Removed experimental implementation of product view page with twig templates
+  * Refactored support of Twig templates
+     * Removed experimental implementation of product view page with Twig templates
      * Template abstraction moved to separate module `Mage_Core_Model_TemplateEngine`
      * Modified various blocks and templates due to inability to call protected methods from templates
      * Improved test coverage
-  * Refactored support for webhooks and callbacks
-     * Moved code that provides communication with outbound endpoint, to library `Magento_Outbound`
-     * Moved code that provides implementation of publish-subscribe mechanism and instruments, to library `Magento_PubSub`
+  * Refactored support for webhooks
+     * Code that provides communication with outbound endpoint moved to library `Magento_Outbound`
+     * Code that provides implementation of publish-subscribe mechanism and instruments moved to library `Magento_PubSub`
      * Removed experimental webhook implementation in client code
      * Used WebApi mechanism to provide authorization
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
-     * Removed support of callbacks form the framework
+  * Removed support of callbacks from the framework
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
