@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * TODO: Need to refactor to reduce coupling
+ * Class Mage_Oauth_Service_OauthV1
+ */
 class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 {
     /**
@@ -15,21 +19,22 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      * @var array
      */
     protected $_errors = array(
-        self::ERR_VERSION_REJECTED          => 'version_rejected',
-        self::ERR_PARAMETER_ABSENT          => 'parameter_absent',
-        self::ERR_PARAMETER_REJECTED        => 'parameter_rejected',
-        self::ERR_TIMESTAMP_REFUSED         => 'timestamp_refused',
-        self::ERR_NONCE_USED                => 'nonce_used',
+        self::ERR_VERSION_REJECTED => 'version_rejected',
+        self::ERR_PARAMETER_ABSENT => 'parameter_absent',
+        self::ERR_PARAMETER_REJECTED => 'parameter_rejected',
+        self::ERR_TIMESTAMP_REFUSED => 'timestamp_refused',
+        self::ERR_NONCE_USED => 'nonce_used',
         self::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
-        self::ERR_SIGNATURE_INVALID         => 'signature_invalid',
-        self::ERR_CONSUMER_KEY_REJECTED     => 'consumer_key_rejected',
-        self::ERR_TOKEN_USED                => 'token_used',
-        self::ERR_TOKEN_EXPIRED             => 'token_expired',
-        self::ERR_TOKEN_REVOKED             => 'token_revoked',
-        self::ERR_TOKEN_REJECTED            => 'token_rejected',
-        self::ERR_VERIFIER_INVALID          => 'verifier_invalid',
-        self::ERR_PERMISSION_UNKNOWN        => 'permission_unknown',
-        self::ERR_PERMISSION_DENIED         => 'permission_denied'
+        self::ERR_SIGNATURE_INVALID => 'signature_invalid',
+        self::ERR_CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
+        self::ERR_TOKEN_USED => 'token_used',
+        self::ERR_TOKEN_EXPIRED => 'token_expired',
+        self::ERR_TOKEN_REVOKED => 'token_revoked',
+        self::ERR_TOKEN_REJECTED => 'token_rejected',
+        self::ERR_VERIFIER_INVALID => 'verifier_invalid',
+        self::ERR_PERMISSION_UNKNOWN => 'permission_unknown',
+        self::ERR_PERMISSION_DENIED => 'permission_denied',
+        self::ERR_METHOD_NOT_ALLOWED => 'method_not_allowed'
     );
 
     /**
@@ -38,27 +43,36 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      * @var array
      */
     protected $_errorsToHttpCode = array(
-        self::ERR_VERSION_REJECTED          => self::HTTP_BAD_REQUEST,
-        self::ERR_PARAMETER_ABSENT          => self::HTTP_BAD_REQUEST,
-        self::ERR_PARAMETER_REJECTED        => self::HTTP_BAD_REQUEST,
-        self::ERR_TIMESTAMP_REFUSED         => self::HTTP_BAD_REQUEST,
-        self::ERR_NONCE_USED                => self::HTTP_UNAUTHORIZED,
+        self::ERR_VERSION_REJECTED => self::HTTP_BAD_REQUEST,
+        self::ERR_PARAMETER_ABSENT => self::HTTP_BAD_REQUEST,
+        self::ERR_PARAMETER_REJECTED => self::HTTP_BAD_REQUEST,
+        self::ERR_TIMESTAMP_REFUSED => self::HTTP_BAD_REQUEST,
+        self::ERR_NONCE_USED => self::HTTP_UNAUTHORIZED,
         self::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
-        self::ERR_SIGNATURE_INVALID         => self::HTTP_UNAUTHORIZED,
-        self::ERR_CONSUMER_KEY_REJECTED     => self::HTTP_UNAUTHORIZED,
-        self::ERR_TOKEN_USED                => self::HTTP_UNAUTHORIZED,
-        self::ERR_TOKEN_EXPIRED             => self::HTTP_UNAUTHORIZED,
-        self::ERR_TOKEN_REVOKED             => self::HTTP_UNAUTHORIZED,
-        self::ERR_TOKEN_REJECTED            => self::HTTP_UNAUTHORIZED,
-        self::ERR_VERIFIER_INVALID          => self::HTTP_UNAUTHORIZED,
-        self::ERR_PERMISSION_UNKNOWN        => self::HTTP_UNAUTHORIZED,
-        self::ERR_PERMISSION_DENIED         => self::HTTP_UNAUTHORIZED
+        self::ERR_SIGNATURE_INVALID => self::HTTP_UNAUTHORIZED,
+        self::ERR_CONSUMER_KEY_REJECTED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_USED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_EXPIRED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_REVOKED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_REJECTED => self::HTTP_UNAUTHORIZED,
+        self::ERR_VERIFIER_INVALID => self::HTTP_UNAUTHORIZED,
+        self::ERR_PERMISSION_UNKNOWN => self::HTTP_UNAUTHORIZED,
+        self::ERR_PERMISSION_DENIED => self::HTTP_UNAUTHORIZED
     );
+
 
     /**
      * Possible time deviation for timestamp validation in sec.
      */
     const TIME_DEVIATION = 600;
+
+
+    /**#@+
+     * Request Types
+     */
+    const REQUEST_AUTHORIZE = 'authorize'; // display authorize form
+    const REQUEST_TOKEN = 'token'; // ask for permanent credentials
+    const REQUEST_RESOURCE = 'resource'; // ask for protected resource using permanent credentials
 
     /** @var  Mage_Oauth_Model_Consumer_Factory */
     private $_consumerFactory;
@@ -66,26 +80,45 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /** @var  Mage_Oauth_Model_Nonce_Factory */
     private $_nonceFactory;
 
+    /** @var  Mage_Oauth_Model_Token_Factory */
+    private $_tokenFactory;
+
     /** @var  Mage_Core_Model_Translate */
     private $_translator;
 
     /** @var  Mage_Oauth_Helper_Data */
     protected $_helper;
 
+    /** @var  Mage_Oauth_Model_Consumer */
+    protected $_consumerObj;
+
+    /** @var  Mage_Oauth_Model_Token */
+    protected $_tokenObj;
+
+    /** @var string */
+    protected $_requestUrl;
+
+    /** @var string */
+    protected $_requestMethod;
+
+
     /**
      * @param Mage_Oauth_Model_Consumer_Factory
      * @param Mage_Oauth_Model_Nonce_Factory
+     * @param Mage_Oauth_Model_Token_Factory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Translate
      */
     public function __construct(
         Mage_Oauth_Model_Consumer_Factory $consumerFactory,
         Mage_Oauth_Model_Nonce_Factory $nonceFactory,
+        Mage_Oauth_Model_Token_Factory $tokenFactory,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Translate $translator
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
+        $this->_tokenFactory = $tokenFactory;
         $this->_helper = $helperFactory->get('Mage_Oauth_Helper_Data');
         $this->_translator = $translator;
     }
@@ -101,7 +134,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     protected function _validateNonce($nonce, $consumerId, $timestamp)
     {
         try {
-            $timestamp = (int) $timestamp;
+            $timestamp = (int)$timestamp;
             if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
                 throw new Mage_Oauth_Exception(
                     $this->_translator->translate(
@@ -109,8 +142,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_TIMESTAMP_REFUSED);
             }
 
-            $nonceObj = $this->_nonceFactory->create();
-            $nonceObj->load($nonce, 'nonce');
+            $nonceObj = $this->_fetchNonce($nonce);
 
             if ($nonceObj->getConsumerId() == $consumerId) {
                 throw new Mage_Oauth_Exception(
@@ -119,8 +151,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_NONCE_USED);
             }
 
-            $consumer = $this->_consumerFactory->create();
-            $consumer->load($consumerId);
+            $consumer = $this->_fetchConsumer($consumerId);
+
             if (!$consumer->getId()) {
                 throw new Mage_Oauth_Exception(
                     $this->_translator->translate(
@@ -183,5 +215,275 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             throw new Mage_Oauth_Exception(
                 $this->_translator->translate(array('Unexpected error. Unable to create Oauth consumer.')));
         }
+    }
+
+
+    /**
+     * Get an access token in exchange for a pre-authorized token
+     * Perform appropriate parameter and signature validation
+     *
+     * @param $accessTokenData
+     * @return string token
+     */
+    public function getAccessToken($accessTokenData)
+    {
+        // make generic validation of request parameters
+        $this->_validateProtocolParams($accessTokenData);
+
+        $tokenParam = $accessTokenData['oauth_token'];
+
+        $consumerKeyParam = $accessTokenData['oauth_consumer_key'];
+        $consumerObj = $this->_fetchConsumerByConsumerKey($consumerKeyParam);
+
+        $tokenObj = $this->_validateAndFetchToken($tokenParam, $consumerObj->getId());
+
+        $this->_validateVerifierParam($accessTokenData['oauth_verifier'], $tokenObj->getVerifier());
+
+        $this->_validateSignature($accessTokenData, $consumerObj->getSecret(), $tokenObj->getSecret());
+
+        //Mark this token associated o the consumer as "access". Replace type with access
+        return $tokenObj->convertToAccess()->toString();
+    }
+
+
+    /**
+     * @param $accessTokenData
+     * @param $consumerSecret
+     * @param null $tokenSecret
+     */
+    protected function _validateSignature($accessTokenData, $consumerSecret, $tokenSecret = null)
+    {
+        $util = new Zend_Oauth_Http_Utility();
+
+        $calculatedSign = $util->sign(
+            $accessTokenData,
+            $accessTokenData['oauth_signature_method'],
+            $consumerSecret,
+            $tokenSecret,
+            $this->getRequestMethod(),
+            $this->getRequestUrl()
+        );
+
+        if ($calculatedSign != $accessTokenData['oauth_signature']) {
+            $this->_throwException('Invalid signature.', self::ERR_SIGNATURE_INVALID);
+        }
+    }
+
+    /**
+     * @param $requestUrl
+     * @return mixed|void
+     */
+    public function setRequestUrl($requestUrl)
+    {
+        $this->_requestUrl = $requestUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestUrl()
+    {
+        return $this->_requestUrl;
+    }
+
+
+    /**
+     * @param $requestMethod
+     * @return void
+     */
+    public function setRequestMethod($requestMethod)
+    {
+        $this->_requestMethod = $requestMethod;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestMethod()
+    {
+        return $this->_requestMethod;
+    }
+
+
+    /**
+     * Validate oauth verifier
+     *
+     * @param $verifierParam
+     * @param $verifierFromToken verifier that is already associated to the existing token
+     */
+    protected function _validateVerifierParam($verifierParam, $verifierFromToken)
+    {
+        if (empty($verifierParam)) {
+            $this->_throwException('oauth_verifier', self::ERR_PARAMETER_ABSENT);
+        }
+        if (!is_string($verifierParam)) {
+            $this->_throwException('', self::ERR_VERIFIER_INVALID);
+        }
+        if ((strlen($verifierParam) != Mage_Oauth_Model_Token::LENGTH_VERIFIER)
+            || ($verifierFromToken != $verifierParam)
+        ) {
+            $this->_throwException('', self::ERR_VERIFIER_INVALID);
+        }
+    }
+
+    /**
+     * Validate token parameter
+     *
+     * @param $token
+     */
+    protected function _validateTokenParam($token)
+    {
+        if (empty($token)) {
+            $this->_throwException('oauth_token', self::ERR_PARAMETER_ABSENT);
+        }
+        if (!is_string($token)) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+        if (strlen($token) != Mage_Oauth_Model_Token::LENGTH_TOKEN) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+    }
+
+
+    /**
+     * //TODO: Resolve cyclomatic complexity
+     * Validate request and header parameters
+     *
+     * @param $protocolParams
+     */
+    protected function _validateProtocolParams($protocolParams)
+    {
+        // validate version if specified
+        if (isset($protocolParams['oauth_version']) && '1.0' != $protocolParams['oauth_version']) {
+            $this->_throwException('', self::ERR_VERSION_REJECTED);
+        }
+        // required parameters validation
+        foreach (array('oauth_consumer_key', 'oauth_signature_method', 'oauth_signature') as $reqField) {
+            if (empty($protocolParams[$reqField])) {
+                $this->_throwException($reqField, self::ERR_PARAMETER_ABSENT);
+            }
+        }
+        // validate parameters type
+        foreach ($protocolParams as $paramName => $paramValue) {
+            if (!is_string($paramValue)) {
+                $this->_throwException($paramName, self::ERR_PARAMETER_REJECTED);
+            }
+        }
+        // validate signature method
+        if (!in_array($protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
+            $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
+        }
+
+        if (empty($protocolParams['oauth_nonce'])) {
+            $this->_throwException('oauth_nonce', self::ERR_PARAMETER_ABSENT);
+        }
+        if (empty($protocolParams['oauth_timestamp'])) {
+            $this->_throwException('oauth_timestamp', self::ERR_PARAMETER_ABSENT);
+        }
+
+        $consumerObj = $this->_fetchConsumerByConsumerKey($protocolParams['oauth_consumer_key']);
+
+        $this->_validateNonce(
+            $protocolParams['oauth_nonce'],
+            $consumerObj->getId(),
+            $protocolParams['oauth_timestamp']
+        );
+    }
+
+    /**
+     * @param $nonce
+     * @return Mage_Oauth_Model_Nonce
+     */
+    protected function _fetchNonce($nonce)
+    {
+        $nonceObj = $this->_nonceFactory->create();
+        $nonceObj->load($nonce, 'nonce');
+        return $nonceObj;
+    }
+
+    /**
+     * @param $consumerId
+     * @return Mage_Oauth_Model_Consumer
+     */
+    protected function _fetchConsumer($consumerId)
+    {
+        return $this->_consumerFactory->create()->load($consumerId);
+    }
+
+    /**
+     * @param $key
+     * @return Mage_Oauth_Model_Consumer
+     */
+    protected function _fetchConsumerByConsumerKey($key)
+    {
+        $this->_consumerObj = empty($this->_consumerObj) ? $this->_consumerFactory->create()->load($key, 'key')
+            : $this->_consumerObj;
+        if (!$this->_consumerObj->getId()) {
+            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
+        }
+        return $this->_consumerObj;
+    }
+
+    /**
+     * @param $tokenParam
+     * @param $consumerId
+     * @return Mage_Oauth_Model_Token
+     */
+    protected function _validateAndFetchToken($tokenParam, $consumerId)
+    {
+        $this->_validateTokenParam($tokenParam);
+
+        $tokenObj = $this->_fetchToken($tokenParam);
+
+        //The pre-auth token has a value of "request" in the type when it is requested and created initially
+        //In this flow (token flow) the token has to be of type "request" else its marked as reused
+        //TODO: Need to check security implication of this message
+        if (Mage_Oauth_Model_Token::TYPE_REQUEST != $tokenObj->getType()) {
+            $this->_throwException('', self::ERR_TOKEN_USED);
+        }
+
+        if ($tokenObj->getConsumerId() != (int)$consumerId) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+
+        return $tokenObj;
+    }
+
+    /**
+     * Throw OAuth exception
+     *
+     * @param string $message Exception message
+     * @param int $code Exception code
+     * @throws Mage_Core_Exception
+     */
+    protected function _throwException($message = '', $code = 0)
+    {
+        throw Mage::exception('Mage_Oauth', $message, $code);
+    }
+
+    /**
+     * @param $tokenParam
+     * @return Mage_Oauth_Model_Token
+     */
+    protected function _fetchToken($tokenParam)
+    {
+        return $this->_tokenFactory->create()->load($tokenParam, 'token');
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorMap()
+    {
+        return $this->_errors;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getErrorToHttpCodeMap()
+    {
+        return $this->_errorsToHttpCode;
     }
 }

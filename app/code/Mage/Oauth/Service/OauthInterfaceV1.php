@@ -28,6 +28,8 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     const ERR_VERIFIER_INVALID          = 13;
     const ERR_PERMISSION_UNKNOWN        = 14;
     const ERR_PERMISSION_DENIED         = 15;
+    const ERR_METHOD_NOT_ALLOWED        = 16;
+
     /**#@-*/
 
     /**#@+
@@ -36,14 +38,13 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     const SIGNATURE_SHA1  = 'HMAC-SHA1';
     const SIGNATURE_SHA256 = 'HMAC-SHA256';
 
-    /**#@-*/
-
     /**#@+
      * HTTP Response Codes
      */
     const HTTP_OK             = 200;
     const HTTP_BAD_REQUEST    = 400;
     const HTTP_UNAUTHORIZED   = 401;
+    const HTTP_METHOD_NOT_ALLOWED  = 405;
     const HTTP_INTERNAL_ERROR = 500;
     /**#@-*/
 
@@ -55,4 +56,35 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      * @throws Mage_Oauth_Exception
      */
     public function createConsumer($addOnData);
+
+
+    /**
+     * Get the
+     * @param $accessTokenRequest
+     * @return array -
+     */
+    public function getAccessToken($accessTokenRequest);
+
+
+    /**
+     * @param $requestUrl
+     * @return void
+     */
+    public function setRequestUrl($requestUrl);
+
+    /**
+     * @param $requestMethod
+     * @return void
+     */
+    public function setRequestMethod($requestMethod);
+
+    /**
+     * @return array()
+     */
+    public function getErrorMap();
+
+    /**
+     * @return array()
+     */
+    public function getErrorToHttpCodeMap();
 }
