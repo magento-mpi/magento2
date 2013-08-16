@@ -1,25 +1,22 @@
 <?php
 /**
- * {license_notice}
+ * Interception config. Responsible for providing list of plugins configured for instance
  *
+ * {license_notice}
+ * 
  * @copyright {copyright}
  * @license   {license_link}
  */
 class Magento_Interception_Config_Config extends Magento_Config_Data implements Magento_Interception_Config
 {
     /**
-     * Scope priority loading scheme
-     *
-     * @var array
-     */
-    protected $_scopePriorityScheme = array('global');
-
-    /**
      * @var Magento_ObjectManager_Config
      */
     protected $_omConfig;
 
     /**
+     * Interceptor generator
+     *
      * @var Magento_Interception_CodeGenerator
      */
     protected $_codeGenerator;
@@ -28,6 +25,18 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
      * @var Magento_Interception_Definition
      */
     protected $_definitions;
+
+    /**
+     * @var Magento_ObjectManager_Definition
+     */
+    protected $_classDefinitions;
+
+    /**
+     * Scope inheritance scheme
+     *
+     * @var array
+     */
+    protected $_scopePriorityScheme = array('global');
 
     /**
      * Inherited list of intercepted types
@@ -52,10 +61,12 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
         Magento_Config_ReaderInterface $reader,
         Magento_Config_ScopeInterface $configScope,
         Magento_Config_CacheInterface $cache,
+        Magento_Interception_CodeGenerator $codeGenerator,
         Magento_ObjectManager_Relations $relations,
         Magento_ObjectManager_Config $omConfig,
         Magento_Interception_Definition $definitions,
         Magento_Interception_CodeGenerator $codeGenerator = null,
+        Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
         $cacheId
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
@@ -63,6 +74,19 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
         $this->_relations = $relations;
         $this->_definitions = $definitions;
         $this->_codeGenerator = $codeGenerator;
+        $this->_classDefinitions = $classDefinitions;
+        $this->_cacheId = $cacheId;
+        if ($classDefinitions) {
+            $data = $this->_cache->get('all', $this->_cacheId . 'all');
+            if (!$data) {
+                foreach ($classDefinitions->getClasses() as $class) {
+                    $this->hasPlugins($class);
+                }
+                $this->_cache->put($this->_intercepted, 'all', $this->_cacheId . 'all');
+            } else {
+                $this->_intercepted = unserialize($data);
+            }
+        }
     }
 
     protected function _inheritInterception($type)
@@ -100,7 +124,7 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
     protected function _collectInterception($type)
     {
         if ($this->_interceptedRaw === null) {
-            $data = $this->_cache->get('all', 'interceptedRaw');
+            $data = $this->_cache->get('all', $this->_cacheId . 'Raw');
             if ($data) {
                 $this->_interceptedRaw = unserialize($data);
             } else {
@@ -113,7 +137,7 @@ class Magento_Interception_Config_Config extends Magento_Config_Data implements 
                         $this->_interceptedRaw[$typeName] = true;
                     }
                 }
-                $this->_cache->put(serialize($this->_interceptedRaw), 'all', 'interceptedRaw');
+                $this->_cache->put(serialize($this->_interceptedRaw), 'all', $this->_cacheId . 'Raw');
             }
         }
         return $this->_inheritInterception($type);

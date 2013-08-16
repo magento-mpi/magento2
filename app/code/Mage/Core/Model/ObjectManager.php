@@ -67,22 +67,25 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             ? new Magento_Interception_CodeGenerator_CodeGenerator()
             : null;
 
+        Magento_Profiler::stop('global_primary');
+        $verification = $this->get('Mage_Core_Model_Dir_Verification');
+        $verification->createAndVerifyDirectories();
+
         $interceptionConfig = $this->create('Magento_Interception_Config_Config', array(
             'relations' => $definitionFactory->createRelations(),
             'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $this->_config,
             'codeGenerator' => $interceptorGenerator,
-            'cacheId' => 'interception'
+            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+                ? $definitions
+                : null,
+            'cacheId' => 'interception',
         ));
 
         $this->_factory = $this->create('Magento_Interception_FactoryDecorator', array(
             'factory' => $this->_factory,
             'config' => $interceptionConfig
         ));
-
-        Magento_Profiler::stop('global_primary');
-        $verification = $this->get('Mage_Core_Model_Dir_Verification');
-        $verification->createAndVerifyDirectories();
         $this->_config->setCache($this->get('Mage_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load('global'));
     }

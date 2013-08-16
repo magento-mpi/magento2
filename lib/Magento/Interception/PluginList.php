@@ -5,7 +5,15 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
-interface PluginList {
-
+interface Magento_Interception_PluginList
+{
+    /**
+     * Retrieve list of plugins listening for method
+     *
+     * @param string $type
+     * @param string $method
+     * @param string $scenario
+     * @return array
+     */
+    public function getPlugins($type, $method, $scenario);
 }

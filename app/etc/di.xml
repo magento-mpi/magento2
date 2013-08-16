@@ -216,6 +216,9 @@
         <param name="reader">
             <instance type="interceptionReader" />
         </param>
+        <param name="cacheId">
+            <value>interception</value>
+        </param>
     </type>
     <virtualType name="interceptionReader" type="Magento_Config_Reader_Filesystem">
         <param name="fileName">
