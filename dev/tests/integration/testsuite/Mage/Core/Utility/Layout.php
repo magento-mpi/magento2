@@ -71,26 +71,15 @@ class Mage_Core_Utility_Layout
      */
     public function getLayoutDependencies()
     {
-        $design = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
-        $blockFactory = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Core_Model_BlockFactory', array());
-        $structure = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Data_Structure', array());
-        $argumentProcessor = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Core_Model_Layout_Argument_Processor', array());
-        $translator = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Core_Model_Layout_Translator', array());
-        $scheduleStructure = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Core_Model_Layout_ScheduledStructure', array());
-        $graph = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Core_Model_DataService_Graph', array());
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         return array(
-            'design'             => $design,
-            'blockFactory'       => $blockFactory,
-            'structure'          => $structure,
-            'argumentProcessor'  => $argumentProcessor,
-            'translator'         => $translator,
-            'scheduledStructure' => $scheduleStructure,
-            'dataServiceGraph'   => $graph,
+            'design'             => $objectManager->get('Mage_Core_Model_View_DesignInterface'),
+            'blockFactory'       => $objectManager->create('Mage_Core_Model_BlockFactory', array()),
+            'structure'          => $objectManager->create('Magento_Data_Structure', array()),
+            'argumentProcessor'  => $objectManager->create('Mage_Core_Model_Layout_Argument_Processor', array()),
+            'translator'         => $objectManager->create('Mage_Core_Model_Layout_Translator', array()),
+            'scheduledStructure' => $objectManager->create('Mage_Core_Model_Layout_ScheduledStructure', array()),
+            'dataServiceGraph'   => $objectManager->create('Mage_Core_Model_DataService_Graph', array()),
         );
     }
 }
