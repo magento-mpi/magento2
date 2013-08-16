@@ -34,7 +34,6 @@
     <module name="Enterprise_Persistent" active="true" />
     <module name="Enterprise_PricePermissions" active="true" />
     <module name="Enterprise_PromotionPermissions" active="true" />
-    <module name="Enterprise_Queue" active="false" />
     <module name="Enterprise_Reminder" active="true" />
     <module name="Enterprise_Reward" active="true" />
     <module name="Enterprise_Rma" active="true" />
