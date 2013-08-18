@@ -128,6 +128,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     public function testImportDataDelete()
     {
+        /* clean up the database from prior tests before importing */
+        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+        foreach ($rewards as $reward) {
+            $reward->delete();
+        }
+
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
         $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
