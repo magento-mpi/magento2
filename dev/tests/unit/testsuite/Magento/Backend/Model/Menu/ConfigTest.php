@@ -59,15 +59,20 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_cacheInstanceMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $this->_cacheInstanceMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(),
+            '', false);
 
-        $this->_directorMock = $this->getMock('Magento_Backend_Model_Menu_DirectorAbstract', array(), array(), '', false);
+        $this->_directorMock = $this->getMock('Magento_Backend_Model_Menu_DirectorAbstract', array(), array(),
+            '', false);
 
-        $this->_menuFactoryMock = $this->getMock('Magento_Backend_Model_MenuFactory', array('create'), array(), '', false);
+        $this->_menuFactoryMock = $this->getMock('Magento_Backend_Model_MenuFactory', array('create'), array(),
+            '', false);
 
-        $this->_configReaderMock = $this->getMock('Magento_Backend_Model_Menu_Config_Reader', array(), array(), '', false);
+        $this->_configReaderMock = $this->getMock('Magento_Backend_Model_Menu_Config_Reader', array(), array(),
+            '', false);
 
-        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
+        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '',
+            false, false);
 
         $this->_logger = $this->getMock(
             'Magento_Core_Model_Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
