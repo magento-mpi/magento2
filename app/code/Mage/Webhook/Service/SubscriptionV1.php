@@ -16,24 +16,18 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
     /** @var Mage_Webhook_Model_Subscription_Factory $_subscriptionFactory */
     private $_subscriptionFactory;
 
-    /** @var Mage_Webhook_Model_User_Factory $_whUserFactory */
-    private $_whUserFactory;
-
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
     private $_subscriptionSet;
 
     /**
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Mage_Webhook_Model_User_Factory $whUserFactory
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
      */
     public function __construct(
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Mage_Webhook_Model_User_Factory $whUserFactory,
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
     ) {
         $this->_subscriptionFactory = $subscriptionFactory;
-        $this->_whUserFactory = $whUserFactory;
         $this->_subscriptionSet = $subscriptionSet;
     }
 

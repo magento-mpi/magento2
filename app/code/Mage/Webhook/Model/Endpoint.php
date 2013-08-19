@@ -14,8 +14,6 @@
  * @method Mage_Webhook_Model_Endpoint setEndpointUrl(string $value)
  * @method string getUpdatedAt()
  * @method Mage_Webhook_Model_Endpoint setUpdatedAt(string $value)
- * @method string getAlias()
- * @method Mage_Webhook_Model_Endpoint setAlias(string $value)
  * @method Mage_Webhook_Model_Endpoint setFormat(string $value)
  * @method string getApiUserId()
  * @method Mage_Webhook_Model_Endpoint setApiUserId(string $value)
@@ -119,7 +117,7 @@ class Mage_Webhook_Model_Endpoint extends Mage_Core_Model_Abstract implements Ma
         if ($this->getApiUserId() === null) {
             return null;
         }
-        return $this->_userFactory->create(array('webapiUserId' => $this->getApiUserId()));
+        return $this->_userFactory->create($this->getApiUserId());
     }
 
     /**

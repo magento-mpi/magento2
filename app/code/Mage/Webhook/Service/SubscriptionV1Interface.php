@@ -94,13 +94,4 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      */
     public function revoke($subscriptionId);
 
-    /**
-     * Returns trues if a given userId is associated with a subscription
-     *
-     * @param int $apiUserId
-     * @param int $subscriptionId
-     * @throws Mage_Webhook_Exception
-     */
-    public function validateOwnership($apiUserId, $subscriptionId);
-
 }

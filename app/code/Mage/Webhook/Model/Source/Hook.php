@@ -23,19 +23,14 @@ class Mage_Webhook_Model_Source_Hook
      */
     protected $_options = null;
 
-    /** @var Mage_Core_Model_Translate  */
-    private $_translator;
-
     /** @var  Mage_Core_Model_Config */
     private $_config;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Model_Config $config )
+    public function __construct(Mage_Core_Model_Config $config )
     {
-        $this->_translator = $translator;
         $this->_config = $config;
     }
 
@@ -87,7 +82,7 @@ class Mage_Webhook_Model_Source_Hook
         if (!empty($node['label'])) {
             $value = join('/', $path);
 
-            $label = $this->_translator->translate(array($node['label']));
+            $label = __($node['label']);
 
             $elements[] = array(
                 'label' => $label,
