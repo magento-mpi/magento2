@@ -97,7 +97,6 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     protected $_tokenObj;
 
     /**
-     * @param Zend_Controller_Request_Http $request
      * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
      * @param Mage_Oauth_Model_Token_Factory $tokenFactory
@@ -105,7 +104,6 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
-        Zend_Controller_Request_Http $request,
         Mage_Oauth_Model_Consumer_Factory $consumerFactory,
         Mage_Oauth_Model_Nonce_Factory $nonceFactory,
         Mage_Oauth_Model_Token_Factory $tokenFactory,
@@ -134,7 +132,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
                 throw new Mage_Oauth_Exception(
                     $this->_translator->translate(
-                        array('Incorrect timestamp value in the oauth_timestamp parameter.')),
+                        array('Incorrect timestamp value in the oauth_timestamp parameter.')
+                    ),
                     self::ERR_TIMESTAMP_REFUSED);
             }
 
@@ -143,7 +142,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             if ($nonceObj->getConsumerId() == $consumerId) {
                 throw new Mage_Oauth_Exception(
                     $this->_translator->translate(
-                        array('The nonce is already being used by the consumer with id %s.', $consumerId)),
+                        array('The nonce is already being used by the consumer with id %s.', $consumerId)
+                    ),
                     self::ERR_NONCE_USED);
             }
 
@@ -152,13 +152,16 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             if (!$consumer->getId()) {
                 throw new Mage_Oauth_Exception(
                     $this->_translator->translate(
-                        array('A consumer with id %s was not found.', $consumerId), self::ERR_PARAMETER_REJECTED));
+                        array('A consumer with id %s was not found.', $consumerId),
+                        self::ERR_PARAMETER_REJECTED
+                    ));
             }
 
             if ($nonceObj->getTimestamp() == $timestamp) {
                 throw new Mage_Oauth_Exception(
                     $this->_translator->translate(
-                        array('The nonce/timestamp combination has already been used.')), self::ERR_NONCE_USED);
+                        array('The nonce/timestamp combination has already been used.')
+                    ), self::ERR_NONCE_USED);
             }
 
             $nonceObj->setNonce($nonce)
@@ -196,8 +199,11 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     {
         try {
             $consumer = $this->_consumerFactory->create(
-                array('key' => $this->_helper->generateConsumerKey(),
-                    'secret' => $this->_helper->generateConsumerSecret()));
+                array(
+                    'key' => $this->_helper->generateConsumerKey(),
+                    'secret' => $this->_helper->generateConsumerSecret()
+                )
+            );
             $consumer->save();
             $data['store_url'] = $addOnData['store_url'];
             $data['store_api_base_url'] = $addOnData['store_api_base_url'];
@@ -213,19 +219,24 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         }
     }
 
-	/**
-	 * Issue a pre-authorization request token to the caller
-	 *
-	 * @param array $request input parameters such as consumer key, nonce, signature, signature method, timestamp, oauth version, auth code
+    /**
+     * Issue a pre-authorization request token to the caller
+     *
+     * @param array $signedRequest input parameters such as consumer key, nonce, signature, signature method, timestamp,
+     * oauth version, auth code
      * @return array output containing the request token key and secret
      * @throws Mage_Oauth_Exception
-	 */
-	public function getRequestToken($signedRequest)
+     */
+    public function getRequestToken($signedRequest)
     {
         // validate input parameters as much as possible before making database calls
         $this->_validateVersionParam($signedRequest['oauth_version']);
         $this->_validateVerifierParam($signedRequest['oauth_verifier']);
-        $this->_validateNonce($signedRequest['nonce'], $signedRequest['consumer_key'], $signedRequest['oauth_timestamp']);
+        $this->_validateNonce(
+            $signedRequest['nonce'],
+            $signedRequest['consumer_key'],
+            $signedRequest['oauth_timestamp']
+        );
 
         $consumer = $this->_getConsumer($signedRequest['consumer_key']);
         $token = $this->_getToken($signedRequest['auth_code']);
@@ -237,8 +248,13 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
         }
 
-        $this->_validateSignature($signedRequest, $consumer->getSecret(), null,
-            $signedRequest['http_method'], $signedRequest['request_url']);
+        $this->_validateSignature(
+            $signedRequest,
+            $consumer->getSecret(),
+            null,
+            $signedRequest['http_method'],
+            $signedRequest['request_url']
+        );
 
         return $tokenObj->createRequestToken($consumer->getId(), null)->toString();
     }
@@ -247,19 +263,19 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      * Get an access token in exchange for a pre-authorized token
      * Perform appropriate parameter and signature validation
      *
-     * @param $requestTokenData
-     * @param $requestUrl
-     * @param $method
-     * @return mixed|string
+     * @param array $accessTokenReqArray
+     * @return string
      */
-    public function getAccessToken($requestTokenData, $requestUrl, $method)
+    public function getAccessToken($accessTokenReqArray)
     {
         // make generic validation of request parameters
-        $this->_validateProtocolParams($requestTokenData);
+        $this->_validateProtocolParams($accessTokenReqArray);
 
-        $tokenParam = $requestTokenData['oauth_token'];
+        $tokenParam = $accessTokenReqArray['oauth_token'];
+        $requestUrl = $accessTokenReqArray['request_url'];
+        $httpMethod = $accessTokenReqArray['http_method'];
 
-        $consumerKeyParam = $requestTokenData['oauth_consumer_key'];
+        $consumerKeyParam = $accessTokenReqArray['oauth_consumer_key'];
         $consumerObj = $this->_fetchConsumerByConsumerKey($consumerKeyParam);
 
         $tokenObj = $this->_validateAndFetchToken($tokenParam, $consumerObj->getId());
@@ -271,9 +287,19 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             $this->_throwException('', self::ERR_TOKEN_USED);
         }
 
-        $this->_validateVerifierParam($requestTokenData['oauth_verifier'], $tokenObj->getVerifier());
-        $this->_validateSignature($accessTokenData, $consumerObj->getSecret(), $tokenObj->getSecret(),
-            $this->getRequestMethod(), $this->getRequestUrl());
+        $this->_validateVerifierParam($accessTokenReqArray['oauth_verifier'], $tokenObj->getVerifier());
+
+        // Need to unset and remove unnecessary params from the requestTokenData array
+        unset($accessTokenReqArray['request_url']);
+        unset($accessTokenReqArray['http_method']);
+
+        $this->_validateSignature(
+            $accessTokenReqArray,
+            $consumerObj->getSecret(),
+            $tokenObj->getSecret(),
+            $httpMethod,
+            $requestUrl
+        );
 
         //Mark this token associated o the consumer as "access". Replace type with access
         return $tokenObj->convertToAccess()->toString();
@@ -304,6 +330,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
     /**
      * Load token object, validate it depending on request type, set access data and save
+     *
      * @param string $token to load
      * @return Mage_Oauth_Model_Server
      * @throws Mage_Oauth_Exception
@@ -328,9 +355,10 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      * Validate 'oauth_verifier' parameter
      *
      * @param string $verifier
+     * @param string $verifierFromToken
      * @throws Mage_Oauth_Exception
      */
-    protected function _validateVerifierParam($verifier, $verifierFromToken=null)
+    protected function _validateVerifierParam($verifier, $verifierFromToken = null)
     {
         if (!is_string($verifier)) {
             throw new Mage_Oauth_Exception('', self::ERR_VERIFIER_INVALID);
@@ -344,14 +372,14 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
-     *
      * Validate signature based on the signature method used
      *
-     * @param $accessTokenData
-     * @param $consumerSecret
-     * @param null $tokenSecret
-     * @param $requestUrl
-     * @param $method
+     * @param array $params
+     * @param string $consumerSecret
+     * @param string $tokenSecret
+     * @param string $httpMethod
+     * @param string $requestUrl
+     * @throws Mage_Oauth_Exception
      */
     protected function _validateSignature($params, $consumerSecret, $tokenSecret = null, $httpMethod, $requestUrl)
     {
@@ -360,8 +388,14 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         }
 
         $util = new Zend_Oauth_Http_Utility();
-        $calculatedSign = $util->sign($params, $params['oauth_signature_method'], $consumerSecret, $tokenSecret,
-            $httpMethod, $requestUrl);
+        $calculatedSign = $util->sign(
+            $params,
+            $params['oauth_signature_method'],
+            $consumerSecret,
+            $tokenSecret,
+            $httpMethod,
+            $requestUrl
+        );
 
         if ($calculatedSign != $params['oauth_signature']) {
             $this->_throwException('Invalid signature.', self::ERR_SIGNATURE_INVALID);

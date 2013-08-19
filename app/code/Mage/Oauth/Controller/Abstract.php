@@ -43,12 +43,11 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
      * Retrieve protocol and request parameters from request object
      *
      * @link http://tools.ietf.org/html/rfc5849#section-3.5
-     * @return Mage_Oauth_Model_Server
+     * @return array $protocolParams array of merged parameters from header, request body and/or query param
      */
     protected function _fetchParams()
     {
         $protocolParams = array();
-        $bodyParams = array();
 
         $authHeaderValue = $this->getRequest()->getHeader('Authorization');
 
@@ -71,11 +70,11 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
         if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
             $protocolParamsNotSet = !$protocolParams;
 
-            parse_str($this->getRequest()->getRawBody(), $bodyParams);
+            parse_str($this->getRequest()->getRawBody(), $protocolParams);
 
-            foreach ($bodyParams as $bodyParamName => $bodyParamValue) {
+            foreach ($protocolParams as $bodyParamName => $bodyParamValue) {
                 if (!$this->_isProtocolParameter($bodyParamName)) {
-                    $bodyParams[$bodyParamName] = $bodyParamValue;
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
                 } elseif ($protocolParamsNotSet) {
                     $protocolParams[$bodyParamName] = $bodyParamValue;
                 }
@@ -91,7 +90,7 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
                 $paramData = explode('=', $paramToValue);
 
                 if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
-                    $bodyParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
+                    $protocolParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
                 }
             }
         }
@@ -100,7 +99,7 @@ abstract class Mage_Oauth_Controller_Abstract extends Mage_Core_Controller_Front
         }
 
         //Combine request and header parameters
-        return array_merge($bodyParams, $protocolParams);
+        return $protocolParams;
     }
 
     /**

@@ -44,14 +44,17 @@ class Mage_Oauth_TokenController extends Mage_Oauth_Controller_Abstract
             }
 
             //Fetch and populate protocol information from request body and header into this controller class variables
-            $accessTokenData = $this->_fetchParams();
+            $accessTokenReqArray = $this->_fetchParams();
 
             //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
             $requestUrl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() .
                 $this->getRequest()->getRequestUri();
 
+            $accessTokenReqArray['request_url'] = $requestUrl;
+            $accessTokenReqArray['http_method'] = 'POST';
+
             //Request access token in exchange of a pre-authorized token
-            $response = $this->_oauthService->getAccessToken($accessTokenData, $requestUrl, 'POST');
+            $response = $this->_oauthService->getAccessToken($accessTokenReqArray);
 
         } catch (Exception $exception) {
             $response = $this->reportProblem(

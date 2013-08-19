@@ -70,12 +70,23 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Get access token for a pre-authorized request token
      *
-     * @param $accessTokenRequest
-     * @param $requestUrl
-     * @param $method
-     * @return mixed
+     * @param array $accessTokenReqArray array containing parameters necessary for requesting Access Token
+     * <pre> eg array(
+     *  'oauth_version' => '1.0',
+     *  'oauth_signature_method' => 'HMAC-SHA1',
+     *  'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
+     *  'oauth_verifier' => 'a6aa81cc3e65e2960a487939244vvvvv',
+     *  'oauth_nonce' => 'BXzEolwaQDDNlCv',
+     *  'oauth_timestamp' => '1376922156',
+     *  'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *  'oauth_signature' => 'C1wtpLrci5Ak6kMCl/YN9J8Hmi0=',
+     *  'request_url' => 'http://magento.ll/oauth/token?oauth_token=a6aa81cc3e65e2960a487939244sssss
+     *                                                          &oauth_verifier=a6aa81cc3e65e2960a487939244vvvvv',
+     *  'http_method' => 'POST'
+     * )
+     * </pre>
      */
-    public function getAccessToken($accessTokenRequest, $requestUrl, $method);
+    public function getAccessToken($accessTokenReqArray);
 
 
     /**
