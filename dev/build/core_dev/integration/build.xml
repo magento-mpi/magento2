@@ -134,5 +134,20 @@
             <param name="app_mode" value="default"/>
         </antcall>
     </target>
+	
+	<target name="integration_tests_ce_xd_mysql_code_coverage" description="Code Coverage CE Integration Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${basedir}/dev/build/core_dev/integration/phpunit.xml"/>
+            <param name="coverage_dir" value="${basedir}/test-reports/coverage/integration/ce"/>
+        </antcall>
+        <antcall target="integration_tests_ce_xd_mysql"/>
+    </target>
+
+    <target name="integration_tests_ee_xd_mysql_code_coverage" description="Code Coverage EE Integration Tests with Xdebug">
+        <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${basedir}/dev/build/core_dev/integration/phpunit.xml"/>
+        </antcall>
+        <antcall target="integration_tests_ee_xd_mysql"/>
+    </target>
 
 </project>
