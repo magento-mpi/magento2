@@ -143,6 +143,7 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
 
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getPlugins($type, $method, $scenario)
     {
@@ -159,6 +160,8 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
 
     /**
      * Load configuration for current scope
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _loadScopedData()
     {
