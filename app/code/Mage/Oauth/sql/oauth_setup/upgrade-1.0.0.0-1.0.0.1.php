@@ -56,4 +56,17 @@ $installer
         Varien_Db_Ddl_Table::ACTION_CASCADE
     );
 
+$installer
+    ->getConnection()
+    ->addColumn(
+        $installer->getTable('oauth_consumer'),
+        'http_post_url',
+        array(
+            'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length' => 255,
+            'nullable' => false,
+            'comment' => 'Http Post URL'
+        )
+    );
+
 $installer->endSetup();

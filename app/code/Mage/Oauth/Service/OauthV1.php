@@ -190,32 +190,23 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Create a new consumer account when an Add-On is installed.
      *
-     * @param array $addOnData
+     * @param array $consumerData
      * @return array
      * @throws Mage_Core_Exception
      * @throws Mage_Oauth_Exception
      */
-    public function createConsumer($addOnData)
+    public function createConsumer($consumerData)
     {
         try {
-            $consumer = $this->_consumerFactory->create(
-                array(
-                    'key' => $this->_helper->generateConsumerKey(),
-                    'secret' => $this->_helper->generateConsumerSecret()
-                )
-            );
+            $consumer = $this->_consumerFactory->create($consumerData);
             $consumer->save();
-            $data['store_url'] = $addOnData['store_url'];
-            $data['store_api_base_url'] = $addOnData['store_api_base_url'];
-            $data['oauth_consumer_key'] = $consumer->getKey();
-            $data['oauth_consumer_secret'] = $consumer->getSecret();
-            // TODO: Execute HTTP POST to $addOnData['http_post_url'] containing the attributes returned in the array.
-            return $data;
+            return array(
+                'oauth_consumer_key' => $consumer->getKey(), 'oauth_consumer_secret' => $consumer->getSecret());
         } catch (Mage_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
             throw new Mage_Oauth_Exception(
-                $this->_translator->translate(array('Unexpected error. Unable to create Oauth consumer.')));
+                $this->_translator->translate(array('Unexpected error. Unable to create OAuth Consumer account.')));
         }
     }
 

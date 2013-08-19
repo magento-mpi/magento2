@@ -78,21 +78,11 @@ class Mage_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
 
     public function testCreateConsumer()
     {
-        $addOnData = array(
-            'store_url' => 'http://mystore.magentogo.com',
-            'store_api_base_url' => 'http://mystore.magentogo.com/api',
-            'http_post_url' => 'http://mystore.magentogo.com/addon'
-        );
-
         $key = $this->_generateRandomString(Mage_Oauth_Model_Consumer::KEY_LENGTH);
         $secret = $this->_generateRandomString(Mage_Oauth_Model_Consumer::SECRET_LENGTH);
 
-        $this->_helperMock->expects($this->any())
-            ->method('generateConsumerKey')
-            ->will($this->returnValue($key));
-        $this->_helperMock->expects($this->any())
-            ->method('generateConsumerSecret')
-            ->will($this->returnValue($secret));
+        $consumerData = array(
+            'name' => 'Add-On Name', 'key' => $key, 'secret' => $secret, 'http_post_url' => 'http://www.magento.com');
 
         $this->_consumerMock->expects($this->once())
             ->method('getKey')
@@ -104,10 +94,8 @@ class Mage_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             ->method('save')
             ->will($this->returnSelf());
 
-        $responseData = $this->_service->createConsumer($addOnData);
+        $responseData = $this->_service->createConsumer($consumerData);
 
-        $this->assertEquals($addOnData['store_url'], $responseData['store_url'], 'Checking Store Url');
-        $this->assertEquals($addOnData['store_api_base_url'], $responseData['store_api_base_url'], 'Checking API Url');
         $this->assertEquals($key, $responseData['oauth_consumer_key'], 'Checking Oauth Consumer Key');
         $this->assertEquals($secret, $responseData['oauth_consumer_secret'], 'Checking Oauth Consumer Secret');
     }
