@@ -53,7 +53,7 @@ class Enterprise_Magento_Theme_ThemeTest extends Core_Magento_Theme_ThemeTest
     public function allThemeCss()
     {
         return array(
-            array('Enterprise_Banner__widgets.css', 'enterprise_banner_widgets'),
+            array('Magento_Banner__widgets.css', 'magento_banner_widgets'),
             array('Magento_CatalogEvent__widgets.css', 'enterprise_catalog_event_widgets'),
             array('Magento_VersionsCms__widgets.css', 'magento_versionscms_widgets'),
             array('Magento_Catalog--widgets.css', 'magento_catalog_widget'),
