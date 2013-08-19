@@ -63,7 +63,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
                     => Mage::app()->getStore()->getWebsite()->getCode(),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
-                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
+                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                    COLUMN_CUSTOMER_BALANCE
                     => Mage::registry('customer_balance_' . $websiteCode),
                 Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
                     => Mage::registry('reward_point_balance_' . $websiteCode),
