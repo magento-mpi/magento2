@@ -46,13 +46,13 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
             array(), '', false
         );
         $this->_segmentCustomer = $this->getMock(
-            'Magento_CustomerSegment_Model_Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
+            'Enterprise_CustomerSegment_Model_Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
         );
         $this->_segmentHelper = $this->getMock(
-            'Magento_CustomerSegment_Helper_Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
+            'Enterprise_CustomerSegment_Helper_Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
         $this->_segmentCollection = $this->getMock(
-            'Magento_CustomerSegment_Model_Resource_Segment_Collection', array(), array(), '', false
+            'Enterprise_CustomerSegment_Model_Resource_Segment_Collection', array(), array(), '', false
         );
         $this->_model = new Magento_BannerCustomerSegment_Model_Observer(
             $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink

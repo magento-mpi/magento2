@@ -424,14 +424,14 @@
                     </magento_fullpagecache>
                 </observers>
             </catalog_controller_product_init_before>
-            <magento_customersegment_ids_changed>
+            <enterprise_customersegment_ids_changed>
                 <observers>
                     <magento_fullpagecache>
                         <class>Magento_FullPageCache_Model_Observer</class>
                         <method>changedCustomerSegmentIds</method>
                     </magento_fullpagecache>
                 </observers>
-            </magento_customersegment_ids_changed>
+            </enterprise_customersegment_ids_changed>
         </events>
         <cache>
             <requests>

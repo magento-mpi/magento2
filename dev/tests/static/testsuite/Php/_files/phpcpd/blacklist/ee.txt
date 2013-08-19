@@ -6,8 +6,8 @@ Magento/VersionsCms/Model/Resource/Page
 Magento/CustomerCustomAttributes
 Magento/CustomerBalance/Block/Adminhtml
 Magento/CustomerBalance/Block/Sales/Order
-Magento/CustomerSegment/Model
-Magento/CustomerSegment/Block/Adminhtml
+Enterprise/CustomerSegment/Model
+Enterprise/CustomerSegment/Block/Adminhtml
 Magento/GiftRegistry
 Magento/GiftCard/Block/Adminhtml/Renderer
 Magento/GiftCard/Model/Source

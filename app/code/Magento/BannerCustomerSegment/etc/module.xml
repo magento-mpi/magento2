@@ -11,7 +11,7 @@
     <module name="Magento_BannerCustomerSegment" version="1.0.0.0" active="false">
         <depends>
             <module name="Magento_Banner" />
-            <module name="Magento_CustomerSegment" />
+            <module name="Enterprise_CustomerSegment" />
         </depends>
     </module>
 </config>

@@ -33,7 +33,7 @@ return array(
     array('Magento_Logging_Model_Resource_Helper_Mssql'),
     array('Magento_Reminder_Model_Resource_Helper_Mssql'),
     array('Magento_SalesArchive_Model_Resource_Helper_Mssql'),
-    array('Magento_CustomerSegment_Model_Resource_Helper_Oracle'),
+    array('Enterprise_CustomerSegment_Model_Resource_Helper_Oracle'),
     array('Magento_Logging_Model_Resource_Helper_Oracle'),
     array('Magento_Reminder_Model_Resource_Helper_Oracle'),
     array('Magento_SalesArchive_Model_Resource_Helper_Oracle'),

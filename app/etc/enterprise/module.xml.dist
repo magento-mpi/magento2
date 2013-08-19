@@ -17,7 +17,7 @@
     <module name="Magento_VersionsCms" active="true" />
     <module name="Magento_CustomerCustomAttributes" active="true" />
     <module name="Magento_CustomerBalance" active="true" />
-    <module name="Magento_CustomerSegment" active="true" />
+    <module name="Enterprise_CustomerSegment" active="true" />
     <module name="Magento_CustomAttribute" active="true" />
     <module name="Magento_Enterprise" active="true" />
     <module name="Magento_GiftCard" active="true" />

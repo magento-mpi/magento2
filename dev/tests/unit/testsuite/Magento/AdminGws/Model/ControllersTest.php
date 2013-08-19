@@ -175,7 +175,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 'customersegment',
-                'Magento_CustomerSegment_Model_Segment'
+                'Enterprise_CustomerSegment_Model_Segment'
             ),
         );
     }

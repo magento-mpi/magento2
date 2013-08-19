@@ -395,8 +395,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/customerbalance.xml',
         'app/design/frontend/enterprise/default/template/customerbalance/'
     ),
-    'Magento_CustomerSegment' => array(
-        'app/code/Magento/CustomerSegment/',
+    'Enterprise_CustomerSegment' => array(
+        'app/code/Enterprise/CustomerSegment/',
         'app/design/adminhtml/default/default/layout/enterprise/customersegment.xml',
     ),
     'Magento_CustomAttribute' => array(
@@ -639,7 +639,7 @@ $CONFIG['helpers']  = array(
     'magento_versionscms'                => 'Magento_VersionsCms',
     'magento_customercustomattributes'           => 'Magento_CustomerCustomAttributes',
     'magento_customerbalance'    => 'Magento_CustomerBalance',
-    'magento_customersegment'    => 'Magento_CustomerSegment',
+    'enterprise_customersegment'    => 'Enterprise_CustomerSegment',
     'magento_customattribute'                => 'Magento_CustomAttribute',
     'magento_enterprise'         => 'Magento_Enterprise',
     'magento_giftcard'           => 'Magento_GiftCard',

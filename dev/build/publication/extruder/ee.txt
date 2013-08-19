@@ -48,9 +48,7 @@ dev/tests/unit/testsuite/Magento/CatalogEvent
 dev/tests/integration/testsuite/Magento/CatalogEvent
 app/code/Magento/CatalogPermissions
 dev/tests/integration/testsuite/Magento/CatalogPermissions
-app/code/Magento/CustomerSegment
-dev/tests/unit/testsuite/Magento/CustomerSegment
-dev/tests/integration/testsuite/Magento/CustomerSegment
+dev/tests/integration/testsuite/Enterprise/CustomerSegment
 app/code/Magento/CustomerBalance
 dev/tests/unit/testsuite/Magento/CustomerBalance
 dev/tests/integration/testsuite/Magento/CustomerBalance

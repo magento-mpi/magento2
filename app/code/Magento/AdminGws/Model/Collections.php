@@ -408,7 +408,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      *
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
-     * @param Magento_CustomerSegment_Model_Resource_Segment_Collection $collection
+     * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $collection
      */
     public function limitCustomerSegments($collection)
     {
