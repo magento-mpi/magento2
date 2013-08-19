@@ -666,7 +666,7 @@ return array(
     array('_getGridHtml', 'Mage_User_Block_Role_Tab_Users', 'getGridHtml'),
     array('_getSelectedRoles', 'Mage_User_Block_User_Edit_Tab_Roles', 'getSelectedRoles'),
     array('_prepareSelect', 'Mage_Core_Model_Resource_Db_Collection_Abstract'),
-    array('_prepareSelect', 'Varien_Data_Collection_Db'),
+    array('_prepareSelect', 'Magento_Data_Collection_Db'),
     array('castField', 'Mage_Core_Model_Resource_Helper_Mysql4'),
     array('getQueryUsingAnalyticFunction', 'Mage_Core_Model_Resource_Helper_Mysql4'),
     array('limitUnion', 'Mage_Core_Model_Resource_Helper_Mysql4'),
