@@ -66,7 +66,7 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
         $configFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array('create'),
             array(), '', false
         );
-        $this->_configDataMock = $this->getMock('Mage_Core_Model_Config_Data',
+        $this->_configDataMock = $this->getMock('Mage_Core_Model_Config_Value',
             array('getScope', 'getScopeId', 'getCollection'),
             array(), '', false
         );

@@ -39,7 +39,7 @@ class Mage_Backend_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
         $this->_configCollection->expects($this->once())->method('addScopeFilter')->with('scope', 'scopeId', 'section')
             ->will($this->returnSelf());
 
-        $configDataMock = $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false);
+        $configDataMock = $this->getMock('Mage_Core_Model_Config_Value', array(), array(), '', false);
         $this->_configDataFactory->expects($this->once())->method('create')->will($this->returnValue($configDataMock));
         $configDataMock->expects($this->any())->method('getCollection')
             ->will($this->returnValue($this->_configCollection));

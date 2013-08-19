@@ -19,7 +19,7 @@ class Mage_Theme_Model_Config
     protected $_configWriter;
 
     /**
-     * @var Mage_Core_Model_Config_Data
+     * @var Mage_Core_Model_Config_Value
      */
     protected $_configData;
 
@@ -46,7 +46,7 @@ class Mage_Theme_Model_Config
     protected $_layoutCache;
 
     /**
-     * @param Mage_Core_Model_Config_Data $configData
+     * @param Mage_Core_Model_Config_Value $configData
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -54,7 +54,7 @@ class Mage_Theme_Model_Config
      * @param Magento_Cache_FrontendInterface $layoutCache
      */
     public function __construct(
-        Mage_Core_Model_Config_Data $configData,
+        Mage_Core_Model_Config_Value $configData,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Event_Manager $eventManager,
@@ -133,7 +133,7 @@ class Mage_Theme_Model_Config
     protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
     {
         $configPath = Mage_Core_Model_View_Design::XML_PATH_THEME_ID;
-        /** @var $config Mage_Core_Model_Config_Data */
+        /** @var $config Mage_Core_Model_Config_Value */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
                 $this->_configWriter->delete($configPath, $scope, $config->getScopeId());

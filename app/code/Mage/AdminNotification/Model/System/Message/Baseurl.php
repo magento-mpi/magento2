@@ -79,7 +79,7 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
             $dataCollection = $this->_configDataFactory->create()->getCollection();
             $dataCollection->addValueFilter(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER);
 
-            /** @var $data Mage_Core_Model_Config_Data */
+            /** @var $data Mage_Core_Model_Config_Value */
             foreach ($dataCollection as $data) {
                 if ($data->getScope() == 'stores') {
                     $code = $this->_storeManager->getStore($data->getScopeId())->getCode();

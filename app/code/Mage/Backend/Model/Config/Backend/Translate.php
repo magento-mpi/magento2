@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Translate extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Translate extends Mage_Core_Model_Config_Value
 {
     /**
      * Path to config node with list of caches

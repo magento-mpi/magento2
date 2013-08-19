@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Backend_Model_Config_Backend_Storage_Media_Database extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Storage_Media_Database extends Mage_Core_Model_Config_Value
 {
     /**
      * Create db structure

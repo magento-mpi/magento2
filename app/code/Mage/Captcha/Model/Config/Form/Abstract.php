@@ -15,7 +15,7 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Captcha_Model_Config_Form_Abstract extends Mage_Core_Model_Config_Data
+abstract class Mage_Captcha_Model_Config_Form_Abstract extends Mage_Core_Model_Config_Value
 {
     /**
      * @var string

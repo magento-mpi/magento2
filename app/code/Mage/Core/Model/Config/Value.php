@@ -15,13 +15,13 @@
  * @method Mage_Core_Model_Resource_Config_Data _getResource()
  * @method Mage_Core_Model_Resource_Config_Data getResource()
  * @method string getScope()
- * @method Mage_Core_Model_Config_Data setScope(string $value)
+ * @method Mage_Core_Model_Config_Value setScope(string $value)
  * @method int getScopeId()
- * @method Mage_Core_Model_Config_Data setScopeId(int $value)
+ * @method Mage_Core_Model_Config_Value setScopeId(int $value)
  * @method string getPath()
- * @method Mage_Core_Model_Config_Data setPath(string $value)
+ * @method Mage_Core_Model_Config_Value setPath(string $value)
  * @method string getValue()
- * @method Mage_Core_Model_Config_Data setValue(string $value)
+ * @method Mage_Core_Model_Config_Value setValue(string $value)
  *
  * @category    Mage
  * @package     Mage_Core
@@ -29,7 +29,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Mage_Core_Model_Config_Data extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Config_Value extends Mage_Core_Model_Abstract
 {
     const ENTITY = 'core_config_data';
     /**

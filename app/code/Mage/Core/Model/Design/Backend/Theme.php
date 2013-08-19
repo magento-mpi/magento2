@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Design_Backend_Theme extends Mage_Core_Model_Config_Data
+class Mage_Core_Model_Design_Backend_Theme extends Mage_Core_Model_Config_Value
 {
     /**
      * Validate specified value against frontend area

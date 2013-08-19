@@ -11,7 +11,7 @@
 /**
  * Backend model for saving certificate file in case of using certificate based authentication
  */
-class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Config_Data
+class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Config_Value
 {
     /**
      * Process additional data before save config

@@ -58,7 +58,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
         Mage_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Config_Data::ENTITY => array(
+        Mage_Core_Model_Config_Value::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
         Mage_Catalog_Model_Category::ENTITY => array(
@@ -154,7 +154,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             } else {
                 $result = false;
             }
-        } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+        } else if ($entity == Mage_Core_Model_Config_Value::ENTITY) {
             $data = $event->getDataObject();
             if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
                 $result = $data->isValueChanged();
@@ -183,7 +183,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                 $this->_registerCatalogProductEvent($event);
                 break;
 
-            case Mage_Core_Model_Config_Data::ENTITY:
+            case Mage_Core_Model_Config_Value::ENTITY:
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:

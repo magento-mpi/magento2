@@ -15,7 +15,7 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     const SAMPLE_VALUE = 'http://example.com/';
 
     /**
-     * @var Mage_Core_Model_Config_Data
+     * @var Mage_Core_Model_Config_Value
      */
     protected $_model;
 
@@ -43,7 +43,7 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Config_Data');
+        $this->_model = Mage::getModel('Mage_Core_Model_Config_Value');
     }
 
     public function testIsValueChanged()

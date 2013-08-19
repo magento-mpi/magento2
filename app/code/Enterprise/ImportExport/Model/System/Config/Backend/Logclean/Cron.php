@@ -15,7 +15,7 @@
  * @package    Enterprise_ImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends Mage_Core_Model_Config_Data
+class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends Mage_Core_Model_Config_Value
 {
     /**
      * Cron expression configuration path
@@ -47,7 +47,7 @@ class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)

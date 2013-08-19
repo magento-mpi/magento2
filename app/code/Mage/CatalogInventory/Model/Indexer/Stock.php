@@ -54,7 +54,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         Mage_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Config_Data::ENTITY => array(
+        Mage_Core_Model_Config_Value::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
     );
@@ -139,7 +139,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
             } else {
                 $result = false;
             }
-        } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+        } else if ($entity == Mage_Core_Model_Config_Value::ENTITY) {
             $configData = $event->getDataObject();
             if ($configData && in_array($configData->getPath(), $this->_relatedConfigSettings)) {
                 $result = $configData->isValueChanged();
@@ -174,12 +174,12 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
 
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
-            case Mage_Core_Model_Config_Data::ENTITY:
+            case Mage_Core_Model_Config_Value::ENTITY:
                 $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
 
-                if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
+                if ($event->getEntity() == Mage_Core_Model_Config_Value::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == Mage_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
                         Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price')

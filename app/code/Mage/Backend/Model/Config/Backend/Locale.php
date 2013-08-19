@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Value
 {
 
     /**
@@ -26,7 +26,7 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
      */
     protected function _afterSave()
     {
-        $collection = Mage::getModel('Mage_Core_Model_Config_Data')
+        $collection = Mage::getModel('Mage_Core_Model_Config_Value')
             ->getCollection()
             ->addPathFilter('currency/options');
 

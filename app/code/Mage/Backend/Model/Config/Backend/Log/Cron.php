@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Log_Cron extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Log_Cron extends Mage_Core_Model_Config_Value
 {
     const CRON_STRING_PATH  = 'crontab/jobs/log_clean/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/log_clean/run/model';
@@ -49,13 +49,13 @@ class Mage_Backend_Model_Config_Backend_Log_Cron extends Mage_Core_Model_Config_
         }
 
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)

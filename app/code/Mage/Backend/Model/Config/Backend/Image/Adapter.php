@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Config_Value
 {
     /**
      * @var Mage_Core_Model_Image_AdapterFactory

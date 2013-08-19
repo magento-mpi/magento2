@@ -11,7 +11,7 @@
 /**
  * Url rewrite suffix backend
  */
-class Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix extends Mage_Core_Model_Config_Value
 {
     /**
      * Check url rewrite suffix - whether we can support it

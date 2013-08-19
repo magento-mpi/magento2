@@ -306,7 +306,7 @@ class Enterprise_Persistent_Model_Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = Mage::getModel('Mage_Core_Model_Config_Data')
+            $optionCustomerSegm = Mage::getModel('Mage_Core_Model_Config_Value')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(Enterprise_Persistent_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)

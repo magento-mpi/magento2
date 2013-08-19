@@ -11,7 +11,7 @@
 /**
  * Flat product on/off backend
  */
-class Mage_Catalog_Model_System_Config_Backend_Catalog_Product_Flat extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_System_Config_Backend_Catalog_Product_Flat extends Mage_Core_Model_Config_Value
 {
     /**
      * After enable flat products required reindex

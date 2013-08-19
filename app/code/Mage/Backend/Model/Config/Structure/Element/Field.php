@@ -239,7 +239,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve backend model
      *
-     * @return Mage_Core_Model_Config_Data
+     * @return Mage_Core_Model_Config_Value
      */
     public function getBackendModel()
     {

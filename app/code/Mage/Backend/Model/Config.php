@@ -256,7 +256,7 @@ class Mage_Backend_Model_Config extends Magento_Object
                 /** @var $field Mage_Backend_Model_Config_Structure_Element_Field */
                 $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
-                /** @var Mage_Core_Model_Config_Data $backendModel */
+                /** @var Mage_Core_Model_Config_Value $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
                     $this->_configDataFactory->create();
@@ -419,7 +419,7 @@ class Mage_Backend_Model_Config extends Magento_Object
      * Set correct scope if isSingleStoreMode = true
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Field $fieldConfig
-     * @param Mage_Core_Model_Config_Data $dataObject
+     * @param Mage_Core_Model_Config_Value $dataObject
      */
     protected function _checkSingleStoreMode(
         Mage_Backend_Model_Config_Structure_Element_Field $fieldConfig,

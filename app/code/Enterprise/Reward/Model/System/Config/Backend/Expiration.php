@@ -12,7 +12,7 @@
  * Backend model for "Reward Points Lifetime"
  *
  */
-class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core_Model_Config_Data
+class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core_Model_Config_Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'enterprise_reward/general/expiration_days';
 

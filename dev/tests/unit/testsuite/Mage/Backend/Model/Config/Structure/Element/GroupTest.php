@@ -94,7 +94,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
 
     public function testGetCloneModelCreatesCloneModel()
     {
-        $cloneModel = $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false);
+        $cloneModel = $this->getMock('Mage_Core_Model_Config_Value', array(), array(), '', false);
         $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
         );

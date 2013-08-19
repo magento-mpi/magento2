@@ -12,7 +12,7 @@
  * Cache cleaner backend model
  *
  */
-class Mage_Rss_Model_System_Config_Backend_Links extends Mage_Core_Model_Config_Data
+class Mage_Rss_Model_System_Config_Backend_Links extends Mage_Core_Model_Config_Value
 {
     /**
      * Invalidate cache type, when value was changed

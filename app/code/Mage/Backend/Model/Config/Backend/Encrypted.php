@@ -15,7 +15,7 @@
  * @category   Mage
  * @package    Mage_Backend
  */
-class Mage_Backend_Model_Config_Backend_Encrypted extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Encrypted extends Mage_Core_Model_Config_Value
 {
 
     /**

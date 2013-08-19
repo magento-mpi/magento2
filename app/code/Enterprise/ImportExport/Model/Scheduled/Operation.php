@@ -246,13 +246,13 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $exprPath  = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load($exprPath, 'path')
                 ->setValue($cronExprString)
                 ->setPath($exprPath)
                 ->save();
 
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load($modelPath, 'path')
                 ->setValue(self::CRON_MODEL)
                 ->setPath($modelPath)
@@ -273,10 +273,10 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     protected function _dropCronTask()
     {
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load($this->getExprConfigPath(), 'path')
                 ->delete();
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Mage_Core_Model_Config_Value')
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {

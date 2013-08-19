@@ -49,7 +49,7 @@ class Mage_Core_Model_Resource_Config_Data extends Mage_Core_Model_Resource_Db_A
      * Validate unique configuration data before save
      * Set id to object if exists configuration instead of throw exception
      *
-     * @param Mage_Core_Model_Config_Data $object
+     * @param Mage_Core_Model_Config_Value $object
      * @return Mage_Core_Model_Resource_Config_Data
      */
     protected function _checkUnique(Mage_Core_Model_Abstract $object)
