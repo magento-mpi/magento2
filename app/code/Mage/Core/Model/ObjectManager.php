@@ -90,6 +90,7 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
                 ? $definitions
                 : null,
+            'scopePriorityScheme' => array('global'),
             'cacheId' => 'pluginlist',
         ));
         $this->_sharedInstances['Magento_Interception_PluginList_PluginList'] = $pluginList;
