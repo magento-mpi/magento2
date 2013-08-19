@@ -212,7 +212,7 @@
             <value>Mage_Backend_Controller_ActionAbstract</value>
         </param>
         <param name="routerId">
-            <value>adminhtml</value>
+            <value>admin</value>
         </param>
     </type>
     <type name="Mage_DesignEditor_Controller_Varien_Router_Standard">

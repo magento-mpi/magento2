@@ -65,7 +65,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     public function fetchDefault()
     {
-        $moduleFrontName = (string) Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
+        $moduleFrontName = $this->getDefaultModuleFrontName();
         // set defaults
         $pathParts = explode('/', $this->_getDefaultPath());
         $this->getFront()->setDefault(array(
@@ -74,6 +74,18 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
             'controller' => $this->_getParamWithDefaultValue($pathParts, 2, 'index'),
             'action'     => $this->_getParamWithDefaultValue($pathParts, 3, 'index'),
         ));
+    }
+
+    /**
+     * Get first backend route as a default
+     *
+     * @return string
+     */
+    public function getDefaultModuleFrontName()
+    {
+        $backendRoutes = $this->_getRoutes();
+        $defaultRoute = array_shift($backendRoutes);
+        return $defaultRoute['frontName'];
     }
 
     /**
