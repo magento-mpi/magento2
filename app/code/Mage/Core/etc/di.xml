@@ -18,6 +18,7 @@
     <preference for="Twig_LoaderInterface" type="Mage_Core_Model_TemplateEngine_Twig_FullFileName" />
     <preference for="Mage_Core_Model_DataService_ConfigInterface" type="Mage_Core_Model_DataService_Config" />
     <preference for="Mage_Core_Model_ConfigInterface" type="Mage_Core_Model_Config" />
+    <preference for="Mage_Core_Model_Config_DataInterface" type="Mage_Core_Model_Config_Data" />
     <preference for="Mage_Core_Model_Config_Storage_WriterInterface" type="Mage_Core_Model_Config_Storage_Writer_Db" />
     <preference for="Magento_PubSub_Event_QueueWriterInterface" type="Magento_PubSub_Event_QueueWriter" />
     <preference for="Magento_PubSub_Event_FactoryInterface" type="Magento_PubSub_Event_Factory" />

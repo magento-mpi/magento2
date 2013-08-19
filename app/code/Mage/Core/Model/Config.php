@@ -47,9 +47,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     /**
      * Configuration data model
      *
-     * @var Mage_Core_Model_Config_Data
+     * @var Mage_Core_Model_Config_Value
      */
-    protected $_configDataModel;
+    protected $_configValueModel;
 
     /**
      * Configuration for events by area
@@ -158,6 +158,11 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_moduleList;
 
     /**
+     * @var Mage_Core_Model_Config_DataInterface
+     */
+    protected $_configData;
+
+    /**
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
@@ -165,6 +170,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
+     * @param Mage_Core_Model_Config_DataInterface $configData
      */
     public function __construct(
         Mage_Core_Model_ObjectManager $objectManager,
@@ -173,7 +179,8 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_ModuleListInterface $moduleList,
         Mage_Core_Model_Config_InvalidatorInterface $invalidator,
-        Magento_Config_ScopeInterface $configScope
+        Magento_Config_ScopeInterface $configScope,
+        Mage_Core_Model_Config_DataInterface $configData
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -184,6 +191,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
+        $this->_configData = $configData;
         Magento_Profiler::stop('config_load');
     }
 
@@ -259,7 +267,13 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
         }
         try {
-            return $this->_config->getNode($path);
+            $value = $this->_config->getNode($path);
+            $parts = explode('/', $path);
+            if (in_array(current($parts), array('default', 'stores', 'websites'))) {
+                $defaultValue = $this->_configData->getValue($path);
+                //@todo adopt client code to array format
+            }
+            return $value;
         } catch (Mage_Core_Model_Config_Cache_Exception $e) {
             $this->reinit();
             return $this->_config->getNode($path);
