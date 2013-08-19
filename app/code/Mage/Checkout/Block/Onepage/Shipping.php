@@ -26,7 +26,7 @@ class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_A
     protected function _construct()
     {
         $this->getCheckout()->setStepData('shipping', array(
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Shipping Information'),
+            'label'     => __('Shipping Information'),
             'is_show'   => $this->isShow()
         ));
 

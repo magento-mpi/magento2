@@ -26,7 +26,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('General');
+        return __('General');
     }
 
     /**
@@ -183,9 +183,9 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
             return $group->getCustomerGroupCode();
         } else {
             if ($configUsed) {
-                return $this->helper('Enterprise_Invitation_Helper_Data')->__('Default from System Configuration');
+                return __('Default from System Configuration');
             } else {
-                return $this->helper('Enterprise_Invitation_Helper_Data')->__('N/A');
+                return __('N/A');
             }
         }
     }

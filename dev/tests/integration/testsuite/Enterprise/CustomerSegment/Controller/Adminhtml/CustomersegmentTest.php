@@ -54,7 +54,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extend
 
         $result = $loggingModel->load('enterprise_customersegment', 'event_code');
         $this->assertNotEmpty($result->getId());
-        $expected = serialize(array('general' => 'Matched 1 Customers of Segment '. $segment->getId()));
-        $this->assertSame($expected, $result->getInfo());
+        $expected = serialize(array('general' => __('Matched %1 Customers of Segment %2', 1, $segment->getId())));
+        $this->assertEquals($expected, $result->getInfo());
     }
 }

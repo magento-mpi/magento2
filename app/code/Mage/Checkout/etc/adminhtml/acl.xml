@@ -15,9 +15,9 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Checkout::checkoutagreement" module="Mage_Checkout" title="Terms &amp; Conditions" sortOrder="30" />
+                        <resource id="Mage_Checkout::checkoutagreement" title="Terms &amp; Conditions" sortOrder="30" />
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_Checkout::checkout" module="Mage_Checkout" title="Checkout Section" sortOrder="70" />
+                            <resource id="Mage_Checkout::checkout" title="Checkout Section" sortOrder="70" />
                         </resource>
                     </resource>
                 </resource>

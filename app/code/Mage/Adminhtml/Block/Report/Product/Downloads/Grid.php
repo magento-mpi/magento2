@@ -55,28 +55,28 @@ class Mage_Adminhtml_Block_Report_Product_Downloads_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'index'     => 'name',
             'header_css_class'  => 'col-product',
             'column_css_class'  => 'col-product'
         ));
 
         $this->addColumn('link_title', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Link'),
+            'header'    => __('Link'),
             'index'     => 'link_title',
             'header_css_class'  => 'col-link',
             'column_css_class'  => 'col-link'
         ));
 
         $this->addColumn('sku', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('SKU'),
+            'header'    =>__('SKU'),
             'index'     =>'sku',
             'header_css_class'  => 'col-sku',
             'column_css_class'  => 'col-sku'
         ));
 
         $this->addColumn('purchases', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Purchases'),
+            'header'    => __('Purchases'),
             'width'     => '215px',
             'align'     => 'right',
             'filter'    => false,
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Report_Product_Downloads_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('downloads', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'),
+            'header'    => __('Downloads'),
             'width'     => '215px',
             'align'     => 'right',
             'filter'    => false,
@@ -98,8 +98,8 @@ class Mage_Adminhtml_Block_Report_Product_Downloads_Grid extends Mage_Adminhtml_
             'column_css_class'  => 'col-qty'
         ));
 
-        $this->addExportType('*/*/exportDownloadsCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportDownloadsExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportDownloadsCsv', __('CSV'));
+        $this->addExportType('*/*/exportDownloadsExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

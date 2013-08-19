@@ -98,7 +98,6 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
     public function testRenderWithoutStoredElements()
     {
         $helperMock = $this->getMock('Mage_Core_Helper_Js', array(), array(), '', false, false);
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
@@ -114,7 +113,6 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
     public function testRenderWithStoredElements()
     {
         $helperMock = $this->getMock('Mage_Core_Helper_Js', array(), array(), '', false, false);
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
 
         $this->_layoutMock->expects($this->any())->method('helper')

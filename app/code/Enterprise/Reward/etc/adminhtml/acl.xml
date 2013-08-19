@@ -14,8 +14,8 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Customer::customer">
-                    <resource id="Mage_Customer::manage" module="Enterprise_Reward">
-                        <resource id="Enterprise_Reward::reward_balance" module="Enterprise_Reward" title="Manage Reward Points Balances" sortOrder="10" />
+                    <resource id="Mage_Customer::manage">
+                        <resource id="Enterprise_Reward::reward_balance" title="Manage Reward Points Balances" sortOrder="10" />
                     </resource>
                 </resource>
                 <resource id="Mage_Sales::sales">
@@ -23,7 +23,7 @@
                         <resource id="Mage_Sales::sales_order">
                             <resource id="Mage_Sales::actions">
                                 <resource id="Mage_Sales::create">
-                                    <resource id="Enterprise_Reward::reward_spend" module="Enterprise_Reward" title="Can Spend Reward Points" sortOrder="30" />
+                                    <resource id="Enterprise_Reward::reward_spend" title="Can Spend Reward Points" sortOrder="30" />
                                 </resource>
                             </resource>
                         </resource>
@@ -32,11 +32,11 @@
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Enterprise_Reward::enterprise_reward" module="Enterprise_Reward" title="Reward Points" sortOrder="10" />
+                            <resource id="Enterprise_Reward::enterprise_reward" title="Reward Points" sortOrder="10" />
                         </resource>
                     </resource>
                     <resource id="Mage_Adminhtml::stores_other_settings">
-                        <resource id="Enterprise_Reward::rates" title="Reward Exchange Rates" module="Enterprise_Reward" sortOrder="20" />
+                        <resource id="Enterprise_Reward::rates" title="Reward Exchange Rates" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

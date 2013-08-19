@@ -17,11 +17,6 @@
 class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 {
     /**
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
      */
     protected $_rowUrlGenerator;
@@ -106,7 +101,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
      * @param Mage_Backend_Model_Widget_Grid_Totals $totals
@@ -114,14 +108,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Backend_Helper_Data $helper,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
         Mage_Backend_Model_Widget_Grid_Totals $totals,
         array $data = array()
     ) {
-        $this->_helper = $helper;
-
         $generatorClassName = 'Mage_Backend_Model_Widget_Grid_Row_UrlGenerator';
         if (isset($data['rowUrl'])) {
             $rowUrlParams = $data['rowUrl'];
@@ -138,11 +129,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 
         parent::__construct($context, $data);
 
-        $this->setEmptyText($this->_helper->__(
+        $this->setEmptyText(__(
             isset($data['empty_text'])? $data['empty_text'] : 'We couldn\'t find any records.'
         ));
 
-        $this->setEmptyCellLabel($this->_helper->__(
+        $this->setEmptyCellLabel(__(
             isset($data['empty_cell_label'])? $data['empty_cell_label'] : 'We couldn\'t find any records.'
         ));
 

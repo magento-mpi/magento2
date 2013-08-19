@@ -26,11 +26,11 @@ class Mage_Captcha_Model_Config_Mode
     {
         return array(
             array(
-                'label' => Mage::helper('Mage_Captcha_Helper_Data')->__('Always'),
+                'label' => __('Always'),
                 'value' => Mage_Captcha_Helper_Data::MODE_ALWAYS
             ),
             array(
-                'label' => Mage::helper('Mage_Captcha_Helper_Data')->__('After number of attempts to login'),
+                'label' => __('After number of attempts to login'),
                 'value' => Mage_Captcha_Helper_Data::MODE_AFTER_FAIL
             ),
         );

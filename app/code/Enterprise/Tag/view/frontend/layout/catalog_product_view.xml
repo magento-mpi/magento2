@@ -17,11 +17,11 @@
                 <action method="setWrapperClass">
                     <class>reward-tag</class>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Tag">
-                    <message>Submit a new tag now and earn %s when the tag is approved.</message>
+                <action method="setRewardMessage" translate="message">
+                    <message>Submit a new tag now and earn %1 when the tag is approved.</message>
                 </action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Tag">
-                    <message>You can reward up to %s new tag(s).</message>
+                <action method="setRewardQtyLimitationMessage" translate="message">
+                    <message>You can reward up to %1 new tag(s).</message>
                 </action>
                 <action method="setIsGuestNote">
                     <value>1</value>

@@ -36,7 +36,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist
     protected function _prepareColumns()
     {
         $this->addColumn('wishlist_name', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist'),
+            'header'    => __('Wishlist'),
             'index'     => 'wishlist_name',
             'sortable'  => false
         ));

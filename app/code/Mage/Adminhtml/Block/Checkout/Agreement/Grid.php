@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
     {
         $this->addColumn('agreement_id',
             array(
-                'header'=>Mage::helper('Mage_Checkout_Helper_Data')->__('ID'),
+                'header'=>__('ID'),
                 'index' => 'agreement_id',
                 'header_css_class'  => 'col-id',
                 'column_css_class'  => 'col-id'
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('name',
             array(
-                'header'=>Mage::helper('Mage_Checkout_Helper_Data')->__('Condition'),
+                'header'=>__('Condition'),
                 'index' => 'name',
                 'header_css_class'  => 'col-name',
                 'column_css_class'  => 'col-name'
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store View'),
+                'header'        => __('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_all'     => true,
@@ -63,12 +63,12 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disabled'),
-                1 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Enabled')
+                0 => __('Disabled'),
+                1 => __('Enabled')
             ),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'

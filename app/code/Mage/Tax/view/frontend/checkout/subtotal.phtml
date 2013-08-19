@@ -15,7 +15,7 @@
 <?php if ($this->displayBoth()):?>
 <tr>
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php echo $this->helper('Mage_Tax_Helper_Data')->__('Subtotal (Excl. Tax)') ?>
+        <?php echo __('Subtotal (Excl. Tax)') ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
         <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueExclTax()) ?>
@@ -23,7 +23,7 @@
 </tr>
 <tr>
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php echo $this->helper('Mage_Tax_Helper_Data')->__('Subtotal (Incl. Tax)') ?>
+        <?php echo __('Subtotal (Incl. Tax)') ?>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
         <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueInclTax()) ?>

@@ -143,7 +143,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),
-            'title' => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
+            'title' => __('Subtotal'),
             'value' => $address->getSubtotal()
         ));
         return $this;
@@ -156,6 +156,6 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
      */
     public function getLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal');
+        return __('Subtotal');
     }
 }

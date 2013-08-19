@@ -9,12 +9,12 @@
  */
 ?>
 <fieldset id="grop_fields" class="fieldset">
-    <legend class="legend"><span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Product In Websites') ?></span></legend>
+    <legend class="legend"><span><?php echo __('Product In Websites') ?></span></legend>
     <br>
     <?php if ($this->getProductId()): ?>
     <div class="message message-info">
         <div class="message-inner">
-            <div class="message-content"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></div>
+            <div class="message-content"><?php echo __("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></div>
         </div>
     </div>
     <?php endif; ?>
@@ -37,7 +37,7 @@
                             <?php echo $this->escapeHtml($_store->getName()) ?>
                             <?php if ($this->getWebsites() && !$this->hasWebsite($_website->getId())): ?>
                             <span class="website-<?php echo $_website->getId() ?>-select" style="display:none">
-                            <?php echo $this->helper('Mage_Catalog_Helper_Data')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml($_store)) ?>
+                            <?php echo __('(Copy data from: %1)', $this->getChooseFromStoreHtml($_store)) ?>
                             </span>
                             <?php endif; ?>
                         </li>

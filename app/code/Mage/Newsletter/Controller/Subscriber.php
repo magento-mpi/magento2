@@ -29,12 +29,12 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
 
             try {
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    Mage::throwException($this->__('Please enter a valid email address.'));
+                    Mage::throwException(__('Please enter a valid email address.'));
                 }
 
                 if (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException($this->__('Sorry, but the administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
+                    Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
                 $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
@@ -42,22 +42,22 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
                         ->loadByEmail($email)
                         ->getId();
                 if ($ownerId !== null && $ownerId != $customerSession->getId()) {
-                    Mage::throwException($this->__('This email address is already assigned to another user.'));
+                    Mage::throwException(__('This email address is already assigned to another user.'));
                 }
 
                 $status = Mage::getModel('Mage_Newsletter_Model_Subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
-                    $session->addSuccess($this->__('The confirmation request has been sent.'));
+                    $session->addSuccess(__('The confirmation request has been sent.'));
                 }
                 else {
-                    $session->addSuccess($this->__('Thank you for your subscription.'));
+                    $session->addSuccess(__('Thank you for your subscription.'));
                 }
             }
             catch (Mage_Core_Exception $e) {
-                $session->addException($e, $this->__('There was a problem with the subscription: %s', $e->getMessage()));
+                $session->addException($e, __('There was a problem with the subscription: %1', $e->getMessage()));
             }
             catch (Exception $e) {
-                $session->addException($e, $this->__('Something went wrong with the subscription.'));
+                $session->addException($e, __('Something went wrong with the subscription.'));
             }
         }
         $this->_redirectReferer();
@@ -77,12 +77,12 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
-                    $session->addSuccess($this->__('Your subscription has been confirmed.'));
+                    $session->addSuccess(__('Your subscription has been confirmed.'));
                 } else {
-                    $session->addError($this->__('This is an invalid subscription confirmation code.'));
+                    $session->addError(__('This is an invalid subscription confirmation code.'));
                 }
             } else {
-                $session->addError($this->__('This is an invalid subscription ID.'));
+                $session->addError(__('This is an invalid subscription ID.'));
             }
         }
 
@@ -103,13 +103,13 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
                 Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
-                $session->addSuccess($this->__('You have been unsubscribed.'));
+                $session->addSuccess(__('You have been unsubscribed.'));
             }
             catch (Mage_Core_Exception $e) {
                 $session->addException($e, $e->getMessage());
             }
             catch (Exception $e) {
-                $session->addException($e, $this->__('Something went wrong with the un-subscription.'));
+                $session->addException($e, __('Something went wrong with the un-subscription.'));
             }
         }
         $this->_redirectReferer();

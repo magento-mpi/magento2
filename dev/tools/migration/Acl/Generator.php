@@ -243,20 +243,16 @@ class Tools_Migration_Acl_Generator
      * @param DOMDocument $resultDom
      * @param string $nodeName
      * @param DOMNode $parent
-     * @param string $moduleName
      *
      * @return DOMNode
      */
-    public function createNode(DOMDocument $resultDom, $nodeName, DOMNode $parent, $moduleName)
+    public function createNode(DOMDocument $resultDom, $nodeName, DOMNode $parent)
     {
         $newNode = $resultDom->createElement('resource');
         $xpath = $parent->getAttribute('xpath');
         $newNode->setAttribute('xpath', $xpath . '/' . $nodeName);
         $parent->appendChild($newNode);
         $newNode->setAttribute('id', $this->generateId($newNode, $xpath, $nodeName));
-        if ($moduleName) {
-            $newNode->setAttribute('module', $moduleName);
-        }
         return $newNode;
     }
 
@@ -359,7 +355,7 @@ class Tools_Migration_Acl_Generator
             } elseif ($this->isMetaNode($item->nodeName)) {
                 $this->setMetaInfo($parentNode, $item, $moduleName);
             } else {
-                $newNode = $this->createNode($dom, $item->nodeName, $parentNode, $item->getAttribute('module'));
+                $newNode = $this->createNode($dom, $item->nodeName, $parentNode);
                 if ($item->childNodes->length > 0) {
                     $this->parseNode($item, $dom, $newNode, $moduleName);
                 }

@@ -51,7 +51,7 @@
         <td class="col-product">
             <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
             <div>
-                <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
+                <strong><?php echo __('SKU') ?>:</strong>
                 <?php echo implode('<br />', $this->helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         </td>
@@ -63,7 +63,7 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
                         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
-                            <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
+                            <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
                         <?php endif; ?>
 
                         <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
@@ -100,7 +100,7 @@
 
                             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                                 <br />
-                                <span class="nobr"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>:<br />
+                                <span class="nobr"><?php echo __('Total'); ?>:<br />
                                 <?php
                                 echo $this->displayPrices(
                                     $_item->getBasePrice()+$_item->getBaseWeeeTaxAppliedAmount()+$_item->getBaseWeeeTaxDisposition(),
@@ -116,7 +116,7 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
                     <span class="price-incl-tax">
                         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
-                            <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
+                            <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
                         <?php endif; ?>
                         <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
                         <?php $_baseIncl = $this->helper('Mage_Checkout_Helper_Data')->getBasePriceInclTax($_item); ?>
@@ -149,7 +149,7 @@
 
                             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                                 <br />
-                                <span class="nobr"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                                <span class="nobr"><?php echo __('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                             <?php endif; ?>
                         <?php endif; ?>
                     </span>
@@ -162,30 +162,30 @@
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <table cellspacing="0" class="qty-table">
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Ordered') ?></td>
+                        <td><?php echo __('Ordered') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyOrdered()*1 ?></strong></td>
                     </tr>
                     <?php if ((float) $_item->getOrderItem()->getQtyInvoiced()): ?>
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Invoiced') ?></td>
+                        <td><?php echo __('Invoiced') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyInvoiced()*1 ?></strong></td>
                     </tr>
                     <?php endif; ?>
                     <?php if ((float) $_item->getOrderItem()->getQtyShipped() && $this->isShipmentSeparately($_item)): ?>
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipped') ?></td>
+                        <td><?php echo __('Shipped') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyShipped()*1 ?></strong></td>
                     </tr>
                     <?php endif; ?>
                     <?php if ((float) $_item->getOrderItem()->getQtyRefunded()): ?>
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Refunded') ?></td>
+                        <td><?php echo __('Refunded') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyRefunded()*1 ?></strong></td>
                     </tr>
                     <?php endif; ?>
                     <?php if ((float) $_item->getOrderItem()->getQtyCanceled()): ?>
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Canceled') ?></td>
+                        <td><?php echo __('Canceled') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyCanceled()*1 ?></strong></td>
                     </tr>
                     <?php endif; ?>
@@ -193,12 +193,12 @@
             <?php elseif ($this->isShipmentSeparately($_item)): ?>
                 <table cellspacing="0" class="qty-table">
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Ordered') ?></td>
+                        <td><?php echo __('Ordered') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyOrdered()*1 ?></strong></td>
                     </tr>
                     <?php if ((float) $_item->getOrderItem()->getQtyShipped()): ?>
                     <tr>
-                        <td><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipped') ?></td>
+                        <td><?php echo __('Shipped') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyShipped()*1 ?></strong></td>
                     </tr>
                     <?php endif; ?>
@@ -234,7 +234,7 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
                         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
-                            <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
+                            <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
                         <?php endif; ?>
 
                         <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
@@ -270,7 +270,7 @@
 
                             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                                 <br />
-                                <span class="nobr"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>:<br />
+                                <span class="nobr"><?php echo __('Total'); ?>:<br />
                                 <?php
                                 echo $this->displayPrices(
                                     $_item->getBaseRowTotal()+$_item->getBaseWeeeTaxAppliedRowAmnt()+$_item->getBaseWeeeTaxRowDisposition(),
@@ -286,7 +286,7 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
                     <span class="price-incl-tax">
                         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
-                            <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
+                            <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
                         <?php endif; ?>
                         <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
                         <?php $_baseIncl = $this->helper('Mage_Checkout_Helper_Data')->getBaseSubtotalInclTax($_item); ?>
@@ -319,7 +319,7 @@
                             <?php endif; ?>
 
                             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
-                                <br /><span class="nobr"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmnt(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                                <br /><span class="nobr"><?php echo __('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmnt(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                             <?php endif; ?>
                         <?php endif; ?>
                     </span>

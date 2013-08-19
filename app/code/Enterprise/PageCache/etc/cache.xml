@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="full_page" translate="label,description" module="Enterprise_PageCache" instance="Enterprise_PageCache_Model_Cache_Type">
+    <type name="full_page" translate="label,description" instance="Enterprise_PageCache_Model_Cache_Type">
         <label>Page Cache</label>
         <description>Full page caching.</description>
     </type>

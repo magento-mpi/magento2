@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="catalog">
-            <group id="productalert" translate="label" module="Mage_ProductAlert" type="text" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="productalert" translate="label" type="text" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Product Alerts</label>
                 <field id="allow_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allow Alert When Product Price Changes</label>
@@ -35,7 +35,7 @@
                     <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
             </group>
-            <group id="productalert_cron" translate="label" module="Mage_ProductAlert" type="text" sortOrder="260" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="productalert_cron" translate="label" type="text" sortOrder="260" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Product Alerts Run Settings</label>
                 <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>

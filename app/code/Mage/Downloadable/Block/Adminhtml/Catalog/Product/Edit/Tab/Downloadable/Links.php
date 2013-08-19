@@ -113,7 +113,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $addButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label' => Mage::helper('Mage_Downloadable_Helper_Data')->__('Add New Row'),
+                'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
                 'class' => 'add'
             ));
@@ -261,7 +261,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $this->addChild('upload_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'id'      => '',
-            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
+            'label'   => __('Upload Files'),
             'type'    => 'button',
             'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
         ));
@@ -314,7 +314,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $this->getConfig()->setFileField($this->getFileFieldName($type));
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Files'),
+                'label' => __('All Files'),
                 'files' => array('*.*')
             )
         ));

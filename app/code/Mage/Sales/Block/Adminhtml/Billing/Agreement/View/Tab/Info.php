@@ -25,7 +25,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage_Ba
      */
     public function getTabLabel()
     {
-        return $this->__('General Information');
+        return __('General Information');
     }
 
     /**
@@ -35,7 +35,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage_Ba
      */
     public function getTabTitle()
     {
-        return $this->__('General Information');
+        return __('General Information');
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage_Ba
         );
         $this->setUpdatedAt(
              ($agreement->getUpdatedAt())
-                ? $this->helper('Mage_Core_Helper_Data')->formatDate($agreement->getUpdatedAt(), 'short', true) : $this->__('N/A')
+                ? $this->helper('Mage_Core_Helper_Data')->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
         );
 
         return parent::_toHtml();

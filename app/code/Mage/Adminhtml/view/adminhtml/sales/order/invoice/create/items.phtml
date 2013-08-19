@@ -11,20 +11,20 @@
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
         <?php $_itemsGridLabel = $this->getForcedShipmentCreate()?'Items to Invoice and Ship':'Items to Invoice'; ?>
-        <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('%s', $_itemsGridLabel) ?></span>
+        <span class="title"><?php echo __('%1', $_itemsGridLabel) ?></span>
     </div>
     <div class="grid">
         <table cellspacing="0" class="data">
             <thead>
                 <tr class="headings">
-                    <th class="col-product"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
-                    <th class="col-price"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Price') ?></span></th>
-                    <th class="col-ordered-qty"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
-                    <th class="col-qty-invoice"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty to Invoice') ?></span></th>
-                    <th class="col-subtotal"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Subtotal') ?></span></th>
-                    <th class="col-tax"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Tax Amount') ?></span></th>
-                    <th class="col-discount"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Discount Amount') ?></span></th>
-                    <th class="col-total last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Total') ?></span></th>
+                    <th class="col-product"><span><?php echo __('Product') ?></span></th>
+                    <th class="col-price"><span><?php echo __('Price') ?></span></th>
+                    <th class="col-ordered-qty"><span><?php echo __('Qty') ?></span></th>
+                    <th class="col-qty-invoice"><span><?php echo __('Qty to Invoice') ?></span></th>
+                    <th class="col-subtotal"><span><?php echo __('Subtotal') ?></span></th>
+                    <th class="col-tax"><span><?php echo __('Tax Amount') ?></span></th>
+                    <th class="col-discount"><span><?php echo __('Discount Amount') ?></span></th>
+                    <th class="col-total last"><span><?php echo __('Row Total') ?></span></th>
                 </tr>
             </thead>
             <?php if ($this->canEditQty()): ?>
@@ -54,10 +54,10 @@
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->__('Invoice History') ?></span>
+                <span class="title"><?php echo __('Invoice History') ?></span>
             </div>
             <div id="history_form" class="order-history-form">
-                <label class="normal" for="invoice_comment_text"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Invoice Comments') ?></label>
+                <label class="normal" for="invoice_comment_text"><?php echo __('Invoice Comments') ?></label>
                 <textarea id="invoice_comment_text" name="invoice[comment_text]" rows="3" cols="5"><?php echo $this->getInvoice()->getCommentText(); ?></textarea>
             </div>
         </div>
@@ -65,7 +65,7 @@
     <div class="order-totals">
         <div class="fieldset-wrapper" id="invoice_totals">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->__('Invoice Totals') ?></span>
+                <span class="title"><?php echo __('Invoice Totals') ?></span>
             </div>
             <div>
                 <?php echo $this->getChildHtml('invoice_totals') ?>
@@ -73,29 +73,29 @@
                 <?php if ($this->canCapture()):?>
                     <div>
                     <!--
-                      <label for="invoice_do_capture" class="normal"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Capture Amount') ?></label>
+                      <label for="invoice_do_capture" class="normal"><?php echo __('Capture Amount') ?></label>
                       <input type="checkbox" name="invoice[do_capture]" id="invoice_do_capture" value="1" checked/>
                     -->
-                      <label for="invoice_do_capture" class="normal"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Amount') ?></label>
+                      <label for="invoice_do_capture" class="normal"><?php echo __('Amount') ?></label>
                       <select name="invoice[capture_case]">
-                          <option value="online"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Capture Online') ?></option>
-                          <option value="offline"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Capture Offline') ?></option>
-                          <option value="not_capture"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Capture') ?></option>
+                          <option value="online"><?php echo __('Capture Online') ?></option>
+                          <option value="offline"><?php echo __('Capture Offline') ?></option>
+                          <option value="not_capture"><?php echo __('Not Capture') ?></option>
                       </select>
                     </div>
                 <?php elseif ($this->isGatewayUsed()):?>
                     <input type="hidden" name="invoice[capture_case]" value="offline"/>
-                    <div><?php echo $this->helper('Mage_Sales_Helper_Data')->__('The invoice will be created offline without the payment gateway.') ?></div>
+                    <div><?php echo __('The invoice will be created offline without the payment gateway.') ?></div>
                 <?php endif?>
                 <?php endif; ?>
                 <div>
                     <input id="notify_customer" name="invoice[comment_customer_notify]" value="1" type="checkbox" />
-                    <label class="normal" for="notify_customer"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Append Comments') ?></label>
+                    <label class="normal" for="notify_customer"><?php echo __('Append Comments') ?></label>
                 </div>
                 <?php if ($this->canSendInvoiceEmail()): ?>
                 <div>
                     <input id="send_email" name="invoice[send_email]" value="1" type="checkbox" />
-                    <label class="normal" for="send_email"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Email Copy of Invoice') ?></label>
+                    <label class="normal" for="send_email"><?php echo __('Email Copy of Invoice') ?></label>
                 </div>
                 <?php endif; ?>
                 <div class="actions">

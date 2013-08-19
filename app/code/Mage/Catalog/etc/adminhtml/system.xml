@@ -11,10 +11,10 @@
 -->
 <config>
     <system>
-        <tab id="catalog" translate="label" module="Mage_Catalog" sortOrder="200">
+        <tab id="catalog" translate="label" sortOrder="200">
             <label>Catalog</label>
         </tab>
-        <section id="catalog" translate="label" module="Mage_Catalog" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="catalog" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Catalog</label>
             <tab>catalog</tab>

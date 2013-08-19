@@ -88,7 +88,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     protected function _getAnchorLabel($menuItem)
     {
-        return $this->escapeHtml($menuItem->getModuleHelper()->__($menuItem->getTitle()));
+        return $this->escapeHtml(__($menuItem->getTitle()));
     }
 
     /**
@@ -99,9 +99,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     protected function _renderItemAnchorTitle($menuItem)
     {
-        return $menuItem->hasTooltip() ?
-            'title="' . $menuItem->getModuleHelper()->__($menuItem->getTooltip()) . '"' :
-            '';
+        return $menuItem->hasTooltip() ? 'title="' . __($menuItem->getTooltip()) . '"' : '';
     }
 
     /**

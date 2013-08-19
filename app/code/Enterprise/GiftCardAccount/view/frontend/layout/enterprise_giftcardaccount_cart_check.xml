@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <enterprise_giftcardaccount_cart_check translate="label" module="Enterprise_GiftCardAccount" type="page" parent="checkout_cart_index">
+    <enterprise_giftcardaccount_cart_check translate="label" type="page" parent="checkout_cart_index">
         <label>Gift Card Balance Check Form</label>
         <reference name="root">
             <action method="setTemplate">

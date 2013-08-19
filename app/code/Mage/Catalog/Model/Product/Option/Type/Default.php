@@ -63,7 +63,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->_option instanceof Mage_Catalog_Model_Product_Option) {
             return $this->_option;
         }
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The option instance type in options group is incorrect.'));
+        Mage::throwException(__('The option instance type in options group is incorrect.'));
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->_product instanceof Mage_Catalog_Model_Product) {
             return $this->_product;
         }
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The product instance type in options group is incorrect.'));
+        Mage::throwException(__('The product instance type in options group is incorrect.'));
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
             return $this->_getData('quote_item_option');
         }
 
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The configuration item option instance in options group is incorrect.'));
+        Mage::throwException(__('The configuration item option instance in options group is incorrect.'));
     }
 
     /**
@@ -127,7 +127,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
             return $this->_getData('quote_item');
         }
 
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The configuration item instance in options group is incorrect.'));
+        Mage::throwException(__('The configuration item instance in options group is incorrect.'));
     }
 
     /**
@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->_getData('request') instanceof Magento_Object) {
             return $this->_getData('request');
         }
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The BuyRequest instance in options group is incorrect.'));
+        Mage::throwException(__('The BuyRequest instance in options group is incorrect.'));
     }
 
     /**
@@ -169,7 +169,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
 
         $option = $this->getOption();
         if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
+            Mage::throwException(__('Please specify the product required option(s).'));
         } elseif (isset($values[$option->getId()])) {
             $this->setUserValue($values[$option->getId()]);
             $this->setIsValid(true);
@@ -199,7 +199,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->getIsValid()) {
             return $this->getUserValue();
         }
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('We couldn\'t add the product to the cart because of an option validation issue.'));
+        Mage::throwException(__('We couldn\'t add the product to the cart because of an option validation issue.'));
     }
 
     /**

@@ -124,7 +124,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         $carriers = $this->_getCarriers($shipment);
 
         if (!isset($carriers[$carrier])) {
-            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t recognize the carrier you selected.'));
+            $this->_fault('data_invalid', __('We don\'t recognize the carrier you selected.'));
         }
 
         $track = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')
@@ -271,7 +271,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             $object->getStoreId()
         );
 
-        $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
+        $carriers['custom'] = __('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');

@@ -56,10 +56,10 @@ trackingControl = {
 <table cellspacing="0" class="data-table" id="tracking_numbers_table">
     <thead>
         <tr class="headings">
-            <th class="col-carrier"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Carrier') ?></th>
-            <th class="col-title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Title') ?></th>
-            <th class="col-number"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Number') ?></th>
-            <th class="col-delete last"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Action') ?></th>
+            <th class="col-carrier"><?php echo __('Carrier') ?></th>
+            <th class="col-title"><?php echo __('Title') ?></th>
+            <th class="col-number"><?php echo __('Number') ?></th>
+            <th class="col-delete last"><?php echo __('Action') ?></th>
         </tr>
     </thead>
     <tfoot>
@@ -78,7 +78,7 @@ trackingControl = {
             </td>
             <td class="col-title"><input class="input-text number-title" type="text" name="tracking[__index__][title]" id="trackingT__index__" value="" disabled="disabled" /></td>
             <td class="col-number"><input class="input-text" type="text" name="tracking[__index__][number]" id="trackingN__index__" value="" disabled="disabled" /></td>
-            <td class="col-delete last"><a class="action- delete" href="#" onclick="trackingControl.deleteRow(event);return false"><span><?php echo $this->__('Delete') ?></a></span></td>
+            <td class="col-delete last"><a class="action- delete" href="#" onclick="trackingControl.deleteRow(event);return false"><span><?php echo __('Delete') ?></a></span></td>
         </tr>
     </tbody>
 </table>

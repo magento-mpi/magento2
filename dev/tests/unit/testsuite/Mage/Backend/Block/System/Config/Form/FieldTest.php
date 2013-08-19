@@ -131,12 +131,6 @@ class Mage_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_
         $this->_elementMock->expects($this->any())->method('getCanUseDefaultValue')->will($this->returnValue(true));
         $this->_elementMock->expects($this->once())->method('setDisabled')->with(true);
 
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-
-        $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Mage_Backend_Helper_Data')->will($this->returnValue($helperMock));
-
         $expected = '<td class="use-default">';
         $expected .= '<input id="' . $this->_testData['htmlId'] . '_inherit" name="'
             . $this->_testData['name'] . '[inherit]" type="checkbox" value="1"'

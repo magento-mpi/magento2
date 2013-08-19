@@ -15,10 +15,10 @@
 ?>
 <?php if ($this->isShow()): ?>
 <div class="field field-store-switcher">
-    <label class="label" for="store_switcher"><?php echo $this->__('Show Report For:') ?></label>
+    <label class="label" for="store_switcher"><?php echo __('Show Report For:') ?></label>
     <div class="control">
         <select name="store_switcher" id="store_switcher" onchange="return switchStore(this);">
-            <option value=""><?php echo $this->__('All Websites') ?></option>
+            <option value=""><?php echo __('All Websites') ?></option>
             <?php foreach ($this->getWebsiteCollection() as $_website): ?>
                 <?php $showWebsite=false; ?>
                 <?php foreach ($this->getGroupCollection($_website) as $_group): ?>

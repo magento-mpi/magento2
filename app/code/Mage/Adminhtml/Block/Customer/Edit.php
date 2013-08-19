@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         if ($this->getCustomerId() &&
             $this->_authorization->isAllowed('Mage_Sales::create')) {
             $this->_addButton('order', array(
-                'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Create Order'),
+                'label' => __('Create Order'),
                 'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
             ), 0);
@@ -33,8 +33,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Save Customer'));
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Customer_Helper_Data')->__('Delete Customer'));
+        $this->_updateButton('save', 'label', __('Save Customer'));
+        $this->_updateButton('delete', 'label', __('Delete Customer'));
 
         $customer = Mage::registry('current_customer');
         if ($customer && Mage::registry('current_customer')->isReadonly()) {
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         if ($customer && $customer->getId()) {
             $url = $this->getUrl('*/*/resetPassword', array('customer_id' => $customer->getId()));
             $this->_addButton('reset_password', array(
-                'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Reset Password'),
+                'label' => __('Reset Password'),
                 'onclick' => 'setLocation(\'' . $url . '\')',
                 'class' => 'save',
             ), 0);
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             return $this->escapeHtml(Mage::registry('current_customer')->getName());
         }
         else {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('New Customer');
+            return __('New Customer');
         }
     }
 
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
     {
         if (!Mage::registry('current_customer')->isReadonly()) {
             $this->_addButton('save_and_continue', array(
-                'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Save and Continue Edit'),
+                'label'     => __('Save and Continue Edit'),
                 'class'     => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(

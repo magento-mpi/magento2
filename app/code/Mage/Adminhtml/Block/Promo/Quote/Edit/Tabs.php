@@ -24,6 +24,6 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
         parent::_construct();
         $this->setId('promo_catalog_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_SalesRule_Helper_Data')->__('Shopping Cart Price Rule'));
+        $this->setTitle(__('Shopping Cart Price Rule'));
     }
 }

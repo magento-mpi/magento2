@@ -22,7 +22,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files
      */
     public function getStorageType()
     {
-        return $this->__($this->helper('Mage_Theme_Helper_Storage')->getStorageType());
+        return __($this->helper('Mage_Theme_Helper_Storage')->getStorageType());
     }
 
 }

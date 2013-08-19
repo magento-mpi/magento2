@@ -99,7 +99,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
                 return array(
-                    Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid file extension.', $label)
+                    __('"%1" is not a valid file extension.', $label)
                 );
             }
         }
@@ -115,7 +115,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
 
         if (!is_uploaded_file($value['tmp_name'])) {
             return array(
-                Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is not a valid file.', $label)
+                __('"%1" is not a valid file.', $label)
             );
         }
 
@@ -123,7 +123,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
             $size = $value['size'];
             if ($rules['max_file_size'] < $size) {
                 return array(
-                    Mage::helper('Mage_Eav_Helper_Data')->__('"%s" exceeds the allowed file size.', $label)
+                    __('"%1" exceeds the allowed file size.', $label)
                 );
             };
         }
@@ -160,7 +160,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
         }
 
         if ($attribute->getIsRequired() && !$toUpload) {
-            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is a required value.', $label);
+            $errors[] = __('"%1" is a required value.', $label);
         }
 
         if ($toUpload) {

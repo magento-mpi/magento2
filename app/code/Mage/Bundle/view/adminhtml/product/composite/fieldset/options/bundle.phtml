@@ -13,7 +13,7 @@
 <?php $options = $this->helper('Mage_Core_Helper_Data')->decorateArray($this->getOptions()); ?>
 <?php if (count($options)): ?>
 <div id="catalog_product_composite_configure_fields_bundle" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
-    <h4><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Bundle Items') ?></h4>
+    <h4><?php echo __('Bundle Items') ?></h4>
     <div class="product-options">
         <dl>
             <?php foreach ($options as $option) : ?>

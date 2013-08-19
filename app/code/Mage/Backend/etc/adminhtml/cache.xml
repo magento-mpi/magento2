@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="config" translate="description" module="Mage_Backend">
+    <type name="config" translate="description">
         <description>System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).</description>
     </type>
 </config>

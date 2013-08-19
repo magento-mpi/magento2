@@ -18,9 +18,9 @@
 <div class="top-cart">
     <?php $_cartQty = $this->getSummaryCount() ?>
     <?php if ($_cartQty > 0): ?>
-    <?php $_myCart = $this->__('My Cart (%s)', '<span>' . $_cartQty . '</span>') ?>
+    <?php $_myCart = __('My Cart (%1)', '<span>' . $_cartQty . '</span>') ?>
     <?php else: ?>
-    <?php $_myCart = $this->__('My Cart (%s)', '<span>0</span>') ?>
+    <?php $_myCart = __('My Cart (%1)', '<span>0</span>') ?>
     <?php endif ?>
     <?php if ($this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()): ?>
     <div class="block-title no-items">
@@ -39,8 +39,8 @@
             <?php $_items = $this->getRecentItems() ?>
             <?php if (count($_items)): ?>
                 <p class="block-subtitle">
-                    <span class="close-btn"><?php echo $this->__('Close'); ?></span>
-                    <?php echo $this->__('Recently added item(s)') ?>
+                    <span class="close-btn"><?php echo __('Close'); ?></span>
+                    <?php echo __('Recently added item(s)') ?>
                 </p>
                 <ol id="mini-cart" class="mini-products-list">
                     <?php foreach ($_items as $_item): ?>
@@ -50,11 +50,11 @@
 
                 <?php else: ?>
                 <p class="block-subtitle">
-                    <span class="close-btn"><?php echo $this->__('Close'); ?></span>
-                    <?php echo $this->__('Recently added item(s)') ?>
+                    <span class="close-btn"><?php echo __('Close'); ?></span>
+                    <?php echo __('Recently added item(s)') ?>
                 </p>
                 <p class="cart-empty">
-                    <?php echo $this->__('You have no items in your shopping cart.') ?>
+                    <?php echo __('You have no items in your shopping cart.') ?>
                 </p>
                 <?php if ($this->getCartEmptyMessage()): ?>
                     <p class="cart-empty cart-empty-message"><?php echo $this->getCartEmptyMessage(); ?></p>
@@ -66,10 +66,10 @@
                     <p class="subtotal">
                         <?php if ($this->canApplyMsrp()): ?>
                         <span
-                            class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+                            class="map-cart-sidebar-total"><?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
                         <?php else: ?>
                         <span
-                            class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                            class="label"><?php echo __('Cart Subtotal:') ?></span> <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
                             / <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_subtotalInclTax) ?> <?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcText(true) ?><?php endif; ?>
                         <?php endif; ?>
                     </p>
@@ -77,10 +77,10 @@
                 <div class="actions">
                     <?php if ($isPossibleOnepageCheckout): ?>
                     <?php echo $this->getChildHtml('extra_actions') ?>
-                    <button id="top-cart-btn-checkout" class="button" type="button" title="<?php echo $this->__('Checkout') ?>">
-                        <span><span><?php echo $this->__('Checkout') ?></span></span></button>
+                    <button id="top-cart-btn-checkout" class="button" type="button" title="<?php echo __('Checkout') ?>">
+                        <span><span><?php echo __('Checkout') ?></span></span></button>
                     <?php endif ?>
-                    <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo $this->__('Go to Shopping Cart') ?></span></a>
+                    <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo __('Go to Shopping Cart') ?></span></a>
                 </div>
                 <?php endif ?>
         </div>
@@ -92,8 +92,8 @@
                     $('#mini-cart').sidebar({
                         checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
                         checkoutButton: '#top-cart-btn-checkout',
-                        removeButton: 'a[title=\'' + '<?php echo $this->__('Remove item')?>' + '\']',
-                        confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
+                        removeButton: 'a[title=\'' + '<?php echo __('Remove item')?>' + '\']',
+                        confirmMessage: '<?php echo __('Are you sure you would like to remove this item from the shopping cart?') ?>'
                     });
                     $('#topCartContent').topCart({closeSelector: '.close-btn'});
                 });

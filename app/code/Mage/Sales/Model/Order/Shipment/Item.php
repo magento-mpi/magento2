@@ -127,8 +127,7 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
             $this->setData('qty', $qty);
         } else {
             Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')
-                    ->__('We found an invalid qty to ship for item "%s".', $this->getName())
+                __('We found an invalid qty to ship for item "%1".', $this->getName())
             );
         }
         return $this;

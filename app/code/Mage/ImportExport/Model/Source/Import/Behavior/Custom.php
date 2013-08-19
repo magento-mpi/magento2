@@ -28,11 +28,11 @@ class Mage_ImportExport_Model_Source_Import_Behavior_Custom
     {
         return array(
             Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
-                => $this->_helper('Mage_ImportExport_Helper_Data')->__('Add/Update Complex Data'),
+                => __('Add/Update Complex Data'),
             Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
-                => $this->_helper('Mage_ImportExport_Helper_Data')->__('Delete Entities'),
+                => __('Delete Entities'),
             Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM
-                => $this->_helper('Mage_ImportExport_Helper_Data')->__('Custom Action'),
+                => __('Custom Action'),
         );
     }
 

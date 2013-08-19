@@ -50,9 +50,9 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit extends Mage_Backend_Block_
     public function getHeaderText()
     {
         if ($this->_isExistingSubscription()) {
-            return $this->__('Edit Subscription');
+            return __('Edit Subscription');
         } else {
-            return $this->__('Add Subscription');
+            return __('Add Subscription');
         }
     }
 

@@ -19,10 +19,10 @@
         <?php /*Billing Address */ ?>
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
+                <span class="title"><?php echo __('Payment Information') ?></span>
             </div>
             <div><?php echo $this->getChildHtml('order_payment') ?></div>
-            <div class="order-payment-currency"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
+            <div class="order-payment-currency"><?php echo __('The order was placed using %1.', $_order->getOrderCurrencyCode()) ?></div>
         </div>
     </div>
     <?php if (!$_order->getIsVirtual()): ?>
@@ -30,12 +30,12 @@
         <?php /*Shipping Address */ ?>
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
+                <span class="title"><?php echo __('Shipping Information') ?></span>
             </div>
             <div class="shipping-description-wrapper">
                 <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
                 <div class="shipping-description-content">
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+                    <?php echo __('Total Shipping Charges'); ?>:
 
                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                         <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
@@ -46,7 +46,7 @@
 
                     <?php echo $_excl; ?>
                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
                     <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
                 </div>
@@ -58,7 +58,7 @@
 
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
-        <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Items Invoiced') ?></span>
+        <span class="title"><?php echo __('Items Invoiced') ?></span>
     </div>
     <div id="invoice_item_container">
         <?php echo $this->getChildHtml('invoice_items') ?>
@@ -69,7 +69,7 @@
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->__('Invoice History') ?></span>
+                <span class="title"><?php echo __('Invoice History') ?></span>
             </div>
             <fieldset>
                 <?php echo $this->getChildHtml('order_comments') ?>
@@ -79,7 +79,7 @@
     <div class="order-totals">
         <div class="fieldset-wrapper" id="history_form">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->__('Invoice Totals') ?></span>
+                <span class="title"><?php echo __('Invoice Totals') ?></span>
             </div>
             <?php echo $this->getChildHtml('invoice_totals') ?>
         </div>

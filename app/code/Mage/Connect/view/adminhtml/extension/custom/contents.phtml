@@ -11,16 +11,16 @@
 
 <?php echo $this->getFormHtml() ?>
 <fieldset id="contents_fieldset" class="fieldset">
-    <legend class="legend"><span><?php echo $this->__("Contents") ?></span></legend>
+    <legend class="legend"><span><?php echo __("Contents") ?></span></legend>
     <table class="data-table" cellspacing="0">
         <thead>
             <tr>
-                <th><?php echo $this->__("Target") ?></th>
-                <th><?php echo $this->__("Path") ?></th>
-                <th><?php echo $this->__("Type") ?></th>
-                <th><?php echo $this->__("Include") ?></th>
-                <th><?php echo $this->__("Ignore") ?></th>
-                <th class="col-delete"><?php echo $this->__("Action") ?></th>
+                <th><?php echo __("Target") ?></th>
+                <th><?php echo __("Path") ?></th>
+                <th><?php echo __("Type") ?></th>
+                <th><?php echo __("Include") ?></th>
+                <th><?php echo __("Ignore") ?></th>
+                <th class="col-delete"><?php echo __("Action") ?></th>
             </tr>
             <tr id="contents_template" style="display:none">
             <?php function showContentsTemplate($self, $_i = 0)
@@ -39,8 +39,8 @@
                 </td>
                 <td>
                     <select name="contents[type][]">
-                        <option value="file" <?php echo $self->getSelected('contents/type/' . $_i, 'file') ?>><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__("File") ?></option>
-                        <option value="dir" <?php echo $self->getSelected('contents/type/' . $_i, 'dir') ?>><?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__("Recursive Dir") ?></option>
+                        <option value="file" <?php echo $self->getSelected('contents/type/' . $_i, 'file') ?>><?php echo __("File") ?></option>
+                        <option value="dir" <?php echo $self->getSelected('contents/type/' . $_i, 'dir') ?>><?php echo __("Recursive Dir") ?></option>
                     </select>
                 </td>
                 <td>
@@ -68,7 +68,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6"><?php echo $this->getAddRowButtonHtml('contents_container', 'contents_template', $this->__('Add Contents Path')) ?></td>
+                <td colspan="6"><?php echo $this->getAddRowButtonHtml('contents_container', 'contents_template', __('Add Contents Path')) ?></td>
             </tr>
         </tfoot>
     </table>

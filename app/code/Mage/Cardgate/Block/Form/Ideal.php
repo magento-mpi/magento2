@@ -74,7 +74,7 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
     public function getSelectField()
     {
         $selectOptions = array_merge(
-            array('' => $this->__('--Please select--')),
+            array('' => __('--Please select--')),
             $this->_banks
         );
 
@@ -85,7 +85,7 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
         $form->addField($_code . '_ideal_issuer', 'select', array(
             'name'      => 'payment[additional_information][ideal_issuer_id]',
             'class'     => 'input-text required-entry',
-            'label'     => $this->__('Select your bank'),
+            'label'     => __('Select your bank'),
             'values'    => $selectOptions,
             'required'  => true,
             'disabled'  => false,
@@ -100,16 +100,16 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
     protected function _initBanksList()
     {
         $this->_banks = array(
-            '0021' => $this->__('Rabobank'),
-            '0031' => $this->__('ABN Amro'),
-            '0091' => $this->__('Friesland Bank'),
-            '0721' => $this->__('ING'),
-            '0751' => $this->__('SNS Bank'),
-            '-'    => $this->__('------ Additional Banks ------'),
-            '0161' => $this->__('Van Lanschot Bank'),
-            '0511' => $this->__('Triodos Bank'),
-            '0761' => $this->__('ASN Bank'),
-            '0771' => $this->__('SNS Regio Bank'),
+            '0021' => __('Rabobank'),
+            '0031' => __('ABN Amro'),
+            '0091' => __('Friesland Bank'),
+            '0721' => __('ING'),
+            '0751' => __('SNS Bank'),
+            '-'    => __('------ Additional Banks ------'),
+            '0161' => __('Van Lanschot Bank'),
+            '0511' => __('Triodos Bank'),
+            '0761' => __('ASN Bank'),
+            '0771' => __('SNS Regio Bank'),
         );
     }
 }

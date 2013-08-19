@@ -42,9 +42,6 @@ class Enterprise_Customer_Helper_CustomerTest extends PHPUnit_Framework_TestCase
 
         $abstractHelperMock = $this->getMockBuilder('Mage_Core_Helper_Abstract')
             ->disableOriginalConstructor()->getMock();
-        $abstractHelperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
 
         $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
         $objectManagerMock->expects($this->any())

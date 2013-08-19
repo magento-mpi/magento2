@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="catalog">
-            <group id="enterprise_targetrule" translate="label" module="Enterprise_TargetRule" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="900">
+            <group id="enterprise_targetrule" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="900">
                 <label>Rule-Based Product Relations</label>
                 <field id="related_position_limit" translate="label" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Maximum Number of Products in Related Products List</label>

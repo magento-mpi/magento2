@@ -25,7 +25,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Connect_Helper_Data')->__('Authors');
+        return __('Authors');
     }
 
     /**
@@ -35,7 +35,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Connect_Helper_Data')->__('Authors');
+        return __('Authors');
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setType('button')
             ->setClass('add')
-            ->setLabel($this->__('Add Author'))
+            ->setLabel(__('Add Author'))
             ->setOnClick('addAuthor()')
             ->toHtml();
     }

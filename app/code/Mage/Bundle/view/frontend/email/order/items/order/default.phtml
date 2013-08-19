@@ -54,7 +54,7 @@
     <?php if (!$_item->getParentItem()): ?>
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax($_order->getStore()) || $this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices($_order->getStore())): ?>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices($_order->getStore())): ?>
-                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax'); ?>:</span>
+                <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
             <?php endif; ?>
             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
                 <?php echo $_order->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?>
@@ -85,7 +85,7 @@
 
                 <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'email', $_order->getStore())): ?>
                     <br />
-                    <span class="nobr"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>:<br /> <?php echo $_order->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
+                    <span class="nobr"><?php echo __('Total'); ?>:<br /> <?php echo $_order->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
@@ -93,7 +93,7 @@
 
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax($_order->getStore()) || $this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices($_order->getStore())): ?>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices($_order->getStore())): ?>
-                <br /><span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax'); ?>:</span>
+                <br /><span class="label"><?php echo __('Incl. Tax'); ?>:</span>
             <?php endif; ?>
             <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
                 <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
@@ -122,7 +122,7 @@
                 <?php endif; ?>
 
                 <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'email', $_order->getStore())): ?>
-                    <span class="nobr"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?>:<br /> <?php echo $_order->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                    <span class="nobr"><?php echo __('Total incl. tax'); ?>:<br /> <?php echo $_order->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
@@ -145,10 +145,10 @@
         </dl>
         <?php endif; ?>
         <?php if ($_item->getGiftMessageId() && $_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($_item->getGiftMessageId())): ?>
-        <br /><strong><?php echo $this->__('Gift Message') ?></strong>
-        <br /><?php echo $this->__('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
-        <br /><?php echo $this->__('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
-        <br /><?php echo $this->__('Message:'); ?><br /> <?php echo $this->escapeHtml($_giftMessage->getMessage()) ?>
+        <br /><strong><?php echo __('Gift Message') ?></strong>
+        <br /><?php echo __('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
+        <br /><?php echo __('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
+        <br /><?php echo __('Message:'); ?><br /> <?php echo $this->escapeHtml($_giftMessage->getMessage()) ?>
         <?php endif; ?>
     </td>
     <td>&nbsp;</td>

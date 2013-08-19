@@ -29,13 +29,13 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     protected function _prepareLayout()
     {
         $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Add New Attribute'),
+            'label' => __('Add New Attribute'),
             'class' => 'add',
             'id'    => 'add_new_attribute',
             'on_click' => 'gContentAttribute.add()'
         ));
         $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Remove'),
+            'label' => __('Remove'),
             'class' => 'delete delete-product-option',
             'on_click' => 'gContentAttribute.remove(event)'
         ));
@@ -70,7 +70,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function getGcontentAttributesSelectHtml()
     {
-        $options[] = array('label' => $this->__('Custom attribute, no mapping'));
+        $options[] = array('label' => __('Custom attribute, no mapping'));
 
         $attributesTree = Mage::getSingleton('Mage_GoogleShopping_Model_Config')
             ->getAttributesByCountry($this->getTargetCountry());

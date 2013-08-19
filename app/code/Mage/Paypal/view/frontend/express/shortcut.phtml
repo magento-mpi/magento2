@@ -16,14 +16,14 @@
 <p class="paypal-logo">
     <?php $shortcutHtmlId = $this->getShortcutHtmlId() ?>
     <?php if ($this->isOrPositionBefore()): ?>
-    <span class="paypal-or"><?php echo $this->__('-OR-');?></span>
+    <span class="paypal-or"><?php echo __('-OR-');?></span>
     <?php endif; ?>
     <input type="image" data-action="checkout-form-submit" data-checkout-url="<?php echo $this->getCheckoutUrl()?>"
            src="<?php echo $this->getImageUrl()?>"
-           alt="<?php echo $this->helper('Mage_Paypal_Helper_Data')->__('Checkout with PayPal');?>"
-           title="<?php echo $this->helper('Mage_Paypal_Helper_Data')->__('Checkout with PayPal');?>"/>
+           alt="<?php echo __('Checkout with PayPal');?>"
+           title="<?php echo __('Checkout with PayPal');?>"/>
     <?php if ($this->isOrPositionAfter()): ?>
-    <span class="paypal-or"><?php echo $this->__('-OR-');?></span>
+    <span class="paypal-or"><?php echo __('-OR-');?></span>
     <?php endif; ?>
     <?php if ($this->getConfirmationUrl() || $this->getIsInCatalogProduct()): ?>
     <?php if ($this->getIsInCatalogProduct()): ?>

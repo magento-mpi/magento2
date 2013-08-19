@@ -12,16 +12,16 @@
 <?php echo $this->getFormHtml() ?>
 
 <fieldset id="depends_packages_fieldset" class="fieldset">
-    <legend class="legend"><span><?php echo $this->__("Packages") ?></span></legend>
+    <legend class="legend"><span><?php echo __("Packages") ?></span></legend>
     <table class="data-table" cellspacing="0">
         <thead>
             <tr>
-                <th><?php echo $this->__("Package") ?></th>
-                <th><?php echo $this->__("Channel") ?></th>
-                <th><?php echo $this->__("Min") ?></th>
-                <th><?php echo $this->__("Max") ?></th>
-                <th><?php echo $this->__("Files") ?></th>
-                <th class="col-delete"><?php echo $this->__("Action") ?></th>
+                <th><?php echo __("Package") ?></th>
+                <th><?php echo __("Channel") ?></th>
+                <th><?php echo __("Min") ?></th>
+                <th><?php echo __("Max") ?></th>
+                <th><?php echo __("Files") ?></th>
+                <th class="col-delete"><?php echo __("Action") ?></th>
             </tr>
             <tr id="depends_packages_template" style="display:none">
             <?php function showDependsPackageTemplate($self, $_i = 0)
@@ -63,21 +63,21 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8"><?php echo $this->getAddRowButtonHtml('depends_packages_container', 'depends_packages_template', $this->__('Add Package dependency')) ?></td>
+                <td colspan="8"><?php echo $this->getAddRowButtonHtml('depends_packages_container', 'depends_packages_template', __('Add Package dependency')) ?></td>
             </tr>
         </tfoot>
     </table>
 </fieldset>
 
 <fieldset id="depends_extensions_fieldset" class="fieldset">
-    <legend class="legend"><span><?php echo $this->__("Extensions") ?></span></legend>
+    <legend class="legend"><span><?php echo __("Extensions") ?></span></legend>
     <table class="data-table" cellspacing="0">
         <thead>
             <tr>
-                <th><?php echo $this->__("Extension") ?></th>
-                <th><?php echo $this->__("Min") ?></th>
-                <th><?php echo $this->__("Max") ?></th>
-                <th><?php echo $this->__("Action") ?></th>
+                <th><?php echo __("Extension") ?></th>
+                <th><?php echo __("Min") ?></th>
+                <th><?php echo __("Max") ?></th>
+                <th><?php echo __("Action") ?></th>
             </tr>
             <tr id="depends_extensions_template" style="display:none">
             <?php function showDependsExtensionsTemplate($self, $_i=0) { ?>
@@ -113,7 +113,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="7"><?php echo $this->getAddRowButtonHtml('depends_extensions_container', 'depends_extensions_template', $this->__('Add PHP Extension dependency')) ?></td>
+                <td colspan="7"><?php echo $this->getAddRowButtonHtml('depends_extensions_container', 'depends_extensions_template', __('Add PHP Extension dependency')) ?></td>
             </tr>
         </tfoot>
     </table>

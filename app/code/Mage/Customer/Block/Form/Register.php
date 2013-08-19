@@ -53,7 +53,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
 
     protected function _prepareLayout()
     {
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Mage_Customer_Helper_Data')->__('Create New Customer Account'));
+        $this->getLayout()->getBlock('head')->setTitle(__('Create New Customer Account'));
         return parent::_prepareLayout();
     }
 

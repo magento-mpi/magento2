@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Transactions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Transactions');
+        return __('Transactions');
     }
 
     /**
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Transactions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Transactions');
+        return __('Transactions');
     }
 
     /**

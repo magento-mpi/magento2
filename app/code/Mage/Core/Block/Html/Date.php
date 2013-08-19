@@ -34,7 +34,7 @@ class Mage_Core_Block_Html_Date extends Mage_Core_Block_Template
                         dateFormat: "' . $this->getDateFormat() . '",
                         buttonImage: "' . $this->getImage() . '",
                         ' . ($calendarYearsRange ? 'yearRange: "' . $calendarYearsRange . '",' : '') . '
-                        buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '"
+                        buttonText: "' . __('Select Date') . '"
                     })
                 });
             })(jQuery)

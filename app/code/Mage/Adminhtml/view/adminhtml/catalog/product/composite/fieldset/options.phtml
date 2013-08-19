@@ -16,7 +16,7 @@
 <?php echo $this->getChildHtml('options_js') ?>
 
 <fieldset id="product_composite_configure_fields_options" class="fieldset <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
-    <legend class="legend"><span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Custom Options') ?></span></legend>
+    <legend class="legend"><span><?php echo __('Custom Options') ?></span></legend>
     <?php foreach($options as $option): ?>
         <?php echo $this->getOptionHtml($option); ?>
     <?php endforeach;?>

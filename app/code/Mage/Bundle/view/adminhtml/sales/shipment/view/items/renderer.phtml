@@ -45,7 +45,7 @@
         <td class="col-product">
             <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
             <div>
-                <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
+                <strong><?php echo __('SKU') ?>:</strong>
                 <?php echo implode('<br />', $this->helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         </td>
@@ -57,7 +57,7 @@
                 <?php if (isset($shipItems[$_item->getId()])): ?>
                     <?php echo $shipItems[$_item->getId()]->getQty()*1 ?>
                 <?php elseif ($_item->getIsVirtual()): ?>
-                    <?php echo $this->__('N/A') ?>
+                    <?php echo __('N/A') ?>
                 <?php else: ?>
                     0
                 <?php endif; ?>

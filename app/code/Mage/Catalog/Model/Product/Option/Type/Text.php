@@ -34,14 +34,14 @@ class Mage_Catalog_Model_Product_Option_Type_Text extends Mage_Catalog_Model_Pro
         // Check requires option to have some value
         if (strlen($value) == 0 && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s required option(s).'));
+            Mage::throwException(__('Please specify the product\'s required option(s).'));
         }
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
         if ($maxCharacters > 0 && Mage::helper('Mage_Core_Helper_String')->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The text is too long.'));
+            Mage::throwException(__('The text is too long.'));
         }
 
         $this->setUserValue($value);

@@ -8,13 +8,12 @@
  * @license     {license_link}
  */
 
-/** @var $this Mage_Adminhtml_Block_System_Shipping_Ups */
-
 /** @var $upsModel Mage_Usa_Model_Shipping_Carrier_Ups */
 $upsModel = $this->getShippingModel();
 $orShipArr = $upsModel->getCode('originShipment');
 $defShipArr = $upsModel->getCode('method');
 
+/** @var $this Mage_Adminhtml_Block_Template */
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
@@ -109,7 +108,7 @@ if (!$storeCode && $websiteCode) {
             while (freeMethod.length > 0) {
                 freeMethod.remove(0);
             }
-            freeMethod.insert(new Element('option', {value:''}).update('<?php echo $_coreHelper->escapeHtml($this->helper('Mage_Shipping_Helper_Data')->__('None')); ?>'));
+            freeMethod.insert(new Element('option', {value:''}).update('<?php echo $_coreHelper->escapeHtml(__('None')); ?>'));
 
             var code, option;
             for (code in originShipment) {

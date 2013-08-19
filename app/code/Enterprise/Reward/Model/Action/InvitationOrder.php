@@ -67,7 +67,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('The invitation to %s converted into an order.', $email);
+        return __('The invitation to %1 converted into an order.', $email);
     }
 
     /**

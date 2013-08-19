@@ -23,7 +23,7 @@
               <span class="file-icon">
                   <span class="file-info-cancel">
                       <button class="action-delete" data-delete-file="${id}">
-                          <span><?php echo $this->__('Remove'); ?></span>
+                          <span><?php echo __('Remove'); ?></span>
                       </button>
                   </span>
                   <span class="file-upload-success hidden">
@@ -44,13 +44,13 @@
 <div class="form-buttons">
     <span class="fileinput-button">
             <button class="action-default primary" data-action="browse" type="submit">
-                <?php echo $this->__('Browse Files'); ?>
+                <?php echo __('Browse Files'); ?>
             </button>
             <input data-action="fileinput" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
                    data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
     </span>
     <button class="no-display action-default primary" data-action="upload">
-        <?php echo $this->__('Upload Files'); ?>
+        <?php echo __('Upload Files'); ?>
     </button>
 </div>
 

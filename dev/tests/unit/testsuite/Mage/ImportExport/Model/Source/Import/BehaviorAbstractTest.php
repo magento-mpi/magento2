@@ -47,7 +47,7 @@ class Mage_ImportExport_Model_Source_Import_BehaviorAbstractTest
 
         $model = $this->getMockForAbstractClass(
             'Mage_ImportExport_Model_Source_Import_BehaviorAbstract',
-            array(array('helpers' => $this->_helpers)),
+            array(array()),
             '',
             true,
             true,

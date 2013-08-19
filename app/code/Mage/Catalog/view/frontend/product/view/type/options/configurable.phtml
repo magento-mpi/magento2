@@ -20,7 +20,7 @@ $_attributes = $this->helper('Mage_Core_Helper_Data')->decorateArray($this->getA
         <dd<?php if ($_attribute->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
             <div class="input-box">
                 <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" data-validate="{required:true}" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="super-attribute-select">
-                    <option><?php echo $this->__('Choose an Option...') ?></option>
+                    <option><?php echo __('Choose an Option...') ?></option>
                   </select>
               </div>
         </dd>

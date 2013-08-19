@@ -35,26 +35,16 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_translationHelper;
-
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response_Factory $responseFactory
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Factory $requestFactory,
-        Mage_Webapi_Controller_Response_Factory $responseFactory,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Mage_Webapi_Controller_Response_Factory $responseFactory
     ) {
-        $this->_helperFactory = $helperFactory;
-        $this->_translationHelper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_request = $requestFactory->get();
         $this->_response = $responseFactory->get();
     }
@@ -92,7 +82,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
             throw new Mage_Webapi_Exception(
-                $this->_translationHelper->__("Page number is invalid."),
+                __("Page number is invalid."),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -102,7 +92,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
         } else {
             if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
                 throw new Mage_Webapi_Exception(
-                    $this->_translationHelper->__('The paging limit exceeds the allowed number.'),
+                    __('The paging limit exceeds the allowed number.'),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }
@@ -113,7 +103,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
                 // TODO: Check if order field is allowed for specified entity
             ) {
                 throw new Mage_Webapi_Exception(
-                    $this->_translationHelper->__('Collection "order" value is invalid.'),
+                    __('Collection "order" value is invalid.'),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }

@@ -93,9 +93,9 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $data = array(
             'createLabelUrl'            => $createLabelUrl,
             'itemsGridUrl'              => $itemsGridUrl,
-            'errorQtyOverLimit'         => Mage::helper('Mage_Sales_Helper_Data')->__('You are trying to add a quantity for some products that doesn\'t match the quantity that was shipped.'),
-            'titleDisabledSaveBtn'      => Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)'),
-            'validationErrorMsg'        => Mage::helper('Mage_Sales_Helper_Data')->__('The value that you entered is not valid.'),
+            'errorQtyOverLimit'         => __('You are trying to add a quantity for some products that doesn\'t match the quantity that was shipped.'),
+            'titleDisabledSaveBtn'      => __('Products should be added to package(s)'),
+            'validationErrorMsg'        => __('The value that you entered is not valid.'),
             'shipmentItemsQty'          => $itemsQty,
             'shipmentItemsPrice'        => $itemsPrice,
             'shipmentItemsName'         => $itemsName,
@@ -280,7 +280,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         return $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Print'),
+                'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();

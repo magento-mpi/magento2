@@ -20,9 +20,9 @@ class Mage_Backend_Model_Config_Source_Image_Adapter implements Mage_Core_Model_
     {
         return array(
             Mage_Core_Model_Image_AdapterFactory::ADAPTER_IM  =>
-                Mage::helper('Mage_Backend_Helper_Data')->__('ImageMagick'),
+                __('ImageMagick'),
             Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2 =>
-                Mage::helper('Mage_Backend_Helper_Data')->__('PHP GD2'),
+                __('PHP GD2'),
         );
     }
 }

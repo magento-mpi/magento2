@@ -54,19 +54,19 @@
         <?php endif; ?>
     </td>
     <td class="a-center">
-        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
+        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><?php echo __('Edit') ?></a>
     </td>
     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
     <td class="a-center">
-        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Move'); ?></a>
+        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Move'); ?></a>
     </td>
     <?php endif ?>
 <?php if ($canApplyMsrp): ?>
     <td class="a-right"<?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?> colspan="2"<?php endif; ?>>
         <span class="cart-price">
-            <span class="cart-msrp-unit"><?php echo $this->__('See price before order confirmation.'); ?></span>
+            <span class="cart-msrp-unit"><?php echo __('See price before order confirmation.'); ?></span>
             <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
-            <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo $this->__("What's this?"); ?></a>
+            <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo __("What's this?"); ?></a>
             <?php $_product = $_item->getProduct(); ?>
             <script type="text/javascript">
                 (function ($) {
@@ -124,7 +124,7 @@
 
             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                    <span class="weee"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
+                    <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -166,7 +166,7 @@
 
             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                    <span class="weee"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                    <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -174,7 +174,7 @@
     <?php endif; ?>
 <?php endif; ?>
     <td class="a-center">
-        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" />
     </td>
     <?php if (($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
     <td class="a-right">
@@ -215,7 +215,7 @@
 
             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                    <span class="weee"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
+                    <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -263,11 +263,11 @@
 
             <?php if ($this->helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#subtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                    <span class="weee"><?php echo $this->helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                    <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
     </td>
     <?php endif; ?>
-    <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item')?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item') ?></a></td>
+    <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo __('Remove Item')?>" class="btn-remove btn-remove2"><?php echo __('Remove Item') ?></a></td>
 </tr>

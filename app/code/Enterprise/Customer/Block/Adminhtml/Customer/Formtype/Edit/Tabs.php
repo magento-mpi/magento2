@@ -27,6 +27,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tabs extends Ma
 
         $this->setId('enterprise_customer_formtype_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Type Information'));
+        $this->setTitle(__('Form Type Information'));
     }
 }

@@ -53,21 +53,21 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Shipment'),
+            'header' => __('Shipment'),
             'index' => 'increment_id',
             'header_css_class'  => 'col-memo',
             'column_css_class'  => 'col-memo'
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship-to Name'),
+            'header' => __('Ship-to Name'),
             'index' => 'shipping_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship Date'),
+            'header' => __('Ship Date'),
             'index' => 'created_at',
             'type' => 'datetime',
             'header_css_class'  => 'col-period',
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
         ));
 
         $this->addColumn('total_qty', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Quantity'),
+            'header' => __('Total Quantity'),
             'index' => 'total_qty',
             'type'  => 'number',
             'header_css_class'  => 'col-qty',
@@ -115,12 +115,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Shipments');
+        return __('Shipments');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Shipments');
+        return __('Order Shipments');
     }
 
     public function canShowTab()

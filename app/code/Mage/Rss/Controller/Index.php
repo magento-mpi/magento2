@@ -52,7 +52,7 @@ class Mage_Rss_Controller_Index extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found')
             ->setHeader('Status', '404 File not found')
             ->setHeader('Content-Type', 'text/plain; charset=UTF-8')
-            ->setBody($this->__('There was no RSS feed enabled.'))
+            ->setBody(__('There was no RSS feed enabled.'))
         ;
     }
 

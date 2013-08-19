@@ -21,8 +21,8 @@ class Mage_Adminhtml_Block_Tax_Rule extends Mage_Adminhtml_Block_Widget_Grid_Con
     protected function _construct()
     {
         $this->_controller      = 'tax_rule';
-        $this->_headerText      = Mage::helper('Mage_Tax_Helper_Data')->__('Manage Tax Rules');
-        $this->_addButtonLabel  = Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rule');
+        $this->_headerText      = __('Manage Tax Rules');
+        $this->_addButtonLabel  = __('Add New Tax Rule');
         parent::_construct();
     }
 }

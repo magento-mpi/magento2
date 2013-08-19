@@ -20,12 +20,12 @@
 
 <?php if(count($this->getStores())>1): ?>
 <div class="switch switcher-language">
-    <label><?php echo $this->__('Language') ?>:</label>
+    <label><?php echo __('Language') ?>:</label>
     <div class="switch-wrapper" id="language-select" tabindex="-1">
         <strong class="current language-<?php echo $this->escapeHtml($this->getStoreManager()->getStore()->getCode()) ?>">
             <?php echo $this->escapeHtml($this->getStoreManager()->getStore()->getName()) ?>
         </strong>
-        <span class="switcher-holder">(<span class="switcher"><?php echo $this->__('Change')?></span>)</span>
+        <span class="switcher-holder">(<span class="switcher"><?php echo __('Change')?></span>)</span>
         <ul style="display:none" id="popup-language-select">
             <?php foreach ($this->getStores() as $_lang): ?>
                 <?php if($_lang->getId()!=$this->getCurrentStoreId()): ?>

@@ -47,12 +47,12 @@ class Mage_Tag_Block_Adminhtml_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         $baseUrl = $this->getUrl();
 
         $this->addColumn('name', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Tag'),
+            'header'        => __('Tag'),
             'index'         => 'name'
         ));
 
         $this->addColumn('products', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Products'),
+            'header'        => __('Products'),
             'width'         => '140px',
             'align'         => 'right',
             'index'         => 'products',
@@ -60,7 +60,7 @@ class Mage_Tag_Block_Adminhtml_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('customers', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Customers'),
+            'header'        => __('Customers'),
             'width'         => '140px',
             'align'         => 'right',
             'index'         => 'customers',
@@ -76,7 +76,7 @@ class Mage_Tag_Block_Adminhtml_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Store View'),
+                'header'    => __('Store View'),
                 'type'      => 'store',
                 'index'     => 'stores',
                 'sortable'  => false,
@@ -115,9 +115,9 @@ class Mage_Tag_Block_Adminhtml_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         $this->getMassactionBlock()->setFormFieldName('tag');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('Mage_Tag_Helper_Data')->__('Delete'),
+             'label'=> __('Delete'),
              'url'  => $this->getUrl('*/*/massDelete', array('ret' => 'pending')),
-             'confirm' => Mage::helper('Mage_Tag_Helper_Data')->__('Are you sure?')
+             'confirm' => __('Are you sure?')
         ));
 
         $statuses = $this->helper('Mage_Tag_Helper_Data')->getStatusesOptionsArray();
@@ -125,14 +125,14 @@ class Mage_Tag_Block_Adminhtml_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         array_unshift($statuses, array('label'=>'', 'value'=>''));
 
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('Mage_Tag_Helper_Data')->__('Change status'),
+             'label'=> __('Change status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true, 'ret' => 'pending')),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
+                         'label' => __('Status'),
                          'values' => $statuses
                      )
              )

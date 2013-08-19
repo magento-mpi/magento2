@@ -9,7 +9,7 @@
  */
 ?>
 <?php if ($this->canShow() && $this->getEvents() && count($this->getEvents())): ?>
-    <h2 class="table-caption"><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance History'); ?></h2>
+    <h2 class="table-caption"><?php echo __('Balance History'); ?></h2>
     <table id="customerbalance-history" class="data-table">
         <col />
         <col width="100" />
@@ -17,10 +17,10 @@
         <col width="150" />
         <thead>
             <tr>
-                <th><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Action'); ?></th>
-                <th><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance Change'); ?></th>
-                <th><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance'); ?></th>
-                <th><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Date'); ?></th>
+                <th><?php echo __('Action'); ?></th>
+                <th><?php echo __('Balance Change'); ?></th>
+                <th><?php echo __('Balance'); ?></th>
+                <th><?php echo __('Date'); ?></th>
             </tr>
         </thead>
         <?php foreach ($this->getEvents() as $event): ?>

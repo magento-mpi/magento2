@@ -19,11 +19,6 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -41,12 +36,11 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Section(
-            $this->_factoryHelperMock, $this->_applicationMock, $this->_iteratorMock, $this->_authorizationMock
+            $this->_applicationMock, $this->_iteratorMock, $this->_authorizationMock
         );
     }
 
@@ -54,7 +48,6 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
     {
         unset($this->_model);
         unset($this->_iteratorMock);
-        unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
         unset($this->_authorizationMock);
     }

@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="rss" translate="label" module="Mage_Rss" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="rss" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>RSS Feeds</label>
             <tab>catalog</tab>
             <resource>Mage_Rss::rss</resource>

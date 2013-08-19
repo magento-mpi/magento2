@@ -51,7 +51,7 @@ class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Act
     public function getHistoryMessage($args = array())
     {
         $tag = isset($args['tag']) ? $args['tag'] : '';
-        return Mage::helper('Enterprise_Tag_Helper_Data')->__('For submitting tag (%s)', $tag);
+        return __('For submitting tag (%1)', $tag);
     }
 
     /**

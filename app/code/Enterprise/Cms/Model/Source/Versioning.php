@@ -25,8 +25,8 @@ class Enterprise_Cms_Model_Source_Versioning
     public function toOptionArray()
     {
         return array(
-            '1' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Enabled by Default'),
-            '1' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Disabled by Default')
+            '1' => __('Enabled by Default'),
+            '1' => __('Disabled by Default')
         );
     }
 }

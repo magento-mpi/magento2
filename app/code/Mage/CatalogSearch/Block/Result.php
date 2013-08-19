@@ -45,11 +45,11 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $title = $this->__("Search results for: '%s'", $this->helper('Mage_CatalogSearch_Helper_Data')->getQueryText());
+            $title = __("Search results for: '%1'", $this->helper('Mage_CatalogSearch_Helper_Data')->getQueryText());
 
             $breadcrumbs->addCrumb('home', array(
-                'label' => $this->__('Home'),
-                'title' => $this->__('Go to Home Page'),
+                'label' => __('Home'),
+                'title' => __('Go to Home Page'),
                 'link'  => Mage::getBaseUrl()
             ))->addCrumb('search', array(
                 'label' => $title,
@@ -58,7 +58,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         }
 
         // modify page title
-        $title = $this->__("Search results for: '%s'", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText());
+        $title = __("Search results for: '%1'", $this->helper('Mage_CatalogSearch_Helper_Data')->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         return parent::_prepareLayout();
@@ -97,7 +97,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
         $availableOrders = array_merge(array(
-            'relevance' => $this->__('Relevance')
+            'relevance' => __('Relevance')
         ), $availableOrders);
 
         $this->getListBlock()
@@ -117,8 +117,8 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     {
         $this->getListBlock()
             ->setModes(array(
-                'grid' => $this->__('Grid'),
-                'list' => $this->__('List'))
+                'grid' => __('Grid'),
+                'list' => __('List'))
             );
         return $this;
     }
@@ -182,7 +182,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     public function getNoResultText()
     {
         if (Mage::helper('Mage_CatalogSearch_Helper_Data')->isMinQueryLength()) {
-            return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLength());
+            return __('Minimum Search query length is %1', $this->_getQuery()->getMinQueryLength());
         }
         return $this->_getData('no_result_text');
     }
