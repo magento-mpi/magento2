@@ -1,5 +1,7 @@
 <?php
 /**
+ * Object manager factory decorator. Wraps intercepted objects by Interceptor instance
+ *
  * {license_notice}
  *
  * @copyright {copyright}
@@ -29,6 +31,8 @@ class Magento_Interception_FactoryDecorator implements Magento_ObjectManager_Fac
     protected $_config;
 
     /**
+     * List of plugins configured for instance
+     *
      * @var Magento_Interception_PluginList
      */
     protected $_pluginList;

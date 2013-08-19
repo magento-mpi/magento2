@@ -1,5 +1,7 @@
 <?php
 /**
+ * Interceptor class generator
+ *
  * {license_notice}
  *
  * @copyright {copyright}

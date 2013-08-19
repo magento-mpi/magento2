@@ -1,5 +1,7 @@
 <?php
 /**
+ * List of plugins configured in application
+ *
  * {license_notice}
  * 
  * @copyright {copyright}

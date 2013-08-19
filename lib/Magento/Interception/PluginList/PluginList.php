@@ -1,29 +1,38 @@
 <?php
 /**
+ * Plugin configuration storage. Provides list of plugins configured for type.
+ *
  * {license_notice}
  * 
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 class Magento_Interception_PluginList_PluginList extends Magento_Config_Data implements Magento_Interception_PluginList
 {
     /**
+     * Type config
+     *
      * @var Magento_ObjectManager_Config
      */
     protected $_omConfig;
 
     /**
+     * Class relations information provider
+     *
      * @var Magento_ObjectManager_Relations
      */
     protected $_relations;
 
     /**
+     * List of interception methods per plugin
+     *
      * @var Magento_Interception_Definition
      */
     protected $_definitions;
 
     /**
+     * List of interceptable application classes
+     *
      * @var Magento_ObjectManager_Definition_Compiled
      */
     protected $_classDefinitions;
@@ -60,7 +69,6 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
         $this->_relations = $relations;
         $this->_definitions = $definitions;
         $this->_classDefinitions = $classDefinitions;
-        $this->_cacheId = $cacheId;
     }
 
     /**

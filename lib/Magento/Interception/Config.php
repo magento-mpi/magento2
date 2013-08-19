@@ -1,5 +1,7 @@
 <?php
 /**
+ * Interception config. Tells whether plugins have been added for type.
+ *
  * {license_notice}
  * 
  * @copyright {copyright}
