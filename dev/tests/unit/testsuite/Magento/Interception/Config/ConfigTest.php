@@ -51,10 +51,10 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configScopeMock->expects($this->any())
             ->method('getAllScopes')
             ->will($this->returnValue(array('global', 'backend', 'frontend')));
-        $cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $cacheMock = $this->getMock('Magento_Cache_FrontendInterface');
         // turn cache off
         $cacheMock->expects($this->any())
-            ->method('get')
+            ->method('load')
             ->will($this->returnValue(false));
 
         $omConfigMock = $this->getMock('Magento_ObjectManager_Config');
