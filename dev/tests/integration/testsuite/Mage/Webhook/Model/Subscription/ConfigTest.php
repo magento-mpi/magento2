@@ -88,13 +88,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             )
         );
 
-        /** @var Mage_Core_Model_Config_Loader_Modules_File $fileReader */
-        $fileReader = $objectManager->create(
-            'Mage_Core_Model_Config_Loader_Modules_File', array(
-                'dirs' => $dirs
-            )
-        );
-
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Mage_Core_Model_Config_Modules_Reader', array(
