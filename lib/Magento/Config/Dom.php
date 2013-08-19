@@ -46,11 +46,11 @@ class Magento_Config_Dom
      * @param string $schemaFile
      * @throws Magento_Config_Dom_ValidationException
      */
-    public function __construct($xml, array $idAttributes = array(), $schemaFile = null)
+    public function __construct($xml = '', array $idAttributes = array(), $schemaFile = null)
     {
         $this->_schemaFile   = $schemaFile;
-        $this->_dom          = $this->_initDom($xml);
         $this->_idAttributes = $idAttributes;
+        $this->loadXml($xml);
     }
 
     /**
@@ -225,5 +225,29 @@ class Magento_Config_Dom
     {
         $errors = self::validateDomDocument($this->_dom, $schemaFileName);
         return !count($errors);
+    }
+
+    /**
+     * Set dom
+     *
+     * @param string $xml
+     * @return Magento_Config_Dom
+     */
+    public function loadXml($xml)
+    {
+        $this->_dom = $this->_initDom($xml);
+        return $this;
+    }
+
+    /**
+     * Set schema file
+     *
+     * @param string $schemaFile
+     * @return Magento_Config_Dom
+     */
+    public function setSchemaFile($schemaFile)
+    {
+        $this->_schemaFile = $schemaFile;
+        return $this;
     }
 }

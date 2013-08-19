@@ -40,10 +40,25 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     );
 
     /**
-     * Construct
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
-    public function __construct()
-    {
+    protected $_modulesReader;
+
+    /**
+     * @var Magento_Config_Dom
+     */
+    protected $_domConfig;
+
+    /**
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Config_Dom $domConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Config_Dom $domConfig
+    ) {
+        $this->_modulesReader = $modulesReader;
+        $this->_domConfig = $domConfig;
         $this->_initMessageTemplates();
     }
 
@@ -81,9 +96,15 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
         if (is_string($value)) {
             $value = trim($value);
             try {
-                //wrap XML value in the "config" tag because config cannot
+                //wrap XML value in the "layout" tag because layout cannot
                 //contain multiple root tags
-                $value = new Magento_Simplexml_Element('<config>' . $value . '</config>');
+                $value = '<layout>' . $value . '</layout>';
+                $this->_domConfig
+                    ->setSchemaFile(
+                        $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd'
+                    )
+                    ->loadXml($value);
+                $value = new Magento_Simplexml_Element($value);
             } catch (Exception $e) {
                 $this->_error(self::XML_INVALID);
                 return false;
