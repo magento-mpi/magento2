@@ -26,6 +26,7 @@
     <preference for="Magento_Config_CacheInterface" type="Mage_Core_Model_Cache_Type_Config" />
     <preference for="Magento_Config_ValidationStateInterface" type="Mage_Core_Model_Config_ValidationState" />
     <preference for="Mage_Core_Model_ModuleListInterface" type="Mage_Core_Model_ModuleList" />
+    <preference for="Magento_Interception_PluginList" type="Magento_Interception_PluginList_PluginList" />
     <type name="Mage_Core_Model_App_State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
@@ -214,21 +215,21 @@
             <instance type="Mage_Core_Model_Cache_Type_Config" />
         </param>
         <param name="reader">
-            <instance type="interceptionReader" />
+            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
         </param>
         <param name="cacheId">
             <value>interception</value>
         </param>
     </type>
-    <virtualType name="interceptionReader" type="Magento_Config_Reader_Filesystem">
-        <param name="fileName">
-            <value>plugins.xml</value>
+    <type name="Magento_Interception_PluginList_PluginList">
+        <param name="cache">
+            <instance type="Mage_Core_Model_Cache_Type_Config" />
         </param>
-        <param name="idAttributes">
-            <value><id>plugin</id></value>
+        <param name="reader">
+            <instance type="Magento_ObjectManager_Config_Reader_Dom" />
         </param>
-        <param name="converter">
-            <instance type="Magento_Config_Converter_Dom" />
+        <param name="cacheId">
+            <value>plugin-list</value>
         </param>
-    </virtualType>
+    </type>
 </config>

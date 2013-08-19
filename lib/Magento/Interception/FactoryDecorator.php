@@ -29,16 +29,24 @@ class Magento_Interception_FactoryDecorator implements Magento_ObjectManager_Fac
     protected $_config;
 
     /**
+     * @var Magento_Interception_PluginList
+     */
+    protected $_pluginList;
+
+    /**
      * @param Magento_ObjectManager_Factory $factory
      * @param Magento_Interception_Config $config
+     * @param Magento_Interception_PluginList $pluginList
      * @param Magento_ObjectManager_ObjectManager $objectManager
      */
     public function __construct(
         Magento_ObjectManager_Factory $factory,
         Magento_Interception_Config $config,
+        Magento_Interception_PluginList $pluginList,
         Magento_ObjectManager_ObjectManager $objectManager = null
     ) {
         $this->_factory = $factory;
+        $this->_pluginList = $pluginList;
         $this->_objectManager = $objectManager;
         $this->_config = $config;
     }
@@ -69,7 +77,7 @@ class Magento_Interception_FactoryDecorator implements Magento_ObjectManager_Fac
                 $this->_factory,
                 $this->_objectManager,
                 $type,
-                $this->_objectManager->get('Magento_Interception_PluginList'),
+                $this->_pluginList,
                 $arguments
             );
         }

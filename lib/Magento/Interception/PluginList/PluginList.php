@@ -6,26 +6,62 @@
  * @license   {license_link}
  */
 
-class Magento_Interception_PluginList_PluginList implements Magento_Interception_PluginList
+class Magento_Interception_PluginList_PluginList extends Magento_Config_Data implements Magento_Interception_PluginList
 {
     /**
-     * Retrieve list of plugins listening for method
-     *
-     * @param string $type
-     * @param string $method
-     * @param string $scenario
-     * @return array
+     * @var Magento_ObjectManager_Config
      */
-    public function getPlugins($type, $method, $scenario)
-    {
-        $this->_loadScopedData();
-        if (!isset($this->_data['processed'][$this->_omConfig->getInstanceType($type)][$method][$scenario])) {
-            $this->_inheritPlugins($type);
-        }
-        return $this->_data['processed'][$this->_omConfig->getInstanceType($type)][$method][$scenario];
+    protected $_omConfig;
+
+    /**
+     * @var Magento_ObjectManager_Relations
+     */
+    protected $_relations;
+
+    /**
+     * @var Magento_Interception_Definition
+     */
+    protected $_definitions;
+
+    /**
+     * @var Magento_ObjectManager_Definition_Compiled
+     */
+    protected $_classDefinitions;
+
+    /**
+     * Scope inheritance scheme
+     *
+     * @var array
+     */
+    protected $_scopePriorityScheme = array('global');
+
+    /**
+     * @param Magento_Config_ReaderInterface $reader
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Config_CacheInterface $cache
+     * @param Magento_ObjectManager_Relations $relations
+     * @param Magento_ObjectManager_Config $omConfig
+     * @param Magento_Interception_Definition $definitions
+     * @param Magento_ObjectManager_Definition_Compiled $classDefinitions
+     * @param string $cacheId
+     */
+    public function __construct(
+        Magento_Config_ReaderInterface $reader,
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Config_CacheInterface $cache,
+        Magento_ObjectManager_Relations $relations,
+        Magento_ObjectManager_Config $omConfig,
+        Magento_Interception_Definition $definitions,
+        Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
+        $cacheId
+    ) {
+        parent::__construct($reader, $configScope, $cache, $cacheId);
+        $this->_omConfig = $omConfig;
+        $this->_relations = $relations;
+        $this->_definitions = $definitions;
+        $this->_classDefinitions = $classDefinitions;
+        $this->_cacheId = $cacheId;
     }
-
-
 
     /**
      * Collect parent types configuration for requested type
@@ -38,6 +74,7 @@ class Magento_Interception_PluginList_PluginList implements Magento_Interception
     {
         if (!isset($this->_data['inherited'][$type])) {
             $realType = $this->_omConfig->getInstanceType($type);
+
             if ($realType !== $type) {
                 $plugins = $this->_inheritPlugins($realType);
             } else if ($this->_relations->has($type)) {
@@ -54,22 +91,29 @@ class Magento_Interception_PluginList_PluginList implements Magento_Interception
             } else {
                 $plugins = array();
             }
-
-            if (isset($this->_data[$type])) {
+            if (isset($this->_data[$type]['plugins'])) {
                 if (!$plugins) {
-                    $plugins = $this->_data[$type];
+                    $plugins = $this->_data[$type]['plugins'];
                 } else {
-                    $plugins = array_replace_recursive($plugins, $this->_data[$type]);
+                    $plugins = array_replace_recursive($plugins, $this->_data[$type]['plugins']);
                 }
             }
-            usort($plugins, array($this, '_sort'));
-            $this->_data['inherited'][$type] = $plugins;
-            foreach ($plugins as $plugin) {
-                foreach ($this->_definitions->getMethodList($plugin) as $method) {
-                    foreach ($method as $scenario) {
-                        $this->_data['processed'][$type][$method][$scenario][] = $plugin;
+            uasort($plugins, array($this, '_sort'));
+            if (count($plugins)) {
+                $this->_data['inherited'][$type] = $plugins;
+                foreach ($plugins as $key => $plugin) {
+                    // skip disabled plugins
+                    if (isset($plugin['disabled']) && $plugin['disabled']) {
+                        unset($plugins[$key]);
+                        continue;
+                    }
+                    $pluginType = $this->_omConfig->getInstanceType($plugin['instance']);
+                    foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod) {
+                        $this->_data['processed'][$type][$pluginMethod][] = $plugin['instance'];
                     }
                 }
+            } else {
+                $this->_data['inherited'][$type] = null;
             }
             return $plugins;
         }
@@ -97,19 +141,64 @@ class Magento_Interception_PluginList_PluginList implements Magento_Interception
         }
     }
 
-
-    protected function _loadScopedData()
+    /**
+     * {@inheritdoc}
+     */
+    public function getPlugins($type, $method, $scenario)
     {
-        parent::_loadScopedData();
+        $this->_loadScopedData();
+        $pluginMethodName = $scenario . ucfirst($method);
+        $realType = $this->_omConfig->getInstanceType($type);
+        if (!isset($this->_data['inherited'][$realType])) {
+            $this->_inheritPlugins($type);
+        }
+        return isset($this->_data['processed'][$realType][$pluginMethodName])
+            ? $this->_data['processed'][$realType][$pluginMethodName]
+            : array();
     }
 
-    public function merge(array $config)
+    /**
+     * Load configuration for current scope
+     */
+    protected function _loadScopedData()
     {
-        parent::merge($config);
-        if ($this->_classDefinitions) {
-            foreach ($this->_classDefinitions->getClasses() as $class) {
+        $scope = $this->_configScope->getCurrentScope();
+        if (false == isset($this->_loadedScopes[$scope])) {
+            if (false == in_array($scope, $this->_scopePriorityScheme)) {
+                $this->_scopePriorityScheme[] = $scope;
+            }
+            $cacheScope = implode('|', $this->_scopePriorityScheme);
+            $data = $this->_cache->get($cacheScope, $this->_cacheId);
+            if ($data) {
+                $this->_data = unserialize($data);
+                foreach ($this->_scopePriorityScheme as $scope) {
+                    $this->_loadedScopes[$scope] = true;
+                }
+            } else {
+                foreach ($this->_scopePriorityScheme as $scopeCode) {
+                    if (false == isset($this->_loadedScopes[$scopeCode])) {
+                        if (false === $data) {
+                            $data = $this->_reader->read($scopeCode);
+                        }
+                        if (!count($data)) {
+                            continue;
+                        }
+                        unset($this->_data['inherited']);
+                        unset($this->_data['processed']);
+                        $this->merge($data);
+                        $this->_loadedScopes[$scopeCode] = true;
+                    }
+                    if ($scopeCode == $scope) {
+                        break;
+                    }
+                }
+                if ($this->_classDefinitions) {
+                    foreach ($this->_classDefinitions->getClasses() as $class) {
+                        $this->_inheritPlugins($class);
+                    }
+                }
+                $this->_cache->put(serialize($this->_data), $cacheScope, $this->_cacheId);
             }
         }
     }
-
 }

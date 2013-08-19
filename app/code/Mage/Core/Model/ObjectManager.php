@@ -63,9 +63,9 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             $this->configure($configData);
         }
 
-        $interceptorGenerator = ($appMode == Mage_Core_Model_App_State::MODE_DEVELOPER)
-            ? new Magento_Interception_CodeGenerator_CodeGenerator()
-            : null;
+        $interceptorGenerator = ($definitions instanceof Magento_ObjectManager_Definition_Compiled)
+            ? null
+            : new Magento_Interception_CodeGenerator_CodeGenerator();
 
         Magento_Profiler::stop('global_primary');
         $verification = $this->get('Mage_Core_Model_Dir_Verification');
@@ -73,7 +73,6 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
 
         $interceptionConfig = $this->create('Magento_Interception_Config_Config', array(
             'relations' => $definitionFactory->createRelations(),
-            'definitions' => $definitionFactory->createPluginDefinition(),
             'omConfig' => $this->_config,
             'codeGenerator' => $interceptorGenerator,
             'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
@@ -82,9 +81,20 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             'cacheId' => 'interception',
         ));
 
+        $pluginList = $this->create('Magento_Interception_PluginList_PluginList', array(
+            'relations' => $definitionFactory->createRelations(),
+            'definitions' => $definitionFactory->createPluginDefinition(),
+            'omConfig' => $this->_config,
+            'classDefinitions' => $definitions instanceof Magento_ObjectManager_Definition_Compiled
+                ? $definitions
+                : null,
+            'cacheId' => 'pluginlist',
+        ));
+        $this->_sharedInstances['Magento_Interception_PluginList_PluginList'] = $pluginList;
         $this->_factory = $this->create('Magento_Interception_FactoryDecorator', array(
             'factory' => $this->_factory,
-            'config' => $interceptionConfig
+            'config' => $interceptionConfig,
+            'pluginList' => $pluginList
         ));
         $this->_config->setCache($this->get('Mage_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load('global'));

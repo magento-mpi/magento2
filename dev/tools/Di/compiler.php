@@ -22,7 +22,7 @@ $filePatterns = array(
     'config' => '/\/etc\/(config([a-z0-9\.]*)?|adminhtml\/system)\.xml$/',
     'di' => '/\/etc\/(di\/.*|adminhtml\/di|frontend\/di|di)\.xml$/',
     'view' => '/\/view\/[a-z0-9A-Z\/\.]*\.xml$/',
-    'design' => '/\/app\/design\/[a-z0-9A-Z\/\.]*\.xml$/',
+    'design' => '/\/app\/design\/[a-z0-9A-Z\/\._]*\.xml$/',
 );
 $codeScanDir = realpath($rootDir . '/app');
 
