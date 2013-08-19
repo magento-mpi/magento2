@@ -14,7 +14,7 @@
         <Enterprise_WebsiteRestriction>
             <version>1.11.0.0.1</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Cms/>
                 <Mage_Page/>

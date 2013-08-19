@@ -14,32 +14,15 @@
         <Enterprise_Logging>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_CatalogRule/>
-                <Mage_CatalogSearch/>
                 <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Checkout/>
-                <Mage_Cms/>
-                <Mage_GoogleShopping/>
-                <Mage_Index/>
-                <Mage_Newsletter/>
-                <Mage_Eav/>
-                <Mage_Rating/>
-                <Mage_Review/>
-                <Mage_Sales/>
-                <Mage_SalesRule/>
-                <Mage_Sitemap/>
-                <Mage_Tax/>
-                <Mage_Paypal/>
-                <Mage_Poll/>
                 <Mage_User/>
-                <Mage_Webapi/>
-                <Mage_Widget/>
                 <Enterprise_Pci/>
+            </depends>
+            <depends type="soft">
+                <Mage_Customer/>
             </depends>
             <sequence>
                 <Mage_Adminhtml/>

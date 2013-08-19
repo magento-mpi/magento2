@@ -14,17 +14,15 @@
         <Enterprise_Reminder>
             <version>1.11.0.2</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
-                <Mage_Checkout/>
                 <Mage_Core/>
                 <Mage_Cron/>
                 <Mage_Customer/>
                 <Mage_Eav/>
                 <Mage_SalesRule/>
                 <Mage_Rule/>
-                <Mage_Wishlist/>
                 <Enterprise_Enterprise/>
             </depends>
             <sequence>

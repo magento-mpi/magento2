@@ -14,7 +14,7 @@
         <Enterprise_TargetRule>
             <version>1.11.0.0.4</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
                 <Mage_Rule/>
@@ -28,8 +28,6 @@
                 <Mage_Eav/>
                 <Mage_CatalogRule/>
                 <Mage_Wishlist/>
-                <Mage_Tag/>
-                <Mage_Page/>
                 <Enterprise_CustomerSegment/>
                 <Enterprise_Enterprise/>
             </depends>

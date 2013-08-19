@@ -14,9 +14,7 @@
         <Enterprise_PromotionPermissions>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
-                <Mage_CatalogRule/>
-                <Mage_SalesRule/>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Core/>
                 <Enterprise_Banner/>

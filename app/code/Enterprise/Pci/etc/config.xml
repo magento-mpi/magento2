@@ -14,12 +14,11 @@
         <Enterprise_Pci>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Api/>
                 <Mage_Backend/>
                 <Mage_Core/>
-                <Mage_Customer/>
                 <Mage_User/>
             </depends>
             <sequence>

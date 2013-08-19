@@ -14,7 +14,7 @@
         <Enterprise_CatalogEvent>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
                 <Mage_Catalog/>
@@ -23,9 +23,9 @@
                 <Mage_Eav/>
                 <Mage_Widget/>
                 <Mage_Sales/>
-                <Mage_Checkout/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
-                <Mage_Review/>
             </depends>
             <sequence>
                 <Mage_Adminhtml/>

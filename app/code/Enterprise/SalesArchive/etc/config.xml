@@ -14,14 +14,11 @@
         <Enterprise_SalesArchive>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Core/>
                 <Mage_Backend/>
                 <Mage_Sales/>
-                <Mage_Checkout/>
-                <Mage_Tag/>
-                <Mage_Review/>
             </depends>
             <sequence>
                 <Mage_Sales/>

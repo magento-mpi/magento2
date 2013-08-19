@@ -12,10 +12,10 @@
         <Enterprise_BannerCustomerSegment>
             <version>1.0.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
-                <Enterprise_Banner />
-                <Enterprise_CustomerSegment />
+                <Enterprise_Banner/>
+                <Enterprise_CustomerSegment/>
             </depends>
             <sequence>
                 <Enterprise_Banner />

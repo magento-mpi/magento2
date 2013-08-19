@@ -14,22 +14,13 @@
         <Enterprise_Enterprise>
             <version>1.11.0.3</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_AdminNotification/>
                 <Mage_Backend/>
-                <Mage_Catalog/>
                 <Mage_Core/>
                 <Mage_Cms/>
                 <Mage_Install/>
-                <Mage_Directory/>
-                <Mage_Sales/>
-                <Mage_Tax/>
-                <Mage_Reports/>
-                <Mage_CatalogInventory/>
-                <Mage_ProductAlert/>
-                <Mage_Widget/>
-                <Mage_Downloadable/>
                 <Enterprise_AdminGws/>
                 <Enterprise_CatalogEvent/>
                 <Enterprise_CatalogPermissions/>
@@ -57,6 +48,7 @@
                 <Enterprise_Reminder/>
                 <Enterprise_Reward/>
                 <Enterprise_Wishlist/>
+                <Enterprise_Staging/>
             </depends>
             <sequence>
                 <Mage_Cms/>

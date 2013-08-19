@@ -14,7 +14,7 @@
         <Enterprise_Cms>
             <version>1.11.0.4</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
                 <Mage_Catalog/>
@@ -22,8 +22,10 @@
                 <Mage_Core/>
                 <Mage_Widget/>
                 <Mage_User/>
-                <Mage_Page/>
                 <Enterprise_Enterprise/>
+            </depends>
+            <depends type="soft">
+                <Mage_Page/>
             </depends>
             <sequence>
                 <Mage_Adminhtml />

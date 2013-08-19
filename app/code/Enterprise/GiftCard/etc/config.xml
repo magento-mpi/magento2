@@ -14,7 +14,7 @@
         <Enterprise_GiftCard>
             <version>1.11.0.1</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Catalog/>
                 <Mage_CatalogInventory/>
                 <Mage_Customer/>
@@ -27,14 +27,12 @@
                 <Mage_Api/>
                 <Mage_Eav/>
                 <Mage_Index/>
-                <Mage_Tag/>
-                <Mage_Wishlist/>
-                <Mage_CatalogSearch/>
-                <Mage_Rss/>
-                <Mage_Paypal/>
-                <Enterprise_SalesArchive/>
                 <Enterprise_CustomerBalance/>
                 <Enterprise_GiftCardAccount/>
+            </depends>
+            <depends type="soft">
+                <Mage_Wishlist/>
+                <Mage_Rss/>
             </depends>
             <sequence>
                 <Mage_Catalog/>

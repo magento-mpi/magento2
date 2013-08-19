@@ -14,12 +14,13 @@
         <Enterprise_License>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
                 <Mage_Core/>
+            </depends>
+            <depends type="soft">
                 <Mage_AdminNotification/>
-                <Enterprise_Enterprise/>
             </depends>
             <sequence>
                 <Enterprise_Enterprise/>

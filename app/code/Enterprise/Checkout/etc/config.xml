@@ -14,10 +14,9 @@
         <Enterprise_Checkout>
             <version>1.11.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
-                <Mage_Bundle/>
                 <Mage_Catalog/>
                 <Mage_CatalogInventory/>
                 <Mage_Checkout/>
@@ -32,8 +31,10 @@
                 <Mage_Widget/>
                 <Mage_Wishlist/>
                 <Mage_Weee/>
-                <Mage_Tag/>
                 <Enterprise_GiftCard/>
+            </depends>
+            <depends type="soft">
+                <Mage_Bundle/>
             </depends>
             <sequence>
                 <Mage_Sales/>

@@ -14,13 +14,12 @@
         <Enterprise_Wishlist>
             <version>1.12.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Wishlist/>
                 <Mage_Customer/>
                 <Mage_Core/>
                 <Mage_Checkout/>
                 <Mage_Adminhtml/>
-                <Mage_Reports/>
                 <Mage_Backend/>
                 <Mage_Eav/>
                 <Mage_Rss/>
@@ -28,11 +27,12 @@
                 <Mage_Catalog/>
                 <Mage_CatalogInventory/>
                 <Mage_Widget/>
-                <Mage_Persistent/>
-                <Mage_Tag/>
-                <Mage_Page/>
                 <Enterprise_Checkout/>
-                <Enterprise_PageCache/>
+            </depends>
+            <depends type="soft">
+                <Mage_Reports/>
+                <Mage_Page/>
+                <Mage_Persistent/>
             </depends>
             <sequence>
                 <Mage_Wishlist />
