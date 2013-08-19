@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     public function getName()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Product Attributes');
+        return __('Product Attributes');
     }
 
     /**
@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     public function getDescription()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Index product attributes for layered navigation building');
+        return __('Index product attributes for layered navigation building');
     }
 
     /**

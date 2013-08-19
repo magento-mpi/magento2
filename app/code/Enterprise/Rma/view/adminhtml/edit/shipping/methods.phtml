@@ -11,11 +11,11 @@
 <?php /** @var $this Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods */ ?>
 <div class="popup-window-wrapper">
     <div class="popup-window-title">
-        <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span>
+        <span class="title"><?php echo __('Create Shipping Label') ?></span>
     </div>
     <div class="popup-window-content">
         <div class="popup-fieldset-title">
-            <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Information') ?></span>
+            <span class="title"><?php echo __('Shipping Information') ?></span>
         </div>
         <?php if ($this->getShippingMethods()): ?>
             <?php $carrier = false; ?>
@@ -54,11 +54,11 @@
             </div>
         </div>
         <?php else: ?>
-            <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('No authorized items or allowed shipping methods') ?>
+            <?php echo __('No authorized items or allowed shipping methods') ?>
         <?php endif; ?>
     </div>
     <div class="popup-window-buttons-set">
-        <button id="get-shipping-method-cancel-button" class="action-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button>
-        <button disabled="disabled" id="get-shipping-method-ok-button" class="action-ok disabled" type="button"><span><?php echo $this->__('OK') ?></span></button>
+        <button id="get-shipping-method-cancel-button" class="action-cancel" type="button"><span><?php echo __('Cancel') ?></span></button>
+        <button disabled="disabled" id="get-shipping-method-ok-button" class="action-ok disabled" type="button"><span><?php echo __('OK') ?></span></button>
     </div>
 </div>

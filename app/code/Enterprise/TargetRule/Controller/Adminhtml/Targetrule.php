@@ -28,7 +28,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
      */
     public function indexAction()
     {
-        $this->_title($this->__('Related Products Rules'));
+        $this->_title(__('Related Products Rules'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -58,7 +58,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
      */
     public function editAction()
     {
-        $this->_title($this->__('Related Products Rule'));
+        $this->_title(__('Related Products Rule'));
 
         /* @var $model Enterprise_TargetRule_Model_Rule */
         $model  = Mage::getModel('Enterprise_TargetRule_Model_Rule');
@@ -67,13 +67,13 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
         if ($ruleId) {
             $model->load($ruleId);
             if (!$model->getId()) {
-                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This rule no longer exists.'));
+                $this->_getSession()->addError(__('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Related Products Rule'));
+        $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
@@ -122,7 +122,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please specify a correct rule.'));
+                        Mage::throwException(__('Please specify a correct rule.'));
                     }
                 }
 
@@ -145,7 +145,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 $model->save();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('You saved the rule.')
+                    __('You saved the rule.')
                 );
 
                 if ($redirectBack) {
@@ -159,11 +159,11 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
             } catch (Zend_Date_Exception $e) {
-                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Invalid date.'));
+                $this->_getSession()->addError(__('Invalid date.'));
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('An error occurred while saving Product Rule.')
+                    __('An error occurred while saving Product Rule.')
                 );
 
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
@@ -195,7 +195,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addSuccess(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('You deleted the rule.'));
+                    ->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -206,7 +206,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
             }
         }
         Mage::getSingleton('Mage_Adminhtml_Model_Session')
-            ->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__("We can't find a page to delete."));
+            ->addError(__("We can't find a page to delete."));
         $this->_redirect('*/*/');
     }
 

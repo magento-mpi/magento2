@@ -13,7 +13,7 @@
     <global>
         <external_cache>
             <controls>
-                <zend_page_cache translate="label" module="Mage_PageCache">
+                <zend_page_cache translate="label">
                     <label>Zend Full Page Cache</label>
                     <class>Mage_PageCache_Model_Control_Zend</class>
                 </zend_page_cache>

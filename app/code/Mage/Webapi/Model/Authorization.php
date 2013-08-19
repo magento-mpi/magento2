@@ -15,21 +15,13 @@ class Mage_Webapi_Model_Authorization
     protected $_authorization;
 
     /**
-     * @var Mage_Webapi_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
         Magento_AuthorizationInterface $authorization
     ) {
-        $this->_helper = $helper;
         $this->_authorization = $authorization;
     }
 
@@ -47,7 +39,7 @@ class Mage_Webapi_Model_Authorization
             && !$coreAuthorization->isAllowed(null)
         ) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Access to resource is forbidden.'),
+                __('Access to resource is forbidden.'),
                 Mage_Webapi_Exception::HTTP_FORBIDDEN
             );
         }

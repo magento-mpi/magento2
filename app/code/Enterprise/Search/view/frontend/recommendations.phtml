@@ -14,7 +14,7 @@ $recommendations = $this->getRecommendations();
 $recommendationsCount = count($recommendations);
 if ($recommendationsCount):?>
 <div class="recommendations">
-    <?php echo $this->__('Related search terms:');?>
+    <?php echo __('Related search terms:');?>
     <?php for($i=0;$i<$recommendationsCount;$i++) :?>
     <a href='<?php echo $recommendations[$i]['link']?>'><?php echo $recommendations[$i]['word']?></a><?php if($countResultsEnabled):?>(<?php echo $recommendations[$i]['num_results']?>)<?php endif;?><?php if ($i != $recommendationsCount-1) echo ","?>
     <?php endfor;?>

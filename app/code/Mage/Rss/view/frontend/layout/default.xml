@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="Mage_Rss" ifconfig="rss/config/active">
+            <action method="addLink" translate="label title" ifconfig="rss/config/active">
                 <label>RSS</label>
                 <name>rss</name>
                 <path>rss</path>

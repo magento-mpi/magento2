@@ -75,7 +75,7 @@ class Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize
         $button = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
             ->setData(array(
                 'id'        => 'synchronize_button',
-                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Synchronize'),
+                'label'     => __('Synchronize'),
                 'onclick'   => 'javascript:synchronize(); return false;'
             ));
 

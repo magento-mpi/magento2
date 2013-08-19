@@ -28,11 +28,11 @@ class Mage_ImportExport_Model_Source_Import_Behavior_Basic
     {
         return array(
             Mage_ImportExport_Model_Import::BEHAVIOR_APPEND
-                => $this->_helper('Mage_ImportExport_Helper_Data')->__('Append Complex Data'),
+                => __('Append Complex Data'),
             Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE
-                => $this->_helper('Mage_ImportExport_Helper_Data')->__('Replace Existing Complex Data'),
+                => __('Replace Existing Complex Data'),
             Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
-                => $this->_helper('Mage_ImportExport_Helper_Data')->__('Delete Entities'),
+                => __('Delete Entities'),
         );
     }
 

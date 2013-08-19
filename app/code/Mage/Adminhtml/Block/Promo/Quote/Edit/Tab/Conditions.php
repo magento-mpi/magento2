@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions');
+        return __('Conditions');
     }
 
     /**
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions');
+        return __('Conditions');
     }
 
     /**
@@ -74,13 +74,13 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
             ->setNewChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply the rule only if the following conditions are met (leave blank for all products).')
+            'legend'=>__('Apply the rule only if the following conditions are met (leave blank for all products).')
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions'),
-            'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions'),
+            'label' => __('Conditions'),
+            'title' => __('Conditions'),
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
 
         $form->setValues($model->getData());

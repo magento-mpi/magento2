@@ -29,7 +29,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">ID</header>
+                            <header translate="true">ID</header>
                             <index>rule_id</index>
                             <align>right</align>
                             <width>50</width>
@@ -38,7 +38,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">Rule</header>
+                            <header translate="true">Rule</header>
                             <align>left</align>
                             <index>name</index>
                             <type>text</type>
@@ -46,7 +46,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">Start on</header>
+                            <header translate="true">Start on</header>
                             <align>left</align>
                             <width>120</width>
                             <type>date</type>
@@ -55,7 +55,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">End on</header>
+                            <header translate="true">End on</header>
                             <align>left</align>
                             <width>120</width>
                             <type>date</type>
@@ -65,7 +65,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">Status</header>
+                            <header translate="true">Status</header>
                             <align>left</align>
                             <width>80</width>
                             <index>is_active</index>
@@ -73,18 +73,18 @@
                             <options>
                                 <active>
                                     <value>1</value>
-                                    <label translate="true" module="Mage_CatalogRule">Active</label>
+                                    <label translate="true">Active</label>
                                 </active>
                                 <inactive>
                                     <value>0</value>
-                                    <label translate="true" module="Mage_CatalogRule">Inactive</label>
+                                    <label translate="true">Inactive</label>
                                 </inactive>
                             </options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">Web Site</header>
+                            <header translate="true">Web Site</header>
                             <align>left</align>
                             <index>website_ids</index>
                             <sortable>0</sortable>

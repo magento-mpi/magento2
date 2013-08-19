@@ -23,6 +23,6 @@ class Mage_Core_Controller_Index extends Mage_Core_Controller_Front_Action {
     {
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
         $this->getResponse()->setHttpResponseCode(404);
-        $this->getResponse()->setBody($this->__('Requested resource not found'));
+        $this->getResponse()->setBody(__('Requested resource not found'));
     }
 }

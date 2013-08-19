@@ -27,7 +27,7 @@
                     <fieldset class="fieldset-alt">
                         <div class="field field-option-title required">
                             <label class="label" for="id_<?php echo $this->getFieldName() ?>_{{index}}_title">
-                                <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Option Title') ?>
+                                <?php echo __('Option Title') ?>
                             </label>
                             <div class="control">
                                 <?php if ($this->isDefaultStore()): ?>
@@ -58,7 +58,7 @@
                         <?php if (!$this->isDefaultStore()): ?>
                         <div class="field field-option-store-view required">
                             <label class="label" for="id_<?php echo $this->getFieldName() ?>_{{index}}_title_store">
-                                <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Store View Title') ?>
+                                <?php echo __('Store View Title') ?>
                             </label>
                             <div class="control">
                                 <input class="input-text required-entry" type="text"
@@ -70,7 +70,7 @@
                         <?php endif; ?>
                         <div class="field field-option-input-type required">
                             <label class="label" for="<?php echo $this->getFieldId().'_{{index}}_type' ?>">
-                                <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Input Type') ?>
+                                <?php echo __('Input Type') ?>
                             </label>
                             <div class="control">
                                 <?php echo $this->getTypeSelectHtml() ?>
@@ -83,14 +83,14 @@
                                        checked="checked"
                                        id="field-option-req" />
                                 <label for="field-option-req">
-                                    <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Required')?>
+                                    <?php echo __('Required')?>
                                 </label>
                                 <span style="display:none"><?php echo $this->getRequireSelectHtml() ?></span>
                             </div>
                         </div>
                         <div class="field field-option-position no-display">
                             <label class="label" for="field-option-position">
-                                <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?>
+                                <?php echo __('Position') ?>
                             </label>
                             <div class="control">
                                 <input class="input-text validate-zero-or-greater"
@@ -103,7 +103,7 @@
                     </fieldset>
 
                     <div class="no-products-message">
-                        <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('There are no products in this option.')?>
+                        <?php echo __('There are no products in this option.')?>
                     </div>
                     <?php echo $this->getAddSelectionButtonHtml() ?>
                 </fieldset>
@@ -144,7 +144,7 @@ Bundle.Option.prototype = {
 
     add : function(data) {
         if (!data) {
-            data = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode(array('default_title' => $this->helper('Mage_Bundle_Helper_Data')->__('New Option')))?>;
+            data = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode(array('default_title' => __('New Option')))?>;
         } else {
             data.title = data.title.replace(/</g, "&lt;");
             data.title = data.title.replace(/"/g, "&quot;");

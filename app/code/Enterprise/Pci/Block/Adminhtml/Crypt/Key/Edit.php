@@ -25,7 +25,7 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block
     {
         Magento_Object::__construct();
         $this->_addButton('save', array(
-            'label'     => Mage::helper('Enterprise_Pci_Helper_Data')->__('Change Encryption Key'),
+            'label'     => __('Change Encryption Key'),
             'class'     => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -42,6 +42,6 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Pci_Helper_Data')->__('Encryption Key');
+        return __('Encryption Key');
     }
 }

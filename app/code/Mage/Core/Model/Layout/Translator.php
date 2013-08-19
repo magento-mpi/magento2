@@ -11,28 +11,6 @@
 class Mage_Core_Model_Layout_Translator
 {
     /**
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
-     * @param array $data
-     * @throws InvalidArgumentException
-     */
-    public function __construct(array $data = array())
-    {
-        $this->_helperFactory = isset($data['helperRegistry']) ?
-            $data['helperRegistry'] :
-            Mage::getSingleton('Mage_Core_Model_Factory_Helper');
-
-        if (false === ($this->_helperFactory instanceof Mage_Core_Model_Factory_Helper)) {
-            throw new InvalidArgumentException(
-                'helperFactory object has to instance of Mage_Core_Model_Factory_Helper'
-            );
-        }
-    }
-
-    /**
      * Translate layout node
      *
      * @param Magento_Simplexml_Element $node
@@ -43,7 +21,6 @@ class Mage_Core_Model_Layout_Translator
         if (false === $this->_isNodeTranslatable($node)) {
             return;
         }
-        $moduleName = $this->_getTranslateModuleName($node);
 
         foreach ($this->_getNodeNamesToTranslate($node) as $translatableArg) {
             /*
@@ -71,7 +48,7 @@ class Mage_Core_Model_Layout_Translator
             }
             if ($canTranslate && is_string($argumentStack)) {
                 // $argumentStack is now a reference to target translatable argument so it can be translated
-                $argumentStack = $this->_translateValue($argumentStack, $moduleName);
+                $argumentStack = $this->_translateValue($argumentStack);
             }
         }
     }
@@ -80,19 +57,17 @@ class Mage_Core_Model_Layout_Translator
      * Translate argument value
      *
      * @param Magento_Simplexml_Element $node
-     * @param string|null $moduleName
      * @return string
      */
-    public function translateArgument(Magento_Simplexml_Element $node, $moduleName = null)
+    public function translateArgument(Magento_Simplexml_Element $node)
     {
-        $moduleName = $this->_getTranslateModuleName($node, $moduleName);
         $value = $this->_getNodeValue($node);
 
         if ($this->_isSelfTranslatable($node)) {
-            $value = $this->_translateValue($value, $moduleName);
+            $value = $this->_translateValue($value);
         } elseif ($this->_isNodeTranslatable($node->getParent())) {
             if (true === in_array($node->getName(), $this->_getNodeNamesToTranslate($node->getParent()))) {
-                $value = $this->_translateValue($value, $moduleName);
+                $value = $this->_translateValue($value);
             }
         }
 
@@ -122,20 +97,6 @@ class Mage_Core_Model_Layout_Translator
     }
 
     /**
-     * Get translate module name
-     *
-     * @param Magento_Simplexml_Element $node
-     * @param string|null $defaultModule
-     * @return string
-     */
-    protected function _getTranslateModuleName(Magento_Simplexml_Element $node, $defaultModule = null)
-    {
-        return isset($node['module']) ?
-            (string)$node['module'] :
-            (empty($defaultModule) ? 'Mage_Core' : $defaultModule);
-    }
-
-    /**
      * Check if node has to translate own value
      *
      * @param Magento_Simplexml_Element $node
@@ -161,11 +122,10 @@ class Mage_Core_Model_Layout_Translator
      * Translate node value
      *
      * @param string $value
-     * @param string $moduleName
      * @return string
      */
-    protected function _translateValue($value, $moduleName)
+    protected function _translateValue($value)
     {
-        return $this->_helperFactory->get($moduleName)->__($value);
+        return __($value);
     }
 }

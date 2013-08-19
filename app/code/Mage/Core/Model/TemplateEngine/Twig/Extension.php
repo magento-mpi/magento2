@@ -7,8 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_TemplateEngine_Twig_Extension
-    extends Twig_Extension
+class Mage_Core_Model_TemplateEngine_Twig_Extension extends Twig_Extension
 {
     const MAGENTO = 'Magento';
 
@@ -23,11 +22,6 @@ class Mage_Core_Model_TemplateEngine_Twig_Extension
     protected $_commonFunctions;
 
     /**
-     * @var Mage_Core_Model_Translate
-     */
-    protected $_translator;
-
-    /**
      * @var Mage_Core_Model_TemplateEngine_BlockTrackerInterface
      */
     private $_blockTracker;
@@ -37,16 +31,13 @@ class Mage_Core_Model_TemplateEngine_Twig_Extension
      *
      * @param Mage_Core_Model_TemplateEngine_Twig_CommonFunctions $commonFunctions
      * @param Mage_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
-     * @param Mage_Core_Model_Translate $translate
      */
     public function __construct(
         Mage_Core_Model_TemplateEngine_Twig_CommonFunctions $commonFunctions,
-        Mage_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions,
-        Mage_Core_Model_Translate $translate
+        Mage_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
     ) {
         $this->_commonFunctions = $commonFunctions;
         $this->_layoutFunctions = $layoutFunctions;
-        $this->_translator = $translate;
     }
 
     /**
@@ -92,13 +83,7 @@ class Mage_Core_Model_TemplateEngine_Twig_Extension
      */
     public function translate()
     {
-        $currentModuleName =  Mage_Core_Block_Abstract::extractModuleName(
-            get_class($this->_blockTracker->getCurrentBlock())
-        );
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $currentModuleName);
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
+        return call_user_func_array('__', func_get_args());
     }
 
     /**
@@ -112,5 +97,4 @@ class Mage_Core_Model_TemplateEngine_Twig_Extension
         // Need to inject this dependency at runtime to avoid cyclical dependency
         $this->_layoutFunctions->setBlockTracker($blockTracker);
     }
-
 }

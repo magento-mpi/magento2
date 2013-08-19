@@ -12,7 +12,6 @@ return array(
             array(
                 'id' => 'customer',
                 'title' => 'Manage Customers',
-                'module' => 'Mage_Customer',
                 'sortOrder' => 20,
                 'children' => array(
                     array(

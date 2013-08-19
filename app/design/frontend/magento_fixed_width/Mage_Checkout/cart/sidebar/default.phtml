@@ -31,16 +31,16 @@
 
         <?php if ($canApplyMsrp): ?>
 
-            <tr><th><?php echo $this->__('Price'); ?></th><td><span class="map-cart-sidebar-item"><?php echo $this->__('See price before order confirmation.'); ?></span></td></tr>
+            <tr><th><?php echo __('Price'); ?></th><td><span class="map-cart-sidebar-item"><?php echo __('See price before order confirmation.'); ?></span></td></tr>
 
         <?php else: ?>
 
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <tr>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-                <th><?php echo $this->__('Excl. Tax'); ?></th>
+                <th><?php echo __('Excl. Tax'); ?></th>
             <?php else: ?>
-                <th><?php echo $this->__('Price'); ?></th>
+                <th><?php echo __('Price'); ?></th>
             <?php endif; ?>
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                 <td><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></td>
@@ -78,7 +78,7 @@
                 <?php endif; ?>
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                         <tr>
-                            <th><small><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total:'); ?></small></th>
+                            <th><small><?php echo __('Total:'); ?></small></th>
                             <td><small><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></small></td>
                         </tr>
                 <?php endif; ?>
@@ -91,9 +91,9 @@
             <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
             <tr>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-                <th><?php echo $this->__('Incl. Tax'); ?></th>
+                <th><?php echo __('Incl. Tax'); ?></th>
             <?php else: ?>
-                <th><?php echo $this->__('Price'); ?></th>
+                <th><?php echo __('Price'); ?></th>
             <?php endif; ?>
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                 <td><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></td>
@@ -127,7 +127,7 @@
                 <?php endif; ?>
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                     <tr>
-                        <th><small><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?></small></th>
+                        <th><small><?php echo __('Total incl. tax'); ?></small></th>
                         <td><small><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></small></td>
                     </tr>
                 <?php endif; ?>
@@ -136,7 +136,7 @@
 
         <?php endif; //Can apply MSRP ?>
             <tr>
-                <th><?php echo $this->__('Qty'); ?></th>
+                <th><?php echo __('Qty'); ?></th>
                 <td><?php echo $this->getQty() ?></td>
             </tr>
         </table>
@@ -144,7 +144,7 @@
         <div class="truncated" data-mage-init="{truncateOptions:[]}">
             <div class="truncated_full_value">
                 <div class="item-options">
-                    <p><?php echo $this->__('Options Details'); ?></p>
+                    <p><?php echo __('Options Details'); ?></p>
                     <dl>
                         <?php foreach ($_options as $_option) : ?>
                         <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
@@ -159,13 +159,13 @@
                     </dl>
                 </div>
             </div>
-            <a href="#" onclick="return false;" class="details"><?php echo $this->__('View Details') ?></a>
+            <a href="#" onclick="return false;" class="details"><?php echo __('View Details') ?></a>
         </div>
         <?php endif; ?>
         <?php if ($_item->getProduct()->isVisibleInSiteVisibility()):?>
-        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="btn-edit"><?php echo $this->__('Edit item')?></a>
+        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item') ?>" class="btn-edit"><?php echo __('Edit item')?></a>
         |
         <?php endif ?>
-        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove item') ?>" class="btn-remove"><?php echo $this->__('Remove item')?></a>
+        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo __('Remove item') ?>" class="btn-remove"><?php echo __('Remove item')?></a>
     </div>
 </li>

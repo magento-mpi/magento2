@@ -16,7 +16,7 @@
 ?>
 
 <div class="page-title">
-    <h1><?php echo $this->__('RMA') ?> #<?php echo $_rma->getIncrementId()?> - <?php echo $this->escapeHtml($_rma->getStatusLabel()) ?></h1>
+    <h1><?php echo __('RMA') ?> #<?php echo $_rma->getIncrementId()?> - <?php echo $this->escapeHtml($_rma->getStatusLabel()) ?></h1>
 </div>
 
 <div class="col2-set">
@@ -24,20 +24,20 @@
         <div class="box-content">
             <div class="col-1">
                 <div class="info-box">
-                    <h3 class="box-title"><?php echo $this->__('Request Information') ?></h3>
+                    <h3 class="box-title"><?php echo __('Request Information') ?></h3>
                     <p class="box-content">
                         <br />
-                        <?php echo $this->__('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br />
-                        <?php echo $this->__('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br />
-                        <?php echo $this->__('Date Requested') ?>: <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
-                        <?php echo $this->__('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
-                        <?php echo $this->__('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
+                        <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br />
+                        <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br />
+                        <?php echo __('Date Requested') ?>: <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->getFormatedDate($_rma->getDateRequested()) ?><br />
+                        <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br />
+                        <?php echo __('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
                     </p>
                 </div>
             </div>
             <div class="col-2">
                 <div class="info-box">
-                    <h3 class="box-title"><?php echo $this->__('Shipping Address') ?></h3>
+                    <h3 class="box-title"><?php echo __('Shipping Address') ?></h3>
                     <address class="box-content">
                         <?php echo $this->getAddress() ?>
                     </address>
@@ -49,7 +49,7 @@
 <div class="wrapper"></div>
 
 <span id="rma-please-wait" class="please-wait" style="display:none;">
-    <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
+    <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo __('Please wait, loading...') ?>
 </span>
 <?php $trackingNumbers = $this->getTrackingNumbers() ?>
 <?php if ($this->isPrintShippingLabelAllowed() || $trackingNumbers->count()): ?>
@@ -57,14 +57,14 @@
         <div class="box">
             <div class="box-content">
                 <div class="info-box">
-                    <h3 class="box-title"><?php echo $this->__('Shipping and Tracking Information') ?></h3>
+                    <h3 class="box-title"><?php echo __('Shipping and Tracking Information') ?></h3>
                     <div class="box-content">
                         <div class="a-right">
                         <?php if ($trackingNumbers->count()): ?>
                             <a class="f-left" href="#"
                                data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}"
-                               title="<?php echo $this->__('Track this shipment') ?>">
-                                    <?php echo $this->__('Track this shipment') ?>
+                               title="<?php echo __('Track this shipment') ?>">
+                                    <?php echo __('Track this shipment') ?>
                             </a>
                         <?php endif ?>
                         <?php if ($this->canShowButtons()): ?>
@@ -79,9 +79,9 @@
                             <col width="80" />
                             <thead>
                                 <tr>
-                                    <th><span class="nobr"><?php echo $this->__('Carrier') ?></span></th>
-                                    <th><span class="nobr"><?php echo $this->__('Number') ?></span></th>
-                                    <th><span class="nobr"><?php echo $this->__('Action') ?></span></th>
+                                    <th><span class="nobr"><?php echo __('Carrier') ?></span></th>
+                                    <th><span class="nobr"><?php echo __('Number') ?></span></th>
+                                    <th><span class="nobr"><?php echo __('Action') ?></span></th>
                                 </tr>
                             </thead>
                             <tbody id="track-info-tbody">
@@ -102,7 +102,7 @@
                                             <input type="text" class="input-text f-fix" value="" name="tracking_number_input" id="tracking_number_input" data-validate="{required:true}">
                                         </td>
                                         <td>
-                                            <button type="button" class="button" id="btn-add-track-number" title="<?php echo $this->__('Add') ?>"><span><span><?php echo $this->__('Add') ?></span></span></button>
+                                            <button type="button" class="button" id="btn-add-track-number" title="<?php echo __('Add') ?>"><span><span><?php echo __('Add') ?></span></span></button>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -129,7 +129,7 @@
     <div class="wrapper"></div>
 <?php endif ?>
 
-<h3 class="box-title"><?php echo $this->__('Items Return Requested For') ?></h3>
+<h3 class="box-title"><?php echo __('Items Return Requested For') ?></h3>
 <table class="data-table" id="my-returns-items-table">
     <col width="200" />
     <col width="200" />
@@ -141,13 +141,13 @@
     <col width="200" />
     <thead>
         <tr>
-            <th><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
-            <th><?php echo $this->__('SKU') ?></th>
-            <th><?php echo $this->__('Condition') ?></th>
-            <th><?php echo $this->__('Resolution') ?></th>
-            <th><span class="nobr"><?php echo $this->__('Request Qty') ?></span></th>
-            <th><?php echo $this->__('Qty') ?></th>
-            <th><?php echo $this->__('Status') ?></th>
+            <th><span class="nobr"><?php echo __('Product Name') ?></span></th>
+            <th><?php echo __('SKU') ?></th>
+            <th><?php echo __('Condition') ?></th>
+            <th><?php echo __('Resolution') ?></th>
+            <th><span class="nobr"><?php echo __('Request Qty') ?></span></th>
+            <th><?php echo __('Qty') ?></th>
+            <th><?php echo __('Status') ?></th>
             <th></th>
         </tr>
     </thead>
@@ -183,7 +183,7 @@
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <?php if ($_qna) : ?>
-                    <button class="l" data-mage-init='{toggleAdvanced: {newLabel: "<?php echo $this->__('Hide Details') ?>", toggleContainers: "#shf_<?php echo $key; ?>"}}'><?php echo $this->__('Show Details') ?></button>
+                    <button class="l" data-mage-init='{toggleAdvanced: {newLabel: "<?php echo __('Hide Details') ?>", toggleContainers: "#shf_<?php echo $key; ?>"}}'><?php echo __('Show Details') ?></button>
                 <?php endif; ?>
             </td>
         </tr>
@@ -191,8 +191,8 @@
             <tr id="shf_<?php echo $key ?>" class="hidden">
                 <td colspan="8">
                     <div class="col2-set">
-                        <div class="col-1"><?php echo $this->__('Questions') ?>:</div>
-                        <div class="col-2"><?php echo $this->__('Answers') ?>:</div>
+                        <div class="col-1"><?php echo __('Questions') ?>:</div>
+                        <div class="col-2"><?php echo __('Answers') ?>:</div>
                         <div class="clear"></div>
                         <?php echo $_qna; ?>
                     </div>
@@ -218,13 +218,13 @@
     <div class="box">
         <div class="box-content">
             <div class="info-box">
-                <h3 class="box-title"><?php echo $this->__('Leave Comment') ?></h3>
+                <h3 class="box-title"><?php echo __('Leave Comment') ?></h3>
                 <p class="box-content">
-                    <?php echo $this->__('Comment Text') ?>
+                    <?php echo __('Comment Text') ?>
                     <textarea id="rma_comment_text" style="height:6em;width:99%;" cols="5" rows="3" name="comment" data-validate="{required:true}"></textarea>
                 </p>
                 <div class="box-content buttons-set">
-                    <button type="submit" class="button" id="submit.save"><span><span><?php echo $this->__('Submit Comment')?></span></span></button>
+                    <button type="submit" class="button" id="submit.save"><span><span><?php echo __('Submit Comment')?></span></span></button>
                 </div>
                 <div class="clear"></div>
                 <div class="divider"></div>
@@ -238,7 +238,7 @@
                             <span class="separator">|</span>
                             <strong>
                                 <?php if ($_comment->getIsAdmin()): ?>
-                                    <?php echo $this->__('Customer Service')?>
+                                    <?php echo __('Customer Service')?>
                                 <?php else: ?>
                                     <?php echo $this->escapeHtml($this->getCustomerName())?>
                                <?php endif; ?>

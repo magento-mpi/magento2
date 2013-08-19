@@ -57,26 +57,18 @@ class Mage_Theme_Model_Uploader_Service
     protected $_uploaderFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Magento_Io_File $fileIo
      * @param Magento_File_Size $fileSize
      * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Magento_Io_File $fileIo,
         Magento_File_Size $fileSize,
-        Mage_Core_Model_File_UploaderFactory $uploaderFactory,
-        Mage_Core_Helper_Data $helper
+        Mage_Core_Model_File_UploaderFactory $uploaderFactory
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_helper = $helper;
     }
 
     /**
@@ -96,8 +88,8 @@ class Mage_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Mage_Core_Exception($this->_helper->__(
-                'The CSS file must be less than %sM.', $this->getCssUploadMaxSizeInMb()
+            throw new Mage_Core_Exception(__(
+                'The CSS file must be less than %1M.', $this->getCssUploadMaxSizeInMb()
             ));
         }
 
@@ -122,8 +114,8 @@ class Mage_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Mage_Core_Exception($this->_helper->__(
-                'The JS file must be less than %sM.', $this->getJsUploadMaxSizeInMb()
+            throw new Mage_Core_Exception(__(
+                'The JS file must be less than %1M.', $this->getJsUploadMaxSizeInMb()
             ));
         }
 

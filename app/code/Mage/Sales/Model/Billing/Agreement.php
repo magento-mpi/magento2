@@ -93,9 +93,9 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     {
         switch ($this->getStatus()) {
             case self::STATUS_ACTIVE:
-                return Mage::helper('Mage_Sales_Helper_Data')->__('Active');
+                return __('Active');
             case self::STATUS_CANCELED:
-                return Mage::helper('Mage_Sales_Helper_Data')->__('Canceled');
+                return __('Canceled');
         }
     }
 
@@ -175,8 +175,8 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     public function getStatusesArray()
     {
         return array(
-            self::STATUS_ACTIVE     => Mage::helper('Mage_Sales_Helper_Data')->__('Active'),
-            self::STATUS_CANCELED   => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled')
+            self::STATUS_ACTIVE     => __('Active'),
+            self::STATUS_CANCELED   => __('Canceled')
         );
     }
 
@@ -189,10 +189,10 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     {
         $result = parent::isValid();
         if (!$this->getCustomerId()) {
-            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('The customer ID is not set.');
+            $this->_errors[] = __('The customer ID is not set.');
         }
         if (!$this->getStatus()) {
-            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('The Billing Agreement status is not set.');
+            $this->_errors[] = __('The Billing Agreement status is not set.');
         }
         return $result && empty($this->_errors);
     }

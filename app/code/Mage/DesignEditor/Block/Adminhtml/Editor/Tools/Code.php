@@ -35,25 +35,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code
             array(
                 'is_active'     => true,
                 'id'          => 'vde-tab-css',
-                'title'         => strtoupper($this->__('CSS')),
+                'title'         => strtoupper(__('CSS')),
                 'content_block' => 'design_editor_tools_code_css'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-js',
-                'title'         => strtoupper($this->__('JS')),
+                'title'         => strtoupper(__('JS')),
                 'content_block' => 'design_editor_tools_code_js'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-custom',
-                'title'         => strtoupper($this->__('Custom CSS')),
+                'title'         => strtoupper(__('Custom CSS')),
                 'content_block' => 'design_editor_tools_code_custom'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-image-sizing',
-                'title'         => strtoupper($this->__('Image Sizing')),
+                'title'         => strtoupper(__('Image Sizing')),
                 'content_block' => 'design_editor_tools_code_image_sizing'
             ),
         );

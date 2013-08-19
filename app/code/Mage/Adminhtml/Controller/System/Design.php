@@ -13,7 +13,7 @@ class Mage_Adminhtml_Controller_System_Design extends Mage_Adminhtml_Controller_
 {
     public function indexAction()
     {
-        $this->_title($this->__('Store Design'));
+        $this->_title(__('Store Design'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
         $this->renderLayout();
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Controller_System_Design extends Mage_Adminhtml_Controller_
 
     public function editAction()
     {
-        $this->_title($this->__('Store Design'));
+        $this->_title(__('Store Design'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Controller_System_Design extends Mage_Adminhtml_Controller_
             $design->load($id);
         }
 
-        $this->_title($design->getId() ? $this->__('Edit Store Design Change') : $this->__('New Store Design Change'));
+        $this->_title($design->getId() ? __('Edit Store Design Change') : __('New Store Design Change'));
 
         Mage::register('design', $design);
 
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Controller_System_Design extends Mage_Adminhtml_Controller_
             try {
                 $design->save();
 
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You saved the design change.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You saved the design change.'));
             } catch (Exception $e){
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addError($e->getMessage())
@@ -94,13 +94,13 @@ class Mage_Adminhtml_Controller_System_Design extends Mage_Adminhtml_Controller_
                 $design->delete();
 
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addSuccess($this->__('You deleted the design change.'));
-            } catch (Magento_Exception $e) {
+                    ->addSuccess(__('You deleted the design change.'));
+            } catch (Mage_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addException($e, $this->__("Cannot delete the design change."));
+                    ->addException($e, __("Cannot delete the design change."));
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('*/*/'));

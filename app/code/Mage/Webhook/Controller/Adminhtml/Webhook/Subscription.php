@@ -62,9 +62,9 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_Webhook::system_api_webapi_webhook')
-            ->_title($this->__('System'))
-            ->_title($this->__('Web Services'))
-            ->_title($this->__('WebHook Subscriptions'));
+            ->_title(__('System'))
+            ->_title(__('Web Services'))
+            ->_title(__('WebHook Subscriptions'));
 
         $this->renderLayout();
     }
@@ -96,13 +96,13 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
 
             $this->loadLayout()
                 ->_setActiveMenu('Mage_Webapi::system_webapi')
-                ->_title($this->__('System'))
-                ->_title($this->__('Web Services'))
-                ->_title($this->__('WebHook Subscriptions'));
+                ->_title(__('System'))
+                ->_title(__('Web Services'))
+                ->_title(__('WebHook Subscriptions'));
             if ($this->_registry->registry(self::REGISTRY_KEY_WEBHOOK_ACTION) === self::ACTION_NEW) {
-                $this->_title($this->__('Add Subscription'));
+                $this->_title(__('Add Subscription'));
             } else {
-                $this->_title($this->__('Edit Subscription'));
+                $this->_title(__('Edit Subscription'));
             }
 
             $this->renderLayout();
@@ -134,13 +134,13 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
                     $this->_subscriptionService->create($subscriptionData);
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('The subscription \'%s\' has been saved.',
+                    __('The subscription \'%1\' has been saved.',
                     $subscriptionData[self::DATA_NAME])
                 );
                 $this->_redirect('*/*/');
             } else {
                 $this->_getSession()->addError(
-                    $this->__('The subscription \'%s\' has not been saved, as no data was provided.',
+                    __('The subscription \'%1\' has not been saved, as no data was provided.',
                     $subscriptionData[self::DATA_NAME])
                 );
                 $this->_redirect(
@@ -162,17 +162,19 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
         try {
             $subscriptionData = $this->_initSubscriptionData();
             if ($this->_isCreatedByUser($subscriptionData)) {
-                $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
-                    ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
-                    : 0;
-                $this->_subscriptionService->delete($subscriptionId);
-                $this->_getSession()->addSuccess(
-                    $this->__('The subscription \'%s\' has been removed.',
-                    $subscriptionData[self::DATA_NAME])
-                );
+                try {
+                    $this->_subscriptionService->delete($subscriptionData[self::DATA_SUBSCRIPTION_ID]);
+                    $this->_getSession()->addSuccess(
+                        __('The subscription \'%1\' has been removed.',
+                        $subscriptionData[self::DATA_NAME])
+                    );
+                }
+                catch (Mage_Core_Exception $e) {
+                    $this->_getSession()->addError($e->getMessage());
+                }
             } else {
                 $this->_getSession()->addError(
-                    $this->__('The subscription \'%s\' can not be removed.',
+                    __('The subscription \'%1\' can not be removed.',
                     $subscriptionData[self::DATA_NAME])
                 );
             }
@@ -192,11 +194,11 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
             if ($subscriptionId) {
                 $subscriptionData = $this->_subscriptionService->revoke($subscriptionId);
                 $this->_getSession()->addSuccess(
-                    $this->__('The subscription \'%s\' has been revoked.',
+                    __('The subscription \'%1\' has been revoked.',
                     $subscriptionData[self::DATA_NAME])
                 );
             } else {
-                $this->_getSession()->addError($this->__('No Subscription ID was provided with the request.'));
+                $this->_getSession()->addError(__('No Subscription ID was provided with the request.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -215,11 +217,11 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
             if ($subscriptionId) {
                 $subscriptionData = $this->_subscriptionService->activate($subscriptionId);
                 $this->_getSession()->addSuccess(
-                    $this->__('The subscription \'%s\' has been activated.',
+                    __('The subscription \'%1\' has been activated.',
                         $subscriptionData[self::DATA_NAME])
                 );
             } else {
-                $this->_getSession()->addError($this->__('No Subscription ID was provided with the request.'));
+                $this->_getSession()->addError(__('No Subscription ID was provided with the request.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());

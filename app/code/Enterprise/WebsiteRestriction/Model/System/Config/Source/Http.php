@@ -25,11 +25,11 @@ extends Magento_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_503,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('503 Service Unavailable'),
+                'label' => __('503 Service Unavailable'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_200,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('200 OK'),
+                'label' => __('200 OK'),
             ),
         );
     }

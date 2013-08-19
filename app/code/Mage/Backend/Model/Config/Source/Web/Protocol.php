@@ -14,8 +14,8 @@ class Mage_Backend_Model_Config_Source_Web_Protocol implements Mage_Core_Model_O
     {
         return array(
             array('value'=>'', 'label'=>''),
-            array('value'=>'http', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('HTTP (unsecure)')),
-            array('value'=>'https', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('HTTPS (SSL)')),
+            array('value'=>'http', 'label'=>__('HTTP (unsecure)')),
+            array('value'=>'https', 'label'=>__('HTTPS (SSL)')),
         );
     }
 

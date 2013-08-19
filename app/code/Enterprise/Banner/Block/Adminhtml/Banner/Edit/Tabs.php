@@ -19,6 +19,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs extends Mage_Adminhtml_
         parent::_construct();
         $this->setId('banner_info_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Information'));
+        $this->setTitle(__('Banner Information'));
     }
 }

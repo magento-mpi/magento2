@@ -84,7 +84,7 @@ class Mage_Media_Model_File_Image extends Mage_Core_Model_Resource_Abstract
         }
 
         if(!$resource) {
-            Mage::throwException(Mage::helper('Mage_Media_Helper_Data')->__('The image does not exist or is invalid.'));
+            Mage::throwException(__('The image does not exist or is invalid.'));
         }
 
 
@@ -166,7 +166,7 @@ class Mage_Media_Model_File_Image extends Mage_Core_Model_Resource_Abstract
         }
 
         if(!$result) {
-            Mage::throwException(Mage::helper('Mage_Media_Helper_Data')->__('Something went wrong while creating the image.'));
+            Mage::throwException(__('Something went wrong while creating the image.'));
         }
 
         return $this;
@@ -182,7 +182,7 @@ class Mage_Media_Model_File_Image extends Mage_Core_Model_Resource_Abstract
     {
         $info = @getimagesize($object->getFilePath());
         if(!$info) {
-            Mage::throwException(Mage::helper('Mage_Media_Helper_Data')->__('The image does not exist or is invalid.'));
+            Mage::throwException(__('The image does not exist or is invalid.'));
         }
 
         $info = array('width'=>$info[0], 'height'=>$info[1], 'type'=>$info[2]);

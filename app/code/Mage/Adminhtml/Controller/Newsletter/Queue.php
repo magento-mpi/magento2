@@ -22,7 +22,7 @@ class Mage_Adminhtml_Controller_Newsletter_Queue extends Mage_Adminhtml_Controll
      */
     public function indexAction()
     {
-        $this->_title($this->__('Newsletter Queue'));
+        $this->_title(__('Newsletter Queue'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -33,7 +33,7 @@ class Mage_Adminhtml_Controller_Newsletter_Queue extends Mage_Adminhtml_Controll
 
         $this->_setActiveMenu('Mage_Newsletter::newsletter_queue');
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'));
+        $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'));
 
         $this->renderLayout();
     }
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Controller_Newsletter_Queue extends Mage_Adminhtml_Controll
 
     public function editAction()
     {
-        $this->_title($this->__('Newsletter Queue'));
+        $this->_title(__('Newsletter Queue'));
 
         Mage::register('current_queue', Mage::getSingleton('Mage_Newsletter_Model_Queue'));
 
@@ -178,18 +178,18 @@ class Mage_Adminhtml_Controller_Newsletter_Queue extends Mage_Adminhtml_Controll
             $queue = Mage::registry('current_queue')->setTemplateId($template->getId());
         }
 
-        $this->_title($this->__('Edit Queue'));
+        $this->_title(__('Edit Queue'));
 
         $this->loadLayout();
 
         $this->_setActiveMenu('Mage_Newsletter::newsletter_queue');
 
         $this->_addBreadcrumb(
-            Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 
-            Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 
+            __('Newsletter Queue'), 
+            __('Newsletter Queue'), 
             $this->getUrl('*/newsletter_queue')
         );
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Queue'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Queue'));
+        $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
 
         $this->renderLayout();
     }
@@ -206,7 +206,7 @@ class Mage_Adminhtml_Controller_Newsletter_Queue extends Mage_Adminhtml_Controll
                 $template = Mage::getModel('Mage_Newsletter_Model_Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
-                    Mage::throwException($this->__('Please correct the newsletter template and try again.'));
+                    Mage::throwException(__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId($template->getId())
@@ -241,7 +241,7 @@ class Mage_Adminhtml_Controller_Newsletter_Queue extends Mage_Adminhtml_Controll
 
             $queue->save();
 
-            $this->_getSession()->addSuccess($this->_getHelper()->__('The newsletter queue has been saved.'));
+            $this->_getSession()->addSuccess(__('The newsletter queue has been saved.'));
             $this->_getSession()->setFormData(false);
 
             $this->_redirect('*/*');

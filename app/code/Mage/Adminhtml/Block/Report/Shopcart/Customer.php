@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer extends Mage_Adminhtml_Block
     protected function _construct()
     {
         $this->_controller = 'report_shopcart_customer';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Customers');
+        $this->_headerText = __('Customers');
         parent::_construct();
         $this->_removeButton('add');
     }

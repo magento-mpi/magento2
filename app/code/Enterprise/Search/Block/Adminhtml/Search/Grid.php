@@ -17,7 +17,6 @@
  */
 class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Backend_Block_Widget_Grid
 {
-
     /**
      * @var Enterprise_Search_Model_Adminhtml_Search_Grid_Options
      */

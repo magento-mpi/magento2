@@ -52,7 +52,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract exte
      */
     public function getTitle()
     {
-        return $this->__($this->_title);
+        return __($this->_title);
     }
 
     /**

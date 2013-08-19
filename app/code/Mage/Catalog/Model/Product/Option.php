@@ -63,13 +63,6 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     protected $_values = array();
 
     /**
-     * Translate instance
-     *
-     * @var Mage_Core_Model_Translate
-     */
-    protected $_translate;
-
-    /**
      * Get resource instance
      *
      * @return Mage_Core_Model_Resource_Db_Abstract
@@ -236,7 +229,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         if (!empty($group)) {
             return Mage::getModel('Mage_Catalog_Model_Product_Option_Type_' . uc_words($group));
         }
-        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The option type to get group instance is incorrect.'));
+        Mage::throwException(__('The option type to get group instance is incorrect.'));
     }
 
     /**
@@ -319,7 +312,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
             $this->getValueInstance()->setOption($this)
                 ->saveValues();
         } elseif ($this->getGroupByType($this->getType()) == self::OPTION_GROUP_SELECT) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Select type options required values rows.'));
+            Mage::throwException(__('Select type options required values rows.'));
         }
 
         return parent::_afterSave();

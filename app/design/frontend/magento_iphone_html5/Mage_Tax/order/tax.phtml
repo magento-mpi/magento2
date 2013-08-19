@@ -56,9 +56,9 @@
 <?php endif; ?>
     <td>
         <?php if ($this->displayFullSummary()): ?>
-            <div class="summary-collapse"><?php echo $this->__('Tax'); ?></div>
+            <div class="summary-collapse"><?php echo __('Tax'); ?></div>
         <?php else: ?>
-            <?php echo $this->__('Tax'); ?>
+            <?php echo __('Tax'); ?>
         <?php endif;?>
     </td>
     <td <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getTaxAmount()) ?></td>

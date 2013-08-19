@@ -55,11 +55,11 @@ class Mage_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framework_T
     {
         return array(
             array(true, 'US', array()),
-            array(false, 'US', array(array('value' => '', 'label' => ''))),
+            array(false, 'US', array(array('value' => '', 'label' => __('--Please Select--')))),
             array(true, '', array()),
-            array(false, '', array(array('value' => '', 'label' => ''))),
+            array(false, '', array(array('value' => '', 'label' => __('--Please Select--')))),
             array(true, array('US', 'CA'), array()),
-            array(false, array('US', 'CA'), array(array('value' => '', 'label' => ''))),
+            array(false, array('US', 'CA'), array(array('value' => '', 'label' => __('--Please Select--')))),
         );
     }
 }

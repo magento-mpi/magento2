@@ -31,7 +31,7 @@
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="time">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">ID</header>
+                                <header translate="true">ID</header>
                                 <width>50px</width>
                                 <id>customer_group_id</id>
                                 <align>right</align>
@@ -40,13 +40,13 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="type">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Group</header>
+                                <header translate="true">Group</header>
                                 <index>customer_group_code</index>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="class_name">
                             <arguments>
-                                <header translate="true" module="Mage_Customer">Tax Class</header>
+                                <header translate="true">Tax Class</header>
                                 <width>200px</width>
                                 <index>class_name</index>
                             </arguments>

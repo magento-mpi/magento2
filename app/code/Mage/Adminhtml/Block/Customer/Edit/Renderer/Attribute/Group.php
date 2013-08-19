@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
      */
     public function getDisableAutoGroupChangeCheckboxLabel()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->__($this->getDisableAutoGroupChangeAttribute()->getFrontend()->getLabel());
+        return __($this->getDisableAutoGroupChangeAttribute()->getFrontend()->getLabel());
     }
 
     /**

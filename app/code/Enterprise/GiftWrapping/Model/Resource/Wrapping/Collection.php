@@ -134,7 +134,7 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
     {
         return array_merge(array(array(
             'value' => '',
-            'label' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Please select')
+            'label' => __('Please select')
         )), $this->_toOptionArray('wrapping_id', 'design'));
     }
 

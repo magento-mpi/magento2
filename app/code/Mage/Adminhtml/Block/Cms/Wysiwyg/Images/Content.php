@@ -23,29 +23,29 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
     protected function _construct()
     {
         parent::_construct();
-        $this->_headerText = $this->helper('Mage_Cms_Helper_Data')->__('Media Storage');
+        $this->_headerText = __('Media Storage');
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('new_folder', array(
             'class'   => 'save',
-            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Create Folder...'),
+            'label'   => __('Create Folder...'),
             'type'    => 'button',
         ));
 
         $this->_addButton('delete_folder', array(
             'class'   => 'delete no-display',
-            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Delete Folder'),
+            'label'   => __('Delete Folder'),
             'type'    => 'button',
         ));
 
         $this->_addButton('delete_files', array(
             'class'   => 'delete no-display',
-            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Delete File'),
+            'label'   => __('Delete File'),
             'type'    => 'button',
         ));
 
         $this->_addButton('insert_files', array(
             'class'   => 'save no-display primary',
-            'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Insert File'),
+            'label'   => __('Insert File'),
             'type'    => 'button',
         ));
     }
@@ -70,9 +70,9 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
         $setupObject = new Magento_Object();
 
         $setupObject->setData(array(
-            'newFolderPrompt'                 => $this->helper('Mage_Cms_Helper_Data')->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete this folder?'),
-            'deleteFileConfirmationMessage'   => $this->helper('Mage_Cms_Helper_Data')->__('Are you sure you want to delete this file?'),
+            'newFolderPrompt'                 => __('New Folder Name:'),
+            'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
+            'deleteFileConfirmationMessage'   => __('Are you sure you want to delete this file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
             'onInsertUrl'     => $this->getOnInsertUrl(),

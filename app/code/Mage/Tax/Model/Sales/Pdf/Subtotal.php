@@ -41,25 +41,25 @@ class Mage_Tax_Model_Sales_Pdf_Subtotal extends Mage_Sales_Model_Order_Pdf_Total
             $totals = array(
                 array(
                     'amount'    => $this->getAmountPrefix().$amount,
-                    'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Subtotal (Excl. Tax)') . ':',
+                    'label'     => __('Subtotal (Excl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
                 array(
                     'amount'    => $this->getAmountPrefix().$amountInclTax,
-                    'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Subtotal (Incl. Tax)') . ':',
+                    'label'     => __('Subtotal (Incl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
             );
         } elseif ($helper->displaySalesSubtotalInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
+                'label'     => __($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         } else {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amount,
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__($this->getTitle()) . ':',
+                'label'     => __($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         }

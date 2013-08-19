@@ -24,7 +24,7 @@
                     <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
                     <?php echo $this->getChildHtml('items');?>
                 <?php else: ?>
-                    <p class="wishlist-empty"><?php echo $this->__('You have no items in your wish list.') ?></p>
+                    <p class="wishlist-empty"><?php echo __('You have no items in your wish list.') ?></p>
                 <?php endif ?>
                 <div class="buttons-set">
                     <?php echo $this->getChildHtml('control_buttons');?>

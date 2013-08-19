@@ -20,8 +20,8 @@ class Mage_Catalog_Model_Config_Source_Product_Options_Price implements Mage_Cor
     public function toOptionArray()
     {
         return array(
-            array('value' => 'fixed', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Fixed')),
-            array('value' => 'percent', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Percent'))
+            array('value' => 'fixed', 'label' => __('Fixed')),
+            array('value' => 'percent', 'label' => __('Percent'))
         );
     }
 }

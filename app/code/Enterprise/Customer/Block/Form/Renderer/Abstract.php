@@ -31,7 +31,7 @@ abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterpri
             $this->getEntity()->getId() &&
             $this->getEntity()->validate() === true &&
             $this->validateValue($this->getValue()) !== true) {
-                $result = Mage::helper('Enterprise_Customer_Helper_Data')->__('Edit this attribute here to use in an address template.');
+                $result = __('Edit this attribute here to use in an address template.');
             }
 
         return $result;

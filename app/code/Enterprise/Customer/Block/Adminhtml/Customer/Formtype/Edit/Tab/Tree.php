@@ -33,7 +33,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     {
         $addButtonData = array(
             'id'        => 'add_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('New Fieldset'),
+            'label'     => __('New Fieldset'),
             'onclick'   => 'formType.newFieldset()',
             'class'     => 'add',
         );
@@ -46,19 +46,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save'),
+            'label'     => __('Save'),
             'onclick'   => 'formType.saveFieldset()',
             'class'     => 'save',
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Remove'),
+            'label'     => __('Remove'),
             'onclick'   => 'formType.deleteFieldset()',
             'class'     => 'delete',
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Cancel'),
+            'label'     => __('Cancel'),
             'onclick'   => 'formType.cancelFieldset()',
             'class'     => 'cancel',
         ))->toHtml();
@@ -148,7 +148,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Attributes');
+        return __('Attributes');
     }
 
     /**
@@ -158,7 +158,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Attributes');
+        return __('Attributes');
     }
 
     /**

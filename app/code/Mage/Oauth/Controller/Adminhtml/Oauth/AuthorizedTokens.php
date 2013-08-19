@@ -24,7 +24,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Mage_Adminh
      */
     public function preDispatch()
     {
-        $this ->_title($this->__('Authorized Tokens'));
+        $this ->_title(__('Authorized Tokens'));
         parent::preDispatch();
         return $this;
     }
@@ -57,14 +57,14 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Mage_Adminh
 
         if (!is_array($ids) || !$ids) {
             // No rows selected
-            $this->_getSession()->addError($this->__('Please select needed row(s).'));
+            $this->_getSession()->addError(__('Please select needed row(s).'));
             $this->_redirect('*/*/index');
             return;
         }
 
         if (null === $status) {
             // No status selected
-            $this->_getSession()->addError($this->__('Please select revoke status.'));
+            $this->_getSession()->addError(__('Please select revoke status.'));
             $this->_redirect('*/*/index');
             return;
         }
@@ -82,18 +82,18 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Mage_Adminh
                 $item->load($item->getId());
                 $item->setRevoked($status)->save();
 
-                $this->_sendTokenStatusChangeNotification($item, $status ? $this->__('revoked') : $this->__('enabled'));
+                $this->_sendTokenStatusChangeNotification($item, $status ? __('revoked') : __('enabled'));
             }
             if ($status) {
-                $message = $this->__('Selected entries revoked.');
+                $message = __('Selected entries revoked.');
             } else {
-                $message = $this->__('Selected entries enabled.');
+                $message = __('Selected entries enabled.');
             }
             $this->_getSession()->addSuccess($message);
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('An error occurred on update revoke status.'));
+            $this->_getSession()->addError(__('An error occurred on update revoke status.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/index');
@@ -108,7 +108,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Mage_Adminh
 
         if (!is_array($ids) || !$ids) {
             // No rows selected
-            $this->_getSession()->addError($this->__('Please select needed row(s).'));
+            $this->_getSession()->addError(__('Please select needed row(s).'));
             $this->_redirect('*/*/index');
             return;
         }
@@ -124,13 +124,13 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Mage_Adminh
             foreach ($collection as $item) {
                 $item->delete();
 
-                $this->_sendTokenStatusChangeNotification($item, $this->__('deleted'));
+                $this->_sendTokenStatusChangeNotification($item, __('deleted'));
             }
-            $this->_getSession()->addSuccess($this->__('Selected entries has been deleted.'));
+            $this->_getSession()->addSuccess(__('Selected entries has been deleted.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('An error occurred on delete action.'));
+            $this->_getSession()->addError(__('An error occurred on delete action.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/index');

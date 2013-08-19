@@ -51,7 +51,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     protected function _prepareColumns()
     {
         $this->addColumn('real_order_id', array(
-            'header'=> Mage::helper('Mage_Sales_Helper_Data')->__('Order'),
+            'header'=> __('Order'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'increment_id',
@@ -59,7 +59,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Purchase Point'),
+                'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view'=> true,
@@ -68,38 +68,38 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
         }
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Purchased Date'),
+            'header' => __('Purchased Date'),
             'index' => 'created_at',
             'type' => 'datetime',
             'width' => '100px',
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => __('Bill-to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship-to Name'),
+            'header' => __('Ship-to Name'),
             'index' => 'shipping_name',
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Grand Total (Base)'),
+            'header' => __('Grand Total (Base)'),
             'index' => 'base_grand_total',
             'type'  => 'currency',
             'currency' => 'base_currency_code',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Grand Total (Purchased)'),
+            'header' => __('Grand Total (Purchased)'),
             'index' => 'grand_total',
             'type'  => 'currency',
             'currency' => 'order_currency_code',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header' => __('Status'),
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',
@@ -109,13 +109,13 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
         if ($this->_authorization->isAllowed('Mage_Sales::actions_view')) {
             $this->addColumn('action',
                 array(
-                    'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
+                    'header'    => __('Action'),
                     'width'     => '50px',
                     'type'      => 'action',
                     'getter'     => 'getId',
                     'actions'   => array(
                         array(
-                            'caption' => Mage::helper('Mage_Sales_Helper_Data')->__('View'),
+                            'caption' => __('View'),
                             'url'     => array('base'=>'*/sales_order/view'),
                             'field'   => 'order_id'
                         )
@@ -178,7 +178,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Related Orders');
+        return __('Related Orders');
     }
 
     /**

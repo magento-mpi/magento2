@@ -244,7 +244,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
         } catch (Exception $e) {
             $this->_getCheckoutSession()->addException(
                 $e,
-                Mage::helper('Mage_Checkout_Helper_Data')->__('Data saving problem')
+                __('Data saving problem')
             );
             $this->_redirect('*/*/addresses');
         }
@@ -436,7 +436,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
             $this->_redirect('*/*/billing');
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getCheckoutSession()->addException($e, $this->__('We cannot open the overview page.'));
+            $this->_getCheckoutSession()->addException($e, __('We cannot open the overview page.'));
             $this->_redirect('*/*/billing');
         }
     }
@@ -457,7 +457,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
                 $diff = array_diff($requiredAgreements, $postedAgreements);
                 if ($diff) {
                     $this->_getCheckoutSession()->addError(
-                        $this->__('Please agree to all Terms and Conditions before placing the order.')
+                        __('Please agree to all Terms and Conditions before placing the order.')
                     );
                     $this->_redirect('*/*/billing');
                     return;
@@ -503,7 +503,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
             Mage::logException($e);
             Mage::helper('Mage_Checkout_Helper_Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
-            $this->_getCheckoutSession()->addError($this->__('Order place error'));
+            $this->_getCheckoutSession()->addError(__('Order place error'));
             $this->_redirect('*/*/billing');
         }
     }

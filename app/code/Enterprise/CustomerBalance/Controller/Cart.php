@@ -42,12 +42,12 @@ class Enterprise_CustomerBalance_Controller_Cart extends Mage_Core_Controller_Fr
         $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                $this->__('The store credit payment has been removed from shopping cart.')
+                __('The store credit payment has been removed from shopping cart.')
             );
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
-                $this->__('You are not using store credit in your shopping cart.')
+                __('You are not using store credit in your shopping cart.')
             );
         }
 

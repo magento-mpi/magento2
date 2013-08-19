@@ -21,7 +21,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
      */
     public function indexAction()
     {
-        $this->_title($this->__('Billing Agreements'));
+        $this->_title(__('Billing Agreements'));
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->renderLayout();
@@ -52,8 +52,8 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
         if (!$agreement = $this->_initAgreement()) {
             return;
         }
-        $this->_title($this->__('Billing Agreements'))
-            ->_title($this->__('Billing Agreement # %s', $agreement->getReferenceId()));
+        $this->_title(__('Billing Agreements'))
+            ->_title(__('Billing Agreement # %1', $agreement->getReferenceId()));
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
@@ -84,7 +84,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('We couldn\'t start the billing agreement wizard.'));
+                $this->_getSession()->addError(__('We couldn\'t start the billing agreement wizard.'));
             }
         }
         $this->_redirect('*/*/');
@@ -107,7 +107,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
                     ->setCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer())
                     ->place();
                 $this->_getSession()->addSuccess(
-                    $this->__('The billing agreement "%s" has been created.', $agreement->getReferenceId())
+                    __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
                 );
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
                 return;
@@ -115,7 +115,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('We couldn\'t finish the billing agreement wizard.'));
+                $this->_getSession()->addError(__('We couldn\'t finish the billing agreement wizard.'));
             }
             $this->_redirect('*/*/index');
         }
@@ -141,12 +141,12 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
         if ($agreement && $agreement->canCancel()) {
             try {
                 $agreement->cancel();
-                $this->_getSession()->addNotice($this->__('The billing agreement "%s" has been canceled.', $agreement->getReferenceId()));
+                $this->_getSession()->addNotice(__('The billing agreement "%1" has been canceled.', $agreement->getReferenceId()));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('We couldn\'t cancel the billing agreement.'));
+                $this->_getSession()->addError(__('We couldn\'t cancel the billing agreement.'));
             }
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -163,7 +163,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
         if ($agreementId) {
             $billingAgreement = Mage::getModel('Mage_Sales_Model_Billing_Agreement')->load($agreementId);
             if (!$billingAgreement->getAgreementId()) {
-                $this->_getSession()->addError($this->__('Please specify the correct billing agreement ID and try again.'));
+                $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
                 $this->_redirect('*/*/');
                 return false;
             }

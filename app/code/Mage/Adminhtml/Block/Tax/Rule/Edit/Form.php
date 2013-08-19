@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         parent::_construct();
 
         $this->setId('taxRuleForm');
-        $this->setTitle(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information'));
+        $this->setTitle(__('Tax Rule Information'));
         $this->setUseContainer(true);
     }
 
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
+            'legend' => __('Tax Rule Information')
         ));
 
         $rates = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
          $fieldset->addField('code', 'text',
             array(
                 'name'      => 'code',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Name'),
+                'label'     => __('Name'),
                 'class'     => 'required-entry',
                 'required'  => true,
             )
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             'editablemultiselect',
             array(
                 'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
-                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
+                'label' => __('Customer Tax Class'),
                 'class' => 'required-entry',
                 'values' => $model->getAllOptionsForClass(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
                 'value' => $selectedCustomerTax,
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             'editablemultiselect',
             array(
                 'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
-                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class'),
+                'label' => __('Product Tax Class'),
                 'class' => 'required-entry',
                 'values' => $model->getAllOptionsForClass(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
                 'value' => $selectedProductTax,
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             'editablemultiselect',
             array(
                 'name' => 'tax_rate',
-                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
+                'label' => __('Tax Rate'),
                 'class' => 'required-entry',
                 'values' => $rates,
                 'value' => $model->getRates(),
@@ -118,11 +118,11 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         $fieldset->addField('priority', 'text',
             array(
                 'name'      => 'priority',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Priority'),
+                'label'     => __('Priority'),
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPriority(),
                 'required'  => true,
-                'note'      => Mage::helper('Mage_Tax_Helper_Data')->__('Tax rates at the same priority are added, others are compounded.'),
+                'note'      => __('Tax rates at the same priority are added, others are compounded.'),
             ),
             false,
             true
@@ -130,7 +130,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         $fieldset->addField('position', 'text',
             array(
                 'name'      => 'position',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Sort Order'),
+                'label'     => __('Sort Order'),
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPosition(),
                 'required'  => true,
@@ -181,9 +181,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             'new_url' => $this->getUrl('adminhtml/tax_class/ajaxSave/'),
             'save_url' => $this->getUrl('adminhtml/tax_class/ajaxSave/'),
             'delete_url' => $this->getUrl('adminhtml/tax_class/ajaxDelete/'),
-            'delete_confirm_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax class?'),
+            'delete_confirm_message' => __('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
-            'add_button_caption' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Class'),
+            'add_button_caption' => __('Add New Tax Class'),
             'submit_data' => array(
                 'class_type' => $classType,
                 'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),

@@ -12,23 +12,17 @@ class Mage_Webapi_Controller_Router_Rest
     /** @var array */
     protected $_routes = array();
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Mage_Webapi_Model_Config_Rest */
     protected $_apiConfig;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config_Rest $apiConfig
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config_Rest $apiConfig
     ) {
-        $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
     }
 
@@ -54,7 +48,7 @@ class Mage_Webapi_Controller_Router_Rest
                 return $route;
             }
         }
-        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+        throw new Mage_Webapi_Exception(__('Request does not match any route.'),
             Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
@@ -75,7 +69,7 @@ class Mage_Webapi_Controller_Router_Rest
                 return;
             }
         }
-        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+        throw new Mage_Webapi_Exception(__('Request does not match any route.'),
             Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 }

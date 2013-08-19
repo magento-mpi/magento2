@@ -29,7 +29,7 @@ class Mage_Sales_Block_Payment_Info_Billing_Agreement extends Mage_Payment_Block
         $referenceID = $info->getAdditionalInformation(
             Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract::PAYMENT_INFO_REFERENCE_ID
         );
-        $transport = new Magento_Object(array($this->__('Reference ID') => $referenceID,));
+        $transport = new Magento_Object(array((string)__('Reference ID') => $referenceID,));
         $transport = parent::_prepareSpecificInformation($transport);
 
         return $transport;

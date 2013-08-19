@@ -74,16 +74,6 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns the translate object for this helper.
-     *
-     * @return Mage_Core_Model_Translate
-     */
-    public function getTranslator()
-    {
-        return $this->_translator;
-    }
-
-    /**
      * This method returns an indicator of whether or not the current request is for vde
      *
      * @param Mage_Core_Controller_Request_Http $request

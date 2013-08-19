@@ -9,7 +9,7 @@
 -->
 <config>
     <system>
-        <section id="advanced" translate="label" module="Mage_Backend" type="text" sortOrder="910" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="advanced" translate="label" type="text" sortOrder="910" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Advanced</label>
             <tab>advanced</tab>
             <resource>Mage_Adminhtml::advanced</resource>

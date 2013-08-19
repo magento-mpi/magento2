@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Labels');
+        return __('Labels');
     }
 
     /**
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_SalesRule_Helper_Data')->__('Labels');
+        return __('Labels');
     }
 
     /**
@@ -79,14 +79,14 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(
-            'legend' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Default Label')
+            'legend' => __('Default Label')
         ));
         $labels = $rule->getStoreLabels();
 
         $fieldset->addField('store_default_label', 'text', array(
             'name'      => 'store_labels[0]',
             'required'  => false,
-            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Default Rule Label for All Store Views'),
+            'label'     => __('Default Rule Label for All Store Views'),
             'value'     => isset($labels[0]) ? $labels[0] : '',
         ));
 
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     protected function _createStoreSpecificFieldset($form, $labels)
     {
         $fieldset = $form->addFieldset('store_labels_fieldset', array(
-            'legend' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Store View Specific Labels'),
+            'legend' => __('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
         $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');

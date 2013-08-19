@@ -107,20 +107,6 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit
     {
         $this->_verifyLoadAndRenderLayout();
 
-        // Verify title
-        $this->_mockTranslateModel->expects($this->at(0))
-            ->method('translate')
-            ->with($this->equalTo(
-                    array(new Mage_Core_Model_Translate_Expr('System', 'Mage_Webhook'))));
-        $this->_mockTranslateModel->expects($this->at(1))
-            ->method('translate')
-            ->with($this->equalTo(
-                    array(new Mage_Core_Model_Translate_Expr('Web Services', 'Mage_Webhook'))));
-        $this->_mockTranslateModel->expects($this->at(2))
-            ->method('translate')
-            ->with($this->equalTo(
-                    array(new Mage_Core_Model_Translate_Expr('WebHook Subscriptions', 'Mage_Webhook'))));
-
         // renderLayout
         $this->_subscriptionContr = $this->_createSubscriptionController();
         $this->_subscriptionContr->indexAction();
@@ -144,13 +130,6 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit
 
         $this->_verifyLoadAndRenderLayout();
 
-        // verify title is 'Edit Subscription'
-        $expected = new Mage_Core_Model_Translate_Expr('Edit Subscription', 'Mage_Webhook');
-        $this->_mockTranslateModel->expects($this->at(3))
-            ->method('translate')
-            ->with($this->equalTo(
-                    array( $expected)));
-
         $subscriptionContr = $this->_createSubscriptionController();
         $subscriptionContr->editAction();
     }
@@ -161,13 +140,6 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit
         $this->_mockRegistry->expects($this->any())->method('registry')->will($this->returnValue('new'));
 
         $this->_verifyLoadAndRenderLayout();
-
-        // verify title is 'Add Subscription'
-        $expected = new Mage_Core_Model_Translate_Expr('Add Subscription', 'Mage_Webhook');
-        $this->_mockTranslateModel->expects($this->at(3))
-            ->method('translate')
-            ->with($this->equalTo(
-                    array( $expected)));
 
         $subscriptionContr = $this->_createSubscriptionController();
         $subscriptionContr->editAction();

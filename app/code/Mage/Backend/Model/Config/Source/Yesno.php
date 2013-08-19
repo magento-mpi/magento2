@@ -23,8 +23,8 @@ class Mage_Backend_Model_Config_Source_Yesno implements Mage_Core_Model_Option_A
     public function toOptionArray()
     {
         return array(
-            array('value' => 1, 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Yes')),
-            array('value' => 0, 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('No')),
+            array('value' => 1, 'label'=>__('Yes')),
+            array('value' => 0, 'label'=>__('No')),
         );
     }
 
@@ -36,8 +36,8 @@ class Mage_Backend_Model_Config_Source_Yesno implements Mage_Core_Model_Option_A
     public function toArray()
     {
         return array(
-            0 => Mage::helper('Mage_Backend_Helper_Data')->__('No'),
-            1 => Mage::helper('Mage_Backend_Helper_Data')->__('Yes'),
+            0 => __('No'),
+            1 => __('Yes'),
         );
     }
 

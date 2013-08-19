@@ -41,7 +41,7 @@ class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
         ; // known issue: code above will render only static mark image
         $this->setTemplate('Mage_Paypal::payment/redirect.phtml')
             ->setRedirectMessage(
-                Mage::helper('Mage_Paypal_Helper_Data')->__('You will be redirected to the PayPal website when you place an order.')
+                __('You will be redirected to the PayPal website when you place an order.')
             )
             ->setMethodTitle('') // Output PayPal mark, omit title
             ->setMethodLabelAfterHtml($mark->toHtml())

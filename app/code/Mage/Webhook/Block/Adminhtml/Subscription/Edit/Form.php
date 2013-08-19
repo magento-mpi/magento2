@@ -86,12 +86,12 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
         // We don't want to allow subscriptions defined in config to be edited by the user.
         $disabled = isset($subscriptionData[self::DATA_ALIAS]) && !empty($subscriptionData[self::DATA_ALIAS]);
 
-        $fieldset = $form->addFieldset('subscription_fieldset', array('legend' => $this->__('Subscription')));
+        $fieldset = $form->addFieldset('subscription_fieldset', array('legend' => __('Subscription')));
 
         $fieldset->addField(
             'name', 'text',
             array(
-                'label'     => $this->__('Name'),
+                'label'     => __('Name'),
                 'class'     => 'required-entry',
                 'required'  => true,
                 'name'      => 'name',
@@ -102,7 +102,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
         $fieldset->addField(
             'endpoint_url', 'text',
             array(
-                'label'     => $this->__('Endpoint URL'),
+                'label'     => __('Endpoint URL'),
                 'class'     => 'required-entry',
                 'required'  => true,
                 'name'      => 'endpoint_url',
@@ -114,8 +114,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
             'format', 'select',
             array(
                 'name'      => 'format',
-                'label'     => $this->__('Format'),
-                'title'     => $this->__('Format'),
+                'label'     => __('Format'),
+                'title'     => __('Format'),
                 'values'    => $this->_format->getFormatsForForm(),
                 'disabled'  => $disabled,
             )
@@ -125,8 +125,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
             'authentication_type', 'select',
             array(
                 'name'      => 'authentication_type',
-                'label'     => $this->__('Authentication Types'),
-                'title'     => $this->__('Authentication Types'),
+                'label'     => __('Authentication Types'),
+                'title'     => __('Authentication Types'),
                 'values'    => $this->_authentication->getAuthenticationsForForm(),
                 'disabled'  => $disabled,
             )
@@ -136,8 +136,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
             'topics', 'multiselect',
             array(
                 'name'      => 'topics[]',
-                'label'     => $this->__('Topics'),
-                'title'     => $this->__('Topics'),
+                'label'     => __('Topics'),
+                'title'     => __('Topics'),
                 'required'  => true,
                 'values'    => $this->_hook->getTopicsForForm(),
                 'disabled'  => $disabled,

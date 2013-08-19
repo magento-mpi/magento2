@@ -56,7 +56,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
         ));
         $this->_model = $this->getMock(
             'Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js',
-            array('__', 'helper'),
+            array('helper'),
             $constructArguments
         );
     }
@@ -102,9 +102,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
      */
     public function testGetTitle()
     {
-        $this->_model->expects($this->atLeastOnce())
-            ->method('__')
-            ->will($this->returnArgument(0));
         $this->assertEquals('Custom javascript files', $this->_model->getTitle());
     }
 

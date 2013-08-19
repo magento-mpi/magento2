@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Billing Address');
+        return __('Billing Address');
     }
 
     /**

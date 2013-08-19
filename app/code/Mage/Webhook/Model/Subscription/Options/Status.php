@@ -33,9 +33,9 @@ class Mage_Webhook_Model_Subscription_Options_Status implements Mage_Core_Model_
     public function toOptionArray()
     {
         return array(
-            Mage_Webhook_Model_Subscription::STATUS_ACTIVE => $this->_translator->translate(array('Active')),
-            Mage_Webhook_Model_Subscription::STATUS_REVOKED => $this->_translator->translate(array('Revoked')),
-            Mage_Webhook_Model_Subscription::STATUS_INACTIVE => $this->_translator->translate(array('Inactive')),
+            Mage_Webhook_Model_Subscription::STATUS_ACTIVE => __('Active'),
+            Mage_Webhook_Model_Subscription::STATUS_REVOKED => __('Revoked'),
+            Mage_Webhook_Model_Subscription::STATUS_INACTIVE => __('Inactive'),
         );
     }
 }
