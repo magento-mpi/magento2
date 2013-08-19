@@ -19,22 +19,11 @@ class Magento_Directory_Model_Config_Source_Country implements Magento_Core_Mode
     protected $_countryCollection;
 
     /**
-     * Directory Helper
-     *
-     * @var Magento_Directory_Helper_Data
-     */
-    protected $_directoryHelper;
-
-    /**
      * @param Magento_Directory_Model_Resource_Country_Collection $countryCollection
-     * @param Magento_Directory_Helper_Data $directoryHelper
      */
-    public function __construct(
-        Magento_Directory_Model_Resource_Country_Collection $countryCollection,
-        Magento_Directory_Helper_Data $directoryHelper
-    ) {
+    public function __construct(Magento_Directory_Model_Resource_Country_Collection $countryCollection)
+    {
         $this->_countryCollection = $countryCollection;
-        $this->_directoryHelper = $directoryHelper;
     }
 
     /**
@@ -64,7 +53,7 @@ class Magento_Directory_Model_Config_Source_Country implements Magento_Core_Mode
         if (!$isMultiselect) {
             array_unshift($options, array(
                 'value' => '',
-                'label' => $this->_directoryHelper->__('--Please Select--'),
+                'label' => __('--Please Select--'),
             ));
         }
 

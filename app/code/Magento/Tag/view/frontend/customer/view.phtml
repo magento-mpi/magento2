@@ -9,12 +9,12 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo $this->__('My Tags') ?></h1>
+    <h1><?php echo __('My Tags') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <p class="my-tag-edit">
-    <a href="#" title="<?php echo $this->__('Delete') ?>" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;" class="button btn-remove"><span><?php echo $this->__('Delete') ?></span></a>
-    <?php echo $this->__('<strong>Tag Name:</strong> %s', $this->escapeHtml($this->getTagInfo()->getName())) ?>
+    <a href="#" title="<?php echo __('Delete') ?>" onclick="if(confirm('<?php echo __('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;" class="button btn-remove"><span><?php echo __('Delete') ?></span></a>
+    <?php echo __('<strong>Tag Name:</strong> %1', $this->escapeHtml($this->getTagInfo()->getName())) ?>
 </p>
 <div class="clearer"></div>
 <?php echo $this->getToolbarHtml() ?>
@@ -36,12 +36,12 @@
             </td>
             <td>
                 <?php if($_product->isSaleable()): ?>
-                    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart/add',array('product'=>$_product->getId())) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart/add',array('product'=>$_product->getId())) ?>')"><span><span><?php echo __('Add to Cart') ?></span></span></button>
                 <?php endif; ?>
                 <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
                 <ul class="add-to-links" data-role="add-to-links">
                     <li>
-                        <a href="<?php echo $this->getUrl('wishlist/index/add',array('product'=>$_product->getId())) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a>
+                        <a href="<?php echo $this->getUrl('wishlist/index/add',array('product'=>$_product->getId())) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a>
                     </li>
                 </ul>
                 <?php endif; ?>
@@ -53,7 +53,7 @@
     <tbody>
         <tr>
             <td>
-                <?php echo $this->__("We can\'t find any products tagged with '%s' in the current store.", $this->escapeHtml($this->getTagInfo()->getName()) ) ?>
+                <?php echo __("We can\'t find any products tagged with '%1' in the current store.", $this->escapeHtml($this->getTagInfo()->getName()) ) ?>
             </td>
         </tr>
     </tbody>
@@ -62,5 +62,5 @@
 <script type="text/javascript">(function($) {$('#my-tags-table').decorate('table')})(jQuery)</script>
 <?php echo $this->getToolbarHtml() ?>
 <div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getUrl('*/*/')?>"><small>&laquo; </small><?php echo $this->__('Back to Tags List')?></a></p>
+    <p class="back-link"><a href="<?php echo $this->getUrl('*/*/')?>"><small>&laquo; </small><?php echo __('Back to Tags List')?></a></p>
 </div>

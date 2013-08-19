@@ -545,13 +545,13 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $codes = array(
 
             'service'=>array(
-                'FIRST CLASS' => Mage::helper('Magento_Usa_Helper_Data')->__('First-Class'),
-                'PRIORITY'    => Mage::helper('Magento_Usa_Helper_Data')->__('Priority Mail'),
-                'EXPRESS'     => Mage::helper('Magento_Usa_Helper_Data')->__('Express Mail'),
-                'BPM'         => Mage::helper('Magento_Usa_Helper_Data')->__('Bound Printed Matter'),
-                'PARCEL'      => Mage::helper('Magento_Usa_Helper_Data')->__('Parcel Post'),
-                'MEDIA'       => Mage::helper('Magento_Usa_Helper_Data')->__('Media Mail'),
-                'LIBRARY'     => Mage::helper('Magento_Usa_Helper_Data')->__('Library'),
+                'FIRST CLASS' => __('First-Class'),
+                'PRIORITY'    => __('Priority Mail'),
+                'EXPRESS'     => __('Express Mail'),
+                'BPM'         => __('Bound Printed Matter'),
+                'PARCEL'      => __('Parcel Post'),
+                'MEDIA'       => __('Media Mail'),
+                'LIBRARY'     => __('Library'),
             ),
 
             'service_to_code'=>array(
@@ -599,17 +599,17 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             ),
 
             'first_class_mail_type'=>array(
-                'LETTER'      => Mage::helper('Magento_Usa_Helper_Data')->__('Letter'),
-                'FLAT'        => Mage::helper('Magento_Usa_Helper_Data')->__('Flat'),
-                'PARCEL'      => Mage::helper('Magento_Usa_Helper_Data')->__('Parcel'),
+                'LETTER'      => __('Letter'),
+                'FLAT'        => __('Flat'),
+                'PARCEL'      => __('Parcel'),
             ),
 
             'container'=>array(
-                'VARIABLE'           => Mage::helper('Magento_Usa_Helper_Data')->__('Variable'),
-                'FLAT RATE BOX'      => Mage::helper('Magento_Usa_Helper_Data')->__('Flat-Rate Box'),
-                'FLAT RATE ENVELOPE' => Mage::helper('Magento_Usa_Helper_Data')->__('Flat-Rate Envelope'),
-                'RECTANGULAR'        => Mage::helper('Magento_Usa_Helper_Data')->__('Rectangular'),
-                'NONRECTANGULAR'     => Mage::helper('Magento_Usa_Helper_Data')->__('Non-rectangular'),
+                'VARIABLE'           => __('Variable'),
+                'FLAT RATE BOX'      => __('Flat-Rate Box'),
+                'FLAT RATE ENVELOPE' => __('Flat-Rate Envelope'),
+                'RECTANGULAR'        => __('Rectangular'),
+                'NONRECTANGULAR'     => __('Non-rectangular'),
             ),
 
             'containers_filter' => array(
@@ -734,18 +734,18 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
              ),
 
             'size'=>array(
-                'REGULAR'     => Mage::helper('Magento_Usa_Helper_Data')->__('Regular'),
-                'LARGE'       => Mage::helper('Magento_Usa_Helper_Data')->__('Large'),
+                'REGULAR'     => __('Regular'),
+                'LARGE'       => __('Large'),
             ),
 
             'machinable'=>array(
-                'true'        => Mage::helper('Magento_Usa_Helper_Data')->__('Yes'),
-                'false'       => Mage::helper('Magento_Usa_Helper_Data')->__('No'),
+                'true'        => __('Yes'),
+                'false'       => __('No'),
             ),
 
             'delivery_confirmation_types' => array(
-                'True' => Mage::helper('Magento_Usa_Helper_Data')->__('Not Required'),
-                'False'  => Mage::helper('Magento_Usa_Helper_Data')->__('Required'),
+                'True' => __('Not Required'),
+                'False'  => __('Required'),
             ),
         );
 
@@ -859,7 +859,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      */
     protected function _parseXmlTrackingResponse($trackingvalue, $response)
     {
-        $errorTitle = Mage::helper('Magento_Usa_Helper_Data')->__('Unable to retrieve tracking');
+        $errorTitle = __('Unable to retrieve tracking');
         $resultArr=array();
         if (strlen(trim($response)) > 0) {
             if (strpos(trim($response), '<?xml')===0) {
@@ -874,7 +874,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                     ) {
                         $errorTitle = (string)$xml->TrackInfo->Error->Description;
                     } else {
-                        $errorTitle = Mage::helper('Magento_Usa_Helper_Data')->__('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
+                        $errorTitle = __('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
                     }
 
                     if(isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)){
@@ -920,16 +920,16 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 foreach ($trackings as $tracking) {
                     if($data = $tracking->getAllData()) {
                         if (!empty($data['track_summary'])) {
-                            $statuses .= Mage::helper('Magento_Usa_Helper_Data')->__($data['track_summary']);
+                            $statuses .= __($data['track_summary']);
                         } else {
-                            $statuses .= Mage::helper('Magento_Usa_Helper_Data')->__('Empty response');
+                            $statuses .= __('Empty response');
                         }
                     }
                 }
             }
         }
         if (empty($statuses)) {
-            $statuses = Mage::helper('Magento_Usa_Helper_Data')->__('Empty response');
+            $statuses = __('Empty response');
         }
         return $statuses;
     }
@@ -1300,7 +1300,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 $serviceType = 'Library Mail';
                 break;
             default:
-                throw new Exception(Mage::helper('Magento_Usa_Helper_Data')->__('Service type does not match'));
+                throw new Exception(__('Service type does not match'));
         }
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
@@ -1761,12 +1761,12 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             && $countryRecipient != self::USA_COUNTRY_ID
         ) {
             return array(
-                'MERCHANDISE' => Mage::helper('Magento_Usa_Helper_Data')->__('Merchandise'),
-                'SAMPLE' => Mage::helper('Magento_Usa_Helper_Data')->__('Sample'),
-                'GIFT' => Mage::helper('Magento_Usa_Helper_Data')->__('Gift'),
-                'DOCUMENTS' => Mage::helper('Magento_Usa_Helper_Data')->__('Documents'),
-                'RETURN' => Mage::helper('Magento_Usa_Helper_Data')->__('Return'),
-                'OTHER' => Mage::helper('Magento_Usa_Helper_Data')->__('Other'),
+                'MERCHANDISE' => __('Merchandise'),
+                'SAMPLE' => __('Sample'),
+                'GIFT' => __('Gift'),
+                'DOCUMENTS' => __('Documents'),
+                'RETURN' => __('Return'),
+                'OTHER' => __('Other'),
             );
         }
         return array();

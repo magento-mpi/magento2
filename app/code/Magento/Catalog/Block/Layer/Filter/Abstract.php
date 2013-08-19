@@ -63,7 +63,7 @@ abstract class Magento_Catalog_Block_Layer_Filter_Abstract extends Magento_Core_
     protected function _initFilter()
     {
         if (!$this->_filterModelName) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('The filter model name must be declared.'));
+            Mage::throwException(__('The filter model name must be declared.'));
         }
         $this->_filter = Mage::getModel($this->_filterModelName)
             ->setLayer($this->getLayer());

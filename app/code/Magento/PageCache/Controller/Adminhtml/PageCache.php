@@ -28,7 +28,7 @@ class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml
             if (Mage::helper('Magento_PageCache_Helper_Data')->isEnabled()) {
                 Mage::helper('Magento_PageCache_Helper_Data')->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_PageCache_Helper_Data')->__('The external full page cache has been cleaned.')
+                    __('The external full page cache has been cleaned.')
                 );
             }
         }
@@ -38,8 +38,7 @@ class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Magento_PageCache_Helper_Data')
-                    ->__('Something went wrong while clearing the external full page cache.')
+                __('Something went wrong while clearing the external full page cache.')
             );
         }
         $this->_redirect('*/cache/index');

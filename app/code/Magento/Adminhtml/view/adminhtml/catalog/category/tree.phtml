@@ -21,9 +21,9 @@
         <?php //echo $this->getCollapseButtonHtml() ?>
         <?php //echo $this->getExpandButtonHtml() ?>
         <a href="#"
-           onclick="tree.collapseTree(); return false;"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Collapse All'); ?></a>
+           onclick="tree.collapseTree(); return false;"><?php echo __('Collapse All'); ?></a>
         <span class="separator">|</span> <a href="#"
-                                            onclick="tree.expandTree(); return false;"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Expand All'); ?></a>
+                                            onclick="tree.expandTree(); return false;"><?php echo __('Expand All'); ?></a>
         <?php endif; ?>
     </div>
 <?php if ($this->getRoot()): ?>
@@ -182,7 +182,7 @@ function reRenderTree(event, switcher) {
             storeParam += obj.switchParams;
         }
         if (switcher.useConfirm) {
-            if (!confirm("<?php echo $this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.') ?>")) {
+            if (!confirm("<?php echo __('Please confirm site switching. All data that hasn\'t been saved will be lost.') ?>")) {
                 obj.value = '<?php echo (int)$this->getStoreId() ?>';
                 return false;
             }

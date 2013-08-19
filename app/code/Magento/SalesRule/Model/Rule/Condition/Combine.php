@@ -38,15 +38,15 @@ class Magento_SalesRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
             array('value' => 'Magento_SalesRule_Model_Rule_Condition_Product_Found',
-                'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Product attribute combination')
+                'label' => __('Product attribute combination')
             ),
             array('value' => 'Magento_SalesRule_Model_Rule_Condition_Product_Subselect',
-                'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Products subselection')
+                'label' => __('Products subselection')
             ),
             array('value' => 'Magento_SalesRule_Model_Rule_Condition_Combine',
-                'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Conditions combination')
+                'label' => __('Conditions combination')
             ),
-            array('label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Cart Attribute'), 'value' => $attributes),
+            array('label' => __('Cart Attribute'), 'value' => $attributes),
         ));
 
         $additional = new Magento_Object();

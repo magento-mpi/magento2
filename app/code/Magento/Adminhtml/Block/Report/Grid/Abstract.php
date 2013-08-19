@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
         if (isset($this->_columnGroupBy)) {
             $this->isColumnGrouped($this->_columnGroupBy, true);
         }
-        $this->setEmptyCellLabel(Mage::helper('Magento_Reports_Helper_Data')->__('We couldn\'t find records for this period.'));
+        $this->setEmptyCellLabel(__('We couldn\'t find records for this period.'));
     }
 
     public function getResourceCollectionName()

@@ -21,11 +21,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup exten
     {
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Group')));
+        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Group')));
 
         $fieldset->addField('attribute_group_name', 'text',
                             array(
-                                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Name'),
+                                'label' => __('Name'),
                                 'name' => 'attribute_group_name',
                                 'required' => true,
                             )
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup exten
                             array(
                                 'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                                             ->setData(array(
-                                                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Group'),
+                                                'label'     => __('Add Group'),
                                                 'onclick'   => 'this.form.submit();',
                                                                                                 'class' => 'add'
                                             ))

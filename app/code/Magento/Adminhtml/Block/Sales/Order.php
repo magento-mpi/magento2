@@ -20,8 +20,8 @@ class Magento_Adminhtml_Block_Sales_Order extends Magento_Adminhtml_Block_Widget
     protected function _construct()
     {
         $this->_controller = 'sales_order';
-        $this->_headerText = Mage::helper('Magento_Sales_Helper_Data')->__('Orders');
-        $this->_addButtonLabel = Mage::helper('Magento_Sales_Helper_Data')->__('Create New Order');
+        $this->_headerText = __('Orders');
+        $this->_addButtonLabel = __('Create New Order');
         parent::_construct();
         if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
             $this->_removeButton('add');

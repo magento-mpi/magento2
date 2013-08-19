@@ -153,14 +153,14 @@ class Enterprise_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     {
         $result = array();
         if ($withEmpty) {
-            $result[''] = Mage::helper('Magento_Adminhtml_Helper_Data')->__('-- Please Select --');
+            $result[''] = __('-- Please Select --');
         }
         $result[Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS]
-            = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Products');
+            = __('Related Products');
         $result[Enterprise_TargetRule_Model_Rule::UP_SELLS]
-            = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Up-sells');
+            = __('Up-sells');
         $result[Enterprise_TargetRule_Model_Rule::CROSS_SELLS]
-            = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Cross-sells');
+            = __('Cross-sells');
 
         return $result;
     }
@@ -334,11 +334,11 @@ class Enterprise_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
                 }
                 if (!class_exists($actionArgs['type'])) {
                     Mage::throwException(
-                        Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Model class name for attribute is invalid')
+                        __('Model class name for attribute is invalid')
                     );
                 }
                 if (isset($actionArgs['attribute']) && !$validator->isValid($actionArgs['attribute'])) {
-                    $result[] = Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.');
+                    $result[] = __('This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.');
                 }
             }
         }

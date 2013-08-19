@@ -39,14 +39,14 @@ class Magento_Adminhtml_Block_Api_Grid_Role extends Magento_Adminhtml_Block_Widg
     {
 
         $this->addColumn('role_id', array(
-            'header'    =>Mage::helper('Magento_Adminhtml_Helper_Data')->__('ID'),
+            'header'    =>__('ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role'),
+            'header'    =>__('Role'),
             'index'     =>'role_name'
         ));
 

@@ -46,13 +46,12 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest exten
         $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
 
         $this->_model = $this->getMock('Magento_Theme_Controller_Adminhtml_System_Design_Theme',
-            array('_forward', '_title', '__', 'loadLayout', 'renderLayout', '_redirect'),
+            array('_forward', '_title', 'loadLayout', 'renderLayout', '_redirect'),
             array($context, null)
         );
         $this->_model->expects($this->any())->method('_title')->will($this->returnValue($this->_model));
         $this->_model->expects($this->any())->method('loadLayout');
         $this->_model->expects($this->any())->method('renderLayout');
-        $this->_model->expects($this->any())->method('__');
     }
 
     /**
@@ -84,9 +83,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest exten
         $themeImage = $this->getMock('Magento_Core_Model_Theme_Image', array(), array(), '', false);
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
-        $themeFactory = $this->getMock(
-            'Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(), '', false
-        );
+        $themeFactory = $this->getMock('Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeMock));
 
         $this->_objectManagerMock

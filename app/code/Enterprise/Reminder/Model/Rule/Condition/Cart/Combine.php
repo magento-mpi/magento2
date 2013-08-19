@@ -48,7 +48,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
                         ->getNewChildSelectOptions(),
                 array( // subselection combo
                     'value' => 'Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection',
-                    'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Items Subselection')
+                    'label' => __('Items Subselection')
                 )
             )
         );

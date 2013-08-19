@@ -94,7 +94,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
             $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' (+'.$coreHelper
-                    ->currencyByStore($_priceInclTax, $store).' '.$this->__('Incl. Tax').')';
+                    ->currencyByStore($_priceInclTax, $store).' '.__('Incl. Tax').')';
             }
         }
         $priceStr .= '</span>';

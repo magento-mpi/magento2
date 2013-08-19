@@ -26,7 +26,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Widget_Helper_Data')->__('Widget Options');
+        return __('Widget Options');
     }
 
     /**
@@ -36,7 +36,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Widget_Helper_Data')->__('Widget Options');
+        return __('Widget Options');
     }
 
     /**

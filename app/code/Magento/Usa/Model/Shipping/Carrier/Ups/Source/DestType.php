@@ -16,7 +16,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups_Source_DestType
         $ups = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups');
         $arr = array();
         foreach ($ups->getCode('dest_type_description') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>Mage::helper('Magento_Usa_Helper_Data')->__($v));
+            $arr[] = array('value'=>$k, 'label'=>__($v));
         }
         return $arr;
     }

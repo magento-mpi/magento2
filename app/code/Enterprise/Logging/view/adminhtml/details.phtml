@@ -21,7 +21,7 @@ $event = $this->getCurrentEvent();
 <div class="entry-edit form-inline">
     <fieldset class="fieldset">
         <legend class="legend">
-            <span><?php echo $this->__('Admin User Data'); ?></span>
+            <span><?php echo __('Admin User Data'); ?></span>
         </legend><br />
 
         <div id="log_details_fieldset" class="field log-details">
@@ -30,7 +30,7 @@ $event = $this->getCurrentEvent();
                 <col />
                 <tbody>
                 <tr>
-                    <th><?php echo $this->__('Aggregated Information'); ?></th>
+                    <th><?php echo __('Aggregated Information'); ?></th>
                     <td>
                         <?php
                         $eventInfo = $this->getEventInfo();
@@ -60,7 +60,7 @@ $event = $this->getCurrentEvent();
                     </td>
                 </tr>
                 <tr>
-                    <th><?php echo $this->__('Admin User ID'); ?></th>
+                    <th><?php echo __('Admin User ID'); ?></th>
                     <td>
                         <?php if ($this->getEventUser()){ ?>
                         #<?php echo $event->getUserId(); ?>
@@ -70,7 +70,7 @@ $event = $this->getCurrentEvent();
                     </td>
                 </tr>
                 <tr>
-                    <th><?php echo $this->__('Admin User Name'); ?></th>
+                    <th><?php echo __('Admin User Name'); ?></th>
                     <td>
                         <?php if ($this->getEventUser()){ ?>
                         <a href="<?php echo $this->getUrl('adminhtml/user/edit', array('user_id' => $event->getUserId())); ?>"><?php echo $this->escapeHtml($event->getUser()); ?></a>
@@ -80,18 +80,18 @@ $event = $this->getCurrentEvent();
                     </td>
                 </tr>
                 <tr>
-                    <th><?php echo $this->__('IP-Address'); ?></th>
+                    <th><?php echo __('IP-Address'); ?></th>
                     <td><?php echo $this->getEventIp(); ?></td>
                 </tr>
                 <?php if ($this->getEventXForwardedIp()) { ?>
                 <tr>
-                    <th><?php echo $this->__('X-Forwarded For'); ?></th>
+                    <th><?php echo __('X-Forwarded For'); ?></th>
                     <td><?php echo $this->getEventXForwardedIp(); ?></td>
                 </tr>
                     <?php } ?>
                 <?php if ($this->getEventError()) { ?>
                 <tr>
-                    <th><?php echo $this->__('Error Message'); ?></th>
+                    <th><?php echo __('Error Message'); ?></th>
                     <td><?php echo $this->getEventError(); ?></td>
                 </tr>
                     <?php } ?>
@@ -103,7 +103,7 @@ $event = $this->getCurrentEvent();
     <?php if ($event->hasChanges()){ ?>
     <fieldset class="fieldset">
         <legend class="legend">
-            <span><?php echo $this->__('Related Changes'); ?></span>
+            <span><?php echo __('Related Changes'); ?></span>
         </legend><br />
 
         <div class="field log-details-grid">

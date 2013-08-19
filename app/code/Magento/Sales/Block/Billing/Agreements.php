@@ -73,20 +73,20 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($item->getData($key), 'short', true) : $this->__('N/A');
+                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($item->getData($key), 'short', true) : __('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
                 break;
             case 'payment_method_label':
                 $label = $item->getAgreementLabel();
-                $value = ($label) ? $label : $this->__('N/A');
+                $value = ($label) ? $label : __('N/A');
                 break;
             case 'status':
                 $value = $item->getStatusLabel();
                 break;
             default:
-                $value = ($item->getData($key)) ? $item->getData($key) : $this->__('N/A');
+                $value = ($item->getData($key)) ? $item->getData($key) : __('N/A');
         }
         return $this->escapeHtml($value);
     }

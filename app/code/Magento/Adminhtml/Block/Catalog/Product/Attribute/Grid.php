@@ -41,63 +41,63 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Magento_Eav
         parent::_prepareColumns();
 
         $this->addColumnAfter('is_visible', array(
-            'header'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Visible'),
+            'header'=>__('Visible'),
             'sortable'=>true,
             'index'=>'is_visible_on_front',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('Magento_Catalog_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_Catalog_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
             'align' => 'center',
         ), 'frontend_label');
 
         $this->addColumnAfter('is_global', array(
-            'header'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Scope'),
+            'header'=>__('Scope'),
             'sortable'=>true,
             'index'=>'is_global',
             'type' => 'options',
             'options' => array(
-                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Store View'),
-                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Web Site'),
-                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('Magento_Catalog_Helper_Data')->__('Global'),
+                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>__('Store View'),
+                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>__('Web Site'),
+                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>__('Global'),
             ),
             'align' => 'center',
         ), 'is_visible');
 
         $this->addColumn('is_searchable', array(
-            'header'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Searchable'),
+            'header'=>__('Searchable'),
             'sortable'=>true,
             'index'=>'is_searchable',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('Magento_Catalog_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_Catalog_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
             'align' => 'center',
         ), 'is_user_defined');
 
         $this->addColumnAfter('is_filterable', array(
-            'header'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Use in Layered Navigation'),
+            'header'=>__('Use in Layered Navigation'),
             'sortable'=>true,
             'index'=>'is_filterable',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('Magento_Catalog_Helper_Data')->__('Filterable (with results)'),
-                '2' => Mage::helper('Magento_Catalog_Helper_Data')->__('Filterable (no results)'),
-                '0' => Mage::helper('Magento_Catalog_Helper_Data')->__('No'),
+                '1' => __('Filterable (with results)'),
+                '2' => __('Filterable (no results)'),
+                '0' => __('No'),
             ),
             'align' => 'center',
         ), 'is_searchable');
 
         $this->addColumnAfter('is_comparable', array(
-            'header'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Comparable'),
+            'header'=>__('Comparable'),
             'sortable'=>true,
             'index'=>'is_comparable',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('Magento_Catalog_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_Catalog_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
             'align' => 'center',
         ), 'is_filterable');

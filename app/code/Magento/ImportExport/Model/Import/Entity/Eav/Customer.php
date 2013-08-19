@@ -133,21 +133,19 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         $this->_indexValueAttributes[] = 'group_id';
 
         $this->addMessageTemplate(self::ERROR_DUPLICATE_EMAIL_SITE,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('E-mail is duplicated in import file')
+            __('E-mail is duplicated in import file')
         );
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
-            $this->_helper('Magento_ImportExport_Helper_Data')
-                ->__('Orphan rows that will be skipped due default row errors')
+            __('Orphan rows that will be skipped due default row errors')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_STORE,
-            $this->_helper('Magento_ImportExport_Helper_Data')
-                ->__('Invalid value in Store column (store does not exists?)')
+            __('Invalid value in Store column (store does not exists?)')
         );
         $this->addMessageTemplate(self::ERROR_EMAIL_SITE_NOT_FOUND,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('E-mail and website combination is not found')
+            __('E-mail and website combination is not found')
         );
         $this->addMessageTemplate(self::ERROR_PASSWORD_LENGTH,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('Invalid password length')
+            __('Invalid password length')
         );
 
         $this->_initStores(true)

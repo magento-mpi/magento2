@@ -32,14 +32,12 @@ class Magento_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_Test
         $this->_errorProcessorMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_ErrorProcessor')
             ->disableOriginalConstructor()->getMock();
         $this->_errorProcessorMock->expects($this->once())->method('maskException')->will($this->returnArgument(0));
-        $helperMock = $this->getMockBuilder('Magento_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
 
         /** Init SUP. */
         $this->_responseRest = new Magento_Webapi_Controller_Response_Rest(
             $rendererFactoryMock,
             $this->_errorProcessorMock,
-            $helperMock,
             $this->_appMock
         );
         $this->_responseRest->headersSentThrowsException = false;

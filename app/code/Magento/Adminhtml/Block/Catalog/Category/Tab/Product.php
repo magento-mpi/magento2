@@ -94,29 +94,29 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
             ));
         }
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Name'),
+            'header'    => __('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'type'  => 'currency',
             'width'     => '1',
             'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Position'),
+            'header'    => __('Position'),
             'width'     => '1',
             'type'      => 'number',
             'index'     => 'position',

@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Grid_Filter_Type
     {
         $result = array();
         foreach (self::$_types as $code => $label) {
-            $result[] = array('value' => $code, 'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__($label));
+            $result[] = array('value' => $code, 'label' => __($label));
         }
 
         return $result;

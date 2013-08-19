@@ -11,7 +11,7 @@
 <?php /* @var $this Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract */ ?>
 <div class="create-order-sidebar-block" id="sidebar_data_<?php echo $this->getDataId() ?>">
     <div class="head">
-        <a href="#" class="action-refresh" title="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Refresh') ?>" onclick="order.loadArea('sidebar_<?php echo $this->getDataId() ?>', 'sidebar_data_<?php echo $this->getDataId() ?>');return false;">Refresh</a>
+        <a href="#" class="action-refresh" title="<?php echo __('Refresh') ?>" onclick="order.loadArea('sidebar_<?php echo $this->getDataId() ?>', 'sidebar_data_<?php echo $this->getDataId() ?>');return false;">Refresh</a>
         <h5><?php echo $this->getHeaderText() ?> <span class="normal">(<?php echo $this->getItemCount() ?>)</span></h5>
     </div>
     <div class="content">
@@ -31,20 +31,20 @@
             <col width="16" />
             <thead>
                 <tr>
-                    <th><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Item') ?></th>
+                    <th><?php echo __('Item') ?></th>
                     <?php if ($this->canDisplayItemQty()): ?>
-                    <th class="a-center"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Qty') ?></th>
+                    <th class="a-center"><?php echo __('Qty') ?></th>
                     <?php endif; ?>
                     <?php if($this->canDisplayPrice()): ?>
-                    <th><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Price') ?></th>
+                    <th><?php echo __('Price') ?></th>
                     <?php endif; ?>
                     <?php if($this->canRemoveItems()): ?>
                     <th class="a-center">
-                        <span class="icon icon-remove"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Remove') ?></span>
+                        <span class="icon icon-remove"><?php echo __('Remove') ?></span>
                     </th>
                     <?php endif; ?>
                     <th class="a-center">
-                        <span class="icon icon-add"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Add To Order') ?></span>
+                        <span class="icon icon-add"><?php echo __('Add To Order') ?></span>
                     </th>
                 </tr>
             </thead>
@@ -63,15 +63,15 @@
                     <td><?php echo $this->convertPrice($_item->getPrice()) ?></td>
                     <?php endif; ?>
                     <?php if($this->canRemoveItems()): ?>
-                    <td class="a-center"><input type="checkbox" name="sidebar[remove][<?php echo $this->getItemId($_item) ?>]" value="<?php echo $this->getDataId() ?>" title="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Remove') ?>"/></td>
+                    <td class="a-center"><input type="checkbox" name="sidebar[remove][<?php echo $this->getItemId($_item) ?>]" value="<?php echo $this->getDataId() ?>" title="<?php echo __('Remove') ?>"/></td>
                     <?php endif; ?>
                     <td class="a-center">
                         <?php if ($_item->getTypeId() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE && $this->getDataId() == 'wishlist'): ?>
-                            <a href="#" onclick="order.sidebarConfigureProduct('<?php echo 'sidebar_wishlist' ?>', <?php echo $this->getProductId($_item) ?>, <?php echo $this->getItemId($_item) ?>); return false;"><img src="<?php echo $this->getViewFileUrl('images/grouped_to_order_icon.png') ?>" class="v-middle" alt="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Configure and Add to Order') ?>" title="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Configure and Add to Order') ?>" width="16" height="16"/></a>
+                            <a href="#" onclick="order.sidebarConfigureProduct('<?php echo 'sidebar_wishlist' ?>', <?php echo $this->getProductId($_item) ?>, <?php echo $this->getItemId($_item) ?>); return false;"><img src="<?php echo $this->getViewFileUrl('images/grouped_to_order_icon.png') ?>" class="v-middle" alt="<?php echo __('Configure and Add to Order') ?>" title="<?php echo __('Configure and Add to Order') ?>" width="16" height="16"/></a>
                         <?php elseif ($_item->getTypeId() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE): ?>
-                            <a href="#" onclick="order.sidebarConfigureProduct('<?php echo 'sidebar' ?>', <?php echo $this->getProductId($_item) ?>); return false;"><img src="<?php echo $this->getViewFileUrl('images/grouped_to_order_icon.png') ?>" class="v-middle" alt="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Configure and Add to Order') ?>" title="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Configure and Add to Order') ?>" width="16" height="16"/></a>
+                            <a href="#" onclick="order.sidebarConfigureProduct('<?php echo 'sidebar' ?>', <?php echo $this->getProductId($_item) ?>); return false;"><img src="<?php echo $this->getViewFileUrl('images/grouped_to_order_icon.png') ?>" class="v-middle" alt="<?php echo __('Configure and Add to Order') ?>" title="<?php echo __('Configure and Add to Order') ?>" width="16" height="16"/></a>
                         <?php else: ?>
-                            <input type="checkbox" name="sidebar[<?php echo $this->getSidebarStorageAction() ?>][<?php echo $this->getIdentifierId($_item) ?>]" value="<?php echo $this->canDisplayItemQty() ? $_item->getQty()*1 : 1 ?>" title="<?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Add To Order') ?>"/>
+                            <input type="checkbox" name="sidebar[<?php echo $this->getSidebarStorageAction() ?>][<?php echo $this->getIdentifierId($_item) ?>]" value="<?php echo $this->canDisplayItemQty() ? $_item->getQty()*1 : 1 ?>" title="<?php echo __('Add To Order') ?>"/>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -79,7 +79,7 @@
             </tbody>
         </table>
         <?php else: ?>
-            <?php echo Mage::helper('Magento_Sales_Helper_Data')->__('No items') ?>
+            <?php echo __('No items') ?>
         <?php endif ?>
         </div>
         <?php if ($this->getItemCount() && $this->canRemoveItems()): ?>

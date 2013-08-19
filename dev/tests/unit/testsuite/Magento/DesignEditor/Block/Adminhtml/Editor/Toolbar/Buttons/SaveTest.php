@@ -58,8 +58,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
             'service'    => $service,
             'urlBuilder' => $urlBuilder
         );
-        $this->_block = $testHelper->getObject('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save',
-            $data);
+        $this->_block = $testHelper->getObject('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save', $data);
     }
 
     /**
@@ -76,13 +75,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
         $block->init();
         $data = $block->getData();
         $options = $block->getOptions();
-        
-        
-
-        
-         
-
         $mainAction = json_decode($data['data_attribute']['mage-init'], true);
+
         if ($mainAction['button']['eventData']['confirm'] !== false) {
             $this->assertNotEmpty($mainAction['button']['eventData']['confirm']['message']);
             $this->assertNotEmpty($mainAction['button']['eventData']['confirm']['title']);

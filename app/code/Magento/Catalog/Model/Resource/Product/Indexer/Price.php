@@ -312,7 +312,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index
     {
         $types = $this->getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('We found an unsupported product type "%s".', $productTypeId));
+            Mage::throwException(__('We found an unsupported product type "%1".', $productTypeId));
         }
         return $types[$productTypeId];
     }

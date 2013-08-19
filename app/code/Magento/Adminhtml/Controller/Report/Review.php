@@ -21,25 +21,25 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
     {
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Reports'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Review'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Reviews')
+                __('Review'),
+                __('Reviews')
             );
         return $this;
     }
 
     public function customerAction()
     {
-        $this->_title($this->__('Customer Reviews Report'));
+        $this->_title(__('Customer Reviews Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Review::report_review_customer')
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report')
+                __('Customers Report'),
+                __('Customers Report')
             );
          $this->renderLayout();
     }
@@ -69,13 +69,13 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
 
     public function productAction()
     {
-        $this->_title($this->__('Product Reviews Report'));
+        $this->_title(__('Product Reviews Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Review::report_review_product')
             ->_addBreadcrumb(
-            Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'),
-            Mage::helper('Magento_Reports_Helper_Data')->__('Products Report')
+            __('Products Report'),
+            __('Products Report')
         );
             $this->renderLayout();
     }
@@ -104,12 +104,12 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
 
     public function productDetailAction()
     {
-        $this->_title($this->__('Details'));
+        $this->_title(__('Details'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Review::report_review')
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'), Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'))
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Product Reviews'), Mage::helper('Magento_Reports_Helper_Data')->__('Product Reviews'))
+            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
+            ->_addBreadcrumb(__('Product Reviews'), __('Product Reviews'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Review_Detail'))
             ->renderLayout();
     }

@@ -27,7 +27,7 @@
                     <rssList>
                         <orders>
                             <url>rss/order/new</url>
-                            <label translate="true" module="Magento_Sales">New Order RSS</label>
+                            <label translate="true">New Order RSS</label>
                         </orders>
                     </rssList>
                 </arguments>
@@ -39,35 +39,35 @@
                         <options>
                             <updater>Magento_Sales_Model_Order_Grid_Massaction_ItemsUpdater</updater>
                             <cancel_order>
-                                <label translate="true" module="Magento_Sales">Cancel</label>
+                                <label translate="true">Cancel</label>
                                 <url>*/sales_order/massCancel</url>
                             </cancel_order>
                             <hold_order>
-                                <label translate="true" module="Magento_Sales">Hold</label>
+                                <label translate="true">Hold</label>
                                 <url>*/sales_order/massHold</url>
                             </hold_order>
                             <unhold_order>
-                                <label translate="true" module="Magento_Sales">Unhold</label>
+                                <label translate="true">Unhold</label>
                                 <url>*/sales_order/massUnhold</url>
                             </unhold_order>
                             <pdfinvoices_order>
-                                <label translate="true" module="Magento_Sales">Print Invoices</label>
+                                <label translate="true">Print Invoices</label>
                                 <url>*/sales_order/pdfinvoices</url>
                             </pdfinvoices_order>
                             <pdfshipments_order>
-                                <label translate="true" module="Magento_Sales">Print Packing Slips</label>
+                                <label translate="true">Print Packing Slips</label>
                                 <url>*/sales_order/pdfshipments</url>
                             </pdfshipments_order>
                             <pdfcreditmemos_order>
-                                <label translate="true" module="Magento_Sales">Print Credit Memos</label>
+                                <label translate="true">Print Credit Memos</label>
                                 <url>*/sales_order/pdfcreditmemos</url>
                             </pdfcreditmemos_order>
                             <pdfdocs_order>
-                                <label translate="true" module="Magento_Sales">Print All</label>
+                                <label translate="true">Print All</label>
                                 <url>*/sales_order/pdfdocs</url>
                             </pdfdocs_order>
                             <print_shipping_label>
-                                <label translate="true" module="Magento_Sales">Print Shipping Labels</label>
+                                <label translate="true">Print Shipping Labels</label>
                                 <url>*/sales_order_shipment/massPrintShippingLabel</url>
                             </print_shipping_label>
                         </options>
@@ -78,11 +78,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Magento_Sales">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportExcel</urlPath>
-                                <label translate="true" module="Magento_Sales">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -100,7 +100,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="real_order_id">
                         <arguments>
-                            <header translate="true" module="Magento_Sales">Order</header>
+                            <header translate="true">Order</header>
                             <type>text</type>
                             <index>increment_id</index>
                             <id>real_order_id</id>
@@ -110,7 +110,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true" module="Magento_Sales">Purchase Point</header>
+                            <header translate="true">Purchase Point</header>
                             <type>store</type>
                             <store_view>1</store_view>
                             <display_deleted>1</display_deleted>
@@ -122,7 +122,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header translate="true" module="Magento_Sales">Purchase Date</header>
+                            <header translate="true">Purchase Date</header>
                             <type>datetime</type>
                             <index>created_at</index>
                             <id>created_at</id>
@@ -133,7 +133,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="billing_name">
                         <arguments>
                             <id>billing_name</id>
-                            <header translate="true" module="Magento_Sales">Bill-to Name</header>
+                            <header translate="true">Bill-to Name</header>
                             <index>billing_name</index>
                             <header_css_class>col-bill-to-name</header_css_class>
                             <column_css_class>col-bill-to-name</column_css_class>
@@ -142,7 +142,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="shipping_name">
                         <arguments>
                             <id>shipping_name</id>
-                            <header translate="true" module="Magento_Sales">Ship-to Name</header>
+                            <header translate="true">Ship-to Name</header>
                             <index>shipping_name</index>
                             <header_css_class>col-ship-to-name</header_css_class>
                             <column_css_class>col-ship-to-name</column_css_class>
@@ -151,7 +151,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="base_grand_total">
                         <arguments>
                             <id>base_grand_total</id>
-                            <header translate="true" module="Magento_Sales">Grand Total (Base)</header>
+                            <header translate="true">Grand Total (Base)</header>
                             <type>currency</type>
                             <currency>base_currency_code</currency>
                             <index>base_grand_total</index>
@@ -162,7 +162,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="grand_total">
                         <arguments>
                             <id>grand_total</id>
-                            <header translate="true" module="Magento_Sales">Grand Total (Purchased)</header>
+                            <header translate="true">Grand Total (Purchased)</header>
                             <type>currency</type>
                             <currency>order_currency_code</currency>
                             <rate>1</rate>
@@ -174,7 +174,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <id>status</id>
-                            <header translate="true" module="Magento_Sales">Status</header>
+                            <header translate="true">Status</header>
                             <type>options</type>
                             <currency>order_currency_code</currency>
                             <index>status</index>
@@ -186,7 +186,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="action" acl="Magento_Sales::actions_view">
                         <arguments>
                             <id>action</id>
-                            <header translate="true" module="Magento_Sales">Action</header>
+                            <header translate="true">Action</header>
                             <type>action</type>
                             <getter>getId</getter>
                             <filter>0</filter>
@@ -195,7 +195,7 @@
                             <is_system>1</is_system>
                             <actions>
                                 <view_action>
-                                    <caption translate="true" module="Magento_Sales">View</caption>
+                                    <caption translate="true">View</caption>
                                     <url>
                                         <base>*/sales_order/view</base>
                                     </url>

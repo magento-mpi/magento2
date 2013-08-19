@@ -60,10 +60,10 @@ abstract class Magento_Core_Model_File_Storage_Abstract extends Magento_Core_Mod
         $fullPath = $this->getMediaBaseDirectory() . DS . $path;
 
         if (!file_exists($fullPath) || !is_file($fullPath)) {
-            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('File %s does not exist', $fullPath));
+            Mage::throwException(__('File %1 does not exist', $fullPath));
         }
         if (!is_readable($fullPath)) {
-            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('File %s is not readable', $fullPath));
+            Mage::throwException(__('File %1 is not readable', $fullPath));
         }
 
         $path = str_replace(array('/', '\\'), '/', $path);

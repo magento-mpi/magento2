@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <event_lister type="Enterprise_CatalogEvent_Block_Widget_Lister" translate="name description" module="Enterprise_CatalogEvent">
+    <event_lister type="Enterprise_CatalogEvent_Block_Widget_Lister" translate="name description">
         <name>Catalog Events Carousel</name>
         <description>List all open Catalog Events as a Paginated Carousel</description>
         <placeholder_image>Enterprise_CatalogEvent::widget_lister.gif</placeholder_image>

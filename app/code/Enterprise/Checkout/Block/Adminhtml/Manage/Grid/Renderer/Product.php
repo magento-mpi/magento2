@@ -40,6 +40,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
             $prodAttributes = 'disabled="disabled"';
         }
         return sprintf('<a href="javascript:void(0)" %s class="action-configure %s">%s</a>',
-            $style, $prodAttributes, Mage::helper('Magento_Sales_Helper_Data')->__('Configure')) . $rendered;
+            $style, $prodAttributes, __('Configure')) . $rendered;
     }
 }

@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::stores">
-                    <resource id="Magento_Tax::manage_tax" module="Magento_Tax" title="Taxes" sortOrder="20" />
+                    <resource id="Magento_Tax::manage_tax" title="Taxes" sortOrder="20" />
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
                             <resource id="Magento_Tax::config_tax" title="Tax Section" sortOrder="55" />
@@ -24,7 +24,7 @@
 
                 <resource id="Magento_Adminhtml::system">
                     <resource id="Magento_Adminhtml::convert">
-                        <resource id="Magento_Tax::import_export" module="Magento_Tax" title="Import/Export Tax Rates" sortOrder="30" />
+                        <resource id="Magento_Tax::import_export" title="Import/Export Tax Rates" sortOrder="30" />
                     </resource>
                 </resource>
             </resource>

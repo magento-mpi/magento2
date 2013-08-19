@@ -349,21 +349,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
                 ->will($this->returnValue(2));
         }
 
-        $dataHelper = $this->getMock('stdClass', array('__'));
-        if ($addExpectations) {
-            $dataHelper->expects($this->any())
-                ->method('__')
-                ->will($this->returnArgument(0));
-        }
-        $helpers = array(
-            'Magento_ImportExport_Helper_Data' => $dataHelper
-        );
-
         $data = array(
             'connection'        => $connection,
             'tables'            => $this->_tables,
             'resource_helper'   => $resourceHelper,
-            'helpers'           => $helpers,
             'is_price_global'   => true,
             'stores'            => $this->_testStores,
         );
@@ -747,7 +736,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
      * Data provider of row data and errors
      *
      * @return array
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function validateRowDataProvider()
     {
@@ -759,8 +747,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'main_invalid_store' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_store.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE
-                    => array(array(1, null))
+                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE => array(array(1, null))
                 )
             ),
             'main_incorrect_type' => array(
@@ -784,8 +771,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'main_invalid_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_price.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_PRICE
-                    => array(array(1, null))
+                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_PRICE => array(array(1, null))
                 )
             ),
             'main_invalid_max_characters' => array(

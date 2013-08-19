@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         ));
 
         $this->addChild('add_sub_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Subcategory'),
+            'label'     => __('Add Subcategory'),
             'onclick'   => "addNew('".$addUrl."', false)",
             'class'     => 'add',
             'id'            => 'add_subcategory_button',
@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
         if ($this->canAddRootCategory()) {
             $this->addChild('add_root_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Root Category'),
+                'label'     => __('Add Root Category'),
                 'onclick'   => "addNew('".$addUrl."', true)",
                 'class'     => 'add',
                 'id'        => 'add_root_category_button'

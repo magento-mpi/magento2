@@ -49,7 +49,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId()) {
             /* @var $product Magento_Catalog_Model_Product */
-            $session->addError($this->__('There are not enough parameters.'));
+            $session->addError(__('There are not enough parameters.'));
             if ($this->_isUrlInternal($backUrl)) {
                 $this->_redirectUrl($backUrl);
             } else {
@@ -65,10 +65,10 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
                 ->setPrice($product->getFinalPrice())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
             $model->save();
-            $session->addSuccess($this->__('You saved the alert subscription.'));
+            $session->addSuccess(__('You saved the alert subscription.'));
         }
         catch (Exception $e) {
-            $session->addException($e, $this->__('Unable to update the alert subscription.'));
+            $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirectReferer();
     }
@@ -86,7 +86,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
 
         if (!$product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId)) {
             /* @var $product Magento_Catalog_Model_Product */
-            $session->addError($this->__('There are not enough parameters.'));
+            $session->addError(__('There are not enough parameters.'));
             $this->_redirectUrl($backUrl);
             return ;
         }
@@ -97,10 +97,10 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
                 ->setProductId($product->getId())
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
             $model->save();
-            $session->addSuccess($this->__('Alert subscription has been saved.'));
+            $session->addSuccess(__('Alert subscription has been saved.'));
         }
         catch (Exception $e) {
-            $session->addException($e, $this->__('Unable to update the alert subscription.'));
+            $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirectReferer();
     }

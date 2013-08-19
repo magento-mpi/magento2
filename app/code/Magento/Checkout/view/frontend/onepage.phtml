@@ -13,7 +13,7 @@ $_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
 $_registerParam = $this->getRequest()->getParam('register');
 ?>
 <div class="page-title">
-    <h1><?php echo $this->__('Checkout') ?></h1>
+    <h1><?php echo __('Checkout') ?></h1>
 </div>
 <ol class="opc" id="checkoutSteps">
 <?php $i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): ?>
@@ -22,7 +22,7 @@ $_registerParam = $this->getRequest()->getParam('register');
         <div class="step-title">
             <span class="number"><?php echo $i ?></span>
             <h2><?php echo $_stepInfo['label'] ?></h2>
-            <a href="#"><?php echo $this->__('Edit') ?></a>
+            <a href="#"><?php echo __('Edit') ?></a>
         </div>
         <div id="checkout-step-<?php echo $_stepId ?>" class="step a-item" style="display:none;">
             <?php echo $this->getChildHtml($_stepId) ?>

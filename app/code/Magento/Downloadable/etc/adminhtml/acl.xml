@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Downloadable::downloadable" module="Magento_Downloadable" title="Downloadable Product Section" />
+                            <resource id="Magento_Downloadable::downloadable" title="Downloadable Product Section" />
                         </resource>
                     </resource>
                 </resource>

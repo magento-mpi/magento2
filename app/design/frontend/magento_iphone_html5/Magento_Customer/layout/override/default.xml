@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="Magento_Customer">
+            <action method="addLink" translate="label title">
                 <label>My Account</label>
                 <url helper="Magento_Customer_Helper_Data::getAccountUrl"/>
                 <title>My Account</title>
@@ -20,7 +20,7 @@
             </action>
         </reference>
         <reference name="account.links">
-            <action method="addLink" translate="label title before_text" module="Magento_Customer">
+            <action method="addLink" translate="label title before_text">
                 <label>Register</label>
                 <url helper="Magento_Customer_Helper_Data::getRegisterUrl"/>
                 <title>Register</title>

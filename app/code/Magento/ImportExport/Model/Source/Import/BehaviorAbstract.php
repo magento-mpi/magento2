@@ -63,7 +63,7 @@ abstract class Magento_ImportExport_Model_Source_Import_BehaviorAbstract
     public function toOptionArray()
     {
         $optionArray = array(array(
-            'label' => $this->_helper('Magento_ImportExport_Helper_Data')->__('-- Please Select --'),
+            'label' => __('-- Please Select --'),
             'value' => ''
         ));
         $options = $this->toArray();

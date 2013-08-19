@@ -39,7 +39,7 @@ class Magento_Backend_Block_System_Config_Form_Field_File extends Magento_Data_F
     {
         $html = '';
         if ((string)$this->getValue()) {
-            $label = Mage::helper('Magento_Backend_Helper_Data')->__('Delete File');
+            $label = __('Delete File');
             $html .= '<div>' . $this->getValue() . ' ';
             $html .= '<input type="checkbox" name="' . parent::getName()
                 . '[delete]" value="1" class="checkbox" id="'

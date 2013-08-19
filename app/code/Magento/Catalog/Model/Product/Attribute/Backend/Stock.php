@@ -81,7 +81,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
         $value = $object->getData($attrCode);
         if (!empty($value['qty']) && !preg_match('/^-?\d*(\.|,)?\d{0,4}$/i', $value['qty'])) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Please enter a valid number in this field.')
+                __('Please enter a valid number in this field.')
             );
         }
         return true;

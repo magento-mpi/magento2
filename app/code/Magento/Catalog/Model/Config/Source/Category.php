@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Config_Source_Category implements Magento_Core_Model
 
         if ($addEmpty) {
             $options[] = array(
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('-- Please Select a Category --'),
+                'label' => __('-- Please Select a Category --'),
                 'value' => ''
             );
         }

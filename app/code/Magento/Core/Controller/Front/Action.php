@@ -38,17 +38,4 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
         }
         return $this;
     }
-
-    /**
-     * Translate a phrase
-     *
-     * @return string
-     */
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
-        array_unshift($args, $expr);
-        return $this->_objectManager->get('Magento_Core_Model_Translate')->translate($args);
-    }
 }

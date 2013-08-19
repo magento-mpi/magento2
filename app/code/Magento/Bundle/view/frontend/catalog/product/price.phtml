@@ -41,10 +41,10 @@ if ($_product->getPriceType() == 1) {
 <div class="price-box">
         <?php if ($_product->getPriceView()): ?>
             <p class="minimal-price">
-                <span class="price-label"><?php echo $this->__('As low as') ?>:</span>
+                <span class="price-label"><?php echo __('As low as') ?>:</span>
                 <?php if ($this->displayBothPrices()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                        <span class="label"><?php echo __('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
                     </span>
                     <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
@@ -63,7 +63,7 @@ if ($_product->getPriceType() == 1) {
                         </small>)</span>
                     <?php endif; ?>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                        <span class="label"><?php echo __('Incl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceInclTax) ?>
                     </span>
             <?php else: ?>
@@ -91,10 +91,10 @@ if ($_product->getPriceType() == 1) {
         <?php else: ?>
             <?php if ($_minimalPriceTax <> $_maximalPriceTax): ?>
             <p class="price-from">
-                <span class="price-label"><?php echo $this->__('From') ?>:</span>
+                <span class="price-label"><?php echo __('From') ?>:</span>
                 <?php if ($this->displayBothPrices()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                        <span class="label"><?php echo __('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
                     </span>
                     <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
@@ -113,7 +113,7 @@ if ($_product->getPriceType() == 1) {
                         </small>)</span>
                     <?php endif; ?>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                        <span class="label"><?php echo __('Incl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceInclTax) ?>
                     </span>
                 <?php else: ?>
@@ -150,10 +150,10 @@ if ($_product->getPriceType() == 1) {
                     }
                 ?>
                 <p class="price-to">
-                    <span class="price-label"><?php echo $this->__('To') ?>:</span>
+                    <span class="price-label"><?php echo __('To') ?>:</span>
                     <?php if ($this->displayBothPrices()): ?>
                         <span class="price-excluding-tax">
-                            <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                            <span class="label"><?php echo __('Excl. Tax:') ?></span>
                             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_maximalPriceTax) ?>
                         </span>
                         <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
@@ -172,7 +172,7 @@ if ($_product->getPriceType() == 1) {
                             </small>)</span>
                         <?php endif; ?>
                         <span class="price-including-tax">
-                            <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax') ?></span>
+                            <span class="label"><?php echo __('Incl. Tax') ?></span>
                             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_maximalPriceInclTax) ?>
                         </span>
                     <?php else: ?>
@@ -200,7 +200,7 @@ if ($_product->getPriceType() == 1) {
             <?php else: ?>
                 <?php if ($this->displayBothPrices()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                        <span class="label"><?php echo __('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
                     </span>
                     <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
@@ -219,7 +219,7 @@ if ($_product->getPriceType() == 1) {
                         </small>)</span>
                     <?php endif; ?>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                        <span class="label"><?php echo __('Incl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceInclTax) ?>
                     </span>
                 <?php else: ?>

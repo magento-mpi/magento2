@@ -33,10 +33,10 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
     protected function _validateRequestPath($requestPath)
     {
         if (strpos($requestPath, '//') !== false) {
-            throw new Exception($this->__('Two and more slashes together are not permitted in request path'), self::VERR_MANYSLASHES);
+            throw new Exception(__('Two and more slashes together are not permitted in request path'), self::VERR_MANYSLASHES);
         }
         if (strpos($requestPath, '#') !== false) {
-            throw new Exception($this->__('Anchor symbol (#) is not supported in request path'), self::VERR_ANCHOR);
+            throw new Exception(__('Anchor symbol (#) is not supported in request path'), self::VERR_ANCHOR);
         }
         return true;
     }
@@ -71,9 +71,9 @@ class Magento_Core_Helper_Url_Rewrite extends Magento_Core_Helper_Abstract
             // Make message saying about suffix, not request path
             switch ($e->getCode()) {
                 case self::VERR_MANYSLASHES:
-                    Mage::throwException($this->__('Two and more slashes together are not permitted in url rewrite suffix'));
+                    Mage::throwException(__('Two and more slashes together are not permitted in url rewrite suffix'));
                 case self::VERR_ANCHOR:
-                    Mage::throwException($this->__('Anchor symbol (#) is not supported in url rewrite suffix'));
+                    Mage::throwException(__('Anchor symbol (#) is not supported in url rewrite suffix'));
             }
         }
         return true;

@@ -41,6 +41,6 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit extends Magento_Backend_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_ImportExport_Helper_Data')->__('Export');
+        return __('Export');
     }
 }

@@ -33,7 +33,7 @@ class Enterprise_Cms_Block_Adminhtml_Scope_Switcher extends Magento_Backend_Bloc
     {
         if (is_null($this->_options)) {
             $this->_options = parent::getStoreSelectOptions();
-            $this->_options['default']['label'] = Mage::helper('Enterprise_Cms_Helper_Data')->__('All Store Views');
+            $this->_options['default']['label'] = __('All Store Views');
         }
 
         return $this->_options;

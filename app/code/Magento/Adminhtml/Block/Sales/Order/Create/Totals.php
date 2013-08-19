@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Totals');
+        return __('Order Totals');
     }
 
     public function getHeaderCssClass()

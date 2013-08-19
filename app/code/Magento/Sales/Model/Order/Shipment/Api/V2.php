@@ -58,7 +58,7 @@ class Magento_Sales_Model_Order_Shipment_Api_V2 extends Magento_Sales_Model_Orde
          * Check shipment create availability
          */
         if (!$order->canShip()) {
-            $this->_fault('data_invalid', Mage::helper('Magento_Sales_Helper_Data')->__('We cannot create a shipment for this order.'));
+            $this->_fault('data_invalid', __('We cannot create a shipment for this order.'));
         }
         /* @var $shipment Magento_Sales_Model_Order_Shipment */
         $shipment = $order->prepareShipment($itemsQty);

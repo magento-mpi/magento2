@@ -141,7 +141,7 @@ class Enterprise_Checkout_Controller_Cart
 
         if ($removed) {
             $this->_getSession()->addSuccess(
-                $this->__('You removed the item.')
+                __('You removed the item.')
             );
         }
 
@@ -157,7 +157,7 @@ class Enterprise_Checkout_Controller_Cart
     {
         $this->_getFailedItemsCart()->removeAllAffectedItems();
         $this->_getSession()->addSuccess(
-            $this->__('You removed the items.')
+            __('You removed the items.')
         );
         $this->_redirect('checkout/cart');
     }
@@ -190,7 +190,7 @@ class Enterprise_Checkout_Controller_Cart
             $this->_redirect('*');
             return;
         } catch (Exception $e) {
-            $this->_getCustomerSession()->addError($this->__('You cannot configure a product.'));
+            $this->_getCustomerSession()->addError(__('You cannot configure a product.'));
             Mage::logException($e);
             $this->_redirect('*');
             return;
@@ -221,7 +221,7 @@ class Enterprise_Checkout_Controller_Cart
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
                     $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getName());
-                    $message = $this->__('You added %s to your shopping cart.', $productName);
+                    $message = __('You added %1 to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
             }
@@ -229,7 +229,7 @@ class Enterprise_Checkout_Controller_Cart
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('You cannot add a product.'));
+            $this->_getSession()->addError(__('You cannot add a product.'));
             Mage::logException($e);
             $hasError = true;
         }

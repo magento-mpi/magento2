@@ -20,11 +20,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Magento_Adminhtml">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportExcel</urlPath>
-                                <label translate="true" module="Magento_Adminhtml">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -32,7 +32,7 @@
                 <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.block.report.customer.wishlist.columnSet" as="grid.columnSet">
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="added_at">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Added</header>
+                            <header translate='true'>Added</header>
                             <index>added_at</index>
                             <type>datetime</type>
                             <header_css_class>col-period</header_css_class>
@@ -41,7 +41,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="customer_name">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Customer</header>
+                            <header translate='true'>Customer</header>
                             <index>customer_name</index>
                             <filter>0</filter>
                             <header_css_class>col-name</header_css_class>
@@ -50,7 +50,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="wishlist_name">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Wish List</header>
+                            <header translate='true'>Wish List</header>
                             <index>wishlist_name</index>
                             <header_css_class>col-whishlist-name</header_css_class>
                             <column_css_class>col-whishlist-name</column_css_class>
@@ -58,17 +58,17 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="visibility">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Status</header>
+                            <header translate='true'>Status</header>
                             <type>options</type>
                             <index>visibility</index>
                             <options>
                                 <public>
                                     <value>1</value>
-                                    <label translate="true" module="Enterprise_Wishlist">Public</label>
+                                    <label translate="true">Public</label>
                                 </public>
                                 <private>
                                     <value>0</value>
-                                    <label translate="true" module="Enterprise_Wishlist">Private</label>
+                                    <label translate="true">Private</label>
                                 </private>
                             </options>
                             <header_css_class>col-whishlist-status</header_css_class>
@@ -77,7 +77,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_name">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Product</header>
+                            <header translate='true'>Product</header>
                             <index>product_name</index>
                             <filter>0</filter>
                             <sortable>0</sortable>
@@ -87,7 +87,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_sku">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>SKU</header>
+                            <header translate='true'>SKU</header>
                             <index>product_sku</index>
                             <filter>0</filter>
                             <sortable>0</sortable>
@@ -97,7 +97,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="item_comment">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Comment</header>
+                            <header translate='true'>Comment</header>
                             <index>description</index>
                             <header_css_class>col-comment</header_css_class>
                             <column_css_class>col-comment</column_css_class>
@@ -105,7 +105,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column"  ifconfig="modules/CatalogInventory/active" as="item_qty" >
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Wish List Quantity</header>
+                            <header translate='true'>Wish List Quantity</header>
                             <index>item_qty</index>
                             <type>number</type>
                             <header_css_class>col-whishlist-qty</header_css_class>
@@ -114,7 +114,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" ifconfig="modules/CatalogInventory/active" as="product_qty">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Store Quantity</header>
+                            <header translate='true'>Store Quantity</header>
                             <index>product_qty</index>
                             <type>number</type>
                             <header_css_class>col-available-qty</header_css_class>
@@ -123,7 +123,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" ifconfig="modules/CatalogInventory/active" as="qty_diff">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Surplus / Deficit</header>
+                            <header translate='true'>Surplus / Deficit</header>
                             <index>qty_diff</index>
                             <type>number</type>
                             <header_css_class>col-qty-diff</header_css_class>
@@ -132,7 +132,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" ifconfig="modules/CatalogInventory/active" as="product_price">
                         <arguments>
-                            <header translate='true' module='Enterprise_Wishlist'>Price</header>
+                            <header translate='true'>Price</header>
                             <index>product_price</index>
                             <filter>0</filter>
                             <sortable>0</sortable>

@@ -20,17 +20,17 @@
         </reference>
         <reference name="left">
             <block type="Magento_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
-                <action method="addLink" translate="label" module="Magento_Customer">
+                <action method="addLink" translate="label">
                     <name>account</name>
                     <path>customer/account/</path>
                     <label>Account Dashboard</label>
                 </action>
-                <action method="addLink" translate="label" module="Magento_Customer">
+                <action method="addLink" translate="label">
                     <name>account_edit</name>
                     <path>customer/account/edit/</path>
                     <label>Account Information</label>
                 </action>
-                <action method="addLink" translate="label" module="Magento_Customer">
+                <action method="addLink" translate="label">
                     <name>address_book</name>
                     <path>customer/address/</path>
                     <label>Address Book</label>

@@ -11,12 +11,12 @@
 -->
 <config>
     <system>
-        <section id="enterprise_invitation" translate="label" module="Enterprise_Invitation" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="enterprise_invitation" translate="label" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Invitations</label>
             <class>separator-top</class>
             <tab>customer</tab>
             <resource>Enterprise_Invitation::config_enterprise_invitation</resource>
-            <group id="email" translate="label" module="Enterprise_Invitation" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="email" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Email</label>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Customer Invitation Email Sender</label>
@@ -27,7 +27,7 @@
                     <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
             </group>
-            <group id="general" translate="label" module="Enterprise_Invitation" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="general" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
                 <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Invitations Functionality</label>

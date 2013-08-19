@@ -21,7 +21,7 @@ class Magento_Checkout_Block_Onepage_Payment extends Magento_Checkout_Block_Onep
     protected function _construct()
     {
         $this->getCheckout()->setStepData('payment', array(
-            'label'     => $this->__('Payment Information'),
+            'label'     => __('Payment Information'),
             'is_show'   => $this->isShow()
         ));
         parent::_construct();

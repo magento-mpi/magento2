@@ -20,12 +20,12 @@ class Magento_AdminNotification_Block_Grid_Renderer_Actions
     {
         $readDetailsHtml = ($row->getUrl())
             ? '<a target="_blank" href="'. $row->getUrl() .'">' .
-                $this->helper('Magento_AdminNotification_Helper_Data')->__('Read Details') .'</a> | '
+                __('Read Details') .'</a> | '
             : '';
 
         $markAsReadHtml = (!$row->getIsRead())
             ? '<a href="'. $this->getUrl('*/*/markAsRead/', array('_current' => true, 'id' => $row->getId())) .'">' .
-                $this->helper('Magento_AdminNotification_Helper_Data')->__('Mark as Read') .'</a> | '
+                __('Mark as Read') .'</a> | '
             : '';
 
         $encodedUrl = $this->helper('Magento_Core_Helper_Url')->getEncodedUrl();
@@ -37,8 +37,8 @@ class Magento_AdminNotification_Block_Grid_Renderer_Actions
                 'id' => $row->getId(),
                 Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
             ),
-            $this->helper('Magento_AdminNotification_Helper_Data')->__('Are you sure?'),
-            $this->helper('Magento_AdminNotification_Helper_Data')->__('Remove')
+            __('Are you sure?'),
+            __('Remove')
         );
     }
 }

@@ -45,7 +45,7 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
                 $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
-                    Mage::throwException(Mage::helper('Magento_GoogleShopping_Helper_Data')->__("Google shopping only supports %d tax rates per product", self::RATES_MAX));
+                    Mage::throwException(__("Google shopping only supports %1 tax rates per product", self::RATES_MAX));
                 }
                 foreach ($regions as $region) {
                     $entry->addTax(array(

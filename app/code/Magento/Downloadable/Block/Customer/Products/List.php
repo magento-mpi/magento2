@@ -104,7 +104,7 @@ class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Blo
             $downloads = $item->getNumberOfDownloadsBought() - $item->getNumberOfDownloadsUsed();
             return $downloads;
         }
-        return Mage::helper('Magento_Downloadable_Helper_Data')->__('Unlimited');
+        return __('Unlimited');
     }
 
     /**

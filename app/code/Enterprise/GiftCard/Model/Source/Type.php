@@ -50,9 +50,9 @@ class Enterprise_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Att
     protected function _getValues()
     {
         return array(
-            Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Virtual'),
-            Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Physical'),
-            Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Combined'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => __('Physical'),
+            Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => __('Combined'),
         );
     }
 

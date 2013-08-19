@@ -17,9 +17,9 @@
         <div id="wishlists-select" class="split-button">
             <strong>
                 <span title="<?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?>"><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?></span>
-                <span class="item-count">(<?php echo $this->getCurrentWishlist()->getVisibility() ? $this->__('Public') : $this->__('Private'); ?>, <?php echo $this->getItemCount($this->getCurrentWishlist()) ?>)</span>
+                <span class="item-count">(<?php echo $this->getCurrentWishlist()->getVisibility() ? __('Public') : __('Private'); ?>, <?php echo $this->getItemCount($this->getCurrentWishlist()) ?>)</span>
             </strong>
-            <a class="change" href="#">(<span><?php echo $this->__('Change') ?></span>)</a>
+            <a class="change" href="#">(<span><?php echo __('Change') ?></span>)</a>
             <div class="list-container">
                 <ul>
                     <?php foreach($this->getWishlists() as $wishlist): ?>
@@ -28,12 +28,12 @@
                         <?php endif; ?>
                     <?php endforeach;?>
                     <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                        <li onclick="Enterprise.Wishlist.create('<?php echo $this->getCreateUrl();?>');" class="new"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
+                        <li onclick="Enterprise.Wishlist.create('<?php echo $this->getCreateUrl();?>');" class="new"><span title="<?php echo __('Create New Wishlist')?>"><?php echo __('Create New Wishlist')?></span></li>
                     <?php endif;?>
                 </ul>
             </div>
         </div>
-        <p><a href="#" onclick="Enterprise.Wishlist.edit('<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>', '<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($this->getCurrentWishlist()->getName());?>', <?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>); return false;" title="<?php echo $this->__('Edit Wishlist')?>" class="link-edit wishlist-edit"><?php echo $this->__('Edit')?></a></p>
+        <p><a href="#" onclick="Enterprise.Wishlist.edit('<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>', '<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($this->getCurrentWishlist()->getName());?>', <?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>); return false;" title="<?php echo __('Edit Wishlist')?>" class="link-edit wishlist-edit"><?php echo __('Edit')?></a></p>
     </div>
     <script type="text/javascript">
     //<![CDATA[

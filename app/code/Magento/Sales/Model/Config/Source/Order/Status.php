@@ -34,7 +34,7 @@ class Magento_Sales_Model_Config_Source_Order_Status implements Magento_Core_Mod
         $options = array();
         $options[] = array(
                'value' => '',
-               'label' => Mage::helper('Magento_Sales_Helper_Data')->__('-- Please Select --')
+               'label' => __('-- Please Select --')
             );
         foreach ($statuses as $code=>$label) {
             $options[] = array(

@@ -25,7 +25,7 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
     protected function _construct()
     {
         $result = parent::_construct();
-        $this->setRedirectMessage(Mage::helper('Magento_Paypal_Helper_Data')->__('You will be redirected to the PayPal website.'));
+        $this->setRedirectMessage(__('You will be redirected to the PayPal website.'));
         return $result;
     }
 

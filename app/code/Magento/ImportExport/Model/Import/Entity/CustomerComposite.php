@@ -132,8 +132,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         parent::__construct($data);
 
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
-            $this->_helper('Magento_ImportExport_Helper_Data')
-                ->__('Orphan rows that will be skipped due default row errors')
+            __('Orphan rows that will be skipped due default row errors')
         );
 
         $this->_availableBehaviors = array(
@@ -181,9 +180,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['address'];
             $this->_addressEntity
-                = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
-                      array('data' => $data)
-                  );
+                = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address', array('data' => $data));
             unset($data['data_source_model']);
         }
         $this->_initAddressAttributes();
@@ -318,8 +315,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         } else {
             $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
                 = $this->_currentWebsiteCode;
-            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL]
-                = $this->_currentEmail;
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
             $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
 
             return $this->_addressEntity->validateRow($rowData, $rowNumber);

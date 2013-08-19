@@ -12,25 +12,25 @@
 /**
  * Last order sidebar
  *
- * @see Magento_Sales_Block_Reorder_Sidebar
+ * @see Magento_Sale_Block_Reorder_Sidebar
  */
 ?>
 <?php $_items = $this->getItems()?>
 <?php if($_items): ?>
 <div class="block block-reorder">
     <div class="block-title">
-        <strong><span><?php echo $this->__('My Orders') ?></span></strong>
+        <strong><span><?php echo __('My Orders') ?></span></strong>
     </div>
     <form method="post" action="<?php echo $this->getFormActionUrl() ?>" id="reorder-validate-detail">
         <div class="block-content">
-            <p class="block-subtitle"><?php echo $this->__('Last Ordered Items') ?></p>
+            <p class="block-subtitle"><?php echo __('Last Ordered Items') ?></p>
             <ol id="cart-sidebar-reorder">
             <?php $_showAddButtonFlag = false ?>
             <?php foreach ($_items as $_item): ?>
                 <li class="item">
                     <?php if ($this->isItemAvailableForReorder($_item)): ?>
                         <?php $_showAddButtonFlag = true ?>
-                        <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Add to Cart') ?>"
+                        <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" title="<?php echo __('Add to Cart') ?>"
                                class="checkbox" data-validate='{"validate-one-checkbox-required-by-name": true}'/>
                     <?php endif; ?>
                     <p class="product-name"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></p>
@@ -41,9 +41,9 @@
             <div id="cart-sidebar-reorder-advice-container"></div>
             <div class="actions">
                 <?php if ($_showAddButtonFlag): ?>
-                    <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <button type="submit" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"><span><span><?php echo __('Add to Cart') ?></span></span></button>
                 <?php endif; ?>
-                <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo $this->__('View All'); ?></a>
+                <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('View All'); ?></a>
             </div>
         </div>
     </form>

@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="carriers">
-            <group id="dhl" translate="label" module="Magento_Usa" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="dhl" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>DHL (Deprecated)</label>
                 <field id="account" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Account Number</label>
@@ -165,7 +165,7 @@
                     <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
-            <group id="fedex" translate="label" module="Magento_Usa" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="fedex" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>FedEx</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for Checkout</label>
@@ -275,7 +275,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="ups" translate="label" module="Magento_Usa" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="ups" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>UPS</label>
                 <field id="access_license_number" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Access License Number</label>
@@ -414,7 +414,7 @@
                     <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
-            <group id="usps" translate="label" module="Magento_Usa" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="usps" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>USPS</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for Checkout</label>
@@ -541,7 +541,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="dhlint" translate="label" module="Magento_Usa" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="dhlint" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>DHL</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled for Checkout</label>

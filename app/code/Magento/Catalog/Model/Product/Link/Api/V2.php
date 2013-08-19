@@ -53,7 +53,7 @@ class Magento_Catalog_Model_Product_Link_Api_V2 extends Magento_Catalog_Model_Pr
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
         } catch (Exception $e) {
-            $this->_fault('data_invalid', Mage::helper('Magento_Catalog_Helper_Data')->__('The linked product does not exist.'));
+            $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
         return true;
@@ -95,7 +95,7 @@ class Magento_Catalog_Model_Product_Link_Api_V2 extends Magento_Catalog_Model_Pr
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
         } catch (Exception $e) {
-            $this->_fault('data_invalid', Mage::helper('Magento_Catalog_Helper_Data')->__('The linked product does not exist.'));
+            $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
         return true;

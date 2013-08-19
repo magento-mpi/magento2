@@ -79,13 +79,13 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
         }
 
         if (!$hashValidationResult) {
-            $this->_getCheckout()->addError($this->__('The hash is not valid.'));
+            $this->_getCheckout()->addError(__('The hash is not valid.'));
             return false;
         }
 
         $order = $this->_getOrder();
         if (!$order->getId()){
-            $this->_getCheckout()->addError($this->__('The order is not valid.'));
+            $this->_getCheckout()->addError(__('The order is not valid.'));
             return false;
         }
 
@@ -105,7 +105,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 $order->setState(
                     Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
                     Magento_Ogone_Model_Api::PENDING_OGONE_STATUS,
-                    Mage::helper('Magento_Ogone_Helper_Data')->__('Start Ogone Processing')
+                    __('Start Ogone Processing')
                 );
                 $order->save();
 
@@ -228,10 +228,10 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                     $this->_processDirectSale();
                     break;
                 default:
-                    throw new Exception (Mage::helper('Magento_Ogone_Helper_Data')->__('Can\'t detect Ogone payment action'));
+                    throw new Exception (__('Can\'t detect Ogone payment action'));
              }
         } catch(Exception $e) {
-            $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('The order cannot be saved.'));
+            $this->_getCheckout()->addError(__('The order cannot be saved.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -250,7 +250,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 $order->setState(
                     Magento_Sales_Model_Order::STATE_PROCESSING,
                     Magento_Ogone_Model_Api::WAITING_AUTHORIZATION,
-                    Mage::helper('Magento_Ogone_Helper_Data')->__('Authorization Waiting from Ogone')
+                    __('Authorization Waiting from Ogone')
                 );
                 $order->save();
             }elseif ($order->getState()==Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
@@ -259,14 +259,14 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                         $order->setState(
                             Magento_Sales_Model_Order::STATE_PROCESSING,
                             Magento_Ogone_Model_Api::PROCESSING_OGONE_STATUS,
-                            Mage::helper('Magento_Ogone_Helper_Data')->__('Processed by Ogone')
+                            __('Processed by Ogone')
                         );
                     }
                 } else {
                     $order->setState(
                         Magento_Sales_Model_Order::STATE_PROCESSING,
                         Magento_Ogone_Model_Api::PROCESSED_OGONE_STATUS,
-                        Mage::helper('Magento_Ogone_Helper_Data')->__('Processed by Ogone')
+                        __('Processed by Ogone')
                     );
                 }
 
@@ -288,7 +288,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
             $this->_redirect('checkout/onepage/success');
             return;
         } catch (Exception $e) {
-            $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('Order can\'t save'));
+            $this->_getCheckout()->addError(__('Order can\'t save'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -307,7 +307,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 $order->setState(
                     Magento_Sales_Model_Order::STATE_PROCESSING,
                     Magento_Ogone_Model_Api::WAITING_AUTHORIZATION,
-                    Mage::helper('Magento_Ogone_Helper_Data')->__('Authorization Waiting from Ogone')
+                    __('Authorization Waiting from Ogone')
                 );
             } else {
                 //to send new order email only when state is pending payment
@@ -317,14 +317,14 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 $order->setState(
                     Magento_Sales_Model_Order::STATE_PROCESSING,
                     Magento_Ogone_Model_Api::PROCESSED_OGONE_STATUS,
-                    Mage::helper('Magento_Ogone_Helper_Data')->__('Processed by Ogone')
+                    __('Processed by Ogone')
                 );
             }
             $order->save();
             $this->_redirect('checkout/onepage/success');
             return;
         } catch(Exception $e) {
-            $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('Order can\'t save'));
+            $this->_getCheckout()->addError(__('Order can\'t save'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -379,13 +379,13 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
         $exception = '';
         switch($params['STATUS']) {
             case Magento_Ogone_Model_Api::OGONE_PAYMENT_UNCERTAIN_STATUS :
-                $exception = Mage::helper('Magento_Ogone_Helper_Data')->__('Something went wrong during the payment process, and so the result is unpredictable.');
+                $exception = __('Something went wrong during the payment process, and so the result is unpredictable.');
                 break;
             case Magento_Ogone_Model_Api::OGONE_AUTH_UKNKOWN_STATUS :
-                $exception = Mage::helper('Magento_Ogone_Helper_Data')->__('Something went wrong during the authorization process, and so the result is unpredictable.');
+                $exception = __('Something went wrong during the authorization process, and so the result is unpredictable.');
                 break;
             default:
-                $exception = Mage::helper('Magento_Ogone_Helper_Data')->__('Unknown exception');
+                $exception = __('Unknown exception');
         }
 
         if (!empty($exception)) {
@@ -405,10 +405,10 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                 }
                 $order->save();
             }catch(Exception $e) {
-                $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('Something went wrong while saving this order.'));
+                $this->_getCheckout()->addError(__('Something went wrong while saving this order.'));
             }
         } else {
-            $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('Exception not defined'));
+            $this->_getCheckout()->addError(__('Exception not defined'));
         }
 
         $this->_redirect('checkout/onepage/success');
@@ -437,8 +437,8 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     protected function _declineProcess()
     {
         $status     = Magento_Ogone_Model_Api::DECLINE_OGONE_STATUS;
-        $comment    = Mage::helper('Magento_Ogone_Helper_Data')->__('Declined Order on Ogone side');
-        $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('The payment transaction has been declined.'));
+        $comment    = __('Declined Order on Ogone side');
+        $this->_getCheckout()->addError(__('The payment transaction has been declined.'));
         $this->_cancelOrder($status, $comment);
     }
 
@@ -468,7 +468,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     public function _cancelProcess()
     {
         $status     = Magento_Ogone_Model_Api::CANCEL_OGONE_STATUS;
-        $comment    = Mage::helper('Magento_Ogone_Helper_Data')->__('The order was canceled on the Ogone side.');
+        $comment    = __('The order was canceled on the Ogone side.');
         $this->_cancelOrder($status, $comment);
         return $this;
     }
@@ -490,7 +490,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
             $order->setState(Magento_Sales_Model_Order::STATE_CANCELED, $status, $comment);
             $order->save();
         }catch(Exception $e) {
-            $this->_getCheckout()->addError(Mage::helper('Magento_Ogone_Helper_Data')->__('Something went wrong while canceling this order.'));
+            $this->_getCheckout()->addError(__('Something went wrong while canceling this order.'));
         }
 
         $this->_redirect('checkout/cart');

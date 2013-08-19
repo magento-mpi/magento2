@@ -51,17 +51,17 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Magento
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Type Code'),
+            'header'    => __('Type Code'),
             'index'     => 'code',
         ));
 
         $this->addColumn('label', array(
-            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Label'),
+            'header'    => __('Label'),
             'index'     => 'label',
         ));
 
         $this->addColumn('store_id', array(
-            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
+            'header'    => __('Store View'),
             'index'     => 'store_id',
             'type'      => 'store'
         ));
@@ -71,24 +71,24 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Magento
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',
-            'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')
+            'label' => __('All Themes')
         ));
         $this->addColumn('theme', array(
-            'header'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Theme'),
+            'header'     => __('Theme'),
             'type'       => 'theme',
             'index'      => 'theme',
             'options'    => $design,
             'with_empty' => true,
-            'default'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')
+            'default'    => __('All Themes')
         ));
 
         $this->addColumn('is_system', array(
-            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('System'),
+            'header'    => __('System'),
             'index'     => 'is_system',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('Enterprise_Customer_Helper_Data')->__('No'),
-                1 => Mage::helper('Enterprise_Customer_Helper_Data')->__('Yes'),
+                0 => __('No'),
+                1 => __('Yes'),
             )
         ));
 

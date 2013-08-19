@@ -26,8 +26,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping extends Magento_Backe
     {
         $this->_controller = 'adminhtml_giftwrapping';
         $this->_blockGroup = 'Enterprise_GiftWrapping';
-        $this->_headerText = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Gift Wrapping');
-        $this->_addButtonLabel = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Add Gift Wrapping');
+        $this->_headerText = __('Gift Wrapping');
+        $this->_addButtonLabel = __('Add Gift Wrapping');
         parent::_construct();
     }
 }

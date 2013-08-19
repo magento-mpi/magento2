@@ -96,7 +96,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(Mage::helper('Magento_CatalogInventory_Helper_Data')->__('Undefined product type'));
+            Mage::throwException(__('Undefined product type'));
         }
         return $this->_typeId;
     }

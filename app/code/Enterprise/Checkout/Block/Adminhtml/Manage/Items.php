@@ -189,7 +189,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
             '<button type="button" class="scalable %s" %s><span><span><span>%s</span></span></span></button>',
             $class,
             $addAttributes,
-            Mage::helper('Magento_Sales_Helper_Data')->__('Configure')
+            __('Configure')
         );
     }
 

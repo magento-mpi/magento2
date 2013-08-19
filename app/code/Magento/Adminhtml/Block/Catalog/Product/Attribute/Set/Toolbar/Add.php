@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends 
     protected function _prepareLayout()
     {
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Save Attribute Set'),
+            'label'     => __('Save Attribute Set'),
             'class' => 'save',
             'data_attribute' => array(
                 'mage-init' => array(
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends 
             ),
         ));
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Back'),
+            'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class' => 'back'
         ));
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add extends 
 
     protected function _getHeader()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Attribute Set');
+        return __('Add New Attribute Set');
     }
 
     public function getSaveButtonHtml()

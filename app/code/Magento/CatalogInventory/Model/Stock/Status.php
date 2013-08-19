@@ -531,11 +531,11 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
         return array(
             array(
                 'value' => Magento_CatalogInventory_Model_Stock::STOCK_IN_STOCK,
-                'label' => Mage::helper('Magento_CatalogInventory_Helper_Data')->__('In Stock'),
+                'label' => __('In Stock'),
             ),
             array(
                 'value' => Magento_CatalogInventory_Model_Stock::STOCK_OUT_OF_STOCK,
-                'label' => Mage::helper('Magento_CatalogInventory_Helper_Data')->__('Out of Stock')
+                'label' => __('Out of Stock')
             ),
         );
     }

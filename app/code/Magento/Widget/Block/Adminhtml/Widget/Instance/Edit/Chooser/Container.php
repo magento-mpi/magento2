@@ -55,7 +55,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
             }
             asort($containers, SORT_STRING);
 
-            $this->addOption('', Mage::helper('Magento_Widget_Helper_Data')->__('-- Please Select --'));
+            $this->addOption('', __('-- Please Select --'));
             foreach ($containers as $containerName => $containerLabel) {
                 $this->addOption($containerName, $containerLabel);
             }

@@ -32,7 +32,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="points_balance">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reward">Balance</header>
+                            <header translate="true">Balance</header>
                             <type>number</type>
                             <index>points_balance</index>
                             <sortable>0</sortable>
@@ -42,7 +42,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="currency_amount">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reward">Amount Balance</header>
+                            <header translate="true">Amount Balance</header>
                             <type>currency</type>
                             <currency>base_currency_code</currency>
                             <rate>1</rate>
@@ -56,7 +56,7 @@
                         <arguments>
                             <type>number</type>
                             <index>points_delta</index>
-                            <header translate="true" module="Enterprise_Reward">Points</header>
+                            <header translate="true">Points</header>
                             <sortable>0</sortable>
                             <filter>0</filter>
                             <show_number_sign>1</show_number_sign>
@@ -69,7 +69,7 @@
                             <currency>base_currency_code</currency>
                             <rate>1</rate>
                             <index>currency_delta</index>
-                            <header translate="true" module="Enterprise_Reward">Amount</header>
+                            <header translate="true">Amount</header>
                             <sortable>0</sortable>
                             <filter>0</filter>
                             <show_number_sign>1</show_number_sign>
@@ -79,7 +79,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="rate">
                         <arguments>
                             <getter>getRateText</getter>
-                            <header translate="true" module="Enterprise_Reward">Rate</header>
+                            <header translate="true">Rate</header>
                             <sortable>0</sortable>
                             <filter>0</filter>
                             <width>1</width>
@@ -87,7 +87,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Website</header>
+                            <header translate="true">Website</header>
                             <type>options</type>
                             <options type="options">Enterprise_Reward_Model_Resource_Reward_History_Grid_Options_Websites</options>
                             <index>website_id</index>
@@ -97,7 +97,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="message">
                         <arguments>
                             <index>message</index>
-                            <header translate="true" module="Enterprise_Reward">Reason</header>
+                            <header translate="true">Reason</header>
                             <type>text</type>
                             <getter>getMessage</getter>
                             <sortable>0</sortable>
@@ -109,7 +109,7 @@
                         <arguments>
                             <type>datetime</type>
                             <index>created_at</index>
-                            <header translate="true" module="Enterprise_Reward">Created</header>
+                            <header translate="true">Created</header>
                             <sortable>0</sortable>
                             <align>left</align>
                         </arguments>
@@ -118,7 +118,7 @@
                         <arguments>
                             <type>datetime</type>
                             <getter>getExpiresAt</getter>
-                            <header translate="true" module="Enterprise_Reward">Expires</header>
+                            <header translate="true">Expires</header>
                             <sortable>0</sortable>
                             <filter>0</filter>
                             <align>left</align>
@@ -127,7 +127,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="comment">
                         <arguments>
                             <index>comment</index>
-                            <header translate="true" module="Enterprise_Reward">Comment</header>
+                            <header translate="true">Comment</header>
                             <sortable>0</sortable>
                             <filter>0</filter>
                             <align>left</align>

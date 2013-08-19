@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
         $form->setFieldNameSuffix('account');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Magento_Customer_Helper_Data')->__('Account Information')
+            'legend' => __('Account Information')
         ));
 
         $customer = Mage::registry('current_customer');
@@ -127,7 +127,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
         $attributes = $customerForm->getAttributes();
         foreach ($attributes as $attribute) {
             /* @var $attribute Magento_Eav_Model_Entity_Attribute */
-            $attributeLabel = Mage::helper('Magento_Customer_Helper_Data')->__($attribute->getFrontend()->getLabel());
+            $attributeLabel = __($attribute->getFrontend()->getLabel());
             $attribute->setFrontendLabel($attributeLabel);
             $attribute->unsIsVisible();
         }
@@ -216,7 +216,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
 
         // Prepare send welcome email checkbox
         $fieldset->addField('sendemail', 'checkbox', array(
-            'label' => Mage::helper('Magento_Customer_Helper_Data')->__('Send Welcome Email'),
+            'label' => __('Send Welcome Email'),
             'name'  => 'sendemail',
             'id'    => 'sendemail',
         ));
@@ -229,8 +229,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             }
             $prefix = $form->getHtmlIdPrefix();
 
-            $note = Mage::helper('Magento_Customer_Helper_Data')
-                ->__('Please select a website which contains store view');
+            $note = __('Please select a website which contains store view');
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
@@ -251,7 +250,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             $form->getElement('website_id')->setRenderer($renderer);
 
             $fieldset->addField('sendemail_store_id', 'select', array(
-                'label' => $this->helper('Magento_Customer_Helper_Data')->__('Send From'),
+                'label' => __('Send From'),
                 'name' => 'sendemail_store_id',
                 'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm()
             ));
@@ -296,7 +295,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
 
             $element = $fieldset->addField('confirmation', 'select', array(
                 'name'  => 'confirmation',
-                'label' => Mage::helper('Magento_Customer_Helper_Data')->__($confirmationAttr->getFrontendLabel()),
+                'label' => __($confirmationAttr->getFrontendLabel()),
             ));
             $element->setEntityAttribute($confirmationAttr);
             $element->setValues(array(
@@ -309,7 +308,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             if ($customer->getConfirmation() && $customer->getWebsiteId()) {
                 $fieldset->addField('sendemail', 'checkbox', array(
                     'name'  => 'sendemail',
-                    'label' => Mage::helper('Magento_Customer_Helper_Data')->__('Send Welcome Email after Confirmation')
+                    'label' => __('Send Welcome Email after Confirmation')
                 ));
                 $customer->setData('sendemail', '1');
             }
@@ -328,7 +327,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
         // Add password management fieldset
         $newFieldset = $form->addFieldset(
             'password_fieldset',
-            array('legend' => Mage::helper('Magento_Customer_Helper_Data')->__('Password Management'))
+            array('legend' => __('Password Management'))
         );
         if ($isNew) {
             // New customer password for existing customer
@@ -341,7 +340,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
         }
         $field = $newFieldset->addField($elementId, 'text',
             array(
-                'label' => Mage::helper('Magento_Customer_Helper_Data')->__($fieldLabel),
+                'label' => __($fieldLabel),
                 'name'  => $elementId,
                 'class' => $elementClass,
                 'required' => !$isNew,

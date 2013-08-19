@@ -35,7 +35,7 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend'=>Mage::helper('Magento_User_Helper_Data')->__('Account Information'))
+            array('legend'=>__('Account Information'))
         );
 
         if ($model->getUserId()) {
@@ -50,50 +50,50 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
 
         $fieldset->addField('username', 'text', array(
             'name'  => 'username',
-            'label' => Mage::helper('Magento_User_Helper_Data')->__('User Name'),
+            'label' => __('User Name'),
             'id'    => 'username',
-            'title' => Mage::helper('Magento_User_Helper_Data')->__('User Name'),
+            'title' => __('User Name'),
             'required' => true,
         ));
 
         $fieldset->addField('firstname', 'text', array(
             'name'  => 'firstname',
-            'label' => Mage::helper('Magento_User_Helper_Data')->__('First Name'),
+            'label' => __('First Name'),
             'id'    => 'firstname',
-            'title' => Mage::helper('Magento_User_Helper_Data')->__('First Name'),
+            'title' => __('First Name'),
             'required' => true,
         ));
 
         $fieldset->addField('lastname', 'text', array(
             'name'  => 'lastname',
-            'label' => Mage::helper('Magento_User_Helper_Data')->__('Last Name'),
+            'label' => __('Last Name'),
             'id'    => 'lastname',
-            'title' => Mage::helper('Magento_User_Helper_Data')->__('Last Name'),
+            'title' => __('Last Name'),
             'required' => true,
         ));
 
         $fieldset->addField('email', 'text', array(
             'name'  => 'email',
-            'label' => Mage::helper('Magento_User_Helper_Data')->__('Email'),
+            'label' => __('Email'),
             'id'    => 'customer_email',
-            'title' => Mage::helper('Magento_User_Helper_Data')->__('User Email'),
+            'title' => __('User Email'),
             'class' => 'required-entry validate-email',
             'required' => true,
         ));
 
         $isNewObject = $model->isObjectNew();
         if ($isNewObject) {
-            $passwordLabel = Mage::helper('Magento_User_Helper_Data')->__('Password');
+            $passwordLabel = __('Password');
         } else {
-            $passwordLabel = Mage::helper('Magento_User_Helper_Data')->__('New Password');
+            $passwordLabel = __('New Password');
         }
-        $confirmationLabel = Mage::helper('Magento_User_Helper_Data')->__('Password Confirmation');
+        $confirmationLabel = __('Password Confirmation');
         $this->_addPasswordFields($fieldset, $passwordLabel, $confirmationLabel, $isNewObject);
 
         $fieldset->addField('interface_locale', 'select', array(
             'name'   => 'interface_locale',
-            'label'  => Mage::helper('Magento_Backend_Helper_Data')->__('Interface Locale'),
-            'title'  => Mage::helper('Magento_Backend_Helper_Data')->__('Interface Locale'),
+            'label'  => __('Interface Locale'),
+            'title'  => __('Interface Locale'),
             'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
@@ -101,14 +101,14 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
         if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
                 'name'  	=> 'is_active',
-                'label' 	=> Mage::helper('Magento_User_Helper_Data')->__('This account is'),
+                'label' 	=> __('This account is'),
                 'id'    	=> 'is_active',
-                'title' 	=> Mage::helper('Magento_User_Helper_Data')->__('Account Status'),
+                'title' 	=> __('Account Status'),
                 'class' 	=> 'input-select',
                 'style'		=> 'width: 80px',
                 'options'	=> array(
-                    '1' => Mage::helper('Magento_User_Helper_Data')->__('Active'),
-                    '0' => Mage::helper('Magento_User_Helper_Data')->__('Inactive')
+                    '1' => __('Active'),
+                    '0' => __('Inactive')
                 ),
             ));
         }

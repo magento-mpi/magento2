@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Magento/Sales/_files/quote.php
+ * @magentoDataFixture Mage/Sales/_files/quote.php
  */
 class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -35,7 +35,7 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * Covers app/code/Magento/Checkout/Block/Onepage/Payment/Info.php
+     * Covers app/code/Mage/Checkout/Block/Onepage/Payment/Info.php
      */
     public function testProgressAction()
     {
@@ -50,8 +50,8 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_Cont
         $this->dispatch('checkout/onepage/progress');
         $html = $this->getResponse()->getBody();
         $this->assertContains('Checkout', $html);
-        $methodTitle = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()
-            ->getMethodInstance()->getTitle();
+        $methodTitle = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->getMethodInstance()
+            ->getTitle();
         $this->assertContains('<p>' . $methodTitle . '</p>', $html);
     }
 
@@ -66,15 +66,5 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_Cont
         $this->dispatch('checkout/onepage/review');
         $this->assertContains('Place Order', $this->getResponse()->getBody());
         $this->assertContains('checkout-review', $this->getResponse()->getBody());
-    }
-
-    /**
-     * @magentoConfigFixture current_store general/locale/code de_DE
-     */
-    public function testReviewActionLocalization()
-    {
-        $this->dispatch('checkout/onepage/review');
-        $this->assertNotContains('Place Order', $this->getResponse()->getBody());
-        $this->assertContains('Bestellung aufgeben', $this->getResponse()->getBody());
     }
 }

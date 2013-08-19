@@ -442,7 +442,7 @@ class Magento_Shipping_Model_Shipping
             || !Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
+                __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
             );
         }
 

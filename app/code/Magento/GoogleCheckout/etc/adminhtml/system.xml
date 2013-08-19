@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="google" translate="label" module="Magento_GoogleCheckout" type="text" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0">
+        <section id="google" translate="label" type="text" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Google API</label>
             <tab>general</tab>
             <resource>Magento_GoogleCheckout::google</resource>

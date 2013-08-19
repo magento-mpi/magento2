@@ -53,15 +53,10 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      */
     protected function _getModelDependencies()
     {
-        $mageHelper = $this->getMock('Magento_ImportExport_Helper_Data', array('__'), array(), '', false, false);
-        $mageHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $data = array(
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
-            'helpers'                      => array('Magento_ImportExport_Helper_Data' => $mageHelper),
+            'helpers'                      => array(),
             'json_helper'                  => 'not_used',
             'string_helper'                => new Magento_Core_Helper_String(
                 $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
@@ -427,14 +422,6 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testIsAttributeValid(array $data)
     {
-        $registryKey = '_helper/Magento_Core_Helper_String';
-        if (!Mage::registry($registryKey)) {
-            $helper = new Magento_Core_Helper_String(
-                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
-            );
-            Mage::register($registryKey, $helper);
-        }
-
         $attributeCode = $data['code'];
         $attributeParams = array(
             'type'      => $data['type'],
@@ -539,14 +526,6 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
                     'invalid_value' => '2012-13-29 21:12:59'
                 )
             ),
-            array(
-                array(
-                    'code'          => 'test7',
-                    'type'          => 'datetime',
-                    'valid_value'   => '02/29/2012 11:12:59',
-                    'invalid_value' => '32.12.2012'
-                )
-            )
         );
     }
 
@@ -581,7 +560,6 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      *
      * @covers Magento_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Cannot find required columns: %s
      */
     public function testValidateDataPermanentAttributes()
     {
@@ -601,7 +579,6 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      *
      * @covers Magento_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Columns number: "%s" have empty headers
      */
     public function testValidateDataEmptyColumnName()
     {
@@ -614,7 +591,6 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      *
      * @covers Magento_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Columns number: "%s" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
@@ -627,7 +603,6 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      *
      * @covers Magento_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Column names: "%s" are invalid
      */
     public function testValidateDataAttributeNames()
     {

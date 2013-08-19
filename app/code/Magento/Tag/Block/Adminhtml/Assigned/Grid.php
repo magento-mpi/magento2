@@ -142,7 +142,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
 
         $this->addColumn('entity_id',
             array(
-                'header'=> Mage::helper('Magento_Tag_Helper_Data')->__('ID'),
+                'header'=> __('ID'),
                 'width' => 50,
                 'sortable'  => true,
                 'type'  => 'number',
@@ -150,7 +150,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
         ));
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('Magento_Tag_Helper_Data')->__('Name'),
+                'header'=> __('Name'),
                 'index' => 'name',
         ));
 
@@ -158,14 +158,14 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('Magento_Tag_Helper_Data')->__('Name in %s', $store->getName()),
+                    'header'=> __('Name in %1', $store->getName()),
                     'index' => 'custom_name',
             ));
         }
 
         $this->addColumn('type',
             array(
-                'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Type'),
+                'header'    => __('Type'),
                 'width'     => 100,
                 'index'     => 'type_id',
                 'type'      => 'options',
@@ -179,7 +179,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
 
         $this->addColumn('set_name',
             array(
-                'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Attribute Set'),
+                'header'    => __('Attribute Set'),
                 'width'     => 100,
                 'index'     => 'attribute_set_id',
                 'type'      => 'options',
@@ -188,7 +188,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
 
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('Magento_Tag_Helper_Data')->__('SKU'),
+                'header'=> __('SKU'),
                 'width' => 80,
                 'index' => 'sku',
         ));
@@ -196,7 +196,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
         $store = $this->_getStore();
         $this->addColumn('price',
             array(
-                'header'        => Mage::helper('Magento_Tag_Helper_Data')->__('Price'),
+                'header'        => __('Price'),
                 'type'          => 'price',
                 'currency_code' => $store->getBaseCurrency()->getCode(),
                 'index'         => 'price',
@@ -204,7 +204,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
 
         $this->addColumn('visibility',
             array(
-                'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Visibility'),
+                'header'    => __('Visibility'),
                 'width'     => 100,
                 'index'     => 'visibility',
                 'type'      => 'options',
@@ -213,7 +213,7 @@ class Magento_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_
 
         $this->addColumn('status',
             array(
-                'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Status'),
+                'header'    => __('Status'),
                 'width'     => 70,
                 'index'     => 'status',
                 'type'      => 'options',

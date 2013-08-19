@@ -33,11 +33,6 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     protected $_entity;
 
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_translationHelper;
-
-    /**
      * Request Scope name
      *
      * @var string
@@ -74,17 +69,6 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     protected $_dateFilterFormat;
 
     /**
-     * Constructor
-     *
-     * @param array $arguments
-     */
-    public function __construct(array $arguments = array())
-    {
-        $this->_translationHelper = isset($arguments['translationHelper'])
-            ? $arguments['translationHelper'] : Mage::helper('Magento_Eav_Helper_Data');
-    }
-
-    /**
      * Set attribute instance
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -105,7 +89,7 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     public function getAttribute()
     {
         if (!$this->_attribite) {
-            Mage::throwException($this->_translationHelper->__('Attribute object is undefined'));
+            Mage::throwException(__('Attribute object is undefined'));
         }
         return $this->_attribite;
     }
@@ -155,7 +139,7 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     public function getEntity()
     {
         if (!$this->_entity) {
-            Mage::throwException($this->_translationHelper->__('Entity object is undefined'));
+            Mage::throwException(__('Entity object is undefined'));
         }
         return $this->_entity;
     }
@@ -290,15 +274,15 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
                 case 'alphanumeric':
                     $validator = new Zend_Validate_Alnum(true);
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        __('"%1" invalid type entered.', $label),
                         Zend_Validate_Alnum::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" contains non-alphabetic or non-numeric characters.', $label),
+                        __('"%1" contains non-alphabetic or non-numeric characters.', $label),
                         Zend_Validate_Alnum::NOT_ALNUM
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is an empty string.', $label),
+                        __('"%1" is an empty string.', $label),
                         Zend_Validate_Alnum::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -308,15 +292,15 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
                 case 'numeric':
                     $validator = new Zend_Validate_Digits();
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        __('"%1" invalid type entered.', $label),
                         Zend_Validate_Digits::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" contains non-numeric characters.', $label),
+                        __('"%1" contains non-numeric characters.', $label),
                         Zend_Validate_Digits::NOT_DIGITS
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is an empty string.', $label),
+                        __('"%1" is an empty string.', $label),
                         Zend_Validate_Digits::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -326,15 +310,15 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
                 case 'alpha':
                     $validator = new Zend_Validate_Alpha(true);
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        __('"%1" invalid type entered.', $label),
                         Zend_Validate_Alpha::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" contains non-alphabetic characters.', $label),
+                        __('"%1" contains non-alphabetic characters.', $label),
                         Zend_Validate_Alpha::NOT_ALPHA
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is an empty string.', $label),
+                        __('"%1" is an empty string.', $label),
                         Zend_Validate_Alpha::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -343,85 +327,85 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
                     break;
                 case 'email':
         /**
-        $this->__("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded")
-        $this->__("Invalid type given. String expected")
-        $this->__("'%value%' appears to be a DNS hostname but contains a dash in an invalid position")
-        $this->__("'%value%' does not match the expected structure for a DNS hostname")
-        $this->__("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'")
-        $this->__("'%value%' does not appear to be a valid local network name")
-        $this->__("'%value%' does not appear to be a valid URI hostname")
-        $this->__("'%value%' appears to be an IP address, but IP addresses are not allowed")
-        $this->__("'%value%' appears to be a local network name but local network names are not allowed")
-        $this->__("'%value%' appears to be a DNS hostname but cannot extract TLD part")
-        $this->__("'%value%' appears to be a DNS hostname but cannot match TLD against known list")
+        __("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded")
+        __("Invalid type given. String expected")
+        __("'%value%' appears to be a DNS hostname but contains a dash in an invalid position")
+        __("'%value%' does not match the expected structure for a DNS hostname")
+        __("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'")
+        __("'%value%' does not appear to be a valid local network name")
+        __("'%value%' does not appear to be a valid URI hostname")
+        __("'%value%' appears to be an IP address, but IP addresses are not allowed")
+        __("'%value%' appears to be a local network name but local network names are not allowed")
+        __("'%value%' appears to be a DNS hostname but cannot extract TLD part")
+        __("'%value%' appears to be a DNS hostname but cannot match TLD against known list")
         */
                     $validator = new Zend_Validate_EmailAddress();
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        __('"%1" invalid type entered.', $label),
                         Zend_Validate_EmailAddress::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        __('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_FORMAT
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid hostname.', $label),
+                        __('"%1" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_HOSTNAME
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid hostname.', $label),
+                        __('"%1" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid hostname.', $label),
+                        __('"%1" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        __('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::DOT_ATOM
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        __('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::QUOTED_STRING
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        __('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_LOCAL_PART
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" exceeds the allowed length.', $label),
+                        __('"%1" exceeds the allowed length.', $label),
                         Zend_Validate_EmailAddress::LENGTH_EXCEEDED
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be an IP address, but IP addresses are not allowed."),
+                        __("'%value%' appears to be an IP address, but IP addresses are not allowed."),
                         Zend_Validate_Hostname::IP_ADDRESS_NOT_ALLOWED
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be a DNS hostname but cannot match TLD against known list."),
+                        __("'%value%' appears to be a DNS hostname but cannot match TLD against known list."),
                         Zend_Validate_Hostname::UNKNOWN_TLD
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be a DNS hostname but contains a dash in an invalid position."),
+                        __("'%value%' appears to be a DNS hostname but contains a dash in an invalid position."),
                         Zend_Validate_Hostname::INVALID_DASH
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'."),
+                        __("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'."),
                         Zend_Validate_Hostname::INVALID_HOSTNAME_SCHEMA
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be a DNS hostname but cannot extract TLD part."),
+                        __("'%value%' appears to be a DNS hostname but cannot extract TLD part."),
                         Zend_Validate_Hostname::UNDECIPHERABLE_TLD
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' does not appear to be a valid local network name."),
+                        __("'%value%' does not appear to be a valid local network name."),
                         Zend_Validate_Hostname::INVALID_LOCAL_NAME
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be a local network name but local network names are not allowed."),
+                        __("'%value%' appears to be a local network name but local network names are not allowed."),
                         Zend_Validate_Hostname::LOCAL_NAME_NOT_ALLOWED
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded."),
+                        __("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded."),
                         Zend_Validate_Hostname::CANNOT_DECODE_PUNYCODE
                     );
                     if (!$validator->isValid($value)) {
@@ -431,25 +415,25 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
                 case 'url':
                     $parsedUrl = parse_url($value);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
-                        return array($this->_translationHelper->__('"%s" is not a valid URL.', $label));
+                        return array(__('"%1" is not a valid URL.', $label));
                     }
                     $validator = new Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
-                        return array($this->_translationHelper->__('"%s" is not a valid URL.', $label));
+                        return array(__('"%1" is not a valid URL.', $label));
                     }
                     break;
                 case 'date':
                     $validator = new Zend_Validate_Date(Magento_Date::DATE_INTERNAL_FORMAT);
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        __('"%1" invalid type entered.', $label),
                         Zend_Validate_Date::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid date.', $label),
+                        __('"%1" is not a valid date.', $label),
                         Zend_Validate_Date::INVALID_DATE
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" does not fit the entered date format.', $label),
+                        __('"%1" does not fit the entered date format.', $label),
                         Zend_Validate_Date::FALSEFORMAT
                     );
                     if (!$validator->isValid($value)) {

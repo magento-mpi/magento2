@@ -33,13 +33,13 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit extends Magento_Adminhtml_Block_W
         }
 
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/poll/edit', array('id' => $answerData->getPollId(), 'tab' => 'answers_section')) . '\');');
-        $this->_updateButton('save', 'label', Mage::helper('Magento_Poll_Helper_Data')->__('Save Answer'));
-        $this->_updateButton('delete', 'label', Mage::helper('Magento_Poll_Helper_Data')->__('Delete Answer'));
+        $this->_updateButton('save', 'label', __('Save Answer'));
+        $this->_updateButton('delete', 'label', __('Delete Answer'));
     }
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Poll_Helper_Data')->__("Edit Answer '%s'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
+        return __("Edit Answer '%1'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
     }
 
 }

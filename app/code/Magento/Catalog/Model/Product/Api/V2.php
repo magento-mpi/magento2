@@ -151,9 +151,9 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
                 $strErrors = array();
                 foreach ($errors as $code => $error) {
                     if ($error === true) {
-                        $error = Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct the value for "%s".', $code);
+                        $error = __('Please correct the value for "%1".', $code);
                     } else {
-                        $error = Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct the value for "%s": %s',
+                        $error = __('Please correct the value for "%1": %2',
                             $code, $error);
                     }
                     $strErrors[] = $error;

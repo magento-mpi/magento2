@@ -87,11 +87,11 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {
-            $html .= Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]');
+            $html .= __('[GLOBAL]');
         } elseif ($element->getScope() == 'website') {
-            $html .= Mage::helper('Magento_Adminhtml_Helper_Data')->__('[WEBSITE]');
+            $html .= __('[WEBSITE]');
         } elseif ($element->getScope() == 'store') {
-            $html .= Mage::helper('Magento_Adminhtml_Helper_Data')->__('[STORE VIEW]');
+            $html .= __('[STORE VIEW]');
         }
 
         return $html;

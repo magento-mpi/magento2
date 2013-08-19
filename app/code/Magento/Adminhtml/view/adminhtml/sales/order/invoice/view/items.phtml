@@ -12,13 +12,13 @@
     <table cellspacing="0" class="data order-tables">
         <thead>
             <tr class="headings">
-                <th class="col-product"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Product') ?></span></th>
-                <th class="col-price"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Price') ?></span></th>
-                <th class="col-qty"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Qty') ?></span></th>
-                <th class="col-subtotal"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Subtotal') ?></span></th>
-                <th class="col-tax"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Tax Amount') ?></span></th>
-                <th class="col-discount"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Discount Amount') ?></span></th>
-                <th class="col-total last"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Row Total') ?></span></th>
+                <th class="col-product"><span><?php echo __('Product') ?></span></th>
+                <th class="col-price"><span><?php echo __('Price') ?></span></th>
+                <th class="col-qty"><span><?php echo __('Qty') ?></span></th>
+                <th class="col-subtotal"><span><?php echo __('Subtotal') ?></span></th>
+                <th class="col-tax"><span><?php echo __('Tax Amount') ?></span></th>
+                <th class="col-discount"><span><?php echo __('Discount Amount') ?></span></th>
+                <th class="col-total last"><span><?php echo __('Row Total') ?></span></th>
             </tr>
         </thead>
         <?php $_items = $this->getInvoice()->getAllItems() ?>

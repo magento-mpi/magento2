@@ -27,7 +27,7 @@ class Enterprise_Invitation_Model_Resource_Invitation extends Magento_Core_Model
         $this->_init('enterprise_invitation', 'invitation_id');
         $this->addUniqueField(array(
             'field' => array('customer_id', 'email'),
-            'title' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation for same email address')
+            'title' => __('Invitation for same email address')
         ));
     }
 

@@ -18,7 +18,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New extends Magento_Adminhtml_B
         $this->_mode = 'new';
 
         parent::_construct();
-        $this->_updateButton('save', 'label', Mage::helper('Magento_Sales_Helper_Data')->__('Save Status'));
+        $this->_updateButton('save', 'label', __('Save Status'));
         $this->_removeButton('delete');
     }
 
@@ -29,6 +29,6 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New extends Magento_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('New Order Status');
+        return __('New Order Status');
     }
 }

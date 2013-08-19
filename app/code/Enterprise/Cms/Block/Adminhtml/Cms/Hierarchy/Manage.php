@@ -68,7 +68,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminh
         $form->addField('scopes', 'multiselect', array(
             'name'      => 'scopes[]',
             'class'     => 'manage-select',
-            'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Manage Hierarchies'),
+            'title'     => __('Manage Hierarchies'),
             'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
         ));
 

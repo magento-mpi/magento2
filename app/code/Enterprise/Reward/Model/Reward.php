@@ -92,7 +92,7 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            Mage::throwException(Mage::helper('Enterprise_Reward_Helper_Data')->__('The action ID you enter must be a numerical integer.'));
+            Mage::throwException(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }

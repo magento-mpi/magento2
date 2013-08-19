@@ -27,11 +27,8 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit
 
     protected function setUp()
     {
-        $helper = $this->getMock(
-            'Magento_Webapi_Helper_Config',
-            array('__'),
-            array(Mage::getObjectManager()->get('Magento_Core_Helper_Context'))
-        );
+        $helper = Mage::getObjectManager()->get('Magento_Webapi_Helper_Config');
+
         $this->_model = new Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator($helper);
     }
 

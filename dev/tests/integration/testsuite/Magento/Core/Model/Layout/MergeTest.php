@@ -27,10 +27,10 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->_model->addPageHandles(array('catalog_product_view_type_configurable'));
         $this->_model->load();
         $expected = array(
-            'content'                         => 'Main Content Area',
-            'product.info.extrahint'          => 'Product View Extra Hint',
-            'product.info.configurable.extra' => 'Configurable Product Extra Info',
+            'content'                         => __('Main Content Area'),
+            'product.info.extrahint'          => __('Product View Extra Hint'),
+            'product.info.configurable.extra' => __('Configurable Product Extra Info'),
         );
-        $this->assertSame($expected, $this->_model->getContainers());
+        $this->assertEquals($expected, $this->_model->getContainers());
     }
 }

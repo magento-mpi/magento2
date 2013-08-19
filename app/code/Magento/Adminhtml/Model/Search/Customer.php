@@ -44,7 +44,7 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
         foreach ($collection->getItems() as $customer) {
             $arr[] = array(
                 'id'            => 'customer/1/'.$customer->getId(),
-                'type'          => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Customer'),
+                'type'          => __('Customer'),
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
                 'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(

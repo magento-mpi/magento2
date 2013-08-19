@@ -929,7 +929,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
+                __('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
             );
         }
 
@@ -959,9 +959,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
             $request = new Magento_Object(array('qty'=>$request));
         }
         if (!($request instanceof Magento_Object)) {
-            Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('We found an invalid request for adding product to quote.')
-            );
+            Mage::throwException(__('We found an invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
@@ -1108,9 +1106,7 @@ class Magento_Sales_Model_Quote extends Magento_Core_Model_Abstract
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('This is the wrong quote item id to update configuration.')
-            );
+            Mage::throwException(__('This is the wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 

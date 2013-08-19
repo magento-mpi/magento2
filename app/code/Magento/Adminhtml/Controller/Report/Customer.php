@@ -27,25 +27,25 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
 
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Reports'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Customers'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Customers')
+                __('Customers'),
+                __('Customers')
             );
         return $this;
     }
 
     public function accountsAction()
     {
-        $this->_title($this->__('New Accounts Report'));
+        $this->_title(__('New Accounts Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_accounts')
             ->_addBreadcrumb(
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('New Accounts'),
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('New Accounts')
+                __('New Accounts'),
+                __('New Accounts')
             )
             ->renderLayout();
     }
@@ -76,12 +76,12 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
 
     public function ordersAction()
     {
-        $this->_title($this->__('Order Count Report'));
+        $this->_title(__('Order Count Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_orders')
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Number of Orders'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Number of Orders'))
+            ->_addBreadcrumb(__('Customers by Number of Orders'),
+                __('Customers by Number of Orders'))
             ->renderLayout();
     }
 
@@ -111,12 +111,12 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
 
     public function totalsAction()
     {
-        $this->_title($this->__('Order Total Report'));
+        $this->_title(__('Order Total Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_totals')
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Orders Total'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Orders Total'))
+            ->_addBreadcrumb(__('Customers by Orders Total'),
+                __('Customers by Orders Total'))
             ->renderLayout();
     }
 

@@ -195,7 +195,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addException(
                     $e,
-                    $this->__('We cannot apply this gift card.')
+                    __('We cannot apply this gift card.')
                 );
             }
         }
@@ -214,7 +214,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addException(
                     $e,
-                    $this->__('We cannot remove this gift card.')
+                    __('We cannot remove this gift card.')
                 );
             }
         }
@@ -420,7 +420,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             $value = abs($salesEntity->getBaseGiftCardsAmount());
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Magento_Paypal_Model_Cart::TOTAL_DISCOUNT, $value,
-                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    __('Gift Card (%1)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }

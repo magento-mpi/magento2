@@ -31,7 +31,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate="true" module="Magento_Core">ID</header>
+                            <header translate="true">ID</header>
                             <width>60px</width>
                             <type>text</type>
                             <index>entity_id</index>
@@ -43,7 +43,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Magento_Core">Name</header>
+                            <header translate="true">Name</header>
                             <type>text</type>
                             <escape>1</escape>
                             <index>name</index>
@@ -54,7 +54,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate="true" module="Magento_Core">Price</header>
+                            <header translate="true">Price</header>
                             <type>currency</type>
                             <index>price</index>
                             <id>price</id>
@@ -64,7 +64,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="sku" name="admin.product.edit.tab.super.config.grid.sku">
                         <arguments>
-                            <header translate="true" module="Magento_Core">SKU</header>
+                            <header translate="true">SKU</header>
                             <type>text</type>
                             <escape>1</escape>
                             <index>sku</index>
@@ -75,7 +75,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="weight">
                         <arguments>
-                            <header translate="true" module="Magento_Core">Weight</header>
+                            <header translate="true">Weight</header>
                             <type>text</type>
                             <index>weight</index>
                             <id>weight</id>

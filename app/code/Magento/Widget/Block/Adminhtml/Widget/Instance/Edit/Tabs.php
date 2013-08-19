@@ -26,6 +26,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tabs extends Magento_A
         parent::_construct();
         $this->setId('widget_instace_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_Widget_Helper_Data')->__('Widget Instance'));
+        $this->setTitle(__('Widget Instance'));
     }
 }

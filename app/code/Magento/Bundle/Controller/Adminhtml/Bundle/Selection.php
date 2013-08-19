@@ -17,11 +17,6 @@
  */
 class Magento_Bundle_Controller_Adminhtml_Bundle_Selection extends Magento_Adminhtml_Controller_Action
 {
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Magento_Bundle');
-    }
-
     public function searchAction()
     {
         return $this->getResponse()->setBody(

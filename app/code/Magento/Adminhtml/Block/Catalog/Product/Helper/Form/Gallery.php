@@ -102,11 +102,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
         }
 
         if ($attribute->isScopeGlobal()) {
-            $html .= '<br/>' . Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]');
+            $html .= '<br/>' . __('[GLOBAL]');
         } elseif ($attribute->isScopeWebsite()) {
-            $html .= '<br/>' . Mage::helper('Magento_Adminhtml_Helper_Data')->__('[WEBSITE]');
+            $html .= '<br/>' . __('[WEBSITE]');
         } elseif ($attribute->isScopeStore()) {
-            $html .= '<br/>' . Mage::helper('Magento_Adminhtml_Helper_Data')->__('[STORE VIEW]');
+            $html .= '<br/>' . __('[STORE VIEW]');
         }
         return $html;
     }

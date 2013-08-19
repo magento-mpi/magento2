@@ -24,7 +24,7 @@ class Magento_Tag_Block_Adminhtml_Report_Popular_Detail extends Magento_Backend_
 
         $tag = Mage::getModel('Magento_Tag_Model_Tag')->load($this->getRequest()->getParam('id'));
 
-        $this->_headerText = Mage::helper('Magento_Tag_Helper_Data')->__('Tag "%s" details', $this->escapeHtml($tag->getName()));
+        $this->_headerText = __('Tag "%1" details', $this->escapeHtml($tag->getName()));
         parent::_construct();
         $this->_removeButton('add');
         $this->setBackUrl($this->getUrl('*/report_tag/popular/'));

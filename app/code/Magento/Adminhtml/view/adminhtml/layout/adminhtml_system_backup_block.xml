@@ -24,9 +24,9 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <delete>
-                                <label translate="true" module="Magento_Adminhtml">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Magento_Backup">Are you sure you want to delete the selected backup(s)?</confirm>
+                                <confirm translate="true">Are you sure you want to delete the selected backup(s)?</confirm>
                             </delete>
                         </options>
                     </arguments>
@@ -37,7 +37,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="time">
                         <arguments>
-                            <header translate="true" module="Magento_Backup">Time</header>
+                            <header translate="true">Time</header>
                             <index>date_object</index>
                             <type>datetime</type>
                             <width>200px</width>
@@ -45,7 +45,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_name">
                         <arguments>
-                            <header translate="true" module="Magento_Backup">Name</header>
+                            <header translate="true">Name</header>
                             <index>display_name</index>
                             <filter>0</filter>
                             <sortable>1</sortable>
@@ -54,7 +54,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="size">
                         <arguments>
-                            <header translate="true" module="Magento_Backup">Size(bytes)</header>
+                            <header translate="true">Size(bytes)</header>
                             <index>size</index>
                             <type>number</type>
                             <filter>0</filter>
@@ -63,7 +63,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <header translate="true" module="Magento_Backup">Type</header>
+                            <header translate="true">Type</header>
                             <index>type</index>
                             <type>options</type>
                             <options type="options">Magento_Backup_Model_Grid_Options</options>
@@ -72,7 +72,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="download">
                         <arguments>
-                            <header translate="true" module="Magento_Backup">Download</header>
+                            <header translate="true">Download</header>
                             <index>type</index>
                             <filter>0</filter>
                             <sortable>0</sortable>
@@ -82,7 +82,7 @@
                     </block>
                     <block type="Magento_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
                         <arguments>
-                            <header translate="true" module="Magento_Backup">Action</header>
+                            <header translate="true">Action</header>
                             <index>type</index>
                             <width>80px</width>
                             <filter>0</filter>
@@ -90,7 +90,7 @@
                             <type>action</type>
                             <actions>
                                 <rollback_action>
-                                    <caption translate="true" module="Magento_Backup">Rollback</caption>
+                                    <caption translate="true">Rollback</caption>
                                     <url>
                                         <base>#</base>
                                     </url>

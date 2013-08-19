@@ -26,7 +26,6 @@
         </xs:choice>
         <xs:attribute type="xs:string" name="name" use="required"/>
         <xs:attribute type="xs:string" name="translate" use="optional"/>
-        <xs:attribute type="xs:string" name="module" use="optional"/>
         <xs:attribute type="xs:string" name="instance" use="optional"/>
     </xs:complexType>
 </xs:schema>

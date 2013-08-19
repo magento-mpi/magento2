@@ -68,13 +68,13 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
         }
 
         $this->addChild('preview_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Preview Template'),
+            'label'     => __('Preview Template'),
             'onclick'   => 'queueControl.preview();',
             'class'     => 'preview'
         ));
 
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Save Newsletter'),
+            'label'     => __('Save Newsletter'),
             'class'     => 'save primary',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
         ));
 
         $this->addChild('save_and_resume', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Save and Resume'),
+            'label'     => __('Save and Resume'),
             'class'     => 'save',
             'data_attribute' => array(
                 'mage-init' => array(
@@ -102,12 +102,12 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
         ));
 
         $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Reset'),
+            'label'     => __('Reset'),
             'onclick'   => 'window.location = window.location'
         ));
 
         $this->addChild('back_button','Magento_Adminhtml_Block_Widget_Button', array(
-            'label'   => Mage::helper('Magento_Newsletter_Helper_Data')->__('Back'),
+            'label'   => __('Back'),
             'onclick' => "window.location.href = '" . $this->getUrl((
                 $this->getTemplateId() ? '*/newsletter_template/' : '*/*')) . "'",
             'class'   => 'action-back'
@@ -238,6 +238,6 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
      */
     public function getHeaderText()
     {
-        return ( $this->getIsPreview() ? Mage::helper('Magento_Newsletter_Helper_Data')->__('View Newsletter') : Mage::helper('Magento_Newsletter_Helper_Data')->__('Edit Newsletter'));
+        return ( $this->getIsPreview() ? __('View Newsletter') : __('Edit Newsletter'));
     }
 }

@@ -91,7 +91,7 @@ class Magento_ImportExport_Model_Export_Adapter_Csv extends Magento_ImportExport
     public function setHeaderCols(array $headerColumns)
     {
         if (null !== $this->_headerCols) {
-            Mage::throwException(Mage::helper('Magento_ImportExport_Helper_Data')->__('Header column names already set'));
+            Mage::throwException(__('Header column names already set'));
         }
         if ($headerColumns) {
             foreach ($headerColumns as $columnName) {

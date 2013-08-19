@@ -20,7 +20,7 @@ class Enterprise_Logging_Block_Adminhtml_Log extends Magento_Adminhtml_Block_Wid
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Logging_Helper_Data')->__('Admin Actions Log');
+        return __('Admin Actions Log');
     }
 
     /**

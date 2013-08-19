@@ -36,7 +36,7 @@ class Magento_Poll_Model_Resource_Poll_Answer extends Magento_Core_Model_Resourc
     {
         $this->_uniqueFields = array(array(
             'field' => array('answer_title', 'poll_id'),
-            'title' => Mage::helper('Magento_Poll_Helper_Data')->__('You already used this answer title.')
+            'title' => __('You already used this answer title.')
         ));
         return $this;
     }

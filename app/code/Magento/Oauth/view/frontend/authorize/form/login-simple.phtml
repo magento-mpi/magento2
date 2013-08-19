@@ -17,7 +17,7 @@
 <div class="content-container">
     <div class="login-box">
         <div class="page-title">
-            <h1><?php echo $this->__('Log In') ?></h1>
+            <h1><?php echo __('Log In') ?></h1>
         </div>
         <div class="form-box">
             <?php echo $this->getLayout()->renderElement('messages') ?>
@@ -25,7 +25,7 @@
             <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
                 <fieldset class="fieldset">
                     <h2 class="legend"><?php echo $this->getFormTitle() ?></h2>
-                    <p class="description"><?php echo $this->__('Log in to use <strong>%s</strong>', $this->getConsumer()->getName()) ?></p>
+                    <p class="description"><?php echo __('Log in to use <strong>%1</strong>', $this->getConsumer()->getName()) ?></p>
                     <div class="login-form simple">
                             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
                             <div class="input-box input-left">
@@ -37,17 +37,17 @@
                             <div class="clear"></div>
                             <div class="input-box input-right">
                                 <label for="login">
-                                    <em class="required">*</em>&nbsp;<?php echo $this->__('Password') ?>
+                                    <em class="required">*</em>&nbsp;<?php echo __('Password') ?>
                                 </label>
                                 <input type="password" id="login" name="login[password]" class="required-entry input-text"
                                        value=""/></div>
                             <div class="clear"></div>
                             <div class="form-buttons">
                                 <button type="submit" class="form-button"
-                                       title="<?php echo $this->__('Login') ?>"/><?php echo $this->__('Login') ?></button>
+                                       title="<?php echo __('Login') ?>"/><?php echo __('Login') ?></button>
                                 <button type="button" onclick="document.location.href='<?php echo $this->getRejectUrl(); ?>';"
-                                        title="<?php echo $this->__('Reject') ?>"><?php echo $this->__('Reject') ?></button>
-                                <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                                        title="<?php echo __('Reject') ?>"><?php echo __('Reject') ?></button>
+                                <p class="required"><?php echo __('* Required Fields') ?></p>
                             </div>
                         </div>
                     </fieldset>

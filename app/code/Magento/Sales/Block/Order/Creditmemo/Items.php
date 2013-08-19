@@ -66,7 +66,7 @@ class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Ite
         $comments = $this->getChildBlock('creditmemo_comments');
         if ($comments) {
             $comments->setEntity($creditmemo)
-                ->setTitle(Mage::helper('Magento_Sales_Helper_Data')->__('About Your Refund'));
+                ->setTitle(__('About Your Refund'));
             $html = $comments->toHtml();
         }
         return $html;

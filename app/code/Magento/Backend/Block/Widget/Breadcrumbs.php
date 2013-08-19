@@ -28,8 +28,8 @@ class Magento_Backend_Block_Widget_Breadcrumbs extends Magento_Backend_Block_Tem
 
     protected function _construct()
     {
-        $this->addLink(Mage::helper('Magento_Backend_Helper_Data')->__('Home'),
-            Mage::helper('Magento_Backend_Helper_Data')->__('Home'), $this->getUrl('*')
+        $this->addLink(__('Home'),
+            __('Home'), $this->getUrl('*')
         );
     }
 

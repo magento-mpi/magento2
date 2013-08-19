@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_attributes">
-                        <resource id="Magento_Rating::ratings" module="Magento_Rating" title="Ratings" sortOrder="60" />
+                        <resource id="Magento_Rating::ratings" title="Ratings" sortOrder="60" />
                     </resource>
                 </resource>
             </resource>

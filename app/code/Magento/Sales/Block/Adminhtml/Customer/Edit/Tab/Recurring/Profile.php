@@ -34,7 +34,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     public function getTabLabel()
     {
-        return $this->__('Recurring Billing Profiles (beta)');
+        return __('Recurring Billing Profiles (beta)');
     }
 
     /**
@@ -44,7 +44,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     public function getTabTitle()
     {
-        return $this->__('Recurring Billing Profiles (beta)');
+        return __('Recurring Billing Profiles (beta)');
     }
 
     /**

@@ -47,7 +47,7 @@
             <?php if (isset($shipItems[$_item->getId()])): ?>
                 <?php echo $shipItems[$_item->getId()]->getQty()*1 ?>
             <?php elseif ($_item->getIsVirtual()): ?>
-                <?php echo $this->__('N/A') ?>
+                <?php echo __('N/A') ?>
             <?php else: ?>
                 0
             <?php endif; ?>
@@ -86,7 +86,7 @@
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
         <?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
-            <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>" data-item-id="<?php echo $parentItem->getId() ?>"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Gift Message') ?></a>
+            <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>" data-item-id="<?php echo $parentItem->getId() ?>"><?php echo __('Gift Message') ?></a>
         <?php endif; ?>
     </td>
     <td>&nbsp;</td>

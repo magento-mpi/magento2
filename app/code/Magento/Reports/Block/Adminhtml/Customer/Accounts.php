@@ -23,7 +23,7 @@ class Magento_Reports_Block_Adminhtml_Customer_Accounts extends Magento_Backend_
     protected function _construct()
     {
         $this->_controller = 'report_customer_accounts';
-        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('New Accounts');
+        $this->_headerText = __('New Accounts');
         parent::_construct();
         $this->_removeButton('add');
     }

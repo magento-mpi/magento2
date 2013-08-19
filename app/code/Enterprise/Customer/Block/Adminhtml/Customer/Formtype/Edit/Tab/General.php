@@ -42,7 +42,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
 
         $form       = new Magento_Data_Form();
         $fieldset   = $form->addFieldset('general_fieldset', array(
-            'legend'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('General Information')
+            'legend'    => __('General Information')
         ));
 
         $fieldset->addField('continue_edit', 'hidden', array(
@@ -60,8 +60,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
 
         $fieldset->addField('code', 'text', array(
             'name'      => 'code',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Code'),
-            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Code'),
+            'label'     => __('Form Code'),
+            'title'     => __('Form Code'),
             'required'  => true,
             'class'     => 'validate-code',
             'disabled'  => true,
@@ -70,8 +70,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
 
         $fieldset->addField('label', 'text', array(
             'name'      => 'label',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Title'),
-            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Title'),
+            'label'     => __('Form Title'),
+            'title'     => __('Form Title'),
             'required'  => true,
             'value'     => $model->getLabel()
         ));
@@ -80,13 +80,13 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
         $label = Mage::getModel('Magento_Core_Model_Theme_Label');
         $options = $label->getLabelsCollection();
         array_unshift($options, array(
-            'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes'),
+            'label' => __('All Themes'),
             'value' => ''
         ));
         $fieldset->addField('theme', 'select', array(
             'name'      => 'theme',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('For Theme'),
-            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('For Theme'),
+            'label'     => __('For Theme'),
+            'title'     => __('For Theme'),
             'values'    => $options,
             'value'     => $model->getTheme(),
             'disabled'  => true
@@ -94,8 +94,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
 
         $fieldset->addField('store_id', 'select', array(
             'name'      => 'store_id',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
-            'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
+            'label'     => __('Store View'),
+            'title'     => __('Store View'),
             'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             'value'     => $model->getStoreId(),
             'disabled'  => true
@@ -113,7 +113,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('General');
+        return __('General');
     }
 
     /**
@@ -123,7 +123,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('General');
+        return __('General');
     }
 
     /**

@@ -36,7 +36,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     {
         $this->_uniqueFields = array(array(
             'field' => 'poll_title',
-            'title' => Mage::helper('Magento_Poll_Helper_Data')->__('Poll with the same question')
+            'title' => __('Poll with the same question')
         ));
         return $this;
     }

@@ -35,6 +35,6 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Magento_Backend_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Logging_Helper_Data')->__($this->getData('header_text'));
+        return __($this->getData('header_text'));
     }
 }

@@ -136,7 +136,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sal
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
                 Mage::throwException(
-                    Mage::helper('Magento_Sales_Helper_Data')->__('We don\'t have enough information to save the parent transaction ID.'));
+                    __('We don\'t have enough information to save the parent transaction ID.'));
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);
             if ($parentId) {

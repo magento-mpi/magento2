@@ -24,26 +24,26 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Magento_Admi
     protected function _prepareLayout()
     {
         $invitation = $this->getInvitation();
-        $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('View Invitation for %s (ID: %s)', $invitation->getEmail(), $invitation->getId());
+        $this->_headerText = __('View Invitation for %1 (ID: %2)', $invitation->getEmail(), $invitation->getId());
         $this->getLayout()->getBlock('page-title')->setPageTitle($this->_headerText);
         $this->_addButton('back', array(
-            'label' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Back'),
+            'label' => __('Back'),
             'onclick' => "setLocation('{$this->getUrl('*/*/')}')",
             'class' => 'back',
         ), -1);
         if ($invitation->canBeCanceled()) {
             $massCancelUrl = $this->getUrl('*/*/massCancel', array('_query' => array('invitations' => array($invitation->getId()))));
             $this->_addButton('cancel', array(
-                'label' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Discard Invitation'),
+                'label' => __('Discard Invitation'),
                 'onclick' => 'deleteConfirm(\''. $this->jsQuoteEscape(
-                            Mage::helper('Enterprise_Invitation_Helper_Data')->__('Are you sure you want to discard this invitation?')
+                            __('Are you sure you want to discard this invitation?')
                         ) . '\', \'' . $massCancelUrl . '\' )',
                 'class' => 'cancel'
             ), -1);
         }
         if ($invitation->canMessageBeUpdated()) {
             $this->_addButton('save_message_button', array(
-                'label'   => $this->helper('Enterprise_Invitation_Helper_Data')->__('Save Invitation'),
+                'label'   => __('Save Invitation'),
                 'data_attribute'  => array(
                     'mage-init' => array(
                         'button' => array('event' => 'save', 'target' => '#invitation-elements'),
@@ -54,7 +54,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Magento_Admi
         if ($invitation->canBeSent()) {
             $massResendUrl = $this->getUrl('*/*/massResend', array('_query' => http_build_query(array('invitations' => array($invitation->getId())))));
             $this->_addButton('resend', array(
-                'label' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Send Invitation'),
+                'label' => __('Send Invitation'),
                 'onclick' => "setLocation('{$massResendUrl}')",
             ), -1);
         }

@@ -21,7 +21,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer
     {
         $this->_controller = 'adminhtml_report_invitation_customer';
         $this->_blockGroup = 'Enterprise_Invitation';
-        $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Customers');
+        $this->_headerText = __('Customers');
         parent::_construct();
         $this->_removeButton('add');
     }

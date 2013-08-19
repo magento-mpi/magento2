@@ -137,7 +137,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
                     $collection->setInterval($from, $to);
                 }
                 catch (Exception $e) {
-                    $this->_errors[] = Mage::helper('Magento_Reports_Helper_Data')->__('Invalid date specified');
+                    $this->_errors[] = __('Invalid date specified');
                 }
             }
 
@@ -368,7 +368,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_
     protected function _prepareFilterButtons()
     {
         $this->addChild('refresh_button', 'Magento_Backend_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Refresh'),
+            'label'     => __('Refresh'),
             'onclick'   => "{$this->getJsObjectName()}.doFilter();",
             'class'     => 'task'
         ));

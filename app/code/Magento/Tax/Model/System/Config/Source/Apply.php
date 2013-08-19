@@ -17,11 +17,11 @@ class Magento_Tax_Model_System_Config_Source_Apply
         $this->_options = array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('Magento_Tax_Helper_Data')->__('Before Discount')
+                'label' => __('Before Discount')
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('Magento_Tax_Helper_Data')->__('After Discount')
+                'label' => __('After Discount')
             ),
         );
     }

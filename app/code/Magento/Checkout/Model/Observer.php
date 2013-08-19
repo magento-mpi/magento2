@@ -33,7 +33,7 @@ class Magento_Checkout_Model_Observer
         catch (Exception $e) {
             Mage::getSingleton('Magento_Checkout_Model_Session')->addException(
                 $e,
-                Mage::helper('Magento_Checkout_Helper_Data')->__('Load customer quote error')
+                __('Load customer quote error')
             );
         }
     }

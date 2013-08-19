@@ -88,13 +88,13 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
 
         $attributes = array_merge(
             array(
-                'title' => $this->__('Event'),
-                'registrants' => $this->__('Recipient')
+                'title' => __('Event'),
+                'registrants' => __('Recipient')
             ),
             $type->getListedAttributes(),
             array(
-                'customer_name' => $this->__('Registry owner'),
-                'message' => $this->__('Message')
+                'customer_name' => __('Registry owner'),
+                'message' => __('Message')
             )
         );
 

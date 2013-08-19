@@ -98,7 +98,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
         $model = Mage::getModel($class);
         if (!$model instanceof Magento_Sales_Model_Quote_Address_Total_Abstract) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('The address total model should be extended from Magento_Sales_Model_Quote_Address_Total_Abstract.')
+                __('The address total model should be extended from Magento_Sales_Model_Quote_Address_Total_Abstract.')
             );
         }
 

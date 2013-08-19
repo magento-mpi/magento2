@@ -405,14 +405,14 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
         $this->setChild('reset_filter_button',
             $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
                 ->setData(array(
-                'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Reset Filter'),
+                'label'     => __('Reset Filter'),
                 'onclick'   => $this->getJsObjectName().'.resetFilter()',
             ))
         );
         $this->setChild('search_button',
             $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
                 ->setData(array(
-                'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Search'),
+                'label'     => __('Search'),
                 'onclick'   => $this->getJsObjectName().'.doFilter()',
                 'class'   => 'task'
             ))

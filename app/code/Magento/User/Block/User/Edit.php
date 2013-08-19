@@ -25,17 +25,17 @@ class Magento_User_Block_User_Edit extends Magento_Backend_Block_Widget_Form_Con
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Magento_User_Helper_Data')->__('Save User'));
-        $this->_updateButton('delete', 'label', Mage::helper('Magento_User_Helper_Data')->__('Delete User'));
+        $this->_updateButton('save', 'label', __('Save User'));
+        $this->_updateButton('delete', 'label', __('Delete User'));
     }
 
     public function getHeaderText()
     {
         if (Mage::registry('permissions_user')->getId()) {
             $username = $this->escapeHtml(Mage::registry('permissions_user')->getUsername());
-            return Mage::helper('Magento_User_Helper_Data')->__("Edit User '%s'", $username);
+            return __("Edit User '%1'", $username);
         } else {
-            return Mage::helper('Magento_User_Helper_Data')->__('New User');
+            return __('New User');
         }
     }
 

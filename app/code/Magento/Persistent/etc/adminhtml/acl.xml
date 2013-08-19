@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Persistent::persistent" module="Magento_Persistent" title="Persistent Shopping Cart" sortOrder="60" />
+                            <resource id="Magento_Persistent::persistent" title="Persistent Shopping Cart" sortOrder="60" />
                         </resource>
                     </resource>
                 </resource>

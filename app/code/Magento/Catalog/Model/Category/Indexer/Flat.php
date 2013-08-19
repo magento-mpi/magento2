@@ -60,7 +60,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
      */
     public function getName()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Category Flat Data');
+        return __('Category Flat Data');
     }
 
     /**
@@ -70,7 +70,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
      */
     public function getDescription()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Reorganize EAV category structure to flat structure');
+        return __('Reorganize EAV category structure to flat structure');
     }
 
     /**

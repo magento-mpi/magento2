@@ -26,7 +26,7 @@ implements Magento_Adminhtml_Block_Widget_Tab_Interface
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Related Banners');
+        return __('Related Banners');
     }
 
     /**
@@ -36,7 +36,7 @@ implements Magento_Adminhtml_Block_Widget_Tab_Interface
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Related Banners');
+        return __('Related Banners');
     }
 
     /**

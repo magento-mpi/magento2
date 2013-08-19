@@ -25,16 +25,6 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_dataCollectionMock;
 
     /**
@@ -57,10 +47,6 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_urlBuilderMock = $this->getMock('Magento_Core_Model_UrlInterface');
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Magento_AdminNotification_Helper_Data', array(), array(), '', false);
-        $this->_helperFactoryMock->expects($this->any())->method('get')
-            ->with('Magento_AdminNotification_Helper_Data')->will($this->returnValue($this->_helperMock));
 
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
         $configFactoryMock = $this->getMock('Magento_Core_Model_Config_DataFactory', array('create'),
@@ -86,7 +72,6 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
         $arguments = array(
             'config' => $this->_configMock,
             'urlBuilder' => $this->_urlBuilderMock,
-            'helperFactory' => $this->_helperFactoryMock,
             'configDataFactory' => $configFactoryMock,
             'storeManager' => $this->_storeManagerMock,
         );
@@ -117,17 +102,14 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
             ->method('getUrl')
             ->with('adminhtml/system_config/edit', array('section' => 'web'))
             ->will($this->returnValue('http://some_url'));
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(1));
 
-        $this->assertStringEndsWith('http://some_url', $this->_model->getText());
+        $this->assertContains('http://some_url', (string)$this->_model->getText());
     }
 
     public function testGetConfigUrlWithoutSavedData()
     {
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValue(null));
         $this->_urlBuilderMock->expects($this->never())->method('getUrl');
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(1));
-        $this->assertEquals('', $this->_model->getText());
     }
 
     /**
@@ -152,9 +134,8 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
             ->method('getUrl')
             ->with('adminhtml/system_config/edit', array('section' => 'web', $urlParam => 'some_code'))
             ->will($this->returnValue('http://some_url'));
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(1));
 
-        $this->assertEquals('http://some_url', $this->_model->getText());
+        $this->assertContains('http://some_url', (string)$this->_model->getText());
     }
 
     public function getConfigUrlWithSavedDataForStoreScopeDataProvider()
@@ -191,12 +172,7 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
 
     public function testGetText()
     {
-
-        $expected = 'some text';
-        $this->_helperMock->expects($this->once())
-            ->method('__')
-            ->with($this->stringStartsWith('{{base_url}} is not recommended'))
-            ->will($this->returnValue('some text'));
-        $this->assertEquals($expected, $this->_model->getText());
+        $expected = '{{base_url}} is not recommended to use in a production environment';
+        $this->assertContains($expected, (string)$this->_model->getText());
     }
 }

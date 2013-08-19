@@ -12,10 +12,6 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
      * @var Enterprise_Reward_Model_Reward_Balance_Validator
      */
     protected $_model;
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -40,7 +36,6 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
     public function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Enterprise_Reward_Helper_Data', array(), array(), '', false);
         $this->_modelFactoryMock =
             $this->getMock('Enterprise_Reward_Model_RewardFactory', array('create'), array(), '', false);
         $this->_sessionMock = $this->getMock('Magento_Checkout_Model_Session',
@@ -49,7 +44,6 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
             $this->getMock('Magento_Sales_Model_Order', array('getRewardPointsBalance'), array(), '', false);
         $this->_model = new Enterprise_Reward_Model_Reward_Balance_Validator(
             $this->_storeManagerMock,
-            $this->_helperMock,
             $this->_modelFactoryMock,
             $this->_sessionMock
         );
@@ -69,7 +63,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
 
     /**
      * @expectedException Enterprise_Reward_Model_Reward_Balance_Exception
-     * @expectedExceptionMessage Not enough Reward Points to complete this Order.
+     * @expectedExceptionMessage You don't have enough reward points to pay for this purchase.
      */
     public function testValidateWhenBalanceNotEnoughToPlaceOrder()
     {
@@ -82,9 +76,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
         $reward->expects($this->once())->method('getPointsBalance')->will($this->returnValue(0.5));
         $this->_sessionMock->expects($this->once())->method('setUpdateSection')->with('payment-method');
         $this->_sessionMock->expects($this->once())->method('setGotoSection')->with('payment');
-        $this->_helperMock->expects(
-            $this->once())->method('__')->will($this->returnValue('Not enough Reward Points to complete this Order.')
-        );
+
         $this->_model->validate($this->_orderMock);
     }
 }

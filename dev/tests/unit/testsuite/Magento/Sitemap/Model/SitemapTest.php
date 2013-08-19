@@ -21,14 +21,10 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $helperMockCore = $this->getMock('Magento_Core_Helper_Data', array('__'), array(), '', false, false);
-        $helperMockCore->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $helperMockCore = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
         Mage::register('_helper/Magento_Core_Helper_Data', $helperMockCore, true);
 
         $helperMockSitemap = $this->getMock('Magento_Sitemap_Helper_Data', array(
-            '__',
             'getCategoryChangefreq',
             'getProductChangefreq',
             'getPageChangefreq',
@@ -40,9 +36,6 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             'getEnableSubmissionRobots'
          ), array(), '', false, false
         );
-        $helperMockSitemap->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
         $helperMockSitemap->expects($this->any())
             ->method('getCategoryChangefreq')
             ->will($this->returnValue('daily'));
@@ -109,7 +102,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * Check not exists sitemap path validation
      *
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Please create the specified folder "%s" before saving the sitemap.
+     * @expectedExceptionMessage Please create the specified folder "" before saving the sitemap.
      */
     public function testPathNotExists()
     {
@@ -134,7 +127,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * Check not writable sitemap path validation
      *
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Please make sure that "%s" is writable by the web-server.
+     * @expectedExceptionMessage Please make sure that "/" is writable by the web-server.
      */
     public function testPathNotWritable()
     {

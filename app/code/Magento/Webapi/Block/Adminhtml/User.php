@@ -26,7 +26,7 @@ class Magento_Webapi_Block_Adminhtml_User extends Magento_Backend_Block_Widget_G
     {
         parent::_construct();
 
-        $this->_headerText = $this->__('API Users');
-        $this->_updateButton('add', 'label', $this->__('Add New API User'));
+        $this->_headerText = __('API Users');
+        $this->_updateButton('add', 'label', __('Add New API User'));
     }
 }

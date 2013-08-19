@@ -14,7 +14,7 @@ class Magento_GoogleCheckout_Model_Source_Shipping_Units
     public function toOptionArray()
     {
         return array(
-            array('value' => 'IN', 'label' => Mage::helper('Magento_GoogleCheckout_Helper_Data')->__('Inches')),
+            array('value' => 'IN', 'label' => __('Inches')),
         );
     }
 }

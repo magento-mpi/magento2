@@ -17,7 +17,7 @@
 <?php foreach ($_cards as $_card): ?>
 <tr>
     <td <?php echo $this->getLabelProperties()?>>
-        <?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card (%s)', $_card->getCode()); ?>
+        <?php echo __('Gift Card (%1)', $_card->getCode()); ?>
     </td>
     <td <?php echo $this->getValueProperties()?>>-<?php echo $_order->formatPrice($_card->getAmount()) ?></td>
 </tr>
@@ -25,7 +25,7 @@
 <?php elseif ($_source->getGiftCardsAmount()>0): ?>
 <tr>
     <td <?php echo $this->getLabelProperties()?>>
-        <?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card'); ?>
+        <?php echo __('Gift Card'); ?>
     </td>
     <td <?php echo $this->getValueProperties()?>>-<?php echo $_order->formatPrice($_source->getGiftCardsAmount()) ?></td>
 </tr>

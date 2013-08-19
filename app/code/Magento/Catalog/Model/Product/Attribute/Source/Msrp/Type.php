@@ -43,15 +43,15 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('In Cart'),
+                    'label' => __('In Cart'),
                     'value' => self::TYPE_IN_CART
                 ),
                 array(
-                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Before Order Confirmation'),
+                    'label' => __('Before Order Confirmation'),
                     'value' => self::TYPE_BEFORE_ORDER_CONFIRM
                 ),
                 array(
-                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('On Gesture'),
+                    'label' => __('On Gesture'),
                     'value' => self::TYPE_ON_GESTURE
                 ),
             );

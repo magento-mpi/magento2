@@ -15,7 +15,7 @@ class Magento_AdminNotification_Block_Inbox extends Magento_Backend_Block_Widget
     {
         $this->_controller = 'adminhtml';
         $this->_blockGroup = 'Magento_AdminNotification';
-        $this->_headerText = $this->_helperFactory->get('Magento_AdminNotification_Helper_Data')->__('Messages Inbox');
+        $this->_headerText = __('Messages Inbox');
         parent::_construct();
     }
 

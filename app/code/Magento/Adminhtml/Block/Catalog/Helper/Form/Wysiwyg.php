@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
             $disabled = ($this->getDisabled() || $this->getReadonly());
             $html .= Mage::app()->getLayout()
                 ->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
-                    'label'   => Mage::helper('Magento_Catalog_Helper_Data')->__('WYSIWYG Editor'),
+                    'label'   => __('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',

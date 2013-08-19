@@ -27,22 +27,22 @@
             </block>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>view</name>
                 <path>*/*/view</path>
                 <label>Order Information</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>invoice</name>
                 <path>*/*/invoice</path>
                 <label>Invoices</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>shipment</name>
                 <path/>
                 <label>Shipments</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>creditmemo</name>
                 <path>*/*/creditmemo</path>
                 <label>Refunds</label>

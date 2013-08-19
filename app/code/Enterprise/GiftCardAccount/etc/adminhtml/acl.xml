@@ -16,13 +16,13 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Enterprise_GiftCardAccount::giftcardaccount" module="Enterprise_GiftCardAccount" title="Gift Card Accounts" />
+                            <resource id="Enterprise_GiftCardAccount::giftcardaccount" title="Gift Card Accounts" />
                         </resource>
                     </resource>
                 </resource>
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_CatalogRule::promo">
-                        <resource id="Enterprise_GiftCardAccount::customer_giftcardaccount" module="Enterprise_GiftCardAccount" title="Gift Card Accounts" sortOrder="40" />
+                        <resource id="Enterprise_GiftCardAccount::customer_giftcardaccount" title="Gift Card Accounts" sortOrder="40" />
                     </resource>
                 </resource>
             </resource>

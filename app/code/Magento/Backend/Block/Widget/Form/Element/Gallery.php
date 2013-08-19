@@ -48,13 +48,13 @@ class Magento_Backend_Block_Widget_Form_Element_Gallery extends Magento_Backend_
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento_Backend_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Delete'),
+            'label'     => __('Delete'),
             'onclick'   => "deleteImage(#image#)",
             'class' => 'delete'
         ));
 
         $this->addChild('add_button', 'Magento_Backend_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Add New Image'),
+            'label'     => __('Add New Image'),
             'onclick'   => 'addNewImage()',
             'class' => 'add'
         ));

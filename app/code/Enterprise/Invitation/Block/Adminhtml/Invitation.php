@@ -25,8 +25,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation extends Magento_Backend_B
     {
         $this->_controller = 'adminhtml_invitation';
         $this->_blockGroup = 'Enterprise_Invitation';
-        $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations');
-        $this->_addButtonLabel = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Add Invitations');
+        $this->_headerText = __('Invitations');
+        $this->_addButtonLabel = __('Add Invitations');
         parent::_construct();
     }
 

@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Report_Review_Customer extends Magento_Adminhtml_B
     protected function _construct()
     {
         $this->_controller = 'report_review_customer';
-        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Customers Reviews');
+        $this->_headerText = __('Customers Reviews');
         parent::_construct();
         $this->_removeButton('add');
     }

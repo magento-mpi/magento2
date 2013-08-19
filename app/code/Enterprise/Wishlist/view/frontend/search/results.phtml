@@ -11,7 +11,7 @@
 
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>
 <div class="fieldset">
-    <h2 class="legend"><?php echo $this->__('Search Results') ?></h2>
+    <h2 class="legend"><?php echo __('Search Results') ?></h2>
 </div>
 <?php echo $this->getChildHtml('pager') ?>
 <table class="data-table" id="wishlist-search-results">
@@ -20,9 +20,9 @@
     <col width="1" />
     <thead>
         <tr>
-            <th><?php echo $this->__('Name') ?></th>
-            <th><?php echo $this->__('Wish List Name') ?></th>
-            <th><?php echo $this->__('Actions') ?></th>
+            <th><?php echo __('Name') ?></th>
+            <th><?php echo __('Wish List Name') ?></th>
+            <th><?php echo __('Actions') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -30,7 +30,7 @@
         <tr>
             <td><span class="owner"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></span></td>
             <td><span class="item-name"><?php echo $this->escapeHtml($item->getName()) ?></span></td>
-            <td><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo $this->__('View') ?>"><?php echo $this->__('View') ?></a></td>
+            <td><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>"><?php echo __('View') ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
@@ -38,5 +38,5 @@
 <script type="text/javascript">(function($) {$('#wishlist-search-results').decorate('table')})(jQuery)</script>
 <?php echo $this->getChildHtml('pager') ?>
 <?php else: ?>
-    <p class="error-msg"><?php echo $this->__('Your search returned no results.') ?></p>
+    <p class="error-msg"><?php echo __('Your search returned no results.') ?></p>
 <?php endif; ?>

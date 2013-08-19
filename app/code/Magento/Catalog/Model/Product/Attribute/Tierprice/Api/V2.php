@@ -36,7 +36,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Magento_C
             if (!is_object($tierPrice)
                 || !isset($tierPrice->qty)
                 || !isset($tierPrice->price)) {
-                $this->_fault('data_invalid', Mage::helper('Magento_Catalog_Helper_Data')->__('Invalid Tier Prices'));
+                $this->_fault('data_invalid', __('Invalid Tier Prices'));
             }
 
             if (!isset($tierPrice->website) || $tierPrice->website == 'all') {
@@ -50,7 +50,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Magento_C
             }
 
             if (intval($tierPrice->website) > 0 && !in_array($tierPrice->website, $product->getWebsiteIds())) {
-                $this->_fault('data_invalid', Mage::helper('Magento_Catalog_Helper_Data')->__('We found invalid tier prices: the product is not associated with the requested website.'));
+                $this->_fault('data_invalid', __('We found invalid tier prices: the product is not associated with the requested website.'));
             }
 
             if (!isset($tierPrice->customer_group_id)) {

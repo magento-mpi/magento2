@@ -22,18 +22,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
     protected function _prepareLayout()
     {
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Back'),
+            'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
             'class' => 'back'
         ));
 
         $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Reset'),
+            'label'     => __('Reset'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
         ));
 
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Save'),
+            'label'     => __('Save'),
             'class'     => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(

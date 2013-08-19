@@ -46,7 +46,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Reports'), Mage::helper('Magento_Reports_Helper_Data')->__('Reports'));
+            ->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }
 
@@ -102,7 +102,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
         $refreshStatsLink = $this->getUrl('*/report_statistics');
         $directRefreshLink = $this->getUrl('*/report_statistics/refreshRecent', array('code' => $refreshCode));
 
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Last updated: %s. To refresh last day\'s <a href="%s">statistics</a>, click <a href="%s">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 }

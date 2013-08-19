@@ -16,7 +16,7 @@
         <?php endif; ?>
             <?php echo $this->getBlockHtml('formkey')?>
             <fieldset class="fieldset">
-                <legend class="legend"><span><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Import Tax Rates') ?></span></legend>
+                <legend class="legend"><span><?php echo __('Import Tax Rates') ?></span></legend>
                 <input type="file" name="import_rates_file" class="input-file required-entry"/>
                 <?php echo $this->getButtonHtml('Import Tax Rates', '', 'import-submit') ?>
             </fieldset>
@@ -45,7 +45,7 @@
         <?php endif; ?>
             <?php echo $this->getBlockHtml('formkey')?>
             <fieldset class="fieldset">
-                <legend class="legend"><span><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Export Tax Rates') ?></span></legend>
+                <legend class="legend"><span><?php echo __('Export Tax Rates') ?></span></legend>
                 <?php echo $this->getButtonHtml('Export Tax Rates', "this.form.submit()") ?>
             </fieldset>
         <?php if ($this->getUseContainer()): ?>

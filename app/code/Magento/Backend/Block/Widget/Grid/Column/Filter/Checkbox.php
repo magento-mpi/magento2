@@ -26,15 +26,15 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Checkbox extends Magento_B
     {
         return array(
             array(
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Any'),
+                'label' => __('Any'),
                 'value' => ''
             ),
             array(
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Yes'),
+                'label' => __('Yes'),
                 'value' => 1
             ),
             array(
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('No'),
+                'label' => __('No'),
                 'value' => 0
             ),
         );

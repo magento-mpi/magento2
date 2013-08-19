@@ -25,7 +25,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details extends Magento_Adminhtm
     {
         parent::_construct();
         $this->_controller = '';
-        $this->_headerText = Mage::helper('Magento_Paypal_Helper_Data')->__('View Transaction Details');
+        $this->_headerText = __('View Transaction Details');
         $this->_removeButton('reset')
             ->_removeButton('delete')
             ->_removeButton('save');

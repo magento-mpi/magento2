@@ -96,7 +96,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
             } catch (Magento_Core_Exception $e) {
-                $this->_getSession()->addError(Mage::helper('Magento_Downloadable_Helper_Data')->__('Sorry, there was an error getting requested content. Please contact the store owner.'));
+                $this->_getSession()->addError(__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }
         return $this->_redirectReferer();
@@ -126,7 +126,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
             } catch (Magento_Core_Exception $e) {
-                $this->_getCustomerSession()->addError(Mage::helper('Magento_Downloadable_Helper_Data')->__('Sorry, there was an error getting requested content. Please contact the store owner.'));
+                $this->_getCustomerSession()->addError(__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }
         return $this->_redirectReferer();
@@ -140,7 +140,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
         $id = $this->getRequest()->getParam('id', 0);
         $linkPurchasedItem = Mage::getModel('Magento_Downloadable_Model_Link_Purchased_Item')->load($id, 'link_hash');
         if (! $linkPurchasedItem->getId() ) {
-            $this->_getCustomerSession()->addNotice(Mage::helper('Magento_Downloadable_Helper_Data')->__("We can't find the link you requested."));
+            $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
         if (!Mage::helper('Magento_Downloadable_Helper_Data')->getIsShareable($linkPurchasedItem)) {
@@ -148,9 +148,9 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
             if (!$customerId) {
                 $product = Mage::getModel('Magento_Catalog_Model_Product')->load($linkPurchasedItem->getProductId());
                 if ($product->getId()) {
-                    $notice = Mage::helper('Magento_Downloadable_Helper_Data')->__('Please log in to download your product or purchase <a href="%s">%s</a>.', $product->getProductUrl(), $product->getName());
+                    $notice = __('Please log in to download your product or purchase <a href="%1">%2</a>.', $product->getProductUrl(), $product->getName());
                 } else {
-                    $notice = Mage::helper('Magento_Downloadable_Helper_Data')->__('Please log in to download your product.');
+                    $notice = __('Please log in to download your product.');
                 }
                 $this->_getCustomerSession()->addNotice($notice);
                 $this->_getCustomerSession()->authenticate($this);
@@ -161,7 +161,7 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
             }
             $linkPurchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased')->load($linkPurchasedItem->getPurchasedId());
             if ($linkPurchased->getCustomerId() != $customerId) {
-                $this->_getCustomerSession()->addNotice(Mage::helper('Magento_Downloadable_Helper_Data')->__("We can't find the link you requested."));
+                $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
                 return $this->_redirect('*/customer/products');
             }
         }
@@ -195,18 +195,18 @@ class Magento_Downloadable_Controller_Download extends Magento_Core_Controller_F
             }
             catch (Exception $e) {
                 $this->_getCustomerSession()->addError(
-                    Mage::helper('Magento_Downloadable_Helper_Data')->__('Something went wrong while getting the requested content.')
+                    __('Something went wrong while getting the requested content.')
                 );
             }
         } elseif ($status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
-            $this->_getCustomerSession()->addNotice(Mage::helper('Magento_Downloadable_Helper_Data')->__('The link has expired.'));
+            $this->_getCustomerSession()->addNotice(__('The link has expired.'));
         } elseif ($status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING
             || $status == Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PAYMENT_REVIEW
         ) {
-            $this->_getCustomerSession()->addNotice(Mage::helper('Magento_Downloadable_Helper_Data')->__('The link is not available.'));
+            $this->_getCustomerSession()->addNotice(__('The link is not available.'));
         } else {
             $this->_getCustomerSession()->addError(
-                Mage::helper('Magento_Downloadable_Helper_Data')->__('Something went wrong while getting the requested content.')
+                __('Something went wrong while getting the requested content.')
             );
         }
         return $this->_redirect('*/customer/products');

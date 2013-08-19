@@ -123,11 +123,11 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
             return $html;
         }
         if ($attribute->isScopeGlobal()) {
-            $html .= Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]');
+            $html .= __('[GLOBAL]');
         } elseif ($attribute->isScopeWebsite()) {
-            $html .= Mage::helper('Magento_Adminhtml_Helper_Data')->__('[WEBSITE]');
+            $html .= __('[WEBSITE]');
         } elseif ($attribute->isScopeStore()) {
-            $html .= Mage::helper('Magento_Adminhtml_Helper_Data')->__('[STORE VIEW]');
+            $html .= __('[STORE VIEW]');
         }
 
         return $html;
@@ -143,7 +143,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
         $element = $this->getElement();
         $label = $element->getLabel();
         if (!empty($label)) {
-            $element->setLabel($this->__($label));
+            $element->setLabel(__($label));
         }
         return $element->getLabelHtml();
     }

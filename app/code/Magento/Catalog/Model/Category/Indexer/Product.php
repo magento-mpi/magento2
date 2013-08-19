@@ -76,7 +76,7 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Magento_Index_Model
      */
     public function getName()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Category Products');
+        return __('Category Products');
     }
 
     /**
@@ -86,7 +86,7 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Magento_Index_Model
      */
     public function getDescription()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Indexed category/products association');
+        return __('Indexed category/products association');
     }
 
     /**

@@ -12,8 +12,8 @@
     <table cellspacing="0" class="data">
         <thead>
             <tr class="headings">
-                <th class="col-product"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Product') ?></span></th>
-                <th class="col-qty last"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Qty Shipped') ?></span></th>
+                <th class="col-product"><span><?php echo __('Product') ?></span></th>
+                <th class="col-qty last"><span><?php echo __('Qty Shipped') ?></span></th>
             </tr>
         </thead>
         <?php $_items = $this->getShipment()->getAllItems() ?>

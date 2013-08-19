@@ -27,7 +27,7 @@ class Magento_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_D
         $this->_init('eav_form_type', 'type_id');
         $this->addUniqueField(array(
             'field' => array('code', 'theme', 'store_id'),
-            'title' => Mage::helper('Magento_Eav_Helper_Data')->__('Form Type with the same code')
+            'title' => __('Form Type with the same code')
         ));
     }
 

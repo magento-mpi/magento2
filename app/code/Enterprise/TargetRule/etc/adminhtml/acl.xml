@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_CatalogRule::promo">
-                        <resource id="Enterprise_TargetRule::targetrule" title="Related Products Rules" sortOrder="20" module="Enterprise_TargetRule" />
+                        <resource id="Enterprise_TargetRule::targetrule" title="Related Products Rules" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

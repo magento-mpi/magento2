@@ -113,7 +113,7 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected function _getStorageKey()
     {
         if (!$this->_storageId) {
-            Mage::throwException($this->__('Storage key was not set'));
+            Mage::throwException(__('Storage key was not set'));
         }
 
         return self::STORAGE_PREFIX . $this->_storageId;

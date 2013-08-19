@@ -22,7 +22,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Wid
 
         parent::_construct();
 
-        $this->_updateButton('reset', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Cancel'));
+        $this->_updateButton('reset', 'label', __('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
         $orderId    = false;
@@ -48,7 +48,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Wid
 
         if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
-            $this->_updateButton('save', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Submit Returns'));
+            $this->_updateButton('save', 'label', __('Submit Returns'));
         } else {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_removeButton('save');

@@ -130,7 +130,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
                 Mage::throwException(
-                    Mage::helper('Magento_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label)
+                    __('The value of attribute "%1" must be unique.', $label)
                 );
             }
         }
@@ -308,7 +308,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $mediaAttribute = null, $move = false, $exclude = true
     ) {
         if (!$this->_filesystem->isFile($file, $this->_baseTmpMediaPath)) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('The image does not exist.'));
+            Mage::throwException(__('The image does not exist.'));
         }
 
         Mage::dispatchEvent('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
@@ -316,7 +316,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct the image file type.'));
+            Mage::throwException(__('Please correct the image file type.'));
         }
 
         $fileName       = Magento_Core_Model_File_Uploader::getCorrectFileName($pathinfo['basename']);
@@ -343,7 +343,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
             }
         } catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('We couldn\'t move this file: %s.', $e->getMessage())
+                __('We couldn\'t move this file: %1.', $e->getMessage())
             );
         }
 
@@ -663,8 +663,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         } catch (Exception $e) {
             $file = $this->_mediaConfig->getMediaPath($file);
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')
-                    ->__('We couldn\'t copy file %s. Please delete media with non-existing images and try again.', $file)
+                __('We couldn\'t copy file %1. Please delete media with non-existing images and try again.', $file)
             );
         }
     }

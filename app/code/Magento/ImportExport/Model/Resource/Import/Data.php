@@ -127,7 +127,7 @@ class Magento_ImportExport_Model_Resource_Import_Data
 
         if (count($values) != 1) {
             Mage::throwException(
-                Mage::helper('Magento_ImportExport_Helper_Data')->__('Error in data structure: %s values are mixed', $code)
+                __('Error in data structure: %1 values are mixed', $code)
             );
         }
         return $values[0];

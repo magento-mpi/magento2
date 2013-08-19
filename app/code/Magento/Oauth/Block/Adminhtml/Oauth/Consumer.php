@@ -26,7 +26,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_Blo
 
         $this->_blockGroup = 'Magento_Oauth';
         $this->_controller = 'adminhtml_oauth_consumer';
-        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('OAuth Consumers');
+        $this->_headerText = __('OAuth Consumers');
 
         //check allow edit
         if (!$this->_authorization->isAllowed('Magento_Oauth::consumer_edit')) {

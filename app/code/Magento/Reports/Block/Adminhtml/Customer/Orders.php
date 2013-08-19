@@ -28,7 +28,7 @@ class Magento_Reports_Block_Adminhtml_Customer_Orders extends Magento_Backend_Bl
     protected function _construct()
     {
         $this->_controller = 'report_customer_orders';
-        $this->_headerText = $this->helper('Magento_Reports_Helper_Data')->__('Customers by number of orders');
+        $this->_headerText = __('Customers by number of orders');
         parent::_construct();
         $this->_removeButton('add');
     }

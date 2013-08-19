@@ -37,11 +37,11 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('Magento_Api_Helper_Data')->__('Email')
+                'title' => __('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('Magento_Api_Helper_Data')->__('User Name')
+                'title' => __('User Name')
             ),
         );
         return $this;

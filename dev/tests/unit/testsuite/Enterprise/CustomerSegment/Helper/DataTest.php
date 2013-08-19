@@ -26,9 +26,7 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $translate = function (array $args) {
-            /** @var Magento_Core_Model_Translate_Expr $expr */
-            $expr = reset($args);
-            return $expr->getText();
+            return reset($args);
         };
         $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
         $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));

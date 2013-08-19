@@ -27,8 +27,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute
     {
         $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_address_attribute';
-        $this->_headerText = Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer Address Attributes');
-        $this->_addButtonLabel = Mage::helper('Enterprise_Customer_Helper_Data')->__('Add New Attribute');
+        $this->_headerText = __('Customer Address Attributes');
+        $this->_addButtonLabel = __('Add New Attribute');
         parent::_construct();
     }
 }

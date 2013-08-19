@@ -31,10 +31,10 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Order extends Magento_Sal
             $fieldset->addField('show_actual_columns', 'select', array(
                 'name'       => 'show_actual_columns',
                 'options'    => array(
-                    '1' => Mage::helper('Magento_Reports_Helper_Data')->__('Yes'),
-                    '0' => Mage::helper('Magento_Reports_Helper_Data')->__('No')
+                    '1' => __('Yes'),
+                    '0' => __('No')
                 ),
-                'label'      => Mage::helper('Magento_Reports_Helper_Data')->__('Show Actual Values'),
+                'label'      => __('Show Actual Values'),
             ));
 
         }

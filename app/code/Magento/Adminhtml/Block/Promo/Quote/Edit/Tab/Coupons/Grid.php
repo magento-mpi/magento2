@@ -57,12 +57,12 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Coupon Code'),
+            'header' => __('Coupon Code'),
             'index'  => 'code'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Created'),
+            'header' => __('Created'),
             'index'  => 'created_at',
             'type'   => 'datetime',
             'align'  => 'center',
@@ -70,13 +70,13 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
         ));
 
         $this->addColumn('used', array(
-            'header'   => Mage::helper('Magento_SalesRule_Helper_Data')->__('Uses'),
+            'header'   => __('Uses'),
             'index'    => 'times_used',
             'width'    => '100',
             'type'     => 'options',
             'options'  => array(
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('No'),
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('Yes')
+                __('No'),
+                __('Yes')
             ),
             'renderer' => 'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used',
             'filter_condition_callback' => array(
@@ -85,14 +85,14 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
         ));
 
         $this->addColumn('times_used', array(
-            'header' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Times Used'),
+            'header' => __('Times Used'),
             'index'  => 'times_used',
             'width'  => '50',
             'type'   => 'number',
         ));
 
-        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('Magento_Customer_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportCouponsXml', Mage::helper('Magento_Customer_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCouponsCsv', __('CSV'));
+        $this->addExportType('*/*/exportCouponsXml', __('Excel XML'));
         return parent::_prepareColumns();
     }
 
@@ -109,9 +109,9 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
         $this->getMassactionBlock()->setHideFormElement(true);
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('Magento_Adminhtml_Helper_Data')->__('Delete'),
+             'label'=> __('Delete'),
              'url'  => $this->getUrl('*/*/couponsMassDelete', array('_current' => true)),
-             'confirm' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Are you sure you want to delete the selected coupon(s)?'),
+             'confirm' => __('Are you sure you want to delete the selected coupon(s)?'),
              'complete' => 'refreshCouponCodesGrid'
         ));
 

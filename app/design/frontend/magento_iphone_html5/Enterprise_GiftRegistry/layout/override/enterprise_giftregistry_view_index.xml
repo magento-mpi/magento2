@@ -56,7 +56,7 @@
         <update handle="MAP_popup"/>
         <reference name="product.tooltip">
             <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block type="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Magento_Paypal">
+                <block type="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                     <action method="setIsInCatalogProduct">
                         <value>1</value>
                     </action>

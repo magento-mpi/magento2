@@ -18,6 +18,6 @@ class Magento_Shipping_Model_Tracking_Result_Error extends Magento_Shipping_Mode
 
     public function getErrorMessage()
     {
-        return  Mage::helper('Magento_Shipping_Helper_Data')->__('Tracking information is unavailable.');
+        return  __('Tracking information is unavailable.');
     }
 }

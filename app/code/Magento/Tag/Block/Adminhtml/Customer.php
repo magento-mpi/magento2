@@ -46,7 +46,7 @@ class Magento_Tag_Block_Adminhtml_Customer extends Magento_Adminhtml_Block_Widge
         $tagInfo = Mage::getModel('Magento_Tag_Model_Tag')
             ->load(Mage::registry('tagId'));
 
-        $this->_headerText = Mage::helper('Magento_Tag_Helper_Data')->__("Customers Tagged '%s'", $this->escapeHtml($tagInfo->getName()));
+        $this->_headerText = __("Customers Tagged '%1'", $this->escapeHtml($tagInfo->getName()));
     }
 
 }

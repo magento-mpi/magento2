@@ -22,14 +22,14 @@ class Magento_Adminhtml_Block_Promo_Catalog extends Magento_Backend_Block_Widget
     protected function _construct()
     {
         $this->_addButton('apply_rules', array(
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Apply Rules'),
+            'label'     => __('Apply Rules'),
             'onclick'   => "location.href='".$this->getUrl('*/*/applyRules')."'",
             'class'     => 'apply',
         ));
 
         $this->_controller = 'promo_catalog';
-        $this->_headerText = Mage::helper('Magento_CatalogRule_Helper_Data')->__('Catalog Price Rules');
-        $this->_addButtonLabel = Mage::helper('Magento_CatalogRule_Helper_Data')->__('Add New Rule');
+        $this->_headerText = __('Catalog Price Rules');
+        $this->_addButtonLabel = __('Add New Rule');
         parent::_construct();
 
     }

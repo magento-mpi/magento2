@@ -108,16 +108,16 @@ abstract class Magento_Rule_Model_Condition_Abstract
     {
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = array(
-                '=='  => Mage::helper('Magento_Rule_Helper_Data')->__('is'),
-                '!='  => Mage::helper('Magento_Rule_Helper_Data')->__('is not'),
-                '>='  => Mage::helper('Magento_Rule_Helper_Data')->__('equals or greater than'),
-                '<='  => Mage::helper('Magento_Rule_Helper_Data')->__('equals or less than'),
-                '>'   => Mage::helper('Magento_Rule_Helper_Data')->__('greater than'),
-                '<'   => Mage::helper('Magento_Rule_Helper_Data')->__('less than'),
-                '{}'  => Mage::helper('Magento_Rule_Helper_Data')->__('contains'),
-                '!{}' => Mage::helper('Magento_Rule_Helper_Data')->__('does not contain'),
-                '()'  => Mage::helper('Magento_Rule_Helper_Data')->__('is one of'),
-                '!()' => Mage::helper('Magento_Rule_Helper_Data')->__('is not one of')
+                '=='  => __('is'),
+                '!='  => __('is not'),
+                '>='  => __('equals or greater than'),
+                '<='  => __('equals or less than'),
+                '>'   => __('greater than'),
+                '<'   => __('less than'),
+                '{}'  => __('contains'),
+                '!{}' => __('does not contain'),
+                '()'  => __('is one of'),
+                '!()' => __('is not one of')
             );
         }
         return $this->_defaultOperatorOptions;
@@ -388,7 +388,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Magento_Rule_Helper_Data')->__('Please choose a condition to add.')
+                'label' => __('Please choose a condition to add.')
             )
         );
     }
@@ -558,7 +558,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
     {
         $src = $this->_viewUrl->getViewFileUrl('images/rule_component_add.gif');
         $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="'
-            . Mage::helper('Magento_Rule_Helper_Data')->__('Add') . '"/>';
+            . __('Add') . '"/>';
         return $html;
     }
 
@@ -569,7 +569,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
     {
         $src = $this->_viewUrl->getViewFileUrl('images/rule_component_remove.gif');
         $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="'
-            . Mage::helper('Magento_Rule_Helper_Data')->__('Remove') . '"><img src="' . $src
+            . __('Remove') . '"><img src="' . $src
             . '"  alt="" class="v-middle" /></a></span>';
         return $html;
     }

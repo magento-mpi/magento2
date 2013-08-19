@@ -32,7 +32,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
      */
     public function getTabLabel()
     {
-        return $this->__('Page View Optimization');
+        return __('Page View Optimization');
     }
 
     /**
@@ -42,6 +42,6 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
      */
     public function getTabTitle()
     {
-        return $this->__('Page View Optimization');
+        return __('Page View Optimization');
     }
 }

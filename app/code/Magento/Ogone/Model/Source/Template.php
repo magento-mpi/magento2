@@ -21,8 +21,8 @@ class Magento_Ogone_Model_Source_Template
     public function toOptionArray()
     {
         return array(
-            array('value' => Magento_Ogone_Model_Api::TEMPLATE_OGONE, 'label' => Mage::helper('Magento_Ogone_Helper_Data')->__('Ogone')),
-            array('value' => Magento_Ogone_Model_Api::TEMPLATE_MAGENTO, 'label' => Mage::helper('Magento_Ogone_Helper_Data')->__('Magento')),
+            array('value' => Magento_Ogone_Model_Api::TEMPLATE_OGONE, 'label' => __('Ogone')),
+            array('value' => Magento_Ogone_Model_Api::TEMPLATE_MAGENTO, 'label' => __('Magento')),
         );
     }
 }

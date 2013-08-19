@@ -37,25 +37,25 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('ID'),
+            'header' => __('ID'),
             'index'  => 'product_id',
             'type'   => 'number',
             'width'  => '120px'
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product'),
+            'header' => __('Product'),
             'index'  => 'product_name'
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('SKU'),
+            'header' => __('SKU'),
             'index'  => 'sku',
             'width'  => '200px'
         ));
 
         $this->addColumn('price', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Price'),
+            'header' => __('Price'),
             'index'  => 'price',
             'type'  => 'currency',
             'width' => '120px',
@@ -63,32 +63,32 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
         ));
 
         $this->addColumn('qty', array(
-            'header'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Requested'),
+            'header'   => __('Requested'),
             'index'    => 'qty',
             'width'    => '120px',
             'renderer' => 'Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty'
         ));
 
         $this->addColumn('qty_fulfilled', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Fulfilled'),
+            'header' => __('Fulfilled'),
             'index'  => 'qty_fulfilled',
             'type'   => 'number',
             'width'  => '120px'
         ));
 
         $this->addColumn('note', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Note'),
+            'header' => __('Note'),
             'index'  => 'note',
             'width'  => '120px'
         ));
 
         $this->addColumn('action', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Action'),
+            'header' => __('Action'),
             'width'  => '120px',
             'options'   => array(
-                 0 => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Action'),
-                'update' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Update Quantity'),
-                'remove' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Remove Item')
+                 0 => __('Action'),
+                'update' => __('Update Quantity'),
+                'remove' => __('Remove Item')
             ),
             'renderer' => 'Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action'
         ));

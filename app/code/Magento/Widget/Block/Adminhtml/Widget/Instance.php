@@ -24,8 +24,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance extends Magento_Adminhtml_B
     {
         $this->_blockGroup = 'Magento_Widget';
         $this->_controller = 'adminhtml_widget_instance';
-        $this->_headerText = Mage::helper('Magento_Widget_Helper_Data')->__('Manage Widget Instances');
+        $this->_headerText = __('Manage Widget Instances');
         parent::_construct();
-        $this->_updateButton('add', 'label', Mage::helper('Magento_Widget_Helper_Data')->__('Add New Widget Instance'));
+        $this->_updateButton('add', 'label', __('Add New Widget Instance'));
     }
 }

@@ -23,8 +23,6 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _construct()
     {
-        $this->setUsedModuleName('Magento_Sales');
-
         // During order creation in the backend admin has ability to add any products to order
         Mage::helper('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
     }
@@ -277,9 +275,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         if (!empty($couponCode)) {
             if ($this->_getQuote()->getCouponCode() !== $couponCode) {
                 $this->_getSession()->addError(
-                    $this->__('"%s" coupon code is not valid.', $this->_getHelper()->escapeHtml($couponCode)));
+                    __('"%1" coupon code is not valid.', $this->_getHelper()->escapeHtml($couponCode)));
             } else {
-                $this->_getSession()->addSuccess($this->__('The coupon code has been accepted.'));
+                $this->_getSession()->addSuccess(__('The coupon code has been accepted.'));
             }
         }
 
@@ -312,7 +310,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Orders'))->_title($this->__('New Order'));
+        $this->_title(__('Orders'))->_title(__('New Order'));
         $this->_initSession();
         $this->loadLayout();
 
@@ -478,7 +476,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
                 ->createOrder();
 
             $this->_getSession()->clear();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You created the order.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
             } else {
@@ -499,7 +497,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             $this->_redirect('*/*/');
         }
         catch (Exception $e){
-            $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
+            $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
             $this->_redirect('*/*/');
         }
     }
@@ -567,12 +565,12 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {
-                Mage::throwException($this->__('Quote item id is not received.'));
+                Mage::throwException(__('Quote item id is not received.'));
             }
 
             $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                Mage::throwException($this->__('Quote item is not loaded.'));
+                Mage::throwException(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);

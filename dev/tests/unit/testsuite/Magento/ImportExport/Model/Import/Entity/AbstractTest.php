@@ -45,10 +45,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     protected function _createDataHelperMock()
     {
         /** @var $helper Magento_ImportExport_Helper_Data */
-        $helper = $this->getMock('Magento_ImportExport_Helper_Data', array('__'), array(), '', false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $helper = $this->getMock('Magento_ImportExport_Helper_Data', array(), array(), '', false);
         $registryKey = '_helper/Magento_ImportExport_Helper_Data';
         if (Mage::registry($registryKey)) {
             Mage::unregister($registryKey);
@@ -83,7 +80,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
      *
      * @covers Magento_ImportExport_Model_Import_Entity_Abstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Columns number: "%s" have empty headers
+     * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataEmptyColumnName()
     {
@@ -97,7 +94,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
      *
      * @covers Magento_ImportExport_Model_Import_Entity_Abstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Columns number: "%s" have empty headers
+     * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
@@ -111,7 +108,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
      *
      * @covers Magento_ImportExport_Model_Import_Entity_Abstract::validateData
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Column names: "%s" are invalid
+     * @expectedExceptionMessage Column names: "_test1" are invalid
      */
     public function testValidateDataAttributeNames()
     {

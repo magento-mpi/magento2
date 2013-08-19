@@ -21,7 +21,7 @@ class Enterprise_Pci_Block_Adminhtml_Locks extends Magento_Backend_Block_Widget_
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Pci_Helper_Data')->__('Locked administrators');
+        return __('Locked administrators');
     }
 
     /**

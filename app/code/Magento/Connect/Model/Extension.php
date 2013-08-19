@@ -76,7 +76,7 @@ class Magento_Connect_Model_Extension extends Magento_Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw Mage::exception('Magento_Core', Mage::helper('Magento_Connect_Helper_Data')->__($message[0]));
+            throw Mage::exception('Magento_Core', __($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;

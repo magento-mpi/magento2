@@ -68,7 +68,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
 
         // Translate adapter mock
         $this->_translateAdapter = $this->getMockBuilder('Magento_Core_Model_Translate')
-            ->setMethods(array('_getTranslatedString'))
+            ->setMethods(array('_getTranslatedString', 'translate'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_translateAdapter->expects($this->any())
@@ -90,11 +90,6 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testGetValidatorConfig()
     {
-        $this->_objectManager->expects($this->at(2))
-            ->method('create')
-            ->with('Magento_Core_Model_Translate_Expr')
-            ->will($this->returnValue(new Magento_Core_Model_Translate_Expr()));
-
         $factory = new Magento_Core_Model_Validator_Factory(
             $this->_objectManager,
             $this->_config,
@@ -108,10 +103,6 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
         $validatorTranslator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();
         $this->assertInstanceOf('Magento_Translate_Adapter', $validatorTranslator,
             'Default validator translate adapter was not set correctly');
-        // Dive into callback
-        /** @var Magento_Core_Model_Translate $translateAdapter */
-        $this->assertEquals('Test message', $validatorTranslator->translate('Test message'),
-            'Translator callback function was not initialized');
     }
 
     /**

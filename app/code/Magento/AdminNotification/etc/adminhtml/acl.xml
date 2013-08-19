@@ -15,11 +15,11 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::system">
                     <resource id="Magento_Adminhtml::system_other_settings">
-                        <resource id="Magento_AdminNotification::adminnotification" module="Magento_AdminNotification" title="Notifications" sortOrder="10">
-                            <resource id="Magento_AdminNotification::show_toolbar" module="Magento_AdminNotification" title="Show Toolbar" sortOrder="10" />
-                            <resource id="Magento_AdminNotification::show_list" module="Magento_AdminNotification" title="Show List" sortOrder="20" />
-                            <resource id="Magento_AdminNotification::mark_as_read" module="Magento_AdminNotification" title="Mark as Read" sortOrder="30" />
-                            <resource id="Magento_AdminNotification::adminnotification_remove" module="Magento_AdminNotification" title="Remove" sortOrder="40" />
+                        <resource id="Magento_AdminNotification::adminnotification" title="Notifications" sortOrder="10">
+                            <resource id="Magento_AdminNotification::show_toolbar" title="Show Toolbar" sortOrder="10" />
+                            <resource id="Magento_AdminNotification::show_list" title="Show List" sortOrder="20" />
+                            <resource id="Magento_AdminNotification::mark_as_read" title="Mark as Read" sortOrder="30" />
+                            <resource id="Magento_AdminNotification::adminnotification_remove" title="Remove" sortOrder="40" />
                         </resource>
                     </resource>
                 </resource>

@@ -25,11 +25,11 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <unsubscribe>
-                                <label translate="true" module="Magento_Newsletter">Unsubscribe</label>
+                                <label translate="true">Unsubscribe</label>
                                 <url>*/*/massUnsubscribe</url>
                             </unsubscribe>
                             <delete>
-                                <label translate="true" module="Magento_Newsletter">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
                             </delete>
                         </options>
@@ -40,11 +40,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Magento_Customer">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportXml</urlPath>
-                                <label translate="true" module="Magento_Customer">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -77,11 +77,11 @@
                             <options>
                                 <guest>
                                     <value>1</value>
-                                    <label translate ="true" module="Magento_Newsletter">Guest</label>
+                                    <label translate="true">Guest</label>
                                 </guest>
                                 <customer>
                                     <value>2</value>
-                                    <label translate ="true" module="Magento_Newsletter">Customer</label>
+                                    <label translate ="true">Customer</label>
                                 </customer>
                             </options>
                             <header_css_class>col-type</header_css_class>
@@ -108,24 +108,24 @@
                     </block>
                     <block type='Magento_Backend_Block_Widget_Grid_Column' as='status'>
                         <arguments>
-                            <header translate='true' module='Magento_Newsletter'>Status</header>
+                            <header translate='true'>Status</header>
                             <index>subscriber_status</index>
                             <type>options</type>
                             <status_not_active>
                                 <value>2</value>
-                                <label translate ="true" module="Magento_Newsletter">Not Activated</label>
+                                <label translate="true">Not Activated</label>
                             </status_not_active>
                             <status_subscribed>
                                 <value>1</value>
-                                <label translate ="true" module="Magento_Newsletter">Subscribed</label>
+                                <label translate="true">Subscribed</label>
                             </status_subscribed>
                             <status_unsubscribed>
                                 <value>3</value>
-                                <label translate ="true" module="Magento_Newsletter">Unsubscribed</label>
+                                <label translate="true">Unsubscribed</label>
                             </status_unsubscribed>
                             <status_unconfirmed>
                                 <value>4</value>
-                                <label translate ="true" module="Magento_Newsletter">Unconfirmed</label>
+                                <label translate="true">Unconfirmed</label>
                             </status_unconfirmed>
                             <header_css_class>col-status</header_css_class>
                             <column_css_class>col-status</column_css_class>

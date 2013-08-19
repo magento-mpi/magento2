@@ -96,7 +96,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
     {
         if (empty($params) || !is_array($params) || empty($params['search'])) {
             $this->_getSession()->addNotice(
-                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct search options.')
+                __('Please enter correct search options.')
             );
             return false;
         }
@@ -105,13 +105,13 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
             case 'type':
                 if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter at least 2 letters of the first name.')
+                        __('Please enter at least 2 letters of the first name.')
                     );
                     return false;
                 }
                 if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter at least 2 letters of the last name.')
+                        __('Please enter at least 2 letters of the last name.')
                     );
                     return false;
                 }
@@ -120,7 +120,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
             case 'email':
                 if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid email address.')
+                        __('Please enter a valid email address.')
                     );
                     return false;
                 }
@@ -129,7 +129,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
             case 'id':
                 if (empty($params['id'])) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a gift registry ID.')
+                        __('Please enter a gift registry ID.')
                     );
                     return false;
                 }
@@ -137,7 +137,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
 
             default:
                 $this->_getSession()->addNotice(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct search options.')
+                    __('Please enter correct search options.')
                 );
                 return false;
         }
@@ -186,7 +186,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search'));
+            $headBlock->setTitle(__('Gift Registry Search'));
         }
         $this->renderLayout();
     }
@@ -217,7 +217,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search'));
+            $headBlock->setTitle(__('Gift Registry Search'));
         }
         $this->renderLayout();
     }

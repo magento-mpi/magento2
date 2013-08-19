@@ -43,7 +43,7 @@ class Magento_Sales_Controller_Order extends Magento_Sales_Controller_Abstract
         $this->loadLayout();
         $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
-        $this->getLayout()->getBlock('head')->setTitle($this->__('My Orders'));
+        $this->getLayout()->getBlock('head')->setTitle(__('My Orders'));
 
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_getRefererUrl());

@@ -70,7 +70,6 @@
         </xs:sequence>
 
         <xs:attribute name="id" type="typeId" use="required" />
-        <xs:attribute name="module" type="typeModule" use="optional" />
         <xs:attribute name="title" type="typeTitle" use="optional" />
         <xs:attribute name="sortOrder" type="xs:int" use="optional" />
         <xs:attribute name="disabled" type="xs:boolean" use="optional" />
@@ -109,17 +108,6 @@
         <xs:restriction base="xs:string">
             <xs:minLength value="3" />
             <xs:maxLength value="50" />
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="typeModule">
-        <xs:annotation>
-            <xs:documentation>
-                Item module attribute can have only [a-z0-9_]. Minimal length is 3 symbols. Case insensitive.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}" />
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

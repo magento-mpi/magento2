@@ -39,7 +39,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     protected function _construct()
     {
         $this->getCheckout()->setStepData('billing', array(
-            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Billing Information'),
+            'label'     => __('Billing Information'),
             'is_show'   => $this->isShow()
         ));
 

@@ -22,7 +22,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title($this->__('Categories'));
+        $this->_title(__('Categories'));
 
         $categoryId = (int)$this->getRequest()->getParam('id', false);
         $storeId    = (int)$this->getRequest()->getParam('store');
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
             return;
         }
 
-        $this->_title($categoryId ? $category->getName() : $this->__('Categories'));
+        $this->_title($categoryId ? $category->getName() : __('Categories'));
 
         /**
          * Check if we have data in session (if during category save was exception)
@@ -177,7 +177,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         $this->_setActiveMenu('Magento_Catalog::catalog_categories');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
 
-        $this->_addBreadcrumb($this->__('Manage Catalog Categories'), $this->__('Manage Categories'));
+        $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 
         $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
@@ -320,7 +320,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                         if ($error === true) {
                             $attribute = $category->getResource()->getAttribute($code)->getFrontend()->getLabel();
                             throw new Magento_Core_Exception(
-                                $this->__('Attribute "%s" is required.', $attribute)
+                                __('Attribute "%1" is required.', $attribute)
                             );
                         } else {
                             throw new Magento_Core_Exception($error);
@@ -330,11 +330,11 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
 
                 $category->unsetData('use_post_data_config');
                 if (isset($data['general']['entity_id'])) {
-                    throw new Magento_Core_Exception($this->__('Unable to save the category'));
+                    throw new Magento_Core_Exception(__('Unable to save the category'));
                 }
 
                 $category->save();
-                $this->_getSession()->addSuccess($this->__('You saved the category.'));
+                $this->_getSession()->addSuccess(__('You saved the category.'));
                 $refreshTree = 'true';
             } catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())->setCategoryData($data);
@@ -386,7 +386,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
     {
         $category = $this->_initCategory();
         if (!$category) {
-            $this->getResponse()->setBody($this->__('There was a category move error.'));
+            $this->getResponse()->setBody(__('There was a category move error.'));
             return;
         }
         /**
@@ -404,7 +404,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         } catch (Magento_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
         } catch (Exception $e){
-            $this->getResponse()->setBody($this->__('There was a category move error %s', $e));
+            $this->getResponse()->setBody(__('There was a category move error %1', $e));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
@@ -426,13 +426,13 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                 $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                $this->_getSession()->addSuccess($this->__('You deleted the category.'));
+                $this->_getSession()->addSuccess(__('You deleted the category.'));
             } catch (Magento_Core_Exception $e){
                 $this->_getSession()->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
             } catch (Exception $e){
-                $this->_getSession()->addError($this->__('Something went wrong while trying to delete the category.'));
+                $this->_getSession()->addError(__('Something went wrong while trying to delete the category.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
             }

@@ -14,16 +14,16 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_User::system_acl_users')
-            ->_addBreadcrumb($this->__('System'), $this->__('System'))
-            ->_addBreadcrumb($this->__('Permissions'), $this->__('Permissions'))
-            ->_addBreadcrumb($this->__('Users'), $this->__('Users'))
+            ->_addBreadcrumb(__('System'), __('System'))
+            ->_addBreadcrumb(__('Permissions'), __('Permissions'))
+            ->_addBreadcrumb(__('Users'), __('Users'))
         ;
         return $this;
     }
 
     public function indexAction()
     {
-        $this->_title($this->__('Users'));
+        $this->_title(__('Users'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -35,7 +35,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
 
     public function editAction()
     {
-        $this->_title($this->__('Users'));
+        $this->_title(__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
         $model = Mage::getModel('Magento_User_Model_User');
@@ -43,7 +43,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         if ($userId) {
             $model->load($userId);
             if (! $model->getId()) {
-                $this->_session->addError($this->__('This user no longer exists.'));
+                $this->_session->addError(__('This user no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -51,7 +51,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $model->setInterfaceLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New User'));
+        $this->_title($model->getId() ? $model->getName() : __('New User'));
 
         // Restore previously entered form data from session
         $data = $this->_session->getUserData(true);
@@ -62,9 +62,9 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         Mage::register('permissions_user', $model);
 
         if (isset($userId)) {
-            $breadcrumb = $this->__('Edit User');
+            $breadcrumb = __('Edit User');
         } else {
-            $breadcrumb = $this->__('New User');
+            $breadcrumb = __('New User');
         }
         $this->_initAction()->_addBreadcrumb($breadcrumb, $breadcrumb);
         $this->renderLayout();
@@ -81,7 +81,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         /** @var $model Magento_User_Model_User */
         $model = $this->_objectManager->create('Magento_User_Model_User')->load($userId);
         if ($userId && $model->isObjectNew()) {
-            $this->_getSession()->addError($this->__('This user no longer exists.'));
+            $this->_getSession()->addError(__('This user no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -101,7 +101,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
 
         try {
             $model->save();
-            $this->_getSession()->addSuccess($this->__('You saved the user.'));
+            $this->_getSession()->addSuccess(__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('*/*/');
         } catch (Magento_Core_Exception $e) {
@@ -135,7 +135,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {
                 $this->_session->addError(
-                    $this->__('You cannot delete your own account.')
+                    __('You cannot delete your own account.')
                 );
                 $this->_redirect('*/*/edit', array('user_id' => $userId));
                 return;
@@ -144,7 +144,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 $model = Mage::getModel('Magento_User_Model_User');
                 $model->setId($userId);
                 $model->delete();
-                $this->_session->addSuccess($this->__('You deleted the user.'));
+                $this->_session->addSuccess(__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -154,7 +154,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 return;
             }
         }
-        $this->_session->addError($this->__('We can\'t find a user to delete.'));
+        $this->_session->addError(__('We can\'t find a user to delete.'));
         $this->_redirect('*/*/');
     }
 

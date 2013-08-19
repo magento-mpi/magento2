@@ -112,7 +112,7 @@ class Magento_Newsletter_Model_Resource_Template extends Magento_Core_Model_Reso
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if ($this->checkCodeUsage($object)) {
-            Mage::throwException(Mage::helper('Magento_Newsletter_Helper_Data')->__('Duplicate template code'));
+            Mage::throwException(__('Duplicate template code'));
         }
 
         if (!$object->hasTemplateActual()) {

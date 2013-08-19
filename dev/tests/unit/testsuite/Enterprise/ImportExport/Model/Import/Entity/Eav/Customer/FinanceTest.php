@@ -167,14 +167,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $websiteManager->expects($this->once())->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
-        $mageHelper = $this->getMock('Magento_ImportExport_Helper_Data', array('__'), array(), '', false, false);
-        $mageHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
-
-        $enterpriseHelper = $this->getMock('Enterprise_ImportExport_Helper_Data', array('__'),
-            array(), '', false, false
-        );
-        $enterpriseHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
-
         /** @var $customerStorage Magento_ImportExport_Model_Resource_Customer_Storage */
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
@@ -223,10 +215,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'bunch_size'                   => 1,
             'website_manager'              => $websiteManager,
             'store_manager'                => 'not_used',
-            'helpers'                      => array(
-                'Magento_ImportExport_Helper_Data'       => $mageHelper,
-                'Enterprise_ImportExport_Helper_Data' => $enterpriseHelper,
-            ),
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
             'module_helper'                => $moduleHelper,

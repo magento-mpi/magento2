@@ -22,11 +22,11 @@ class Magento_Downloadable_Model_System_Config_Source_Contentdisposition
         return array(
             array(
                 'value' => 'attachment',
-                'label' => Mage::helper('Magento_Downloadable_Helper_Data')->__('attachment')
+                'label' => __('attachment')
             ),
             array(
                 'value' => 'inline',
-                'label' => Mage::helper('Magento_Downloadable_Helper_Data')->__('inline')
+                'label' => __('inline')
             )
         );
     }

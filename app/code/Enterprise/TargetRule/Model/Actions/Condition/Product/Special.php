@@ -41,13 +41,13 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
         $conditions = array(
             array(
                 'value' => 'Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price',
-                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Price (percentage)')
+                'label' => __('Price (percentage)')
             )
         );
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Special')
+            'label' => __('Product Special')
         );
     }
 }

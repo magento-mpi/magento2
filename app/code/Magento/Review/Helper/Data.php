@@ -43,9 +43,9 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
     public function getReviewStatuses()
     {
         return array(
-            Magento_Review_Model_Review::STATUS_APPROVED     => $this->__('Approved'),
-            Magento_Review_Model_Review::STATUS_PENDING      => $this->__('Pending'),
-            Magento_Review_Model_Review::STATUS_NOT_APPROVED => $this->__('Not Approved'),
+            Magento_Review_Model_Review::STATUS_APPROVED     => __('Approved'),
+            Magento_Review_Model_Review::STATUS_PENDING      => __('Pending'),
+            Magento_Review_Model_Review::STATUS_NOT_APPROVED => __('Not Approved'),
         );
     }
 

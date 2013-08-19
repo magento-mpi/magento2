@@ -29,7 +29,7 @@ class Magento_CatalogRule_Model_Rule_Action_Collection extends Magento_Rule_Mode
         $actions = array_merge_recursive($actions, array(
             array(
                 'value' => 'Magento_CatalogRule_Model_Rule_Action_Product',
-                'label' => Mage::helper('Magento_CatalogInventory_Helper_Data')->__('Update the Product')
+                'label' => __('Update the Product')
         )));
         return $actions;
     }

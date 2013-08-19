@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_Abstract extends Magento_Adminhtml_Blo
         if (Mage::registry('order')) {
             return Mage::registry('order');
         }
-        Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot get the order instance.'));
+        Mage::throwException(__('We cannot get the order instance.'));
     }
 
     public function getPriceDataObject()

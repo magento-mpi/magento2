@@ -29,14 +29,14 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends M
         if($row->isValidForSend()) {
             $actions[] = array(
                 'url' => $this->getUrl('*/newsletter_queue/edit', array('template_id' => $row->getId())),
-                'caption' => Mage::helper('Magento_Newsletter_Helper_Data')->__('Queue Newsletter...')
+                'caption' => __('Queue Newsletter...')
             );
         }
 
         $actions[] = array(
             'url'     => $this->getUrl('*/*/preview', array('id'=>$row->getId())),
             'popup'   => true,
-            'caption' => Mage::helper('Magento_Newsletter_Helper_Data')->__('Preview')
+            'caption' => __('Preview')
         );
 
         $this->getColumn()->setActions($actions);

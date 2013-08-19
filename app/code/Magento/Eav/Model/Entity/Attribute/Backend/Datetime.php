@@ -28,7 +28,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Datetime extends Magento_Eav_Mo
             try {
                 $value = $this->formatDate($object->getData($attributeName));
             } catch (Exception $e) {
-                throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Invalid date'));
+                throw Mage::exception('Magento_Eav', __('Invalid date'));
             }
 
             if (is_null($value)) {

@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
             'code'      => 'subtotal',
             'value'     => $this->getSource()->getSubtotal(),
             'base_value'=> $this->getSource()->getBaseSubtotal(),
-            'label'     => $this->helper('Magento_Sales_Helper_Data')->__('Subtotal')
+            'label'     => __('Subtotal')
         ));
 
         /**
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
                 'code'      => 'shipping',
                 'value'     => $this->getSource()->getShippingAmount(),
                 'base_value'=> $this->getSource()->getBaseShippingAmount(),
-                'label' => $this->helper('Magento_Sales_Helper_Data')->__('Shipping & Handling')
+                'label' => __('Shipping & Handling')
             ));
         }
 
@@ -61,9 +61,9 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
          */
         if (((float)$this->getSource()->getDiscountAmount()) != 0) {
             if ($this->getSource()->getDiscountDescription()) {
-                $discountLabel = $this->helper('Magento_Sales_Helper_Data')->__('Discount (%s)', $this->getSource()->getDiscountDescription());
+                $discountLabel = __('Discount (%1)', $this->getSource()->getDiscountDescription());
             } else {
-                $discountLabel = $this->helper('Magento_Sales_Helper_Data')->__('Discount');
+                $discountLabel = __('Discount');
             }
             $this->_totals['discount'] = new Magento_Object(array(
                 'code'      => 'discount',
@@ -78,7 +78,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
             'strong'    => true,
             'value'     => $this->getSource()->getGrandTotal(),
             'base_value'=> $this->getSource()->getBaseGrandTotal(),
-            'label'     => $this->helper('Magento_Sales_Helper_Data')->__('Grand Total'),
+            'label'     => __('Grand Total'),
             'area'      => 'footer'
         ));
 

@@ -37,7 +37,7 @@ class Magento_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
         parent::__construct($context, $data);
 
         $this->setId(self::TAB_ID);
-        $this->setTitle($this->_helperFactory->get('Magento_Tag_Helper_Data')->__('Product Tags'));
+        $this->setTitle(__('Product Tags'));
     }
 
     /**

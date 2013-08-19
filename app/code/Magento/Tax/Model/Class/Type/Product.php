@@ -21,11 +21,6 @@ class Magento_Tax_Model_Class_Type_Product
     protected $_modelProduct;
 
     /**
-     * @var Magento_Tax_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Class Type
      *
      * @var string
@@ -35,18 +30,15 @@ class Magento_Tax_Model_Class_Type_Product
     /**
      * @param Magento_Tax_Model_Calculation_Rule $calculationRule
      * @param Magento_Catalog_Model_Product $modelProduct
-     * @param Magento_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Model_Calculation_Rule $calculationRule,
         Magento_Catalog_Model_Product $modelProduct,
-        Magento_Tax_Helper_Data $helper,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
         $this->_modelProduct = $modelProduct;
-        $this->_helper = $helper;
     }
 
     /**
@@ -68,6 +60,6 @@ class Magento_Tax_Model_Class_Type_Product
      */
     public function getObjectTypeName()
     {
-        return $this->_helper->__('product');
+        return __('product');
     }
 }

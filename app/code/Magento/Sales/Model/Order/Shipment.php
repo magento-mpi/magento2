@@ -174,7 +174,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     {
         if ($this->getId()) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('We cannot register an existing shipment')
+                __('We cannot register an existing shipment')
             );
         }
 
@@ -523,7 +523,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     {
         if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('We cannot create an empty shipment.')
+                __('We cannot create an empty shipment.')
             );
         }
 

@@ -37,16 +37,16 @@ class Magento_Tag_Block_Product_Result extends Magento_Catalog_Block_Product_Abs
     public function setListOrders() {
         $this->getChildBlock('search_result_list')
             ->setAvailableOrders(array(
-                'name' => Mage::helper('Magento_Tag_Helper_Data')->__('Name'),
-                'price'=>Mage::helper('Magento_Tag_Helper_Data')->__('Price'))
+                'name' => __('Name'),
+                'price'=>__('Price'))
             );
     }
 
     public function setListModes() {
         $this->getChildBlock('search_result_list')
             ->setModes(array(
-                'grid' => Mage::helper('Magento_Tag_Helper_Data')->__('Grid'),
-                'list' => Mage::helper('Magento_Tag_Helper_Data')->__('List'))
+                'grid' => __('Grid'),
+                'list' => __('List'))
             );
     }
 
@@ -91,7 +91,7 @@ class Magento_Tag_Block_Product_Result extends Magento_Catalog_Block_Product_Abs
     public function getHeaderText()
     {
         if( $this->getTag()->getName() ) {
-            return Mage::helper('Magento_Tag_Helper_Data')->__("Products tagged with '%s'", $this->escapeHtml($this->getTag()->getName()));
+            return __("Products tagged with '%1'", $this->escapeHtml($this->getTag()->getName()));
         } else {
             return false;
         }
@@ -104,6 +104,6 @@ class Magento_Tag_Block_Product_Result extends Magento_Catalog_Block_Product_Abs
 
     public function getNoResultText()
     {
-        return Mage::helper('Magento_Tag_Helper_Data')->__('We didn\'t find any matches.');
+        return __('We didn\'t find any matches.');
     }
 }

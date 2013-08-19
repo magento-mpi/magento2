@@ -21,7 +21,7 @@ class Enterprise_Logging_Block_Adminhtml_Archive extends Magento_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Logging_Helper_Data')->__('Admin Actions Log Archive');
+        return __('Admin Actions Log Archive');
     }
 
     /**

@@ -44,7 +44,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Authorize extends Magento_Oauth_Block_
      */
     public function getIdentityLabel()
     {
-        return $this->__('User Name');
+        return __('User Name');
     }
 
     /**
@@ -54,7 +54,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Authorize extends Magento_Oauth_Block_
      */
     public function getFormTitle()
     {
-        return $this->__('Log in as admin');
+        return __('Log in as admin');
     }
 
     /**

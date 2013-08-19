@@ -171,7 +171,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
         }
         else {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('We found an invalid quantity to refund item "%s".', $this->getName())
+                __('We found an invalid quantity to refund item "%1".', $this->getName())
             );
         }
         return $this;

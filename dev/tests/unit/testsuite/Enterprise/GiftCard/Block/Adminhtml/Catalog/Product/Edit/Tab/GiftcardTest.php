@@ -27,19 +27,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest 
             ->setMethods($methods)
             ->getMock();
 
-        $helperMock = $this->getMockBuilder('Magento_Backend_Helper_Data')
-            ->setMethods(array('__'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
-        $helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('Magento_Backend_Helper_Data'))
-            ->will($this->returnValue($helperMock));
 
         $contextMock->expects($this->any())
             ->method('getHelperFactory')

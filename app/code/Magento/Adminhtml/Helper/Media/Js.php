@@ -32,17 +32,17 @@ class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
     {
         parent::__construct($context, $configReader, $configCacheType);
         $this->_translateData = array(
-            'Complete' => $this->__('Complete'),
-            'The file size should be more than 0 bytes.' => $this->__('The file size should be more than 0 bytes.'),
-            'Upload Security Error' => $this->__('Upload Security Error'),
-            'Upload HTTP Error'     => $this->__('Upload HTTP Error'),
-            'Upload I/O Error'     => $this->__('Upload I/O Error'),
-            'SSL Error: Invalid or self-signed certificate' => $this->__('SSL Error: Invalid or self-signed certificate'),
-            'Tb' => $this->__('Tb'),
-            'Gb' => $this->__('Gb'),
-            'Mb' => $this->__('Mb'),
-            'Kb' => $this->__('Kb'),
-            'b' => $this->__('b')
+            'Complete' => __('Complete'),
+            'The file size should be more than 0 bytes.' => __('The file size should be more than 0 bytes.'),
+            'Upload Security Error' => __('Upload Security Error'),
+            'Upload HTTP Error'     => __('Upload HTTP Error'),
+            'Upload I/O Error'     => __('Upload I/O Error'),
+            'SSL Error: Invalid or self-signed certificate' => __('SSL Error: Invalid or self-signed certificate'),
+            'Tb' => __('Tb'),
+            'Gb' => __('Gb'),
+            'Mb' => __('Mb'),
+            'Kb' => __('Kb'),
+            'b' => __('b')
         );
     }
 

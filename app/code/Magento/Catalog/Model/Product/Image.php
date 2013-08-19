@@ -331,7 +331,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         $baseFile = $baseDir . $file;
 
         if (!$file || !$this->_filesystem->isFile($baseFile)) {
-            throw new Exception(Mage::helper('Magento_Catalog_Helper_Data')->__('We can\'t find the image file.'));
+            throw new Exception(__('We can\'t find the image file.'));
         }
 
         $this->_baseFile = $baseFile;

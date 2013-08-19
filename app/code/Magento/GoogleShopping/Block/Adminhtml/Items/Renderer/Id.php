@@ -37,7 +37,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Renderer_Id
         } else {
             $itemId = $itemUrl;
         }
-        $title = $this->__('View Item in Google Content');
+        $title = __('View Item in Google Content');
 
         return sprintf('<a href="%s" alt="%s" title="%s" target="_blank">%s</a>', $baseUrl . $itemId, $title, $title, $itemId);
     }

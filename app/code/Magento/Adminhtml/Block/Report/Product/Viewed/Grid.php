@@ -48,20 +48,20 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Interval'),
+            'header'        => __('Interval'),
             'index'         => 'period',
             'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'  => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total'),
+            'totals_label'  => __('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'index'     => 'product_name',
             'type'      => 'string',
             'sortable'  => false,
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('product_price', array(
-            'header'        => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Price'),
+            'header'        => __('Price'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'product_price',
@@ -86,7 +86,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('views_num', array(
-            'header'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Views'),
+            'header'    => __('Views'),
             'index'     => 'views_num',
             'type'      => 'number',
             'total'     => 'sum',
@@ -96,8 +96,8 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
         ));
 
 
-        $this->addExportType('*/*/exportViewedCsv', Mage::helper('Magento_Adminhtml_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportViewedExcel', Mage::helper('Magento_Adminhtml_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportViewedCsv', __('CSV'));
+        $this->addExportType('*/*/exportViewedExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

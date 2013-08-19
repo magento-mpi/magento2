@@ -75,7 +75,7 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
                 } else {
                     $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
                     $redirectBlock->setGotoSection($gotoSection);
-                    $redirectBlock->setErrorMsg($this->__('Your payment has been declined. Please try again.'));
+                    $redirectBlock->setErrorMsg(__('Your payment has been declined. Please try again.'));
                 }
             }
         }

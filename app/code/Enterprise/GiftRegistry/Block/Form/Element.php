@@ -246,7 +246,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Temp
     public function convertArrayToOptions($selectOptions, $withEmpty = false) {
         $options = array();
         if ($withEmpty) {
-            $options[] = array('value' => '', 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('-- Please select --'));
+            $options[] = array('value' => '', 'label' => __('-- Please select --'));
         }
         if (is_array($selectOptions)) {
             foreach ($selectOptions as $code => $option) {

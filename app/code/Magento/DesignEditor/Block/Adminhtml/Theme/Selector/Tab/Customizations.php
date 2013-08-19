@@ -30,6 +30,6 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations
      */
     public function getTabTitle()
     {
-        return $this->__('My Customizations');
+        return __('My Customizations');
     }
 }

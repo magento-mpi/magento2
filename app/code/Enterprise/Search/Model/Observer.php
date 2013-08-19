@@ -35,7 +35,7 @@ class Enterprise_Search_Model_Observer
 
         $fieldset->addField('search_weight', 'select', array(
             'name'        => 'search_weight',
-            'label'       => Mage::helper('Magento_Catalog_Helper_Data')->__('Search Weight'),
+            'label'       => __('Search Weight'),
             'values'      => Mage::getModel('Enterprise_Search_Model_Source_Weight')->getOptions(),
         ), 'is_searchable');
         /**

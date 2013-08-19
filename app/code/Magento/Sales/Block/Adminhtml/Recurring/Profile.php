@@ -26,7 +26,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile extends Magento_Adminhtml_
      */
     protected function _construct()
     {
-        $this->_headerText = Mage::helper('Magento_Sales_Helper_Data')->__('Recurring Billing Profiles (beta)');
+        $this->_headerText = __('Recurring Billing Profiles (beta)');
         parent::_construct();
         $this->_removeButton('add');
     }

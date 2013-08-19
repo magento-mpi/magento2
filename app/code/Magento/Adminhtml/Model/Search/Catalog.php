@@ -43,7 +43,7 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
             $description = strip_tags($product->getDescription());
             $arr[] = array(
                 'id'            => 'product/1/'.$product->getId(),
-                'type'          => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Product'),
+                'type'          => __('Product'),
                 'name'          => $product->getName(),
                 'description'   => Mage::helper('Magento_Core_Helper_String')->substr($description, 0, 30),
                 'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(

@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
-                    <resource id="Enterprise_Enterprise::marketing_private_sales" module="Enterprise_Enterprise" title="Private Sales" sortOrder="20" />
+                    <resource id="Enterprise_Enterprise::marketing_private_sales" title="Private Sales" sortOrder="20" />
                 </resource>
             </resource>
         </resources>

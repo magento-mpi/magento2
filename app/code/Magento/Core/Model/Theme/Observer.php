@@ -34,29 +34,21 @@ class Magento_Core_Model_Theme_Observer
     protected $_eventDispatcher;
 
     /**
-     * @var
-     */
-    protected $_helper;
-
-    /**
      * @param Magento_Core_Model_Theme_ImageFactory $themeImageFactory
      * @param Magento_Core_Model_Resource_Layout_Update_Collection $updateCollection
      * @param Magento_Theme_Model_Config_Customization $themeConfig
      * @param Magento_Core_Model_Event_Manager $eventDispatcher
-     * @param Magento_Core_Helper_Data $helper
      */
     public function __construct(
         Magento_Core_Model_Theme_ImageFactory $themeImageFactory,
         Magento_Core_Model_Resource_Layout_Update_Collection $updateCollection,
         Magento_Theme_Model_Config_Customization $themeConfig,
-        Magento_Core_Model_Event_Manager $eventDispatcher,
-        Magento_Core_Helper_Data $helper
+        Magento_Core_Model_Event_Manager $eventDispatcher
     ) {
         $this->_themeImageFactory = $themeImageFactory;
         $this->_updateCollection = $updateCollection;
         $this->_themeConfig = $themeConfig;
         $this->_eventDispatcher = $eventDispatcher;
-        $this->_helper = $helper;
     }
 
     /**
@@ -73,7 +65,7 @@ class Magento_Core_Model_Theme_Observer
         }
         /** @var $theme Magento_Core_Model_Theme */
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
-            throw new Magento_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
+            throw new Magento_Core_Exception(__('Theme isn\'t deletable.'));
         }
         $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
         $this->_updateCollection->addThemeFilter($theme->getId())->delete();

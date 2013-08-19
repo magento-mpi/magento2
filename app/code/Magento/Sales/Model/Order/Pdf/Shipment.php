@@ -36,17 +36,17 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
 
         //columns headers
         $lines[0][] = array(
-            'text' => Mage::helper('Magento_Sales_Helper_Data')->__('Products'),
+            'text' => __('Products'),
             'feed' => 100,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('Qty'),
+            'text'  => __('Qty'),
             'feed'  => 35
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('SKU'),
+            'text'  => __('SKU'),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -96,7 +96,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,
-                Mage::helper('Magento_Sales_Helper_Data')->__('Packing Slip # ') . $shipment->getIncrementId()
+                __('Packing Slip # ') . $shipment->getIncrementId()
             );
             /* Add table */
             $this->_drawHeader($page);

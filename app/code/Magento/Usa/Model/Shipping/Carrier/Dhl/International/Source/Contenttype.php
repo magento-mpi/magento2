@@ -25,9 +25,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Contenttype
     public function toOptionArray()
     {
         return array(
-            array('label' => Mage::helper('Magento_Usa_Helper_Data')->__('Documents'),
+            array('label' => __('Documents'),
                 'value' => Magento_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_DOC),
-            array('label' => Mage::helper('Magento_Usa_Helper_Data')->__('Non documents'),
+            array('label' => __('Non documents'),
                 'value' => Magento_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_NON_DOC),
         );
     }

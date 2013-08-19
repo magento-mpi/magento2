@@ -545,9 +545,9 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     {
         if (null === self::$_states) {
             self::$_states = array(
-                self::STATE_OPEN       => Mage::helper('Magento_Sales_Helper_Data')->__('Pending'),
-                self::STATE_PAID       => Mage::helper('Magento_Sales_Helper_Data')->__('Paid'),
-                self::STATE_CANCELED   => Mage::helper('Magento_Sales_Helper_Data')->__('Canceled'),
+                self::STATE_OPEN       => __('Pending'),
+                self::STATE_PAID       => __('Paid'),
+                self::STATE_CANCELED   => __('Canceled'),
             );
         }
         return self::$_states;
@@ -571,7 +571,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
         if (isset(self::$_states[$stateId])) {
             return self::$_states[$stateId];
         }
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Unknown State');
+        return __('Unknown State');
     }
 
     /**
@@ -584,7 +584,7 @@ class Magento_Sales_Model_Order_Invoice extends Magento_Sales_Model_Abstract
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot register an existing invoice'));
+            Mage::throwException(__('We cannot register an existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {

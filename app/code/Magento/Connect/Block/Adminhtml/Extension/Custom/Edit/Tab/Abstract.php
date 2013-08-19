@@ -86,7 +86,7 @@ abstract class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstrac
                 ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
-                    ->setLabel($this->__($title))
+                    ->setLabel(__($title))
                     ->setOnClick("addRow('".$container."', '".$template."')")
                     ->toHtml();
         }
@@ -103,7 +103,7 @@ abstract class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstrac
                 ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete')
-                    ->setLabel($this->__('Remove'))
+                    ->setLabel(__('Remove'))
                     ->setOnClick("removeRow(this, '".$selector."')")
                     ->toHtml();
         }
@@ -117,7 +117,7 @@ abstract class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstrac
                 ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add')
-                    ->setLabel($this->__('Add files'))
+                    ->setLabel(__('Add files'))
                     ->setOnClick("showHideFiles(this, '".$selector."', '".$filesClass."')")
                     ->toHtml();
         }

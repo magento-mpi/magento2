@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magent
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
-                    'label' => $this->helper('Magento_Cms_Helper_Data')->__('Images (%s)', implode(', ', $labels)),
+                    'label' => __('Images (%1)', implode(', ', $labels)),
                     'files' => $files
                 )
             ));

@@ -55,7 +55,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
             $storeCreditData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
-                'frontend_label' => $helper->__('Store Credit'),
+                'frontend_label' => __('Store Credit'),
                 'backend_type'   => 'decimal',
                 'is_required'    => false,
             );
@@ -68,7 +68,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
             $rewardPointsData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,
-                'frontend_label' => $helper->__('Reward Points'),
+                'frontend_label' => __('Reward Points'),
                 'backend_type'   => 'int',
                 'is_required'    => false,
             );

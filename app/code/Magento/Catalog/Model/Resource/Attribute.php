@@ -95,7 +95,7 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
-                Mage::throwException(Mage::helper('Magento_Eav_Helper_Data')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
+                Mage::throwException(__("Attribute '%1' used in configurable products", $attribute->getAttributeCode()));
             }
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {

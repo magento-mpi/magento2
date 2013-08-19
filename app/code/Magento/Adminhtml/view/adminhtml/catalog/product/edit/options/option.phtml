@@ -17,12 +17,12 @@
                 <span id="option_${id}_header_title">${title}</span>
             </strong>
             <div class="actions">
-                <button type="button" title="<?php echo $this->__('Delete Custom Option'); ?>" class="action-delete" id="<?php echo $this->getFieldId() ?>_${id}_delete">
-                    <span><?php echo $this->__('Delete Custom Option'); ?></span>
+                <button type="button" title="<?php echo __('Delete Custom Option'); ?>" class="action-delete" id="<?php echo $this->getFieldId() ?>_${id}_delete">
+                    <span><?php echo __('Delete Custom Option'); ?></span>
                 </button>
             </div>
             <div id="<?php echo $this->getFieldId() ?>_${id}_move" data-role="draggable-handle" class="draggable-handle"
-                 title="<?php echo $this->__('Sort Custom Options'); ?>"></div>
+                 title="<?php echo __('Sort Custom Options'); ?>"></div>
         </div>
         <div class="fieldset-wrapper-content in collapse" id="${id}-content">
             <fieldset class="fieldset">
@@ -36,7 +36,7 @@
 
                     <div class="field field-option-title required">
                         <label class="label" for="<?php echo $this->getFieldId() ?>_${id}_title">
-                            <?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Option Title') ?>
+                            <?php echo __('Option Title') ?>
                         </label>
                         <div class="control">
                             <input id="<?php echo $this->getFieldId() ?>_${id}_title"
@@ -51,7 +51,7 @@
 
                     <div class="field field-option-input-type required">
                         <label class="label" for="<?php echo $this->getFieldId() ?>_${id}_title">
-                            <?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Input Type') ?>
+                            <?php echo __('Input Type') ?>
                         </label>
                         <div class="control opt-type">
                             <?php echo $this->getTypeSelectHtml() ?>
@@ -62,7 +62,7 @@
                         <div class="control">
                             <input id="<?php echo $this->getFieldId() ?>_${id}_required" class="is-required" type="checkbox" checked="checked"/>
                             <label for="field-option-req">
-                                <?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Required')?>
+                                <?php echo __('Required')?>
                             </label>
                             <span style="display:none"><?php echo $this->getRequireSelectHtml() ?></span>
                         </div>
@@ -91,7 +91,7 @@ jQuery(function ($) {
         )
     )?>);
     //adding data to templates
-    <?php /** @var $_value Magneto_Object */ ?>
+    <?php /** @var $_value Magento_Object */ ?>
     <?php foreach ($this->getOptionValues() as $_value): ?>
         fieldSet.customOptions('addOption', <?php echo $_value->toJson() ?>);
     <?php endforeach; ?>

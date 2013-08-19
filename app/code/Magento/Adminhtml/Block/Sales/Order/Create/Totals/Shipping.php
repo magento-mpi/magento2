@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function getIncludeTaxLabel()
     {
-        return $this->helper('Magento_Tax_Helper_Data')->__('Shipping Incl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
+        return __('Shipping Incl. Tax (%1)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
     }
 
     /**
@@ -77,6 +77,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function getExcludeTaxLabel()
     {
-        return $this->helper('Magento_Tax_Helper_Data')->__('Shipping Excl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
+        return __('Shipping Excl. Tax (%1)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
     }
 }

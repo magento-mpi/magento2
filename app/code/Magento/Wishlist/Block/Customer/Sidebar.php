@@ -25,7 +25,7 @@ class Magento_Wishlist_Block_Customer_Sidebar extends Magento_Wishlist_Block_Abs
      */
     public function getTitle()
     {
-        return $this->__('My Wish List <small>(%d)</small>', $this->getItemCount());
+        return __('My Wish List <small>(%1)</small>', $this->getItemCount());
     }
 
     /**

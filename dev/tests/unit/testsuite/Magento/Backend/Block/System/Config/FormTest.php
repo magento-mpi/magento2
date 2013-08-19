@@ -74,13 +74,9 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             ->method('getParam')
             ->will($this->returnValueMap($requestParams));
 
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false, false);
-
         $layoutMock = $this->getMock('Magento_Core_Model_Layout',
             array(), array(), '', false, false
         );
-        $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock('Magento_Backend_Model_Config_Factory', array(), array(), '', false, false);

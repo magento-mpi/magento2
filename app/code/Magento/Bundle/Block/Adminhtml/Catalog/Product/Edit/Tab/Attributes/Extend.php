@@ -47,11 +47,11 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend
         . '" type="select" class="required-entry select next-toinput"'
         . ($this->getProduct()->getId() && $this->getAttribute()->getAttributeCode() == 'price'
             || $this->getElement()->getReadonly() ? ' disabled="disabled"' : '') . '>
-            <option value="">' . $this->__('-- Select --') . '</option>
+            <option value="">' . __('-- Select --') . '</option>
             <option ' . ($switchAttributeValue == self::DYNAMIC ? 'selected' : '')
-            . ' value="' . self::DYNAMIC . '">' . $this->__('Dynamic') . '</option>
+            . ' value="' . self::DYNAMIC . '">' . __('Dynamic') . '</option>
             <option ' . ($switchAttributeValue == self::FIXED ? 'selected' : '')
-            . ' value="' . self::FIXED . '">' . $this->__('Fixed') . '</option>
+            . ' value="' . self::FIXED . '">' . __('Fixed') . '</option>
         </select>';
 
         if (!($this->getAttribute()->getAttributeCode() == 'price'

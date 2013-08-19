@@ -33,7 +33,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku
      */
     public function getHeaderText()
     {
-        return $this->__('Add to Order by SKU');
+        return __('Add to Order by SKU');
     }
 
     /**
@@ -54,7 +54,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => $this->__('Add to Order'),
+            'label' => __('Add to Order'),
             'onclick' => 'addBySku.submitSkuForm()',
             'class' => 'action-add',
         );

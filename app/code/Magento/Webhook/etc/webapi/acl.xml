@@ -13,7 +13,7 @@
     <acl>
         <resources>
             <resource id="Magento_Webapi">
-                <resource id="webhook" title="Manage WebHooks" module="Magento_Webhook">
+                <resource id="webhook" title="Manage WebHooks">
                     <resource id="webhook/create" title="Create" sortOrder="10" />
                     <resource id="webhook/get" title="Retrieve" sortOrder="20" />
                     <resource id="webhook/update" title="Update" sortOrder="30" />

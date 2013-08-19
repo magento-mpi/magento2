@@ -144,7 +144,7 @@ abstract class Magento_Sales_Controller_Abstract extends Magento_Core_Controller
                 $this->_redirect('*/*/history');
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Checkout_Model_Session')->addException($e,
-                    Mage::helper('Magento_Checkout_Helper_Data')->__('We cannot add this item to your shopping cart.')
+                    __('We cannot add this item to your shopping cart.')
                 );
                 $this->_redirect('checkout/cart');
             }

@@ -59,7 +59,7 @@ class Magento_Cron_Model_Config_Backend_Product_Alert extends Magento_Core_Model
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('Magento_Cron_Helper_Data')->__('We can\'t save the Cron expression.'));
+            throw new Exception(__('We can\'t save the Cron expression.'));
         }
     }
 }

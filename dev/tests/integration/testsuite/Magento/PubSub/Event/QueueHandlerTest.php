@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event_QueueHandlerTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * mock endpoint url
@@ -24,13 +24,12 @@ class Magento_PubSub_Event_QueueHandlerTests extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
-        $eventCollection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection')
-            ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+        $eventCollection = Mage::getObjectManager()->create('Magento_Webhook_Model_Resource_Event_Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
         /** @var Magento_Webhook_Model_Event $event */
         foreach ($events as $event) {
-            $event->markAsProcessed();
+            $event->complete();
             $event->save();
         }
 

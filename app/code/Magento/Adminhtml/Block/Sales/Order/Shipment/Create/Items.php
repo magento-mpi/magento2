@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     protected function _beforeToHtml()
     {
         $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Submit Shipment'),
+            'label'     => __('Submit Shipment'),
             'class'     => 'save submit-button',
             'onclick'   => 'submitShipment(this);',
         ));

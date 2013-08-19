@@ -15,20 +15,20 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_Adminhtml::marketing_communications">
-                        <resource id="Magento_Newsletter::template" title="Newsletter Template" module="Magento_Newsletter" sortOrder="20" />
-                        <resource id="Magento_Newsletter::queue" title="Newsletter Queue" module="Magento_Newsletter" sortOrder="30"/>
-                        <resource id="Magento_Newsletter::subscriber" title="Newsletter Subscribers" module="Magento_Newsletter" sortOrder="40"/>
+                        <resource id="Magento_Newsletter::template" title="Newsletter Template" sortOrder="20" />
+                        <resource id="Magento_Newsletter::queue" title="Newsletter Queue" sortOrder="30"/>
+                        <resource id="Magento_Newsletter::subscriber" title="Newsletter Subscribers" sortOrder="40"/>
                     </resource>
                 </resource>
                 <resource id="Magento_Reports::report">
                     <resource id="Magento_Reports::report_marketing">
-                        <resource id="Magento_Newsletter::problem" title="Newsletter Problem Reports" module="Magento_Newsletter" sortOrder="40"/>
+                        <resource id="Magento_Newsletter::problem" title="Newsletter Problem Reports" sortOrder="40"/>
                     </resource>
                 </resource>
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Newsletter::newsletter" module="Magento_Newsletter" title="Newsletter Section" />
+                            <resource id="Magento_Newsletter::newsletter" title="Newsletter Section" />
                         </resource>
                     </resource>
                 </resource>

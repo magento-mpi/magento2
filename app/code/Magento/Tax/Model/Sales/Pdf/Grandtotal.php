@@ -37,7 +37,7 @@ class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_P
 
         $totals = array(array(
             'amount'    => $this->getAmountPrefix().$amountExclTax,
-            'label'     => Mage::helper('Magento_Tax_Helper_Data')->__('Grand Total (Excl. Tax)') . ':',
+            'label'     => __('Grand Total (Excl. Tax)') . ':',
             'font_size' => $fontSize
         ));
 
@@ -47,12 +47,12 @@ class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_P
 
         $totals[] = array(
             'amount'    => $this->getAmountPrefix().$tax,
-            'label'     => Mage::helper('Magento_Tax_Helper_Data')->__('Tax') . ':',
+            'label'     => __('Tax') . ':',
             'font_size' => $fontSize
         );
         $totals[] = array(
             'amount'    => $this->getAmountPrefix().$amount,
-            'label'     => Mage::helper('Magento_Tax_Helper_Data')->__('Grand Total (Incl. Tax)') . ':',
+            'label'     => __('Grand Total (Incl. Tax)') . ':',
             'font_size' => $fontSize
         );
         return $totals;

@@ -43,7 +43,7 @@ class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_A
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->getLayout()->getBlock('head')->setTitle($this->__('My Product Reviews'));
+        $this->getLayout()->getBlock('head')->setTitle(__('My Product Reviews'));
 
         $this->renderLayout();
     }
@@ -54,7 +54,7 @@ class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_A
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');
         }
-        $this->getLayout()->getBlock('head')->setTitle($this->__('Review Details'));
+        $this->getLayout()->getBlock('head')->setTitle(__('Review Details'));
         $this->renderLayout();
     }
 }

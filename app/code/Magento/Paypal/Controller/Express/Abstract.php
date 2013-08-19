@@ -109,7 +109,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getCheckoutSession()->addError($this->__('We can\'t start Express Checkout.'));
+            $this->_getCheckoutSession()->addError(__('We can\'t start Express Checkout.'));
             Mage::logException($e);
         }
 
@@ -150,15 +150,15 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
                     ->unsLastSuccessQuoteId()
                     ->unsLastOrderId()
                     ->unsLastRealOrderId()
-                    ->addSuccess($this->__('Express Checkout and Order have been canceled.'))
+                    ->addSuccess(__('Express Checkout and Order have been canceled.'))
                 ;
             } else {
-                $this->_getCheckoutSession()->addSuccess($this->__('Express Checkout has been canceled.'));
+                $this->_getCheckoutSession()->addSuccess(__('Express Checkout has been canceled.'));
             }
         } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getCheckoutSession()->addError($this->__('Unable to cancel Express Checkout'));
+            $this->_getCheckoutSession()->addError(__('Unable to cancel Express Checkout'));
             Mage::logException($e);
         }
 
@@ -180,7 +180,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($this->__('We can\'t process Express Checkout approval.'));
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(__('We can\'t process Express Checkout approval.'));
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');
@@ -210,7 +210,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         }
         catch (Exception $e) {
             Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
-                $this->__('We can\'t initialize Express Checkout review.')
+                __('We can\'t initialize Express Checkout review.')
             );
             Mage::logException($e);
         }
@@ -250,7 +250,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('We can\'t update shipping method.'));
+            $this->_getSession()->addError(__('We can\'t update shipping method.'));
             Mage::logException($e);
         }
         if ($isAjax) {
@@ -278,7 +278,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('We can\'t update Order data.'));
+            $this->_getSession()->addError(__('We can\'t update Order data.'));
             Mage::logException($e);
         }
         $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
@@ -304,7 +304,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('We can\'t update Order data.'));
+            $this->_getSession()->addError(__('We can\'t update Order data.'));
             Mage::logException($e);
         }
         if ($isAjax) {
@@ -325,7 +325,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
-                    Mage::throwException(Mage::helper('Magento_Paypal_Helper_Data')->__('Please agree to all the terms and conditions before placing the order.'));
+                    Mage::throwException(__('Please agree to all the terms and conditions before placing the order.'));
                 }
             }
 
@@ -376,7 +376,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addError($this->__('We can\'t place the order.'));
+            $this->_getSession()->addError(__('We can\'t place the order.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/review');
@@ -391,7 +391,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-            Mage::throwException(Mage::helper('Magento_Paypal_Helper_Data')->__('We can\'t initialize Express Checkout.'));
+            Mage::throwException(__('We can\'t initialize Express Checkout.'));
         }
         if (false === isset($this->_checkoutTypes[$this->_checkoutType])) {
             $parameters = array(
@@ -418,7 +418,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             if (false === $setToken) {
                 // security measure for avoid unsetting token twice
                 if (!$this->_getSession()->getExpressCheckoutToken()) {
-                    Mage::throwException($this->__('PayPal Express Checkout Token does not exist.'));
+                    Mage::throwException(__('PayPal Express Checkout Token does not exist.'));
                 }
                 $this->_getSession()->unsExpressCheckoutToken();
             } else {
@@ -428,7 +428,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         }
         if ($setToken = $this->getRequest()->getParam('token')) {
             if ($setToken !== $this->_getSession()->getExpressCheckoutToken()) {
-                Mage::throwException($this->__('A wrong PayPal Express Checkout Token is specified.'));
+                Mage::throwException(__('A wrong PayPal Express Checkout Token is specified.'));
             }
         } else {
             $setToken = $this->_getSession()->getExpressCheckoutToken();

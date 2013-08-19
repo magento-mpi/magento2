@@ -20,8 +20,8 @@ class Magento_Catalog_Model_Config_Source_Product_Thumbnail implements Magento_C
     public function toOptionArray()
     {
         return array(
-            array('value'=>'itself', 'label'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Product Thumbnail Itself')),
-            array('value'=>'parent', 'label'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Parent Product Thumbnail')),
+            array('value'=>'itself', 'label'=>__('Product Thumbnail Itself')),
+            array('value'=>'parent', 'label'=>__('Parent Product Thumbnail')),
         );
     }
 }

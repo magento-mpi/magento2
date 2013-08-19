@@ -25,12 +25,12 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <cancel>
-                                <label translate="true" module="Enterprise_Invitation">Discard Selected</label>
+                                <label translate="true">Discard Selected</label>
                                 <url>*/*/massCancel</url>
-                                <confirm translate="true" module="Enterprise_Invitation">Are you sure you want to do this?</confirm>
+                                <confirm translate="true">Are you sure you want to do this?</confirm>
                             </cancel>
                             <resend>
-                                <label translate="true" module="Enterprise_Invitation">Send Selected</label>
+                                <label translate="true">Send Selected</label>
                                 <url>*/*/massResend</url>
                             </resend>
                         </options>
@@ -48,7 +48,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="enterprise_invitation_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">ID</header>
+                            <header translate="true">ID</header>
                             <width>80</width>
                             <align>right</align>
                             <type>text</type>
@@ -57,14 +57,14 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Email</header>
+                            <header translate="true">Email</header>
                             <type>text</type>
                             <index>invitation_email</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="invitee">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Invitee</header>
+                            <header translate="true">Invitee</header>
                             <type>text</type>
                             <index>invitee_email</index>
                             <renderer>Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee</renderer>
@@ -72,7 +72,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="invitation_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Sent</header>
+                            <header translate="true">Sent</header>
                             <type>datetime</type>
                             <gmtoffset>1</gmtoffset>
                             <width>170</width>
@@ -81,7 +81,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="signup_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Registered</header>
+                            <header translate="true">Registered</header>
                             <type>datetime</type>
                             <gmtoffset>1</gmtoffset>
                             <width>150</width>
@@ -90,7 +90,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Status</header>
+                            <header translate="true">Status</header>
                             <type>options</type>
                             <width>140</width>
                             <index>status</index>
@@ -99,7 +99,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="website_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Valid Website</header>
+                            <header translate="true">Valid Website</header>
                             <type>options</type>
                             <width>150</width>
                             <index>website_id</index>
@@ -108,7 +108,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="group_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_Invitation">Invitee Group</header>
+                            <header translate="true">Invitee Group</header>
                             <type>options</type>
                             <width>140</width>
                             <index>group_id</index>

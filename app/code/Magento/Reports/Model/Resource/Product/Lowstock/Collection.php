@@ -169,7 +169,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('The product type filter specified is incorrect.')
+                __('The product type filter specified is incorrect.')
             );
         }
         $this->addAttributeToFilter('type_id', $typeFilter);

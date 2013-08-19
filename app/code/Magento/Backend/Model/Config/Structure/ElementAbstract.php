@@ -26,13 +26,6 @@ abstract class Magento_Backend_Model_Config_Structure_ElementAbstract
     protected $_scope;
 
     /**
-     * Helper factory
-     *
-     * @var Magento_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * Application object
      *
      * @var Magento_Core_Model_App
@@ -40,25 +33,11 @@ abstract class Magento_Backend_Model_Config_Structure_ElementAbstract
     protected $_application;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_App $application
      */
-    public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_App $application
-    ) {
-        $this->_helperFactory = $helperFactory;
-        $this->_application = $application;
-    }
-
-    /**
-     * Retrieve element translation module
-     *
-     * @return string
-     */
-    protected function _getTranslationModule()
+    public function __construct(Magento_Core_Model_App $application)
     {
-        return (isset($this->_data['module']) ? $this->_data['module'] : 'Magento_Backend') . '_Helper_Data';
+        $this->_application = $application;
     }
 
     /**
@@ -72,7 +51,7 @@ abstract class Magento_Backend_Model_Config_Structure_ElementAbstract
         if (false == array_key_exists($code, $this->_data)) {
             return '';
         }
-        return $this->_helperFactory->get($this->_getTranslationModule())->__($this->_data[$code]);
+        return __($this->_data[$code]);
     }
 
     /**

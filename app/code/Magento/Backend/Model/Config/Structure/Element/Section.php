@@ -19,18 +19,16 @@ class Magento_Backend_Model_Config_Structure_Element_Section
     protected $_authorization;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_App $application
      * @param Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_App $application,
         Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator,
         Magento_AuthorizationInterface $authorization
     ) {
-        parent::__construct($helperFactory, $application, $childrenIterator);
+        parent::__construct($application, $childrenIterator);
         $this->_authorization = $authorization;
     }
 

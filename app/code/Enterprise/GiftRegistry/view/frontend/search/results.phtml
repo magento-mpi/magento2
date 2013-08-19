@@ -11,7 +11,7 @@
 
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>
 <div class="fieldset">
-    <h2 class="legend"><?php echo $this->__('Search Results') ?></h2>
+    <h2 class="legend"><?php echo __('Search Results') ?></h2>
 </div>
 <?php echo $this->getChildHtml('pager') ?>
 <table class="data-table" id="giftregistry-search-results">
@@ -23,12 +23,12 @@
     <col width="1" />
     <thead>
         <tr>
-            <th><?php echo $this->__('Name') ?></th>
-            <th><?php echo $this->__('Location') ?></th>
-            <th><?php echo $this->__('Event') ?></th>
-            <th><?php echo $this->__('Type') ?></th>
-            <th><span class="nobr"><?php echo $this->__('Event Date') ?></span></th>
-            <th><?php echo $this->__('Actions') ?></th>
+            <th><?php echo __('Name') ?></th>
+            <th><?php echo __('Location') ?></th>
+            <th><?php echo __('Event') ?></th>
+            <th><?php echo __('Type') ?></th>
+            <th><span class="nobr"><?php echo __('Event Date') ?></span></th>
+            <th><?php echo __('Actions') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@
             <td><?php echo $this->escapeHtml($item->getTitle()) ?></td>
             <td><?php echo $this->escapeHtml($item->getType()) ?></td>
             <td><span class="nobr"><?php echo $this->getFormattedDate($item) ?></span></td>
-            <td><a href="<?php echo $this->getRegistryLink($item) ?>" title="<?php echo $this->__('View') ?>"><?php echo $this->__('View') ?></a></td>
+            <td><a href="<?php echo $this->getRegistryLink($item) ?>" title="<?php echo __('View') ?>"><?php echo __('View') ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
@@ -47,5 +47,5 @@
 <script type="text/javascript">(function($) {$('#giftregistry-search-results').decorate('table')})(jQuery)</script>
 <?php echo $this->getChildHtml('pager') ?>
 <?php else: ?>
-    <p class="error-msg"><?php echo $this->__('Your search returned no results.') ?></p>
+    <p class="error-msg"><?php echo __('Your search returned no results.') ?></p>
 <?php endif; ?>

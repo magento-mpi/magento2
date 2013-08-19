@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="payment" translate="label" module="Magento_Payment" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="payment" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment Methods</label>
             <tab>sales</tab>
             <resource>Magento_Payment::payment</resource>

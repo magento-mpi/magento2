@@ -111,7 +111,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
      */
     public function getName()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Category');
+        return __('Category');
     }
 
     /**

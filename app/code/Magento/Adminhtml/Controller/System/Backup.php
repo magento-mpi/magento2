@@ -22,7 +22,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     public function indexAction()
     {
-        $this->_title($this->__('Backups'));
+        $this->_title(__('Backups'));
 
         if($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
@@ -31,9 +31,9 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Backup::system_tools_backup');
-        $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'));
-        $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tools'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tools'));
-        $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Backups'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Backup'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Tools'), __('Tools'));
+        $this->_addBreadcrumb(__('Backups'), __('Backup'));
 
         $this->renderLayout();
     }
@@ -88,10 +88,10 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
                 if (!$turnedOn) {
                     $response->setError(
-                        Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . Mage::helper('Magento_Backup_Helper_Data')->__('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
+                        __('You need more permissions to activate maintenance mode right now.')
+                            . ' ' . __('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
                     );
-                    $backupManager->setErrorMessage(Mage::helper('Magento_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
+                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -109,13 +109,13 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
-            $errorMessage = Mage::helper('Magento_Backup_Helper_Data')->__('You need more free space to create a backup.');
+            $errorMessage = __('You need more free space to create a backup.');
         } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to create a backup.');
+            $errorMessage = __('You need more permissions to create a backup.');
         } catch (Exception  $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('Magento_Backup_Helper_Data')->__('Something went wrong creating the backup.');
+            $errorMessage = __('Something went wrong creating the backup.');
         }
 
         if (!empty($errorMessage)) {
@@ -206,8 +206,8 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             );
 
             if (!$passwordValid) {
-                $response->setError(Mage::helper('Magento_Backup_Helper_Data')->__('Please correct the password.'));
-                $backupManager->setErrorMessage(Mage::helper('Magento_Backup_Helper_Data')->__('Please correct the password.'));
+                $response->setError(__('Please correct the password.'));
+                $backupManager->setErrorMessage(__('Please correct the password.'));
                 return $this->getResponse()->setBody($response->toJson());
             }
 
@@ -216,10 +216,10 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
                 if (!$turnedOn) {
                     $response->setError(
-                        Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . Mage::helper('Magento_Backup_Helper_Data')->__('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
+                        __('You need more permissions to activate maintenance mode right now.')
+                            . ' ' . __('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
                     );
-                    $backupManager->setErrorMessage(Mage::helper('Magento_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
+                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -249,17 +249,17 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
             $response->setRedirectUrl($this->getUrl('*'));
         } catch (Magento_Backup_Exception_CantLoadSnapshot $e) {
-            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('The backup file was not found.');
+            $errorMsg = __('The backup file was not found.');
         } catch (Magento_Backup_Exception_FtpConnectionFailed $e) {
-            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('We couldn\'t connect to the FTP.');
+            $errorMsg = __('We couldn\'t connect to the FTP.');
         } catch (Magento_Backup_Exception_FtpValidationFailed $e) {
-            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('Failed to validate FTP');
+            $errorMsg = __('Failed to validate FTP');
         } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to create a backup.');
+            $errorMsg = __('You need more permissions to create a backup.');
         } catch (Exception $e) {
             Mage::log($e->getMessage());
-            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('Failed to rollback');
+            $errorMsg = __('Failed to rollback');
         }
 
         if (!empty($errorMsg)) {
@@ -294,7 +294,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         $resultData->setDeleteResult(array());
         Mage::register('backup_manager', $resultData);
 
-        $deleteFailMessage = Mage::helper('Magento_Backup_Helper_Data')->__('We couldn\'t delete one or more backups.');
+        $deleteFailMessage = __('We couldn\'t delete one or more backups.');
 
         try {
             $allBackupsDeleted = true;
@@ -307,9 +307,9 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
                 if ($backupModel->exists()) {
                     $allBackupsDeleted = false;
-                    $result = Mage::helper('Magento_Adminhtml_Helper_Data')->__('failed');
+                    $result = __('failed');
                 } else {
-                    $result = Mage::helper('Magento_Adminhtml_Helper_Data')->__('successful');
+                    $result = __('successful');
                 }
 
                 $resultData->setDeleteResult(
@@ -320,7 +320,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $resultData->setIsSuccess(true);
             if ($allBackupsDeleted) {
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_Backup_Helper_Data')->__('The selected backup(s) has been deleted.')
+                    __('The selected backup(s) has been deleted.')
                 );
             }
             else {

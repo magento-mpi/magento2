@@ -37,11 +37,11 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
         $this->_uniqueFields = array(
             array(
                 'field' => array('id_path','store_id','is_system'),
-                'title' => Mage::helper('Magento_Core_Helper_Data')->__('ID Path for Specified Store')
+                'title' => __('ID Path for Specified Store')
             ),
             array(
                  'field' => array('request_path','store_id'),
-                 'title' => Mage::helper('Magento_Core_Helper_Data')->__('Request Path for Specified Store'),
+                 'title' => __('Request Path for Specified Store'),
             )
         );
         return $this;

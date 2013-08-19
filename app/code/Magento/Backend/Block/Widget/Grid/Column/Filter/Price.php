@@ -62,12 +62,12 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Price extends Magento_Back
         $html .= '<div class="range-line">'
             . '<input type="text" name="'
             . $this->_getHtmlName()
-            . '[from]" id="' . $this->_getHtmlId() . '_from" placeholder="' . Mage::helper('Magento_Backend_Helper_Data')->__('From') . '" value="'
+            . '[from]" id="' . $this->_getHtmlId() . '_from" placeholder="' . __('From') . '" value="'
             . $this->getEscapedValue('from') . '" class="input-text no-changes"  '
             . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/></div>';
         $html .= '<div class="range-line">'
             . '<input type="text" name="'
-            . $this->_getHtmlName() . '[to]" id="' . $this->_getHtmlId() . '_to" placeholder="' . Mage::helper('Magento_Backend_Helper_Data')->__('To')
+            . $this->_getHtmlName() . '[to]" id="' . $this->_getHtmlId() . '_to" placeholder="' . __('To')
             . '" value="'.$this->getEscapedValue('to')
             . '" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/></div>';
 

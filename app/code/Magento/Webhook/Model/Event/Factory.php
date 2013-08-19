@@ -45,8 +45,7 @@ class Magento_Webhook_Model_Event_Factory implements Magento_PubSub_Event_Factor
         return $this->_objectManager->create('Magento_Webhook_Model_Event', array(
             'data' => array(
                 'topic' => $topic,
-                'body_data' => serialize($this->_arrayConverter->convertDataToArray($data)),
-                'status' => Magento_PubSub_EventInterface::READY_TO_SEND
+                'body_data' => serialize($this->_arrayConverter->convertDataToArray($data))
             )
         ))->setDataChanges(true);
     }

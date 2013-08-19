@@ -128,7 +128,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
         if (isset($this->_data['attribute_code'])
             && Mage::getModel('Magento_Catalog_Model_Product')->isReservedAttribute($this))
         {
-            throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+            throw Mage::exception('Magento_Eav', __('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
         /**
@@ -139,7 +139,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
                               'StringLength',
                               array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
         ) {
-            throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
+            throw Mage::exception('Magento_Eav', __('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
         }
 
         $defaultValue   = $this->getDefaultValue();
@@ -149,7 +149,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
             if (!Zend_Locale_Format::isNumber($defaultValue,
                                               array('locale' => Mage::app()->getLocale()->getLocaleCode()))
             ) {
-                 throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Invalid default decimal value'));
+                 throw Mage::exception('Magento_Eav', __('Invalid default decimal value'));
             }
 
             try {
@@ -158,7 +158,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
             } catch (Exception $e) {
-                throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Invalid default decimal value'));
+                throw Mage::exception('Magento_Eav', __('Invalid default decimal value'));
             }
         }
 
@@ -178,7 +178,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
                     $defaultValue = Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (Exception $e) {
-                    throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Invalid default date'));
+                    throw Mage::exception('Magento_Eav', __('Invalid default date'));
                 }
             }
         }

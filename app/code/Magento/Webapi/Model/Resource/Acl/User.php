@@ -10,19 +10,12 @@
 class Magento_Webapi_Model_Resource_Acl_User extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Magento_Webapi_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Class constructor.
      *
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Webapi_Helper_Data $helper
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Webapi_Helper_Data $helper)
+    public function __construct(Magento_Core_Model_Resource $resource)
     {
-        $this->_helper = $helper;
         parent::__construct($resource);
     }
 
@@ -44,7 +37,7 @@ class Magento_Webapi_Model_Resource_Acl_User extends Magento_Core_Model_Resource
         $this->_uniqueFields = array(
             array(
                 'field' => 'api_key',
-                'title' => $this->_helper->__('API Key')
+                'title' => __('API Key')
             ),
         );
         return $this;

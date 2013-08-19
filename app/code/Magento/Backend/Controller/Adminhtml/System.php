@@ -22,8 +22,8 @@ class Magento_Backend_Controller_Adminhtml_System extends Magento_Backend_Contro
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system');
         $this->_addBreadcrumb(
-            $this->_helper->__('System'),
-            $this->_helper->__('System')
+            __('System'),
+            __('System')
         );
         $this->renderLayout();
     }

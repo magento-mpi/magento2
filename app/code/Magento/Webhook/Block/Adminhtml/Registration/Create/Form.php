@@ -74,13 +74,13 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
         $fieldset = $form;
 
         $fieldset->addField('company', 'text', array(
-            'label'     => $this->__('Company'),
+            'label'     => __('Company'),
             'name'      => 'company',
             'size'      => $inputLength,
         ));
 
         $fieldset->addField('email', 'text', array(
-            'label'     => $this->__('Contact Email'),
+            'label'     => __('Contact Email'),
             'name'      => 'email',
             'class'     => 'email',
             'required'  => true,
@@ -88,7 +88,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
         ));
 
         $fieldset->addField('apikey', 'text', array(
-            'label'     => $this->__('API Key'),
+            'label'     => __('API Key'),
             'name'      => 'apikey',
             'value'     => $apiKey,
             'class'     => 'monospace',
@@ -97,7 +97,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
         ));
 
         $fieldset->addField('apisecret', 'text', array(
-            'label'     => $this->__('API Secret'),
+            'label'     => __('API Secret'),
             'name'      => 'apisecret',
             'value'     => $apiSecret,
             'class'     => 'monospace',

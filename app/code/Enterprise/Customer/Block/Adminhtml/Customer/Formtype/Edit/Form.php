@@ -50,27 +50,27 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Ma
 
         if ($showNew) {
             $fieldset = $form->addFieldset('base_fieldset', array(
-                'legend' => Mage::helper('Enterprise_Customer_Helper_Data')->__('General Information'),
+                'legend' => __('General Information'),
                 'class'  => 'fieldset-wide'
             ));
 
             $options = $this->_getFormType()->getCollection()->toOptionArray();
             array_unshift($options, array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('-- Please Select --'),
+                'label' => __('-- Please Select --'),
                 'value' => ''
             ));
             $fieldset->addField('type_id', 'select', array(
                 'name'      => 'type_id',
-                'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Based On'),
-                'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Based On'),
+                'label'     => __('Based On'),
+                'title'     => __('Based On'),
                 'required'  => true,
                 'values'    => $options
             ));
 
             $fieldset->addField('label', 'text', array(
                 'name'      => 'label',
-                'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Label'),
-                'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Label'),
+                'label'     => __('Form Label'),
+                'title'     => __('Form Label'),
                 'required'  => true,
             ));
 
@@ -78,20 +78,20 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Ma
             $label = Mage::getModel('Magento_Core_Model_Theme_Label');
             $options = $label->getLabelsCollection();
             array_unshift($options, array(
-                'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes'),
+                'label' => __('All Themes'),
                 'value' => ''
             ));
             $fieldset->addField('theme', 'select', array(
                 'name'      => 'theme',
-                'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('For Theme'),
-                'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('For Theme'),
+                'label'     => __('For Theme'),
+                'title'     => __('For Theme'),
                 'values'    => $options
             ));
 
             $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
-                'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
-                'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
+                'label'     => __('Store View'),
+                'title'     => __('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true)
             ));

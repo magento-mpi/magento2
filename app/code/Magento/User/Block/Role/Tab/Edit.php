@@ -49,7 +49,7 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
      */
     public function getTabLabel()
     {
-        return $this->helper('Magento_User_Helper_Data')->__('Role Resources');
+        return __('Role Resources');
     }
 
     /**
@@ -144,7 +144,7 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
         foreach ($resources as $resource) {
             $item = array();
             $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = $this->__($resource['title']);
+            $item['data'] = __($resource['title']);
             $item['children'] = array();
             if (isset($resource['children'])) {
                 $item['state'] = 'open';

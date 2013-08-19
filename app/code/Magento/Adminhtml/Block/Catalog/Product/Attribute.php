@@ -22,8 +22,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute extends Magento_Adminhtm
     protected function _construct()
     {
         $this->_controller = 'catalog_product_attribute';
-        $this->_headerText = Mage::helper('Magento_Catalog_Helper_Data')->__('Product Attributes');
-        $this->_addButtonLabel = Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Attribute');
+        $this->_headerText = __('Product Attributes');
+        $this->_addButtonLabel = __('Add New Attribute');
         parent::_construct();
     }
 

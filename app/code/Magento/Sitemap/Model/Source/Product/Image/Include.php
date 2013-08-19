@@ -32,9 +32,9 @@ class Magento_Sitemap_Model_Source_Product_Image_Include
     public function toOptionArray()
     {
         return array(
-            self::INCLUDE_NONE => Mage::helper('Magento_Sitemap_Helper_Data')->__('None'),
-            self::INCLUDE_BASE => Mage::helper('Magento_Sitemap_Helper_Data')->__('Base Only'),
-            self::INCLUDE_ALL  => Mage::helper('Magento_Sitemap_Helper_Data')->__('All'),
+            self::INCLUDE_NONE => __('None'),
+            self::INCLUDE_BASE => __('Base Only'),
+            self::INCLUDE_ALL  => __('All'),
         );
     }
 }

@@ -212,15 +212,6 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
 
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue(false));
         $this->_requestMock->expects($this->never())->method('setActionName');
-        $helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->once())->method('__')->with($this->stringStartsWith('Requested invalid store'))
-            ->will($this->returnArgument(0));
-
-        $this->_helperFactoryMock
-            ->expects($this->any())
-            ->method('get')
-            ->with('Magento_Core_Helper_Data')
-            ->will($this->returnValue($helperMock));
 
         $this->_model->getSafeStore(10);
     }

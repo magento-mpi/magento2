@@ -52,11 +52,11 @@ class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Ab
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('Magento_User_Helper_Data')->__('Email')
+                'title' => __('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('Magento_User_Helper_Data')->__('User Name')
+                'title' => __('User Name')
             ),
         );
         return $this;
@@ -434,7 +434,7 @@ class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Ab
     {
         $userIdentity = new Zend_Validate_Callback(array($this, 'isUserUnique'));
         $userIdentity->setMessage(
-            Mage::helper('Magento_User_Helper_Data')->__('A user with the same user name or email already exists.'),
+            __('A user with the same user name or email already exists.'),
             Zend_Validate_Callback::INVALID_VALUE
         );
 

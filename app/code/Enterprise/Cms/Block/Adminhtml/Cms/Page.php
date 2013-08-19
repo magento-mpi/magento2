@@ -32,11 +32,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page extends Magento_Adminhtml_Block_Te
             if($pageGrid) {
                 $pageGrid->addColumnAfter('versioned', array(
                     'index'     => 'under_version_control',
-                    'header'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Version Control'),
+                    'header'    => __('Version Control'),
                     'width'     => 10,
                     'type'      => 'options',
-                    'options'   => array(Mage::helper('Enterprise_Cms_Helper_Data')->__('No'),
-                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Yes')
+                    'options'   => array(__('No'),
+                        __('Yes')
                     )
                 ), 'page_actions');
             }

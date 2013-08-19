@@ -72,7 +72,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
         }
         else {
             if (Mage::app()->getStore()->isAdmin()) {
-                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A website ID must be set.'));
+                Mage::throwException(__('A website ID must be set.'));
             }
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
@@ -93,7 +93,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Please also set the Store ID.'));
+                Mage::throwException(__('Please also set the Store ID.'));
             }
             $this->setStoreId($storeId);
         }
@@ -111,7 +111,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
         $this->_ensureCustomer();
 
         if (0 == $this->getWebsiteId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A website ID must be set.'));
+            Mage::throwException(__('A website ID must be set.'));
         }
 
         // check history action
@@ -131,7 +131,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('The Store ID must be set to send email notifications.'));
+            Mage::throwException(__('The Store ID must be set to send email notifications.'));
         }
 
         return parent::_beforeSave();
@@ -167,13 +167,13 @@ class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstra
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A customer ID must be specified.'));
+            Mage::throwException(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
             $this->setCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('This customer is not set or does not exist.'));
+            Mage::throwException(__('This customer is not set or does not exist.'));
         }
     }
 

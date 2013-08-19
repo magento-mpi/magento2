@@ -37,7 +37,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
      */
     public function indexAction()
     {
-        $this->_title($this->__('Currency Rates'));
+        $this->_title(__('Currency Rates'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_CurrencySymbol::system_currency_rates');
@@ -51,14 +51,14 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
             if( !$service ) {
-                throw new Exception(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please specify a correct Import Service.'));
+                throw new Exception(__('Please specify a correct Import Service.'));
             }
             try {
                 $importModel = Mage::getModel(
                     Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
                 );
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t initialize the import model.'));
+                Mage::throwException(__('We can\'t initialize the import model.'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
@@ -66,9 +66,9 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
                 foreach ($errors as $error) {
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning($error);
                 }
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(Mage::helper('Magento_Adminhtml_Helper_Data')->__('All possible rates were fetched, please click on "Save" to apply'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(__('All possible rates were fetched, please click on "Save" to apply'));
             } else {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('All rates were fetched, please click on "Save" to apply'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('All rates were fetched, please click on "Save" to apply'));
             }
 
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->setRates($rates);
@@ -89,13 +89,13 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magent
                         $value = abs(Mage::getSingleton('Magento_Core_Model_LocaleInterface')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
-                            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please correct the input data for %s => %s rate', $currencyCode, $currencyTo));
+                            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(__('Please correct the input data for %1 => %2 rate', $currencyCode, $currencyTo));
                         }
                     }
                 }
 
                 Mage::getModel('Magento_Directory_Model_Currency')->saveRates($data);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('All valid rates have been saved.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('All valid rates have been saved.'));
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }

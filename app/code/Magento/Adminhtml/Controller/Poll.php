@@ -20,11 +20,11 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
     public function indexAction()
     {
-        $this->_title($this->__('Polls'));
+        $this->_title(__('Polls'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Poll::cms_poll');
-        $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'));
+        $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'));
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Poll'));
         $this->renderLayout();
@@ -32,20 +32,20 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
     public function editAction()
     {
-        $this->_title($this->__('Polls'));
+        $this->_title(__('Polls'));
 
         $pollId     = $this->getRequest()->getParam('id');
         $pollModel  = Mage::getModel('Magento_Poll_Model_Poll')->load($pollId);
 
         if ($pollModel->getId() || $pollId == 0) {
-            $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : $this->__('New Poll'));
+            $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : __('New Poll'));
 
             Mage::register('poll_data', $pollModel);
 
             $this->loadLayout();
             $this->_setActiveMenu('Magento_Poll::cms_poll');
-            $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Poll Manager'), $this->getUrl('*/*/'));
-            $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Edit Poll'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Edit Poll'));
+            $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'), $this->getUrl('*/*/'));
+            $this->_addBreadcrumb(__('Edit Poll'), __('Edit Poll'));
 
             $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
             $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit'))
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
             $this->renderLayout();
         } else {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Poll_Helper_Data')->__('The poll does not exist.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('The poll does not exist.'));
             $this->_redirect('*/*/');
         }
     }
@@ -65,7 +65,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 $model = Mage::getModel('Magento_Poll_Model_Poll');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('You deleted the poll.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the poll.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -75,13 +75,13 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 return;
             }
         }
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t find a poll to delete.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a poll to delete.'));
         $this->_redirect('*/*/');
     }
 
     public function saveAction()
     {
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('You saved the poll.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the poll.'));
         Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPollData(false);
         $this->_redirect('*/*/');
     }
@@ -122,7 +122,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
                 $stores = $this->getRequest()->getParam('store_ids');
                 if (!is_array($stores) || count($stores) == 0) {
-                    Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please indicate where this poll can be seen ("Visible In").'));
+                    Mage::throwException(__('Please indicate where this poll can be seen ("Visible In").'));
                 }
 
                 if (is_array($stores)) {
@@ -139,7 +139,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                         }
                     }
                     if (count($storeIds) === 0) {
-                        Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please indicate where this poll can be seen ("Visible In").'));
+                        Mage::throwException(__('Please indicate where this poll can be seen ("Visible In").'));
                     }
                     $pollModel->setStoreIds($storeIds);
                 }
@@ -147,14 +147,14 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 $answers = $this->getRequest()->getParam('answer');
 
                 if( !is_array($answers) || sizeof($answers) == 0 ) {
-                    Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please enter answer options for this poll.'));
+                    Mage::throwException(__('Please enter answer options for this poll.'));
                 }
 
                 if( is_array($answers) ) {
                     $_titles = array();
                     foreach( $answers as $key => $answer ) {
                         if( in_array($answer['title'], $_titles) ) {
-                            Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Your answers contain duplicates.'));
+                            Mage::throwException(__('Your answers contain duplicates.'));
                         }
                         $_titles[] = $answer['title'];
 

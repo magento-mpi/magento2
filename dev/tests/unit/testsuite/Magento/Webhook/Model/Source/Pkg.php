@@ -15,11 +15,7 @@ class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
     /** Config values */
     const CONFIG_LABEL = 'blah';
     const CONFIG_STATUS = 'enabled';
-    const TRANSLATED = '_translated';
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockTranslate;
-    
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
     
@@ -38,15 +34,6 @@ class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
         $this->_mockConfig->expects($this->any())
             ->method('getNode')
             ->will($this->returnValue($this->_modelConfigElement));
-        $this->_mockTranslate = $this->getMockBuilder('Magento_Core_Model_Translate')
-            ->disableOriginalConstructor()->getMock();
-        $this->_mockTranslate->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(
-                function ($args) {
-                    return array_shift($args) . Magento_Webhook_Model_Source_Pkg::TRANSLATED;
-                }
-            ));
     }
 
     /**
@@ -56,7 +43,9 @@ class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
      */
     protected function _assertElements($elements)
     {
-        $this->assertSame(self::CONFIG_LABEL . self::TRANSLATED, $elements[0]['label']);
+        /** @var Magento_Phrase $phrase */
+        $phrase = $elements[0]['label'];
+        $this->assertSame(self::CONFIG_LABEL, $phrase->render());
         $this->assertSame('type', $elements[0]['value']);
     }
 }

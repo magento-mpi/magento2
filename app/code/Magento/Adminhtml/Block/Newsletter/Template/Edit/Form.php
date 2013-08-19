@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Information'),
+            'legend'    => __('Template Information'),
             'class'     => 'fieldset-wide'
         ));
 
@@ -61,24 +61,24 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
 
         $fieldset->addField('code', 'text', array(
             'name'      => 'code',
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Name'),
-            'title'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Name'),
+            'label'     => __('Template Name'),
+            'title'     => __('Template Name'),
             'required'  => true,
             'value'     => $model->getTemplateCode(),
         ));
 
         $fieldset->addField('subject', 'text', array(
             'name'      => 'subject',
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Subject'),
-            'title'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Subject'),
+            'label'     => __('Template Subject'),
+            'title'     => __('Template Subject'),
             'required'  => true,
             'value'     => $model->getTemplateSubject(),
         ));
 
         $fieldset->addField('sender_name', 'text', array(
             'name'      =>'sender_name',
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Sender Name'),
-            'title'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Sender Name'),
+            'label'     => __('Sender Name'),
+            'title'     => __('Sender Name'),
             'required'  => true,
             'value'     => $model->getId() !== null 
                 ? $model->getTemplateSenderName()
@@ -87,8 +87,8 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
 
         $fieldset->addField('sender_email', 'text', array(
             'name'      =>'sender_email',
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Sender Email'),
-            'title'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Sender Email'),
+            'label'     => __('Sender Email'),
+            'title'     => __('Sender Email'),
             'class'     => 'validate-email',
             'required'  => true,
             'value'     => $model->getId() !== null 
@@ -104,8 +104,8 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
         }
         $fieldset->addField('text', 'editor', array(
             'name'      => 'text',
-            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Content'),
-            'title'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Content'),
+            'label'     => __('Template Content'),
+            'title'     => __('Template Content'),
             'required'  => true,
             'state'     => 'html',
             'style'     => 'height:36em;',
@@ -116,7 +116,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Admi
         if (!$model->isPlain()) {
             $fieldset->addField('template_styles', 'textarea', array(
                 'name'          =>'styles',
-                'label'         => Mage::helper('Magento_Newsletter_Helper_Data')->__('Template Styles'),
+                'label'         => __('Template Styles'),
                 'container_id'  => 'field_template_styles',
                 'value'         => $model->getTemplateStyles()
             ));

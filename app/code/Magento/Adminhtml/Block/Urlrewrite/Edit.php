@@ -63,9 +63,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
         $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
 
         if ($this->_getUrlRewrite()->getId()) {
-            $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Edit URL Rewrite');
+            $this->_headerText = __('Edit URL Rewrite');
         } else {
-            $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Add New URL Rewrite');
+            $this->_headerText = __('Add New URL Rewrite');
         }
 
         $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . $this->_getSelectorBlock()->getDefaultMode());
@@ -94,7 +94,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected function _addResetButton()
     {
         $this->_addButton('reset', array(
-            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Reset'),
+            'label'   => __('Reset'),
             'onclick' => '$(\'edit_form\').reset()',
             'class'   => 'scalable',
             'level'   => -1
@@ -110,7 +110,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
         $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
 
         $this->_addButton('back', array(
-            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Back'),
+            'label'   => __('Back'),
             'onclick' => 'setLocation(\'' . $helper->getUrl('*/*/') . '\')',
             'class'   => 'back',
             'level'   => -1
@@ -136,9 +136,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
         $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
 
         $this->_addButton('delete', array(
-            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Delete'),
+            'label'   => __('Delete'),
             'onclick' => 'deleteConfirm(\''
-                . addslashes(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Are you sure you want to do this?'))
+                . addslashes(__('Are you sure you want to do this?'))
                 . '\', \'' . $helper->getUrl('*/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
             'class'   => 'scalable delete',
             'level'   => -1
@@ -151,7 +151,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected function _addSaveButton()
     {
         $this->_addButton('save', array(
-            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Save'),
+            'label'   => __('Save'),
             'class'   => 'save',
             'level'   => -1,
             'data_attribute'  => array(
@@ -169,13 +169,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', '', array(
-                        'data' => array(
-                            'url_rewrite' => $this->_getUrlRewrite()
-                        )
-                    )
-        );
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', '', array('data' => array(
+            'url_rewrite' => $this->_getUrlRewrite()
+        )));
     }
 
     /**

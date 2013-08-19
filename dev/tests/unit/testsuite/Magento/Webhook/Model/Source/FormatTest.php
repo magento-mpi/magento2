@@ -14,12 +14,12 @@ class Magento_Webhook_Model_Source_FormatTest extends Magento_Webhook_Model_Sour
 {
     public function testGetFormatsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Format(array('type' => 'blah'), $this->_mockTranslate);
+        $unitUnderTest = new Magento_Webhook_Model_Source_Format(array('type' => 'blah'));
         $elements = $unitUnderTest->getFormatsForForm();
         $this->_assertElements($elements);
 
         // Verify that we return cached results
         $secondResult = $unitUnderTest->getFormatsForForm();
-        $this->assertSame($elements, $secondResult);
+        $this->assertEquals($elements, $secondResult);
     }
 }

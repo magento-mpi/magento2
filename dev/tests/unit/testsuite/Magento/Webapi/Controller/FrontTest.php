@@ -28,18 +28,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** Prepare mocks for SUT constructor. */
-        $helper = $this->getMockBuilder('Magento_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper');
-        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
-
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
@@ -56,7 +45,6 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
             ->getMock();
         /** Initialize SUT. */
         $this->_frontControllerMock = new Magento_Webapi_Controller_Front(
-            $helperFactory,
             $this->_dispatcherFactory,
             $application,
             $this->_routeFactoryMock,
@@ -141,7 +129,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         /** Assert Magento_Webapi_Exception type and message. */
         $this->setExpectedException(
             'Magento_Webapi_Exception',
-            'The "%s" API type is not defined.',
+            'The "invalidApiType" API type is not defined.',
             Magento_Webapi_Exception::HTTP_BAD_REQUEST
         );
         $this->_frontControllerMock->determineApiType();

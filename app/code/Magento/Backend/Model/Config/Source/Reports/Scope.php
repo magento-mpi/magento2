@@ -23,9 +23,9 @@ class Magento_Backend_Model_Config_Source_Reports_Scope implements Magento_Core_
     public function toOptionArray()
     {
         return array(
-            array('value'=>'website', 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('Website')),
-            array('value'=>'group', 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('Store')),
-            array('value'=>'store', 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('Store View')),
+            array('value'=>'website', 'label'=>__('Website')),
+            array('value'=>'group', 'label'=>__('Store')),
+            array('value'=>'store', 'label'=>__('Store View')),
         );
     }
 

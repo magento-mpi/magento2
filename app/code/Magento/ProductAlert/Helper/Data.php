@@ -82,7 +82,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
             }
         }
         if (!$block instanceof Magento_Core_Block_Abstract) {
-            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('Invalid block type: %s', $block));
+            Mage::throwException(__('Invalid block type: %1', $block));
         }
         return $block;
     }

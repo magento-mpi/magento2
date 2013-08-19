@@ -23,18 +23,18 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status 
     protected function _construct()
     {
         self::$_statuses = array(
-                Magento_Newsletter_Model_Queue::STATUS_SENT 	=> Mage::helper('Magento_Customer_Helper_Data')->__('Sent'),
-                Magento_Newsletter_Model_Queue::STATUS_CANCEL	=> Mage::helper('Magento_Customer_Helper_Data')->__('Cancel'),
-                Magento_Newsletter_Model_Queue::STATUS_NEVER 	=> Mage::helper('Magento_Customer_Helper_Data')->__('Not Sent'),
-                Magento_Newsletter_Model_Queue::STATUS_SENDING => Mage::helper('Magento_Customer_Helper_Data')->__('Sending'),
-                Magento_Newsletter_Model_Queue::STATUS_PAUSE 	=> Mage::helper('Magento_Customer_Helper_Data')->__('Paused'),
+                Magento_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
+                Magento_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancel'),
+                Magento_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
+                Magento_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
+                Magento_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
             );
         parent::_construct();
     }
 
     public function render(Magento_Object $row)
     {
-        return Mage::helper('Magento_Customer_Helper_Data')->__($this->getStatus($row->getQueueStatus()));
+        return __($this->getStatus($row->getQueueStatus()));
     }
 
     public static function  getStatus($status)
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status 
             return self::$_statuses[$status];
         }
 
-        return Mage::helper('Magento_Customer_Helper_Data')->__('Unknown');
+        return __('Unknown');
     }
 
 }

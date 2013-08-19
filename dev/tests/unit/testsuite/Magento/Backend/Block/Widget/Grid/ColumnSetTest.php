@@ -29,11 +29,6 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_factoryMock;
 
     /**
@@ -60,13 +55,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             ->expects($this->any())
             ->method('getChildBlocks')
             ->will($this->returnValue(array('column' => $this->_columnMock)));
-        $this->_helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperMock
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnValue('TRANSLATED STRING'));
-        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(),
-            array(), '', false
+        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(), array(),
+            '', false
         );
 
         $this->_subtotalsMock = $this->getMock(
@@ -79,7 +69,6 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
         $arguments = array(
             'layout'           => $this->_layoutMock,
-            'helper'           => $this->_helperMock,
             'generatorFactory' => $this->_factoryMock,
             'totals' => $this->_totalsMock,
             'subtotals' => $this->_subtotalsMock
@@ -96,7 +85,6 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
         unset($this->_block);
         unset($this->_layoutMock);
         unset($this->_columnMock);
-        unset($this->_helperMock);
         unset($this->_factoryMock);
         unset($this->_totalsMock);
         unset($this->_subtotalsMock);
@@ -137,8 +125,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
         $itemMock = $this->getMock('Magento_Object', array(), array(), '', false);
 
-        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'),
-            array(), '', false
+        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'), array(),
+            '', false
         );
         $rowUrlGenerator->expects($this->once())
             ->method('getUrl')
@@ -151,13 +139,12 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
         $factoryMock->expects($this->once())
             ->method('createUrlGenerator')
             ->with($this->equalTo($generatorClass),
-            $this->equalTo(array('args' => array('generatorClass' => $generatorClass)))
-        )
+                $this->equalTo(array('args' => array('generatorClass' => $generatorClass)))
+            )
             ->will($this->returnValue($rowUrlGenerator));
 
         $arguments = array(
             'layout'           => $this->_layoutMock,
-            'helper'           => $this->_helperMock,
             'generatorFactory' => $factoryMock,
             'data'             => array(
                 'rowUrl' => array('generatorClass' => $generatorClass)

@@ -35,7 +35,7 @@
             </arguments>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
-                    <header translate="true" module="Magento_Reports">Product</header>
+                    <header translate="true">Product</header>
                     <type>text</type>
                     <index>order_items_name</index>
                     <id>name</id>
@@ -45,7 +45,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="ordered_qty">
                 <arguments>
-                    <header translate="true" module="Magento_Reports">Ordered Quantity</header>
+                    <header translate="true">Ordered Quantity</header>
                     <total>sum</total>
                     <type>number</type>
                     <index>ordered_qty</index>

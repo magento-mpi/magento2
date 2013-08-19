@@ -23,8 +23,8 @@ class Magento_Adminhtml_Block_Sitemap extends Magento_Adminhtml_Block_Widget_Gri
     protected function _construct()
     {
         $this->_controller = 'sitemap';
-        $this->_headerText = Mage::helper('Magento_Sitemap_Helper_Data')->__('XML Sitemap');
-        $this->_addButtonLabel = Mage::helper('Magento_Sitemap_Helper_Data')->__('Add Sitemap');
+        $this->_headerText = __('XML Sitemap');
+        $this->_addButtonLabel = __('Add Sitemap');
         parent::_construct();
     }
 

@@ -14,7 +14,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Freemethod extends Magento_
     public function toOptionArray()
     {
         $arr = parent::toOptionArray();
-        array_unshift($arr, array('value'=>'', 'label'=>Mage::helper('Magento_Shipping_Helper_Data')->__('None')));
+        array_unshift($arr, array('value'=>'', 'label'=>__('None')));
         return $arr;
     }
 }

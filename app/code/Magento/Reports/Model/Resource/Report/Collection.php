@@ -85,30 +85,22 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     protected $_locale;
 
     /**
-     * @var Magento_Reports_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Reports_Model_Resource_Report_Collection_Factory
      */
     protected $_collectionFactory;
 
     /**
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Reports_Helper_Data $helper
      * @param Zend_DateFactory $dateFactory
      * @param Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
      */
     public function __construct(
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Reports_Helper_Data $helper,
         Zend_DateFactory $dateFactory,
         Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
     ) {
         $this->_dateFactory = $dateFactory;
         $this->_locale = $locale;
-        $this->_helper = $helper;
         $this->_collectionFactory = $collectionFactory;
         parent::__construct();
     }
@@ -268,9 +260,9 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
     public function getPeriods()
     {
         return array(
-            'day'   => $this->_helper->__('Day'),
-            'month' => $this->_helper->__('Month'),
-            'year'  => $this->_helper->__('Year')
+            'day'   => __('Day'),
+            'month' => __('Month'),
+            'year'  => __('Year')
         );
     }
 

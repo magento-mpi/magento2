@@ -53,15 +53,15 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(
             'images' => array(
-                'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Images (.gif, .jpg, .png)'),
+                'label' => __('Images (.gif, .jpg, .png)'),
                 'files' => array('*.gif', '*.jpg', '*.png')
             ),
             'media' => array(
-                'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Media (.avi, .flv, .swf)'),
+                'label' => __('Media (.avi, .flv, .swf)'),
                 'files' => array('*.avi', '*.flv', '*.swf')
             ),
             'all' => array(
-                'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('All Files'),
+                'label' => __('All Files'),
                 'files' => array('*.*')
             )
         ));
@@ -104,7 +104,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Retrive config object
      *
-     * @return Magento_Config
+     * @return Magento_Object
      */
     public function getConfig()
     {

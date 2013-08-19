@@ -28,7 +28,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Container extends Magento_Back
     protected function _prepareLayout()
     {
         $this->addButton('back_button', array(
-            'label'   => $this->_helperFactory->get('Magento_Catalog_Helper_Data')->__('Back'),
+            'label'   => __('Back'),
             'onclick' => 'setLocation(\'' . $this->getUrl('*/*') . '\')',
             'class'   => 'back'
         ));
@@ -43,7 +43,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Container extends Magento_Back
      */
     public function getHeaderText()
     {
-        return $this->_helperFactory->get('Magento_DesignEditor_Helper_Data')->__('Store Designer');
+        return __('Store Designer');
     }
 
     /**

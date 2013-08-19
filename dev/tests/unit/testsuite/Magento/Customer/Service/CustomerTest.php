@@ -41,12 +41,9 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $this->_helperMock = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('generateResetPasswordLinkToken', '__'))
+            ->setMethods(array('generateResetPasswordLinkToken'))
             ->getMock();
 
-        $this->_helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
         $this->_customerFactory = $this->getMockBuilder('Magento_Customer_Model_CustomerFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))

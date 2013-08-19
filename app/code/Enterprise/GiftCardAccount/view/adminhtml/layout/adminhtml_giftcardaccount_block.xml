@@ -31,11 +31,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Magento_Customer">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportMsxml</urlPath>
-                                <label translate="true" module="Magento_Customer">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -47,9 +47,9 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <delete>
-                                <label translate="true" module="Enterprise_GiftCardAccount">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Enterprise_GiftCardAccount">Are you sure you want to delete these gift card accounts?</confirm>
+                                <confirm translate="true">Are you sure you want to delete these gift card accounts?</confirm>
                             </delete>
                         </options>
                     </arguments>
@@ -65,7 +65,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="giftcardaccount_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">ID</header>
+                            <header translate="true">ID</header>
                             <type>number</type>
                             <index>giftcardaccount_id</index>
                             <width>30</width>
@@ -73,13 +73,13 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Code</header>
+                            <header translate="true">Code</header>
                             <index>code</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Website</header>
+                            <header translate="true">Website</header>
                             <type>options</type>
                             <index>website_id</index>
                             <width>100</width>
@@ -90,7 +90,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_created">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Created</header>
+                            <header translate="true">Created</header>
                             <index>date_created</index>
                             <width>120</width>
                             <type>date</type>
@@ -98,7 +98,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_expires">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">End on</header>
+                            <header translate="true">End on</header>
                             <index>date_expires</index>
                             <width>120</width>
                             <type>date</type>
@@ -107,7 +107,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Active</header>
+                            <header translate="true">Active</header>
                             <index>status</index>
                             <width>50</width>
                             <type>options</type>
@@ -117,7 +117,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="state">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Status</header>
+                            <header translate="true">Status</header>
                             <index>state</index>
                             <width>100</width>
                             <type>options</type>
@@ -127,7 +127,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="balance">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Balance</header>
+                            <header translate="true">Balance</header>
                             <index>balance</index>
                             <type>currency</type>
                             <currency>base_currency_code</currency>

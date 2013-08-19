@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Layer_State extends Magento_Object
     public function setFilters($filters)
     {
         if (!is_array($filters)) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('The filters must be an array.'));
+            Mage::throwException(__('The filters must be an array.'));
         }
         $this->setData('filters', $filters);
         return $this;

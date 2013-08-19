@@ -59,7 +59,6 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends Magento_Webapi_Model_Re
 
         return $this->_helper->getObject('Magento_Webapi_Model_Resource_Acl_Role', array(
             'resource' => $this->_resource,
-            'helper' => $this->_helperData
         ));
     }
 

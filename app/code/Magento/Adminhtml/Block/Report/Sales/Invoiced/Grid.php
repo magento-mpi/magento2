@@ -35,19 +35,19 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Interval'),
+            'header'        => __('Interval'),
             'index'         => 'period',
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'  => Mage::helper('Magento_Sales_Helper_Data')->__('Total'),
+            'totals_label'  => __('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Orders'),
+            'header'    => __('Orders'),
             'index'     => 'orders_count',
             'type'      => 'number',
             'total'     => 'sum',
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('orders_invoiced', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoiced Orders'),
+            'header'    => __('Invoiced Orders'),
             'index'     => 'orders_invoiced',
             'type'      => 'number',
             'total'     => 'sum',
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
         $rate = $this->getRate($currencyCode);
 
         $this->addColumn('invoiced', array(
-            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Total Invoiced'),
+            'header'        => __('Total Invoiced'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'invoiced',
@@ -85,7 +85,7 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('invoiced_captured', array(
-            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Paid Invoices'),
+            'header'        => __('Paid Invoices'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'invoiced_captured',
@@ -97,7 +97,7 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
         ));
 
         $this->addColumn('invoiced_not_captured', array(
-            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Unpaid Invoices'),
+            'header'        => __('Unpaid Invoices'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'invoiced_not_captured',
@@ -108,8 +108,8 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
             'column_css_class'  => 'col-total-invoiced-not-paid'
         ));
 
-        $this->addExportType('*/*/exportInvoicedCsv', Mage::helper('Magento_Adminhtml_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportInvoicedExcel', Mage::helper('Magento_Adminhtml_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportInvoicedCsv', __('CSV'));
+        $this->addExportType('*/*/exportInvoicedExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

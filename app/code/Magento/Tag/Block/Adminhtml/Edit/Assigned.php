@@ -33,7 +33,7 @@ class Magento_Tag_Block_Adminhtml_Edit_Assigned extends Magento_Adminhtml_Block_
         $this->setId('tag_assigned_grid');
 
         $this->addItem('tag_assign', array(
-            'title'         => Mage::helper('Magento_Tag_Helper_Data')->__('Products Tagged by Administrators'),
+            'title'         => __('Products Tagged by Administrators'),
             'ajax'          => true,
             'content_url'   => $this->getUrl('*/*/assigned', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
         ));

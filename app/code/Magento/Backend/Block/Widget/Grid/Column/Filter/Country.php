@@ -21,7 +21,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Country extends Magento_Ba
             ->load()
             ->toOptionArray(false);
         array_unshift($options,
-            array('value'=>'', 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('All Countries'))
+            array('value'=>'', 'label'=>__('All Countries'))
         );
         return $options;
     }

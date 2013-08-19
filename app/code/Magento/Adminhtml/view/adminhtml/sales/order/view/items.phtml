@@ -14,16 +14,16 @@
     <table cellspacing="0" class="data">
         <thead>
             <tr class="headings">
-                <th class="col-product"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Product') ?></span></th>
-                <th class="col-status"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Item Status') ?></span></th>
-                <th class="col-price-original"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Original Price') ?></span></th>
-                <th class="col-price"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Price') ?></span></th>
-                <th class="col-ordered-qty"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Qty') ?></span></th>
-                <th class="col-subtotal"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Subtotal') ?></span></th>
-                <th class="col-tax-amount"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Tax Amount') ?></span></th>
-                <th class="col-tax-percent"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Tax Percent') ?></span></th>
-                <th class="col-discont"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Discount Amount') ?></span></th>
-                <th class="col-total last"><span><?php echo $this->helper('Magento_Sales_Helper_Data')->__('Row Total') ?></span></th>
+                <th class="col-product"><span><?php echo __('Product') ?></span></th>
+                <th class="col-status"><span><?php echo __('Item Status') ?></span></th>
+                <th class="col-price-original"><span><?php echo __('Original Price') ?></span></th>
+                <th class="col-price"><span><?php echo __('Price') ?></span></th>
+                <th class="col-ordered-qty"><span><?php echo __('Qty') ?></span></th>
+                <th class="col-subtotal"><span><?php echo __('Subtotal') ?></span></th>
+                <th class="col-tax-amount"><span><?php echo __('Tax Amount') ?></span></th>
+                <th class="col-tax-percent"><span><?php echo __('Tax Percent') ?></span></th>
+                <th class="col-discont"><span><?php echo __('Discount Amount') ?></span></th>
+                <th class="col-total last"><span><?php echo __('Row Total') ?></span></th>
             </tr>
         </thead>
         <?php $_items = $this->getItemsCollection() ?>

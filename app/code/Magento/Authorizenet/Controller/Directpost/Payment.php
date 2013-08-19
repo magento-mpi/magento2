@@ -9,7 +9,7 @@
  */
 
 /**
- * DirectPost Payment Controller
+ * DirtectPost Payment Controller
  *
  * @category   Magento
  * @package    Magento_Authorizenet
@@ -66,7 +66,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
         catch (Exception $e) {
             Mage::logException($e);
             $result['success'] = 0;
-            $result['error_msg'] = $this->__('We couldn\'t process your order right now. Please try again later.');
+            $result['error_msg'] = __('We couldn\'t process your order right now. Please try again later.');
         }
 
         if (!empty($data['controller_action_name'])
@@ -136,7 +136,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             );
         } else {
             $result = array(
-                'error_messages' => $this->__('Please choose a payment method.'),
+                'error_messages' => __('Please choose a payment method.'),
                 'goto_section'   => 'payment'
             );
             $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));

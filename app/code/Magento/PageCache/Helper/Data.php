@@ -102,7 +102,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
                 }
             }
         }
-        Mage::throwException($this->__('Failed to load external cache control'));
+        Mage::throwException(__('Failed to load external cache control'));
     }
 
     /**

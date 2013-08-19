@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <enterprise_giftregistry_search type="Enterprise_GiftRegistry_Block_Search_Widget_Form" translate="name description" module="Enterprise_GiftRegistry">
+    <enterprise_giftregistry_search type="Enterprise_GiftRegistry_Block_Search_Widget_Form" translate="name description">
         <name>Gift Registry Search</name>
         <description>Gift Registry Quick Search Form</description>
         <is_email_compatible>0</is_email_compatible>

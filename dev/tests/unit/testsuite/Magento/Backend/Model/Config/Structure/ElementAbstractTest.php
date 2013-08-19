@@ -19,28 +19,21 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     protected function setUp()
     {
-        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Backend_Model_Config_Structure_ElementAbstract',
-            array($this->_factoryHelperMock, $this->_applicationMock)
+            array($this->_applicationMock)
         );
     }
 
     protected function tearDown()
     {
         unset($this->_model);
-        unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
     }
 
@@ -53,26 +46,16 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
 
     public function testGetLabelTranslatesLabel()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->once())->method('__')->with('some_label')
-            ->will($this->returnValue('translatedLabel'));
-        $this->_factoryHelperMock->expects($this->once())->method('get')->with('Magento_Module_Helper_Data')
-            ->will($this->returnValue($helperMock));
         $this->assertEquals('', $this->_model->getLabel());
-        $this->_model->setData(array('label' => 'some_label', 'module' => 'Magento_Module'), 'someScope');
-        $this->assertEquals('translatedLabel', $this->_model->getLabel());
+        $this->_model->setData(array('label' => 'some_label'), 'someScope');
+        $this->assertEquals(__('some_label'), $this->_model->getLabel());
     }
 
     public function testGetCommentTranslatesComment()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->once())->method('__')->with('some_comment')
-            ->will($this->returnValue('translatedComment'));
-        $this->_factoryHelperMock->expects($this->once())->method('get')->with('Magento_Module_Helper_Data')
-            ->will($this->returnValue($helperMock));
-        $this->assertEquals('', $this->_model->getLabel());
-        $this->_model->setData(array('label' => 'some_comment', 'module' => 'Magento_Module'), 'someScope');
-        $this->assertEquals('translatedComment', $this->_model->getLabel());
+        $this->assertEquals('', $this->_model->getComment());
+        $this->_model->setData(array('comment' => 'some_comment'), 'someScope');
+        $this->assertEquals(__('some_comment'), $this->_model->getComment());
     }
 
     public function testGetFrontEndModel()

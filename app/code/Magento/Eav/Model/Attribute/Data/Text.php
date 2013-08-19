@@ -30,7 +30,6 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
      */
     public function __construct(array $arguments = array())
     {
-        parent::__construct($arguments);
         $this->_stringHelper = isset($arguments['stringHelper'])
             ? $arguments['stringHelper'] : Mage::helper('Magento_Core_Helper_String');
     }
@@ -58,7 +57,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
     {
         $errors     = array();
         $attribute  = $this->getAttribute();
-        $label      = $this->_translationHelper->__($attribute->getStoreLabel());
+        $label      = __($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it
@@ -66,7 +65,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
         }
 
         if ($attribute->getIsRequired() && empty($value) && $value !== '0') {
-            $errors[] = $this->_translationHelper->__('"%s" is a required value.', $label);
+            $errors[] = __('"%1" is a required value.', $label);
         }
 
         if (!$errors && !$attribute->getIsRequired() && empty($value)) {
@@ -79,11 +78,11 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
         $validateRules = $attribute->getValidateRules();
         if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']) {
             $v = $validateRules['min_text_length'];
-            $errors[] = $this->_translationHelper->__('"%s" length must be equal or greater than %s characters.', $label, $v);
+            $errors[] = __('"%1" length must be equal or greater than %2 characters.', $label, $v);
         }
         if (!empty($validateRules['max_text_length']) && $length > $validateRules['max_text_length']) {
             $v = $validateRules['max_text_length'];
-            $errors[] = $this->_translationHelper->__('"%s" length must be equal or less than %s characters.', $label, $v);
+            $errors[] = __('"%1" length must be equal or less than %2 characters.', $label, $v);
         }
 
         $result = $this->_validateInputRule($value);

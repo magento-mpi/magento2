@@ -50,8 +50,6 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
 
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false, false);
         $helperMock->expects($this->once())->method('getUrl')->with("*/*/exportTablerates", array('website' => 1));
-        $helperMock->expects($this->once())->method('__')->with('Export CSV')->will($this->returnArgument(0));
-
 
         $this->_helperFactoryMock->expects($this->any())
             ->method('get')->with('Magento_Backend_Helper_Data')->will($this->returnValue($helperMock));

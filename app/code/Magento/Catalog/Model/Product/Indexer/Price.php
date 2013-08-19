@@ -85,7 +85,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
      */
     public function getName()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Product Prices');
+        return __('Product Prices');
     }
 
     /**
@@ -95,7 +95,7 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_In
      */
     public function getDescription()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Index product prices');
+        return __('Index product prices');
     }
 
     /**

@@ -20,21 +20,20 @@ class Magento_Adminhtml_Controller_Report extends Magento_Adminhtml_Controller_A
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Reports'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Reports'));
+            ->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }
 
 
     public function searchAction()
     {
-        $this->_title($this->__('Search Terms Report'));
+        $this->_title(__('Search Terms Report'));
 
         $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_search')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')
-            ->__('Search Terms'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Search Terms'))
+            ->_addBreadcrumb(__('Search Terms'), __('Search Terms'))
             ->renderLayout();
     }
 

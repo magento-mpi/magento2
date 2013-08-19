@@ -22,7 +22,7 @@ class Magento_Tag_Block_Adminhtml_Report_Popular extends Magento_Adminhtml_Block
     {
         $this->_blockGroup = 'Magento_Tag';
         $this->_controller = 'adminhtml_report_popular';
-        $this->_headerText = Mage::helper('Magento_Tag_Helper_Data')->__('Popular Tags');
+        $this->_headerText = __('Popular Tags');
         parent::_construct();
         $this->_removeButton('add');
     }

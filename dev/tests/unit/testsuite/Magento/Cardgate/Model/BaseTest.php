@@ -71,16 +71,13 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $this->_loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_transFactoryMock =
             $this->getMock('Magento_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
-        $this->_orderFactoryMock = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '',
-            false);
-        $this->_helperMock = $this->getMock('Magento_Cardgate_Helper_Data', array(), array(), '', false);
+        $this->_orderFactoryMock = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 
         $this->_storeConfigMock->expects($this->once())->method('getConfig')->with($this->equalTo('payment/cardgate'))
             ->will($this->returnValue($config));
         $this->_dirMock->expects($this->any())->method('getDir')->will($this->returnValue('/dev/null'));
         $this->_loggerMock->expects($this->any())->method('log');
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_baseModel = new Magento_Cardgate_Model_Base(
             $this->_storeConfigMock,
@@ -89,7 +86,6 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
             $this->_loggerMock,
             $this->_transFactoryMock,
             $this->_orderFactoryMock,
-            $this->_helperMock,
             $this->_filesystemMock
         );
     }
@@ -165,7 +161,9 @@ class Magento_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
         $order->expects($this->once())->method('getStatus')->will($this->returnValue(true));
         $order->expects($this->once())->method('addStatusToHistory')
             ->with($this->equalTo(''),
-                $this->equalTo('Invoice #%s created and send to customer.'), $this->equalTo(true));
+                $this->equalTo(new Magento_Phrase('Invoice #%s created and send to customer.', array(1))),
+                $this->equalTo(true)
+            );
 
         $order->expects($this->once())->method('setState')
             ->with($this->equalTo(Magento_Sales_Model_Order::STATE_PROCESSING), $this->equalTo('complete_status'),

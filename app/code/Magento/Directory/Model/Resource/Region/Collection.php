@@ -165,7 +165,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
             array_unshift($options, array(
                 'title '=> null,
                 'value' => '0',
-                'label' => Mage::helper('Magento_Directory_Helper_Data')->__('--Please select--')
+                'label' => __('--Please select--')
             ));
         }
         return $options;

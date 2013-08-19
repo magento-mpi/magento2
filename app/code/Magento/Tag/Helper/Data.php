@@ -16,9 +16,9 @@ class Magento_Tag_Helper_Data extends Magento_Core_Helper_Abstract
     public function getStatusesArray()
     {
         return array(
-            Magento_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Magento_Tag_Helper_Data')->__('Disabled'),
-            Magento_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Magento_Tag_Helper_Data')->__('Pending'),
-            Magento_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Magento_Tag_Helper_Data')->__('Approved')
+            Magento_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
+            Magento_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
+            Magento_Tag_Model_Tag::STATUS_APPROVED => __('Approved')
         );
     }
 
@@ -26,15 +26,15 @@ class Magento_Tag_Helper_Data extends Magento_Core_Helper_Abstract
     {
         return array(
             array(
-                'label' => Mage::helper('Magento_Tag_Helper_Data')->__('Disabled'),
+                'label' => __('Disabled'),
                 'value' => Magento_Tag_Model_Tag::STATUS_DISABLED
             ),
             array(
-                'label' => Mage::helper('Magento_Tag_Helper_Data')->__('Pending'),
+                'label' => __('Pending'),
                 'value' => Magento_Tag_Model_Tag::STATUS_PENDING
             ),
             array(
-                'label' => Mage::helper('Magento_Tag_Helper_Data')->__('Approved'),
+                'label' => __('Approved'),
                 'value' => Magento_Tag_Model_Tag::STATUS_APPROVED
             )
         );

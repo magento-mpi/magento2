@@ -138,7 +138,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
 
         if (!preg_match('/^\d*(\.|,)?\d{0,4}$/i', $value) || $value < 0) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Please enter a number 0 or greater in this field.')
+                __('Please enter a number 0 or greater in this field.')
             );
         }
 

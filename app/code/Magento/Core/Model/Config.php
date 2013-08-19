@@ -251,8 +251,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
                     $scopeCode = $this->_app->getWebsite($scopeCode)->getCode();
                 } else {
                     Mage::throwException(
-                        $this->_objectManager->get('Magento_Core_Helper_Data')
-                            ->__('Unknown scope "%s".', $scope)
+                        __('Unknown scope "%1".', $scope)
                     );
                 }
             }

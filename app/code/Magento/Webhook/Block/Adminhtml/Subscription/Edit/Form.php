@@ -16,6 +16,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
 
     /** Keys used to retrieve values from subscription data array */
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
+    const DATA_ALIAS = 'alias';
+
     /** @var Magento_Data_Form_Factory $_formFactory */
     private $_formFactory;
 
@@ -67,76 +69,78 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     {
         $subscriptionData = $this->_registry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
 
+        $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
+            ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
+            : 0;
         $form = $this->_formFactory->create(
             array(
                  'id'     => 'edit_form',
                  'action' => $this->getUrl(
                      '*/*/save',
-                     array('id' => $subscriptionData[self::DATA_SUBSCRIPTION_ID])
+                     array('id' => $subscriptionId)
                  ),
                  'method' => 'post'
             )
         );
 
-        $fieldset = $form->addFieldset('subscription_fieldset', array('legend' => $this->__('Subscription')));
+        // We don't want to allow subscriptions defined in config to be edited by the user.
+        $disabled = isset($subscriptionData[self::DATA_ALIAS]) && !empty($subscriptionData[self::DATA_ALIAS]);
+
+        $fieldset = $form->addFieldset('subscription_fieldset', array('legend' => __('Subscription')));
+
         $fieldset->addField(
             'name', 'text',
             array(
-                 'label'    => $this->__('Name'),
-                 'class'    => 'required-entry',
-                 'required' => true,
-                 'name'     => 'name',
+                'label'     => __('Name'),
+                'class'     => 'required-entry',
+                'required'  => true,
+                'name'      => 'name',
+                'disabled'  => $disabled,
             )
         );
 
         $fieldset->addField(
             'endpoint_url', 'text',
             array(
-                 'label'    => $this->__('Endpoint URL'),
-                 'class'    => 'required-entry',
-                 'required' => true,
-                 'name'     => 'endpoint_url',
+                'label'     => __('Endpoint URL'),
+                'class'     => 'required-entry',
+                'required'  => true,
+                'name'      => 'endpoint_url',
+                'disabled'  => $disabled,
             )
         );
 
         $fieldset->addField(
             'format', 'select',
             array(
-                 'name'   => 'format',
-                 'label'  => $this->__('Format'),
-                 'title'  => $this->__('Format'),
-                 'values' => $this->_format->getFormatsForForm(),
+                'name'      => 'format',
+                'label'     => __('Format'),
+                'title'     => __('Format'),
+                'values'    => $this->_format->getFormatsForForm(),
+                'disabled'  => $disabled,
             )
         );
 
         $fieldset->addField(
             'authentication_type', 'select',
             array(
-                 'name'   => 'authentication_type',
-                 'label'  => $this->__('Authentication Types'),
-                 'title'  => $this->__('Authentication Types'),
-                 'values' => $this->_authentication->getAuthenticationsForForm(),
+                'name'      => 'authentication_type',
+                'label'     => __('Authentication Types'),
+                'title'     => __('Authentication Types'),
+                'values'    => $this->_authentication->getAuthenticationsForForm(),
+                'disabled'  => $disabled,
             )
         );
-
-        $versionData = array(
-            'label' => $this->__('Version'),
-            'name'  => 'version',
-        );
-        if (isset($subscriptionData['extension_id']) && $subscriptionData['extension_id']) {
-            $versionData['readonly'] = 'readonly';
-            $versionData['class']    = 'disabled';
-        }
-        $fieldset->addField('version', 'text', $versionData);
 
         $fieldset->addField(
             'topics', 'multiselect',
             array(
-                 'name'     => 'topics[]',
-                 'label'    => $this->__('Topics'),
-                 'title'    => $this->__('Topics'),
-                 'required' => true,
-                 'values'   => $this->_hook->getTopicsForForm(),
+                'name'      => 'topics[]',
+                'label'     => __('Topics'),
+                'title'     => __('Topics'),
+                'required'  => true,
+                'values'    => $this->_hook->getTopicsForForm(),
+                'disabled'  => $disabled,
             )
         );
 

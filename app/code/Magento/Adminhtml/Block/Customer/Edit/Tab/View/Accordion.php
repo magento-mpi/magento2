@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
         $this->setId('customerViewAccordion');
 
         $this->addItem('lastOrders', array(
-            'title'       => Mage::helper('Magento_Customer_Helper_Data')->__('Recent Orders'),
+            'title'       => __('Recent Orders'),
             'ajax'        => true,
             'content_url' => $this->getUrl('*/*/lastOrders', array('_current' => true)),
         ));
@@ -40,9 +40,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
                 ->addFieldToFilter('parent_item_id', array('null' => true))
                 ->getSize();
             // prepare title for cart
-            $title = Mage::helper('Magento_Customer_Helper_Data')->__('Shopping Cart - %d item(s)', $cartItemsCount);
+            $title = __('Shopping Cart - %1 item(s)', $cartItemsCount);
             if (count($customer->getSharedWebsiteIds()) > 1) {
-                $title = Mage::helper('Magento_Customer_Helper_Data')->__('Shopping Cart of %1$s - %2$d item(s)', $website->getName(), $cartItemsCount);
+                $title = __('Shopping Cart of %1 - %2 item(s)', $website->getName(), $cartItemsCount);
             }
 
             // add cart ajax accordion
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
             ->getSize();
         // add wishlist ajax accordion
         $this->addItem('wishlist', array(
-            'title' => Mage::helper('Magento_Customer_Helper_Data')->__('Wishlist - %d item(s)', $wishlistCount),
+            'title' => __('Wishlist - %1 item(s)', $wishlistCount),
             'ajax'  => true,
             'content_url' => $this->getUrl('*/*/viewWishlist', array('_current' => true)),
         ));

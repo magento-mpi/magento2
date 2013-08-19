@@ -51,7 +51,7 @@ class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Co
     {
         $model = Mage::getModel($class);
         if (!$model instanceof Magento_Sales_Model_Order_Total_Abstract) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('The total model should be extended from Magento_Sales_Model_Order_Total_Abstract.'));
+            Mage::throwException(__('The total model should be extended from Magento_Sales_Model_Order_Total_Abstract.'));
         }
 
         $model->setCode($totalCode);

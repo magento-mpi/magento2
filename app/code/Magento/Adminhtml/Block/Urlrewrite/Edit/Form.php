@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     {
         parent::_construct();
         $this->setId('urlrewrite_form');
-        $this->setTitle(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Block Information'));
+        $this->setTitle(__('Block Information'));
     }
 
     /**
@@ -98,14 +98,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
         ));
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('URL Rewrite Information')
+            'legend' => __('URL Rewrite Information')
         ));
 
         /** @var $typesModel Magento_Core_Model_Source_Urlrewrite_Types */
         $typesModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Types');
         $fieldset->addField('is_system', 'select', array(
-            'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Type'),
-            'title'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Type'),
+            'label'    => __('Type'),
+            'title'    => __('Type'),
             'name'     => 'is_system',
             'required' => true,
             'options'  => $typesModel->getAllOptions(),
@@ -114,8 +114,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
         ));
 
         $fieldset->addField('id_path', 'text', array(
-            'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('ID Path'),
-            'title'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('ID Path'),
+            'label'    => __('ID Path'),
+            'title'    => __('ID Path'),
             'name'     => 'id_path',
             'required' => true,
             'disabled' => false,
@@ -123,16 +123,16 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
         ));
 
         $fieldset->addField('request_path', 'text', array(
-            'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Request Path'),
-            'title'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Request Path'),
+            'label'    => __('Request Path'),
+            'title'    => __('Request Path'),
             'name'     => 'request_path',
             'required' => true,
             'value'    => $this->_formValues['request_path']
         ));
 
         $fieldset->addField('target_path', 'text', array(
-            'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Target Path'),
-            'title'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Target Path'),
+            'label'    => __('Target Path'),
+            'title'    => __('Target Path'),
             'name'     => 'target_path',
             'required' => true,
             'disabled' => false,
@@ -142,16 +142,16 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
         /** @var $optionsModel Magento_Core_Model_Source_Urlrewrite_Options */
         $optionsModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Options');
         $fieldset->addField('options', 'select', array(
-            'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Redirect'),
-            'title'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Redirect'),
+            'label'   => __('Redirect'),
+            'title'   => __('Redirect'),
             'name'    => 'options',
             'options' => $optionsModel->getAllOptions(),
             'value'   => $this->_formValues['options']
         ));
 
         $fieldset->addField('description', 'textarea', array(
-            'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Description'),
-            'title' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Description'),
+            'label' => __('Description'),
+            'title' => __('Description'),
             'name'  => 'description',
             'cols'  => 20,
             'rows'  => 5,
@@ -186,8 +186,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
 
             $storeElement = $fieldset->addField('store_id', 'select', array(
-                'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Store'),
-                'title'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Store'),
+                'label'    => __('Store'),
+                'title'    => __('Store'),
                 'name'     => 'store_id',
                 'required' => true,
                 'values'   => $this->_getRestrictedStoresList(),

@@ -12,14 +12,14 @@
 <config>
     <system>
         <section id="payment">
-            <group id="paypal_notice" translate="label" module="Magento_Paypal" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paypal_notice" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <frontend_model>Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint</frontend_model>
                 <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup</help_url>
             </group>
-            <group id="account" translate="label" module="Magento_Paypal" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="account" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <frontend_model>Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Location</frontend_model>
             </group>
-            <group id="paypal_group_all_in_one" translate="label comment paypal_title" module="Magento_Paypal" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paypal_group_all_in_one" translate="label comment paypal_title" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>
                     <![CDATA[PayPal All-in-One Payment Solutions&nbsp;&nbsp;<i>Accept and process credit cards and PayPal payments.</i>]]>
                 </label>
@@ -47,7 +47,7 @@
                     </group>
                 </group>
             </group>
-            <group id="paypal_payment_gateways" translate="label comment paypal_title" module="Magento_Paypal" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paypal_payment_gateways" translate="label comment paypal_title" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PayPal Payment Gateways</label>
                 <fieldset_css>complex</fieldset_css>
                 <frontend_model>Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group</frontend_model>
@@ -62,7 +62,7 @@
                     </group>
                 </group>
             </group>
-            <group id="paypal_alternative_payment_methods" translate="label comment attribute" module="Magento_Paypal" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paypal_alternative_payment_methods" translate="label comment attribute" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PayPal Express Checkout</label>
                 <expanded>1</expanded>
                 <fieldset_css>complex</fieldset_css>

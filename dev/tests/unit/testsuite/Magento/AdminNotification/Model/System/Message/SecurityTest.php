@@ -28,11 +28,6 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
     protected $_curlFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperFactoryMock;
-
-    /**
      * @var Magento_AdminNotification_Model_System_Message_Security
      */
     protected $_messageModel;
@@ -45,17 +40,15 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
             array('getConfig'), array(), '', false);
         $this->_curlFactoryMock = $this->getMock('Magento_HTTP_Adapter_CurlFactory',
             array('create'), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(
             'cache' => $this->_cacheMock,
             'storeConfig' => $this->_storeConfigMock,
             'curlFactory' => $this->_curlFactoryMock,
-            'helperFactory' => $this->_helperFactoryMock
         );
-        $this->_messageModel = $objectManagerHelper->getObject(
-            'Magento_AdminNotification_Model_System_Message_Security', $arguments);
+        $this->_messageModel = $objectManagerHelper->getObject('Magento_AdminNotification_Model_System_Message_Security',
+            $arguments);
     }
 
     /**
@@ -92,12 +85,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
     public function testGetText()
     {
         $messageStart = 'Your web server is configured incorrectly.';
-        $dataHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $dataHelperMock->expects($this->atLeastOnce())->method('__')
-            ->with($this->stringStartsWith($messageStart))
-            ->will($this->returnValue($messageStart . $messageStart));
-        $this->_helperFactoryMock->expects($this->atLeastOnce())->method('get')
-            ->will($this->returnValue($dataHelperMock));
-        $this->assertStringStartsWith($messageStart, $this->_messageModel->getText());
+
+        $this->assertStringStartsWith($messageStart, (string)$this->_messageModel->getText());
     }
 }

@@ -27,13 +27,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Customer extends Magento_Adminh
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Please select a customer.');
+        return __('Please select a customer.');
     }
 
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Create New Customer'),
+            'label'     => __('Create New Customer'),
             'onclick'   => 'order.setCustomerId(false)',
             'class'     => 'primary',
         );

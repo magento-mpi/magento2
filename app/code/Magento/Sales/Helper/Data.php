@@ -34,7 +34,7 @@ class Magento_Sales_Helper_Data extends Magento_Core_Helper_Data
         if (!$quote->getHasError() && ($amount>=self::MAXIMUM_AVAILABLE_NUMBER)) {
             $quote->setHasError(true);
             $quote->addMessage(
-                $this->__('This item price or quantity is not valid for checkout.')
+                __('This item price or quantity is not valid for checkout.')
             );
         }
         return $this;

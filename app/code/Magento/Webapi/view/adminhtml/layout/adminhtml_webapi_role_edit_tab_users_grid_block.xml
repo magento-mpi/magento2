@@ -58,7 +58,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_user_id">
                         <arguments>
                             <id>role_name</id>
-                            <header translate="true" module="Magento_Webapi">User ID</header>
+                            <header translate="true">User ID</header>
                             <width>20</width>
                             <align>left</align>
                             <sortable>1</sortable>
@@ -68,7 +68,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_user_contactemail">
                         <arguments>
                             <id>role_user_contactemail</id>
-                            <header translate="true" module="Magento_Webapi">Contact Email</header>
+                            <header translate="true">Contact Email</header>
                             <align>left</align>
                             <index>contact_email</index>
                         </arguments>
@@ -76,7 +76,7 @@
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_user_apikey">
                         <arguments>
                             <id>role_user_apikey</id>
-                            <header translate="true" module="Magento_Webapi">API Key</header>
+                            <header translate="true">API Key</header>
                             <align>left</align>
                             <index>api_key</index>
                         </arguments>

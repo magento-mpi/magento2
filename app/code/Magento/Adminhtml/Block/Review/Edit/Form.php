@@ -30,37 +30,37 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
             'method'    => 'post'
         ));
 
-        $fieldset = $form->addFieldset('review_details', array('legend' => Mage::helper('Magento_Review_Helper_Data')->__('Review Details'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('review_details', array('legend' => __('Review Details'), 'class' => 'fieldset-wide'));
 
         /** @var $helper Magento_Review_Helper_Data */
         $helper = Mage::helper('Magento_Review_Helper_Data');
         $fieldset->addField('product_name', 'note', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Product'),
+            'label'     => __('Product'),
             'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" onclick="this.target=\'blank\'">' . $helper->escapeHtml($product->getName()) . '</a>'
         ));
 
         if ($customer->getId()) {
-            $customerText = Mage::helper('Magento_Review_Helper_Data')->__('<a href="%1$s" onclick="this.target=\'blank\'">%2$s %3$s</a> <a href="mailto:%4$s">(%4$s)</a>', $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $this->escapeHtml($customer->getFirstname()), $this->escapeHtml($customer->getLastname()), $this->escapeHtml($customer->getEmail()));
+            $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>', $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $this->escapeHtml($customer->getFirstname()), $this->escapeHtml($customer->getLastname()), $this->escapeHtml($customer->getEmail()));
         } else {
             if (is_null($review->getCustomerId())) {
-                $customerText = Mage::helper('Magento_Review_Helper_Data')->__('Guest');
+                $customerText = __('Guest');
             } elseif ($review->getCustomerId() == 0) {
-                $customerText = Mage::helper('Magento_Review_Helper_Data')->__('Administrator');
+                $customerText = __('Administrator');
             }
         }
 
         $fieldset->addField('customer', 'note', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Posted By'),
+            'label'     => __('Posted By'),
             'text'      => $customerText,
         ));
 
         $fieldset->addField('summary_rating', 'note', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Summary Rating'),
+            'label'     => __('Summary Rating'),
             'text'      => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Summary')->toHtml(),
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Detailed Rating'),
+            'label'     => __('Detailed Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
                            . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml()
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
         ));
 
         $fieldset->addField('status_id', 'select', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
             'values'    => Mage::helper('Magento_Review_Helper_Data')->getReviewStatusesOptionArray(),
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
          */
         if (!Mage::app()->hasSingleStore()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
-                'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Visible In'),
+                'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'stores[]',
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
@@ -97,19 +97,19 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
         }
 
         $fieldset->addField('nickname', 'text', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Nickname'),
+            'label'     => __('Nickname'),
             'required'  => true,
             'name'      => 'nickname'
         ));
 
         $fieldset->addField('title', 'text', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Summary of Review'),
+            'label'     => __('Summary of Review'),
             'required'  => true,
             'name'      => 'title',
         ));
 
         $fieldset->addField('detail', 'textarea', array(
-            'label'     => Mage::helper('Magento_Review_Helper_Data')->__('Review'),
+            'label'     => __('Review'),
             'required'  => true,
             'name'      => 'detail',
             'style'     => 'height:24em;',

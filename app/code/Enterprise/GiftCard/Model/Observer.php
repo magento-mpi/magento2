@@ -296,7 +296,7 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                 }
                 if ($hasFailedCodes) {
                     $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/giftcardaccount');
-                    $message = Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%s">here</a>.', $url);
+                    $message = __('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.', $url);
 
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
                 }

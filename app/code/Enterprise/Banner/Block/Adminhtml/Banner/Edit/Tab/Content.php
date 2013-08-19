@@ -19,13 +19,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Banner helper
-     *
-     * @var Enterprise_Banner_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * WYSIWYG config object
      *
      * @var Magento_Cms_Model_Wysiwyg_Config
@@ -59,7 +52,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
      * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App $app
-     * @param Enterprise_Banner_Helper_Data $bannerHelper
      * @param array $data
      */
     public function __construct(
@@ -67,10 +59,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
         Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App $app,
-        Enterprise_Banner_Helper_Data $bannerHelper,
         array $data = array()
     ) {
-        $this->_helper = $bannerHelper;
         $this->_wysiwygConfigModel = $wysiwygConfig;
         $this->_registryManager = $registry;
         $this->_app = $app;
@@ -86,7 +76,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
      */
     public function getTabLabel()
     {
-        return $this->getHelper()->__('Content');
+        return __('Content');
     }
 
     /**
@@ -163,7 +153,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
     protected function _createDefaultContentFieldset($form, $fieldsetHtmlClass)
     {
         $fieldset = $form->addFieldset('default_fieldset', array(
-            'legend' => $this->getHelper()->__('Default Content'),
+            'legend' => __('Default Content'),
             'class' => $fieldsetHtmlClass,
         ));
         return $fieldset;
@@ -232,14 +222,14 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
             . $form->getHtmlIdPrefix() . "store_default_content').disabled;";
 
         $afterHtml = '<label for="' . $form->getHtmlIdPrefix() . 'store_0_content_use">'
-            . $this->getHelper()->__('No Default Content') . '</label>';
+            . __('No Default Content') . '</label>';
 
         $isDisabled = (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false);
 
         return $fieldset->addField('store_0_content_use', 'checkbox', array(
             'name' => 'store_contents_not_use[0]',
             'required' => false,
-            'label' => $this->getHelper()->__('Banner Default Content for All Store Views'),
+            'label' => __('Banner Default Content for All Store Views'),
             'onclick' => $onclickScript,
             'checked' => isset($storeContents[0]) ? false : (!$model->getId() ? false : true),
             'after_element_html' => $afterHtml,
@@ -260,7 +250,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
     {
         $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
         $fieldset = $form->addFieldset('scopes_fieldset', array(
-            'legend' => $this->getHelper()->__('Store View Specific Content'),
+            'legend' => __('Store View Specific Content'),
             'class' => 'store-scope',
         ));
         $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
@@ -294,7 +284,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
                         'checked' => $storeContent ? false : true,
                         'after_element_html' => '<label for="' . $form->getHtmlIdPrefix()
                             . 'store_' . $store->getId() . '_content_use">'
-                            . $this->getHelper()->__('Use Default') . '</label>',
+                            . __('Use Default') . '</label>',
                         'value' => $store->getId(),
                         'fieldset_html_class' => 'store',
                         'disabled' => (bool)$model->getIsReadonly()
@@ -318,15 +308,5 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
             }
         }
         return $fieldset;
-    }
-
-    /**
-     * Get helper
-     *
-     * @return Enterprise_Banner_Helper_Data
-     */
-    public function getHelper()
-    {
-        return $this->_helper;
     }
 }

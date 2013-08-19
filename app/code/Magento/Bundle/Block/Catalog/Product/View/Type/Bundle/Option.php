@@ -251,7 +251,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
             $formated .=
                     ' (+' .
                     $coreHelper->currencyByStore($priceIncTax, $product->getStore(), true, $includeContainer) .
-                    ' ' . $this->__('Incl. Tax') . ')';
+                    ' ' . __('Incl. Tax') . ')';
         }
 
         return $formated;

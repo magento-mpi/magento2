@@ -52,9 +52,9 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     public function getFormatsList()
     {
         return array(
-            self::COUPON_FORMAT_ALPHANUMERIC => $this->__('Alphanumeric'),
-            self::COUPON_FORMAT_ALPHABETICAL => $this->__('Alphabetical'),
-            self::COUPON_FORMAT_NUMERIC      => $this->__('Numeric'),
+            self::COUPON_FORMAT_ALPHANUMERIC => __('Alphanumeric'),
+            self::COUPON_FORMAT_ALPHABETICAL => __('Alphabetical'),
+            self::COUPON_FORMAT_NUMERIC      => __('Numeric'),
         );
     }
 

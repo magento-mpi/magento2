@@ -38,14 +38,14 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
+            Mage::throwException(__('Please specify the product required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Please specify the product required option(s).'));
+                Mage::throwException(__('Please specify the product required option(s).'));
             }
         }
         return $this;
@@ -100,7 +100,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
      */
     protected function _getWrongConfigurationMessage()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Some of the selected item options are not currently available.');
+        return __('Some of the selected item options are not currently available.');
     }
 
     /**

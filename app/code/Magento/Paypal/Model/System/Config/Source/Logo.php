@@ -15,7 +15,7 @@ class Magento_Paypal_Model_System_Config_Source_Logo
 {
     public function toOptionArray()
     {
-        $result = array('' => Mage::helper('Magento_Paypal_Helper_Data')->__('No Logo'));
+        $result = array('' => __('No Logo'));
         $result += Mage::getModel('Magento_Paypal_Model_Config')->getAdditionalOptionsLogoTypes();
         return $result;
     }

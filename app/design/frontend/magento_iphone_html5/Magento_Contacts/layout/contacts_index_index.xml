@@ -12,7 +12,7 @@
         <remove name="form.additional.info"/>
         <reference name="content">
             <block type="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
-                <action method="addCrumb" translate="crumbName" module="Magento_Catalog">
+                <action method="addCrumb" translate="crumbName">
                     <crumbName>home</crumbName>
                     <crumbInfo>
                         <label>Home</label>
@@ -20,7 +20,7 @@
                         <link>/</link>
                     </crumbInfo>
                 </action>
-                <action method="addCrumb" translate="crumbName" module="Magento_Catalog">
+                <action method="addCrumb" translate="crumbName">
                     <crumbName>categories</crumbName>
                     <crumbInfo>
                         <label>Categories</label>

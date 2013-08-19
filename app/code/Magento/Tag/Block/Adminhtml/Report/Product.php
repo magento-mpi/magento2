@@ -21,7 +21,7 @@ class Magento_Tag_Block_Adminhtml_Report_Product extends Magento_Backend_Block_W
     {
         $this->_blockGroup = 'Magento_Tag';
         $this->_controller = 'adminhtml_report_product';
-        $this->_headerText = Mage::helper('Magento_Tag_Helper_Data')->__('Products Tags');
+        $this->_headerText = __('Products Tags');
         parent::_construct();
         $this->_removeButton('add');
     }

@@ -104,11 +104,8 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_job->setData('subscription_id', $subscriptionId);
         $this->_job->setData('event_id', $eventId);
 
-        $response = new Magento_Outbound_Transport_Http_Response(
-            new Zend_Http_Response(self::SUCCESS_RESPONSE, array()));
-
-        $this->_job->handleResponse($response);
-        $this->assertEquals(Magento_PubSub_JobInterface::SUCCESS, $this->_job->getStatus());
+        $this->_job->complete();
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_SUCCEEDED, $this->_job->getStatus());
     }
 
     public function testHandleResponseRetry()
@@ -125,10 +122,8 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->getId();
         $this->_job->setData('event_id', $eventId);
 
-        $response = new Magento_Outbound_Transport_Http_Response(
-            new Zend_Http_Response(self::FAILURE_RESPONSE, array()));
-        $this->_job->handleResponse($response);
-        $this->assertEquals(Magento_PubSub_JobInterface::RETRY, $this->_job->getStatus());
+        $this->_job->handleFailure();
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $this->_job->getStatus());
     }
 
     public function testHandleFailure()
@@ -136,11 +131,11 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $count = 1;
         while ($count <= 8) {
             $this->_job->handleFailure();
-            $this->assertEquals(Magento_PubSub_JobInterface::RETRY, $this->_job->getStatus());
+            $this->assertEquals(Magento_PubSub_JobInterface::STATUS_RETRY, $this->_job->getStatus());
             $this->assertEquals($count, $this->_job->getRetryCount());
             $count++;
         }
         $this->_job->handleFailure();
-        $this->assertEquals(Magento_PubSub_JobInterface::FAILED, $this->_job->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::STATUS_FAILED, $this->_job->getStatus());
     }
 }

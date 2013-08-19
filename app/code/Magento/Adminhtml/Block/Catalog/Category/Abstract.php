@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
                 $root->setIsVisible(true);
             }
             elseif($root && $root->getId() == Magento_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
+                $root->setName(__('Root'));
             }
 
             Mage::register('root', $root);
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
             if ($root && $rootId != Magento_Catalog_Model_Category::TREE_ROOT_ID) {
                 $root->setIsVisible(true);
             } else if($root && $root->getId() == Magento_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
+                $root->setName(__('Root'));
             }
 
             $tree->addCollectionData($this->getCategoryCollection());
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
         if ($node && $nodeId != Magento_Catalog_Model_Category::TREE_ROOT_ID) {
             $node->setIsVisible(true);
         } elseif($node && $node->getId() == Magento_Catalog_Model_Category::TREE_ROOT_ID) {
-            $node->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
+            $node->setName(__('Root'));
         }
 
         $tree->addCollectionData($this->getCategoryCollection());

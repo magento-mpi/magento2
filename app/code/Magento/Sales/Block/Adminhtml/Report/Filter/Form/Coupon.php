@@ -41,10 +41,10 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
             $fieldset->addField('price_rule_type', 'select', array(
                 'name'    => 'price_rule_type',
                 'options' => array(
-                    Mage::helper('Magento_Reports_Helper_Data')->__('Any'),
-                    Mage::helper('Magento_Reports_Helper_Data')->__('Specified')
+                    __('Any'),
+                    __('Specified')
                 ),
-                'label'   => Mage::helper('Magento_Reports_Helper_Data')->__('Shopping Cart Price Rule'),
+                'label'   => __('Shopping Cart Price Rule'),
             ));
 
             $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();

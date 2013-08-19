@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Helper_Pricestep extends Magento_
         $html .= ' onclick="toggleValueElements(this, this.parentNode);" class="checkbox" type="checkbox" />';
 
         $html .= ' <label for="' . $htmlId . '" class="normal">'
-            . Mage::helper('Magento_Adminhtml_Helper_Data')->__('Use Config Settings') .'</label>';
+            . __('Use Config Settings') .'</label>';
         $html .= '<script type="text/javascript">' . 'toggleValueElements($(\'' . $htmlId . '\'), $(\'' . $htmlId
             . '\').parentNode);' . '</script>';
 

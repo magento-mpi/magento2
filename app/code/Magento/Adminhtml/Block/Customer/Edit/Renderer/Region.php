@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Region
         $selectId = $element->getHtmlId() . '_id';
         $html .= '<select id="' . $selectId . '" name="' . $selectName
             . '" class="select required-entry" style="display:none">';
-        $html .= '<option value="">' . Mage::helper('Magento_Customer_Helper_Data')->__('Please select') . '</option>';
+        $html .= '<option value="">' . __('Please select') . '</option>';
         $html .= '</select>';
 
         $html .= '<script type="text/javascript">' . "\n";

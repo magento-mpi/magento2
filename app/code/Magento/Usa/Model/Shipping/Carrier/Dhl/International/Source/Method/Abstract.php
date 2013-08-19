@@ -48,7 +48,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Metho
         }
 
         if ($this->_noneMethod) {
-            array_unshift($options, array('value' => '', 'label' => Mage::helper('Magento_Usa_Helper_Data')->__('None')));
+            array_unshift($options, array('value' => '', 'label' => __('None')));
         }
 
         return $options;

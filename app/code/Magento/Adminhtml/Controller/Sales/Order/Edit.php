@@ -49,7 +49,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
      */
     public function indexAction()
     {
-        $this->_title($this->__('Orders'))->_title($this->__('Edit Order'));
+        $this->_title(__('Orders'))->_title(__('Edit Order'));
         $this->loadLayout();
 
         $this->_initSession()

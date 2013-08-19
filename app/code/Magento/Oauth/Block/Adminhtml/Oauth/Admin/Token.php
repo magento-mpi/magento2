@@ -26,7 +26,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token extends Magento_Adminhtml_
 
         $this->_blockGroup = 'Magento_Oauth';
         $this->_controller = 'adminhtml_oauth_admin_token';
-        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('My Applications');
+        $this->_headerText = __('My Applications');
         $this->_removeButton('add');
     }
 }

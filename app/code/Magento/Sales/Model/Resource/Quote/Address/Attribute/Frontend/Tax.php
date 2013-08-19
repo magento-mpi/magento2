@@ -31,7 +31,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Tax
         if ($amount != 0) {
             $address->addTotal(array(
                 'code'  => 'tax',
-                'title' => Mage::helper('Magento_Sales_Helper_Data')->__('Tax'),
+                'title' => __('Tax'),
                 'value' => $amount
             ));
         }

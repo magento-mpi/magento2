@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
      */
     protected function _getInitialCustomerGroups()
     {
-        return array(Magento_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('Magento_Catalog_Helper_Data')->__('ALL GROUPS'));
+        return array(Magento_Customer_Model_Group::CUST_GROUP_ALL => __('ALL GROUPS'));
     }
 
     /**
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
     {
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Tier'),
+                'label' => __('Add Tier'),
                 'onclick' => 'return tierPriceControl.addItem()',
                 'class' => 'add'
             ));

@@ -23,12 +23,12 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons extends Magento_Adminhtml_Blo
     protected function _construct()
     {
         $this->_controller = 'report_sales_coupons';
-        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Coupons Usage Report');
+        $this->_headerText = __('Coupons Usage Report');
         parent::_construct();
 
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('Show Report'),
+            'label'     => __('Show Report'),
             'onclick'   => 'filterFormSubmit()',
             'class'     => 'primary'
         ));

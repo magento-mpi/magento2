@@ -25,19 +25,19 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     public function _initAction()
     {
         parent::_initAction();
-        $this->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Sales'), Mage::helper('Magento_Reports_Helper_Data')->__('Sales'));
+        $this->_addBreadcrumb(__('Sales'), __('Sales'));
         return $this;
     }
 
     public function salesAction()
     {
-        $this->_title($this->__('Sales Report'));
+        $this->_title(__('Sales Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE, 'sales');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_salesroot_sales')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Sales Report'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Sales Report'));
+            ->_addBreadcrumb(__('Sales Report'), __('Sales Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_sales.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -52,13 +52,13 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
 
     public function bestsellersAction()
     {
-        $this->_title($this->__('Best Sellers Report'));
+        $this->_title(__('Best Sellers Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE, 'bestsellers');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_bestsellers')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Bestsellers Report'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Bestsellers Report'));
+            ->_addBreadcrumb(__('Products Bestsellers Report'), __('Products Bestsellers Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_bestsellers.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -137,13 +137,13 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
 
     public function taxAction()
     {
-        $this->_title($this->__('Tax Report'));
+        $this->_title(__('Tax Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_TAX_FLAG_CODE, 'tax');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_salesroot_tax')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tax'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tax'));
+            ->_addBreadcrumb(__('Tax'), __('Tax'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_tax.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -180,13 +180,13 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
 
     public function shippingAction()
     {
-        $this->_title($this->__('Shipping Report'));
+        $this->_title(__('Shipping Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_salesroot_shipping')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Shipping'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Shipping'));
+            ->_addBreadcrumb(__('Shipping'), __('Shipping'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_shipping.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -223,13 +223,13 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
 
     public function invoicedAction()
     {
-        $this->_title($this->__('Invoice Report'));
+        $this->_title(__('Invoice Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_salesroot_invoiced')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Invoiced'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Invoiced'));
+            ->_addBreadcrumb(__('Total Invoiced'), __('Total Invoiced'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_invoiced.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -266,13 +266,13 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
 
     public function refundedAction()
     {
-        $this->_title($this->__('Refunds Report'));
+        $this->_title(__('Refunds Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_salesroot_refunded')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Refunded'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Refunded'));
+            ->_addBreadcrumb(__('Total Refunded'), __('Total Refunded'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_refunded.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -309,13 +309,13 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
 
     public function couponsAction()
     {
-        $this->_title($this->__('Coupons Report'));
+        $this->_title(__('Coupons Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE, 'coupons');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_salesroot_coupons')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Coupons'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Coupons'));
+            ->_addBreadcrumb(__('Coupons'), __('Coupons'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_coupons.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');

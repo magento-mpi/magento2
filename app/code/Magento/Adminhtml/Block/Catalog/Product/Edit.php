@@ -45,15 +45,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
     {
         if (!$this->getRequest()->getParam('popup')) {
             $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Back'),
-                'title' => Mage::helper('Magento_Catalog_Helper_Data')->__('Back'),
+                'label' => __('Back'),
+                'title' => __('Back'),
                 'onclick' => 'setLocation(\''
                     . $this->getUrl('*/*/', array('store' => $this->getRequest()->getParam('store', 0))) . '\')',
                 'class' => 'action-back'
             ));
         } else {
             $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Close Window'),
+                'label' => __('Close Window'),
                 'onclick' => 'window.close()',
                 'class' => 'cancel'
             ));
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
 
         if (!$this->getProduct()->isReadonly()) {
             $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Reset'),
+                'label' => __('Reset'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('_current' => true)) . '\')'
             ));
         }
@@ -69,7 +69,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         if (!$this->getProduct()->isReadonly()) {
             $this->addChild('save-split-button', 'Magento_Backend_Block_Widget_Button_Split', array(
                 'id' => 'save-split-button',
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Save'),
+                'label' => __('Save'),
                 'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
@@ -168,7 +168,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         if ($this->getProduct()->getId()) {
             $header = $this->escapeHtml($this->getProduct()->getName());
         } else {
-            $header = Mage::helper('Magento_Catalog_Helper_Data')->__('New Product');
+            $header = __('New Product');
         }
         return $header;
     }
@@ -265,7 +265,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         if (!$this->getRequest()->getParam('popup')) {
             $options[] = array(
                 'id' => 'edit-button',
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Save & Edit'),
+                'label' => __('Save & Edit'),
                 'data_attribute' => array(
                     'mage-init' => array(
                         'button' => array('event' => 'saveAndContinueEdit', 'target' => '[data-form=edit-product]'),
@@ -277,7 +277,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
 
         $options[] = array(
             'id' => 'new-button',
-            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Save & New'),
+            'label' => __('Save & New'),
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array('event' => 'saveAndNew', 'target' => '[data-form=edit-product]'),
@@ -287,7 +287,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         if (!$this->getRequest()->getParam('popup') && $this->getProduct()->isDuplicable()) {
             $options[] = array(
                 'id' => 'duplicate-button',
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Save & Duplicate'),
+                'label' => __('Save & Duplicate'),
                 'data_attribute' => array(
                     'mage-init' => array(
                         'button' => array('event' => 'saveAndDuplicate', 'target' => '[data-form=edit-product]'),
@@ -297,7 +297,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         }
         $options[] = array(
             'id' => 'close-button',
-            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Save & Close'),
+            'label' => __('Save & Close'),
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array('event' => 'save', 'target' => '[data-form=edit-product]'),

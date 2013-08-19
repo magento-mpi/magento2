@@ -13,6 +13,7 @@
  *
  * @todo Remove this suppression when jira entry MAGETWO-8296 is completed.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Magento_Core_Model_Translate
 {
@@ -140,6 +141,11 @@ class Magento_Core_Model_Translate
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Phrase_Renderer_Placeholder
+     */
+    protected $_placeholderRender;
+
+    /**
      * Initialize translate model
      *
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
@@ -147,19 +153,22 @@ class Magento_Core_Model_Translate
      * @param Magento_core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
         Magento_Core_Model_Locale_Hierarchy_Loader $loader,
         Magento_Core_Model_Translate_Factory $translateFactory,
         Magento_Cache_FrontendInterface $cache,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Phrase_Renderer_Placeholder $placeholderRender
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_placeholderRender = $placeholderRender;
     }
 
     /**
@@ -188,7 +197,7 @@ class Magento_Core_Model_Translate
 
         foreach ($this->getModulesConfig() as $moduleName => $info) {
             $info = $info->asArray();
-            $this->_loadModuleTranslation($moduleName, $info['files'], $forceReload);
+            $this->_loadModuleTranslation($moduleName, $info['files']);
         }
 
         $this->_loadThemeTranslation($forceReload);
@@ -300,16 +309,15 @@ class Magento_Core_Model_Translate
      *
      * @param string $moduleName
      * @param array $files
-     * @param boolean $forceReload
      * @return Magento_Core_Model_Translate
      */
-    protected function _loadModuleTranslation($moduleName, $files, $forceReload = false)
+    protected function _loadModuleTranslation($moduleName, $files)
     {
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($files as $file) {
             foreach ($requiredLocaleList as $locale) {
                 $moduleFilePath = $this->_getModuleFilePath($moduleName, $file, $locale);
-                $this->_addData($this->_getFileData($moduleFilePath), $moduleName, $forceReload);
+                $this->_addData($this->_getFileData($moduleFilePath));
             }
         }
         return $this;
@@ -334,11 +342,11 @@ class Magento_Core_Model_Translate
      * Adding translation data
      *
      * @param array $data
-     * @param string $scope
+     * @param string|bool $scope
      * @param boolean $forceReload
      * @return Magento_Core_Model_Translate
      */
-    protected function _addData($data, $scope, $forceReload = false)
+    protected function _addData($data, $scope = false, $forceReload = false)
     {
         foreach ($data as $key => $value) {
             if ($key === $value) {
@@ -527,25 +535,14 @@ class Magento_Core_Model_Translate
             return '';
         }
 
-        if ($text instanceof Magento_Core_Model_Translate_Expr) {
-            $code = $text->getCode(self::SCOPE_SEPARATOR);
-            $module = $text->getModule();
-            $text = $text->getText();
-            $translated = $this->_getTranslatedString($text, $code);
+        if (!empty($_REQUEST['theme'])) {
+            $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
         } else {
-            if (!empty($_REQUEST['theme'])) {
-                $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
-            } else {
-                $module = self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
-            }
-            $code = $module . self::SCOPE_SEPARATOR . $text;
-            $translated = $this->_getTranslatedString($text, $code);
+            $module = self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
         }
-
-        $result = @vsprintf($translated, $args);
-        if ($result === false) {
-            $result = $translated;
-        }
+        $code = $module . self::SCOPE_SEPARATOR . $text;
+        $translated = $this->_getTranslatedString($text, $code);
+        $result = $this->_placeholderRender->render($translated, $args);
 
         if ($this->_translateInline && $this->getTranslateInline()) {
             if (strpos($result, '{{{') === false
@@ -555,7 +552,6 @@ class Magento_Core_Model_Translate
                 $result = '{{{' . $result . '}}{{' . $translated . '}}{{' . $text . '}}{{' . $module . '}}}';
             }
         }
-
         return $result;
     }
 

@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Customer_Online_Grid_Renderer_Type extends Magento
 
     public function render(Magento_Object $row)
     {
-        return ($row->getCustomerId() > 0 ) ? Mage::helper('Magento_Customer_Helper_Data')->__('Customer') : Mage::helper('Magento_Customer_Helper_Data')->__('Visitor') ;
+        return ($row->getCustomerId() > 0 ) ? __('Customer') : __('Visitor') ;
     }
 
 }

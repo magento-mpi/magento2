@@ -13,28 +13,28 @@
     <global>
         <page>
             <layouts>
-                <empty module="Magento_Page" translate="label">
+                <empty translate="label">
                     <label>Empty</label>
                     <template>empty.phtml</template>
                     <layout_handle>page_empty</layout_handle>
                 </empty>
-                <one_column module="Magento_Page" translate="label">
+                <one_column translate="label">
                     <label>1 column</label>
                     <template>1column.phtml</template>
                     <layout_handle>page_one_column</layout_handle>
                     <is_default>1</is_default>
                 </one_column>
-                <two_columns_left module="Magento_Page" translate="label">
+                <two_columns_left translate="label">
                     <label>2 columns with left bar</label>
                     <template>2columns-left.phtml</template>
                     <layout_handle>page_two_columns_left</layout_handle>
                 </two_columns_left>
-                <two_columns_right module="Magento_Page" translate="label">
+                <two_columns_right translate="label">
                     <label>2 columns with right bar</label>
                     <template>2columns-right.phtml</template>
                     <layout_handle>page_two_columns_right</layout_handle>
                 </two_columns_right>
-                <three_columns module="Magento_Page" translate="label">
+                <three_columns translate="label">
                     <label>3 columns</label>
                     <template>3columns.phtml</template>
                     <layout_handle>page_three_columns</layout_handle>
@@ -77,7 +77,7 @@
     </install>
     <default>
         <design>
-            <head translate="default_description" module="Magento_Page">
+            <head translate="default_description">
                 <default_title>Magento Commerce</default_title>
                 <default_description>Default Description</default_description>
                 <default_keywords>Magento, Varien, E-commerce</default_keywords>
@@ -110,11 +110,11 @@ Disallow: /*SID=
                     ]]>
                 </default_custom_instructions>
             </search_engine_robots>
-            <header translate="welcome" module="Magento_Page">
+            <header translate="welcome">
                 <logo_alt>Magento Commerce</logo_alt>
                 <welcome>Default welcome msg!</welcome>
             </header>
-            <footer translate="copyright" module="Magento_Page">
+            <footer translate="copyright">
                 <copyright>&amp;copy; 2013 Magento Demo Store. All Rights Reserved.</copyright>
             </footer>
         </design>

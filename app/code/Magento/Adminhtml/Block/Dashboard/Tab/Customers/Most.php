@@ -57,13 +57,13 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Magento_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => $this->__('Customer'),
+            'header'    => __('Customer'),
             'sortable'  => false,
             'index'     => 'name'
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => $this->__('Orders'),
+            'header'    => __('Orders'),
             'sortable'  => false,
             'index'     => 'orders_count',
             'type'      => 'number'
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Magento_Admin
         $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('orders_avg_amount', array(
-            'header'    => $this->__('Average'),
+            'header'    => __('Average'),
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Magento_Admin
         ));
 
         $this->addColumn('orders_sum_amount', array(
-            'header'    => $this->__('Total'),
+            'header'    => __('Total'),
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',

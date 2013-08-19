@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Magento_Ad
 
         if ($alertPriceAllow) {
             $accordion->addItem('price', array(
-                'title'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('We saved the price alert subscription.'),
+                'title'     => __('We saved the price alert subscription.'),
                 'content'   => $this->getLayout()
                     ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price')
                     ->toHtml() . '<br />',
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Magento_Ad
         }
         if ($alertStockAllow) {
             $accordion->addItem('stock', array(
-                'title'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('We saved the stock notification.'),
+                'title'     => __('We saved the stock notification.'),
                 'content'   => $this->getLayout()
                     ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock'),
                 'open'      => true

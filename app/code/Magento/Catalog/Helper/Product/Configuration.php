@@ -87,7 +87,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
         if ($typeId != Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
-             Mage::throwException($this->__('The product type to extract configurable options is incorrect.'));
+             Mage::throwException(__('The product type to extract configurable options is incorrect.'));
         }
         $attributes = $product->getTypeInstance()
             ->getSelectedAttributesInfo($product);
@@ -105,7 +105,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
         if ($typeId != Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
-             Mage::throwException($this->__('The product type to extract configurable options is incorrect.'));
+             Mage::throwException(__('The product type to extract configurable options is incorrect.'));
         }
 
         $options = array();

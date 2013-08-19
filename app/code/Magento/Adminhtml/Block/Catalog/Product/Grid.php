@@ -130,7 +130,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
     {
         $this->addColumn('entity_id',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
+                'header'=> __('ID'),
                 'width' => '50px',
                 'type'  => 'number',
                 'index' => 'entity_id',
@@ -139,7 +139,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         ));
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Name'),
+                'header'=> __('Name'),
                 'index' => 'name',
                 'class' => 'xxx',
                 'header_css_class'  => 'col-name',
@@ -150,7 +150,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Name in %s', $store->getName()),
+                    'header'=> __('Name in %1', $store->getName()),
                     'index' => 'custom_name',
                     'header_css_class'  => 'col-name',
                     'column_css_class'  => 'col-name'
@@ -159,7 +159,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Type'),
+                'header'=> __('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
@@ -175,7 +175,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute Set'),
+                'header'=> __('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -186,7 +186,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
+                'header'=> __('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
                 'header_css_class'  => 'col-sku',
@@ -196,7 +196,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         $store = $this->_getStore();
         $this->addColumn('price',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Price'),
+                'header'=> __('Price'),
                 'type'  => 'price',
                 'currency_code' => $store->getBaseCurrency()->getCode(),
                 'index' => 'price',
@@ -207,7 +207,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $this->addColumn('qty',
                 array(
-                    'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Quantity'),
+                    'header'=> __('Quantity'),
                     'width' => '100px',
                     'type'  => 'number',
                     'index' => 'qty',
@@ -218,7 +218,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         $this->addColumn('visibility',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Visibility'),
+                'header'=> __('Visibility'),
                 'width' => '70px',
                 'index' => 'visibility',
                 'type'  => 'options',
@@ -229,7 +229,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Status'),
+                'header'=> __('Status'),
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
@@ -241,7 +241,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
-                    'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Websites'),
+                    'header'=> __('Websites'),
                     'width' => '100px',
                     'sortable'  => false,
                     'index'     => 'websites',
@@ -254,13 +254,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         $this->addColumn('edit',
             array(
-                'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Edit'),
+                'header'    => __('Edit'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('Magento_Catalog_Helper_Data')->__('Edit'),
+                        'caption' => __('Edit'),
                         'url'     => array(
                             'base'=>'*/*/edit',
                             'params'=>array('store'=>$this->getRequest()->getParam('store'))
@@ -276,7 +276,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         ));
 
         if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Rss')) {
-            $this->addRssList('rss/catalog/notifystock', Mage::helper('Magento_Catalog_Helper_Data')->__('Notify Low Stock RSS'));
+            $this->addRssList('rss/catalog/notifystock', __('Notify Low Stock RSS'));
         }
 
         return parent::_prepareColumns();
@@ -289,23 +289,23 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Delete'),
+             'label'=> __('Delete'),
              'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => Mage::helper('Magento_Catalog_Helper_Data')->__('Are you sure?')
+             'confirm' => __('Are you sure?')
         ));
 
         $statuses = Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Change status'),
+             'label'=> __('Change status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Status'),
+                         'label' => __('Status'),
                          'values' => $statuses
                      )
              )
@@ -313,7 +313,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
 
         if ($this->_authorization->isAllowed('Magento_Catalog::update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Update Attributes'),
+                'label' => __('Update Attributes'),
                 'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
             ));
         }

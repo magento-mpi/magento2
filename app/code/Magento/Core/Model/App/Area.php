@@ -251,6 +251,8 @@ class Magento_Core_Model_App_Area
             'result' => $dispatchResult
         ));
         $this->_translator->init($this->_code, $dispatchResult, false);
+
+        Magento_Phrase::setRenderer($this->_objectManager->get('Magento_Phrase_RendererInterface'));
         return $this;
     }
 

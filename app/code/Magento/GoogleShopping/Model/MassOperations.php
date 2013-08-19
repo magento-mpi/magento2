@@ -87,14 +87,14 @@ class Magento_GoogleShopping_Model_MassOperations
                 } catch (Zend_Db_Statement_Exception $e) {
                     $message = $e->getMessage();
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
-                        $message = Mage::helper('Magento_GoogleShopping_Helper_Data')->__("The Google Content item for product '%s' (in '%s' store) already exists.", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
+                        $message = __("The Google Content item for product '%1' (in '%2' store) already exists.", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
                     }
                     $errors[] = $message;
                 } catch (Magento_Core_Exception $e) {
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('The product "%s" cannot be added to Google Content. %s', $product->getName(), $e->getMessage());
+                    $errors[] = __('The product "%1" cannot be added to Google Content. %2', $product->getName(), $e->getMessage());
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('The product "%s" hasn\'t been added to Google Content.', $product->getName());
+                    $errors[] = __('The product "%1" hasn\'t been added to Google Content.', $product->getName());
                 }
             }
             if (empty($productIds)) {
@@ -104,22 +104,22 @@ class Magento_GoogleShopping_Model_MassOperations
 
         if ($totalAdded > 0) {
             $this->_getNotifier()->addNotice(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Products were added to Google Shopping account.'),
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('A total of %d product(s) have been added to Google Content.', $totalAdded)
+                __('Products were added to Google Shopping account.'),
+                __('A total of %1 product(s) have been added to Google Content.', $totalAdded)
             );
         }
 
         if (count($errors)) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Errors happened while adding products to Google Shopping.'),
+                __('Errors happened while adding products to Google Shopping.'),
                 $errors
             );
         }
 
         if ($this->_flag->isExpired()) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Operation of adding products to Google Shopping expired.'),
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Some products may have not been added to Google Shopping bacause of expiration')
+                __('Operation of adding products to Google Shopping expired.'),
+                __('Some products may have not been added to Google Shopping bacause of expiration')
             );
         }
 
@@ -174,11 +174,11 @@ class Magento_GoogleShopping_Model_MassOperations
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                     $totalFailed++;
                 } catch (Magento_Core_Exception $e) {
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('The item "%s" cannot be updated at Google Content. %s', $item->getProduct()->getName(), $e->getMessage());
+                    $errors[] = __('The item "%1" cannot be updated at Google Content. %2', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('The item "%s" hasn\'t been updated.', $item->getProduct()->getName());
+                    $errors[] = __('The item "%1" hasn\'t been updated.', $item->getProduct()->getName());
                     $totalFailed++;
                 }
             }
@@ -187,13 +187,13 @@ class Magento_GoogleShopping_Model_MassOperations
         }
 
         $this->_getNotifier()->addNotice(
-            Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Product synchronization with Google Shopping completed'),
-            Mage::helper('Magento_GoogleShopping_Helper_Data')->__('A total of %d items(s) have been deleted; a total of %d items(s) have been updated.', $totalDeleted, $totalUpdated)
+            __('Product synchronization with Google Shopping completed'),
+            __('A total of %1 items(s) have been deleted; a total of %2 items(s) have been updated.', $totalDeleted, $totalUpdated)
         );
         if ($totalFailed > 0 || count($errors)) {
-            array_unshift($errors, Mage::helper('Magento_GoogleShopping_Helper_Data')->__("We cannot update %s items.", $totalFailed));
+            array_unshift($errors, __("We cannot update %1 items.", $totalFailed));
             $this->_getNotifier()->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Errors happened during synchronization with Google Shopping'),
+                __('Errors happened during synchronization with Google Shopping'),
                 $errors
             );
         }
@@ -233,7 +233,7 @@ class Magento_GoogleShopping_Model_MassOperations
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('The item "%s" hasn\'t been deleted.', $item->getProduct()->getName());
+                    $errors[] = __('The item "%1" hasn\'t been deleted.', $item->getProduct()->getName());
                 }
             }
         } else {
@@ -242,13 +242,13 @@ class Magento_GoogleShopping_Model_MassOperations
 
         if ($totalDeleted > 0) {
             $this->_getNotifier()->addNotice(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Google Shopping item removal process succeded'),
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Total of %d items(s) have been removed from Google Shopping.', $totalDeleted)
+                __('Google Shopping item removal process succeded'),
+                __('Total of %1 items(s) have been removed from Google Shopping.', $totalDeleted)
             );
         }
         if (count($errors)) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Errors happened while deleting items from Google Shopping'),
+                __('Errors happened while deleting items from Google Shopping'),
                 $errors
             );
         }
@@ -303,7 +303,7 @@ class Magento_GoogleShopping_Model_MassOperations
     {
         if (!$this->_hasError) {
             $this->_getNotifier()->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Google Shopping Error'),
+                __('Google Shopping Error'),
                 Mage::helper('Magento_GoogleShopping_Helper_Category')->getMessage()
             );
             $this->_hasError = true;

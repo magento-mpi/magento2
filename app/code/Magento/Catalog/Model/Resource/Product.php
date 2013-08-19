@@ -377,7 +377,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
         $indexTable = $this->getTable('catalog_product_enabled_index');
         if (is_null($store) && is_null($product)) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('To reindex the enabled product(s), please specify the store or product.')
+                __('To reindex the enabled product(s), please specify the store or product.')
             );
         } elseif (is_null($product) || is_array($product)) {
             $storeId    = $store->getId();

@@ -36,36 +36,36 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
 
         //columns headers
         $lines[0][] = array(
-            'text' => Mage::helper('Magento_Sales_Helper_Data')->__('Products'),
+            'text' => __('Products'),
             'feed' => 35
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('SKU'),
+            'text'  => __('SKU'),
             'feed'  => 290,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('Qty'),
+            'text'  => __('Qty'),
             'feed'  => 435,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('Price'),
+            'text'  => __('Price'),
             'feed'  => 360,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('Tax'),
+            'text'  => __('Tax'),
             'feed'  => 495,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Sales_Helper_Data')->__('Subtotal'),
+            'text'  => __('Subtotal'),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -116,7 +116,7 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,
-                Mage::helper('Magento_Sales_Helper_Data')->__('Invoice # ') . $invoice->getIncrementId()
+                __('Invoice # ') . $invoice->getIncrementId()
             );
             /* Add table */
             $this->_drawHeader($page);

@@ -15,6 +15,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
     {
         $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
+            ->setMethods(array('_connect', '_quote'))
             ->getMockForAbstractClass();
         $mockResourceEvent = $this->getMockBuilder('Magento_Webhook_Model_Resource_Job')
             ->disableOriginalConstructor()
@@ -44,32 +45,6 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         $collection = new Magento_Webhook_Model_Resource_Job_Collection($mockFetchStrategy);
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Job_Collection', $collection);
         $this->assertEquals('Magento_Webhook_Model_Resource_Job', $collection->getResourceModelName());
-    }
-
-    public function testSetPageLimit()
-    {
-        $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $selectMock = $this->getMockBuilder('Zend_Db_Select')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $selectMock->expects($this->once())
-            ->method('limitPage');
-
-        $connMock = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
-            ->disableOriginalConstructor()
-            ->getMock();
-        // this method is simply used to set a value, it is not being tested
-        $connMock->expects($this->any())
-            ->method('select')
-            ->withAnyParameters()
-            ->will($this->returnValue($selectMock));
-
-        $collection = new Magento_Webhook_Model_Resource_Job_Collection($mockFetchStrategy);
-        $collection->setConnection($connMock);
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Job_Collection', $collection->setPageLimit());
     }
 
     /**

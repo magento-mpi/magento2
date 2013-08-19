@@ -79,7 +79,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
         if (empty($data['helper'])
             || !$this->helper($data['helper']) instanceof Magento_Catalog_Helper_Product_Configuration_Interface
         ) {
-            Mage::throwException($this->__("Helper for wish list options rendering doesn't implement required interface."));
+            Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
         }
 
         return $this->helper($data['helper'])->getOptions($item);

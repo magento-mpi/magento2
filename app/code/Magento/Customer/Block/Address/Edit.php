@@ -71,10 +71,10 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
             return $title;
         }
         if ($this->getAddress()->getId()) {
-            $title = Mage::helper('Magento_Customer_Helper_Data')->__('Edit Address');
+            $title = __('Edit Address');
         }
         else {
-            $title = Mage::helper('Magento_Customer_Helper_Data')->__('Add New Address');
+            $title = __('Add New Address');
         }
         return $title;
     }

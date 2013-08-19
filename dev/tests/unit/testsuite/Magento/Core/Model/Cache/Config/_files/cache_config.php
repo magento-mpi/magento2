@@ -10,7 +10,6 @@ return array(
         'config' => array(
             'name' => 'config',
             'translate' => 'label,description',
-            'module' => 'Magento_Core',
             'instance' => 'Magento_Core_Model_Cache_Type_Config',
             'label' => 'Configuration',
             'description' => 'System(config.xml, local.xml) and modules configuration files(config.xml).'
@@ -18,7 +17,6 @@ return array(
         'layout' => array(
             'name' => 'layout',
             'translate' => 'label,description',
-            'module' => 'Magento_Core',
             'instance' => 'Magento_Core_Model_Cache_Type_Layout',
             'label' => 'Layouts',
             'description' => 'Layout building instructions.'

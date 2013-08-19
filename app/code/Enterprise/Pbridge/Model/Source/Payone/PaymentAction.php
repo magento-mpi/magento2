@@ -26,11 +26,11 @@ class Enterprise_Pbridge_Model_Source_Payone_PaymentAction
         return array(
             array(
                 'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorize Only')
+                'label' => __('Authorize Only')
             ),
             array(
                 'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorize and Capture')
+                'label' => __('Authorize and Capture')
             ),
         );
     }

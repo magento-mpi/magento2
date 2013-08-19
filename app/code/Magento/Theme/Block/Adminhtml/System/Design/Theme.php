@@ -25,7 +25,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme extends Magento_Backend_
             $this->getLayout()->getBlock('page-title')->setPageTitle('Themes');
         }
         
-        $this->_updateButton('add', 'label', $this->__('Add New Theme'));
+        $this->_updateButton('add', 'label', __('Add New Theme'));
     }
 
     /**
@@ -35,6 +35,6 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme extends Magento_Backend_
      */
     public function getHeaderText()
     {
-        return $this->__('Themes');
+        return __('Themes');
     }
 }

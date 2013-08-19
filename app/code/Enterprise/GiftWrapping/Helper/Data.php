@@ -292,7 +292,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                     'gw_order_excl',
                     $dataObject->getGwPrice(),
                     $dataObject->getGwBasePrice(),
-                    $this->__('Gift Wrapping for Order (Excl. Tax)')
+                    __('Gift Wrapping for Order (Excl. Tax)')
                 );
             }
             $this->_addTotalToTotals(
@@ -300,7 +300,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                 'gw_order_incl',
                 $dataObject->getGwPrice() + $dataObject->getGwTaxAmount(),
                 $dataObject->getGwBasePrice() + $dataObject->getGwBaseTaxAmount(),
-                $this->__('Gift Wrapping for Order (Incl. Tax)')
+                __('Gift Wrapping for Order (Incl. Tax)')
             );
         } else {
             $this->_addTotalToTotals(
@@ -308,7 +308,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                 'gw_order',
                 $dataObject->getGwPrice(),
                 $dataObject->getGwBasePrice(),
-                $this->__('Gift Wrapping for Order')
+                __('Gift Wrapping for Order')
             );
         }
 
@@ -321,7 +321,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                 'gw_items_incl',
                 $dataObject->getGwItemsPrice() + $dataObject->getGwItemsTaxAmount(),
                 $dataObject->getGwItemsBasePrice() + $dataObject->getGwItemsBaseTaxAmount(),
-                $this->__('Gift Wrapping for Items (Incl. Tax)')
+                __('Gift Wrapping for Items (Incl. Tax)')
             );
             if ($displayWrappingBothPrices) {
                 $this->_addTotalToTotals(
@@ -329,7 +329,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                     'gw_items_excl',
                     $dataObject->getGwItemsPrice(),
                     $dataObject->getGwItemsBasePrice(),
-                    $this->__('Gift Wrapping for Items (Excl. Tax)')
+                    __('Gift Wrapping for Items (Excl. Tax)')
                 );
             }
         } else {
@@ -338,7 +338,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                 'gw_items',
                 $dataObject->getGwItemsPrice(),
                 $dataObject->getGwItemsBasePrice(),
-                $this->__('Gift Wrapping for Items')
+                __('Gift Wrapping for Items')
             );
         }
 
@@ -351,7 +351,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                 'gw_printed_card_incl',
                 $dataObject->getGwCardPrice() + $dataObject->getGwCardTaxAmount(),
                 $dataObject->getGwCardBasePrice() + $dataObject->getGwCardBaseTaxAmount(),
-                $this->__('Printed Card (Incl. Tax)')
+                __('Printed Card (Incl. Tax)')
             );
             if ($displayCardBothPrices) {
                 $this->_addTotalToTotals(
@@ -359,7 +359,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                     'gw_printed_card_excl',
                     $dataObject->getGwCardPrice(),
                     $dataObject->getGwCardBasePrice(),
-                    $this->__('Printed Card (Excl. Tax)')
+                    __('Printed Card (Excl. Tax)')
                 );
             }
         } else {
@@ -368,7 +368,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
                 'gw_printed_card',
                 $dataObject->getGwCardPrice(),
                 $dataObject->getGwCardBasePrice(),
-                $this->__('Printed Card')
+                __('Printed Card')
             );
         }
 

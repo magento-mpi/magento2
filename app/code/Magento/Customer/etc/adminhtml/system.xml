@@ -3,7 +3,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,10 +11,10 @@
 -->
 <config>
     <system>
-        <tab id="customer" translate="label" module="Magento_Customer" sortOrder="300">
+        <tab id="customer" translate="label" sortOrder="300">
             <label>Customers</label>
         </tab>
-        <section id="customer" translate="label" module="Magento_Customer" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="customer" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Customer Configuration</label>
             <tab>customer</tab>

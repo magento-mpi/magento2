@@ -185,15 +185,15 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
             $response = $client->request('GET');
         } catch (Exception $e){
             $this->_getInstaller()->getDataModel()->addError(
-                Mage::helper('Magento_Install_Helper_Data')->__('The URL "%s" is not accessible.', $baseUrl)
+                __('The URL "%1" is not accessible.', $baseUrl)
             );
             throw $e;
         }
         if ($response->getStatus() != 200) {
             $this->_getInstaller()->getDataModel()->addError(
-                Mage::helper('Magento_Install_Helper_Data')->__('The URL "%s" is invalid.', $baseUrl)
+                __('The URL "%1" is invalid.', $baseUrl)
             );
-            Mage::throwException(Mage::helper('Magento_Install_Helper_Data')->__('Response from the server is invalid.'));
+            Mage::throwException(__('Response from the server is invalid.'));
         }
     }
 

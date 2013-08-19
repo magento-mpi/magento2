@@ -22,10 +22,10 @@
         <?php /* Payment Method */ ?>
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Payment Information') ?></span>
+                <span class="title"><?php echo __('Payment Information') ?></span>
             </div>
             <div><?php echo $this->getPaymentHtml() ?></div>
-            <div class="order-payment-currency"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
+            <div class="order-payment-currency"><?php echo __('The order was placed using %1.', $_order->getOrderCurrencyCode()) ?></div>
         </div>
     </div>
     <?php if (!$_order->getIsVirtual()): ?>
@@ -33,11 +33,11 @@
         <!--Shipping Method-->
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Shipping &amp; Handling Information') ?></span>
+                <span class="title"><?php echo __('Shipping &amp; Handling Information') ?></span>
             </div>
             <div class="shipping-description-wrapper">
                 <?php  if ($_order->getTracksCollection()->count()) : ?>
-                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Magento_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a></p>
+                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Magento_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo __('Track Order') ?>"><?php echo __('Track Order') ?></a></p>
                 <?php endif; ?>
                 <?php if ($_order->getShippingDescription()): ?>
                     <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
@@ -51,10 +51,10 @@
 
                     <?php echo $_excl; ?>
                     <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
                 <?php else: ?>
-                    <?php echo $this->helper('Magento_Sales_Helper_Data')->__('No shipping information available'); ?>
+                    <?php echo __('No shipping information available'); ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -66,7 +66,7 @@
     <?php echo $this->getGiftOptionsHtml() ?>
     <div class="fieldset-wrapper">
         <div class="fieldset-wrapper-title">
-            <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Items Ordered') ?></span>
+            <span class="title"><?php echo __('Items Ordered') ?></span>
         </div>
         <?php echo $this->getItemsHtml() ?>
     </div>
@@ -74,7 +74,7 @@
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Comments History') ?></span>
+                <span class="title"><?php echo __('Comments History') ?></span>
             </div>
             <fieldset><?php echo $this->getChildHtml('order_history') ?></fieldset>
         </div>
@@ -82,7 +82,7 @@
     <div class="order-totals">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Order Totals') ?></span>
+                <span class="title"><?php echo __('Order Totals') ?></span>
             </div>
             <?php echo $this->getChildHtml('order_totals') ?>
         </div>

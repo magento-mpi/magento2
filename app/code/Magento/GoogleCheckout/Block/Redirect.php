@@ -35,6 +35,6 @@ class Magento_GoogleCheckout_Block_Redirect extends Magento_Page_Block_Redirect
 
     public function getMessage ()
     {
-        return $this->__('You will be redirected to GoogleCheckout in a few seconds.');
+        return __('You will be redirected to GoogleCheckout in a few seconds.');
     }
 }

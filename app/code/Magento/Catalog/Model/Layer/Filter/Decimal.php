@@ -112,7 +112,7 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
     {
         $from   = Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
         $to     = Mage::app()->getStore()->formatPrice($value * $range, false);
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('%s - %s', $from, $to);
+        return __('%1 - %2', $from, $to);
     }
 
     /**

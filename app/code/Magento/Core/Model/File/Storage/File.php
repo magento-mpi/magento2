@@ -64,7 +64,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      */
     public function getStorageName()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->__('File system');
+        return __('File system');
     }
 
     /**
@@ -248,10 +248,10 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('Unable to save file "%s" at "%s"', $file['filename'], $file['directory']));
+                Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
             }
         } else {
-            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('Wrong file info format'));
+            Mage::throwException(__('Wrong file info format'));
         }
 
         return false;

@@ -59,7 +59,7 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
     {
         $types = self::getAllowedEntityTypes();
         if(!isset($types[$type])) {
-            Mage::throwException(Mage::helper('Magento_GiftMessage_Helper_Data')->__('Unknown entity type'));
+            Mage::throwException(__('Unknown entity type'));
         }
 
         return Mage::getModel($types[$type]);

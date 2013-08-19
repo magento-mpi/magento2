@@ -65,7 +65,7 @@ class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Fron
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
+            Mage::throwException(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -87,7 +87,7 @@ class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Fron
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
+            Mage::throwException(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -139,7 +139,7 @@ class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Fron
             if ($diff) {
                 $result['success'] = false;
                 $result['error'] = true;
-                $result['error_messages'] = $this->__('Please agree to all the terms and conditions before placing the order.');
+                $result['error_messages'] = __('Please agree to all the terms and conditions before placing the order.');
             }
         }
         $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));

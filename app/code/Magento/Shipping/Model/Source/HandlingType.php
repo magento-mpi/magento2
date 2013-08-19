@@ -12,8 +12,8 @@ class Magento_Shipping_Model_Source_HandlingType
     public function toOptionArray()
     {
         return array(
-            array('value' => Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED, 'label' => Mage::helper('Magento_Shipping_Helper_Data')->__('Fixed')),
-            array('value' => Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT, 'label' => Mage::helper('Magento_Shipping_Helper_Data')->__('Percent')),
+            array('value' => Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED, 'label' => __('Fixed')),
+            array('value' => Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT, 'label' => __('Percent')),
         );
     }
 }

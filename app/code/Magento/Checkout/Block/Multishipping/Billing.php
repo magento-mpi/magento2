@@ -24,7 +24,7 @@ class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(
-                Mage::helper('Magento_Checkout_Helper_Data')->__('Billing Information - %s', $headBlock->getDefaultTitle())
+                __('Billing Information - %1', $headBlock->getDefaultTitle())
             );
         }
 

@@ -26,12 +26,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block
         $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => $this->helper('Magento_Widget_Helper_Data')->__('Widget')
+            'legend'    => __('Widget')
         ));
 
         $select = $fieldset->addField('select_widget_type', 'select', array(
-            'label'                 => $this->helper('Magento_Widget_Helper_Data')->__('Widget Type'),
-            'title'                 => $this->helper('Magento_Widget_Helper_Data')->__('Widget Type'),
+            'label'                 => __('Widget Type'),
+            'title'                 => __('Widget Type'),
             'name'                  => 'widget_type',
             'required'              => true,
             'options'               => $this->_getWidgetSelectOptions(),
@@ -94,7 +94,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block
             if ($withEmptyElement) {
                 array_unshift($result, array(
                     'type'        => '',
-                    'name'        => $this->helper('Magento_Adminhtml_Helper_Data')->__('-- Please Select --'),
+                    'name'        => __('-- Please Select --'),
                     'description' => '',
                 ));
             }

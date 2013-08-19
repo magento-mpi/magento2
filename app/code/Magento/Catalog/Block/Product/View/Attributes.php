@@ -46,9 +46,9 @@ class Magento_Catalog_Block_Product_View_Attributes extends Magento_Core_Block_T
                 $value = $attribute->getFrontend()->getValue($product);
 
                 if (!$product->hasData($attribute->getAttributeCode())) {
-                    $value = Mage::helper('Magento_Catalog_Helper_Data')->__('N/A');
+                    $value = __('N/A');
                 } elseif ((string)$value == '') {
-                    $value = Mage::helper('Magento_Catalog_Helper_Data')->__('No');
+                    $value = __('No');
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
                     $value = Mage::app()->getStore()->convertPrice($value, true);
                 }

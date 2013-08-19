@@ -57,11 +57,6 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     protected $_productCollection;
 
     /**
-     * @var Magento_CatalogSearch_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize dependencies
      *
      * @param Magento_Core_Model_Context $context
@@ -77,7 +72,6 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_helper = $helper;
         $this->_engine = $helper->getEngine();
         $this->_setResourceModel($this->_engine->getResourceName());
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -172,7 +166,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!$hasConditions) {
-            throw new Magento_Core_Exception($this->_helper->__('Please specify at least one search term.'));
+            throw new Magento_Core_Exception(__('Please specify at least one search term.'));
         }
 
         return $this;
@@ -207,10 +201,10 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
                             ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
                     } elseif (strlen($value['from']) > 0) {
                         // and more
-                        $value = $this->_helper->__('%s and greater', ($currencyModel ? $from : $value['from']));
+                        $value = __('%1 and greater', ($currencyModel ? $from : $value['from']));
                     } elseif (strlen($value['to']) > 0) {
                         // to
-                        $value = $this->_helper->__('up to %s', ($currencyModel ? $to : $value['to']));
+                        $value = __('up to %1', ($currencyModel ? $to : $value['to']));
                     }
                 } else {
                     return $this;
@@ -235,8 +229,8 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
                 $value = $value['label'];
         } else if ($attribute->getFrontendInput() == 'boolean') {
             $value = $value == 1
-                ? $this->_helper->__('Yes')
-                : $this->_helper->__('No');
+                ? __('Yes')
+                : __('No');
         }
 
         $this->_searchCriterias[] = array('name' => $name, 'value' => $value);

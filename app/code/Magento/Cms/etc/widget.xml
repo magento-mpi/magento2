@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <cms_page_link type="Magento_Cms_Block_Widget_Page_Link" translate="name description" module="Magento_Cms">
+    <cms_page_link type="Magento_Cms_Block_Widget_Page_Link" translate="name description">
         <name>CMS Page Link</name>
         <description>Link to a CMS Page</description>
         <is_email_compatible>1</is_email_compatible>
@@ -60,7 +60,7 @@
             </template>
         </parameters>
     </cms_page_link>
-    <cms_static_block type="Magento_Cms_Block_Widget_Block" translate="name description" module="Magento_Cms">
+    <cms_static_block type="Magento_Cms_Block_Widget_Block" translate="name description">
         <name>CMS Static Block</name>
         <description>Contents of a Static Block</description>
         <placeholder_image>Magento_Cms::images/widget_block.gif</placeholder_image>

@@ -103,7 +103,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
         } elseif ($toCurrency instanceof Magento_Directory_Model_Currency) {
             $code = $toCurrency->getCurrencyCode();
         } else {
-            throw Mage::exception('Magento_Directory', Mage::helper('Magento_Directory_Helper_Data')->__('Please correct the target currency.'));
+            throw Mage::exception('Magento_Directory', __('Please correct the target currency.'));
         }
         $rates = $this->getRates();
         if (!isset($rates[$code])) {
@@ -126,7 +126,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
         } elseif ($toCurrency instanceof Magento_Directory_Model_Currency) {
             $code = $toCurrency->getCurrencyCode();
         } else {
-            throw Mage::exception('Magento_Directory', Mage::helper('Magento_Directory_Helper_Data')->__('Please correct the target currency.'));
+            throw Mage::exception('Magento_Directory', __('Please correct the target currency.'));
         }
         $rates = $this->getRates();
         if (!isset($rates[$code])) {
@@ -152,7 +152,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
             return $price*$rate;
         }
 
-        throw new Exception(Mage::helper('Magento_Directory_Helper_Data')->__('Undefined rate from "%s-%s".', $this->getCode(), $toCurrency->getCode()));
+        throw new Exception(__('Undefined rate from "%1-%2".', $this->getCode(), $toCurrency->getCode()));
     }
 
     /**

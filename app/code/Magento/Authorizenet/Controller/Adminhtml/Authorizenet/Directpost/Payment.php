@@ -9,10 +9,10 @@
  */
 
 /**
- * Adminhtml Directpost Payment Controller
+ * Admihtml DirtectPost Payment Controller
  *
  * @category   Magento
- * @package    Magento_Authorizenet
+ * @package    Magento_DirtectPost
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
@@ -121,7 +121,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
                 $isError = true;
             }
             catch (Exception $e) {
-                $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
+                $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
                 $isError = true;
             }
 
@@ -135,7 +135,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
         }
         else {
             $result = array(
-                'error_messages' => $this->__('Please choose a payment method.')
+                'error_messages' => __('Please choose a payment method.')
             );
             $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
@@ -171,7 +171,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
             $this->_getSession()->clear();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->clear();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You created the order.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
         }
 
         if (!empty($redirectParams['error_msg'])) {

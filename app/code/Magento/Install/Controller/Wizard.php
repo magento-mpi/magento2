@@ -234,17 +234,15 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
      */
     public function installAction()
     {
-        $pear = Magento_Pear::getInstance();
-        /** @var Magento_Install_Helper_Data $helper */
-        $helper = Mage::helper('Magento_Install_Helper_Data');
+        $pear = Magento_Pear::getInstance();        
         $params = array(
-            'comment' => $helper->__("Downloading and installing Magento, please wait...") . "\r\n\r\n"
+            'comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n"
         );
         if ($this->getRequest()->getParam('do')) {
             $state = $this->getRequest()->getParam('state', 'beta');
             if ($state) {
                 $result = $pear->runHtmlConsole(array(
-                'comment'   => $helper->__("Setting preferred state to: %s", $state) . "\r\n\r\n",
+                'comment'   => __("Setting preferred state to: %1", $state) . "\r\n\r\n",
                 'command'   => 'config-set',
                 'params'    => array('preferred_state', $state)
                 ));

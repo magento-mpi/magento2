@@ -37,12 +37,12 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Magento_Adminht
     protected function _prepareLayout()
     {
         $this->addChild('deleteButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Delete'),
+            'label'     => __('Delete'),
             'class' => 'action-delete action- delete icon-btn'
         ));
 
         $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Poll_Helper_Data')->__('Add New Answer'),
+            'label'     => __('Add New Answer'),
             'class' => 'action-add'
         ));
         return parent::_prepareLayout();

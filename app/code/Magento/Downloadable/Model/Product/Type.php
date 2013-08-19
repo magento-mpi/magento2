@@ -295,7 +295,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
             return $result;
         }
         if ($this->getLinkSelectionRequired($product) && $this->_isStrictProcessMode($processMode)) {
-            return Mage::helper('Magento_Downloadable_Helper_Data')->__('Please specify product link(s).');
+            return __('Please specify product link(s).');
         }
         return $result;
     }
@@ -323,7 +323,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                     $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
                 } else {
                     Mage::throwException(
-                        Mage::helper('Magento_Downloadable_Helper_Data')->__('Please specify product link(s).')
+                        __('Please specify product link(s).')
                     );
                 }
             }

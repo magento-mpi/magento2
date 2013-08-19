@@ -36,18 +36,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
             'value' => array(
                 array( // order address combo
                     'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address',
-                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address')),
+                    'label' => __('Order Address')),
                 array(
                     'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount',
-                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Sales Amount')),
+                    'label' => __('Sales Amount')),
                 array(
                     'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber',
-                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Orders')),
+                    'label' => __('Number of Orders')),
                 array(
                     'value' => 'Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity',
-                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Purchased Quantity')),
+                    'label' => __('Purchased Quantity')),
              ),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Sales')
+            'label' => __('Sales')
         );
     }
 }

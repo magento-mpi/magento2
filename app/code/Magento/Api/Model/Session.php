@@ -72,15 +72,15 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
             ->login($username, $apiKey);
 
         if ( $user->getId() && $user->getIsActive() != '1' ) {
-            Mage::throwException(Mage::helper('Magento_Api_Helper_Data')->__('Your account has been deactivated.'));
+            Mage::throwException(__('Your account has been deactivated.'));
         } elseif (!Mage::getModel('Magento_Api_Model_User')->hasAssigned2Role($user->getId())) {
-            Mage::throwException(Mage::helper('Magento_Api_Helper_Data')->__('Access denied'));
+            Mage::throwException(__('Access denied'));
         } else {
             if ($user->getId()) {
                 $this->setUser($user);
                 $this->setAcl(Mage::getResourceModel('Magento_Api_Model_Resource_Acl')->loadAcl());
             } else {
-                Mage::throwException(Mage::helper('Magento_Api_Helper_Data')->__('Unable to login'));
+                Mage::throwException(__('Unable to login'));
             }
         }
 

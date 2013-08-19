@@ -80,9 +80,9 @@ gContentAttribute = new Gcontent.Attribute(attributesSelectTemplate);
     <table class="data-table" id="gcontent_attribute">
         <thead>
             <tr>
-                <th class="col-type"><?php echo Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Attribute') ?></th>
-                <th class="col-req"><?php echo Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Google Content Attribute') ?></th>
-                <th class="col-actions"><?php echo Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Action') ?></th>
+                <th class="col-type"><?php echo __('Attribute') ?></th>
+                <th class="col-req"><?php echo __('Google Content Attribute') ?></th>
+                <th class="col-actions"><?php echo __('Action') ?></th>
             </tr>
         </thead>
         <tbody id="gcontent_attribute_top">
@@ -109,5 +109,5 @@ gContentAttribute = new Gcontent.Attribute(attributesSelectTemplate);
 <?php endif; ?>
 
 <?php else: ?>
-    <?php echo Mage::helper('Magento_GoogleShopping_Helper_Data')->__("Please, select Attribute Set to load attributes") ?>
+    <?php echo __("Please, select Attribute Set to load attributes") ?>
 <?php endif; ?>

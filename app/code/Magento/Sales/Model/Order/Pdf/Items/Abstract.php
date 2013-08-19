@@ -121,7 +121,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('The order object is not specified.'));
+            Mage::throwException(__('The order object is not specified.'));
         }
         return $this->_order;
     }
@@ -135,7 +135,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getSource()
     {
         if (is_null($this->_source)) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('The source object is not specified.'));
+            Mage::throwException(__('The source object is not specified.'));
         }
         return $this->_source;
     }
@@ -149,7 +149,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getItem()
     {
         if (is_null($this->_item)) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('An item object is not specified.'));
+            Mage::throwException(__('An item object is not specified.'));
         }
         return $this->_item;
     }
@@ -163,7 +163,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getPdf()
     {
         if (is_null($this->_pdf)) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('A PDF object is not specified.'));
+            Mage::throwException(__('A PDF object is not specified.'));
         }
         return $this->_pdf;
     }
@@ -177,7 +177,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getPage()
     {
         if (is_null($this->_pdfPage)) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('A PDF page object is not specified.'));
+            Mage::throwException(__('A PDF page object is not specified.'));
         }
         return $this->_pdfPage;
     }
@@ -233,12 +233,12 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
         if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()) {
             $prices = array(
                 array(
-                    'label'    => Mage::helper('Magento_Tax_Helper_Data')->__('Excl. Tax') . ':',
+                    'label'    => __('Excl. Tax') . ':',
                     'price'    => $order->formatPriceTxt($item->getPrice()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotal())
                 ),
                 array(
-                    'label'    => Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax') . ':',
+                    'label'    => __('Incl. Tax') . ':',
                     'price'    => $order->formatPriceTxt($item->getPriceInclTax()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
                 ),

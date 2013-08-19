@@ -60,11 +60,11 @@ class Enterprise_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstrac
                 'value' => ''
             ),
             array(
-                'label' => $this->__('Union'),
+                'label' => __('Union'),
                 'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_UNION_CODE
             ),
             array(
-                'label' => $this->__('Intersection'),
+                'label' => __('Intersection'),
                 'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE
             )
         );
@@ -111,10 +111,10 @@ class Enterprise_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstrac
 
         $fieldset->addField('use_customer_segment', 'select', array(
             'name' => 'use_customer_segment',
-            'label' => $this->__('Customer Segments'),
+            'label' => __('Customer Segments'),
             'options' => array(
-                '0' => $this->__('All'),
-                '1' => $this->__('Specified'),
+                '0' => __('All'),
+                '1' => __('Specified'),
             ),
             'note' => $formData->getUseCustomerSegment()
                 ? $this->_getSpecificSegmentMessage()  : $this->_getAllSegmentsMessage(),
@@ -168,7 +168,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     protected function _getAllSegmentsMessage()
     {
-        return $this->__('Applies to All of the Specified Customer Segments');
+        return __('Applies to All of the Specified Customer Segments');
     }
 
     /**
@@ -178,6 +178,6 @@ class Enterprise_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     protected function _getSpecificSegmentMessage()
     {
-        return $this->__('Apply to the Selected Customer Segments');
+        return __('Apply to the Selected Customer Segments');
     }
 }

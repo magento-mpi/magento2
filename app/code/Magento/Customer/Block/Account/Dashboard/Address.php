@@ -30,7 +30,7 @@ class Magento_Customer_Block_Account_Dashboard_Address extends Magento_Core_Bloc
         if( $address instanceof Magento_Object ) {
             return $address->format('html');
         } else {
-            return Mage::helper('Magento_Customer_Helper_Data')->__('You have not set a default shipping address.');
+            return __('You have not set a default shipping address.');
         }
     }
 
@@ -41,7 +41,7 @@ class Magento_Customer_Block_Account_Dashboard_Address extends Magento_Core_Bloc
         if( $address instanceof Magento_Object ) {
             return $address->format('html');
         } else {
-            return Mage::helper('Magento_Customer_Helper_Data')->__('You have not set a default billing address.');
+            return __('You have not set a default billing address.');
         }
     }
 

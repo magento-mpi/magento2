@@ -45,7 +45,7 @@ class Magento_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Mo
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('Magento_Cron_Helper_Data')->__('We can\'t save the Cron expression.'));
+            throw new Exception(__('We can\'t save the Cron expression.'));
         }
     }
 

@@ -35,7 +35,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule extends Magento_Core_Model_Res
     {
         $this->_uniqueFields = array(array(
             'field' => array('code'),
-            'title' => Mage::helper('Magento_Tax_Helper_Data')->__('Code'),
+            'title' => __('Code'),
         ));
         return $this;
     }

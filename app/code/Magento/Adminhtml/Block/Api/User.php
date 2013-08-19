@@ -21,8 +21,8 @@ class Magento_Adminhtml_Block_Api_User extends Magento_Backend_Block_Widget_Grid
     protected function _construct()
     {
         $this->_controller = 'api_user';
-        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Users');
-        $this->_addButtonLabel = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Add New User');
+        $this->_headerText = __('Users');
+        $this->_addButtonLabel = __('Add New User');
         parent::_construct();
     }
 

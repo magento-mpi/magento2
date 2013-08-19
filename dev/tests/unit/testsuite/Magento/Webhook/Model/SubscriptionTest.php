@@ -144,13 +144,12 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider beforeSaveDataProvider
      *
-     * @param $hasStatus
      * @param $hasRegiMechanism
      * @param $hasDataChanges
      * @param $hasEndpointChanges
      * @param $hasEndpointId
      */
-    public function testBeforeSave($hasStatus, $hasRegiMechanism, $hasEndpointChanges, $hasEndpointId, $hasDataChanges)
+    public function testBeforeSave($hasRegiMechanism, $hasEndpointChanges, $hasEndpointId, $hasDataChanges)
     {
         // it's useful to mock out more methods for the purposes of testing this one method
         $this->_subscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
@@ -180,8 +179,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $this->_expectHasStatus($hasStatus);
-
         $this->_expectHasRegistrationMechanism($hasRegiMechanism);
 
         $this->_expectEndpointOrId($hasEndpointChanges, $hasEndpointId);
@@ -189,26 +186,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->_expectSubscriptionHasDataChanges($hasDataChanges, $mockResource);
 
         $this->assertEquals($this->_subscription, $this->_subscription->save());
-    }
-
-    /**
-     * Mock out the subscription depending on whether or not it will have status
-     *
-     * @param $hasStatus
-     */
-    protected function _expectHasStatus($hasStatus)
-    {
-        $this->_subscription->expects($this->once())
-            ->method('hasStatus')
-            ->will($this->returnValue($hasStatus));
-        if (!$hasStatus) {
-            $this->_subscription->expects($this->once())
-                ->method('setStatus')
-                ->with($this->equalTo(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE));
-        } else {
-            $this->_subscription->expects($this->never())
-                ->method('setStatus');
-        }
     }
 
     /**
@@ -322,7 +299,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      */
     public function beforeSaveDataProvider()
     {
-        return $this->_allNBitCombinations(5);
+        return $this->_allNBitCombinations(4);
     }
 
     /**
@@ -398,8 +375,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testStatus()
     {
-        $this->assertFalse($this->_subscription->hasStatus());
-        $this->assertNull($this->_subscription->getStatus());
+        $this->assertTrue($this->_subscription->hasStatus());
+        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
         $this->assertSame(
             $this->_subscription, $this->_subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE)
         );
@@ -411,15 +388,20 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testDeactivate()
     {
         $this->_subscription->deactivate();
-        $this->assertTrue($this->_subscription->hasDataChanges());
+        $this->assertFalse($this->_subscription->hasDataChanges());
         $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
     }
 
-    public function testActivate()
+    public function testActivateDeactivate()
     {
         $this->_subscription->activate();
         $this->assertTrue($this->_subscription->hasDataChanges());
         $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $this->_subscription->getStatus());
+
+        $this->_subscription->setDataChanges(false);
+        $this->_subscription->deactivate();
+        $this->assertTrue($this->_subscription->hasDataChanges());
+        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
     }
 
     public function testRevoke()

@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Product
 
         return sprintf('<a href="%s">%s</a>',
             $this->getUrl('*/catalog_product_review/', array('productId' => $id)),
-            Mage::helper('Magento_Adminhtml_Helper_Data')->__('Show Reviews')
+            __('Show Reviews')
         );
     }
 }

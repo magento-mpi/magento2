@@ -130,7 +130,7 @@ class Magento_Catalog_Model_Category_Api extends Magento_Catalog_Model_Api_Resou
         $root = $tree->getNodeById($parentId);
 
         if($root && $root->getId() == 1) {
-            $root->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
+            $root->setName(__('Root'));
         }
 
         $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
@@ -256,7 +256,7 @@ class Magento_Catalog_Model_Category_Api extends Magento_Catalog_Model_Api_Resou
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute "%s" is required.', $code));
+                        Mage::throwException(__('Attribute "%1" is required.', $code));
                     }
                     else {
                         Mage::throwException($error);
@@ -300,7 +300,7 @@ class Magento_Catalog_Model_Category_Api extends Magento_Catalog_Model_Api_Resou
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute "%s" is required.', $code));
+                        Mage::throwException(__('Attribute "%1" is required.', $code));
                     }
                     else {
                         Mage::throwException($error);

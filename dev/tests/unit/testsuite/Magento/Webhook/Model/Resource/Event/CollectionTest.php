@@ -13,13 +13,14 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
 {
     public function setUp()
     {
-        $mockDBAdapter = $this->getMockBuilder('Zend_Db_Adapter_Abstract')
+        $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
+            ->setMethods(array('_connect', '_quote'))
             ->getMockForAbstractClass();
         $mockResourceEvent = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event')
             ->disableOriginalConstructor()
             ->getMock();
-        $mockResourceEvent->expects($this->once())
+        $mockResourceEvent->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
 

@@ -36,7 +36,7 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
     {
         $this->_uniqueFields = array(array(
             'field' => 'code',
-            'title' => Mage::helper('Magento_Core_Helper_Data')->__('Website with the same code')
+            'title' => __('Website with the same code')
         ));
         return $this;
     }
@@ -50,7 +50,7 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+            Mage::throwException(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return parent::_beforeSave($object);

@@ -30,7 +30,7 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('Magento_Checkout_Helper_Data')->__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }

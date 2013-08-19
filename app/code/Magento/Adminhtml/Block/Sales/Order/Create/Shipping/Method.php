@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method extends Magento
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Shipping Method');
+        return __('Shipping Method');
     }
 
     public function getHeaderCssClass()

@@ -23,10 +23,10 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
         $this->loadLayout();
 
         $this->_setActiveMenu('Magento_Poll::cms_poll');
-        $this->_addBreadcrumb(Mage::helper('Magento_Poll_Helper_Data')->__('Poll Manager'),
-                              Mage::helper('Magento_Poll_Helper_Data')->__('Poll Manager'), $this->getUrl('*/*/'));
-        $this->_addBreadcrumb(Mage::helper('Magento_Poll_Helper_Data')->__('Edit Poll Answer'),
-                              Mage::helper('Magento_Poll_Helper_Data')->__('Edit Poll Answer'));
+        $this->_addBreadcrumb(__('Poll Manager'),
+                              __('Poll Manager'), $this->getUrl('*/*/'));
+        $this->_addBreadcrumb(__('Edit Poll Answer'),
+                              __('Edit Poll Answer'));
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Answer_Edit'));
 
@@ -44,7 +44,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
                     ->save();
 
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Magento_Poll_Helper_Data')->__('The answer has been saved.'));
+                    __('The answer has been saved.'));
                 $this->_redirect('*/poll/edit',
                                  array('id' => $this->getRequest()->getParam('poll_id'), 'tab' => 'answers_section'));
                 return;
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
             $data = Zend_Json::decode($post['data']);
             try {
                 if( trim($data['answer_title']) == '' ) {
-                    throw new Exception(Mage::helper('Magento_Poll_Helper_Data')->__('Invalid Answer'));
+                    throw new Exception(__('Invalid Answer'));
                 }
                 $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
                 $model->setData($data)
@@ -102,7 +102,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
             }
         } else {
             $response->setError(1);
-            $response->setMessage(Mage::helper('Magento_Poll_Helper_Data')->__('We can\'t find an answer to delete.'));
+            $response->setMessage(__('We can\'t find an answer to delete.'));
         }
         $this->getResponse()->setBody( $response->toJson() );
     }

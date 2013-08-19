@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address extends Magento_Adminhtml_Bloc
         $this->_controller = 'sales_order';
         $this->_mode       = 'address';
         parent::_construct();
-        $this->_updateButton('save', 'label', Mage::helper('Magento_Sales_Helper_Data')->__('Save Order Address'));
+        $this->_updateButton('save', 'label', __('Save Order Address'));
         $this->_removeButton('delete');
     }
 
@@ -33,11 +33,11 @@ class Magento_Adminhtml_Block_Sales_Order_Address extends Magento_Adminhtml_Bloc
         $address = Mage::registry('order_address');
         $orderId = $address->getOrder()->getIncrementId();
         if ($address->getAddressType() == 'shipping') {
-            $type = Mage::helper('Magento_Sales_Helper_Data')->__('Shipping');
+            $type = __('Shipping');
         } else {
-            $type = Mage::helper('Magento_Sales_Helper_Data')->__('Billing');
+            $type = __('Billing');
         }
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Edit Order %s %s Address', $orderId, $type);
+        return __('Edit Order %1 %2 Address', $orderId, $type);
     }
 
     /**

@@ -58,35 +58,22 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
 
         // define chooser label
         if (isset($configArray['label'])) {
-            $config->setData('label', $this->getTranslationHelper()->__($configArray['label']));
+            $config->setData('label', __($configArray['label']));
         }
 
         // chooser control buttons
         $buttons = array(
-            'open'  => Mage::helper('Magento_Widget_Helper_Data')->__('Choose...'),
-            'close' => Mage::helper('Magento_Widget_Helper_Data')->__('Close')
+            'open'  => __('Choose...'),
+            'close' => __('Close')
         );
         if (isset($configArray['button']) && is_array($configArray['button'])) {
             foreach ($configArray['button'] as $id => $label) {
-                $buttons[$id] = $this->getTranslationHelper()->__($label);
+                $buttons[$id] = __($label);
             }
         }
         $config->setButtons($buttons);
 
         return $this->_getData('config');
-    }
-
-    /**
-     * Helper getter for translations
-     *
-     * @return Magento_Core_Helper_Abstract
-     */
-    public function getTranslationHelper()
-    {
-        if ($this->_getData('translation_helper') instanceof Magento_Core_Helper_Abstract) {
-            return $this->_getData('translation_helper');
-        }
-        return $this->helper('Magento_Widget_Helper_Data');
     }
 
     /**
@@ -162,7 +149,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
         $configJson = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
-            . ($this->getLabel() ? $this->getLabel() : Mage::helper('Magento_Widget_Helper_Data')->__('Not Selected')) . '</label>
+            . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>
             <div id="' . $chooserId . 'advice-container" class="hidden"></div>
             <script type="text/javascript">//<![CDATA[
                 (function() {

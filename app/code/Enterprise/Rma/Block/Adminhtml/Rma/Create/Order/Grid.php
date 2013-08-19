@@ -51,7 +51,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('real_order_id', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Order'),
+            'header' => __('Order'),
             'width' => '80px',
             'type' => 'text',
             'index' => 'increment_id',
@@ -59,7 +59,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Admin
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Purchase Point'),
+                'header' => __('Purchase Point'),
                 'index' => 'store_id',
                 'type' => 'store',
                 'store_view' => true,
@@ -68,38 +68,38 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Admin
         }
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Purchase Date'),
+            'header' => __('Purchase Date'),
             'index' => 'created_at',
             'type' => 'datetime',
             'width' => '100px',
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => __('Bill-to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Ship-to Name'),
+            'header' => __('Ship-to Name'),
             'index' => 'shipping_name',
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Grand Total (Base)'),
+            'header' => __('Grand Total (Base)'),
             'index' => 'base_grand_total',
             'type' => 'currency',
             'currency' => 'base_currency_code',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Grand Total (Purchased)'),
+            'header' => __('Grand Total (Purchased)'),
             'index' => 'grand_total',
             'type' => 'currency',
             'currency' => 'order_currency_code',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Status'),
+            'header' => __('Status'),
             'index' => 'status',
             'type' => 'options',
             'width' => '70px',

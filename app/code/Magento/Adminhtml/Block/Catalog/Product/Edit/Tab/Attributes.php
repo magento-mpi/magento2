@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
                 $isWrapped = true;
             }
             $isCollapsable = $isWrapped && $group->getAttributeGroupCode() == 'product-details';
-            $legend = $isWrapped ? Mage::helper('Magento_Catalog_Helper_Data')->__($group->getAttributeGroupName()) : null;
+            $legend = $isWrapped ? __($group->getAttributeGroupName()) : null;
             // Initialize product object as form property to use it during elements generation
             $form->setDataObject($product);
 

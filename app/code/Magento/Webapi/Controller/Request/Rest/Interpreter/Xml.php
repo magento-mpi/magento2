@@ -10,12 +10,6 @@
 class Magento_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     Magento_Webapi_Controller_Request_Rest_InterpreterInterface
 {
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
-    /** @var Magento_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /** @var Magento_Xml_Parser */
     protected $_xmlParser;
 
@@ -26,17 +20,11 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Xml implements
      * Initialize dependencies.
      *
      * @param Magento_Xml_Parser $xmlParser
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_App $app
      */
-    public function __construct(
-        Magento_Xml_Parser $xmlParser,
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_App $app
-    ) {
+    public function __construct(Magento_Xml_Parser $xmlParser, Magento_Core_Model_App $app)
+    {
         $this->_xmlParser = $xmlParser;
-        $this->_helperFactory = $helperFactory;
-        $this->_helper = $this->_helperFactory->get('Magento_Webapi_Helper_Data');
         $this->_app = $app;
     }
 
@@ -76,7 +64,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Xml implements
         /** Process errors during XML parsing. */
         if ($this->_errorMessage !== null) {
             if (!$this->_app->isDeveloperMode()) {
-                $exceptionMessage = $this->_helper->__('Decoding error.');
+                $exceptionMessage = __('Decoding error.');
             } else {
                 $exceptionMessage = 'Decoding Error: ' . $this->_errorMessage;
             }

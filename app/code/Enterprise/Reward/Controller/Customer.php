@@ -45,7 +45,7 @@ class Enterprise_Reward_Controller_Customer extends Magento_Core_Controller_Fron
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points'));
+            $headBlock->setTitle(__('Reward Points'));
         }
         $this->renderLayout();
     }
@@ -67,7 +67,7 @@ class Enterprise_Reward_Controller_Customer extends Magento_Core_Controller_Fron
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
             $this->_getSession()->addSuccess(
-                $this->__('You saved the settings.')
+                __('You saved the settings.')
             );
         }
         $this->_redirect('*/*/info');
@@ -95,11 +95,11 @@ class Enterprise_Reward_Controller_Customer extends Magento_Core_Controller_Fron
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('You have been unsubscribed.')
+                    __('You have been unsubscribed.')
                 );
             }
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Failed to unsubscribe'));
+            $this->_getSession()->addError(__('Failed to unsubscribe'));
         }
 
         $this->_redirect('*/*/info');

@@ -39,13 +39,13 @@
         </template>
         <importexport>
             <export_entities>
-                <customer_finance translate="label" module="Enterprise_ImportExport">
+                <customer_finance translate="label">
                     <model_token>Enterprise_ImportExport_Model_Export_Entity_Customer_Finance</model_token>
                     <label>Customer Finances</label>
                 </customer_finance>
             </export_entities>
             <import_entities>
-                <customer_finance translate="label" module="Enterprise_ImportExport">
+                <customer_finance translate="label">
                     <model_token>Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance</model_token>
                     <label>Customer Finances</label>
                     <behavior_token>Magento_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>

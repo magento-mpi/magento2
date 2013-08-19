@@ -34,7 +34,7 @@ abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Magento_Co
         }
         $collection->load();
         if (!$items = $collection->getItems()) {
-            Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('No codes left in the pool.'));
+            Mage::throwException(__('No codes left in the pool.'));
         }
 
         $item = array_shift($items);

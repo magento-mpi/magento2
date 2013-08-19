@@ -26,11 +26,6 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Core_Model_Theme_CopyService
      */
     protected $_copyService;
@@ -48,14 +43,10 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
             array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual'), array(), '', false);
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($this->_theme));
 
-        $this->_helper = $this->getMock('Magento_Core_Helper_Data', array('__'), array(), '', false);
-        $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-
         $this->_copyService = $this->getMock('Magento_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
 
         $this->_model = new Magento_DesignEditor_Model_Theme_Context(
             $this->_themeFactory,
-            $this->_helper,
             $this->_copyService
         );
     }
@@ -63,7 +54,6 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
     public function testConstruct()
     {
         $this->assertAttributeEquals($this->_themeFactory, '_themeFactory', $this->_model);
-        $this->assertAttributeEquals($this->_helper, '_helper', $this->_model);
         $this->assertAttributeEquals($this->_copyService, '_copyService', $this->_model);
     }
 
@@ -118,7 +108,7 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
 
     /**
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage We can't find theme "%s".
+     * @expectedExceptionMessage We can't find theme "1".
      */
     public function testSetEditableThemeByIdWrongThemeId()
     {
@@ -180,7 +170,7 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
 
     /**
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage Theme "%s" is not editable.
+     * @expectedExceptionMessage Theme "" is not editable.
      */
     public function testGetStagingThemeWrongType()
     {

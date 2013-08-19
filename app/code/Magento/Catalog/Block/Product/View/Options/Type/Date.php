@@ -126,8 +126,8 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
             $hourEnd = 12;
             $dayPartHtml = $this->_getHtmlSelect('day_part')
                 ->setOptions(array(
-                    'am' => Mage::helper('Magento_Catalog_Helper_Data')->__('AM'),
-                    'pm' => Mage::helper('Magento_Catalog_Helper_Data')->__('PM')
+                    'am' => __('AM'),
+                    'pm' => __('PM')
                 ))
                 ->getHtml();
         }

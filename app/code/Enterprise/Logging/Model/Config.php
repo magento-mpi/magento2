@@ -80,6 +80,7 @@ class Enterprise_Logging_Model_Config
      *
      * @param string $reference
      * @param bool $isGroup
+     * @return bool
      */
     public function isActive($reference, $isGroup = false)
     {
@@ -122,11 +123,7 @@ class Enterprise_Logging_Model_Config
     {
         if (!$this->_labels) {
             foreach ($this->_xmlConfig->getXpath('/logging/*/label') as $labelNode) {
-                $helperName = $labelNode->getParent()->getAttribute('module');
-                if (!$helperName) {
-                    $helperName = 'Enterprise_Logging_Helper_Data';
-                }
-                $this->_labels[$labelNode->getParent()->getName()] = Mage::helper($helperName)->__((string)$labelNode);
+                $this->_labels[$labelNode->getParent()->getName()] = __((string)$labelNode);
             }
             asort($this->_labels);
         }
@@ -148,11 +145,7 @@ class Enterprise_Logging_Model_Config
             return $action;
         }
 
-        $label = (string)$actionLabelNode;
-        $module = $actionLabelNode->getParent()->getAttribute('module');
-        $helper = $module ? Mage::helper($module) : Mage::helper('Enterprise_Logging_Helper_Data');
-
-        return $helper->__($label);
+        return __((string)$actionLabelNode);
     }
 
     /**

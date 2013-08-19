@@ -21,9 +21,9 @@ class Enterprise_Pbridge_Model_Source_Braintree_PaymentAction
     {
         return array(
             array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorization')),
+                'label' => __('Authorization')),
             array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Sale')),
+                'label' => __('Sale')),
         );
     }
 }

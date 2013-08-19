@@ -96,7 +96,7 @@ class Magento_Persistent_Model_Observer
         );
 
         $this->_applyAccountLinksPersistentData();
-        $welcomeMessage = Mage::helper('Magento_Persistent_Helper_Data')->__('Welcome, %s!', $escapedName)
+        $welcomeMessage = __('Welcome, %1!', $escapedName)
             . ' ' . Mage::app()->getLayout()->getBlock('header.additional')->toHtml();
         $block->setWelcome($welcomeMessage);
         return $this;
@@ -317,7 +317,7 @@ class Magento_Persistent_Model_Observer
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (method_exists($controllerAction, 'redirectLogin')) {
             Mage::getSingleton('Magento_Core_Model_Session')->addNotice(
-                Mage::helper('Magento_Persistent_Helper_Data')->__('To check out, please log in using your email address.')
+                __('To check out, please log in using your email address.')
             );
             $controllerAction->redirectLogin();
             if ($controllerAction instanceof Magento_GoogleCheckout_Controller_Redirect

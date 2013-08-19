@@ -26,7 +26,7 @@ class Magento_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_At
         }
 
         $options = $this->_options;
-        array_unshift($options, array('value' => '0', 'label' => Mage::helper('Magento_Tax_Helper_Data')->__('None')));
+        array_unshift($options, array('value' => '0', 'label' => __('None')));
         return $options;
     }
 

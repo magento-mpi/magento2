@@ -34,7 +34,7 @@ class Magento_Backend_Model_Config_Backend_Locale_Timezone extends Magento_Core_
         }
 
         if (!in_array($this->getValue(), DateTimeZone::listIdentifiers($allWithBc))) {
-            Mage::throwException(Mage::helper('Magento_Backend_Helper_Data')->__('Please correct the timezone.'));
+            Mage::throwException(__('Please correct the timezone.'));
         }
 
         return $this;

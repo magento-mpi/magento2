@@ -340,7 +340,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
 
                 case Magento_SalesRule_Model_Rule::CART_FIXED_ACTION:
                     if (empty($this->_rulesItemTotals[$rule->getId()])) {
-                        Mage::throwException(Mage::helper('Magento_SalesRule_Helper_Data')->__('Item totals are not set for the rule.'));
+                        Mage::throwException(__('Item totals are not set for the rule.'));
                     }
 
                     /**

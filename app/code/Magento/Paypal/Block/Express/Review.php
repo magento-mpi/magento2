@@ -131,7 +131,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
             if (($incl != $price) && $this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices()) {
                 $renderedInclTax = sprintf(
                     $inclTaxFormat,
-                    Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax'),
+                    __('Incl. Tax'),
                     $incl
                 );
             }

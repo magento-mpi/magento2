@@ -150,9 +150,9 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
         if ($amount!=0) {
             $description = $address->getDiscountDescription();
             if (strlen($description)) {
-                $title = Mage::helper('Magento_Sales_Helper_Data')->__('Discount (%s)', $description);
+                $title = __('Discount (%1)', $description);
             } else {
-                $title = Mage::helper('Magento_Sales_Helper_Data')->__('Discount');
+                $title = __('Discount');
             }
             $address->addTotal(array(
                 'code'  => $this->getCode(),

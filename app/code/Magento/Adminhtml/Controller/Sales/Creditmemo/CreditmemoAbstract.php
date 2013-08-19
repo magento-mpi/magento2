@@ -16,15 +16,6 @@
 class Magento_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Magento_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Magento_Adminhtml_Controller_Sales_Creditmemo
@@ -33,8 +24,8 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract extends M
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_Sales::sales_creditmemo')
-            ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
-            ->_addBreadcrumb($this->__('Credit Memos'),$this->__('Credit Memos'));
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Credit Memos'), __('Credit Memos'));
         return $this;
     }
 
@@ -75,7 +66,7 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract extends M
                     $historyItem->save();
                 }
 
-                $this->_getSession()->addSuccess(Mage::helper('Magento_Sales_Helper_Data')->__('We sent the message.'));
+                $this->_getSession()->addSuccess(__('We sent the message.'));
                 $this->_redirect('*/sales_order_creditmemo/view', array(
                     'creditmemo_id' => $creditmemoId
                 ));

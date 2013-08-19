@@ -28,11 +28,11 @@ class Magento_Backend_Model_Config_Source_Checktype implements Magento_Core_Mode
         return array(
             array(
                 'value' => Magento_Sendfriend_Helper_Data::CHECK_IP,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('IP Address')
+                'label' => __('IP Address')
             ),
             array(
                 'value' => Magento_Sendfriend_Helper_Data::CHECK_COOKIE,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Cookie (unsafe)')
+                'label' => __('Cookie (unsafe)')
             ),
         );
     }

@@ -29,7 +29,7 @@ class Enterprise_Reward_Model_Source_Customer_Groups implements Magento_Core_Mod
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
-        $groups = array(0 => Mage::helper('Enterprise_Reward_Helper_Data')->__('All Customer Groups'))
+        $groups = array(0 => __('All Customer Groups'))
                 + $groups;
         return $groups;
     }

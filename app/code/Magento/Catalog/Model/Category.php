@@ -180,17 +180,17 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
 
         if (!$parent->getId()) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.')
+                __('Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.')
             );
         }
 
         if (!$this->getId()) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Sorry, but we can\'t move the category because we can\'t find the new category you selected.')
+                __('Sorry, but we can\'t move the category because we can\'t find the new category you selected.')
             );
         } elseif ($parent->getId() == $this->getId()) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('We can\'t perform this category move operation because the parent category matches the child category.')
+                __('We can\'t perform this category move operation because the parent category matches the child category.')
             );
         }
 

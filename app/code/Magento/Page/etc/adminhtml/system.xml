@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="design" translate="label" module="Magento_Core">
+        <section id="design" translate="label">
             <group id="head" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>HTML Head</label>
                 <field id="shortcut_icon" translate="label comment" type="image" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">

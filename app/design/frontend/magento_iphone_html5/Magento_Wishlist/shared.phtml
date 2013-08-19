@@ -33,10 +33,10 @@
 
                             <?php if ($product->isSaleable()): ?>
                                 <?php if ($isVisibleProduct): ?>
-                                    <a href="<?php echo $this->getSharedItemAddToCartUrl($item) ?>"><?php echo $this->__('Add to Cart') ?></a>
+                                    <a href="<?php echo $this->getSharedItemAddToCartUrl($item) ?>"><?php echo __('Add to Cart') ?></a>
                                 <?php endif ?>
                             <?php endif; ?>
-                            <p><a href="<?php echo $this->getAddToWishlistUrl($item) ?>" onclick="setLocation(this.href); return false;" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                            <p><a href="<?php echo $this->getAddToWishlistUrl($item) ?>" onclick="setLocation(this.href); return false;" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
 
                             <div class="comment"><?php echo $this->getEscapedDescription($item) ?></div>
                         </td>
@@ -46,12 +46,12 @@
             </fieldset>
             <?php if($this->isSaleable()):?>
                 <div class="buttons-set">
-                    <button type="button" title="<?php echo $this->__('Add All to Cart') ?>" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="button"><?php echo $this->__('Add All to Cart') ?></button>
+                    <button type="button" title="<?php echo __('Add All to Cart') ?>" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="button"><?php echo __('Add All to Cart') ?></button>
                 </div>
             <?php endif;?>
         </form>
         <?php else: ?>
-            <p><?php echo $this->__('Wish List is empty now.') ?></p>
+            <p><?php echo __('Wish List is empty now.') ?></p>
         <?php endif ?>
     </div>
 </div>

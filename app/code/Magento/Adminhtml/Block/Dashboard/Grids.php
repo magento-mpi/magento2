@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_Dashboard_Grids extends Magento_Adminhtml_Block_Wi
     {
         // load this active tab statically
         $this->addTab('ordered_products', array(
-            'label'     => $this->__('Bestsellers'),
+            'label'     => __('Bestsellers'),
             'content'   => $this->getLayout()
                 ->createBlock('Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered')->toHtml(),
             'active'    => true
@@ -54,19 +54,19 @@ class Magento_Adminhtml_Block_Dashboard_Grids extends Magento_Adminhtml_Block_Wi
 
         // load other tabs with ajax
         $this->addTab('reviewed_products', array(
-            'label'     => $this->__('Most Viewed Products'),
+            'label'     => __('Most Viewed Products'),
             'url'       => $this->getUrl('*/*/productsViewed', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 
         $this->addTab('new_customers', array(
-            'label'     => $this->__('New Customers'),
+            'label'     => __('New Customers'),
             'url'       => $this->getUrl('*/*/customersNewest', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 
         $this->addTab('customers', array(
-            'label'     => $this->__('Customers'),
+            'label'     => __('Customers'),
             'url'       => $this->getUrl('*/*/customersMost', array('_current'=>true)),
             'class'     => 'ajax'
         ));

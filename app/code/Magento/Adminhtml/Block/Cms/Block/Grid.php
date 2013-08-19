@@ -39,20 +39,20 @@ class Magento_Adminhtml_Block_Cms_Block_Grid extends Magento_Adminhtml_Block_Wid
         $baseUrl = $this->getUrl();
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Title'),
+            'header'    => __('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Identifier'),
+            'header'    => __('Identifier'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('Magento_Cms_Helper_Data')->__('Store View'),
+                'header'        => __('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_all'     => true,
@@ -64,23 +64,23 @@ class Magento_Adminhtml_Block_Cms_Block_Grid extends Magento_Adminhtml_Block_Wid
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('Magento_Cms_Helper_Data')->__('Disabled'),
-                1 => Mage::helper('Magento_Cms_Helper_Data')->__('Enabled')
+                0 => __('Disabled'),
+                1 => __('Enabled')
             ),
         ));
 
         $this->addColumn('creation_time', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Created'),
+            'header'    => __('Created'),
             'index'     => 'creation_time',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('update_time', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Modified'),
+            'header'    => __('Modified'),
             'index'     => 'update_time',
             'type'      => 'datetime',
         ));

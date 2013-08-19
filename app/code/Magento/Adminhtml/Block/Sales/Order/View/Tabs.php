@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tabs extends Magento_Adminhtml_Bl
         if (Mage::registry('order')) {
             return Mage::registry('order');
         }
-        Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot get the order instance.'));
+        Mage::throwException(__('We cannot get the order instance.'));
     }
 
     protected function _construct()
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tabs extends Magento_Adminhtml_Bl
         parent::_construct();
         $this->setId('sales_order_view_tabs');
         $this->setDestElementId('sales_order_view');
-        $this->setTitle(Mage::helper('Magento_Sales_Helper_Data')->__('Order View'));
+        $this->setTitle(__('Order View'));
     }
 
 }

@@ -78,7 +78,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
                 )
             ),
             'back_url'     => $this->getUrl('*/*/'),
-            'confirmation_message' => Mage::helper('Magento_Sales_Helper_Data')->__('Are you sure you want to do this?'),
+            'confirmation_message' => __('Are you sure you want to do this?'),
         ));
     }
 
@@ -108,7 +108,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
 //        $shippingDesctiption = $this->_profile->getInfoValue('order_info', 'shipping_description');
 //        if ($shippingDesctiption) {
 //            $this->_addInfo(array(
-//                'label' => $this->__('Shipping Method'),
+//                'label' => __('Shipping Method'),
 //                'value' => $shippingDesctiption,
 //            ));
 //        }
@@ -122,9 +122,9 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
         $this->_shouldRenderInfo = true;
         $key = 'order_item_info';
 
-        foreach (array('name' => Mage::helper('Magento_Catalog_Helper_Data')->__('Product Name'),
-            'sku'  => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
-            'qty'  => Mage::helper('Magento_Catalog_Helper_Data')->__('Quantity'),
+        foreach (array('name' => __('Product Name'),
+            'sku'  => __('SKU'),
+            'qty'  => __('Quantity'),
             ) as $itemKey => $label
         ) {
             $value = $this->_profile->getInfoValue($key, $itemKey);
@@ -272,30 +272,30 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
         $this->setGridColumns(array(
             new Magento_Object(array(
                 'index' => 'increment_id',
-                'title' => $this->__('Order #'),
+                'title' => __('Order #'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
             new Magento_Object(array(
                 'index' => 'created_at',
-                'title' => $this->__('Date'),
+                'title' => __('Date'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
             new Magento_Object(array(
                 'index' => 'customer_name',
-                'title' => $this->__('Customer Name'),
+                'title' => __('Customer Name'),
             )),
             new Magento_Object(array(
                 'index' => 'base_grand_total',
-                'title' => $this->__('Order Total'),
+                'title' => __('Order Total'),
                 'is_nobr' => true,
                 'width' => 1,
                 'is_amount' => true,
             )),
             new Magento_Object(array(
                 'index' => 'status',
-                'title' => $this->__('Order Status'),
+                'title' => __('Order Status'),
                 'is_nobr' => true,
                 'width' => 1,
             )),

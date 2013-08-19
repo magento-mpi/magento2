@@ -38,20 +38,20 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'            => Mage::helper('Magento_SalesRule_Helper_Data')->__('Interval'),
+            'header'            => __('Interval'),
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'      => Mage::helper('Magento_SalesRule_Helper_Data')->__('Total'),
-            'subtotals_label'   => Mage::helper('Magento_SalesRule_Helper_Data')->__('Subtotal'),
+            'totals_label'      => __('Total'),
+            'subtotals_label'   => __('Subtotal'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Coupon Code'),
+            'header'    => __('Coupon Code'),
             'sortable'  => false,
             'index'     => 'coupon_code',
             'header_css_class'  => 'col-code',
@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('rule_name', array(
-            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Price Rule'),
+            'header'    => __('Price Rule'),
             'sortable'  => false,
             'index'     => 'rule_name',
             'header_css_class'  => 'col-rule',
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('coupon_uses', array(
-            'header'    => Mage::helper('Magento_SalesRule_Helper_Data')->__('Uses'),
+            'header'    => __('Uses'),
             'sortable'  => false,
             'index'     => 'coupon_uses',
             'total'     => 'sum',
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         $rate = $this->getRate($currencyCode);
 
         $this->addColumn('subtotal_amount', array(
-            'header'        => Mage::helper('Magento_SalesRule_Helper_Data')->__('Sales Subtotal'),
+            'header'        => __('Sales Subtotal'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,
@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('discount_amount', array(
-            'header'        => Mage::helper('Magento_SalesRule_Helper_Data')->__('Sales Discount'),
+            'header'        => __('Sales Discount'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,
@@ -107,7 +107,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('total_amount', array(
-            'header'        => Mage::helper('Magento_SalesRule_Helper_Data')->__('Sales Total'),
+            'header'        => __('Sales Total'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('subtotal_amount_actual', array(
-            'header'        => Mage::helper('Magento_SalesRule_Helper_Data')->__('Subtotal'),
+            'header'        => __('Subtotal'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,
@@ -131,7 +131,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('discount_amount_actual', array(
-            'header'        => Mage::helper('Magento_SalesRule_Helper_Data')->__('Discount'),
+            'header'        => __('Discount'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,
@@ -143,7 +143,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
         ));
 
         $this->addColumn('total_amount_actual', array(
-            'header'        => Mage::helper('Magento_SalesRule_Helper_Data')->__('Total'),
+            'header'        => __('Total'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,
@@ -154,8 +154,8 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
             'column_css_class'  => 'col-total'
         ));
 
-        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('Magento_Adminhtml_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportCouponsExcel', Mage::helper('Magento_Adminhtml_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCouponsCsv', __('CSV'));
+        $this->addExportType('*/*/exportCouponsExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

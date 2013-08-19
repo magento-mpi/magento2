@@ -49,7 +49,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtm
         $this->_mode = 'edit';
 
         $this->_addButton('save_and_continue', array(
-            'label'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Save and Continue Edit'),
+            'label'     => __('Save and Continue Edit'),
             'class' => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -58,9 +58,9 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtm
             ),
         ), 100);
 
-        $this->_updateButton('save', 'label', $this->__('Save'));
+        $this->_updateButton('save', 'label', __('Save'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', $this->__('Delete'));
+        $this->_updateButton('delete', 'label', __('Delete'));
 
         if (!$this->getModel()
             || !$this->getModel()->getId()
@@ -78,9 +78,9 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtm
     public function getHeaderText()
     {
         if ($this->getModel()->getId()) {
-            return $this->__('Edit Consumer');
+            return __('Edit Consumer');
         } else {
-            return $this->__('New Consumer');
+            return __('New Consumer');
         }
     }
 }

@@ -102,7 +102,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
                     $resource->addAttribute("aclpath", $resourceName);
                 }
 
-                $resource->title = Mage::helper($module)->__((string)$resource->title);
+                $resource->title = (string)__((string)$resource->title);
 
                 if ( is_null($represent2Darray) ) {
                     $result[$resourceName]['name']  = (string)$resource->title;

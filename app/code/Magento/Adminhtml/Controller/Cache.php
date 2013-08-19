@@ -58,7 +58,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
      */
     public function indexAction()
     {
-        $this->_title($this->__('Cache Management'));
+        $this->_title(__('Cache Management'));
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Adminhtml::system_cache')
@@ -76,7 +76,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
             $cacheFrontend->getBackend()->clean();
         }
         $this->_getSession()->addSuccess(
-            Mage::helper('Magento_Adminhtml_Helper_Data')->__("You flushed the cache storage.")
+            __("You flushed the cache storage.")
         );
         $this->_redirect('*/*');
     }
@@ -92,7 +92,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         }
         $this->_eventManager->dispatch('adminhtml_cache_flush_system');
         $this->_getSession()->addSuccess(
-            Mage::helper('Magento_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed.")
+            __("The Magento cache storage has been flushed.")
         );
         $this->_redirect('*/*');
     }
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
             if ($updatedTypes > 0) {
                 $this->_cacheState->persist();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
+                    __("%1 cache type(s) enabled.", $updatedTypes)
                 );
             }
         } catch (Magento_Core_Exception $e) {
@@ -124,7 +124,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while enabling cache.')
+                __('An error occurred while enabling cache.')
             );
         }
         $this->_redirect('*/*');
@@ -149,7 +149,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
             if ($updatedTypes > 0) {
                 $this->_cacheState->persist();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
+                    __("%1 cache type(s) disabled.", $updatedTypes)
                 );
             }
         } catch (Magento_Core_Exception $e) {
@@ -158,7 +158,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while disabling cache.')
+                __('An error occurred while disabling cache.')
             );
         }
         $this->_redirect('*/*');
@@ -180,7 +180,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
             }
             if ($updatedTypes > 0) {
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes)
+                    __("%1 cache type(s) refreshed.", $updatedTypes)
                 );
             }
         } catch (Magento_Core_Exception $e) {
@@ -189,7 +189,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while refreshing cache.')
+                __('An error occurred while refreshing cache.')
             );
         }
         $this->_redirect('*/*');
@@ -208,8 +208,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         $allTypes = array_keys($this->_cacheTypeList->getTypes());
         $invalidTypes = array_diff($types, $allTypes);
         if (count($invalidTypes) > 0) {
-            Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')
-                ->__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
+            Mage::throwException(__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
         }
     }
 
@@ -223,7 +222,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
                 ->cleanMergedJsCss();
             $this->_eventManager->dispatch('clean_media_cache_after');
             $this->_getSession()->addSuccess(
-                $this->_objectManager->get('Magento_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
+                __('The JavaScript/CSS cache has been cleaned.')
             );
         }
         catch (Magento_Core_Exception $e) {
@@ -232,7 +231,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                $this->_objectManager->get('Magento_Adminhtml_Helper_Data')->__('An error occurred while clearing the JavaScript/CSS cache.')
+                __('An error occurred while clearing the JavaScript/CSS cache.')
             );
         }
         $this->_redirect('*/*');
@@ -247,7 +246,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
             Mage::getModel('Magento_Catalog_Model_Product_Image')->clearCache();
             $this->_eventManager->dispatch('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('The image cache was cleaned.')
+                __('The image cache was cleaned.')
             );
         }
         catch (Magento_Core_Exception $e) {
@@ -256,7 +255,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while clearing the image cache.')
+                __('An error occurred while clearing the image cache.')
             );
         }
         $this->_redirect('*/*');

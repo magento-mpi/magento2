@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml
     {
         parent::_construct();
         $this->setId('store_delete_form');
-        $this->setTitle(Mage::helper('Magento_Cms_Helper_Data')->__('Block Information'));
+        $this->setTitle(__('Block Information'));
     }
 
     protected function _prepareForm()
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml
 
         $form->setHtmlIdPrefix('store_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('Magento_Core_Helper_Data')->__('Backup Options'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Backup Options'), 'class' => 'fieldset-wide'));
 
         $fieldset->addField('item_id', 'hidden', array(
             'name'  => 'item_id',
@@ -45,12 +45,12 @@ class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml
         ));
 
         $fieldset->addField('create_backup', 'select', array(
-            'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Create DB Backup'),
-            'title'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Create DB Backup'),
+            'label'     => __('Create DB Backup'),
+            'title'     => __('Create DB Backup'),
             'name'      => 'create_backup',
             'options'   => array(
-                '1' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
             'value'     => '1',
         ));

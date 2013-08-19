@@ -48,14 +48,14 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
     {
         $this->addColumn('name',
             array(
-                'header'    => $this->__('Product'),
+                'header'    => __('Product'),
                 'width'     => '30%',
                 'index'     => 'name',
         ));
 
         $this->addColumn('expires',
             array(
-                'header'    => $this->__('Expires'),
+                'header'    => __('Expires'),
                 'type'      => 'datetime',
                 'width'     => '100px',
                 'index'     => 'expires',
@@ -76,15 +76,15 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
         $this->setNoFilterMassactionColumn(true);
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => $this->__('Delete'),
+             'label'    => __('Delete'),
              'url'      => $this->getUrl('*/*/massDelete', array('_current'=>true)),
-             'confirm'  => $this->__('Are you sure?')
+             'confirm'  => __('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('refresh', array(
-             'label'    => $this->__('Synchronize'),
+             'label'    => __('Synchronize'),
              'url'      => $this->getUrl('*/*/refresh', array('_current'=>true)),
-             'confirm'  => $this->__('This action will update items\' attributes and remove items that are not available in Google Content. If an attribute was deleted from the mapping, it will also be deleted from Google. Do you want to continue?')
+             'confirm'  => __('This action will update items\' attributes and remove items that are not available in Google Content. If an attribute was deleted from the mapping, it will also be deleted from Google. Do you want to continue?')
         ));
         return $this;
     }

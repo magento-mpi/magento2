@@ -83,14 +83,14 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
 
         if (0 === (int) $id) {
             // No ID
-            $this->_session->addError($this->__('Invalid entry ID.'));
+            $this->_session->addError(__('Invalid entry ID.'));
             $this->_redirectBack();
             return;
         }
 
         if (null === $status) {
             // No status selected
-            $this->_session->addError($this->__('Invalid revoke status.'));
+            $this->_session->addError(__('Invalid revoke status.'));
             $this->_redirectBack();
             return;
         }
@@ -112,18 +112,18 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
                 $model->load($model->getId());
                 $model->setRevoked($status)->save();
                 if ($status) {
-                    $message = $this->__('Application "%s" has been revoked.', $name);
+                    $message = __('Application "%1" has been revoked.', $name);
                 } else {
-                    $message = $this->__('Application "%s" has been enabled.', $name);
+                    $message = __('Application "%1" has been enabled.', $name);
                 }
                 $this->_session->addSuccess($message);
             } else {
-                $this->_session->addError($this->__('Application not found.'));
+                $this->_session->addError(__('Application not found.'));
             }
         } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_session->addError($this->__('An error occurred on update revoke status.'));
+            $this->_session->addError(__('An error occurred on update revoke status.'));
             Mage::logException($e);
         }
         $this->_redirectBack();
@@ -138,7 +138,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
 
         if (0 === (int) $id) {
             // No ID
-            $this->_session->addError($this->__('Invalid entry ID.'));
+            $this->_session->addError(__('Invalid entry ID.'));
             $this->_redirectBack();
             return;
         }
@@ -157,14 +157,14 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
                 $name = $model->getName();
                 $model->delete();
                 $this->_session->addSuccess(
-                    $this->__('Application "%s" has been deleted.', $name));
+                    __('Application "%1" has been deleted.', $name));
             } else {
-                $this->_session->addError($this->__('Application not found.'));
+                $this->_session->addError(__('Application not found.'));
             }
         } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_session->addError($this->__('An error occurred on delete application.'));
+            $this->_session->addError(__('An error occurred on delete application.'));
             Mage::logException($e);
         }
         $this->_redirectBack();

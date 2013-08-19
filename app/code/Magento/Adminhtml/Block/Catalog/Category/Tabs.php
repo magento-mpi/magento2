@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         parent::_construct();
         $this->setId('category_info_tabs');
         $this->setDestElementId('category_tab_content');
-        $this->setTitle(Mage::helper('Magento_Catalog_Helper_Data')->__('Category Data'));
+        $this->setTitle(__('Category Data'));
 
     }
 
@@ -126,14 +126,14 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
                 ->setAddHiddenFields($active)
                 ->toHtml();
             $this->addTab('group_' . $group->getId(), array(
-                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
+                'label'     => __($group->getAttributeGroupName()),
                 'content'   => $block,
                 'active'    => $active
             ));
         }
 
         $this->addTab('products', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Category Products'),
+            'label'     => __('Category Products'),
             'content'   => $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Catalog_Category_Tab_Product',
                 'category.product.grid'
@@ -146,7 +146,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         ));
 
         /*$this->addTab('features', array(
-            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Feature Products'),
+            'label'     => __('Feature Products'),
             'content'   => 'Feature Products'
         ));        */
         return parent::_prepareLayout();

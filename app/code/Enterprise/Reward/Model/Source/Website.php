@@ -27,7 +27,7 @@ class Enterprise_Reward_Model_Source_Website implements Magento_Core_Model_Optio
     {
         $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash();
         if ($withAll) {
-            $websites = array(0 => Mage::helper('Enterprise_Reward_Helper_Data')->__('All Websites'))
+            $websites = array(0 => __('All Websites'))
                       + $websites;
         }
         return $websites;

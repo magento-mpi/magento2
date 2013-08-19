@@ -50,7 +50,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Mag
         } catch (Magento_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('Sorry, there was an unknown error.'));
+            $result = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));

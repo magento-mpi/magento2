@@ -28,8 +28,7 @@ class Magento_Backend_Model_Config_Backend_Currency_Base extends Magento_Backend
     protected function _afterSave()
     {
         if (!in_array($this->getValue(), $this->_getInstalledCurrencies())) {
-            Mage::throwException(Mage::helper('Magento_Backend_Helper_Data')
-                ->__('Sorry, we haven\'t installed the base currency you selected.'));
+            Mage::throwException(__('Sorry, we haven\'t installed the base currency you selected.'));
         }
 
         return $this;

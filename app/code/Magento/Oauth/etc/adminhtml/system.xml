@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="oauth" translate="label" module="Magento_Oauth" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="oauth" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>OAuth</label>
             <tab>service</tab>
             <resource>Magento_Oauth::oauth</resource>

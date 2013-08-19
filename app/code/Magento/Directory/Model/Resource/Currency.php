@@ -153,7 +153,7 @@ class Magento_Directory_Model_Resource_Currency extends Magento_Core_Model_Resou
                 $adapter->insertOnDuplicate($this->_currencyRateTable, $data, array('rate'));
             }
         } else {
-            Mage::throwException(Mage::helper('Magento_Directory_Helper_Data')->__('Please correct the rates received'));
+            Mage::throwException(__('Please correct the rates received'));
         }
     }
 

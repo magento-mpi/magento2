@@ -31,7 +31,7 @@
         <reference name="adminhtml.report.grid.columnSet">
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Invitations Sent</header>
+                    <header translate="true">Invitations Sent</header>
                     <type>number</type>
                     <index>sent</index>
                     <id>sent</id>
@@ -41,7 +41,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Invitations Accepted</header>
+                    <header translate="true">Invitations Accepted</header>
                     <type>number</type>
                     <index>accepted</index>
                     <id>accepted</id>
@@ -51,7 +51,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="purchased">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Accepted and Purchased</header>
+                    <header translate="true">Accepted and Purchased</header>
                     <type>number</type>
                     <index>purchased</index>
                     <id>purchased</id>
@@ -61,7 +61,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="purchased_rate">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Conversion Rate</header>
+                    <header translate="true">Conversion Rate</header>
                     <renderer>Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
                     <type>string</type>
                     <index>purchased_rate</index>

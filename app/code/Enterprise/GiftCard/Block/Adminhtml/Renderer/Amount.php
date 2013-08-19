@@ -33,7 +33,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
         $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Add Amount'),
+            'label'     => __('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
             'class'     => 'action-add',
             'disabled'  => $isAddButtonDisabled
@@ -70,7 +70,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
         }
         $websites = array();
         $websites[0] = array(
-            'name'      => $this->__('All Websites'),
+            'name'      => __('All Websites'),
             'currency'  => Mage::app()->getBaseCurrencyCode()
         );
 

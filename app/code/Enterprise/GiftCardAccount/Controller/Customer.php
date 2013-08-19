@@ -35,17 +35,17 @@ class Enterprise_GiftCardAccount_Controller_Customer extends Magento_Core_Contro
             $code = $data['giftcard_code'];
             try {
                 if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
-                    Mage::throwException($this->__("You can't redeem a gift card now."));
+                    Mage::throwException(__("You can't redeem a gift card now."));
                 }
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
                 Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
+                    __('Gift Card "%1" was redeemed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Customer_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Customer_Model_Session')->addException($e, $this->__('We cannot redeem this gift card.'));
+                Mage::getSingleton('Magento_Customer_Model_Session')->addException($e, __('We cannot redeem this gift card.'));
             }
             $this->_redirect('*/*/*');
             return;
@@ -55,7 +55,7 @@ class Enterprise_GiftCardAccount_Controller_Customer extends Magento_Core_Contro
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle($this->__('Gift Card'));
+            $headBlock->setTitle(__('Gift Card'));
         }
         $this->renderLayout();
     }

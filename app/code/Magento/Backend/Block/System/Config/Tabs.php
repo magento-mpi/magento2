@@ -70,7 +70,7 @@ class Magento_Backend_Block_System_Config_Tabs extends Magento_Backend_Block_Wid
         $this->_tabs = $configStructure->getTabs();
 
         $this->setId('system_config_tabs');
-        $this->setTitle($this->helper('Magento_Backend_Helper_Data')->__('Configuration'));
+        $this->setTitle(__('Configuration'));
         $this->_currentSectionId = $this->getRequest()->getParam('section');
 
         $this->helper('Magento_Backend_Helper_Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');

@@ -99,7 +99,7 @@ class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Templat
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Select Search Type'))
+                'label' => __('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );

@@ -21,11 +21,11 @@ class Magento_Paygate_Model_Authorizenet_Source_PaymentAction
         return array(
             array(
                 'value' => Magento_Paygate_Model_Authorizenet::ACTION_AUTHORIZE,
-                'label' => Mage::helper('Magento_Paygate_Helper_Data')->__('Authorize Only')
+                'label' => __('Authorize Only')
             ),
             array(
                 'value' => Magento_Paygate_Model_Authorizenet::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('Magento_Paygate_Helper_Data')->__('Authorize and Capture')
+                'label' => __('Authorize and Capture')
             ),
         );
     }

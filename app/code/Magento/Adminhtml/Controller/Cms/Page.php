@@ -29,8 +29,8 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('Magento_Cms::cms_page')
-            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('CMS'), Mage::helper('Magento_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Magento_Cms_Helper_Data')->__('Manage Pages'))
+            ->_addBreadcrumb(__('CMS'), __('CMS'))
+            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
         ;
         return $this;
     }
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Pages'));
+        $this->_title(__('Pages'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
      */
     public function editAction()
     {
-        $this->_title($this->__('Pages'));
+        $this->_title(__('Pages'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
@@ -71,13 +71,13 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             $model->load($id);
             if (! $model->getId()) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    Mage::helper('Magento_Cms_Helper_Data')->__('This page no longer exists.'));
+                    __('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getTitle() : $this->__('New Page'));
+        $this->_title($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
         $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
@@ -91,10 +91,10 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Magento_Cms_Helper_Data')->__('New Page'),
-                $id ? Mage::helper('Magento_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Magento_Cms_Helper_Data')->__('New Page'));
+                $id ? __('Edit Page')
+                    : __('New Page'),
+                $id ? __('Edit Page')
+                    : __('New Page'));
 
         $this->renderLayout();
     }
@@ -131,7 +131,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
 
                 // display success message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Magento_Cms_Helper_Data')->__('The page has been saved.'));
+                    __('The page has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
                 // check if 'Save and Continue'
@@ -148,7 +148,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Magento_Cms_Helper_Data')->__('Something went wrong while saving the page.'));
+                    __('Something went wrong while saving the page.'));
             }
 
             $this->_getSession()->setFormData($data);
@@ -174,7 +174,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
                 $model->delete();
                 // display success message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Magento_Cms_Helper_Data')->__('The page has been deleted.'));
+                    __('The page has been deleted.'));
                 // go to grid
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
@@ -190,7 +190,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Cms_Helper_Data')->__('We can\'t find a page to delete.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

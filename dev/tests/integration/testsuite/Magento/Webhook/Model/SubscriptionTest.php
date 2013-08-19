@@ -31,7 +31,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     const VALUE_ENDPOINT_ID = 'endpoint_id_value';
     const VALUE_FORMAT = 'json';
     const VALUE_STATUS = Magento_Webhook_Model_Subscription::STATUS_INACTIVE;
-    const VALUE_VERSION = '1.0';
     const VALUE_AUTHENTICATION_TYPE = 'hmac';
     const VALUE_API_USER_ID = null;
     const VALUE_REG_MECH = 'registration_mechanism';
@@ -43,7 +42,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     const KEY_ENDPOINT_URL = Magento_Webhook_Model_Subscription::FIELD_ENDPOINT_URL;
     const KEY_FORMAT = Magento_Webhook_Model_Subscription::FIELD_FORMAT;
     const KEY_STATUS = 'status';
-    const KEY_VERSION = 'version';
     const KEY_API_USER_ID = Magento_Webhook_Model_Subscription::FIELD_API_USER_ID;
     const KEY_AUTHENTICATION_TYPE = Magento_Webhook_Model_Subscription::FIELD_AUTHENTICATION_TYPE;
     const KEY_TIMEOUT_IN_SECS = Magento_Webhook_Model_Subscription::FIELD_TIMEOUT_IN_SECS;
@@ -222,7 +220,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $webapiUserFactory = Mage::getObjectManager()->create('Magento_Webhook_Model_Webapi_User_Factory');
 
         $userId = $webapiUserFactory->createUser($userContext, array());
-        $user = $userFactory->create(array('webapiUserId' => $userId));
+        $user = $userFactory->create($userId);
         $subscription->setApiUserId($userId);
         $this->assertEquals($user, $subscription->getUser());
     }
@@ -284,7 +282,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->setRegistrationMechanism(self::VALUE_REG_MECH);
         $subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE);
         $subscription->setUpdatedAt(self::VALUE_UPDATED_AT);
-        $subscription->setVersion(self::VALUE_VERSION);
         $subscription->setApiUserId(self::VALUE_API_USER_ID);
         $subscription->setAuthenticationType(self::VALUE_AUTHENTICATION_TYPE);
         $subscription->setEndpointUrl(self::VALUE_ENDPOINT_URL);
@@ -296,7 +293,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::VALUE_REG_MECH, $subscription->getRegistrationMechanism());
         $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
         $this->assertEquals(self::VALUE_UPDATED_AT, $subscription->getUpdatedAt());
-        $this->assertEquals(self::VALUE_VERSION, $subscription->getVersion());
         $this->assertEquals(self::VALUE_API_USER_ID, $subscription->getApiUserId());
         $this->assertEquals(self::VALUE_AUTHENTICATION_TYPE, $subscription->getAuthenticationType());
         $this->assertEquals(self::VALUE_ENDPOINT_ID, $subscription->getEndpointId());
@@ -314,7 +310,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->setData(self::KEY_ENDPOINT_URL, self::VALUE_ENDPOINT_URL);
         $subscription->setData(self::KEY_FORMAT, self::VALUE_FORMAT);
         $subscription->setData(self::KEY_STATUS, self::VALUE_STATUS);
-        $subscription->setData(self::KEY_VERSION, self::VALUE_VERSION);
         $subscription->setData(self::KEY_API_USER_ID, self::VALUE_API_USER_ID);
         $subscription->setData(self::KEY_AUTHENTICATION_TYPE, self::VALUE_AUTHENTICATION_TYPE);
         $subscription->setData(self::KEY_TIMEOUT_IN_SECS, self::VALUE_TIMEOUT_IN_SECS);
@@ -329,7 +324,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::VALUE_ENDPOINT_URL, $loadedSubscription->getEndpointUrl());
         $this->assertEquals(self::VALUE_FORMAT, $loadedSubscription->getFormat());
         $this->assertEquals(self::VALUE_STATUS, $loadedSubscription->getStatus());
-        $this->assertEquals(self::VALUE_VERSION, $loadedSubscription->getVersion());
         $this->assertEquals(self::VALUE_API_USER_ID, $loadedSubscription->getApiUserId());
         $this->assertEquals(self::VALUE_AUTHENTICATION_TYPE, $loadedSubscription->getAuthenticationType());
         $this->assertEquals(self::VALUE_TIMEOUT_IN_SECS, $loadedSubscription->getTimeoutInSecs());
@@ -344,7 +338,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $subscription->setEndpointUrl(self::VALUE_ENDPOINT_URL);
         $subscription->setFormat(self::VALUE_FORMAT);
         $subscription->setStatus(self::VALUE_STATUS);
-        $subscription->setVersion(self::VALUE_VERSION);
         $subscription->setApiUserId(self::VALUE_API_USER_ID);
         $subscription->setAuthenticationType(self::VALUE_AUTHENTICATION_TYPE);
         $subscription->setTimeoutInSecs(self::VALUE_TIMEOUT_IN_SECS);
@@ -358,7 +351,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::VALUE_ENDPOINT_URL, $loadedSubscription->getData(self::KEY_ENDPOINT_URL));
         $this->assertEquals(self::VALUE_FORMAT, $loadedSubscription->getData(self::KEY_FORMAT));
         $this->assertEquals(self::VALUE_STATUS, $loadedSubscription->getData(self::KEY_STATUS));
-        $this->assertEquals(self::VALUE_VERSION, $loadedSubscription->getData(self::KEY_VERSION));
         $this->assertEquals(self::VALUE_API_USER_ID, $loadedSubscription->getData(self::KEY_API_USER_ID));
         $this->assertEquals(
             self::VALUE_AUTHENTICATION_TYPE,
@@ -375,7 +367,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             self::KEY_ENDPOINT_URL          => self::VALUE_ENDPOINT_URL,
             self::KEY_FORMAT                => self::VALUE_FORMAT,
             self::KEY_STATUS                => self::VALUE_STATUS,
-            self::KEY_VERSION               => self::VALUE_VERSION,
             self::KEY_API_USER_ID           => self::VALUE_API_USER_ID,
             self::KEY_AUTHENTICATION_TYPE   => self::VALUE_AUTHENTICATION_TYPE,
             self::KEY_TIMEOUT_IN_SECS       => self::VALUE_TIMEOUT_IN_SECS,
@@ -400,7 +391,6 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             self::KEY_ENDPOINT_URL          => self::VALUE_ENDPOINT_URL,
             self::KEY_FORMAT                => self::VALUE_FORMAT,
             self::KEY_STATUS                => self::VALUE_STATUS,
-            self::KEY_VERSION               => self::VALUE_VERSION,
             self::KEY_API_USER_ID           => self::VALUE_API_USER_ID,
             self::KEY_AUTHENTICATION_TYPE   => self::VALUE_AUTHENTICATION_TYPE,
             self::KEY_TIMEOUT_IN_SECS       => self::VALUE_TIMEOUT_IN_SECS,

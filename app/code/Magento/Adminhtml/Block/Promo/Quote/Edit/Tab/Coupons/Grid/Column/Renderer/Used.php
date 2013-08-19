@@ -21,6 +21,6 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_
     public function render(Magento_Object $row)
     {
         $value = (int)$row->getData($this->getColumn()->getIndex());
-        return empty($value) ? Mage::helper('Magento_Adminhtml_Helper_Data')->__('No') : Mage::helper('Magento_Adminhtml_Helper_Data')->__('Yes');
+        return empty($value) ? __('No') : __('Yes');
     }
 }

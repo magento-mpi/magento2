@@ -15,8 +15,8 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::system">
                     <resource id="Magento_Adminhtml::convert">
-                        <resource id="Magento_ImportExport::import" module="Magento_ImportExport" title="Import" sortOrder="10" />
-                        <resource id="Magento_ImportExport::export" module="Magento_ImportExport" title="Export" sortOrder="20" />
+                        <resource id="Magento_ImportExport::import" title="Import" sortOrder="10" />
+                        <resource id="Magento_ImportExport::export" title="Export" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

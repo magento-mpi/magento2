@@ -65,59 +65,59 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'index'     => 'product_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'index'     => 'name',
             'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'index'     => 'sku',
             'width'     => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Quantity'),
+            'header'    => __('Quantity'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header'        => Mage::helper('Magento_Catalog_Helper_Data')->__('Price'),
+            'header'        => __('Price'),
             'index'         => 'price',
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header'        => Mage::helper('Magento_Sales_Helper_Data')->__('Total'),
+            'header'        => __('Total'),
             'index'         => 'row_total',
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Action'),
+            'header'    => __('Action'),
             'index'     => 'quote_item_id',
             'renderer'  => 'Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'           => Mage::helper('Magento_Customer_Helper_Data')->__('Configure'),
+                    'caption'           => __('Configure'),
                     'url'               => 'javascript:void(0)',
                     'process'           => 'configurable',
                     'control_object'    => $this->getJsObjectName() . 'cartControl'
                 ),
                 array(
-                    'caption'   => Mage::helper('Magento_Customer_Helper_Data')->__('Delete'),
+                    'caption'   => __('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
                 )

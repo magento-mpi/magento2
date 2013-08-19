@@ -101,7 +101,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
         ));
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
@@ -109,7 +109,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Type'),
+                'header'=> __('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
@@ -123,7 +123,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute Set'),
+                'header'=> __('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -131,13 +131,13 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
         ));
 
         $this->addColumn('chooser_sku', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'name'      => 'chooser_sku',
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'name'      => 'chooser_name',
             'index'     => 'name'
         ));

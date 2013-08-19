@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
                 Mage::getModel($prefix . 'Itemsquantity')->getNewChildSelectOptions(),
                 Mage::getModel($prefix . 'Productsquantity')->getNewChildSelectOptions(),
             ),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart'),
+            'label' => __('Shopping Cart'),
             'available_in_guest_mode' => true,
         );
     }

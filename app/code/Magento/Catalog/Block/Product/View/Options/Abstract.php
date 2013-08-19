@@ -119,7 +119,7 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
             $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' ('.$sign.$this->helper('Magento_Core_Helper_Data')
-                    ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
+                    ->currencyByStore($_priceInclTax, $store, true, $flag).' '.__('Incl. Tax').')';
             }
         }
 

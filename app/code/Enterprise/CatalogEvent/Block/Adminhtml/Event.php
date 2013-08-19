@@ -22,8 +22,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Magento_Backend_Bloc
     {
         $this->_controller = 'adminhtml_event';
         $this->_blockGroup = 'Enterprise_CatalogEvent';
-        $this->_headerText = Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events');
-        $this->_addButtonLabel = Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Add Catalog Event');
+        $this->_headerText = __('Events');
+        $this->_addButtonLabel = __('Add Catalog Event');
         parent::_construct();
     }
 

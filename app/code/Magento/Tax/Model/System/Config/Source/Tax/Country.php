@@ -19,9 +19,9 @@ class Magento_Tax_Model_System_Config_Source_Tax_Country extends Magento_Directo
 
         if(!$noEmpty) {
             if ($options) {
-                $options[0]['label'] = Mage::helper('Magento_Tax_Helper_Data')->__('None');
+                $options[0]['label'] = __('None');
             } else {
-                $options = array(array('value'=>'', 'label'=>$this->helper('Magento_Tax_Helper_Data')->__('None')));
+                $options = array(array('value'=>'', 'label'=>__('None')));
             }
         }
 

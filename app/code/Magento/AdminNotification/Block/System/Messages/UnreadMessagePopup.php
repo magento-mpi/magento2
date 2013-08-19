@@ -70,9 +70,9 @@ class Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup extends
     {
         $messageCount = count($this->_messages->getUnread());
         if ($messageCount > 1) {
-            return $this->__('You have %d new system messages', $messageCount);
+            return __('You have %1 new system messages', $messageCount);
         } else {
-            return $this->__('You have %d new system message', $messageCount);
+            return __('You have %1 new system message', $messageCount);
         }
     }
 

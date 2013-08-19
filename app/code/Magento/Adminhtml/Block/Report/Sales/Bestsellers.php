@@ -23,12 +23,12 @@ class Magento_Adminhtml_Block_Report_Sales_Bestsellers extends Magento_Adminhtml
     protected function _construct()
     {
         $this->_controller = 'report_sales_bestsellers';
-        $this->_headerText = Mage::helper('Magento_Sales_Helper_Data')->__('Products Bestsellers Report');
+        $this->_headerText = __('Products Bestsellers Report');
         parent::_construct();
 
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('Show Report'),
+            'label'     => __('Show Report'),
             'onclick'   => 'filterFormSubmit()',
             'class'     => 'primary'
         ));

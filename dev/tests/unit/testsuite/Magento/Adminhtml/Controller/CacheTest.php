@@ -61,19 +61,14 @@ class Magento_Adminhtml_Controller_CacheTest extends PHPUnit_Framework_TestCase
         $mergeService = $this->getMock('Magento_Core_Model_Page_Asset_MergeService', array(), array(), '', false);
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');
-        $helper = $this->getMock('Magento_Adminhtml_Helper_Data', array(), array(), '', false);
-        $helper->expects($this->once())
-            ->method('__')
-            ->with('The JavaScript/CSS cache has been cleaned.')
-            ->will($this->returnValue('Translated value'));
+
         $session = $this->getMock('Magento_Adminhtml_Model_Session', array(), array(), '', false);
         $session->expects($this->once())
             ->method('addSuccess')
-            ->with('Translated value');
+            ->with('The JavaScript/CSS cache has been cleaned.');
 
         $valueMap = array(
             array('Magento_Core_Model_Page_Asset_MergeService', $mergeService),
-            array('Magento_Adminhtml_Helper_Data', $helper),
             array('Magento_Adminhtml_Model_Session', $session),
         );
         $objectManager->expects($this->any())

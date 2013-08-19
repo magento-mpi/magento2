@@ -186,7 +186,7 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
                 $strErrors = array();
                 foreach($errors as $code => $error) {
                     if ($error === true) {
-                        $error = Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct attribute "%s".', $code);
+                        $error = __('Please correct attribute "%1".', $code);
                     }
                     $strErrors[] = $error;
                 }
@@ -224,9 +224,9 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
                 $strErrors = array();
                 foreach($errors as $code => $error) {
                     if ($error === true) {
-                        $error = Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct the value for "%s".', $code);
+                        $error = __('Please correct the value for "%1".', $code);
                     } else {
-                        $error = Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct the value for "%s": %s.', $code, $error);
+                        $error = __('Please correct the value for "%1": %2.', $code, $error);
                     }
                     $strErrors[] = $error;
                 }

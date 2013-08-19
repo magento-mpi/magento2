@@ -29,7 +29,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="event_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">ID</header>
+                            <header translate="true">ID</header>
                             <width>80px</width>
                             <type>text</type>
                             <index>event_id</index>
@@ -37,7 +37,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="category_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Category ID</header>
+                            <header translate="true">Category ID</header>
                             <width>70</width>
                             <type>text</type>
                             <index>category_id</index>
@@ -45,14 +45,14 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="category">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Category</header>
+                            <header translate="true">Category</header>
                             <type>text</type>
                             <index>category_name</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_start">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Start On</header>
+                            <header translate="true">Start On</header>
                             <type>datetime</type>
                             <index>date_start</index>
                             <filter_time>1</filter_time>
@@ -61,7 +61,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_end">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">End On</header>
+                            <header translate="true">End On</header>
                             <type>datetime</type>
                             <index>date_end</index>
                             <filter_time>1</filter_time>
@@ -70,7 +70,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Status</header>
+                            <header translate="true">Status</header>
                             <type>options</type>
                             <index>status</index>
                             <width>140</width>
@@ -79,7 +79,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_state">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Countdown Ticker</header>
+                            <header translate="true">Countdown Ticker</header>
                             <type>options</type>
                             <index>display_state</index>
                             <renderer>Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask</renderer>
@@ -88,7 +88,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Sort Order</header>
+                            <header translate="true">Sort Order</header>
                             <type>text</type>
                             <index>sort_order</index>
                             <width>70</width>
@@ -96,7 +96,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="actions">
                         <arguments>
-                            <header translate="true" module="Enterprise_CatalogEvent">Action</header>
+                            <header translate="true">Action</header>
                             <width>15</width>
                             <sortable>0</sortable>
                             <filter>0</filter>
@@ -104,7 +104,7 @@
                             <index>event_id</index>
                             <actions>
                                 <edit>
-                                    <caption translate="true" module="Enterprise_CatalogEvent">Edit</caption>
+                                    <caption translate="true">Edit</caption>
                                     <url>
                                         <base>*/*/edit</base>
                                     </url>

@@ -24,15 +24,15 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     protected function _construct()
     {
         $this->addColumn('search', array(
-            'label' => $this->helper('Magento_Backend_Helper_Data')->__('Search String'),
+            'label' => __('Search String'),
             'style' => 'width:120px',
         ));
         $this->addColumn('value', array(
-            'label' => $this->helper('Magento_Backend_Helper_Data')->__('Design Theme'),
+            'label' => __('Design Theme'),
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Add Exception');
+        $this->_addButtonLabel = __('Add Exception');
         parent::_construct();
     }
 
@@ -47,7 +47,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
             /** @var $label Magento_Core_Model_Theme_Label */
             $label = Mage::getModel('Magento_Core_Model_Theme_Label');
-            $options = $label->getLabelsCollection($this->__('-- No Theme --'));
+            $options = $label->getLabelsCollection(__('-- No Theme --'));
             $element = new Magento_Data_Form_Element_Select();
             $element
                 ->setForm($this->getForm())

@@ -339,7 +339,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         Mage::dispatchEvent('googlecheckout_create_order_before', array('quote' => $quote));
         if ($quote->getErrorMessage()) {
             $this->getGRequest()->SendCancelOrder($this->getGoogleOrderNumber(),
-                $this->__('Something went wrong creating the order.'),
+                __('Something went wrong creating the order.'),
                 $quote->getErrorMessage()
             );
             return;
@@ -418,12 +418,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
 
         $emailAllowed = ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE') === 'true');
 
-        $emailStr = $emailAllowed ? $this->__('Yes') : $this->__('No');
-        $message = $this->__('Google Order Number: %s', '<strong>' . $this->getGoogleOrderNumber() . '</strong><br />')
-                . $this->__('Google Buyer ID: %s', '<strong>' . $this->getData('root/buyer-id/VALUE') . '</strong><br />')
-                . $this->__('Is Buyer Willing to Receive Marketing Emails: %s', '<strong>' . $emailStr . '</strong>');
+        $emailStr = $emailAllowed ? __('Yes') : __('No');
+        $message = __('Google Order Number: %1', '<strong>' . $this->getGoogleOrderNumber() . '</strong><br />')
+                . __('Google Buyer ID: %1', '<strong>' . $this->getData('root/buyer-id/VALUE') . '</strong><br />')
+                . __('Is Buyer Willing to Receive Marketing Emails: %1', '<strong>' . $emailStr . '</strong>');
         if ($taxMessage) {
-            $message .= $this->__('<br />Warning: <strong>%s</strong><br />', $taxMessage);
+            $message .= __('<br />Warning: <strong>%1</strong><br />', $taxMessage);
         }
 
         $order->addStatusToHistory($order->getStatus(), $message);
@@ -497,7 +497,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             );
             $quote->setBaseGrandTotal($grandTotal);
 
-            $message = $this->__('The tax amount has been applied based on the information received from Google Checkout, because tax amount received from Google Checkout is different from the calculated tax amount');
+            $message = __('The tax amount has been applied based on the information received from Google Checkout, because tax amount received from Google Checkout is different from the calculated tax amount');
             return $message;
         }
 
@@ -740,13 +740,13 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             ->setCcAvsStatus($this->getData('root/risk-information/avs-response/VALUE'))
             ->setCcCidStatus($this->getData('root/risk-information/cvn-response/VALUE'));
 
-        $msg = $this->__('Google Risk Information:');
-        $msg .= '<br />' . $this->__('IP Address: %s', '<strong>' . $order->getRemoteIp() . '</strong>');
-        $msg .= '<br />' . $this->__('CC Partial: xxxx-%s', '<strong>' . $payment->getCcLast4() . '</strong>');
-        $msg .= '<br />' . $this->__('AVS Status: %s', '<strong>' . $payment->getCcAvsStatus() . '</strong>');
-        $msg .= '<br />' . $this->__('CID Status: %s', '<strong>' . $payment->getCcCidStatus() . '</strong>');
-        $msg .= '<br />' . $this->__('Eligible for Protection: %s', '<strong>' . ($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No') . '</strong>');
-        $msg .= '<br />' . $this->__('Buyer Account Age: %s days', '<strong>' . $this->getData('root/risk-information/buyer-account-age/VALUE') . '</strong>');
+        $msg = __('Google Risk Information:');
+        $msg .= '<br />' . __('IP Address: %1', '<strong>' . $order->getRemoteIp() . '</strong>');
+        $msg .= '<br />' . __('CC Partial: xxxx-%1', '<strong>' . $payment->getCcLast4() . '</strong>');
+        $msg .= '<br />' . __('AVS Status: %1', '<strong>' . $payment->getCcAvsStatus() . '</strong>');
+        $msg .= '<br />' . __('CID Status: %1', '<strong>' . $payment->getCcCidStatus() . '</strong>');
+        $msg .= '<br />' . __('Eligible for Protection: %1', '<strong>' . ($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No') . '</strong>');
+        $msg .= '<br />' . __('Buyer Account Age: %1 days', '<strong>' . $this->getData('root/risk-information/buyer-account-age/VALUE') . '</strong>');
 
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
@@ -766,9 +766,9 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
 
         $expDate = $this->getData('root/authorization-expiration-date/VALUE');
         $expDate = new Zend_Date($expDate);
-        $msg = $this->__('Google Authorization:');
-        $msg .= '<br />' . $this->__('Amount: %s', '<strong>' . $this->_formatAmount($payment->getAmountAuthorized()) . '</strong>');
-        $msg .= '<br />' . $this->__('Expiration: %s', '<strong>' . $expDate->toString() . '</strong>');
+        $msg = __('Google Authorization:');
+        $msg .= '<br />' . __('Amount: %1', '<strong>' . $this->_formatAmount($payment->getAmountAuthorized()) . '</strong>');
+        $msg .= '<br />' . __('Expiration: %1', '<strong>' . $expDate->toString() . '</strong>');
 
         $order->addStatusToHistory($order->getStatus(), $msg);
 
@@ -802,13 +802,13 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $payment->setAmountCharged($totalCharged);
         $order->setIsInProcess(true);
 
-        $msg = $this->__('Google Charge:');
-        $msg .= '<br />' . $this->__('Latest Charge: %s', '<strong>' . $this->_formatAmount($latestCharged) . '</strong>');
-        $msg .= '<br />' . $this->__('Total Charged: %s', '<strong>' . $this->_formatAmount($totalCharged) . '</strong>');
+        $msg = __('Google Charge:');
+        $msg .= '<br />' . __('Latest Charge: %1', '<strong>' . $this->_formatAmount($latestCharged) . '</strong>');
+        $msg .= '<br />' . __('Total Charged: %1', '<strong>' . $this->_formatAmount($totalCharged) . '</strong>');
 
         if (!$order->hasInvoices() && abs($order->getBaseGrandTotal() - $latestCharged) < .0001) {
             $invoice = $this->_createInvoice();
-            $msg .= '<br />' . $this->__('Invoice Auto-Created: %s', '<strong>' . $invoice->getIncrementId() . '</strong>');
+            $msg .= '<br />' . __('Invoice Auto-Created: %1', '<strong>' . $invoice->getIncrementId() . '</strong>');
         }
 
         $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
@@ -833,7 +833,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
 
         $invoice = $order->prepareInvoice()
             ->setTransactionId($this->getGoogleOrderNumber())
-            ->addComment(Mage::helper('Magento_GoogleCheckout_Helper_Data')->__('Auto-generated from GoogleCheckout Charge'))
+            ->addComment(__('Auto-generated from GoogleCheckout Charge'))
             ->register()
             ->pay();
 
@@ -882,12 +882,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                 ->setAutomaticallyCreated(true)
                 ->register();
 
-            $creditmemo->addComment($this->__('Credit memo has been created automatically'));
+            $creditmemo->addComment(__('Credit memo has been created automatically'));
             $creditmemo->save();
         }
-        $msg = $this->__('Google Chargeback:');
-        $msg .= '<br />' . $this->__('Latest Chargeback: %s', '<strong>' . $this->_formatAmount($latestChargeback) . '</strong>');
-        $msg .= '<br />' . $this->__('Total Chargeback: %s', '<strong>' . $this->_formatAmount($totalChargeback) . '</strong>');
+        $msg = __('Google Chargeback:');
+        $msg .= '<br />' . __('Latest Chargeback: %1', '<strong>' . $this->_formatAmount($latestChargeback) . '</strong>');
+        $msg .= '<br />' . __('Total Chargeback: %1', '<strong>' . $this->_formatAmount($totalChargeback) . '</strong>');
 
         $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
@@ -928,12 +928,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             ->setPaymentRefundDisallowed(true)
             ->setAutomaticallyCreated(true)
             ->register()
-            ->addComment($this->__('Credit memo has been created automatically'))
+            ->addComment(__('Credit memo has been created automatically'))
             ->save();
 
-        $msg = $this->__('Google Refund:');
-        $msg .= '<br />' . $this->__('Latest Refund: %s', '<strong>' . $this->_formatAmount($latestRefunded) . '</strong>');
-        $msg .= '<br />' . $this->__('Total Refunded: %s', '<strong>' . $this->_formatAmount($totalRefunded) . '</strong>');
+        $msg = __('Google Refund:');
+        $msg .= '<br />' . __('Latest Refund: %1', '<strong>' . $this->_formatAmount($latestRefunded) . '</strong>');
+        $msg .= '<br />' . __('Total Refunded: %1', '<strong>' . $this->_formatAmount($totalRefunded) . '</strong>');
 
         $this->_addChildTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
@@ -951,12 +951,12 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         $prevFulfillment = $this->getData('root/previous-fulfillment-order-state/VALUE');
         $newFulfillment = $this->getData('root/new-fulfillment-order-state/VALUE');
 
-        $msg = $this->__('Google Order Status Change:');
+        $msg = __('Google Order Status Change:');
         if ($prevFinancial!=$newFinancial) {
-            $msg .= "<br />" . $this->__('Financial: %s -> %s', '<strong>' . $prevFinancial . '</strong>', '<strong>' . $newFinancial . '</strong>');
+            $msg .= "<br />" . __('Financial: %1 -> %2', '<strong>' . $prevFinancial . '</strong>', '<strong>' . $newFinancial . '</strong>');
         }
         if ($prevFulfillment!=$newFulfillment) {
-            $msg .= "<br />" . $this->__('Fulfillment: %s -> %s', '<strong>' . $prevFulfillment . '</strong>', '<strong>' . $newFulfillment . '</strong>');
+            $msg .= "<br />" . __('Fulfillment: %1 -> %2', '<strong>' . $prevFulfillment . '</strong>', '<strong>' . $newFulfillment . '</strong>');
         }
         $this->getOrder()
             ->addStatusToHistory($this->getOrder()->getStatus(), $msg)

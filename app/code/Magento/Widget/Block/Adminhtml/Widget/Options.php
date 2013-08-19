@@ -25,12 +25,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
     protected $_defaultElementType = 'text';
 
     /**
-     * Translation helper instance, defined by the widget type declaration root config node
-     * @var Magento_Core_Helper_Abstract
-     */
-    protected $_translationHelper = null;
-
-    /**
      * Prepare Widget Options Form and values according to specified type
      *
      * widget_type must be set in data before
@@ -71,7 +65,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
         $this->setMainFieldsetHtmlId($mainFieldsetHtmlId);
         $fieldset = $this->getForm()->addFieldset($mainFieldsetHtmlId, array(
-            'legend'    => $this->helper('Magento_Widget_Helper_Data')->__('Widget Options'),
+            'legend'    => __('Widget Options'),
             'class'     => 'fieldset-wide',
         ));
         $this->setData('main_fieldset', $fieldset);
@@ -92,14 +86,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            Mage::throwException($this->__('Please specify a Widget Type.'));
+            Mage::throwException(__('Please specify a Widget Type.'));
         }
         $config = Mage::getSingleton('Magento_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
             return $this;
         }
-        $module = $config->getModule();
-        $this->_translationHelper = Mage::helper($module ? $module : 'Magento_Widget_Helper_Data');
         foreach ($config->getParameters() as $parameter) {
             $this->_addField($parameter);
         }
@@ -122,10 +114,10 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         $fieldName = $parameter->getKey();
         $data = array(
             'name'      => $form->addSuffixToName($fieldName, 'parameters'),
-            'label'     => $this->_translationHelper->__($parameter->getLabel()),
+            'label'     => __($parameter->getLabel()),
             'required'  => $parameter->getRequired(),
             'class'     => 'widget-option',
-            'note'      => $this->_translationHelper->__($parameter->getDescription()),
+            'note'      => __($parameter->getDescription()),
         );
 
         if ($values = $this->getWidgetValues()) {
@@ -145,7 +137,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
             $data['values'] = array();
             foreach ($values as $option) {
                 $data['values'][] = array(
-                    'label' => $this->_translationHelper->__($option['label']),
+                    'label' => __($option['label']),
                     'value' => $option['value']
                 );
             }
@@ -180,7 +172,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
             if ($helperBlock instanceof Magento_Object) {
                 $helperBlock->setConfig($helper->getData())
                     ->setFieldsetId($fieldset->getId())
-                    ->setTranslationHelper($this->_translationHelper)
                     ->prepareElementHtml($field);
             }
         }

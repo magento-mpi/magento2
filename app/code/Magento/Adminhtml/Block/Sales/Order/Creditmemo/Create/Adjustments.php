@@ -60,11 +60,11 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends 
         $config = Mage::getSingleton('Magento_Tax_Model_Config');
         $source = $this->getSource();
         if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
-            $label = $this->helper('Magento_Sales_Helper_Data')->__('Refund Shipping (Incl. Tax)');
+            $label = __('Refund Shipping (Incl. Tax)');
         } elseif ($config->displaySalesShippingBoth($source->getOrder()->getStoreId())) {
-            $label = $this->helper('Magento_Sales_Helper_Data')->__('Refund Shipping (Excl. Tax)');
+            $label = __('Refund Shipping (Excl. Tax)');
         } else {
-            $label = $this->helper('Magento_Sales_Helper_Data')->__('Refund Shipping');
+            $label = __('Refund Shipping');
         }
         return $label;
     }

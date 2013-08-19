@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
         ));
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Magento_Sales_Helper_Data')->__('Order Status Information')
+            'legend' => __('Order Status Information')
         ));
 
         $fieldset->addField('is_new', 'hidden', array('name' => 'is_new', 'value' => 1));
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
         $fieldset->addField('status', 'text',
             array(
                 'name' => 'status',
-                'label' => Mage::helper('Magento_Sales_Helper_Data')->__('Status Code'),
+                'label' => __('Status Code'),
                 'class' => 'required-entry validate-code',
                 'required' => true,
             )
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
         $fieldset->addField('label', 'text',
             array(
                 'name' => 'label',
-                'label' => Mage::helper('Magento_Sales_Helper_Data')->__('Status Label'),
+                'label' => __('Status Label'),
                 'class' => 'required-entry',
                 'required' => true,
             )
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
     {
         $labels = $model ? $model->getStoreLabels() : array();
         $fieldset = $form->addFieldset('store_labels_fieldset', array(
-            'legend' => Mage::helper('Magento_Sales_Helper_Data')->__('Store View Specific Labels'),
+            'legend' => __('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
         $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');

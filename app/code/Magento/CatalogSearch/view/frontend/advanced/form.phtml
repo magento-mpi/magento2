@@ -17,12 +17,12 @@
 ?>
 <?php $maxQueryLength= $this->helper('Magento_CatalogSearch_Helper_Data')->getMaxQueryLength();?>
 <div class="page-title">
-    <h1><?php echo $this->__('Catalog Advanced Search') ?></h1>
+    <h1><?php echo __('Catalog Advanced Search') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSearchPostUrl() ?>" method="get" id="form-validate">
     <div class="fieldset advanced-search">
-        <h2 class="legend"><?php echo $this->__('Search Settings') ?></h2>
+        <h2 class="legend"><?php echo __('Search Settings') ?></h2>
         <ul class="form-list" id="advanced-search-list">
             <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
             <?php $_code = $_attribute->getAttributeCode() ?>
@@ -70,7 +70,7 @@
         <script type="text/javascript">(function($) {$('#advanced-search-list').decorate('list')})(jQuery)</script>
     </div>
     <div class="buttons-set">
-        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+        <button type="submit" title="<?php echo __('Search') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
     </div>
 </form>
 <script type="text/javascript">

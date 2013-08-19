@@ -78,7 +78,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get tax calculation object
      *
-     * @return  Magento_Tax_Model_Calculation
+     * @return  Magento_Tac_Model_Calculation
      */
     public function getCalculator()
     {
@@ -136,9 +136,9 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     public function getIncExcText($flag, $store=null)
     {
         if ($flag) {
-            $s = $this->__('Incl. Tax');
+            $s = __('Incl. Tax');
         } else {
-            $s = $this->__('Excl. Tax');
+            $s = __('Excl. Tax');
         }
         return $s;
     }
@@ -863,7 +863,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
                 if ($current->getShippingHiddenTaxAmount() > 0) {
                     $taxClassAmount[0]['hidden_tax_amount'] = $current->getShippingHiddenTaxAmount();
                 }
-                $taxClassAmount[0]['title']             = $this->__('Shipping & Handling Tax');
+                $taxClassAmount[0]['title']             = __('Shipping & Handling Tax');
                 $taxClassAmount[0]['percent']           = NULL;
             }
         }

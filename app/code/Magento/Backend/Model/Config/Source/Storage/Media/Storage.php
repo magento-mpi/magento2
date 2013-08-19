@@ -23,11 +23,11 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Storage implements Magen
         return array(
             array(
                 'value' => Magento_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('File System')
+                'label' => __('File System')
             ),
             array(
                 'value' => Magento_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Database')
+                'label' => __('Database')
             )
         );
     }

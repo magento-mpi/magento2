@@ -53,21 +53,21 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('search_query', array(
-            'header'    => $this->__('Search Term'),
+            'header'    => __('Search Term'),
             'sortable'  => false,
             'index'     => 'query_text',
             'renderer'  => 'Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery',
         ));
 
         $this->addColumn('num_results', array(
-            'header'    => $this->__('Results'),
+            'header'    => __('Results'),
             'sortable'  => false,
             'index'     => 'num_results',
             'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => $this->__('Uses'),
+            'header'    => __('Uses'),
             'sortable'  => false,
             'index'     => 'popularity',
             'type'      => 'number'

@@ -35,14 +35,12 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
         $length = $stringHelper->strlen($password);
         if ($length > 0) {
             if ($length < self::MIN_PASSWORD_LENGTH) {
-                Mage::throwException(Mage::helper('Magento_Customer_Helper_Data')->
-                    __('The password must have at least %s characters.', self::MIN_PASSWORD_LENGTH));
+                Mage::throwException(__('The password must have at least %1 characters.', self::MIN_PASSWORD_LENGTH));
             }
 
             if ($stringHelper->substr($password, 0, 1) == ' ' ||
                 $stringHelper->substr($password, $length - 1, 1) == ' ') {
-                Mage::throwException(Mage::helper('Magento_Customer_Helper_Data')->
-                    __('The password can not begin or end with a space.'));
+                Mage::throwException(__('The password can not begin or end with a space.'));
             }
 
             $object->setPasswordHash($object->hashPassword($password));
