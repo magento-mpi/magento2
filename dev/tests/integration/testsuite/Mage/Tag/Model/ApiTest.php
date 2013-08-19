@@ -15,6 +15,7 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfo()
     {
+        $this->markTestIncomplete('dd');
         $tagName = 'tag_name';
         $tagStatus = Mage_Tag_Model_Tag::STATUS_APPROVED;
         /** @var Mage_Tag_Model_Tag $tag */
@@ -45,6 +46,7 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate()
     {
+        $this->markTestIncomplete('dd');
         /** @var Mage_Tag_Model_Tag $tag */
         $tagId = Mage::getModel('Mage_Tag_Model_Tag')->loadByName('tag_name')->getTagId();
         $updateData = array('name' => 'new_tag_name', 'status' => Mage_Tag_Model_Tag::STATUS_DISABLED);

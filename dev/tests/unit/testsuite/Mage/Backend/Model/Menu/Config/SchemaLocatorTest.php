@@ -27,7 +27,7 @@ class Mage_Backend_Model_Menu_Config_SchemaLocatorTest extends PHPUnit_Framework
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR. 'menu.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'menu.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()

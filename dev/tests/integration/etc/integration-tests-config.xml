@@ -12,16 +12,6 @@
 -->
 <config>
     <global>
-        <events>
-            <core_app_init_current_store_after>
-                <observers>
-                    <integration_tests>
-                        <class>Magento_Test_Event_Magento</class>
-                        <method>initStoreAfter</method>
-                    </integration_tests>
-                </observers>
-            </core_app_init_current_store_after>
-        </events>
         <dev>
             <design_fallback>
                 <allow_map_update>0</allow_map_update>

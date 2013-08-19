@@ -31,8 +31,8 @@ class Enterprise_Queue_Model_Event_Config_ConverterTest extends PHPUnit_Framewor
 
     public function testConvert()
     {
-        $this->_source->loadXML(file_get_contents($this->_filePath. 'event_config.xml'));
-        $convertedFile = include ($this->_filePath. 'event_config.php');
+        $this->_source->loadXML(file_get_contents($this->_filePath . 'event_config.xml'));
+        $convertedFile = include ($this->_filePath . 'event_config.php');
         $this->assertEquals($convertedFile, $this->_model->convert($this->_source));
     }
 }

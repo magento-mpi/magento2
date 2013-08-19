@@ -28,7 +28,7 @@ class Mage_Backend_Model_Menu_Config_Reader extends Magento_Config_Reader_Filesy
         $domDocumentClass = 'Mage_Backend_Model_Menu_Config_Menu_Dom'
     ) {
         parent::__construct(
-            $fileResolver, $converter, $schemaLocator, $validationState,  $fileName, $idAttributes, $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
         );
     }
 }

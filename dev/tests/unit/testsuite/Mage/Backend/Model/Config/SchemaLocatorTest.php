@@ -27,11 +27,11 @@ class Mage_Backend_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Test
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR. 'system.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'system.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR. 'system_file.xsd', $this->_model->getPerFileSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'system_file.xsd', $this->_model->getPerFileSchema());
     }
 }

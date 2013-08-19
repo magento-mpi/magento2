@@ -15,9 +15,9 @@
         <observer name="weee" instance="Mage_Weee_Model_Observer" method="updateExcludedFieldList" />
     </event>
     <event name="adminhtml_product_attribute_types">
-        <observer name="weee" instance="Mage_Weee_Model_Observer" method="addWeeeTaxAttributeType" shared="true" />
+        <observer name="weee" instance="Mage_Weee_Model_Observer" method="addWeeeTaxAttributeType" shared="false" />
     </event>
     <event name="adminhtml_catalog_product_edit_element_types">
         <observer name="weee" instance="Mage_Weee_Model_Observer" method="updateElementTypes" />
     </event>
-</config>
+</config>

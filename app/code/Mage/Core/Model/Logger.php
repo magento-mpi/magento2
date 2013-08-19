@@ -38,6 +38,7 @@ class Mage_Core_Model_Logger
     /**
      * @param Mage_Core_Model_Dir $dirs
      * @param Magento_Io_File $fileSystem
+     * @param string $defaultFile
      */
     public function __construct(Mage_Core_Model_Dir $dirs, Magento_Io_File $fileSystem, $defaultFile = '')
     {

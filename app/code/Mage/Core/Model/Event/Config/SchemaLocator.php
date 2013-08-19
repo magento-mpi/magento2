@@ -28,7 +28,7 @@ class Mage_Core_Model_Event_Config_SchemaLocator implements Magento_Config_Schem
      */
     public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'event.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'events.xsd';
     }
 
     /**

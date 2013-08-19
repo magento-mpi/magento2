@@ -39,7 +39,7 @@ class Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function eventConfigFilesDataProvider()
     {
-        return Utility_Files::init()->getConfigFiles('{*/event.xml,event.xml}');
+        return Utility_Files::init()->getConfigFiles('{*/events.xml,events.xml}');
 
     }
 }
