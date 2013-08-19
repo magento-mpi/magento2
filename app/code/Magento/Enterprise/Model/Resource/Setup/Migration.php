@@ -28,7 +28,7 @@ class Magento_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Mod
                 'magento_catalogevent'         => 'Magento_CatalogEvent',
                 'magento_catalogpermissions'   => 'Magento_CatalogPermissions',
                 'magento_customerbalance'      => 'Magento_CustomerBalance',
-                'enterprise_customersegment'      => 'Enterprise_CustomerSegment',
+                'magento_customersegment'      => 'Magento_CustomerSegment',
                 'magento_giftcard'             => 'Magento_GiftCard',
                 'magento_giftcardaccount'      => 'Magento_GiftCardAccount',
                 'magento_giftregistry'         => 'Magento_GiftRegistry',

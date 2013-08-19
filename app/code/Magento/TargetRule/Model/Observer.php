@@ -82,7 +82,7 @@ class Magento_TargetRule_Model_Observer
      */
     public function coreConfigSaveCommitAfter(Magento_Event_Observer $observer)
     {
-        if ($observer->getDataObject()->getPath() == 'customer/enterprise_customersegment/is_enabled'
+        if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
             Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
                 new Magento_Object(array('type_id' => null, 'store' => null)),

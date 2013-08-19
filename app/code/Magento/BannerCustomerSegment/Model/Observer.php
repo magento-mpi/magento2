@@ -8,17 +8,17 @@
 class Magento_BannerCustomerSegment_Model_Observer
 {
     /**
-     * @var Enterprise_CustomerSegment_Model_Customer
+     * @var Magento_CustomerSegment_Model_Customer
      */
     private $_segmentCustomer;
 
     /**
-     * @var Enterprise_CustomerSegment_Helper_Data
+     * @var Magento_CustomerSegment_Helper_Data
      */
     private $_segmentHelper;
 
     /**
-     * @var Enterprise_CustomerSegment_Model_Resource_Segment_Collection
+     * @var Magento_CustomerSegment_Model_Resource_Segment_Collection
      */
     private $_segmentCollection;
 
@@ -28,15 +28,15 @@ class Magento_BannerCustomerSegment_Model_Observer
     private $_bannerSegmentLink;
 
     /**
-     * @param Enterprise_CustomerSegment_Model_Customer $segmentCustomer
-     * @param Enterprise_CustomerSegment_Helper_Data $segmentHelper
-     * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
+     * @param Magento_CustomerSegment_Model_Customer $segmentCustomer
+     * @param Magento_CustomerSegment_Helper_Data $segmentHelper
+     * @param Magento_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
      * @param Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
      */
     public function __construct(
-        Enterprise_CustomerSegment_Model_Customer $segmentCustomer,
-        Enterprise_CustomerSegment_Helper_Data $segmentHelper,
-        Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection,
+        Magento_CustomerSegment_Model_Customer $segmentCustomer,
+        Magento_CustomerSegment_Helper_Data $segmentHelper,
+        Magento_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection,
         Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
     ) {
         $this->_segmentCustomer = $segmentCustomer;

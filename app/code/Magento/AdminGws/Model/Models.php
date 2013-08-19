@@ -1312,7 +1312,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      *
      * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
      *
-     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @param Magento_CustomerSegment_Model_Segment $model
      * @return void
      */
     public function customerSegmentSaveBefore($model)
@@ -1325,7 +1325,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      *
      * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
      *
-     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @param Magento_CustomerSegment_Model_Segment $model
      * @return void
      */
     public function customerSegmentDeleteBefore($model)
@@ -1338,7 +1338,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      *
      * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
      *
-     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @param Magento_CustomerSegment_Model_Segment $model
      * @return void
      */
     public function customerSegmentLoadAfter($model)

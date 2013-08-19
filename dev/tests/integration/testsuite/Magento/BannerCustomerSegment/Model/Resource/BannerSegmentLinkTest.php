@@ -27,7 +27,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
 
     /**
      * @magentoDataFixture Magento/Banner/_files/banner.php
-     * @magentoDataFixture Enterprise/CustomerSegment/_files/segment_developers.php
+     * @magentoDataFixture Magento/CustomerSegment/_files/segment_developers.php
      * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
      * @dataProvider saveLoadBannerSegmentsDataProvider
      * @param string $bannerName
@@ -135,8 +135,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     {
         $result = array();
         foreach ($segmentNames as $segmentName) {
-            /** @var $segment Enterprise_CustomerSegment_Model_Segment */
-            $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
+            /** @var $segment Magento_CustomerSegment_Model_Segment */
+            $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

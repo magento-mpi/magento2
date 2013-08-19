@@ -9,7 +9,7 @@
  */
 return array(
     array('_eventData', 'Magento_Logging_Block_Adminhtml_Container'),
-    array('_customerSegments', 'Enterprise_CustomerSegment_Model_Customer'),
+    array('_customerSegments', 'Magento_CustomerSegment_Model_Customer'),
     array('_limit', 'Magento_Search_Model_Resource_Index'),
     array('_amountCache', 'Magento_GiftCard_Block_Catalog_Product_Price'),
     array('_minMaxCache', 'Magento_GiftCard_Block_Catalog_Product_Price'),

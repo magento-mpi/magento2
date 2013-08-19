@@ -30,7 +30,7 @@ return array(
     array('getUrls', 'Magento_FullPageCache_Model_Crawler'),
     array('getUrlStmt', 'Magento_FullPageCache_Model_Resource_Crawler'),
     array('_getLinkCollection', 'Magento_TargetRule_Block_Checkout_Cart_Crosssell'),
-    array('getCustomerSegments', 'Enterprise_CustomerSegment_Model_Resource_Customer'),
+    array('getCustomerSegments', 'Magento_CustomerSegment_Model_Resource_Customer'),
     array('getRequestUri', 'Magento_FullPageCache_Model_Processor_Default'),
     array('_getActiveEntity', 'Magento_GiftRegistry_Controller_Index'),
     array('getActiveEntity', 'Magento_GiftRegistry_Model_Entity'),
