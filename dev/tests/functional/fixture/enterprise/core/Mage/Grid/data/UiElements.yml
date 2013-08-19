@@ -549,3 +549,38 @@ customer_segment_report:
         3: Status
         4: Website
         5: Customers
+
+#dataset for ui elements Customer Segment Report Detail grid
+customer_segment_report_detail:
+    fieldset:
+        customer_segment_report_detail_grid: tablename
+    button:
+        reset_filter: ~
+        search: ~
+        export: ~
+        back: ~
+        refresh_data: ~
+    field:
+        id_from: ~
+        id_to:  ~
+        name: ~
+        email: ~
+        phone: ~
+        zip: ~
+        state: ~
+        customer_from: ~
+        customer_to: ~
+    dropdown:
+        view_per_page: ~
+        group: ~
+        country: ~
+    headers:
+        0: ID
+        1: Name
+        2: Email
+        3: Group
+        4: Phone
+        5: ZIP
+        6: Country
+        7: State/Province
+        8: Customer Since

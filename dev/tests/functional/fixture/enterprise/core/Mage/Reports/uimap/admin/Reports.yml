@@ -141,3 +141,35 @@ customer_wishlist_report:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_status: //select[@id='gridReportWishlists_filter_visibility']
+
+# Customer Segment Report page
+customer_segment_report_detail:
+    mca: report_customer_customersegment/detail/segment_id/%id%/
+    title: Details / Customer Segment Report / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customer_segment_report_detail_grid:
+                        xpath: //div[@id='segmentGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            export: //button[span='Export']
+                        fields:
+                            id_from: //input[@id='segmentGrid_filter_grid_entity_id_from']
+                            id_to: //input[@id='segmentGrid_filter_grid_entity_id_to']
+                            name: //input[@id='segmentGrid_filter_grid_name']
+                            email: //input[@id='segmentGrid_filter_grid_email']
+                            phone: //input[@id='segmentGrid_filter_grid_telephone']
+                            zip: //input[@id='segmentGrid_filter_grid_billing_postcode']
+                            state: //input[@id='segmentGrid_filter_grid_billing_region']
+                            customer_from: //input[@name='grid_customer_since[from]']
+                            customer_to: //input[@name='grid_customer_since[to]']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            group: //select[@id='segmentGrid_filter_grid_group']
+                            country: //select[@id='segmentGrid_filter_grid_billing_country_id']
+            buttons:
+                back: //button[@id='back']
+                refresh_data: //button[@id='refresh']
