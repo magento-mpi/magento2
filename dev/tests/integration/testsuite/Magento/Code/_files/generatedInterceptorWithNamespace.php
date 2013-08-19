@@ -1,6 +1,13 @@
 <?php
 namespace Magento\Code\Generator\TestAsset;
-
+/**
+ * Interceptor class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 class SourceClassWithNamespaceInterceptor extends \Magento\Code\Generator\TestAsset\SourceClassWithNamespace
 {
     /**

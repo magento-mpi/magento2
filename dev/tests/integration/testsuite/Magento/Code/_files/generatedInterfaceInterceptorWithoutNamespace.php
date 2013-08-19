@@ -1,4 +1,12 @@
 <?php
+/**
+ * Interceptor class for Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 class Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespaceInterceptor implements \Magento_Code_Generator_TestAsset_SourceInterfaceWithoutNamespace
 {
     /**
