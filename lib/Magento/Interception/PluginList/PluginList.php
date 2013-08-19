@@ -51,6 +51,7 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
      * @param Magento_ObjectManager_Relations $relations
      * @param Magento_ObjectManager_Config $omConfig
      * @param Magento_Interception_Definition $definitions
+     * @param array $scopePriorityScheme
      * @param Magento_ObjectManager_Definition_Compiled $classDefinitions
      * @param string $cacheId
      */
@@ -61,14 +62,16 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
         Magento_ObjectManager_Relations $relations,
         Magento_ObjectManager_Config $omConfig,
         Magento_Interception_Definition $definitions,
+        array $scopePriorityScheme,
         Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
-        $cacheId
+        $cacheId = 'plugins'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
         $this->_omConfig = $omConfig;
         $this->_relations = $relations;
         $this->_definitions = $definitions;
         $this->_classDefinitions = $classDefinitions;
+        $this->_scopePriorityScheme = $scopePriorityScheme;
     }
 
     /**

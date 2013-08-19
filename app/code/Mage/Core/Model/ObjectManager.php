@@ -21,6 +21,8 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
      * @param array $sharedInstances
      * @param Mage_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader
      * @throws Magento_BootstrapException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $primaryConfig,

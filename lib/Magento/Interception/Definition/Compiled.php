@@ -1,6 +1,6 @@
 <?php
 /**
- * Compiled method plugin definitions. The
+ * Compiled method plugin definitions. Must be used in production for maximum performance
  *
  * {license_notice}
  * 

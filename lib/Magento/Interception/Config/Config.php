@@ -66,13 +66,6 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     protected $_configScope;
 
     /**
-     * Scope inheritance scheme
-     *
-     * @var array
-     */
-    protected $_scopePriorityScheme = array('global');
-
-    /**
      * Inherited list of intercepted types
      *
      * @var array
@@ -87,7 +80,7 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
      * @param Magento_ObjectManager_Config $omConfig
      * @param Magento_ObjectManager_Definition_Compiled $classDefinitions
      * @param Magento_Interception_CodeGenerator $codeGenerator
-     * @param $cacheId
+     * @param string $cacheId
      */
     public function __construct(
         Magento_Config_ReaderInterface $reader,
@@ -97,7 +90,7 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
         Magento_ObjectManager_Config $omConfig,
         Magento_ObjectManager_Definition_Compiled $classDefinitions = null,
         Magento_Interception_CodeGenerator $codeGenerator = null,
-        $cacheId
+        $cacheId = 'interception'
     ) {
         $this->_omConfig = $omConfig;
         $this->_relations = $relations;
@@ -139,9 +132,6 @@ class Magento_Interception_Config_Config implements Magento_Interception_Config
     protected function _inheritInterception($type)
     {
         if (!isset($this->_intercepted[$type])) {
-            if (isset($this->_intercepted[$type])) {
-                return true;
-            }
             $realType = $this->_omConfig->getInstanceType($type);
             if ($type !== $realType) {
                 if ($this->_inheritInterception($realType)) {

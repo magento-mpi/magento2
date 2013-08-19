@@ -60,18 +60,7 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
         $omConfigMock = $this->getMock('Magento_ObjectManager_Config');
         $omConfigMock->expects($this->any())
             ->method('getInstanceType')
-            ->will($this->returnValueMap(array(
-                array('Custom_Module_Model_Item', 'Custom_Module_Model_Item'),
-                array('Custom_Module_Model_Item_Enhanced', 'Custom_Module_Model_Item_Enhanced'),
-                array('Custom_Module_Model_ItemContainer', 'Custom_Module_Model_ItemContainer'),
-                array('Custom_Module_Model_ItemContainer_Enhanced', 'Custom_Module_Model_ItemContainer_Enhanced'),
-                array(
-                    'Custom_Module_Model_ItemContainerPlugin_Simple',
-                    'Custom_Module_Model_ItemContainerPlugin_Simple'
-                ),
-                array('Custom_Module_Model_ItemPlugin_Simple', 'Custom_Module_Model_ItemPlugin_Simple'),
-                array('Custom_Module_Model_ItemPlugin_Advanced', 'Custom_Module_Model_ItemPlugin_Advanced'),
-            )));
+            ->will($this->returnArgument(0));
         $this->_model = new Magento_Interception_PluginList_PluginList(
             $reader,
             $this->_configScopeMock,
@@ -79,6 +68,7 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
             new Magento_ObjectManager_Relations_Runtime(),
             $omConfigMock,
             new Magento_Interception_Definition_Runtime(),
+            array('global'),
             null,
             'interception'
         );
