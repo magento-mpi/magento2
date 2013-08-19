@@ -11,8 +11,6 @@
  */
 class Mage_Webhook_Model_Source_Authentication
 {
-    /** @var Mage_Core_Model_Translate $_translator */
-    private $_translator;
 
     /** @var array $_authenticationTypes */
     private $_authenticationTypes;
@@ -20,11 +18,9 @@ class Mage_Webhook_Model_Source_Authentication
 
     /**
      * @param array $authenticationTypes
-     * @param Mage_Core_Model_Translate $translator
      */
-    public function __construct(array $authenticationTypes, Mage_Core_Model_Translate $translator)
+    public function __construct(array $authenticationTypes)
     {
-        $this->_translator = $translator;
         $this->_authenticationTypes = $authenticationTypes;
     }
 
@@ -49,7 +45,7 @@ class Mage_Webhook_Model_Source_Authentication
         $elements = array();
         foreach ($this->_authenticationTypes as $authName => $authentication) {
             $elements[] = array(
-                'label' => $this->_translator->translate(array($authentication)),
+                'label' => __($authentication),
                 'value' => $authName,
             );
         }

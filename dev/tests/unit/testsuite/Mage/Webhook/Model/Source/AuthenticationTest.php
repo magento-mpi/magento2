@@ -14,12 +14,12 @@ class Mage_Webhook_Model_Source_AuthenticationTest extends Mage_Webhook_Model_So
 {
     public function testGetAuthenticationsForForm()
     {
-        $unitUnderTest = new Mage_Webhook_Model_Source_Authentication(array('type' => 'blah'), $this->_mockTranslate);
+        $unitUnderTest = new Mage_Webhook_Model_Source_Authentication(array('type' => 'blah'));
         $elements = $unitUnderTest->getAuthenticationsForForm();
         $this->_assertElements($elements);
 
         // Verify that we return cached results
         $secondResult = $unitUnderTest->getAuthenticationsForForm();
-        $this->assertSame($elements, $secondResult);
+        $this->assertEquals($elements, $secondResult);
     }
 }

@@ -19,9 +19,6 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     private $_subscriptionMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_userFactory;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionSet;
 
     /** @var Mage_Webhook_Service_SubscriptionV1 */
@@ -59,16 +56,12 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue($this->_subscriptionMock));
 
-        $this->_userFactory = $this->getMockBuilder('Mage_Webhook_Model_User_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_subscriptionSet = $this->getMockBuilder('Mage_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_service = new Mage_Webhook_Service_SubscriptionV1(
             $this->_subscriptionFactory,
-            $this->_userFactory,
             $this->_subscriptionSet
         );
     }
@@ -452,41 +445,6 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
 
         $this->_service->revoke(self::VALUE_SUBSCRIPTION_ID);
     }
-
-    public function testValidateOwnership()
-    {
-        $this->_subscriptionMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnSelf());
-
-        $apiUserId = 42;
-        $this->_subscriptionMock->expects($this->once())
-            ->method('getApiUserId')
-            ->will($this->returnValue($apiUserId));
-
-        $this->_service->validateOwnership($apiUserId, self::VALUE_SUBSCRIPTION_ID);
-
-        // validate no exception is thrown
-    }
-
-    /**
-     * @expectedException Mage_Webhook_Exception
-     * @expectedExceptionMessage permission
-     */
-    public function testValidateOwnershipFailed()
-    {
-        $this->_subscriptionMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnSelf());
-
-        $apiUserId = 42;
-        $this->_subscriptionMock->expects($this->once())
-            ->method('getApiUserId')
-            ->will($this->returnValue(0));
-
-        $this->_service->validateOwnership($apiUserId, self::VALUE_SUBSCRIPTION_ID);
-    }
-
 
     /**
      * Mocks subscription not finding any restricted topics

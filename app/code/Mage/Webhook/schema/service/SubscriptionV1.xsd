@@ -133,11 +133,6 @@
                     <xsd:documentation>Subscription subscribed topics</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="version" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>Subscription Version</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
             <xsd:element name="status" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>Subscription Status</xsd:documentation>

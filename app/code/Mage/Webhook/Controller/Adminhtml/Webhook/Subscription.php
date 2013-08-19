@@ -129,9 +129,9 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
                     isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
                     && $subscriptionData[self::DATA_SUBSCRIPTION_ID]
                 ) {
-                    $this->_subscriptionService->create($subscriptionData);
-                } else {
                     $this->_subscriptionService->update($subscriptionData);
+                } else {
+                    $this->_subscriptionService->create($subscriptionData);
                 }
                 $this->_getSession()->addSuccess(
                     __('The subscription \'%1\' has been saved.',

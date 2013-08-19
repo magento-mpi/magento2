@@ -42,9 +42,9 @@ class Mage_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
                     array(
                          'data' => array(
                              'event'        => $event,
-                             'subscription' => $subscription,
-                             'status'       => Magento_PubSub_JobInterface::READY_TO_SEND
-                         ))
+                             'subscription' => $subscription
+                         )
+                    )
                 )
             )
             ->will($this->returnValue($job));
