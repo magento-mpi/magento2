@@ -14,12 +14,12 @@ class Mage_Webhook_Model_Source_FormatTest extends Mage_Webhook_Model_Source_Pkg
 {
     public function testGetFormatsForForm()
     {
-        $unitUnderTest = new Mage_Webhook_Model_Source_Format(array('type' => 'blah'), $this->_mockTranslate);
+        $unitUnderTest = new Mage_Webhook_Model_Source_Format(array('type' => 'blah'));
         $elements = $unitUnderTest->getFormatsForForm();
         $this->_assertElements($elements);
 
         // Verify that we return cached results
         $secondResult = $unitUnderTest->getFormatsForForm();
-        $this->assertSame($elements, $secondResult);
+        $this->assertEquals($elements, $secondResult);
     }
 }

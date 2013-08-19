@@ -55,7 +55,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Te
         $this->_setStub($this->_formFactoryMock, 'create', $this->_dataFormMock);
         $this->_fieldsetMock = $this->_makeMock('Magento_Data_Form_Element_Fieldset');
         $this->_setStub($this->_dataFormMock, 'addFieldset', $this->_fieldsetMock);
-        $this->_fieldsetMock->expects($this->exactly(6))
+        $this->_fieldsetMock->expects($this->atLeastOnce())
             ->method('addField')
             ->will($this->returnCallback(array($this, 'logAddFieldArguments')));
 
@@ -90,7 +90,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Te
         // Intended to call _prepareColumns
         $this->_formMock->toHtml();
 
-        $expectedIds = array('name', 'endpoint_url', 'format', 'authentication_type', 'version', 'topics');
+        $expectedIds = array('name', 'endpoint_url', 'format', 'authentication_type', 'topics');
         $this->assertEquals($expectedIds, $this->_actualIds);
     }
 

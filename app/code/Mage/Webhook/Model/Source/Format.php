@@ -11,9 +11,6 @@
  */
 class Mage_Webhook_Model_Source_Format
 {
-    /** @var Mage_Core_Model_Translate  */
-    private $_translator;
-
     /** @var string[] $_formats */
     private $_formats;
 
@@ -25,12 +22,10 @@ class Mage_Webhook_Model_Source_Format
     protected $_options = null;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
      * @param string[] $formats
      */
-    public function __construct(array $formats, Mage_Core_Model_Translate $translator)
+    public function __construct(array $formats)
     {
-        $this->_translator = $translator;
         $this->_formats = $formats;
     }
 
@@ -54,7 +49,7 @@ class Mage_Webhook_Model_Source_Format
         $elements = array();
         foreach ($this->_formats as $formatName => $format) {
             $elements[] = array(
-                'label' => $this->_translator->translate(array($format)),
+                'label' => __($format),
                 'value' => $formatName,
             );
         }
