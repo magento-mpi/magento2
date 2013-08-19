@@ -186,7 +186,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
+            Integrity_DependencyTest::TYPE_HARD =>
             '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
                 . '(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
@@ -209,7 +209,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
+            Integrity_DependencyTest::TYPE_HARD =>
             '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
@@ -230,7 +230,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
+            Integrity_DependencyTest::TYPE_HARD =>
             '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
@@ -251,7 +251,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
+            Integrity_DependencyTest::TYPE_HARD =>
             '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
                 . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
         );
@@ -272,7 +272,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
         );
@@ -303,7 +303,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
                     if ($currentModule != $moduleName) {
                         $dependencies[] = array(
                             'module' => $moduleName,
-                            'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                            'type' => Integrity_DependencyTest::TYPE_SOFT,
                             'source' => $item['source'],
                         );
                     }
@@ -335,7 +335,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
                 $module = isset($check['module']) ? $check['module'] : null;
                 if ($module) {
                     $result[$module] = array(
-                        'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
+                        'type' => Integrity_DependencyTest::TYPE_HARD,
                         'source' => $match['source'],
                     );
                 }

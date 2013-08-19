@@ -204,7 +204,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
@@ -226,10 +226,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_HARD =>
+            Integrity_DependencyTest::TYPE_HARD =>
             '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
@@ -253,16 +253,16 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
-            Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT =>
+            Integrity_DependencyTest::TYPE_SOFT =>
             '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
         );
@@ -292,7 +292,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                    'type' => Integrity_DependencyTest::TYPE_SOFT,
                     'source' => $element->getName(),
                 );
             }
@@ -323,7 +323,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
+                    'type' => Integrity_DependencyTest::TYPE_HARD,
                     'source' => (string)$element,
                 );
             }
@@ -354,7 +354,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                    'type' => Integrity_DependencyTest::TYPE_SOFT,
                     'source' => (string)$element,
                 );
             }
@@ -385,7 +385,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             $module = isset($check['module']) ? $check['module'] : null;
             if ($module) {
                 $result[$module] = array(
-                    'type' => Integrity_DependencyTest::DEPENDENCY_TYPE_SOFT,
+                    'type' => Integrity_DependencyTest::TYPE_SOFT,
                     'source' => (string)$element,
                 );
             }

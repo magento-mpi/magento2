@@ -24,7 +24,7 @@ class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleI
      */
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if (!in_array($fileType, array('php', 'config'))) {
+        if (!in_array($fileType, array('php'))) {
             return array();
         }
 
@@ -40,7 +40,7 @@ class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleI
                 }
                 $dependenciesInfo[] = array(
                     'module' => $referenceModule,
-                    'type'   => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
+                    'type'   => Integrity_DependencyTest::TYPE_HARD,
                     'source' => trim($matches['class'][$i]),
                 );
             }

@@ -13,27 +13,17 @@
 class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Name of errors report file
-     */
-    const ERROR_REPORT_FILE = 'dependencies_error.xml';
-
-    /**
-     * Name of dependencies report file
-     */
-    const DEPENDENCIES_REPORT_FILE = 'dependencies_report.xml';
-
-    /**
      * Types of dependencies between modules
      */
-    const DEPENDENCY_TYPE_SOFT = 'soft';
-    const DEPENDENCY_TYPE_HARD = 'hard';
+    const TYPE_SOFT = 'soft';
+    const TYPE_HARD = 'hard';
 
     /**
-     * Path to report directory
-     *
-     * @var string
+     * Types of dependencies map arrays
      */
-    protected static $_reportDir = '';
+    const MAP_TYPE_DECLARED      = 'declared';
+    const MAP_TYPE_FOUND         = 'found';
+    const MAP_TYPE_REDUNDANT     = 'redundant';
 
     /**
      * List of config.xml files by modules
@@ -82,18 +72,18 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_mapLayoutHandles = array();
 
     /**
-     * Modules dependencies map
+     * List of dependencies
      *
+     * Format: array(
+     *  '{Module_Name}' => array(
+     *   '{Type}' => array(
+     *    'declared'  = array('{Dependency}', ...)
+     *    'found'     = array('{Dependency}', ...)
+     *    'redundant' = array('{Dependency}', ...)
+     * )))
      * @var array
      */
-    protected static $_modulesDependencies = array();
-
-    /**
-     * Modules dependency results
-     *
-     * @var array
-     */
-    protected static $_modulesDependencyResults = array();
+    protected static $_mapDependencies = array();
 
     /**
      * Regex pattern for validation file path of theme
@@ -129,6 +119,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         self::_prepareListConfigXml();
 
+        self::_initDependencies();
+
         self::_prepareMapRouters();
         self::_prepareMapLayoutBlocks();
         self::_prepareMapLayoutHandles();
@@ -142,17 +134,15 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected static function _instantiateConfiguration()
     {
-        self::$_modulesDependencies = array();
-
         $defaultThemes = array();
         foreach (self::$_listConfigXml as $module => $file) {
             $config = simplexml_load_file($file);
 
-            // TODO: change 'sequence' to 'depends'
-            $nodes = $config->xpath("/config/modules/$module/sequence/*") ?: array();
+            $nodes = $config->xpath("/config/modules/$module/depends/*") ?: array();
             foreach ($nodes as $node) {
                 /** @var SimpleXMLElement $node */
-                self::$_modulesDependencies[$module][] = $node->getName();
+                $type = ($node->attributes()->type == self::TYPE_SOFT) ? self::TYPE_SOFT : self::TYPE_HARD;
+                self::_addDependencies($module, $type, self::MAP_TYPE_DECLARED, $node->getName());
             }
 
             $nodes = $config->xpath("/config/*/design/theme/full_name") ?: array();
@@ -246,7 +236,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getAllFiles
      */
-    public function testDependencies($fileType, $file)
+    public function testUndeclared($fileType, $file)
     {
         if (strpos($file, 'app/code') === false && !$this->_isThemeFile($file)) {
             return;
@@ -263,57 +253,146 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $rule->getDependencyInfo($module, $fileType, $file, $contents));
         }
 
-        // Collect undeclared dependencies
-        $declared = isset(self::$_modulesDependencies[$module]) ? self::$_modulesDependencies[$module] : array();
-        $undeclared = array();
-        foreach ($dependencies as $dependency) {
-            if (!in_array($dependency['module'], $declared)) {
-                $undeclared[] = $dependency;
-            }
-        }
+        // Collect dependencies
+        $undeclared = $this->_collectDependencies($module, $dependencies);
 
-        // Prepare output
-        if (count($undeclared)) {
-            $result = $this->_prepareOutput($undeclared);
+        // Prepare output message
+        $result = array();
+        foreach ($undeclared as $type => $modules) {
+            $modules = array_unique($modules);
+            if (!count($modules)) {
+                continue;
+            }
+            $result[] = sprintf("%s [%s]", $type, implode(', ', $modules));
+        }
+        if (count($result)) {
             $this->fail('Undeclared module dependencies found: ' . implode(', ', $result));
         }
     }
 
     /**
-     * Prepare output array
+     * Collect dependencies
      *
-     * Return array of strings: array(
-     *  '{DependencyType} [{ModuleName}, {ModuleName}, ...]',
-     * )
-     *
-     * @param array $items
+     * @param $currentModule
+     * @param array $dependencies
      * @return array
      */
-    protected function _prepareOutput($items = array())
+    protected function _collectDependencies($currentModule, $dependencies = array())
     {
-        $dependencies = array(
-            self::DEPENDENCY_TYPE_HARD => array(),
-            self::DEPENDENCY_TYPE_SOFT => array(),
-        );
-
-        foreach ($items as $item) {
-            if (isset($item['type']) && ($item['type'] == self::DEPENDENCY_TYPE_SOFT)) {
-                $dependencies[self::DEPENDENCY_TYPE_SOFT][$item['module']] = $item['module'];
-            } else {
-                $dependencies[self::DEPENDENCY_TYPE_HARD][$item['module']] = $item['module'];
-            }
+        if (!count($dependencies)) {
+            return array();
         }
 
-        $dependencies[self::DEPENDENCY_TYPE_SOFT] = array_diff($dependencies[self::DEPENDENCY_TYPE_SOFT],
-            $dependencies[self::DEPENDENCY_TYPE_HARD]);
+        $undeclared = array();
+        foreach ($dependencies as $dependency) {
+            $module = $dependency['module'];
+            $type = isset($dependency['type']) ? $dependency['type'] : self::TYPE_HARD;
 
-        $result = array();
-        foreach ($dependencies as $type => $modules) {
-            if (count($modules)) {
-                $result[] = sprintf("%s [%s]", $type, implode(', ', $modules));
+            $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
+            if (!in_array($module, $declared)) {
+                $undeclared[$type][] = $module;
+            }
+
+            $this->_addDependencies($currentModule, $type, self::MAP_TYPE_FOUND, $module);
+        }
+        return $undeclared;
+    }
+
+    /**
+     * Collect redundant dependencies
+     *
+     * @test
+     * @depends testUndeclared
+     */
+    public function collectRedundant()
+    {
+        foreach (array_keys(self::$_mapDependencies) as $module) {
+
+            // Override 'soft' dependencies with 'hard'
+            $soft = $this->_getDependencies($module, self::TYPE_SOFT, self::MAP_TYPE_FOUND);
+            $hard = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_FOUND);
+
+            $this->_setDependencies($module, self::TYPE_SOFT, self::MAP_TYPE_FOUND,
+                array_diff($soft, $hard));
+
+            foreach ($this->_getTypes() as $type) {
+                $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
+                $found = $this->_getDependencies($module, $type, self::MAP_TYPE_FOUND);
+
+                $this->_setDependencies($module, $type, self::MAP_TYPE_REDUNDANT,
+                    array_diff($declared, $found));
             }
         }
-        return $result;
+    }
+
+    /**
+     * Check redundant dependencies
+     *
+     * @depends collectRedundant
+     */
+    public function testRedundant()
+    {
+        $output = array();
+        foreach (array_keys(self::$_mapDependencies) as $module) {
+            $result = array();
+            foreach ($this->_getTypes() as $type) {
+                $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
+                if (count($redundant)) {
+                    $result[] = sprintf("\r\nModule %s: %s [%s]",
+                        $module, $type, implode(', ', array_values($redundant)));
+                }
+            }
+            $output[] = implode(', ', $result);
+        }
+        if (count($output)) {
+            $this->fail("Redundant dependencies found!\r\n" . implode(' ', $output));
+        }
+    }
+
+    /**
+     * Generate XML file for all dependencies
+     *
+     * @test
+     * @depends collectRedundant
+     */
+    public function generateXml()
+    {
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = true;
+
+        $configNode = $dom->createElement('config');
+        $modulesNode =  $dom->createElement('modules');
+
+        foreach (array_keys(self::$_mapDependencies) as $module) {
+
+            $moduleNameNode = $dom->createElement($module);
+            foreach ($this->_getTypes() as $type) {
+
+                $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
+                $found = $this->_getDependencies($module, $type, self::MAP_TYPE_FOUND);
+                $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
+
+                $realModules = array_diff($declared, $redundant);
+                $realModules = array_merge($realModules, $found);
+
+                if (count($realModules)) {
+                    $dependsNode = $dom->createElement('depends');
+                    $dependsNode->setAttribute('type', $type);
+
+                    foreach ($realModules as $realModule) {
+                        $dependencyNode = $dom->createElement($realModule);
+                        $dependsNode->appendChild($dependencyNode);
+                    }
+                    $moduleNameNode->appendChild($dependsNode);
+                }
+            }
+            $modulesNode->appendChild($moduleNameNode);
+        }
+
+        $configNode->appendChild($modulesNode);
+        $dom->appendChild($configNode);
+
+        $dom->save('modules.xml');
     }
 
     /**
@@ -378,13 +457,16 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $this->_prepareFiles('php', Utility_Files::init()->getPhpFiles(true, false, false, true)));
 
         // Get all configuration files
-        $files = array_merge($files, $this->_prepareFiles('config', Utility_Files::init()->getConfigFiles()));
+        $files = array_merge($files,
+            $this->_prepareFiles('config', Utility_Files::init()->getConfigFiles()));
 
         //Get all layout updates files
-        $files = array_merge($files, $this->_prepareFiles('layout', Utility_Files::init()->getLayoutFiles()));
+        $files = array_merge($files,
+            $this->_prepareFiles('layout', Utility_Files::init()->getLayoutFiles()));
 
         // Get all template files
-        $files = array_merge($files, $this->_prepareFiles('template', Utility_Files::init()->getPhtmlFiles()));
+        $files = array_merge($files,
+            $this->_prepareFiles('template', Utility_Files::init()->getPhtmlFiles()));
 
         return $files;
     }
@@ -512,6 +594,94 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                     self::$_mapLayoutHandles[$area][$handle][$module] = $module;
                 }
             }
+        }
+    }
+
+    /**
+     * Retrieve dependency types array
+     *
+     * @return array
+     */
+    protected function _getTypes()
+    {
+        return array(
+            self::TYPE_HARD,
+            self::TYPE_SOFT,
+        );
+    }
+
+    /**
+     * Initialise map of dependencies
+     */
+    protected function _initDependencies()
+    {
+        foreach (array_keys(self::$_listConfigXml) as $module) {
+            if (!isset(self::$_mapDependencies[$module])) {
+                self::$_mapDependencies[$module] = array();
+            }
+            foreach (self::_getTypes() as $type) {
+                if (!isset(self::$_mapDependencies[$module][$type])) {
+                    self::$_mapDependencies[$module][$type] = array(
+                        self::MAP_TYPE_DECLARED      => array(),
+                        self::MAP_TYPE_FOUND         => array(),
+                        self::MAP_TYPE_REDUNDANT     => array(),
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Add dependency map items
+     *
+     * @param $module
+     * @param $type
+     * @param $mapType
+     * @param $dependencies
+     */
+    protected function _addDependencies($module, $type, $mapType, $dependencies)
+    {
+        if (!is_array($dependencies)) {
+            $dependencies = array($dependencies);
+        }
+        foreach ($dependencies as $dependency) {
+            if (isset(self::$_mapDependencies[$module][$type][$mapType])) {
+                self::$_mapDependencies[$module][$type][$mapType][$dependency] = $dependency;
+            }
+        }
+    }
+
+    /**
+     * Retrieve array of dependency items
+     *
+     * @param $module
+     * @param $type
+     * @param $mapType
+     * @return array
+     */
+    protected function _getDependencies($module, $type, $mapType)
+    {
+        if (isset(self::$_mapDependencies[$module][$type][$mapType])) {
+            return self::$_mapDependencies[$module][$type][$mapType];
+        }
+        return array();
+    }
+
+    /**
+     * Set dependency map items
+     *
+     * @param $module
+     * @param $type
+     * @param $mapType
+     * @param $dependencies
+     */
+    protected function _setDependencies($module, $type, $mapType, $dependencies)
+    {
+        if (!is_array($dependencies)) {
+            $dependencies = array($dependencies);
+        }
+        if (isset(self::$_mapDependencies[$module][$type][$mapType])) {
+            self::$_mapDependencies[$module][$type][$mapType] = $dependencies;
         }
     }
 }

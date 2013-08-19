@@ -60,7 +60,7 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
                 if (strtolower($currentModule) !== strtolower($this->_moduleTableMap[$table])) {
                     $dependenciesInfo[] = array(
                         'module' => $this->_moduleTableMap[$table],
-                        'type'   => Integrity_DependencyTest::DEPENDENCY_TYPE_HARD,
+                        'type'   => Integrity_DependencyTest::TYPE_HARD,
                         'source' => $table,
                     );
                 }
