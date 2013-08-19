@@ -26,7 +26,7 @@ class Mage_Adminhtml_Controller_System_Variable extends Mage_Adminhtml_Controlle
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_Adminhtml::system_variable')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'));
+            ->_addBreadcrumb(__('Custom Variables'), __('Custom Variables'));
         return $this;
     }
 
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Controller_System_Variable extends Mage_Adminhtml_Controlle
      */
     protected function _initVariable()
     {
-        $this->_title($this->__('Custom Variables'));
+        $this->_title(__('Custom Variables'));
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Controller_System_Variable extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
-        $this->_title($this->__('Custom Variables'));
+        $this->_title(__('Custom Variables'));
 
         $this->_initLayout();
         $this->renderLayout();
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Controller_System_Variable extends Mage_Adminhtml_Controlle
     {
         $variable = $this->_initVariable();
 
-        $this->_title($variable->getId() ? $variable->getCode() : $this->__('New Custom Variable'));
+        $this->_title($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Variable_Edit'))
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Controller_System_Variable extends Mage_Adminhtml_Controlle
             try {
                 $variable->save();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('You saved the custom variable.')
+                    __('You saved the custom variable.')
                 );
                 if ($back) {
                     $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
@@ -153,7 +153,7 @@ class Mage_Adminhtml_Controller_System_Variable extends Mage_Adminhtml_Controlle
             try {
                 $variable->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('You deleted the customer.')
+                    __('You deleted the customer.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

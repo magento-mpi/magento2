@@ -51,7 +51,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label' => $this->__('Gift Card Sender'),
+                'label' => __('Gift Card Sender'),
                 'value' => $value
             );
         }
@@ -63,7 +63,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label' => $this->__('Gift Card Recipient'),
+                'label' => __('Gift Card Recipient'),
                 'value' => $value
             );
         }
@@ -71,7 +71,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
         $value = $this->prepareCustomOption($item, 'giftcard_message');
         if ($value) {
             $result[] = array(
-                'label' => $this->__('Gift Card Message'),
+                'label' => __('Gift Card Message'),
                 'value' => $value
             );
         }

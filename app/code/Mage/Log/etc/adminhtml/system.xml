@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="system">
-            <group id="log" translate="label" module="Mage_Log" type="text" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="log" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Log Cleaning</label>
                 <field id="clean_after_day" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Save Log, Days</label>

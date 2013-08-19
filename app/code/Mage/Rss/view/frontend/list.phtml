@@ -9,7 +9,7 @@
  */
 ?>
 <div class="page-title rss-title">
-    <h1><?php echo $this->__('RSS Feeds') ?></h1>
+    <h1><?php echo __('RSS Feeds') ?></h1>
 </div>
 <?php
     $_categories = $this->getRssCatalogFeeds();
@@ -22,14 +22,14 @@
     <col width="1" />
     <thead>
         <tr>
-            <th colspan="2"><?php echo $this->__('Miscellaneous Feeds') ?></th>
+            <th colspan="2"><?php echo __('Miscellaneous Feeds') ?></th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($_misc as $_feed): ?>
         <tr>
             <td><?php echo $_feed->getLabel() ?></td>
-            <td><a href="<?php echo $_feed->getUrl() ?>" class="link-rss"><?php echo $this->__('Get Feed'); ?></a></td>
+            <td><a href="<?php echo $_feed->getUrl() ?>" class="link-rss"><?php echo __('Get Feed'); ?></a></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -44,14 +44,14 @@
     <col width="1" />
     <thead>
         <tr>
-            <th colspan="2"><?php echo $this->__('Category Feeds') ?></th>
+            <th colspan="2"><?php echo __('Category Feeds') ?></th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($_categories as $_category): ?>
         <tr>
             <td><?php echo $_category->getLabel() ?></td>
-            <td><a href="<?php echo $_category->getUrl() ?>" class="link-rss"><?php echo $this->__('Get Feed'); ?></a></td>
+            <td><a href="<?php echo $_category->getUrl() ?>" class="link-rss"><?php echo __('Get Feed'); ?></a></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -64,5 +64,5 @@
     })(jQuery);
 </script>
 <?php else: ?>
-    <p><?php echo $this->__('There are no Rss Feeds.'); ?></p>
+    <p><?php echo __('There are no Rss Feeds.'); ?></p>
 <?php endif; ?>

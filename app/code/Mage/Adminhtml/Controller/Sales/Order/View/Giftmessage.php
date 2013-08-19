@@ -18,15 +18,6 @@
  */
 class Mage_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Mage_Adminhtml_Controller_Action
 {
-    /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
     public function saveAction()
     {
         try {
@@ -36,7 +27,7 @@ class Mage_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Mage_Adminh
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('Mage_GiftMessage_Helper_Data')->__('Something went wrong while saving the gift message.'));
+            $this->_getSession()->addError(__('Something went wrong while saving the gift message.'));
         }
 
         if($this->getRequest()->getParam('type')=='order_item') {
@@ -45,7 +36,7 @@ class Mage_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Mage_Adminh
             );
         } else {
             $this->getResponse()->setBody(
-                Mage::helper('Mage_GiftMessage_Helper_Data')->__('The gift message has been saved.')
+                __('The gift message has been saved.')
             );
         }
     }

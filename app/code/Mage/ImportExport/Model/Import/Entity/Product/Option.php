@@ -288,37 +288,37 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     {
         // @codingStandardsIgnoreStart
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_STORE,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option store.')
+            __('Invalid custom option store.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_TYPE,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option type.')
+            __('Invalid custom option type.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_EMPTY_TITLE,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Empty custom option title.')
+            __('Empty custom option title.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_PRICE,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option price.')
+            __('Invalid custom option price.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_MAX_CHARACTERS,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option maximum characters value.')
+            __('Invalid custom option maximum characters value.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_SORT_ORDER,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option sort order.')
+            __('Invalid custom option sort order.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_ROW_PRICE,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option value price.')
+            __('Invalid custom option value price.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_ROW_SORT,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option value sort order.')
+            __('Invalid custom option value sort order.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_NEW_NAMES,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Custom option with such title already declared in source file.')
+            __('Custom option with such title already declared in source file.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_OLD_NAMES,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('There are several existing custom options with such name.')
+            __('There are several existing custom options with such name.')
         );
         $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_TYPES,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Custom options have different types.')
+            __('Custom options have different types.')
         );
         // @codingStandardsIgnoreEnd
         return $this;
@@ -402,7 +402,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $this->_productEntity = $data['product_entity'];
         } else {
             Mage::throwException(
-                $this->_helper('Mage_ImportExport_Helper_Data')->__('Option entity must have a parent product entity.')
+                __('Option entity must have a parent product entity.')
             );
         }
         if (isset($data['collection_by_pages_iterator'])) {

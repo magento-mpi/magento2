@@ -43,10 +43,10 @@ class Enterprise_GiftRegistry_Model_Source_Search
     public function getTypes()
     {
         return array(
-            self::SEARCH_ALL_FORM => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('All Forms'),
-            self::SEARCH_NAME_FORM => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipient Name Search'),
-            self::SEARCH_EMAIL_FORM => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipient Email Search'),
-            self::SEARCH_ID_FORM => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry ID Search')
+            self::SEARCH_ALL_FORM => __('All Forms'),
+            self::SEARCH_NAME_FORM => __('Recipient Name Search'),
+            self::SEARCH_EMAIL_FORM => __('Recipient Email Search'),
+            self::SEARCH_ID_FORM => __('Gift Registry ID Search')
         );
     }
 }

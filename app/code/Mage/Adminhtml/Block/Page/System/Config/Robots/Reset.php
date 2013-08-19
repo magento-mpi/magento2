@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Page_System_Config_Robots_Reset extends Mage_Backend_
         $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'id'      => 'reset_to_default_button',
-                'label'   => $this->helper('Mage_Adminhtml_Helper_Data')->__('Reset to Default'),
+                'label'   => __('Reset to Default'),
                 'onclick' => 'javascript:resetRobotsToDefault(); return false;'
             ));
 

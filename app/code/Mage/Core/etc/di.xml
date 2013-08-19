@@ -23,6 +23,7 @@
     <preference for="Magento_PubSub_Event_FactoryInterface" type="Magento_PubSub_Event_Factory" />
     <preference for="Magento_PubSub_Message_DispatcherAsyncInterface" type="Magento_PubSub_Message_DispatcherAsync" />
     <preference for="Magento_Config_ConverterInterface" type="Magento_Config_Converter_Dom"/>
+    <preference for="Magento_Phrase_RendererInterface" type="Magento_Phrase_Renderer_Composite" />
     <type name="Magento_Data_Structure" shared="false" />
     <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">
@@ -180,6 +181,16 @@
     <type name="Mage_Core_Model_Theme_Image">
         <param name="uploader">
             <instance type="Mage_Core_Model_Theme_Image_UploaderProxy" />
+        </param>
+    </type>
+    <type name="Magento_Phrase_Renderer_Composite">
+        <param name="renderers">
+            <instance type="Magento_Phrase_Renderer_Translate" />
+        </param>
+    </type>
+    <type name="Magento_Phrase_Renderer_Translate">
+        <param name="translator">
+            <instance type="Mage_Core_Model_Translate" />
         </param>
     </type>
     <type name="Mage_Core_Model_Translate_InlineParser">

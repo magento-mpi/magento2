@@ -26,11 +26,11 @@ class Mage_Adminhtml_Block_Customer_Form_Element_Boolean extends Magento_Data_Fo
         parent::_construct();
         $this->setValues(array(
             array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No'),
+                'label' => __('No'),
                 'value' => '0',
             ),
             array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Yes'),
+                'label' => __('Yes'),
                 'value' => 1,
             )
         ));

@@ -190,7 +190,7 @@ abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstrac
 
         $this->_websites = array(
             0 => array(
-                'name' => Mage::helper('Mage_Catalog_Helper_Data')->__('All Websites'),
+                'name' => __('All Websites'),
                 'currency' => Mage::app()->getBaseCurrencyCode()
             )
         );

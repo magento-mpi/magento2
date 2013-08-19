@@ -24,7 +24,7 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
         $filename = Mage::getBaseDir('etc') . DS . 'local.xml';
         if (!is_writeable($filename)) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('To enable a key change this file must be writable: %s.', realpath($filename))
+                __('To enable a key change this file must be writable: %1.', realpath($filename))
             );
             return false;
         }
@@ -37,7 +37,7 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
      */
     public function indexAction()
     {
-        $this->_title($this->__('Encryption Key'));
+        $this->_title(__('Encryption Key'));
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();
@@ -66,7 +66,7 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
             if (0 == $this->getRequest()->getPost('generate_random')) {
                 $key = $this->getRequest()->getPost('crypt_key');
                 if (empty($key)) {
-                    throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('Please enter an encryption key.'));
+                    throw new Exception(__('Please enter an encryption key.'));
                 }
                 Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
             }
@@ -75,11 +75,11 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
                 ->changeEncryptionKey($key);
             Mage::getSingleton('Mage_Adminhtml_Model_Session')
                     ->addSuccess(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('The encryption key has been changed.')
+                __('The encryption key has been changed.')
             );
 
             if (!$key) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_Pci_Helper_Data')->__('This is your new encryption key: <span style="font-family:monospace;">%s</span>. Be sure to write it down and take good care of it!', $newKey));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(__('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey));
             }
             Mage::app()->cleanCache();
         }

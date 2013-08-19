@@ -22,12 +22,12 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit_Form extends Mage_Adminhtml_Block_Wi
     {
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('edit_answer_form', array('legend' => Mage::helper('Mage_Poll_Helper_Data')->__('Edit Poll Answer')));
+        $fieldset = $form->addFieldset('edit_answer_form', array('legend' => __('Edit Poll Answer')));
 
         $fieldset->addField('answer_title', 'text', array(
                     'name'      => 'answer_title',
-                    'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title'),
-                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Answer Title'),
+                    'title'     => __('Answer Title'),
+                    'label'     => __('Answer Title'),
                     'required'  => true,
                     'class'     => 'required-entry',
                 )
@@ -35,8 +35,8 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit_Form extends Mage_Adminhtml_Block_Wi
 
         $fieldset->addField('votes_count', 'text', array(
                     'name'      => 'votes_count',
-                    'title'     => Mage::helper('Mage_Poll_Helper_Data')->__('Votes Count'),
-                    'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Votes Count'),
+                    'title'     => __('Votes Count'),
+                    'label'     => __('Votes Count'),
                     'class'     => 'validate-not-negative-number'
                 )
         );

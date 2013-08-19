@@ -74,9 +74,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
-            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
-            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
+            '==' => __('for'),
+            '>'  => __('for greater than'),
+            '>=' => __('for or greater than')
         ));
         return $this;
     }
@@ -99,7 +99,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart is not empty and abandoned %s %s days and %s of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -114,7 +114,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('The root shopping cart condition should have a days value of 0 or greater.'));
+            Mage::throwException(__('The root shopping cart condition should have a days value of 0 or greater.'));
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');

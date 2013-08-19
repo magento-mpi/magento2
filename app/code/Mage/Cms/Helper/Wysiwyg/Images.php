@@ -215,7 +215,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
                     $this->_filesystem->createDirectory($currentPath);
                 }
             } catch (Magento_Filesystem_Exception $e) {
-                $message = Mage::helper('Mage_Cms_Helper_Data')->__('The directory %s is not writable by server.', $currentPath);
+                $message = __('The directory %1 is not writable by server.', $currentPath);
                 Mage::throwException($message);
             }
             $this->_currentPath = $currentPath;

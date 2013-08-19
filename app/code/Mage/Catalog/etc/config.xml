@@ -78,13 +78,13 @@
         <catalog>
             <product>
                 <type>
-                    <simple translate="label" module="Mage_Catalog">
+                    <simple translate="label">
                         <label>Simple Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Simple</model>
                         <composite>0</composite>
                         <index_priority>10</index_priority>
                     </simple>
-                    <grouped translate="label" module="Mage_Catalog">
+                    <grouped translate="label">
                         <label>Grouped Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Grouped</model>
                         <price_model>Mage_Catalog_Model_Product_Type_Grouped_Price</price_model>
@@ -96,7 +96,7 @@
                         <index_priority>50</index_priority>
                         <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped</price_indexer>
                     </grouped>
-                    <configurable translate="label" module="Mage_Catalog">
+                    <configurable translate="label">
                         <label>Configurable Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Configurable</model>
                         <price_model>Mage_Catalog_Model_Product_Type_Configurable_Price</price_model>
@@ -108,7 +108,7 @@
                         <index_priority>30</index_priority>
                         <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable</price_indexer>
                     </configurable>
-                    <virtual translate="label" module="Mage_Catalog">
+                    <virtual translate="label">
                         <label>Virtual Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Virtual</model>
                         <composite>0</composite>
@@ -130,56 +130,56 @@
                 <options>
                     <custom>
                         <groups>
-                            <text translate="label" module="Mage_Adminhtml">
+                            <text translate="label">
                                 <label>Text</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
                                 <types>
-                                    <field translate="label" module="Mage_Adminhtml">
+                                    <field translate="label">
                                         <label>Field</label>
                                     </field>
-                                    <area translate="label" module="Mage_Adminhtml">
+                                    <area translate="label">
                                         <label>Area</label>
                                     </area>
                                 </types>
                             </text>
-                            <file translate="label" module="Mage_Adminhtml">
+                            <file translate="label">
                                 <label>File</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
                                 <types>
-                                    <file translate="label" module="Mage_Adminhtml">
+                                    <file translate="label">
                                         <label>File</label>
                                     </file>
                                 </types>
                             </file>
-                            <select translate="label" module="Mage_Adminhtml">
+                            <select translate="label">
                                 <label>Select</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
                                 <types>
-                                    <drop_down translate="label" module="Mage_Adminhtml">
+                                    <drop_down translate="label">
                                         <label>Drop-down</label>
                                     </drop_down>
-                                    <radio translate="label" module="Mage_Adminhtml">
+                                    <radio translate="label">
                                         <label>Radio Buttons</label>
                                     </radio>
-                                    <checkbox translate="label" module="Mage_Adminhtml">
+                                    <checkbox translate="label">
                                         <label>Checkbox</label>
                                     </checkbox>
-                                    <multiple translate="label" module="Mage_Adminhtml">
+                                    <multiple translate="label">
                                         <label>Multiple Select</label>
                                     </multiple>
                                 </types>
                             </select>
-                            <date translate="label" module="Mage_Adminhtml">
+                            <date translate="label">
                                 <label>Date</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
                                 <types>
-                                    <date translate="label" module="Mage_Adminhtml">
+                                    <date translate="label">
                                         <label>Date</label>
                                     </date>
-                                    <date_time translate="label" module="Mage_Adminhtml">
+                                    <date_time translate="label">
                                         <label>Date &amp; Time</label>
                                     </date_time>
-                                    <time translate="label" module="Mage_Adminhtml">
+                                    <time translate="label">
                                         <label>Time</label>
                                     </time>
                                 </types>

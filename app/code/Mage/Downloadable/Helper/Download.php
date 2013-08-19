@@ -72,7 +72,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
     protected function _getHandle()
     {
         if (!$this->_resourceFile) {
-            Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Please set resource file and link type.'));
+            Mage::throwException(__('Please set resource file and link type.'));
         }
 
         if (is_null($this->_handle)) {
@@ -84,10 +84,10 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                  */
                 $urlProp = parse_url($this->_resourceFile);
                 if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
-                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Please correct the download URL scheme.'));
+                    Mage::throwException(__('Please correct the download URL scheme.'));
                 }
                 if (!isset($urlProp['host'])) {
-                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Please correct the download URL host.'));
+                    Mage::throwException(__('Please correct the download URL host.'));
                 }
                 $hostname = $urlProp['host'];
 
@@ -112,7 +112,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
 
                 if ($this->_handle === false) {
-                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Something went wrong connecting to the host. Error: %s.', $errstr));
+                    Mage::throwException(__('Something went wrong connecting to the host. Error: %1.', $errstr));
                 }
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
@@ -144,7 +144,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
 
                 if (!isset($this->_urlHeaders['code']) || $this->_urlHeaders['code'] != 200) {
-                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Something went wrong while getting the requested content.'));
+                    Mage::throwException(__('Something went wrong while getting the requested content.'));
                 }
             }
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
@@ -154,12 +154,12 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
                 $this->_handle->open(array('path'=>Mage::getBaseDir('var')));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
-                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__("We can't find this file."));
+                    Mage::throwException(__("We can't find this file."));
                 }
                 $this->_handle->streamOpen($this->_resourceFile, 'r');
             }
             else {
-                Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Invalid download link type.'));
+                Mage::throwException(__('Invalid download link type.'));
             }
         }
         return $this->_handle;

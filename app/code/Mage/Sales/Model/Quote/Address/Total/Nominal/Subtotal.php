@@ -45,7 +45,7 @@ class Mage_Sales_Model_Quote_Address_Total_Nominal_Subtotal extends Mage_Sales_M
      */
     public function getLabel()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Regular Payment');
+        return __('Regular Payment');
     }
 
     /**

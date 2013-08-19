@@ -11,10 +11,10 @@
 -->
 <logging>
     <actions>
-        <apply_coupon translate="label" module="Enterprise_Checkout">
+        <apply_coupon translate="label">
             <label>Apply Coupon</label>
         </apply_coupon>
-        <add_to_cart translate="label" module="Enterprise_Checkout">
+        <add_to_cart translate="label">
             <label>Add to Cart</label>
         </add_to_cart>
     </actions>

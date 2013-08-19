@@ -26,7 +26,7 @@ class Mage_Webapi_Block_Adminhtml_User extends Mage_Backend_Block_Widget_Grid_Co
     {
         parent::_construct();
 
-        $this->_headerText = $this->__('API Users');
-        $this->_updateButton('add', 'label', $this->__('Add New API User'));
+        $this->_headerText = __('API Users');
+        $this->_updateButton('add', 'label', __('Add New API User'));
     }
 }

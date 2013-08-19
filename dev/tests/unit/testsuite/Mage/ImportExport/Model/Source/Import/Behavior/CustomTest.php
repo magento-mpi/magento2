@@ -36,7 +36,7 @@ class Mage_ImportExport_Model_Source_Import_Behavior_CustomTest
     public function setUp()
     {
         parent::setUp();
-        $this->_model = new Mage_ImportExport_Model_Source_Import_Behavior_Custom(array('helpers' => $this->_helpers));
+        $this->_model = new Mage_ImportExport_Model_Source_Import_Behavior_Custom(array());
     }
 
     /**

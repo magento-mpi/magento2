@@ -23,7 +23,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            //'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Remove Permission'),
+            //'label' => __('Remove Permission'),
             'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
             'disabled' => $this->isReadonly(),
             'type'  => 'button',
@@ -66,9 +66,9 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getGrants()
     {
         return array(
-            'grant_catalog_category_view' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Browsing Category'),
-            'grant_catalog_product_price' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Display Product Prices'),
-            'grant_checkout_items' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Add to Cart')
+            'grant_catalog_category_view' => __('Browsing Category'),
+            'grant_catalog_product_price' => __('Display Product Prices'),
+            'grant_checkout_items' => __('Add to Cart')
         );
     }
 

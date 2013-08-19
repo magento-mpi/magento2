@@ -54,7 +54,7 @@ class Mage_Checkout_Model_Type_Onepage
     public function __construct()
     {
         $this->_helper = Mage::helper('Mage_Checkout_Helper_Data');
-        $this->_customerEmailExistsMessage = Mage::helper('Mage_Checkout_Helper_Data')->__('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
+        $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
         $this->_customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
     }
@@ -170,7 +170,7 @@ class Mage_Checkout_Model_Type_Onepage
     public function saveCheckoutMethod($method)
     {
         if (empty($method)) {
-            return array('error' => -1, 'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid data'));
+            return array('error' => -1, 'message' => __('Invalid data'));
         }
 
         $this->getQuote()->setCheckoutMethod($method)->save();
@@ -205,7 +205,7 @@ class Mage_Checkout_Model_Type_Onepage
     public function saveBilling($data, $customerAddressId)
     {
         if (empty($data)) {
-            return array('error' => -1, 'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid data'));
+            return array('error' => -1, 'message' => __('Invalid data'));
         }
 
         $address = $this->getQuote()->getBillingAddress();
@@ -220,7 +220,7 @@ class Mage_Checkout_Model_Type_Onepage
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
-                        'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('The customer address is not valid.')
+                        'message' => __('The customer address is not valid.')
                     );
                 }
 
@@ -407,7 +407,7 @@ class Mage_Checkout_Model_Type_Onepage
     public function saveShipping($data, $customerAddressId)
     {
         if (empty($data)) {
-            return array('error' => -1, 'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid data'));
+            return array('error' => -1, 'message' => __('Invalid data'));
         }
         $address = $this->getQuote()->getShippingAddress();
 
@@ -422,7 +422,7 @@ class Mage_Checkout_Model_Type_Onepage
             if ($customerAddress->getId()) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
-                        'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('The customer address is not valid.')
+                        'message' => __('The customer address is not valid.')
                     );
                 }
 
@@ -479,11 +479,11 @@ class Mage_Checkout_Model_Type_Onepage
     public function saveShippingMethod($shippingMethod)
     {
         if (empty($shippingMethod)) {
-            return array('error' => -1, 'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid shipping method'));
+            return array('error' => -1, 'message' => __('Invalid shipping method'));
         }
         $rate = $this->getQuote()->getShippingAddress()->getShippingRateByCode($shippingMethod);
         if (!$rate) {
-            return array('error' => -1, 'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid shipping method'));
+            return array('error' => -1, 'message' => __('Invalid shipping method'));
         }
         $this->getQuote()->getShippingAddress()
             ->setShippingMethod($shippingMethod);
@@ -504,7 +504,7 @@ class Mage_Checkout_Model_Type_Onepage
     public function savePayment($data)
     {
         if (empty($data)) {
-            return array('error' => -1, 'message' => Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid data'));
+            return array('error' => -1, 'message' => __('Invalid data'));
         }
         $quote = $this->getQuote();
         if ($quote->isVirtual()) {
@@ -543,13 +543,13 @@ class Mage_Checkout_Model_Type_Onepage
     {
         $quote  = $this->getQuote();
         if ($quote->getIsMultiShipping()) {
-            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Invalid checkout type'));
+            Mage::throwException(__('Invalid checkout type'));
         }
 
         if ($quote->getCheckoutMethod() == self::METHOD_GUEST
             && !Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($quote)
         ) {
-            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('Sorry, guest checkout is not enabled.'));
+            Mage::throwException(__('Sorry, guest checkout is not enabled.'));
         }
     }
 
@@ -652,7 +652,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->sendNewAccountEmail('confirmation', '', $this->getQuote()->getStoreId());
             $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail('registered', '', $this->getQuote()->getStoreId());

@@ -13,7 +13,7 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_PageCache::page_cache" module="Mage_PageCache" title="External Page Cache" sortOrder="0" />
+                <resource id="Mage_PageCache::page_cache" title="External Page Cache" sortOrder="0" />
             </resource>
         </resources>
     </acl>

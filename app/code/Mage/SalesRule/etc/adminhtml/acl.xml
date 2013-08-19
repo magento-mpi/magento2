@@ -15,13 +15,13 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::marketing">
                     <resource id="Mage_CatalogRule::promo">
-                        <resource id="Mage_SalesRule::quote" module="Mage_SalesRule" sortOrder="30" title="Cart Price Rules" />
+                        <resource id="Mage_SalesRule::quote" sortOrder="30" title="Cart Price Rules" />
                     </resource>
                 </resource>
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_SalesRule::config_promo" module="Mage_SalesRule" title="Promotion" sortOrder="90"/>
+                            <resource id="Mage_SalesRule::config_promo" title="Promotion" sortOrder="90"/>
                         </resource>
                     </resource>
                 </resource>

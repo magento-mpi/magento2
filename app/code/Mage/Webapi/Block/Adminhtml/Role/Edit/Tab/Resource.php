@@ -91,7 +91,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         foreach ($resources as $resource) {
             $item = array();
             $item['id'] = $resource['id'];
-            $item['text'] = $translator->__($resource['title']);
+            $item['text'] = __($resource['title']);
             if (in_array($item['id'], $this->_getSelectedResourcesIds())) {
                 $item['checked'] = true;
             }

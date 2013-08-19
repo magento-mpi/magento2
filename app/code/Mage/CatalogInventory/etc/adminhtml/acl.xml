@@ -16,7 +16,7 @@
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_CatalogInventory::cataloginventory" module="Mage_CatalogInventory" title="Inventory Section" />
+                            <resource id="Mage_CatalogInventory::cataloginventory" title="Inventory Section" />
                         </resource>
                     </resource>
                 </resource>

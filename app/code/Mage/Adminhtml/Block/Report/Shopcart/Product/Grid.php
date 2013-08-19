@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>__('ID'),
             'align'     =>'right',
             'index'     =>'entity_id',
             'header_css_class'  => 'col-id',
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product'),
+            'header'    =>__('Product'),
             'index'     =>'name',
             'header_css_class'  => 'col-product',
             'column_css_class'  => 'col-product'
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Price'),
+            'header'    =>__('Price'),
             'type'      =>'currency',
             'currency_code' => $currencyCode,
             'index'     =>'price',
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('carts', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Carts'),
+            'header'    =>__('Carts'),
             'align'     =>'right',
             'index'     =>'carts',
             'header_css_class'  => 'col-carts',
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Orders'),
+            'header'    =>__('Orders'),
             'align'     =>'right',
             'index'     =>'orders',
             'header_css_class'  => 'col-qty',
@@ -82,8 +82,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportProductExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductCsv', __('CSV'));
+        $this->addExportType('*/*/exportProductExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

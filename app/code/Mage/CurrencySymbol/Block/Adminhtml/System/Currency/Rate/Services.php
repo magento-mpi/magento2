@@ -34,7 +34,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services extends 
                 ->setId('rate_services')
                 ->setName('rate_services')
                 ->setValue(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getCurrencyRateService(true))
-                ->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import Service'))
+                ->setTitle(__('Import Service'))
         );
 
         return parent::_prepareLayout();

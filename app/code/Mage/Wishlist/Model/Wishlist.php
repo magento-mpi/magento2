@@ -512,7 +512,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             $item = $this->getItem((int)$itemId);
         }
         if (!$item) {
-            Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('We can\'t specify a wish list item.'));
+            Mage::throwException(__('We can\'t specify a wish list item.'));
         }
 
         $product = $item->getProduct();
@@ -543,7 +543,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
              * Error message
              */
             if (is_string($resultItem)) {
-                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__($resultItem));
+                Mage::throwException(__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -557,7 +557,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('The product does not exist.'));
+            Mage::throwException(__('The product does not exist.'));
         }
         return $this;
     }

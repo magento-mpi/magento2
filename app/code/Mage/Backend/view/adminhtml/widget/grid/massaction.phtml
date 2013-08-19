@@ -17,7 +17,7 @@
             <?php echo $this->getBlockHtml('formkey')?>
             <fieldset>
                 <span class="field-row">
-                    <label><?php echo $this->__('Actions') ?>
+                    <label><?php echo __('Actions') ?>
                         <select id="<?php echo $this->getHtmlId() ?>-select" class="required-entry select absolute-advice local-validation"<?php echo $this->getUiId('select') ?>>
                             <option value=""></option>
                             <?php foreach ($this->getItems() as $_item):?>
@@ -48,20 +48,20 @@
     <ul>
         <?php if ($this->getUseSelectAll()):?>
             <li>
-                <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectAll()"<?php echo $this->getUiId('select','all','link') ?>><?php echo $this->__('Select All') ?></a>
+                <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectAll()"<?php echo $this->getUiId('select','all','link') ?>><?php echo __('Select All') ?></a>
             </li>
             <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectAll()"<?php echo $this->getUiId('unselect','all','link') ?>><?php echo $this->__('Unselect All') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectAll()"<?php echo $this->getUiId('unselect','all','link') ?>><?php echo __('Unselect All') ?></a>
             </li>
         <?php endif; ?>
         <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectVisible()"<?php echo $this->getUiId('select','visible','link') ?>><?php echo $this->__('Select Visible') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectVisible()"<?php echo $this->getUiId('select','visible','link') ?>><?php echo __('Select Visible') ?></a>
         </li>
         <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectVisible()"<?php echo $this->getUiId('unselect','visible','link') ?>><?php echo $this->__('Unselect Visible') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectVisible()"<?php echo $this->getUiId('unselect','visible','link') ?>><?php echo __('Unselect Visible') ?></a>
         </li>
         <li>
-            <strong id="<?php echo $this->getHtmlId() ?>-count">0</strong> <?php echo $this->__('items selected') ?>
+            <strong id="<?php echo $this->getHtmlId() ?>-count">0</strong> <?php echo __('items selected') ?>
         </li>
     </ul>
 </div>

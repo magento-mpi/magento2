@@ -84,7 +84,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
         $this->_totals['subtotal'] = new Magento_Object(array(
             'code'  => 'subtotal',
             'value' => $source->getSubtotal(),
-            'label' => $this->__('Subtotal')
+            'label' => __('Subtotal')
         ));
 
 
@@ -97,7 +97,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
                 'code'  => 'shipping',
                 'field' => 'shipping_amount',
                 'value' => $this->getSource()->getShippingAmount(),
-                'label' => $this->__('Shipping & Handling')
+                'label' => __('Shipping & Handling')
             ));
         }
 
@@ -106,9 +106,9 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
          */
         if (((float)$this->getSource()->getDiscountAmount()) != 0) {
             if ($this->getSource()->getDiscountDescription()) {
-                $discountLabel = $this->__('Discount (%s)', $source->getDiscountDescription());
+                $discountLabel = __('Discount (%1)', $source->getDiscountDescription());
             } else {
-                $discountLabel = $this->__('Discount');
+                $discountLabel = __('Discount');
             }
             $this->_totals['discount'] = new Magento_Object(array(
                 'code'  => 'discount',
@@ -123,7 +123,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
             'field'  => 'grand_total',
             'strong'=> true,
             'value' => $source->getGrandTotal(),
-            'label' => $this->__('Grand Total')
+            'label' => __('Grand Total')
         ));
 
         /**
@@ -133,7 +133,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
             $this->_totals['base_grandtotal'] = new Magento_Object(array(
                 'code'  => 'base_grandtotal',
                 'value' => $this->getOrder()->formatBasePrice($source->getBaseGrandTotal()),
-                'label' => $this->__('Grand Total to be Charged'),
+                'label' => __('Grand Total to be Charged'),
                 'is_formated' => true,
             ));
         }

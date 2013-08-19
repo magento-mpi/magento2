@@ -20,17 +20,17 @@
                 <action method="setPosition">
                     <value>20</value>
                 </action>
-                <action method="addLink" translate="label" module="Mage_Customer">
+                <action method="addLink" translate="label">
                     <name>account</name>
                     <path>customer/account/</path>
                     <label>Account Dashboard</label>
                 </action>
-                <action method="addLink" translate="label" module="Mage_Customer">
+                <action method="addLink" translate="label">
                     <name>account_edit</name>
                     <path>customer/account/edit/</path>
                     <label>Account Information</label>
                 </action>
-                <action method="addLink" translate="label" module="Mage_Customer">
+                <action method="addLink" translate="label">
                     <name>address_book</name>
                     <path>customer/address/</path>
                     <label>Address Book</label>

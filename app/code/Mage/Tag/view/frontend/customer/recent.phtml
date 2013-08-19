@@ -10,8 +10,8 @@
 ?>
 <div class="box-account box-tags">
     <div class="box-head">
-        <h2><?php echo $this->__('My Recent Tags') ?></h2>
-        <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo $this->__('View All Tags') ?></a>
+        <h2><?php echo __('My Recent Tags') ?></h2>
+        <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo __('View All Tags') ?></a>
     </div>
     <ol id="my_recent_tags">
         <?php $iterator = 0; ?>
@@ -21,7 +21,7 @@
                 <div class="details">
                     <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></h3>
                     <div class="tags">
-                        <strong><?php echo $this->__('Tags:') ?></strong>
+                        <strong><?php echo __('Tags:') ?></strong>
                         <?php $_i = 0; ?>
                         <ul>
                         <?php foreach( $_item->getProductTags() as $_tag ): ?>

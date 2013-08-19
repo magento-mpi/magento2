@@ -20,11 +20,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCustomerDetailCsv</urlPath>
-                                <label translate="true" module="Mage_Tag">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportCustomerDetailExcel</urlPath>
-                                <label translate="true" module="Mage_Tag">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -35,19 +35,19 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Product</header>
+                            <header translate="true">Product</header>
                             <index>original_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="tag_name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Tag</header>
+                            <header translate="true">Tag</header>
                             <index>tag_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Visibility</header>
+                            <header translate="true">Visibility</header>
                             <sortable>0</sortable>
                             <index>stores</index>
                             <type>store</type>
@@ -56,7 +56,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_in">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submit Locale</header>
+                            <header translate="true">Submit Locale</header>
                             <index>store_id</index>
                             <type>store</type>
                             <store_view>1</store_view>
@@ -64,7 +64,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submit Date</header>
+                            <header translate="true">Submit Date</header>
                             <index>created_at</index>
                             <width>140px</width>
                             <type>datetime</type>

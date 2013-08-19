@@ -36,7 +36,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'name',
-            'title' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag')
+            'title' => __('Tag')
         ));
         return $this;
     }

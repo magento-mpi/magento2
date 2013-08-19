@@ -319,3 +319,15 @@ function is_dir_writeable($dir)
     }
     return false;
 }
+
+/**
+ * Create value-object Magento_Phrase
+ *
+ * @return Magento_Phrase
+ */
+function __()
+{
+    $argc = func_get_args();
+
+    return new Magento_Phrase(array_shift($argc), $argc);
+}

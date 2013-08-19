@@ -166,20 +166,6 @@ abstract class Mage_Core_Helper_Abstract
     }
 
     /**
-     * Translate
-     *
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     * @return string
-     */
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getModuleName());
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
-    }
-
-    /**
      * Escape html entities
      *
      * @param   string|array $data
@@ -355,7 +341,7 @@ abstract class Mage_Core_Helper_Abstract
             if (is_array($v)) {
                 $v = self::translateArray($v);
             } elseif ($k === 'label') {
-                $v = self::__($v);
+                $v = __($v);
             }
             $arr[$k] = $v;
         }

@@ -34,7 +34,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders extends Mage_
      */
     public function getTabLabel()
     {
-        return $this->__('Related Orders');
+        return __('Related Orders');
     }
 
     /**
@@ -44,7 +44,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders extends Mage_
      */
     public function getTabTitle()
     {
-        return $this->__('Related Orders');
+        return __('Related Orders');
     }
 
     /**

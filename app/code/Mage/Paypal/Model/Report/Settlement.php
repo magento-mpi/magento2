@@ -187,7 +187,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
             $localCsv = tempnam(Mage::getBaseDir(Mage_Core_Model_Dir::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
-                    Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('We cannot create a target file for reading reports.'));
+                    Mage::throwException(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = file_get_contents($localCsv);
@@ -339,35 +339,35 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     {
         switch ($field) {
             case 'report_date':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Report Date');
+                return __('Report Date');
             case 'account_id':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant Account');
+                return __('Merchant Account');
             case 'transaction_id':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Transaction ID');
+                return __('Transaction ID');
             case 'invoice_id':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Invoice ID');
+                return __('Invoice ID');
             case 'paypal_reference_id':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal Reference ID');
+                return __('PayPal Reference ID');
             case 'paypal_reference_id_type':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal Reference ID Type');
+                return __('PayPal Reference ID Type');
             case 'transaction_event_code':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Event Code');
+                return __('Event Code');
             case 'transaction_event':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Event');
+                return __('Event');
             case 'transaction_initiation_date':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Start Date');
+                return __('Start Date');
             case 'transaction_completion_date':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Finish Date');
+                return __('Finish Date');
             case 'transaction_debit_or_credit':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Debit or Credit');
+                return __('Debit or Credit');
             case 'gross_transaction_amount':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Gross Amount');
+                return __('Gross Amount');
             case 'fee_debit_or_credit':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Fee Debit or Credit');
+                return __('Fee Debit or Credit');
             case 'fee_amount':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Fee Amount');
+                return __('Fee Amount');
             case 'custom_field':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Custom');
+                return __('Custom');
             default:
                 return $field;
         }

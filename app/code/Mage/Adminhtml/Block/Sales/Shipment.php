@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Sales_Shipment extends Mage_Adminhtml_Block_Widget_Gr
     protected function _construct()
     {
         $this->_controller = 'sales_shipment';
-        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Shipments');
+        $this->_headerText = __('Shipments');
         parent::_construct();
         $this->_removeButton('add');
     }

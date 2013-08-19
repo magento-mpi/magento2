@@ -349,13 +349,13 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(
-                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('You need to enter sender data.')
+                __('You need to enter sender data.')
             );
         }
 
         if (!Zend_Validate::is($senderEmail, 'EmailAddress')) {
             return $result->setErrorMessage(
-                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid sender email address.')
+                __('Please enter a valid sender email address.')
             );
         }
 
@@ -364,14 +364,14 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             $recipientEmail = trim($recipient['email']);
             if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
                 return $result->setErrorMessage(
-                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid recipient email address.')
+                    __('Please enter a valid recipient email address.')
                 );
             }
 
             $recipient['name'] = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
-                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a recipient name.')
+                    __('Please enter a recipient name.')
                 );
             }
             $emails[] = $recipient;
@@ -390,11 +390,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             if ($count > 0) {
                 $result->setIsSuccess(true)
                     ->setSuccessMessage(
-                        $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('You shared the gift registry for %d emails.', $count)
+                        __('You shared the gift registry for %1 emails.', $count)
                     );
             } else {
                 $result->setErrorMessage(
-                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__("We couldn't share the registry.")
+                    __("We couldn't share the registry.")
                 );
             }
         }
@@ -705,8 +705,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     {
         if (!isset($this->_optionsIsPublic)) {
             $this->_optionsIsPublic = array(
-                '0' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Private'),
-                '1' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Public'));
+                '0' => __('Private'),
+                '1' => __('Public'));
         }
         return $this->_optionsIsPublic;
     }
@@ -720,8 +720,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     {
         if (!isset($this->_optionsStatus)) {
             $this->_optionsStatus = array(
-                '0' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Inactive'),
-                '1' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Active'));
+                '0' => __('Inactive'),
+                '1' => __('Active'));
         }
         return $this->_optionsStatus;
     }
@@ -736,17 +736,17 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $errors = array();
 
         if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the title.');
+            $errors[] = __('Please enter the title.');
         }
 
         if (!Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the message.');
+            $errors[] = __('Please enter the message.');
         }
 
         if (!Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct the Privacy setting.');
+            $errors[] = __('Please enter correct the Privacy setting.');
         } else if (!key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
-            $errors[] = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct the Privacy setting.');
+            $errors[] = __('Please enter correct the Privacy setting.');
         }
 
         $allCustomValues = $this->getCustomValues();
@@ -779,7 +779,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We cannot specify the product.'));
+                Mage::throwException(__('We cannot specify the product.'));
             }
 
             $product = Mage::getModel('Mage_Catalog_Model_Product')
@@ -930,12 +930,12 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                     $stockItem->loadByProduct($model->getProductId());
                     // not Mage_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new Magento_Exception(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the  gift registry item quantity.'));
+                        throw new Magento_Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {
                 Mage::throwException(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the gift registry item ID.')
+                    __('Please correct the gift registry item ID.')
                 );
             }
         }

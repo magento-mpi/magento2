@@ -52,7 +52,7 @@ class Mage_Core_Model_File_Validator_NotProtectedExtension extends Zend_Validate
     {
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
-                self::PROTECTED_EXTENSION => Mage::helper('Mage_Core_Helper_Data')->__('File with an extension "%value%" is protected and cannot be uploaded'),
+                self::PROTECTED_EXTENSION => __('File with an extension "%value%" is protected and cannot be uploaded'),
             );
         }
         return $this;

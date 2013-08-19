@@ -574,7 +574,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements 
                         }
                     }
                     if (!$wishlist) {
-                        Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('We couldn\'t find this wish list.'));
+                        Mage::throwException(__('We couldn\'t find this wish list.'));
                     }
                     $wishlist->setStore($this->getSession()->getStore())
                         ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());
@@ -726,7 +726,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements 
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('We could not add a product to cart by the ID "%s".', $productId)
+                    __('We could not add a product to cart by the ID "%1".', $productId)
                 );
             }
         }
@@ -865,12 +865,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements 
                 try {
                     if (strpos($_additionalOption, ':') === false) {
                         Mage::throwException(
-                            Mage::helper('Mage_Adminhtml_Helper_Data')->__('There is an error in one of the option rows.')
+                            __('There is an error in one of the option rows.')
                         );
                     }
                     list($label,$value) = explode(':', $_additionalOption, 2);
                 } catch (Exception $e) {
-                    Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('There is an error in one of the option rows.'));
+                    Mage::throwException(__('There is an error in one of the option rows.'));
                 }
                 $label = trim($label);
                 $value = trim($value);
@@ -1062,9 +1062,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements 
             $errors = $addressForm->validateData($addressData);
             if ($errors !== true) {
                 if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_SHIPPING) {
-                    $typeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping Address: ');
+                    $typeName = __('Shipping Address: ');
                 } else {
-                    $typeName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Billing Address: ');
+                    $typeName = __('Billing Address: ');
                 }
                 foreach ($errors as $error) {
                     $this->_errors[] = $typeName . $error;
@@ -1536,16 +1536,16 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements 
     {
         $customerId = $this->getSession()->getCustomerId();
         if (is_null($customerId)) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select a customer.'));
+            Mage::throwException(__('Please select a customer.'));
         }
 
         if (!$this->getSession()->getStore()->getId()) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select a store.'));
+            Mage::throwException(__('Please select a store.'));
         }
         $items = $this->getQuote()->getAllItems();
 
         if (count($items) == 0) {
-            $this->_errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('You need to specify order items.');
+            $this->_errors[] = __('You need to specify order items.');
         }
 
         foreach ($items as $item) {
@@ -1557,19 +1557,19 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements 
 
         if (!$this->getQuote()->isVirtual()) {
             if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
-                $this->_errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('You need to specify a shipping method.');
+                $this->_errors[] = __('You need to specify a shipping method.');
             }
         }
 
         if (!$this->getQuote()->getPayment()->getMethod()) {
-            $this->_errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('A payment method must be specified.');
+            $this->_errors[] = __('A payment method must be specified.');
         } else {
             $method = $this->getQuote()->getPayment()->getMethodInstance();
             if (!$method) {
-                $this->_errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('This payment method instance is not available.');
+                $this->_errors[] = __('This payment method instance is not available.');
             } else {
                 if (!$method->isAvailable($this->getQuote())) {
-                    $this->_errors[] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('This payment method is not available.');
+                    $this->_errors[] = __('This payment method is not available.');
                 } else {
                     try {
                         $method->validate();
