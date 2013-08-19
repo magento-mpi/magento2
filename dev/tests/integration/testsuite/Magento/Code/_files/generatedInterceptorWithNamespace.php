@@ -1,5 +1,6 @@
 <?php
 namespace Magento\Code\Generator\TestAsset;
+
 /**
  * Interceptor class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
  *
