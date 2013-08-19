@@ -77,7 +77,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
                 'docblock' => array(
                     'shortDescription' => 'List of plugins',
                     'tags' => array(
-                        array('name' => 'var', 'description' => 'Magento_Interception_PluginList')
+                        array('name' => 'var', 'description' => '\Magento_Interception_PluginList')
                     )
                 ),
             ),
@@ -205,7 +205,8 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
             'docblock' => array(
                 'shortDescription' => 'Retrieve ObjectManager from the global scope',
             ),
-            'body' => '$this->_objectManager = Mage::getObjectManager();',
+            'body' => '$this->_objectManager = Mage::getObjectManager();'
+                . "\n\$this->_pluginList = \$this->_objectManager->get('Magento_Interception_PluginList');",
         );
 
         $reflectionClass = new ReflectionClass($this->_getSourceClassName());
@@ -233,7 +234,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
             . "\n    \$methodArguments = \$this->_objectManager->get(\$plugin)"
             . "\n        ->\$beforeMethodName(\$methodArguments);"
             . "\n}"
-            . "\n\$invocationChain = new Magento_Code_Plugin_InvocationChain("
+            . "\n\$invocationChain = new \\Magento_Code_Plugin_InvocationChain("
             . "\n    \$this->_getSubject(),"
             . "\n    \$methodName,"
             . "\n    \$this->_objectManager,"
