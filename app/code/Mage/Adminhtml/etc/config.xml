@@ -14,7 +14,7 @@
         <Mage_Adminhtml>
             <version>0.7.1</version>
             <active>true</active>
-            <depends type="soft">
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Poll/>
                 <Mage_AdminNotification/>
@@ -39,14 +39,12 @@
                 <Mage_Api/>
                 <Mage_SalesRule/>
                 <Mage_Rule/>
-                <Mage_Promo/>
                 <Mage_Downloadable/>
                 <Mage_Payment/>
                 <Mage_Shipping/>
                 <Mage_GiftMessage/>
                 <Mage_Backup/>
                 <Mage_User/>
-                <Mage_CurrencySymbol/>
                 <Mage_Checkout/>
                 <Mage_Widget/>
                 <Mage_Weee/>

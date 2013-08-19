@@ -14,9 +14,11 @@
         <Mage_GoogleAnalytics>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Sales/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

@@ -14,15 +14,17 @@
         <Mage_Install>
             <version>0.7.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_AdminNotification/>
                 <Mage_Adminhtml/>
                 <Mage_User/>
                 <Mage_Index/>
                 <Mage_Directory/>
-                <Mage_Page/>
                 <Mage_Backend/>
+            </depends>
+            <depends type="soft">
+                <Mage_Page/>
             </depends>
             <sequence>
                 <Mage_Core/>

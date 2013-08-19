@@ -14,7 +14,7 @@
         <Mage_Persistent>
             <version>1.0.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Customer/>
                 <Mage_Checkout/>
@@ -22,10 +22,7 @@
                 <Mage_GoogleCheckout/>
                 <Mage_Paypal/>
                 <Mage_Sales/>
-                <Mage_Adminhtml/>
-                <Mage_Page/>
                 <Mage_Directory/>
-                <Enterprise_Customer/>
             </depends>
             <sequence>
                 <Mage_Adminhtml />

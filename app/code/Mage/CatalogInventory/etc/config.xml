@@ -14,8 +14,7 @@
         <Mage_CatalogInventory>
             <version>1.6.0.0.4</version>
             <active>true</active>
-            <depends>
-                <Mage_Adminhtml/>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Customer/>
                 <Mage_Bundle/>
@@ -23,8 +22,10 @@
                 <Mage_Catalog/>
                 <Mage_Index/>
                 <Mage_CatalogSearch/>
-                <Mage_Eav/>
                 <Mage_Sales/>
+            </depends>
+            <depends type="soft">
+                <Mage_Adminhtml/>
             </depends>
             <sequence>
                 <Mage_Catalog/>

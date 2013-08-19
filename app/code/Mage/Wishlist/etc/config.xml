@@ -14,7 +14,7 @@
         <Mage_Wishlist>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Checkout/>
                 <Mage_Customer/>
                 <Mage_Catalog/>
@@ -24,8 +24,10 @@
                 <Mage_Adminhtml/>
                 <Mage_CatalogInventory/>
                 <Mage_Backend/>
-                <Mage_Bundle/>
                 <Mage_Tax/>
+            </depends>
+            <depends type="soft">
+                <Mage_Bundle/>
             </depends>
             <sequence>
                 <Mage_Customer />

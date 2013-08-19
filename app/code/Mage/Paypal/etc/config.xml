@@ -14,7 +14,7 @@
         <Mage_Paypal>
             <version>1.6.0.3</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Checkout/>
                 <Mage_Sales/>
@@ -22,16 +22,12 @@
                 <Mage_Adminhtml/>
                 <Mage_Page/>
                 <Mage_Payment/>
-                <Mage_Paygate/>
                 <Mage_Backend/>
                 <Mage_Tax/>
                 <Mage_Directory/>
+            </depends>
+            <depends type="soft">
                 <Mage_Catalog/>
-                <Mage_CatalogSearch/>
-                <Mage_Wishlist/>
-                <Mage_Tag/>
-                <Mage_Review/>
-                <Mage_Cms/>
             </depends>
             <sequence>
                 <Mage_Paygate/>

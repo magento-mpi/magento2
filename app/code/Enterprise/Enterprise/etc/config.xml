@@ -48,7 +48,6 @@
                 <Enterprise_Reminder/>
                 <Enterprise_Reward/>
                 <Enterprise_Wishlist/>
-                <Enterprise_Staging/>
             </depends>
             <sequence>
                 <Mage_Cms/>

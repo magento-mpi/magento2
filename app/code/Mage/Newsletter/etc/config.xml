@@ -14,13 +14,14 @@
         <Mage_Newsletter>
             <version>1.6.0.2</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Customer/>
                 <Mage_Catalog/>
                 <Mage_Widget/>
-                <Mage_Eav/>
                 <Mage_Backend/>
+            </depends>
+            <depends type="soft">
                 <Mage_Adminhtml/>
                 <Mage_Page/>
             </depends>

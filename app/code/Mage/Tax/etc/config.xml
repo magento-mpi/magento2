@@ -14,7 +14,7 @@
         <Mage_Tax>
             <version>1.6.0.5</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
@@ -25,7 +25,6 @@
                 <Mage_Catalog/>
                 <Mage_Sales/>
                 <Mage_Reports/>
-                <Mage_User/>
                 <Mage_Shipping/>
             </depends>
             <sequence>

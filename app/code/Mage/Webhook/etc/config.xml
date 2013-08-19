@@ -14,10 +14,12 @@
         <Mage_Webhook>
             <version>1.0.0.0</version>
             <active>true</active>
-            <depends>
-                <Mage_Core />
-                <Mage_Webapi />
-                <Mage_Backend />
+            <depends type="hard">
+                <Mage_Core/>
+                <Mage_Webapi/>
+                <Mage_Backend/>
+                <Mage_Page/>
+                <Mage_Adminhtml/>
             </depends>
         </Mage_Webhook>
     </modules>

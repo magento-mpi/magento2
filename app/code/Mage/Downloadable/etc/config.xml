@@ -14,7 +14,7 @@
         <Mage_Downloadable>
             <version>1.6.0.0.3</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Customer/>
                 <Mage_Catalog/>
@@ -31,8 +31,6 @@
                 <Mage_Api/>
                 <Mage_Weee/>
                 <Mage_Wishlist/>
-                <Mage_PaypalUk/>
-                <Mage_Paypal/>
             </depends>
             <sequence>
                 <Mage_Catalog />

@@ -14,13 +14,13 @@
         <Mage_Directory>
             <version>1.6.0.1</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Backend/>
                 <Mage_Api/>
-                <Mage_CatalogSearch/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
-                <Mage_Catalog/>
             </depends>
             <sequence>
                 <Mage_Core/>

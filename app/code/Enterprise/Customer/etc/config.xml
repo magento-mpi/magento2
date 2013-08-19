@@ -25,6 +25,7 @@
             </depends>
             <depends type="soft">
                 <Mage_Page/>
+                <Mage_Checkout/>
             </depends>
             <sequence>
                 <Mage_Adminhtml />

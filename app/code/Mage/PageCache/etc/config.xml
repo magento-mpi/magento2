@@ -14,10 +14,11 @@
         <Mage_PageCache>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Core/>
-                <Mage_Catalog/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

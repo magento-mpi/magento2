@@ -14,8 +14,8 @@
         <Mage_User>
             <version>1.6.1.4</version>
             <active>true</active>
-            <depends>
-                <Mage_Backend />
+            <depends type="hard">
+                <Mage_Backend/>
                 <Mage_Core/>
                 <Mage_Adminhtml/>
                 <Mage_Catalog/>
@@ -40,7 +40,6 @@
                 <Mage_ImportExport/>
                 <Mage_Index/>
                 <Mage_Oauth/>
-                <Mage_Page/>
                 <Mage_PageCache/>
                 <Mage_Payment/>
                 <Mage_Paypal/>
@@ -56,6 +55,9 @@
                 <Mage_Tax/>
                 <Mage_Widget/>
                 <Mage_Wishlist/>
+            </depends>
+            <depends type="soft">
+                <Mage_Page/>
             </depends>
             <sequence>
                 <Mage_Backend />

@@ -14,7 +14,7 @@
         <Mage_GiftMessage>
             <version>1.6.0.1</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Core/>
                 <Mage_Customer/>

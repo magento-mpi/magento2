@@ -32,6 +32,9 @@
                 <Enterprise_Logging/>
                 <Enterprise_GiftCard/>
             </depends>
+            <depends type="soft">
+                <Mage_Bundle/>
+            </depends>
             <sequence>
                 <Mage_Adminhtml/>
                 <Mage_Sales />

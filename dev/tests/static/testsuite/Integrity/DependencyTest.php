@@ -93,6 +93,15 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_defaultThemes = '';
 
     /**
+     * Namespaces to analyze
+     *
+     * Format: {Namespace}|{Namespace}|...
+     *
+     * @var string
+     */
+    protected static $_namespaces;
+
+    /**
      * Rule list
      *
      * @var array
@@ -117,6 +126,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
+        self::$_namespaces = implode('|', Utility_Files::init()->getNamespaces());
+
         self::_prepareListConfigXml();
 
         self::_initDependencies();
@@ -138,11 +149,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         foreach (self::$_listConfigXml as $module => $file) {
             $config = simplexml_load_file($file);
 
-            $nodes = $config->xpath("/config/modules/$module/depends/*") ?: array();
+            $nodes = $config->xpath("/config/modules/$module/depends") ?: array();
             foreach ($nodes as $node) {
                 /** @var SimpleXMLElement $node */
                 $type = ($node->attributes()->type == self::TYPE_SOFT) ? self::TYPE_SOFT : self::TYPE_HARD;
-                self::_addDependencies($module, $type, self::MAP_TYPE_DECLARED, $node->getName());
+                foreach ($node->children() as $element) {
+                    /** @var SimpleXMLElement $element */
+                    self::_addDependencies($module, $type, self::MAP_TYPE_DECLARED, $element->getName());
+                }
             }
 
             $nodes = $config->xpath("/config/*/design/theme/full_name") ?: array();
@@ -288,8 +302,14 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $module = $dependency['module'];
             $type = isset($dependency['type']) ? $dependency['type'] : self::TYPE_HARD;
 
-            $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
+            $soft = $this->_getDependencies($currentModule, self::TYPE_SOFT, self::MAP_TYPE_DECLARED);
+            $hard = $this->_getDependencies($currentModule, self::TYPE_HARD, self::MAP_TYPE_DECLARED);
+
+            $declared = ($type == self::TYPE_SOFT) ? array_merge($soft, $hard) : $hard;
             if (!in_array($module, $declared)) {
+                if (!isset(self::$_mapDependencies[$module])) {
+                    continue;
+                }
                 $undeclared[$type][] = $module;
             }
 
@@ -342,7 +362,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                         $module, $type, implode(', ', array_values($redundant)));
                 }
             }
-            $output[] = implode(', ', $result);
+            if (count($result)) {
+                $output[] = implode(', ', $result);
+            }
         }
         if (count($output)) {
             $this->fail("Redundant dependencies found!\r\n" . implode(' ', $output));
@@ -415,13 +437,10 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected function _getModuleName($absoluteFilename)
     {
-        $filename = self::_getRelativeFilename($absoluteFilename);
-        $pieces = explode('/', $filename);
-        $moduleName = $pieces[2] . '_' . $pieces[3];
-        if ($this->_isThemeFile($absoluteFilename)) {
-            $moduleName = $pieces[5];
+        $file = self::_getRelativeFilename($absoluteFilename);
+        if (preg_match('/\/(?<namespace>' . self::$_namespaces . ')[\/_]?(?<module>[^\/]+)\//', $file, $matches)) {
+            return $matches['namespace'] . '_' . $matches['module'];
         }
-        return $moduleName;
     }
 
     /**
@@ -645,6 +664,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $dependencies = array($dependencies);
         }
         foreach ($dependencies as $dependency) {
+            if (!isset(self::$_mapDependencies[$dependency])) {
+                continue;
+            }
             if (isset(self::$_mapDependencies[$module][$type][$mapType])) {
                 self::$_mapDependencies[$module][$type][$mapType][$dependency] = $dependency;
             }

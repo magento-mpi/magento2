@@ -14,7 +14,7 @@
         <Mage_Reports>
             <version>1.6.0.0.2</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Backend/>
                 <Mage_Catalog/>
                 <Mage_Widget/>
@@ -28,6 +28,8 @@
                 <Mage_Adminhtml/>
                 <Mage_CatalogInventory/>
                 <Mage_Cms/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

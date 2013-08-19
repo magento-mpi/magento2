@@ -25,10 +25,8 @@
                 <Mage_Paypal/>
                 <Mage_Backend/>
                 <Mage_Directory/>
-                <Mage_Tag/>
                 <Mage_PaypalUk/>
                 <Enterprise_Pci/>
-                <Enterprise_Enterprise/>
             </depends>
             <sequence>
                 <Enterprise_Enterprise/>

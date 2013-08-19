@@ -12,13 +12,15 @@
         <Mage_GoogleOptimizer>
             <version>2.0.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
                 <Mage_Core/>
                 <Mage_Catalog/>
                 <Mage_Cms/>
                 <Mage_GoogleAnalytics/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

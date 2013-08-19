@@ -14,7 +14,7 @@
         <Mage_Core>
             <version>1.6.0.15</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Backend/>
                 <Mage_Directory/>
                 <Mage_Index/>
@@ -23,7 +23,6 @@
                 <Mage_Newsletter/>
                 <Mage_Cms/>
                 <Mage_Adminhtml/>
-                <Mage_DesignEditor/>
                 <Mage_AdminNotification/>
                 <Mage_CatalogInventory/>
                 <Mage_CatalogRule/>

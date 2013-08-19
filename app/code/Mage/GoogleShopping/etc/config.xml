@@ -14,7 +14,7 @@
         <Mage_GoogleShopping>
             <version>1.6.0.0.1</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_AdminNotification/>
                 <Mage_Core/>
@@ -25,7 +25,8 @@
                 <Mage_Sales/>
                 <Mage_Tax/>
                 <Mage_GoogleCheckout/>
-                <Mage_Cms/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

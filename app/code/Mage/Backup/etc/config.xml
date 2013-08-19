@@ -14,13 +14,12 @@
         <Mage_Backup>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Backend/>
                 <Mage_Adminhtml/>
                 <Mage_Core/>
                 <Mage_Cron/>
                 <Mage_Index/>
-                <Mage_User/>
             </depends>
             <sequence>
                 <Mage_Core/>

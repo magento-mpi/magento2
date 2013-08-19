@@ -14,10 +14,11 @@
         <Mage_Poll>
             <version>1.6.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Customer/>
                 <Mage_Core/>
-                <Mage_Cms/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

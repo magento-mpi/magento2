@@ -14,12 +14,13 @@
         <Mage_Payment>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Catalog/>
                 <Mage_Sales/>
                 <Mage_Centinel/>
-                <Mage_Paygate/>
+            </depends>
+            <depends type="soft">
                 <Mage_Checkout/>
             </depends>
             <sequence>

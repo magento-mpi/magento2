@@ -14,7 +14,7 @@
         <Mage_Cardgate>
             <version>0.0.0.1</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Payment/>
                 <Mage_Checkout/>
                 <Mage_Core/>

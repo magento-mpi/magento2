@@ -14,7 +14,7 @@
         <Mage_Cms>
             <version>2.0.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Widget/>
                 <Mage_Backend/>
@@ -23,7 +23,6 @@
                 <Mage_Catalog/>
                 <Mage_Checkout/>
                 <Mage_Customer/>
-                <Enterprise_Cms/>
             </depends>
             <sequence>
                 <Mage_Core/>

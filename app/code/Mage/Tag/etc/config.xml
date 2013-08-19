@@ -14,10 +14,9 @@
         <Mage_Tag>
             <version>1.6.0.0</version>
             <active>false</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Catalog/>
-                <Mage_CatalogSearch/>
                 <Mage_Checkout/>
                 <Mage_Adminhtml/>
                 <Mage_Customer/>
@@ -29,6 +28,9 @@
                 <Mage_Index/>
                 <Mage_Api/>
                 <Mage_Wishlist/>
+            </depends>
+            <depends type="soft">
+                <Mage_CatalogSearch/>
             </depends>
             <sequence>
                 <Mage_Catalog/>

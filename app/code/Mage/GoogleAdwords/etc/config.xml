@@ -12,10 +12,11 @@
         <Mage_GoogleAdwords>
             <version>2.0.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
-                <Mage_Checkout/>
                 <Mage_Sales/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

@@ -14,8 +14,7 @@
         <Mage_Usa>
             <version>1.6.0.1</version>
             <active>true</active>
-            <depends>
-                <Mage_Sales/>
+            <depends type="hard">
                 <Mage_Backend/>
                 <Mage_Shipping/>
                 <Mage_Directory/>

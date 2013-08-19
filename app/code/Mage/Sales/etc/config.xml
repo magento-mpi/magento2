@@ -14,7 +14,7 @@
         <Mage_Sales>
             <version>1.6.0.11</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Catalog/>
                 <Mage_Customer/>
@@ -34,7 +34,6 @@
                 <Mage_SalesRule/>
                 <Mage_Usa/>
                 <Mage_Weee/>
-                <Mage_Rule/>
                 <Mage_Rss/>
             </depends>
             <sequence>

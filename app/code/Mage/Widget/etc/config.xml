@@ -14,12 +14,14 @@
         <Mage_Widget>
             <version>1.6.0.2</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Adminhtml/>
                 <Mage_Core/>
                 <Mage_Backend/>
                 <Mage_Cms/>
                 <Mage_Catalog/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
             </depends>
             <sequence>

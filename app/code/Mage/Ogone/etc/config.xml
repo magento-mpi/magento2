@@ -14,8 +14,7 @@
         <Mage_Ogone>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
-                <Mage_Backend/>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Checkout/>
                 <Mage_Sales/>

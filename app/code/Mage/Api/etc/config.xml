@@ -14,10 +14,9 @@
         <Mage_Api>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Adminhtml/>
-                <Mage_Backend/>
             </depends>
             <sequence>
                 <Mage_Core />

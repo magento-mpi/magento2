@@ -14,11 +14,13 @@
         <Mage_Sendfriend>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
-                 <Mage_Core/>
-                 <Mage_Customer/>
-                 <Mage_Catalog/>
-                 <Mage_Page/>
+            <depends type="hard">
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Catalog/>
+            </depends>
+            <depends type="soft">
+                <Mage_Page/>
             </depends>
             <sequence>
                 <Mage_Catalog/>

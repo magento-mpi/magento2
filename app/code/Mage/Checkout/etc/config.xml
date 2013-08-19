@@ -14,7 +14,7 @@
         <Mage_Checkout>
             <version>1.6.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Customer/>
                 <Mage_Payment/>
                 <Mage_Core/>
@@ -27,10 +27,8 @@
                 <Mage_Eav/>
                 <Mage_GiftMessage/>
                 <Mage_Page/>
-                <Mage_Cms/>
                 <Mage_Wishlist/>
                 <Mage_Weee/>
-                <Enterprise_Customer/>
             </depends>
             <sequence>
                 <Mage_Sales/>

@@ -14,15 +14,15 @@
         <Mage_Captcha>
             <version>1.7.0.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Adminhtml/>
                 <Mage_Backend/>
                 <Mage_Customer/>
                 <Mage_Checkout/>
-                <Mage_User/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
-                <Mage_Contacts/>
             </depends>
             <sequence>
                 <Mage_Customer />

@@ -14,7 +14,7 @@
         <Mage_Customer>
             <version>1.6.2.0.3</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Catalog/>
                 <Mage_Directory/>
@@ -26,8 +26,9 @@
                 <Mage_Index/>
                 <Mage_Api/>
                 <Mage_Log/>
+            </depends>
+            <depends type="soft">
                 <Mage_Page/>
-                <Enterprise_Customer/>
             </depends>
             <sequence>
                 <Mage_Eav/>

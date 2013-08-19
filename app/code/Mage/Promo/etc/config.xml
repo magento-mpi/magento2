@@ -14,7 +14,7 @@
         <Mage_Promo>
             <version>1.0.0.0</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Backend/>
                 <Mage_CatalogRule/>
             </depends>

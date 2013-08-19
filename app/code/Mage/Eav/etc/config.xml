@@ -14,7 +14,7 @@
         <Mage_Eav>
             <version>1.6.0.2</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Adminhtml/>
                 <Mage_Backend/>

@@ -14,7 +14,7 @@
         <Mage_Catalog>
             <version>1.6.0.0.23</version>
             <active>true</active>
-            <depends>
+            <depends type="hard">
                 <Mage_Core/>
                 <Mage_Page/>
                 <Mage_Checkout/>
@@ -40,7 +40,6 @@
                 <Mage_CatalogSearch/>
                 <Mage_CatalogRule/>
                 <Mage_Weee/>
-                <Mage_Tag/>
             </depends>
             <sequence>
                 <Mage_Eav />
