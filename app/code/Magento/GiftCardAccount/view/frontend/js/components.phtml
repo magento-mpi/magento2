@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+    <script type="text/javascript">
+        (function($) {
+            "use strict";
+            /**
+             * Declaration of resources needed for defined components
+             */
+            $.mage.component({
+                giftCard: [
+                    "<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::js/gift-card.js') ?>"
+                ]
+            });
+        })(jQuery);
+    </script>
+<?php echo $this->getChildHtml() ?>
