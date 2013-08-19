@@ -154,8 +154,10 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
         Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
         foreach ($this->_routersTypes as $routerCode => $routerClass) {
-            $router = $this->_routerFactory->createRouter($routerClass);
-            $this->addRouter($routerCode, $router);
+            if ($routerClass) {
+                $router = $this->_routerFactory->createRouter($routerClass);
+                $this->addRouter($routerCode, $router);
+            }
         }
 
         Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
