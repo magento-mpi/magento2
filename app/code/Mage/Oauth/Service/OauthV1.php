@@ -517,11 +517,11 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      *
      * @param string $message Exception message
      * @param int $code Exception code
-     * @throws Mage_Core_Exception
+     * @throws Mage_Oauth_Exception
      */
     protected function _throwException($message = '', $code = 0)
     {
-        throw Mage::exception('Mage_Oauth', $message, $code);
+        throw new Mage_Oauth_Exception($message, $code);
     }
 
     /**
