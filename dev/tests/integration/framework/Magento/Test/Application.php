@@ -188,6 +188,9 @@ class Magento_Test_Application
             $objectManager->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
+            $objectManager->configure(
+                $objectManager->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load('global')
+            );
         }
 
         $objectManager->get('Mage_Core_Model_Resource')

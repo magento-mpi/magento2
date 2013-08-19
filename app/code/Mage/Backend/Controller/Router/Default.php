@@ -12,6 +12,11 @@
 class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
+     * Default route id
+     */
+    const DEFAULT_ROUTE_ID = 'adminhtml';
+
+    /**
      * List of required request parameters
      * Order sensitive
      * @var array
@@ -84,7 +89,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     public function getDefaultModuleFrontName()
     {
         $backendRoutes = $this->_getRoutes();
-        $defaultRoute = array_shift($backendRoutes);
+        $defaultRoute = $backendRoutes[self::DEFAULT_ROUTE_ID];
         return $defaultRoute['frontName'];
     }
 

@@ -234,7 +234,7 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     public function getRouterByRoute($routeId)
     {
         // empty route supplied - return base url
-        if (empty($routeName)) {
+        if (empty($routeId)) {
             $router = $this->getRouter('standard');
         } elseif ($this->getRouter('admin') && $this->getRouter('admin')->getFrontNameByRoute($routeId)) {
             // try standard router url assembly
