@@ -137,7 +137,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_TIMESTAMP_REFUSED);
             }
 
-            $nonceObj = $this->_fetchNonce($nonce);
+            $nonceObj = $this->_fetchNonce($nonce, $consumerId);
 
             if ($nonceObj->getConsumerId() == $consumerId) {
                 throw new Mage_Oauth_Exception(
@@ -472,15 +472,15 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
-     * Fetch nonce based on the noce string
+     * Fetch a nonce based on a composite primary key consisting of the nonce string and a consumer id
      *
-     * @param $nonce
+     * @param string $nonce - The nonce string
+     * @param int $consumerId - A consumer id
      * @return Mage_Oauth_Model_Nonce
      */
-    protected function _fetchNonce($nonce)
+    protected function _fetchNonce($nonce, $consumerId)
     {
-        $nonceObj = $this->_nonceFactory->create();
-        $nonceObj->load($nonce, 'nonce');
+        $nonceObj = $this->_nonceFactory->create()->loadByCompositeKey($nonce, $consumerId);
         return $nonceObj;
     }
 

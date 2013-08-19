@@ -45,4 +45,20 @@ class Mage_Oauth_Model_Resource_Nonce extends Mage_Core_Model_Resource_Db_Abstra
             return 0;
         }
     }
+
+    /**
+     * Select a unique nonce row using a composite primary key (i.e. $nonce and $consumerId)
+     *
+     * @param string $nonce - The nonce string
+     * @param int $consumerId - The consumer id
+     * @return array
+     */
+    public function selectByCompositeKey($nonce, $consumerId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('nonce = ?', $nonce)->where('consumer_id = ?', $consumerId);
+        return $adapter->fetchRow($select);
+    }
 }
