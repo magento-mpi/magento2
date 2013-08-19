@@ -43,7 +43,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
-                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                    COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
             $this->assertEquals(Mage::registry('reward_point_balance_' . $website->getCode()), $rewardPoints);
@@ -68,7 +69,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
-                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                    COLUMN_CUSTOMER_BALANCE;
             $customerBalance = $customer->getData($key);
             $this->assertNotEmpty($customerBalance);
             $this->assertEquals(Mage::registry('customer_balance_' . $website->getCode()), $customerBalance);

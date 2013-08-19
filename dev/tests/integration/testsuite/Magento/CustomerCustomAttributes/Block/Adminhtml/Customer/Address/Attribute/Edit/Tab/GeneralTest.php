@@ -32,7 +32,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General'
         );
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General', '_prepareForm');
+            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General',
+            '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

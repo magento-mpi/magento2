@@ -35,7 +35,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
+    const ATTRIBUTE_COLLECTION_NAME =
+        'Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
 
     /**
      * XML path to page size parameter

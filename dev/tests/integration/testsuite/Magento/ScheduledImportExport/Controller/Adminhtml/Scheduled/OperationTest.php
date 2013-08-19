@@ -12,7 +12,8 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest extends Magento_Backend_Utility_Controller
+class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
+    extends Magento_Backend_Utility_Controller
 {
     /**
      * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here

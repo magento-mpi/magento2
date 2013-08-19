@@ -37,9 +37,11 @@ return array(
     'magento_versionscms/page_revision' => 'magento_versionscms_page_revision',
     'magento_versionscms/page_version' => 'magento_versionscms_page_version',
     'magento_customercustomattributes/sales_order' => 'magento_customercustomattributes_sales_flat_order',
-    'magento_customercustomattributes/sales_order_address' => 'magento_customercustomattributes_sales_flat_order_address',
+    'magento_customercustomattributes/sales_order_address' =>
+        'magento_customercustomattributes_sales_flat_order_address',
     'magento_customercustomattributes/sales_quote' => 'magento_customercustomattributes_sales_flat_quote',
-    'magento_customercustomattributes/sales_quote_address' => 'magento_customercustomattributes_sales_flat_quote_address',
+    'magento_customercustomattributes/sales_quote_address' =>
+        'magento_customercustomattributes_sales_flat_quote_address',
     'magento_customerbalance/balance' => 'magento_customerbalance',
     'magento_customerbalance/balance_history' => 'magento_customerbalance_history',
     'magento_customersegment/customer' => 'magento_customersegment_customer',

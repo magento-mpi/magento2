@@ -182,7 +182,8 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     protected function _getOperationMock(array $operationData)
     {
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = $this->getMock('Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
+        $operation = $this->getMock(
+            'Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
         $operation->setData($operationData);
 
         return $operation;

@@ -50,7 +50,8 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
             'id'             => 1
         );
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = $this->getMock('Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
+        $operation = $this->getMock(
+            'Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
         $operation->setData($operationData);
         $this->_model->initialize($operation);
 
