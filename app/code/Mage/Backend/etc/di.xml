@@ -27,4 +27,7 @@
     <type name="Mage_Backend_Model_Menu_Config">
         <param name="menuDirector"><instance type="Mage_Backend_Model_Menu_Director_Director"/></param>
     </type>
+    <type name="Mage_Core_Model_App">
+        <plugin name="request" type="Mage_Backend_Model_App_Plugin" />
+    </type>
 </config>

@@ -177,9 +177,7 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
             } else {
                 foreach ($this->_scopePriorityScheme as $scopeCode) {
                     if (false == isset($this->_loadedScopes[$scopeCode])) {
-                        if (false === $data) {
-                            $data = $this->_reader->read($scopeCode);
-                        }
+                        $data = $this->_reader->read($scopeCode);
                         if (!count($data)) {
                             continue;
                         }

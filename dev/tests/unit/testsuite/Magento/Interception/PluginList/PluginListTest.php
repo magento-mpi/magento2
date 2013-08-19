@@ -13,7 +13,7 @@ require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemContainerPlu
 require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemPlugin/Simple.php';
 require_once __DIR__ . '/../_files/app/code/Custom/Module/Model/ItemPlugin/Advanced.php';
 
-class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Interception_Config_Config
@@ -72,49 +72,110 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
                 array('Custom_Module_Model_ItemPlugin_Simple', 'Custom_Module_Model_ItemPlugin_Simple'),
                 array('Custom_Module_Model_ItemPlugin_Advanced', 'Custom_Module_Model_ItemPlugin_Advanced'),
             )));
-        $this->_model = new Magento_Interception_Config_Config(
+        $this->_model = new Magento_Interception_PluginList_PluginList(
             $reader,
             $this->_configScopeMock,
             $cacheMock,
             new Magento_ObjectManager_Relations_Runtime(),
             $omConfigMock,
-            null,
+            new Magento_Interception_Definition_Runtime(),
             null,
             'interception'
         );
     }
 
     /**
-     * @param boolean $expectedResult
+     * @param array $expectedResult
      * @param string $type
-     * @dataProvider hasPluginsDataProvider
+     * @param string $method
+     * @param string $scenario
+     * @param string $scopeCode
+     * @dataProvider getPluginsDataProvider
      */
-    public function testHasPlugins($expectedResult, $type)
+    public function testGetPlugins(array $expectedResult, $type, $method, $scenario, $scopeCode)
     {
-        $this->assertEquals($expectedResult, $this->_model->hasPlugins($type));
+        $this->_configScopeMock->expects($this->any())
+            ->method('getCurrentScope')
+            ->will($this->returnValue($scopeCode));
+        $this->assertEquals(
+            $expectedResult,
+            $this->_model->getPlugins($type, $method, $scenario)
+        );
     }
 
-    public function hasPluginsDataProvider()
+    /**
+     * @return array
+     */
+    public function getPluginsDataProvider()
     {
         return array(
-            // item container has plugins only in the backend scope
             array(
-                true,
-                'Custom_Module_Model_ItemContainer',
-            ),
-            array(
-                true,
+                array('Custom_Module_Model_ItemPlugin_Simple'),
                 'Custom_Module_Model_Item',
+                'getName',
+                'after',
+                'global',
             ),
             array(
-                true,
+                // advanced plugin has lower sort order
+                array('Custom_Module_Model_ItemPlugin_Advanced', 'Custom_Module_Model_ItemPlugin_Simple'),
+                'Custom_Module_Model_Item',
+                'getName',
+                'after',
+                'backend',
+            ),
+            array(
+                array('Custom_Module_Model_ItemPlugin_Advanced'),
+                'Custom_Module_Model_Item',
+                'getName',
+                'around',
+                'backend',
+            ),
+            array(
+                // simple plugin is disabled in configuration for Custom_Module_Model_Item in frontend
+                array(),
+                'Custom_Module_Model_Item',
+                'getName',
+                'after',
+                'frontend',
+            ),
+            // test plugin inheritance
+            array(
+                array('Custom_Module_Model_ItemPlugin_Simple'),
                 'Custom_Module_Model_Item_Enhanced',
+                'getName',
+                'after',
+                'global',
             ),
             array(
-                // the following model has only inherited plugins
-                true,
-                'Custom_Module_Model_ItemContainer_Enhanced',
-            )
+                // simple plugin is disabled in configuration for parent
+                array('Custom_Module_Model_ItemPlugin_Advanced'),
+                'Custom_Module_Model_Item_Enhanced',
+                'getName',
+                'after',
+                'frontend',
+            ),
+            array(
+                array('Custom_Module_Model_ItemPlugin_Advanced'),
+                'Custom_Module_Model_Item_Enhanced',
+                'getName',
+                'around',
+                'frontend',
+            ),
+            array(
+                array(),
+                'Custom_Module_Model_ItemContainer',
+                'getName',
+                'after',
+                'global',
+            ),
+            array(
+                array('Custom_Module_Model_ItemContainerPlugin_Simple'),
+                'Custom_Module_Model_ItemContainer',
+                'getName',
+                'after',
+                'backend',
+            ),
         );
     }
 }
