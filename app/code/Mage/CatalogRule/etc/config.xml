@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_CatalogRule>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends>
-                <Mage_Rule />
-                <Mage_Catalog />
-                <Mage_Customer />
-            </depends>
-        </Mage_CatalogRule>
-    </modules>
     <global>
         <resources>
             <catalogrule_setup>

@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_CurrencySymbol>
-            <version>1.0.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Widget/>
-            </depends>
-        </Mage_CurrencySymbol>
-    </modules>
-
     <global>
         <events>
             <currency_display_options_forming>
@@ -32,7 +22,6 @@
             </currency_display_options_forming>
         </events>
     </global>
-
     <admin>
         <routers>
             <adminhtml>
@@ -44,14 +33,13 @@
             </adminhtml>
         </routers>
     </admin>
-
     <adminhtml>
         <translate>
             <modules>
                 <Mage_CurrencySymbol>
-                     <files>
-                          <default>Mage_CurrencySymbol.csv</default>
-                     </files>
+                    <files>
+                        <default>Mage_CurrencySymbol.csv</default>
+                    </files>
                 </Mage_CurrencySymbol>
             </modules>
         </translate>

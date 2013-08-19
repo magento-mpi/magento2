@@ -42,7 +42,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
      * @param Mage_Webapi_Model_Acl_Rule_Factory $ruleFactory
      * @param Mage_Webapi_Model_Acl_User_Factory $userFactory
      * @param Mage_Webapi_Model_Acl_Role_Factory $roleFactory
-     * @param Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
+     * @param Mage_Webapi_Model_Acl_Resource_Provider $resourceProvider
      * @param Mage_Webapi_Model_Acl_Cache $cache
      * @param Mage_Core_Helper_Data $coreHelper
      */
@@ -50,7 +50,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
         Mage_Webapi_Model_Acl_Rule_Factory $ruleFactory,
         Mage_Webapi_Model_Acl_User_Factory $userFactory,
         Mage_Webapi_Model_Acl_Role_Factory $roleFactory,
-        Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig,
+        Mage_Webapi_Model_Acl_Resource_Provider $resourceProvider,
         Mage_Webapi_Model_Acl_Cache $cache,
         Mage_Core_Helper_Data $coreHelper
     ) {
@@ -59,7 +59,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
         $this->_roleFactory = $roleFactory;
         $this->_coreHelper = $coreHelper;
         $this->_cache = $cache;
-        $this->_initVirtualResourceMapping($authorizationConfig);
+        $this->_initVirtualResourceMapping($resourceProvider);
     }
 
     /**
@@ -121,7 +121,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
     {
         $resources = array();
         foreach ($topics as $topic) {
-            $resources[] = $this->_topicMapping[$topic];
+            $resources[] = isset($this->_topicMapping[$topic]) ? $this->_topicMapping[$topic] : $topic;
         }
         array_unique($resources);
 
@@ -186,16 +186,15 @@ class Mage_Webhook_Model_Webapi_User_Factory
     /**
      * Initialize our virtual resource to merchant visible resource mapping array.
      *
-     * @param Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
+     * @param Mage_Webapi_Model_Acl_Resource_Provider $resourceProvider
      */
     protected function _initVirtualResourceMapping(
-        Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
+        Mage_Webapi_Model_Acl_Resource_Provider $resourceProvider
     ) {
-        $virtualResources = $authorizationConfig->getAclVirtualResources();
-        /** @var DOMElement $resourceDom */
-        foreach ($virtualResources as $resourceDom) {
-            $virtualResource = $resourceDom->getAttribute('id');
-            $parentResource = $resourceDom->getAttribute('parent');
+        $virtualResources = $resourceProvider->getAclVirtualResources();
+        foreach ($virtualResources as $resource) {
+            $virtualResource = $resource['id'];
+            $parentResource = $resource['parent'];
             $this->_topicMapping[$virtualResource] = $parentResource;
         }
     }

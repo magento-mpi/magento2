@@ -10,8 +10,6 @@
  */
 
 /**
- * @magentoConfigFixture                modules/Enterprise_Reward/active               1
- * @magentoConfigFixture                modules/Enterprise_CustomerBalance/active      1
  * @magentoConfigFixture current_store enterprise_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
  */

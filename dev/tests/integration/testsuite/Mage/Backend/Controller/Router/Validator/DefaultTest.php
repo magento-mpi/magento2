@@ -23,7 +23,7 @@ class Mage_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Frame
     public function testConstructWithEmptyAreaFrontName()
     {
         $options = array(
-            'areaCode' => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
+            'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController' => 'Mage_Backend_Controller_ActionAbstract',
             'frontName' => 'backend'
         );
@@ -37,7 +37,7 @@ class Mage_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Frame
     public function testConstructWithNotEmptyAreaFrontName()
     {
         $options = array(
-            'areaCode'       => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
+            'areaCode'       => Mage_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController' => 'Mage_Backend_Controller_ActionAbstract',
         );
         Mage::getModel('Mage_Backend_Controller_Router_Default', $options);

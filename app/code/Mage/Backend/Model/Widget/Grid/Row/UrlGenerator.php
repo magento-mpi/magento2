@@ -61,8 +61,11 @@ class Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
      */
     public function getUrl($item)
     {
-        $params = $this->_prepareParameters($item);
-        return $this->_urlModel->getUrl($this->_path, $params);
+        if (!empty($this->_path)) {
+            $params = $this->_prepareParameters($item);
+            return $this->_urlModel->getUrl($this->_path, $params);
+        }
+        return '';
     }
 
     /**

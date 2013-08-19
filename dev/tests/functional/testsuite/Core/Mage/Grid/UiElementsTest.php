@@ -112,6 +112,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('manage_tax_rule'),
             array('online_customers'),
             array('newsletter_subscribers'),
+            array('report_product_lowstock'),
         );
     }
 

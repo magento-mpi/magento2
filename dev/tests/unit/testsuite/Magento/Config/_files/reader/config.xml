@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <version>1.11.0.1</version>
+    <active>false</active>
+    <depends>
+        <module_one/>
+        <module_two/>
+    </depends>
+</config>

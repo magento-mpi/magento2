@@ -19,6 +19,16 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Options
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
+     * Get options from column
+     *
+     * @return array
+     */
+    protected function _getOptions()
+    {
+        return $this->getColumn()->getOptions();
+    }
+
+    /**
      * Render a grid cell as options
      *
      * @param Magento_Object $row
@@ -26,23 +36,31 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Options
      */
     public function render(Magento_Object $row)
     {
-        $options = $this->getColumn()->getOptions();
+        $options = $this->_getOptions();
+
         $showMissingOptionValues = (bool)$this->getColumn()->getShowMissingOptionValues();
         if (!empty($options) && is_array($options)) {
+
+            //transform option format
+            $output = array();
+            foreach ($options as $option) {
+                $output[$option['value']] = $option['label'];
+            }
+
             $value = $row->getData($this->getColumn()->getIndex());
             if (is_array($value)) {
                 $res = array();
                 foreach ($value as $item) {
-                    if (isset($options[$item])) {
-                        $res[] = $this->escapeHtml($options[$item]);
+                    if (isset($output[$item])) {
+                        $res[] = $this->escapeHtml($output[$item]);
                     } elseif ($showMissingOptionValues) {
                         $res[] = $this->escapeHtml($item);
                     }
                 }
                 return implode(', ', $res);
-            } elseif (isset($options[$value])) {
-                return $this->escapeHtml($options[$value]);
-            } elseif (in_array($value, $options)) {
+            } elseif (isset($output[$value])) {
+                return $this->escapeHtml($output[$value]);
+            } elseif (in_array($value, $output)) {
                 return $this->escapeHtml($value);
             }
         }

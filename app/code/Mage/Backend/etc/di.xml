@@ -19,14 +19,12 @@
             <instance type="Mage_Backend_Controller_Factory" />
         </param>
     </type>
-    <type name="Mage_Backend_Adminhtml_System_Config_SaveController">
+    <type name="Mage_Backend_Controller_Adminhtml_System_Config_Save">
         <param name="cache">
             <instance type="Mage_Core_Model_Cache_Type_Layout" />
         </param>
     </type>
-    <virtualType name="Mage_Backend_Model_Cache_Resource_Grid_Options_Statuses" type="Mage_Backend_Model_Config_Source_Statuses_Options">
-        <param name="helper">
-            <instance type="Mage_Index_Helper_Data" />
-        </param>
-    </virtualType>
+    <type name="Mage_Backend_Model_Menu_Config">
+        <param name="menuDirector"><instance type="Mage_Backend_Model_Menu_Director_Director"/></param>
+    </type>
 </config>
