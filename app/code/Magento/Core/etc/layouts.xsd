@@ -10,6 +10,8 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="types.xsd"/>
+
     <xs:element name="layout">
         <xs:annotation>
             <xs:documentation>
@@ -27,15 +29,85 @@
         </xs:key>
     </xs:element>
 
-    <xs:element name="action" type="actionType"/>
+    <xs:complexType name="argumentType" abstract="true" mixed="true">
+        <xs:sequence>
+            <xs:element name="updater" type="updaterType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="name" use="required"/>
+        <xs:attribute name="label" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="argumentsType">
+        <xs:sequence>
+            <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="translate"/>
+    </xs:complexType>
+
+    <xs:complexType name="updaterType">
+        <xs:annotation>
+            <xs:documentation>
+                Argument updater.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:integer" name="sortOrder" use="optional"/>
+                <xs:attribute type="xs:string" name="enabled" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:element name="argument" type="argumentType">
+        <xs:key name="argumentItemName">
+            <xs:selector xpath="item"></xs:selector>
+            <xs:field xpath="@name"></xs:field>
+        </xs:key>
+    </xs:element>
+
+    <xs:element type="actionType" name="action">
+        <xs:annotation>
+            <xs:documentation>
+                Argument name must be unique in scope of action.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:key name="actionArgumentName">
+            <xs:selector xpath="argument"></xs:selector>
+            <xs:field xpath="@name"></xs:field>
+        </xs:key>
+    </xs:element>
+
+    <xs:element type="blockType" name="block">
+        <xs:annotation>
+            <xs:documentation>
+                Argument name must be unique in scope of block.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:key name="blockArgumentName">
+            <xs:selector xpath="argument"></xs:selector>
+            <xs:field xpath="@name"></xs:field>
+        </xs:key>
+    </xs:element>
+
+    <xs:element type="referenceType" name="reference">
+        <xs:annotation>
+            <xs:documentation>
+                Argument name must be unique in scope of reference.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:key name="referenceArgumentName">
+            <xs:selector xpath="argument"></xs:selector>
+            <xs:field xpath="@name"></xs:field>
+        </xs:key>
+    </xs:element>
+
     <xs:element name="arguments" type="argumentsType"/>
-    <xs:element name="block" type="blockType"/>
-    <xs:element name="reference" type="referenceType" />
     <xs:element name="container" type="containerType"/>
     <xs:element name="label" type="labelType"/>
     <xs:element name="update" type="updateType"/>
     <xs:element name="remove" type="removeType"/>
     <xs:element name="move" type="moveType"/>
+    <xs:element name="data" type="dataType"/>
 
     <xs:complexType name="handleType">
         <xs:annotation>
@@ -57,13 +129,6 @@
         <xs:attribute type="xs:string" name="type"/>
         <xs:attribute type="xs:string" name="parent"/>
         <xs:attribute type="xs:string" name="owner"/>
-    </xs:complexType>
-
-    <xs:complexType name="argumentsType">
-        <xs:sequence>
-            <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute type="xs:string" name="translate"/>
     </xs:complexType>
 
     <xs:complexType name="labelType">
@@ -129,6 +194,7 @@
             <xs:element ref="arguments" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="reference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="data" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="label" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name" use="optional"/>
@@ -145,6 +211,16 @@
         <xs:attribute type="xs:string" name="ifconfig" use="optional"/>
     </xs:complexType>
 
+    <xs:complexType name="dataType">
+        <xs:annotation>
+            <xs:documentation>
+                Use data from Service Layer in View Layer.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="alias" use="required"/>
+        <xs:attribute type="xs:string" name="serviceCall" use="optional"/>
+    </xs:complexType>
+
     <xs:complexType name="actionType">
         <xs:annotation>
             <xs:documentation>
@@ -152,7 +228,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="argument" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="method" use="required"/>
         <xs:attribute type="xs:string" name="translate" use="optional"/>
