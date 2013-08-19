@@ -44,25 +44,25 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Name'),
+            'header'    =>__('Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('wishlists', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wish Lists'),
+            'header'    =>__('Wish Lists'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'wishlists'
         ));
 
         $this->addColumn('bought_from_wishlists', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wishlist Purchase'),
+            'header'    =>__('Wishlist Purchase'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('w_vs_order', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wish List vs. Regular Order'),
+            'header'    =>__('Wish List vs. Regular Order'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -78,15 +78,15 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('num_deleted', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Times Deleted'),
+            'header'    =>__('Times Deleted'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
             'index'     =>'num_deleted'
         ));
 
-        $this->addExportType('*/*/exportWishlistCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportWishlistExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportWishlistCsv', __('CSV'));
+        $this->addExportType('*/*/exportWishlistExcel', __('Excel XML'));
 
         $this->setFilterVisibility(false);
 

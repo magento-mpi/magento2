@@ -23,11 +23,11 @@ class Mage_Backend_Model_Config_Source_Email_Method implements Mage_Core_Model_O
         $options    = array(
             array(
                 'value' => 'bcc',
-                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Bcc')
+                'label' => __('Bcc')
             ),
             array(
                 'value' => 'copy',
-                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Separate Email')
+                'label' => __('Separate Email')
             ),
         );
         return $options;

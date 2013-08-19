@@ -173,7 +173,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
         if (empty($txnId)) {
             if ('' == $this->getTxnId()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Sales_Helper_Data')->__('The parent transaction ID must have a transaction ID.')
+                    __('The parent transaction ID must have a transaction ID.')
                 );
             }
         } else {
@@ -442,7 +442,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     public function setAdditionalInformation($key, $value)
     {
         if (is_object($value)) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Payment transactions disallow storing objects.'));
+            Mage::throwException(__('Payment transactions disallow storing objects.'));
         }
         $info = $this->_getData('additional_information');
         if (!$info) {
@@ -499,7 +499,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             $this->_verifyThisTransactionExists();
         }
         if (1 == $this->getIsClosed() && $this->_isFailsafe) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('The transaction "%s" (%s) is already closed.', $this->getTxnId(), $this->getTxnType()));
+            Mage::throwException(__('The transaction "%1" (%2) is already closed.', $this->getTxnId(), $this->getTxnType()));
         }
         $this->setIsClosed(1);
         if ($shouldSave) {
@@ -590,7 +590,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
         } elseif (!$this->getId() || ($this->getOrderId() == $order->getId())) {
             $this->_order = $order;
         } else {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Set order for existing transactions not allowed'));
+            Mage::throwException(__('Set order for existing transactions not allowed'));
         }
 
         return $this;
@@ -649,7 +649,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
         $payment = $this->_verifyPaymentObject(true);
         $paymentId = $payment ? $payment->getId() : $this->_getData('payment_id');
         if (!$paymentId) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('At minimum, you need to set a payment ID.'));
+            Mage::throwException(__('At minimum, you need to set a payment ID.'));
         }
 
         $this->setOrder(true);
@@ -716,11 +716,11 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     public function getTransactionTypes()
     {
         return array(
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER    => Mage::helper('Mage_Sales_Helper_Data')->__('Order'),
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH    => Mage::helper('Mage_Sales_Helper_Data')->__('Authorization'),
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE => Mage::helper('Mage_Sales_Helper_Data')->__('Capture'),
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID    => Mage::helper('Mage_Sales_Helper_Data')->__('Void'),
-            Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND  => Mage::helper('Mage_Sales_Helper_Data')->__('Refund')
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER    => __('Order'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH    => __('Authorization'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE => __('Capture'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID    => __('Void'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND  => __('Refund')
         );
     }
 
@@ -756,7 +756,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             case self::TYPE_REFUND:
                 break;
             default:
-                Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We found an unsupported transaction type "%s".', $txnType));
+                Mage::throwException(__('We found an unsupported transaction type "%1".', $txnType));
         }
     }
 
@@ -771,7 +771,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     {
         if (!$this->_paymentObject || !$this->getOrderId()) {
             if (!$dryRun) {
-                Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Please set a proper payment object.'));
+                Mage::throwException(__('Please set a proper payment object.'));
             }
         }
         return $this->_paymentObject;
@@ -785,7 +785,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('The Transaction ID field cannot be empty.'));
+            Mage::throwException(__('The Transaction ID field cannot be empty.'));
         }
     }
 
@@ -797,7 +797,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('You can\'t do this without a transaction object.'));
+            Mage::throwException(__('You can\'t do this without a transaction object.'));
         }
         $this->_verifyTxnType();
     }

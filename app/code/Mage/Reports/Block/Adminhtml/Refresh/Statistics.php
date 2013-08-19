@@ -23,7 +23,7 @@ class Mage_Reports_Block_Adminhtml_Refresh_Statistics extends Mage_Backend_Block
     protected function _construct()
     {
         $this->_controller = 'report_refresh_statistics';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Refresh Statistics');
+        $this->_headerText = __('Refresh Statistics');
         parent::_construct();
         $this->_removeButton('add');
     }

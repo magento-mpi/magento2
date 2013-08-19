@@ -29,7 +29,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
         $this->loadLayout();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Tracking Information'));
+            $headBlock->setTitle(__('Tracking Information'));
         }
         $this->renderLayout();
     }
@@ -136,7 +136,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
                     $pdf = new Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__("We don't recognize or support the file extension in shipment %s.", $shipping->getIncrementId()));
+                        $this->_getSession()->addError(__("We don't recognize or support the file extension in shipment %1.", $shipping->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -153,7 +153,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('Mage_Sales_Helper_Data')->__('Something went wrong creating a shipping label.'));
+                ->addError(__('Something went wrong creating a shipping label.'));
         }
         $this->norouteAction();
         return;

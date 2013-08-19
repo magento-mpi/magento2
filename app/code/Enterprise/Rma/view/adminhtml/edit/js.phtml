@@ -15,7 +15,7 @@
         var rma = new AdminRma(<?php ///*echo $this->getOrderDataJson()*/ ?>);
         rma.setLoadAttributesUrl('<?php echo $this->getLoadAttributesUrl() ?>');
         rma.setLoadSplitLineUrl('<?php echo $this->getLoadSplitLineUrl() ?>');
-        rma.setDeleteLineLabel('<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Delete Line') ?>');
+        rma.setDeleteLineLabel('<?php echo __('Delete Line') ?>');
         $$('a.item_details').each(function(obj) {
             obj.observe('click', rma.itemDetailsRowClick.bind(rma))
         });

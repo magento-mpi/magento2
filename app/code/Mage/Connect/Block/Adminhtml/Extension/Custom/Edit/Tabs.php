@@ -25,7 +25,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
         parent::_construct();
         $this->setId('connect_extension_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_Connect_Helper_Data')->__('Create Extension Package'));
+        $this->setTitle(__('Create Extension Package'));
     }
 
     /**
@@ -36,33 +36,33 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
     protected function _beforeToHtml()
     {
 //        $this->addTab('package', array(
-//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Package Info'),
+//            'label'     => __('Package Info'),
 //            'content'   => $this->_getTabHtml('package'),
 //            'active'    => true,
 //        ));
 //
 //        $this->addTab('release', array(
-//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Release Info'),
+//            'label'     => __('Release Info'),
 //            'content'   => $this->_getTabHtml('release'),
 //        ));
 //
 //        $this->addTab('maintainers', array(
-//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Authors'),
+//            'label'     => __('Authors'),
 //            'content'   => $this->_getTabHtml('authors'),
 //        ));
 //
 //        $this->addTab('depends', array(
-//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Dependencies'),
+//            'label'     => __('Dependencies'),
 //            'content'   => $this->_getTabHtml('depends'),
 //        ));
 //
 //        $this->addTab('contents', array(
-//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Contents'),
+//            'label'     => __('Contents'),
 //            'content'   => $this->_getTabHtml('contents'),
 //        ));
 //
 //        $this->addTab('load', array(
-//            'label'     => Mage::helper('Mage_Connect_Helper_Data')->__('Load local Package'),
+//            'label'     => __('Load local Package'),
 //            'class'     => 'ajax',
 //            'url'       => $this->getUrl('*/*/loadtab', array('_current' => true)),
 //        ));

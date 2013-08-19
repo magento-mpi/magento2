@@ -14,8 +14,8 @@ class Mage_Payment_Model_Config_Source_Allspecificcountries implements Mage_Core
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('Mage_Payment_Helper_Data')->__('All Allowed Countries')),
-            array('value'=>1, 'label'=>Mage::helper('Mage_Payment_Helper_Data')->__('Specific Countries')),
+            array('value'=>0, 'label'=>__('All Allowed Countries')),
+            array('value'=>1, 'label'=>__('Specific Countries')),
         );
     }
 }

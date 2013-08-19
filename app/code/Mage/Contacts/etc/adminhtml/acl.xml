@@ -16,7 +16,7 @@
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_Contacts::contacts" module="Mage_Contacts" title="Contacts Section" />
+                            <resource id="Mage_Contacts::contacts" title="Contacts Section" />
                         </resource>
                     </resource>
                 </resource>

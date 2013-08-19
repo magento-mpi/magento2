@@ -838,20 +838,6 @@ abstract class Mage_Core_Block_Abstract extends Magento_Object
     }
 
     /**
-     * Translate block sentence
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getModuleName());
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
-    }
-
-    /**
      * Escape html entities
      *
      * @param   string|array $data

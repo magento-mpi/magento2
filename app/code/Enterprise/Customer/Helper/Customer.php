@@ -67,19 +67,19 @@ class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
     {
         return array(
             array(
-                'label' => $this->_dataHelper->__('Customer Checkout Register'),
+                'label' => __('Customer Checkout Register'),
                 'value' => 'checkout_register'
             ),
             array(
-                'label' => $this->_dataHelper->__('Customer Registration'),
+                'label' => __('Customer Registration'),
                 'value' => 'customer_account_create'
             ),
             array(
-                'label' => $this->_dataHelper->__('Customer Account Edit'),
+                'label' => __('Customer Account Edit'),
                 'value' => 'customer_account_edit'
             ),
             array(
-                'label' => $this->_dataHelper->__('Admin Checkout'),
+                'label' => __('Admin Checkout'),
                 'value' => 'adminhtml_checkout'
             ),
         );

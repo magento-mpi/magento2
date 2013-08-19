@@ -15,12 +15,12 @@
             <thead>
                 <tr>
                     <th class="col-draggable">&nbsp;</th>
-                    <th class="col-name required"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Title') ?><span class="required">*</span></th>
+                    <th class="col-name required"><?php echo __('Title') ?><span class="required">*</span></th>
                     <?php if ($this->getCanReadPrice() !== false) : ?>
-                    <th class="col-price"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
-                    <th class="col-price-type"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price Type') ?></th>
+                    <th class="col-price"><?php echo __('Price') ?></th>
+                    <th class="col-price-type"><?php echo __('Price Type') ?></th>
                     <?php endif; ?>
-                    <th class="col-sku"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
+                    <th class="col-sku"><?php echo __('SKU') ?></th>
                     <th class="col-actions">&nbsp;</th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
     <tr id="product_option_${id}_select_${select_id}">
         <td class="col-draggable">
             <div data-role="draggable-handle" class="draggable-handle"
-                 title="<?php echo $this->__('Sort Custom Option'); ?>"></div>
+                 title="<?php echo __('Sort Custom Option'); ?>"></div>
             <input name="product[options][${id}][values][${select_id}][sort_order]" type="hidden" value="${sort_order}">
         </td>
         <td class="col-name select-opt-title">

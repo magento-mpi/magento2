@@ -11,7 +11,7 @@
 -->
 <logging>
     <actions>
-        <refresh_data translate="label" module="Enterprise_CustomerSegment">
+        <refresh_data translate="label">
             <label>Refresh Data</label>
         </refresh_data>
     </actions>

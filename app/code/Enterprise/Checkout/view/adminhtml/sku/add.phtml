@@ -11,7 +11,7 @@
 <div class="add-by-sku">
     <div class="form-inline">
         <div class="field">
-            <label class="label"><span><?php echo $this->__('SKU\'s')?></span></label>
+            <label class="label"><span><?php echo __('SKU\'s')?></span></label>
             <div class="control">
                 <table class="data-table" id="sku_table" cellspacing="0">
                     <colgroup>
@@ -21,8 +21,8 @@
                     </colgroup>
                     <thead>
                         <tr class="headings">
-                            <th><?php echo $this->__('SKU') ?></th>
-                            <th class="last"><?php echo $this->__('Qty') ?></th>
+                            <th><?php echo __('SKU') ?></th>
+                            <th class="last"><?php echo __('Qty') ?></th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -41,11 +41,11 @@
             </div>
         </div>
         <div class="field add-sku-csv">
-            <label class="label" for="sku_upload"><?php echo $this->__('File') ?></label>
+            <label class="label" for="sku_upload"><?php echo __('File') ?></label>
             <div class="control">
                 <input type="file" id="sku_upload" name="<?php echo Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" value=""/>
-                <div class="note"><span><?php echo $this->__('Your csv file must include "sku" and "qty" columns.') ?></span></div>
-                <button type="button" onclick="resetUploadField()" class="button btn-reset"><span><span><span><?php echo $this->__('Reset')?></span></span></span></button>
+                <div class="note"><span><?php echo __('Your csv file must include "sku" and "qty" columns.') ?></span></div>
+                <button type="button" onclick="resetUploadField()" class="button btn-reset"><span><span><span><?php echo __('Reset')?></span></span></span></button>
             </div>
             <script type="text/javascript">
                 function resetUploadField() {

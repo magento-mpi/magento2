@@ -44,7 +44,7 @@ class Mage_Oauth_Block_Authorize extends Mage_Oauth_Block_AuthorizeBaseAbstract
      */
     public function getIdentityLabel()
     {
-        return $this->__('Email Address');
+        return __('Email Address');
     }
 
     /**
@@ -54,7 +54,7 @@ class Mage_Oauth_Block_Authorize extends Mage_Oauth_Block_AuthorizeBaseAbstract
      */
     public function getFormTitle()
     {
-        return $this->__('Log in as customer');
+        return __('Log in as customer');
     }
 
     /**

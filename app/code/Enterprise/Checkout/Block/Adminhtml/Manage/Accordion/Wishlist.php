@@ -46,7 +46,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setData('open', true);
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Wish List (%s)', $this->getItemsCount())
+                __('Wish List (%1)', $this->getItemsCount())
             );
         }
     }

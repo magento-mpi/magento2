@@ -17,9 +17,6 @@ class Mage_Core_Model_TemplateEngine_Twig_ExtensionTest extends PHPUnit_Framewor
     protected $_layoutFunctionsMock;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
-    protected $_translateMock;
-
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_blockTrackerMock;
 
     protected function setUp()
@@ -36,14 +33,9 @@ class Mage_Core_Model_TemplateEngine_Twig_ExtensionTest extends PHPUnit_Framewor
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_translateMock = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_extension = new Mage_Core_Model_TemplateEngine_Twig_Extension(
             $this->_commonFunctionsMock,
-            $this->_layoutFunctionsMock,
-            $this->_translateMock
+            $this->_layoutFunctionsMock
         );
         $this->_extension->setBlockTracker($this->_blockTrackerMock);
     }
@@ -95,13 +87,9 @@ class Mage_Core_Model_TemplateEngine_Twig_ExtensionTest extends PHPUnit_Framewor
      */
     public function testTranslate()
     {
-        $translated = 'Guten Tag';
+        $translated = 'Good day';
 
-        $this->_translateMock->expects($this->once())
-            ->method('translate')
-            ->will($this->returnValue($translated));
         $actual = $this->_extension->translate('Good day');
-        $this->assertEquals($translated, $actual, 'Translation did not work');
+        $this->assertEquals($translated, (string)$actual, 'Translation did not work');
     }
-
 }

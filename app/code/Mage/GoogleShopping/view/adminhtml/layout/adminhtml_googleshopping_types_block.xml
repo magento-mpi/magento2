@@ -38,13 +38,13 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="attribute_set_name">
                         <arguments>
-                            <header translate="true" module="Mage_GoogleShopping">Attributes Set</header>
+                            <header translate="true">Attributes Set</header>
                             <index>attribute_set_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="target_country">
                         <arguments>
-                            <header translate="true" module="Mage_GoogleShopping">Target Country</header>
+                            <header translate="true">Target Country</header>
                             <index>target_country</index>
                             <width>150px</width>
                             <renderer>Mage_GoogleShopping_Block_Adminhtml_Types_Renderer_Country</renderer>
@@ -53,7 +53,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="items_total">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Total Qty Content Items</header>
+                            <header translate="true">Total Qty Content Items</header>
                             <index>items_total</index>
                             <width>150px</width>
                             <filter>0</filter>

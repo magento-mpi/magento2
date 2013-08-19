@@ -14,10 +14,10 @@ class Mage_Catalog_Model_Config_Source_ListMode implements Mage_Core_Model_Optio
     public function toOptionArray()
     {
         return array(
-            array('value'=>'grid', 'label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Grid Only')),
-            array('value'=>'list', 'label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('List Only')),
-            array('value'=>'grid-list', 'label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Grid (default) / List')),
-            array('value'=>'list-grid', 'label'=>Mage::helper('Mage_Catalog_Helper_Data')->__('List (default) / Grid')),
+            array('value'=>'grid', 'label'=>__('Grid Only')),
+            array('value'=>'list', 'label'=>__('List Only')),
+            array('value'=>'grid-list', 'label'=>__('Grid (default) / List')),
+            array('value'=>'list-grid', 'label'=>__('List (default) / Grid')),
         );
     }
 }

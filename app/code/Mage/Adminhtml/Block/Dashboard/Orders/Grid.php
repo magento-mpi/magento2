@@ -69,14 +69,14 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
     protected function _prepareColumns()
     {
         $this->addColumn('customer', array(
-            'header'    => $this->__('Customer'),
+            'header'    => __('Customer'),
             'sortable'  => false,
             'index'     => 'customer',
-            'default'   => $this->__('Guest'),
+            'default'   => __('Guest'),
         ));
 
         $this->addColumn('items', array(
-            'header'    => $this->__('Items'),
+            'header'    => __('Items'),
             'align'     => 'right',
             'type'      => 'number',
             'sortable'  => false,
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
         $baseCurrencyCode = Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('total', array(
-            'header'    => $this->__('Grand Total'),
+            'header'    => __('Grand Total'),
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'currency',

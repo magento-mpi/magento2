@@ -346,15 +346,7 @@ class Magento_Data_Form_Element_Editor extends Magento_Data_Form_Element_Textare
      */
     public function translate($string)
     {
-        $translator = $this->getConfig('translator');
-        if (method_exists($translator, '__')) {
-            $result = $translator->__($string);
-            if (is_string($result)) {
-                return $result;
-            }
-        }
-
-        return $string;
+        return __($string);
     }
 
     /**

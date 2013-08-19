@@ -49,7 +49,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Con
         // call after parent::preDispatch(); to get session started
         if ($loginError) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                ->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the user name or password.'));
+                ->addError(__('Please correct the user name or password.'));
             $params = array('_query' => array('oauth_token' => $this->getRequest()->getParam('oauth_token', null)));
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
@@ -103,10 +103,10 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Con
             $session->addError($e->getMessage());
         } catch (Mage_Oauth_Exception $e) {
             $isException = true;
-            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
+            $session->addException($e, __('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
             $isException = true;
-            $session->addException($e, $this->__('An error occurred.'));
+            $session->addException($e, __('An error occurred.'));
         }
 
         $this->loadLayout();
@@ -147,7 +147,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Con
         /** @var $user Mage_User_Model_User */
         $user = $session->getData('user');
         if (!$user) {
-            $session->addError($this->__('Please login to proceed authorization.'));
+            $session->addError(__('Please login to proceed authorization.'));
             $url = $helper->getAuthorizeUrl(Mage_Oauth_Model_Token::USER_TYPE_ADMIN);
             $this->_redirectUrl($url);
             return $this;
@@ -170,14 +170,14 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Con
                 return $this;
             } else {
                 $block->setVerifier($token->getVerifier());
-                $session->addSuccess($this->__('Authorization confirmed.'));
+                $session->addSuccess(__('Authorization confirmed.'));
             }
         } catch (Mage_Core_Exception $e) {
             $block->setHasException(true);
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $block->setHasException(true);
-            $session->addException($e, $this->__('An error occurred on confirm authorize.'));
+            $session->addException($e, __('An error occurred on confirm authorize.'));
         }
 
         $this->_initLayoutMessages($this->_sessionName);
@@ -215,12 +215,12 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Mage_Adminhtml_Con
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {
-                $session->addNotice($this->__('The application access request is rejected.'));
+                $session->addNotice(__('The application access request is rejected.'));
             }
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred on reject authorize.'));
+            $session->addException($e, __('An error occurred on reject authorize.'));
         }
 
         //display exception

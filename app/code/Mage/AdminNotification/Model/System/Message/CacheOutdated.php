@@ -24,26 +24,18 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
     protected $_cacheTypeList;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * @param Magento_AuthorizationInterface $authorization
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
         Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
     ) {
         $this->_authorization = $authorization;
         $this->_urlBuilder = $urlBuilder;
         $this->_cacheTypeList = $cacheTypeList;
-        $this->_helperFactory = $helperFactory;
     }
 
     /**
@@ -88,12 +80,10 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
      */
     public function getText()
     {
-        /** @var $helper Mage_AdminNotification_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
         $cacheTypes = implode(', ', $this->_getCacheTypesForRefresh());
-        $message = $helper->__('One or more of the Cache Types are invalidated: %s. ', $cacheTypes) . ' ';
+        $message = __('One or more of the Cache Types are invalidated: %1. ', $cacheTypes) . ' ';
         $url = $this->_urlBuilder->getUrl('adminhtml/cache');
-        $message .= $helper->__('Please go to <a href="%s">Cache Management</a> and refresh cache types.', $url);
+        $message .= __('Please go to <a href="%1">Cache Management</a> and refresh cache types.', $url);
         return $message;
     }
 

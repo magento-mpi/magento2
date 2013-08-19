@@ -16,22 +16,22 @@
 <div id="bundleSummary" class="block bundle-summary">
     <div class="product">
         <div class="block-title">
-            <h2><?php echo $this->__('Your Customization'); ?></h2>
+            <h2><?php echo __('Your Customization'); ?></h2>
         </div>
         <img class="product-image no-display" src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'thumbnail')->resize($_imageSize); ?>" width="<?php echo $_imageSize?>" height="<?php echo $_imageSize?>" alt="<?php echo $this->escapeHtml($this->getImageLabel($_product, 'thumbnail')) ?>" />
         <div class="product-details">
             <h3 class="product-name no-display"><?php echo $this->escapeHtml($_product->getName()) ?></h3>
             <?php if($_product->getIsSalable()): ?>
-                <p class="availability in-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('In stock') ?></span></p>
+                <p class="availability in-stock"><?php echo __('Availability') ?>: <span><?php echo __('In stock') ?></span></p>
             <?php else: ?>
-                <p class="availability out-of-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('Out of stock') ?></span></p>
+                <p class="availability out-of-stock"><?php echo __('Availability') ?>: <span><?php echo __('Out of stock') ?></span></p>
             <?php endif; ?>
         </div>
         <div class="clearer"></div>
         <?php echo $this->getChildHtml('', true);?>
     </div>
     <div class="block-content summary">
-        <h4><?php echo $this->__('Summary'); ?></h4>
+        <h4><?php echo __('Summary'); ?></h4>
         <div id="bundle-summary" data-container="product-summary">
             <ul data-mage-init='{productSummary: []}'></ul>
             <script data-template="bundle-summary" type="text/x-jQuery-tmpl">
@@ -41,7 +41,7 @@
                 </li>
             </script>
             <script data-template="bundle-option" type="text/x-jQuery-tmpl">
-                <div><?php echo $this->__('%s x %s', '${_quantity_}', '${_label_}') ?></div>
+                <div><?php echo __('%1 x %2', '${_quantity_}', '${_label_}') ?></div>
             </script>
         </div>
     </div>

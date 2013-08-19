@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Totals');
+        return __('Order Totals');
     }
 
     public function getHeaderCssClass()

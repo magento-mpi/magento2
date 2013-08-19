@@ -17,15 +17,6 @@ class Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
     extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Controller_Sales_Invoice
@@ -34,8 +25,8 @@ class Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sales::sales_invoice')
-            ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
-            ->_addBreadcrumb($this->__('Invoices'),$this->__('Invoices'));
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Invoices'), __('Invoices'));
         return $this;
     }
 
@@ -55,7 +46,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
      */
     public function indexAction()
     {
-        $this->_title($this->__('Invoices'));
+        $this->_title(__('Invoices'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Invoice'))
@@ -88,7 +79,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
-                $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('We sent the message.'));
+                $this->_getSession()->addSuccess(__('We sent the message.'));
                 $this->_redirect('*/sales_invoice/view', array(
                     'order_id'  => $invoice->getOrder()->getId(),
                     'invoice_id'=> $invoiceId,

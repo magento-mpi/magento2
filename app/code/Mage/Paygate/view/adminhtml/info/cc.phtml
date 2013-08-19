@@ -22,7 +22,7 @@
 
     <?php foreach ($cards as $key => $card): ?>
         <?php if ($showCount): ?>
-            <span><?php echo sprintf($this->__('Credit Card %s'), $key + 1); ?></span>
+            <span><?php echo sprintf(__('Credit Card %s'), $key + 1); ?></span>
         <?php endif;?>
 
         <table class="info-table<?php if ($showCount):?> offset<?php endif;?>">

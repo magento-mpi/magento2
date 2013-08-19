@@ -17,7 +17,6 @@
  */
 class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Backend_Block_Widget_Grid
 {
-
     /**
      * @return Mage_Backend_Block_Widget_Grid
      */

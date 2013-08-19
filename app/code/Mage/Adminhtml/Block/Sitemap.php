@@ -23,8 +23,8 @@ class Mage_Adminhtml_Block_Sitemap extends Mage_Adminhtml_Block_Widget_Grid_Cont
     protected function _construct()
     {
         $this->_controller = 'sitemap';
-        $this->_headerText = Mage::helper('Mage_Sitemap_Helper_Data')->__('XML Sitemap');
-        $this->_addButtonLabel = Mage::helper('Mage_Sitemap_Helper_Data')->__('Add Sitemap');
+        $this->_headerText = __('XML Sitemap');
+        $this->_addButtonLabel = __('Add Sitemap');
         parent::_construct();
     }
 

@@ -20,11 +20,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportProductCsv</urlPath>
-                                <label translate="true" module="Mage_Tag">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportProductExcel</urlPath>
-                                <label translate="true" module="Mage_Tag">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -41,7 +41,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">ID</header>
+                            <header translate="true">ID</header>
                             <index>entity_id</index>
                             <column_css_class>col-id</column_css_class>
                             <header_css_class>col-id</header_css_class>
@@ -49,7 +49,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Product</header>
+                            <header translate="true">Product</header>
                             <index>name</index>
                             <column_css_class>col-product</column_css_class>
                             <header_css_class>col-product</header_css_class>
@@ -57,7 +57,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="utaged">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Unique Tags</header>
+                            <header translate="true">Unique Tags</header>
                             <index>utaged</index>
                             <column_css_class>col-unique-numbers</column_css_class>
                             <header_css_class>col-unique-numbers</header_css_class>
@@ -65,7 +65,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="taged">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Total Tags</header>
+                            <header translate="true">Total Tags</header>
                             <index>taged</index>
                             <column_css_class>col-total-numbers</column_css_class>
                             <header_css_class>col-total-numbers</header_css_class>
@@ -73,7 +73,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Action</header>
+                            <header translate="true">Action</header>
                             <type>action</type>
                             <getter>getId</getter>
                             <index>stores</index>
@@ -82,7 +82,7 @@
                             <sortable>0</sortable>
                             <actions>
                                 <show_tag>
-                                    <caption translate="true" module="Mage_Tag">Show Tags</caption>
+                                    <caption translate="true">Show Tags</caption>
                                     <url>
                                         <base>*/*/productDetail</base>
                                     </url>

@@ -39,7 +39,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Connect_Helper_Data')->__('Contents');
+        return __('Contents');
     }
 
     /**
@@ -49,6 +49,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Connect_Helper_Data')->__('Contents');
+        return __('Contents');
     }
 }

@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
                 true
             );
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Never');
+        return __('Never');
     }
 
     public function getStoreLastLoginDate()
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
             );
             return $this->formatDate($date, Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Never');
+        return __('Never');
     }
 
     public function getStoreLastLoginDateTimezone()
@@ -127,21 +127,21 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
             strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('Offline');
+            return __('Offline');
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Online');
+        return __('Online');
     }
 
     public function getIsConfirmedStatus()
     {
         $this->getCustomer();
         if (!$this->_customer->getConfirmation()) {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('Confirmed');
+            return __('Confirmed');
         }
         if ($this->_customer->isConfirmationRequired()) {
-            return Mage::helper('Mage_Customer_Helper_Data')->__('Not confirmed, cannot login');
+            return __('Not confirmed, cannot login');
         }
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Not confirmed, can login');
+        return __('Not confirmed, can login');
     }
 
     public function getCreatedInStore()
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
             $html = $address->format('html');
         }
         else {
-            $html = Mage::helper('Mage_Customer_Helper_Data')->__('The customer does not have default billing address.');
+            $html = __('The customer does not have default billing address.');
         }
         return $html;
     }
@@ -178,12 +178,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Customer View');
+        return __('Customer View');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Customer_Helper_Data')->__('Customer View');
+        return __('Customer View');
     }
 
     public function canShowTab()

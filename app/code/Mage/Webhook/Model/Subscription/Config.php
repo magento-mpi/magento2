@@ -14,9 +14,6 @@ class Mage_Webhook_Model_Subscription_Config
     /** Webhook subscription configuration path */
     const XML_PATH_SUBSCRIPTIONS = 'global/webhook/subscriptions';
 
-    /** @var Mage_Core_Model_Translate  */
-    private $_translator;
-
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection  */
     protected $_subscriptionSet;
 
@@ -30,20 +27,17 @@ class Mage_Webhook_Model_Subscription_Config
     private $_logger;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
      * @param Mage_Core_Model_Config $mageConfig
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
-        Mage_Core_Model_Translate $translator,
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
         Mage_Core_Model_Config $mageConfig,
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Mage_Core_Model_Logger $logger
     ) {
-        $this->_translator = $translator;
         $this->_subscriptionSet = $subscriptionSet;
         $this->_mageConfig = $mageConfig;
         $this->_subscriptionFactory = $subscriptionFactory;
@@ -71,9 +65,7 @@ class Mage_Webhook_Model_Subscription_Config
 
         foreach ($subscriptionConfig as $alias => $subscriptionData) {
             if (!$this->_validateConfigData($subscriptionData)) {
-                $errors[] = $this->_translator->translate(
-                    array("Invalid config data for subscription '%s'.", $alias)
-                );
+                $errors[] = __("Invalid config data for subscription '%1'.", $alias);
                 continue;
             }
 

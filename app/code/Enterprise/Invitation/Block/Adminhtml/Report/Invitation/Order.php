@@ -20,7 +20,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order extends Mage
     {
         $this->_controller = 'adminhtml_report_invitation_order';
         $this->_blockGroup = 'Enterprise_Invitation';
-        $this->_headerText = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Order Conversion Rate');
+        $this->_headerText = __('Order Conversion Rate');
         parent::_construct();
         $this->_removeButton('add');
     }

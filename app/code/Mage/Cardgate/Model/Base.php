@@ -58,13 +58,6 @@ class Mage_Cardgate_Model_Base extends Magento_Object
     protected $_logger;
 
     /**
-     * Helper object
-     *
-     * @var Mage_Cardgate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Filesystem
      *
      * @var Magento_Filesystem
@@ -115,7 +108,6 @@ class Mage_Cardgate_Model_Base extends Magento_Object
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Sales_Model_OrderFactory $orderFactory
-     * @param Mage_Cardgate_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
@@ -126,7 +118,6 @@ class Mage_Cardgate_Model_Base extends Magento_Object
         Mage_Core_Model_Logger $logger,
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Sales_Model_OrderFactory $orderFactory,
-        Mage_Cardgate_Helper_Data $helper,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
@@ -138,7 +129,6 @@ class Mage_Cardgate_Model_Base extends Magento_Object
         $this->_logger = $logger;
         $this->_transactionFactory = $transactionFactory;
         $this->_orderFactory = $orderFactory;
-        $this->_helper = $helper;
         $this->_filesystem = $filesystem;
 
         $this->_config = $this->_storeConfig->getConfig('payment/cardgate');
@@ -295,7 +285,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
             $statusMessage = $mailInvoice ? "Invoice #%s created and send to customer." : "Invoice #%s created.";
             $order->addStatusToHistory(
                 $order->getStatus(),
-                $this->_helper->__($statusMessage, $invoice->getIncrementId()),
+                __($statusMessage, $invoice->getIncrementId()),
                 $mailInvoice
             );
 
@@ -320,8 +310,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
         if (($amountInCents != $callbackAmount) AND (abs($callbackAmount - $amountInCents) > 1)) {
             $this->log('OrderID: ' . $order->getId() . ' do not match amounts. Sent '
                 . $amountInCents . ', received: ' . $callbackAmount);
-            $statusMessage = $this->_helper
-                ->__("Hacker attempt: Order total amount does not match CardGatePlus's gross total amount!");
+            $statusMessage = __("Hacker attempt: Order total amount does not match CardGatePlus's gross total amount!");
             $order->addStatusToHistory($order->getStatus(), $statusMessage);
             $order->save();
 
@@ -350,7 +339,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
 
         // Don't update order status if the payment is complete
         foreach ($order->getStatusHistoryCollection(true) as $_item) {
-            if ($_item->getComment() == $this->_helper->__("Payment complete.")) {
+            if ($_item->getComment() == __("Payment complete.")) {
                 $canUpdate = false;
             }
         }
@@ -434,19 +423,19 @@ class Mage_Cardgate_Model_Base extends Magento_Object
             case "200":
                 $newState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $newStatus = $statusComplete;
-                $statusMessage = $this->_helper->__("Payment complete.");
+                $statusMessage = __("Payment complete.");
                 // send new email
                 $this->_sendOrderEmail($order);
                 break;
             case "300":
                 $newState = Mage_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFailed;
-                $statusMessage = $this->_helper->__("Payment failed or canceled by user.");
+                $statusMessage = __("Payment failed or canceled by user.");
                 break;
             case "301":
                 $newState = Mage_Sales_Model_Order::STATE_CANCELED;
                 $newStatus = $statusFraud;
-                $statusMessage = $this->_helper->__("Transaction failed, payment is fraud.");
+                $statusMessage = __("Transaction failed, payment is fraud.");
                 break;
         }
 

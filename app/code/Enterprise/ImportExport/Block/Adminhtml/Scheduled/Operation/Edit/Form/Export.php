@@ -31,12 +31,9 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
      */
     protected function _prepareForm()
     {
-        /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
-
-        $this->setGeneralSettingsLabel($helper->__('Export Settings'));
-        $this->setFileSettingsLabel($helper->__('Export File Information'));
-        $this->setEmailSettingsLabel($helper->__('Export Failed Emails'));
+        $this->setGeneralSettingsLabel(__('Export Settings'));
+        $this->setFileSettingsLabel(__('Export File Information'));
+        $this->setEmailSettingsLabel(__('Export Failed Emails'));
 
         parent::_prepareForm();
         $form = $this->getForm();
@@ -49,8 +46,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
             'name'      => 'file_info[file_format]',
-            'title'     => $helper->__('File Format'),
-            'label'     => $helper->__('File Format'),
+            'title'     => __('File Format'),
+            'label'     => __('File Format'),
             'required'  => true,
             'values'    => $fileFormatModel->toOptionArray()
         ));
@@ -66,7 +63,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
         $element->setData('onchange', 'varienImportExportScheduled.getFilter();');
 
         $fieldset = $form->addFieldset('export_filter_grid_container', array(
-            'legend' => $helper->__('Entity Attributes'),
+            'legend' => __('Entity Attributes'),
             'fieldset_container_id' => 'export_filter_container'
         ));
 

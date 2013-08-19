@@ -29,7 +29,7 @@ class Mage_Centinel_Block_Adminhtml_Validation extends Mage_Adminhtml_Block_Sale
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Centinel_Helper_Data')->__('3D Secure Card Validation');
+        return __('3D Secure Card Validation');
     }
 
     /**

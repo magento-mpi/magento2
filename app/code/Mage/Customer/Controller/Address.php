@@ -99,7 +99,7 @@ class Mage_Customer_Controller_Address extends Mage_Core_Controller_Front_Action
             $address = $this->_extractAddress();
             $this->_validateAddress($address);
             $address->save();
-            $this->_getSession()->addSuccess($this->__('The address has been saved.'));
+            $this->_getSession()->addSuccess(__('The address has been saved.'));
             $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
             return;
         } catch (Mage_Core_Exception $e) {
@@ -111,7 +111,7 @@ class Mage_Customer_Controller_Address extends Mage_Core_Controller_Front_Action
                 }
             }
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Cannot save address.'));
+            $this->_getSession()->addException($e, __('Cannot save address.'));
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
@@ -170,16 +170,16 @@ class Mage_Customer_Controller_Address extends Mage_Core_Controller_Front_Action
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
-                $this->_getSession()->addError($this->__('The address does not belong to this customer.'));
+                $this->_getSession()->addError(__('The address does not belong to this customer.'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
                 return;
             }
 
             try {
                 $address->delete();
-                $this->_getSession()->addSuccess($this->__('The address has been deleted.'));
+                $this->_getSession()->addSuccess(__('The address has been deleted.'));
             } catch (Exception $e){
-                $this->_getSession()->addException($e, $this->__('An error occurred while deleting the address.'));
+                $this->_getSession()->addException($e, __('An error occurred while deleting the address.'));
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));

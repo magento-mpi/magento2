@@ -118,7 +118,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     protected function _initPhysical()
     {
         $this->setData(array(
-            'label'          => $this->__('Assign'),
+            'label'          => __('Assign'),
             'data_attribute' => array('mage-init' => $this->_getAssignInitData()),
             'options'        => array()
         ));
@@ -134,7 +134,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     protected function _initAssigned()
     {
         $this->setData(array(
-            'label'          => $this->__('Save'),
+            'label'          => __('Save'),
             'data_attribute' => array('mage-init' => $this->_getSaveAssignedInitData()),
             'options'        => array()
         ));
@@ -150,11 +150,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     protected function _initUnAssigned()
     {
         $this->setData(array(
-            'label'          => $this->__('Save'),
+            'label'          => __('Save'),
             'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
             'options'        => array(
                 array(
-                    'label'          => $this->__('Save & Assign'),
+                    'label'          => __('Save & Assign'),
                     'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData())
                 ),
             )
@@ -192,8 +192,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getSaveAssignedInitData()
     {
-        $message = $this->__("You changed the design of your live store. Are you sure you want to do that?");
-        $title = $this->__("Save");
+        $message = __("You changed the design of your live store. Are you sure you want to do that?");
+        $title = __("Save");
 
         $data = array(
             'button' => array(
@@ -203,8 +203,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
                     'confirm' => array(
-                        'message' => $message,
-                        'title'   => $title,
+                        'message' => (string)$message,
+                        'title'   => (string)$title,
                         'buttons' => array()
                     )
                 )
@@ -221,8 +221,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getAssignInitData()
     {
-        $message = $this->__("Are you sure you want to change the theme of your live store?");
-        $title = $this->__("Assign");
+        $message = __("Are you sure you want to change the theme of your live store?");
+        $title = __("Assign");
 
         $data = array(
             'button' => array(
@@ -231,8 +231,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'eventData' => array(
                     'theme_id'        => $this->getTheme()->getId(),
                     'confirm' => array(
-                        'message' => $this->__($message),
-                        'title'   => $title
+                        'message' => (string)$message,
+                        'title'   => (string)$title
                     )
                 )
             ),
@@ -251,11 +251,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     protected function _getSaveAndAssignInitData()
     {
         if ($this->getHasThemeAssigned()) {
-            $message = $this->__("Are you sure you want this theme to replace your current theme?");
+            $message = __("Are you sure you want this theme to replace your current theme?");
         } else {
-            $message = $this->__("Do you want to use this theme in your live store?");
+            $message = __("Do you want to use this theme in your live store?");
         }
-        $title = $this->__("Save & Assign");
+        $title = __("Save & Assign");
 
         $data = array(
             'button' => array(
@@ -265,8 +265,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
                     'confirm'  => array(
-                        'message' => $message,
-                        'title'   => $title
+                        'message' => (string)$message,
+                        'title'   => (string)$title
                     )
                 )
             ),

@@ -83,7 +83,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
      */
     protected function _getTitle()
     {
-        return Mage::helper('Mage_Rss_Helper_Data')->__('%s\'s Wishlist', $this->_getCustomer()->getName());
+        return __('%1\'s Wishlist', $this->_getCustomer()->getName());
     }
 
     /**
@@ -141,7 +141,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 }
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
-                    $description .= '<p>' . Mage::helper('Mage_Wishlist_Helper_Data')->__('Comment:')
+                    $description .= '<p>' . __('Comment:')
                         . ' ' . $this->helper('Mage_Catalog_Helper_Output')
                             ->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';
@@ -159,8 +159,8 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
         }
         else {
             $rssObj->_addHeader(array(
-                'title'         => Mage::helper('Mage_Rss_Helper_Data')->__('We cannot retrieve the wish list.'),
-                'description'   => Mage::helper('Mage_Rss_Helper_Data')->__('We cannot retrieve the wish list.'),
+                'title'         => __('We cannot retrieve the wish list.'),
+                'description'   => __('We cannot retrieve the wish list.'),
                 'link'          => Mage::getUrl(),
                 'charset'       => 'UTF-8',
             ));

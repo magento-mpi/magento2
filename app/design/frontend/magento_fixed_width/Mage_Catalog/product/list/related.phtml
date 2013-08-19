@@ -11,9 +11,9 @@
 <?php if($this->getItems()->getSize()): ?>
 <div class="box-collateral box-related">
         <div class="box-title">
-            <strong><span><?php echo $this->__('Related Products') ?></span></strong>
+            <strong><span><?php echo __('Related Products') ?></span></strong>
         </div>
-        <p class="note"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo $this->__('select all') ?></strong></a></p>
+        <p class="note"><?php echo __('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo __('select all') ?></strong></a></p>
         <?php $i=0; foreach($this->getItems() as $_item): ?>
         <?php if ($i++%3==0): ?>
         <ul class="block-content">
@@ -30,7 +30,7 @@
                         <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></h3>
                         <?php echo $this->getPriceHtml($_item, true, '-related') ?>
                         <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
-                            <p><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                            <p><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
                         <?php endif; ?>
                     </div>
                 </div>

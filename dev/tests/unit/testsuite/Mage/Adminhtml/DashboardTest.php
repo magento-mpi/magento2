@@ -111,10 +111,9 @@ class Mage_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
             'response' => $response,
             'objectManager' => $objectManager,
             'frontController' => $varienFront,
-
         );
         $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
-        return $this->getMock('Mage_Adminhtml_Controller_Dashboard', array('__'), array($context));
+        return new Mage_Adminhtml_Controller_Dashboard($context);
     }
 }
 

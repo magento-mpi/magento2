@@ -56,7 +56,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Connect_Helper_Data')->__('Load Local Package');
+        return __('Load Local Package');
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Connect_Helper_Data')->__('Load Local Package');
+        return __('Load Local Package');
     }
 
     /**

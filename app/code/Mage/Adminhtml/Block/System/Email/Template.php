@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_System_Email_Template extends Mage_Adminhtml_Block_Te
     protected function _prepareLayout()
     {
         $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New Template'),
+            'label'     => __('Add New Template'),
             'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
             'class'     => 'add'
         ));
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_System_Email_Template extends Mage_Adminhtml_Block_Te
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Transactional Emails');
+        return __('Transactional Emails');
     }
 
     /**

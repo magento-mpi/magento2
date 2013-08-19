@@ -89,8 +89,8 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
     public function getGlobalIcon()
     {
         return '<img src="' . $this->getViewFileUrl('images/fam_link.gif')
-            . '" alt="' . $this->__('Global Attribute')
-            . '" title="' . $this->__('This attribute shares the same value in all stores.')
+            . '" alt="' . __('Global Attribute')
+            . '" title="' . __('This attribute shares the same value in all stores.')
             . '" class="attribute-global"/>';
     }
 }

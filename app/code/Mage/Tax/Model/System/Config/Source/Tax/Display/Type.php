@@ -21,9 +21,9 @@ class Mage_Tax_Model_System_Config_Source_Tax_Display_Type
     {
         if (!$this->_options) {
             $this->_options = array();
-            $this->_options[] = array('value'=>Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX, 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('Excluding Tax'));
-            $this->_options[] = array('value'=>Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX, 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('Including Tax'));
-            $this->_options[] = array('value'=>Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH, 'label'=>Mage::helper('Mage_Tax_Helper_Data')->__('Including and Excluding Tax'));
+            $this->_options[] = array('value'=>Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX, 'label'=>__('Excluding Tax'));
+            $this->_options[] = array('value'=>Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX, 'label'=>__('Including Tax'));
+            $this->_options[] = array('value'=>Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH, 'label'=>__('Including and Excluding Tax'));
         }
         return $this->_options;
     }

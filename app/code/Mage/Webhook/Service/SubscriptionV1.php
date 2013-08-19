@@ -22,25 +22,19 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
     private $_subscriptionSet;
 
-    /** @var Mage_Core_Model_Translate Mage_Core_Model_Translate */
-    private $_translator;
-
     /**
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Mage_Webhook_Model_User_Factory $whUserFactory
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
-     * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Mage_Webhook_Model_User_Factory $whUserFactory,
-        Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Mage_Core_Model_Translate $translator
+        Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
     ) {
         $this->_subscriptionFactory = $subscriptionFactory;
         $this->_whUserFactory = $whUserFactory;
         $this->_subscriptionSet = $subscriptionSet;
-        $this->_translator = $translator;
     }
 
     /**
@@ -67,7 +61,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $exception) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -98,7 +92,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -128,7 +122,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -152,7 +146,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -180,7 +174,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -207,7 +201,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -234,7 +228,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -261,7 +255,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         } catch (Exception $e) {
             // These messages have no translation, we should not expose our internals but may consider logging them.
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('Unexpected error.  Please contact the administrator.'))
+                __('Unexpected error.  Please contact the administrator.')
             );
         }
     }
@@ -278,11 +272,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         $subscription = $this->_loadSubscriptionById($subscriptionId);
         if ($subscription->getApiUserId() != $apiUserId) {
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array(
-                    "User with id %s doesn't have permission to modify subscription %s",
-                    $apiUserId,
-                    $subscriptionId,
-                ))
+                __("User with id %1 doesn't have permission to modify subscription %2", $apiUserId, $subscriptionId)
             );
         }
     }
@@ -301,7 +291,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         if (!empty($invalidTopics)) {
             $listOfTopics = implode(', ', $invalidTopics);
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array('The following topics are not authorized: %s', $listOfTopics))
+                __('The following topics are not authorized: %1', $listOfTopics)
             );
         }
     }
@@ -318,7 +308,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         $subscription = $this->_subscriptionFactory->create()->load($subscriptionId);
         if (!$subscription->getId()) {
             throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array("Subscription with ID '%s' doesn't exist.", $subscriptionId))
+                __("Subscription with ID '%1' doesn't exist.", $subscriptionId)
             );
         }
         return $subscription;

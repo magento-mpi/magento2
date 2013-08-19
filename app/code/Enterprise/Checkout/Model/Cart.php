@@ -316,7 +316,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
+                    __('Failed to add a product to cart by id "%1".', $productId)
                 );
             }
         }
@@ -359,7 +359,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Something went wrong reordering this product.'));
+            Mage::throwException(__('Something went wrong reordering this product.'));
         }
 
         $product = Mage::getModel('Mage_Catalog_Model_Product')
@@ -395,7 +395,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             return $item;
 
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Something went wrong reordering this product.'));
+            Mage::throwException(__('Something went wrong reordering this product.'));
         }
     }
 
@@ -544,7 +544,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(Mage::helper('Mage_Wishlist_Helper_Data')->__("We couldn't find this wish list."));
+                    $this->_addResultError(__("We couldn't find this wish list."));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())
@@ -1278,7 +1278,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
         } catch (Exception $e) {
             $success = false;
             $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-            $error = Mage::helper('Enterprise_Checkout_Helper_Data')->__('The product cannot be added to cart.');
+            $error = __('The product cannot be added to cart.');
             if ($this->_isFrontend()) {
                 $item['item']['error'] = $error;
             } else {
@@ -1396,14 +1396,14 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
         $messages = array();
         if ($addedItemsCount) {
             $message = ($addedItemsCount == 1)
-                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s product to your shopping cart.', $addedItemsCount)
-                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s products to your shopping cart.', $addedItemsCount);
+                    ? __('You added %1 product to your shopping cart.', $addedItemsCount)
+                    : __('You added %1 products to your shopping cart.', $addedItemsCount);
             $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
-                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s product requires your attention.', $failedItemsCount)
-                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s products require your attention.', $failedItemsCount);
+                    ? __('%1 product requires your attention.', $failedItemsCount)
+                    : __('%1 products require your attention.', $failedItemsCount);
             $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->error($warning);
         }
         return $messages;

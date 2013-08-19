@@ -73,33 +73,33 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => $this->__('ID'),
+            'header'    => __('ID'),
             'align'     => 'right',
             'width'     => '50px',
             'index'     => 'subscription_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => $this->__('Name'),
+            'header'    => __('Name'),
             'align'     => 'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('version', array(
-            'header'    => $this->__('Version'),
+            'header'    => __('Version'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'version',
         ));
 
         $this->addColumn('endpoint_url', array(
-            'header'    => $this->__('Endpoint URL'),
+            'header'    => __('Endpoint URL'),
             'align'     => 'left',
             'index'     => 'endpoint_url',
         ));
 
         $this->addColumn('status', array(
-            'header'    => $this->__('Status'),
+            'header'    => __('Status'),
             'align'     =>'left',
             'index'     => 'status',
             'type'      => 'options',
@@ -108,7 +108,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
         ));
 
         $this->addColumn('action', array(
-            'header'    =>  $this->__('Action'),
+            'header'    =>  __('Action'),
             'align'     =>  'left',
             'width'     => '80px',
             'filter'    =>  false,
@@ -138,9 +138,9 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
     protected function _getStatusOptions()
     {
         return array(
-            Mage_Webhook_Model_Subscription::STATUS_ACTIVE => $this->__('Active'),
-            Mage_Webhook_Model_Subscription::STATUS_REVOKED => $this->__('Revoked'),
-            Mage_Webhook_Model_Subscription::STATUS_INACTIVE => $this->__('Inactive'),
+            Mage_Webhook_Model_Subscription::STATUS_ACTIVE => __('Active'),
+            Mage_Webhook_Model_Subscription::STATUS_REVOKED => __('Revoked'),
+            Mage_Webhook_Model_Subscription::STATUS_INACTIVE => __('Inactive'),
         );
     }
 }

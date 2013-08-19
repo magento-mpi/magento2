@@ -16,23 +16,6 @@
 class Mage_Cardgate_Model_System_Config_Source_PaymentAction
 {
     /**
-     * Helper object
-     *
-     * @var Mage_Cardgate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Constructor
-     *
-     * @param Mage_Cardgate_Helper_Data $helper
-     */
-    public function __construct(Mage_Cardgate_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
-    /**
      * Returns payment actions available for CardGate
      *
      * @return array
@@ -42,11 +25,11 @@ class Mage_Cardgate_Model_System_Config_Source_PaymentAction
         return array(
             array(
                 'value' => 0,
-                'label' => $this->_helper->__('Authorize Only')
+                'label' => __('Authorize Only')
             ),
             array(
                 'value' => 1,
-                'label' => $this->_helper->__('Authorize and Capture')
+                'label' => __('Authorize and Capture')
             ),
         );
     }

@@ -55,7 +55,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
     {
         $months = $this->getData('cc_months');
         if (is_null($months)) {
-            $months[0] =  $this->__('Month');
+            $months[0] =  __('Month');
             $months = array_merge($months, $this->_getConfig()->getMonths());
             $this->setData('cc_months', $months);
         }
@@ -72,7 +72,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         $years = $this->getData('cc_years');
         if (is_null($years)) {
             $years = $this->_getConfig()->getYears();
-            $years = array(0=>$this->__('Year'))+$years;
+            $years = array(0=>__('Year'))+$years;
             $this->setData('cc_years', $years);
         }
         return $years;
@@ -121,7 +121,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
             $year = $first - $index;
             $years[$year] = $year;
         }
-        $years = array(0=>$this->__('Year'))+$years;
+        $years = array(0=>__('Year'))+$years;
         return $years;
     }
 

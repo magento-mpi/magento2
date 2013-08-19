@@ -15,8 +15,8 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::convert">
-                        <resource id="Mage_ImportExport::import" module="Mage_ImportExport" title="Import" sortOrder="10" />
-                        <resource id="Mage_ImportExport::export" module="Mage_ImportExport" title="Export" sortOrder="20" />
+                        <resource id="Mage_ImportExport::import" title="Import" sortOrder="10" />
+                        <resource id="Mage_ImportExport::export" title="Export" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

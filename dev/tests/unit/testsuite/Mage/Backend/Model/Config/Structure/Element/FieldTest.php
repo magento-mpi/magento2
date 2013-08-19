@@ -23,11 +23,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -70,18 +65,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
         );
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback(
-                    function ($arg) {
-                        return 'translated ' . $arg;
-                    }
-                )
-            );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_factoryHelperMock->expects($this->any())->method('get')
-            ->will($this->returnValue($helperMock));
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_BackendFactory', array(), array(), '', false
@@ -103,7 +86,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         );
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Field(
-            $this->_factoryHelperMock,
             $this->_applicationMock,
             $this->_backendFactoryMock,
             $this->_sourceFactoryMock,
@@ -122,27 +104,26 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         unset($this->_sourceFactoryMock);
         unset($this->_commentFactoryMock);
         unset($this->_depMapperMock);
-        unset($this->_factoryHelperMock);
         unset($this->_model);
         unset($this->_blockFactoryMock);
     }
 
     public function testGetLabelTranslatesLabelAndPrefix()
     {
-        $this->_model->setData(array('label' => 'element label', 'module' => 'Mage_Module'), 'scope');
-        $this->assertEquals('translated some prefix translated element label', $this->_model->getLabel('some prefix'));
+        $this->_model->setData(array('label' => 'element label'), 'scope');
+        $this->assertEquals(__('some prefix') . ' ' . __('element label'), $this->_model->getLabel('some prefix'));
     }
 
     public function testGetHintTranslatesElementHint()
     {
-        $this->_model->setData(array('hint' => 'element hint', 'module' => 'Mage_Module'), 'scope');
-        $this->assertEquals('translated element hint', $this->_model->getHint());
+        $this->_model->setData(array('hint' => 'element hint'), 'scope');
+        $this->assertEquals(__('element hint'), $this->_model->getHint());
     }
 
     public function testGetCommentTranslatesCommentTextIfNoCommentModelIsProvided()
     {
-        $this->_model->setData(array('comment' => 'element comment', 'module' => 'Mage_Module'), 'scope');
-        $this->assertEquals('translated element comment', $this->_model->getComment());
+        $this->_model->setData(array('comment' => 'element comment'), 'scope');
+        $this->assertEquals(__('element comment'), $this->_model->getComment());
     }
 
     public function testGetCommentRetrievesCommentFromCommentModelIfItsProvided()
@@ -163,8 +144,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
 
     public function testGetTooltipRetunrsTranslatedAttributeIfNoBlockIsProvided()
     {
-        $this->_model->setData(array('tooltip' => 'element tooltip', 'module' => 'Mage_Module'), 'scope');
-        $this->assertEquals('translated element tooltip', $this->_model->getTooltip());
+        $this->_model->setData(array('tooltip' => 'element tooltip'), 'scope');
+        $this->assertEquals(__('element tooltip'), $this->_model->getTooltip());
     }
 
     public function testGetTooltipCreatesTooltipBlock()
@@ -312,8 +293,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             array('label' => 'test2', 'value' => 1)
         );
         $expected = array(
-            array('label' => 'translated test', 'value' => 0),
-            array('label' => 'translated test2', 'value' => 1)
+            array('label' => __('test'), 'value' => 0),
+            array('label' => __('test2'), 'value' => 1)
         );
         $this->_model->setData(array('options' => array('option' => $option)), 'scope');
         $this->assertEquals($expected, $this->_model->getOptions());
@@ -329,7 +310,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         );
         $expected = array(
             array(
-                'label' => 'translated test',
+                'label' => __('test'),
                 'value' => Mage_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT
             ),
         );
@@ -415,8 +396,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             ->will($this->returnValue($option));
 
         $expected = array(
-            array('label' => 'translated test', 'value' => 0),
-            array('label' => 'translated test2', 'value' => 1)
+            array('label' => __('test'), 'value' => 0),
+            array('label' => __('test2'), 'value' => 1)
         );
         $options = array(
             'service_call'      => 'serviceCallName',
@@ -440,8 +421,8 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             ->will($this->returnValue($option));
 
         $expected = array(
-            array('label' => 'translated test', 'value' => 0),
-            array('label' => 'translated test2', 'value' => 1)
+            array('label' => __('test'), 'value' => 0),
+            array('label' => __('test2'), 'value' => 1)
         );
         $options = array(
             'service_call' => 'serviceCallName',

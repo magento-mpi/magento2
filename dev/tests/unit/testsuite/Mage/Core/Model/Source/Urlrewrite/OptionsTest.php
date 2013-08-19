@@ -15,29 +15,6 @@
 class Mage_Core_Model_Source_Urlrewrite_OptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Initialize helper
-     */
-    protected function setUp()
-    {
-        $helper = $this->getMockBuilder('Mage_Adminhtml_Helper_Data')
-            ->setMethods(array('__'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-        Mage::register('_helper/Mage_Adminhtml_Helper_Data', $helper);
-    }
-
-    /**
-     * Clear helper
-     */
-    protected function tearDown()
-    {
-        Mage::unregister('_helper/Mage_Adminhtml_Helper_Data');
-    }
-
-    /**
      * @covers Mage_Core_Model_Source_Urlrewrite_OptionsTest::getAllOptions
      */
     public function testGetAllOptions()

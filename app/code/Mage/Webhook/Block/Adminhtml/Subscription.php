@@ -28,7 +28,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription extends Mage_Backend_Block_Widge
     {
         parent::_construct();
 
-        $this->_headerText      = $this->__('Subscriptions');
-        $this->_addButtonLabel  = $this->__('Add Subscription');
+        $this->_headerText      = __('Subscriptions');
+        $this->_addButtonLabel  = __('Add Subscription');
     }
 }

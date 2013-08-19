@@ -67,9 +67,9 @@ class Mage_AdminNotification_Block_Window extends Mage_Backend_Block_Template
     protected function _toHtml()
     {
         if ($this->canShow()) {
-            $this->setHeaderText($this->escapeHtml($this->__('Incoming Message')));
-            $this->setCloseText($this->escapeHtml($this->__('close')));
-            $this->setReadDetailsText($this->escapeHtml($this->__('Read details')));
+            $this->setHeaderText($this->escapeHtml(__('Incoming Message')));
+            $this->setCloseText($this->escapeHtml(__('close')));
+            $this->setReadDetailsText($this->escapeHtml(__('Read details')));
             $this->setNoticeMessageText($this->escapeHtml($this->_getLatestItem()->getTitle()));
             $this->setNoticeMessageUrl($this->escapeUrl($this->_getLatestItem()->getUrl()));
             $this->setSeverityText('critical');
