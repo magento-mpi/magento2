@@ -10,27 +10,6 @@
 class Mage_Core_Model_Config_Data implements Mage_Core_Model_Config_DataInterface
 {
     /**
-     * Configuration reader model
-     *
-     * @var Mage_Core_Model_Config_Data_Reader
-     */
-    protected $_reader;
-
-    /**
-     * Configuration cache model
-     *
-     * @var Magento_Config_CacheInterface
-     */
-    protected $_cache;
-
-    /**
-     * Cache tag
-     *
-     * @var string
-     */
-    protected $_cacheId;
-
-    /**
      * Config data
      *
      * @var array
@@ -38,39 +17,21 @@ class Mage_Core_Model_Config_Data implements Mage_Core_Model_Config_DataInterfac
     protected $_data = null;
 
     /**
-     * @param Mage_Core_Model_Config_Data_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
-     * @param string $cacheId
+     * @param $data
      */
-    public function __construct(
-        Mage_Core_Model_Config_Data_Reader $reader,
-        Magento_Config_CacheInterface $cache,
-        $cacheId = 'default_config_cache'
-    ) {
-        $this->_reader = $reader;
-        $this->_cache = $cache;
-        $this->_cacheId = $cacheId;
+    public function __construct($data)
+    {
+        $this->_data = $data;
     }
 
     /**
-     * Get config value by scope
+     * Retrieve configuration value by path
      *
-     * @param null $path
-     * @param string $scope
-     * @param null $scopeCode
-     * @return mixed
+     * @param null|string $path
+     * @return array|string
      */
-    public function getValue($path = null, $scope = '', $scopeCode = null)
+    public function getValue($path = null)
     {
-        if ($this->_data == null) {
-            $data = $this->_cache->get('config', $this->_cacheId);
-            if (false === $data) {
-                $data = $this->_reader->read($scope, $scopeCode);
-                $this->_cache->put($data, 'config', $this->_cacheId);
-            }
-            $this->_data = $data;
-        }
-
         if ($path === null) {
             return $this->_data;
         }
