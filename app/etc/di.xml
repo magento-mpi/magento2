@@ -78,11 +78,6 @@
             <instance type="Mage_Core_Model_Config_Primary" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Locales">
-        <param name="storage">
-            <instance type="Mage_Core_Model_Config_Storage_Locales" />
-        </param>
-    </type>
     <type name="Mage_Core_Model_Config_Modules">
         <param name="storage">
             <instance type="Mage_Core_Model_Config_Storage_Modules" />
@@ -96,11 +91,6 @@
     <type name="Mage_Core_Model_Config_Storage_Modules">
         <param name="loader">
             <instance type="Mage_Core_Model_Config_Loader_Modules_Proxy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Storage_Locales">
-        <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Locales_Proxy" />
         </param>
     </type>
     <type name="Mage_Core_Model_Event_Config">
@@ -124,9 +114,6 @@
         </param>
         <param name="modulesConfig">
             <instance type="Mage_Core_Model_Config_Modules" />
-        </param>
-        <param name="localesConfig">
-            <instance type="Mage_Core_Model_Config_Locales" />
         </param>
     </type>
     <type name="Mage_Core_Model_Store_StorageFactory">

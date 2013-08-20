@@ -17,13 +17,6 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
     protected $_modulesConfig;
 
     /**
-     * Modules configuration object
-     *
-     * @var Mage_Core_Model_Config_Locales
-     */
-    protected $_localesConfig;
-
-    /**
      * Database configuration loader
      *
      * @var Mage_Core_Model_Config_Loader_Db
@@ -37,18 +30,15 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
 
     /**
      * @param Mage_Core_Model_Config_Modules $config
-     * @param Mage_Core_Model_Config_Locales $localesConfig
      * @param Mage_Core_Model_Config_Loader_Db $dbLoader
      * @param Mage_Core_Model_Config_BaseFactory $factory
      */
     public function __construct(
         Mage_Core_Model_Config_Modules $config,
-        Mage_Core_Model_Config_Locales $localesConfig,
         Mage_Core_Model_Config_Loader_Db $dbLoader,
         Mage_Core_Model_Config_BaseFactory $factory
     ) {
         $this->_modulesConfig = $config;
-        $this->_localesConfig = $localesConfig;
         $this->_dbLoader = $dbLoader;
         $this->_configFactory = $factory;
     }
@@ -62,6 +52,5 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
     {
         $config->extend($this->_configFactory->create($this->_modulesConfig->getNode()));
         $this->_dbLoader->load($config);
-        $config->extend($this->_configFactory->create($this->_localesConfig->getNode()));
     }
 }

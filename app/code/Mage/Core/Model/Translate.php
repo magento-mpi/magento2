@@ -143,20 +143,20 @@ class Mage_Core_Model_Translate
      * Initialize translate model
      *
      * @param Mage_Core_Model_View_DesignInterface $viewDesign
-     * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
+     * @param Mage_Core_Model_Locale_Hierarchy_Config $config
      * @param Mage_core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      */
     public function __construct(
         Mage_Core_Model_View_DesignInterface $viewDesign,
-        Mage_Core_Model_Locale_Hierarchy_Loader $loader,
+        Mage_Core_Model_Locale_Hierarchy_Config $config,
         Mage_Core_Model_Translate_Factory $translateFactory,
         Magento_Cache_FrontendInterface $cache,
         Mage_Core_Model_View_FileSystem $viewFileSystem
     ) {
         $this->_viewDesign = $viewDesign;
-        $this->_localeHierarchy = $loader->load();
+        $this->_localeHierarchy = $config->getHierarchy();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;

@@ -23,7 +23,6 @@ class Mage_Core_Model_Locale_Hierarchy_LoaderTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Locales', array(), array(), '', false, false);
         $this->_model = new Mage_Core_Model_Locale_Hierarchy_Loader($this->_configMock);
     }
 
