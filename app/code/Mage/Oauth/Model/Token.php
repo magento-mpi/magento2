@@ -47,8 +47,9 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
     /**#@+
      * Token types
      */
-    const TYPE_REQUEST = 'request';
-    const TYPE_ACCESS  = 'access';
+    const TYPE_REQUEST  = 'request';
+    const TYPE_ACCESS   = 'access';
+    const TYPE_VERIFIER = 'verifier';
     /**#@- */
 
     /**#@+
@@ -92,6 +93,26 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
             $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
         }
         return $this;
+    }
+
+    /**
+     * Generate an oauth_verifier.
+     *
+     * @param int $consumerId - The id of the consumer associated with the verifier to be generated.
+     * @return Mage_Oauth_Model_Token
+     */
+    public function createVerifierToken($consumerId)
+    {
+        /** @var $helper Mage_Oauth_Helper_Data */
+        $helper = Mage::helper('Mage_Oauth_Helper_Data');
+
+        $this->setType(self::TYPE_VERIFIER);
+        $this->setConsumerId($consumerId);
+        $this->setVerifier($helper->generateVerifier());
+        $this->save();
+
+        return $this;
+
     }
 
     /**

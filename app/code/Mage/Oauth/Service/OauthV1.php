@@ -90,28 +90,37 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /** @var  Mage_Oauth_Helper_Data */
     protected $_helper;
 
-    /** @var  Mage_Oauth_Model_Consumer */
-    protected $_consumer;
+    /** @var  Mage_Core_Model_Store */
+    protected $_store;
+
+    /** @var  Zend_Http_Client */
+    protected $_httpClient;
 
     /**
      * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
      * @param Mage_Oauth_Model_Token_Factory $tokenFactory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Store
      * @param Mage_Core_Model_Translate $translator
+     * @param Zend_Http_Client
      */
     public function __construct(
         Mage_Oauth_Model_Consumer_Factory $consumerFactory,
         Mage_Oauth_Model_Nonce_Factory $nonceFactory,
         Mage_Oauth_Model_Token_Factory $tokenFactory,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Translate $translator
+        Mage_Core_Model_Store $store,
+        Mage_Core_Model_Translate $translator,
+        Zend_Http_Client $httpClient
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
         $this->_helper = $helperFactory->get('Mage_Oauth_Helper_Data');
+        $this->_store = $store;
         $this->_translator = $translator;
+        $this->_httpClient = $httpClient;
     }
 
     /**
@@ -127,8 +136,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Create a new consumer account when an Add-On is installed.
      *
-     * @param array $consumerData
-     * @return array
+     * @param array $consumerData - Information provided by the Add-On when the Add-On is installed.
+     * @return array - The Add-On (consumer) data.
      * @throws Mage_Core_Exception
      * @throws Mage_Oauth_Exception
      */
@@ -137,8 +146,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         try {
             $consumer = $this->_consumerFactory->create($consumerData);
             $consumer->save();
-            return array(
-                'oauth_consumer_key' => $consumer->getKey(), 'oauth_consumer_secret' => $consumer->getSecret());
+            return $consumer->getData();
         } catch (Mage_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
@@ -148,20 +156,52 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
-     * Issue a pre-authorization request token to the caller
+     * Perform post to Add-On (consumer) HTTP Post URL. Generate and return oauth_verifier.
      *
-     * @param array $signedRequest input parameters such as consumer key, nonce, signature, signature method, timestamp,
-     * oauth version, auth code
-     * @return array output containing the request token key and secret
+     * @param array $consumerData - The Add-On (consumer) data.
+     * @return array - The oauth_verifier.
+     * @throws Mage_Core_Exception
+     * @throws Mage_Oauth_Exception
+     */
+    public function postToConsumer($consumerData)
+    {
+        try {
+            $storeUrl = $this->_store->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+            $storeApiBaseUrl = $storeUrl . 'api';
+
+            $this->_httpClient->setUri($consumerData['http_post_url']);
+            $this->_httpClient->setParameterPost(array(
+                    'oauth_consumer_key' => $consumerData['key'],
+                    'oauth_consumer_secret' => $consumerData['secret'],
+                    'store_url' => $storeUrl,
+                    'store_api_base_url' => $storeApiBaseUrl
+                ));
+            // TODO: Uncomment this when there is a live http_post_url that we can actually post to.
+            //$this->_httpClient->request(Zend_Http_Client::POST);
+
+            $token = $this->_tokenFactory->create()->createVerifierToken($consumerData['entity_id']);
+            return array('oauth_verifier' => $token->getVerifier());
+        } catch (Mage_Core_Exception $exception) {
+            throw $exception;
+        } catch (Exception $exception) {
+            throw new Mage_Oauth_Exception(
+                $this->_translator->translate(array('Unexpected error. Unable to post data to consumer.')));
+        }
+    }
+
+    /**
+     * Issue a pre-authorization request token to the caller.
+     *
+     * @param array $signedRequest - Parameters (e.g. consumer key, nonce, signature method, etc.
+     * @return array - The oauth_token and oauth_token_secret.
      * @throws Mage_Oauth_Exception
      */
     public function getRequestToken($signedRequest)
     {
-        // validate input parameters as much as possible before making database calls
         $this->_validateVersionParam($signedRequest['oauth_version']);
         $this->_validateNonce(
             $signedRequest['nonce'],
-            $signedRequest['consumer_key'],
+            $consumer->getId(),
             $signedRequest['oauth_timestamp']
         );
 
@@ -240,7 +280,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             $consumer->getSecret(),
             $token->getSecret(),
             $httpMethod,
-            $requestUrl
+            $requestUrl,
+            $token->getSecret()
         );
 
         //Mark this token associated to the consumer as "access". Replace type with "access" from "request"
@@ -388,12 +429,12 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      *
      * @param array $params
      * @param string $consumerSecret
-     * @param string $tokenSecret
      * @param string $httpMethod
      * @param string $requestUrl
+     * @param string $tokenSecret
      * @throws Mage_Oauth_Exception
      */
-    protected function _validateSignature($params, $consumerSecret, $tokenSecret = null, $httpMethod, $requestUrl)
+    protected function _validateSignature($params, $consumerSecret, $httpMethod, $requestUrl, $tokenSecret = null)
     {
         if (!in_array($params['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             throw new Mage_Oauth_Exception('', self::ERR_SIGNATURE_METHOD_REJECTED);

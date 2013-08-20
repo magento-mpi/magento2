@@ -52,17 +52,44 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Create a new consumer account when an Add-On is installed.
      *
-     * @param array $addOnData - Information provided by an AddOn when the AddOn installed.
-     * @return array - Consumer account information, including Oauth consumer key and secret.
+     * @param array $consumerData - Information provided by an Add-On when the Add-On is installed.
+     * <pre>
+     * array(
+     *  'name' => 'Add-On Name',
+     *  'key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *  'secret' => 'b7bb92dd4f76f3a71b598a4a3556f829',
+     *  'http_post_url' => 'http://www.my-add-on.com'
+     * )
+     * </pre>
+     * @return array - The Add-On (consumer) data.
+     * @throws Mage_Core_Exception
      * @throws Mage_Oauth_Exception
      */
-    public function createConsumer($addOnData);
+    public function createConsumer($consumerData);
+
+    /**
+     * Execute post to Add-On (consumer) HTTP Post URL. Generate and return oauth_verifier.
+     *
+     * @param array $consumerData - The Add-On (consumer) data.
+     * <pre>
+     * array(
+     *  'entity_id' => 1
+     *  'key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *  'secret' => 'b7bb92dd4f76f3a71b598a4a3556f829',
+     *  'http_post_url' => 'http://www.my-add-on.com'
+     *  )
+     * </pre>
+     * @return array - The oauth_verifier.
+     * @throws Mage_Core_Exception
+     * @throws Mage_Oauth_Exception
+     */
+    public function postToConsumer($consumerData);
 
     /**
      * Issue a pre-authorization request token to the caller
      *
-     * @param array input parameters includes consumer key, nonce, signature, signature method, timestamp, oauth version, auth code
-     * @return array output containing the request token
+     * @param array $request - Parameters including consumer key, nonce, signature, signature method, etc.
+     * @return array - The request token/secret pair.
      * @throws Mage_Oauth_Exception
      */
     public function getRequestToken($request);
@@ -70,8 +97,9 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Get access token for a pre-authorized request token
      *
-     * @param array $requestArray containing parameters necessary for requesting Access Token
-     * <pre> eg array(
+     * @param array $accessTokenReqArray array containing parameters necessary for requesting Access Token
+     * <pre>
+     * array(
      *  'oauth_version' => '1.0',
      *  'oauth_signature_method' => 'HMAC-SHA1',
      *  'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
@@ -85,12 +113,7 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      *  'http_method' => 'POST'
      * )
      * </pre>
-     *
-     * @return string query param like string containing oauth_token and oauth_token_secret eg
-     * <pre>
-     * oauth_token=24ea75e385a22504dda4ddf3a272d4ae&oauth_token_secret=1b61498676db75abbe0e21df0b231067
-     * </pre>
-     * @throws Mage_Oauth_Exception
+     * @return array - The access token/secret pair.
      */
     public function getAccessToken($requestArray);
 

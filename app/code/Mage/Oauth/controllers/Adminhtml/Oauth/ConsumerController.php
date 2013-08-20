@@ -189,17 +189,27 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Backend_Control
     }
 
     /**
+     * Redirect either to edit an existing consumer or to add a new consumer.
+     *
+     * @param int|null $consumerId - A consumer id.
+     */
+    private function _redirectToEditOrNew($consumerId)
+    {
+        if ($consumerId) {
+            $this->_redirect('*/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
+        } else {
+            $this->_redirect('*/*/new');
+        }
+    }
+
+    /**
      * Save consumer action
      */
     public function saveAction()
     {
         $consumerId = $this->getRequest()->getParam(self::PARAM_CONSUMER_ID);
         if (!$this->_validateFormKey()) {
-            if ($consumerId) {
-                $this->_redirect('*/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
-            } else {
-                $this->_redirect('*/*/new');
-            }
+            $this->_redirectToEditOrNew($consumerId);
             return;
         }
 
@@ -220,8 +230,9 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Backend_Control
             }
         }
 
+        $verifier = array();
         try {
-            $this->_oauthService->createConsumer($data);
+            $verifier = $this->_oauthService->postToConsumer($this->_oauthService->createConsumer($data));
             $this->_getSession()->addSuccess($this->__('The add-on has been saved.'));
             $this->_setFormData(null);
         } catch (Mage_Core_Exception $e) {
@@ -234,11 +245,14 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Backend_Control
         }
 
         if ($this->getRequest()->getParam('back')) {
-            if ($consumerId) {
-                $this->_redirect('*/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
-            } else {
-                $this->_redirect('*/*/new');
-            }
+            $this->_redirectToEditOrNew($consumerId);
+        } else if ($verifier['oauth_verifier']) {
+            //$this->_redirect('<Add-On Website URL>', array(
+                    //'oauth_consumer_key' => $data[self::DATA_KEY],
+                    //'oauth_verifier' => $verifier['oauth_verifier'],
+                    //'return_url' => $this->getUrl('*/*/index')
+                //));
+            $this->_redirect('*/*/index');
         } else {
             $this->_redirect('*/*/index');
         }
