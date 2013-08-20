@@ -88,10 +88,10 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
     public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $config)
     {
         parent::__construct($context);
-        $convertNode = $config->getNode('default/url/convert');
-        if ($convertNode) {
-            foreach ($convertNode->children() as $node) {
-                $this->_convertTable[strval($node->from)] = strval($node->to);
+        $convertConfig = $config->getValue('default/url/convert');
+        if ($convertConfig) {
+            foreach ($convertConfig() as $configValue) {
+                $this->_convertTable[strval($configValue['from'])] = strval($configValue['to']);
             }
         }
     }

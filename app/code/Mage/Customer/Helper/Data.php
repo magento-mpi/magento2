@@ -376,7 +376,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) Mage::getConfig()->getNode(self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD);
+        return (int) Mage::getConfig()->getValue(self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD);
     }
 
     /**

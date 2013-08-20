@@ -99,7 +99,7 @@ class Mage_AdminNotification_Model_System_Message_Security
      */
     private function _isFileAccessible()
     {
-        $unsecureBaseURL = (string) $this->_config->getNode(
+        $unsecureBaseURL = $this->_config->getValue(
             'default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
         );
 

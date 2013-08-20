@@ -27,13 +27,6 @@ class Mage_Backend_Model_Config extends Magento_Object
     protected $_configData;
 
     /**
-     * Root config node
-     *
-     * @var Mage_Core_Model_Config_Element
-     */
-    protected $_configRoot;
-
-    /**
      * Event dispatcher
      *
      * @var Mage_Core_Model_Event_Manager
@@ -386,11 +379,11 @@ class Mage_Backend_Model_Config extends Magento_Object
     {
         if ($this->getStore()) {
             $scope   = 'stores';
-            $scopeId = (int) $this->_appConfig->getNode('stores/' . $this->getStore() . '/system/store/id');
+            $scopeId = (int) $this->_appConfig->getValue('stores/' . $this->getStore() . '/system/store/id');
             $scopeCode = $this->getStore();
         } elseif ($this->getWebsite()) {
             $scope   = 'websites';
-            $scopeId = (int) $this->_appConfig->getNode('websites/' . $this->getWebsite() . '/system/website/id');
+            $scopeId = (int) $this->_appConfig->getValue('websites/' . $this->getWebsite() . '/system/website/id');
             $scopeCode = $this->getWebsite();
         } else {
             $scope   = 'default';
@@ -456,24 +449,10 @@ class Mage_Backend_Model_Config extends Magento_Object
             $data = $configData[$path];
             $inherit = false;
         } else {
-            $data = $this->getConfigRoot()->descend($path);
+            $data =  $this->_appConfig->getValue($path, $this->getScope(), $this->getScopeCode());
             $inherit = true;
         }
 
         return $data;
-    }
-
-    /**
-     * Get config root node for current scope
-     *
-     * @return Mage_Core_Model_Config_Element
-     */
-    public function getConfigRoot()
-    {
-        if (is_null($this->_configRoot)) {
-            $this->load();
-            $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
-        }
-        return $this->_configRoot;
     }
 }

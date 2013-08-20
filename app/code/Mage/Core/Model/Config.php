@@ -245,6 +245,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param   string $scope
      * @param   string|int $scopeCode
      * @return Mage_Core_Model_Config_Element
+     * @deprecated
      */
     public function getNode($path = null, $scope = '', $scopeCode = null)
     {
@@ -271,13 +272,26 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             $parts = explode('/', $path);
             if (in_array(current($parts), array('default', 'stores', 'websites'))) {
                 $defaultValue = $this->_configData->getValue($path);
-                //@todo adopt client code to array format
+                return $defaultValue;
             }
             return $value;
         } catch (Mage_Core_Model_Config_Cache_Exception $e) {
             $this->reinit();
             return $this->_config->getNode($path);
         }
+    }
+
+    /**
+     * Get config value
+     *
+     * @param null $path
+     * @param string $scope
+     * @param null $scopeCode
+     * @return array|string
+     */
+    public function getValue($path = null, $scope = '', $scopeCode = null)
+    {
+        return $this->getNode($path, $scope, $scopeCode);
     }
 
     /**

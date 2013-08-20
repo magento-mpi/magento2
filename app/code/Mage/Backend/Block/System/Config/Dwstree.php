@@ -34,17 +34,16 @@ class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
 
-        $websitesConfig = Mage::getConfig()->getNode('websites');
-        $storesConfig = Mage::getConfig()->getNode('stores');
-
+        /** @var Mage_Core_Model_Config $config */
+        $config = Mage::getConfig();
         $this->addTab('default', array(
             'label'  => $this->helper('Mage_Backend_Helper_Data')->__('Default Config'),
             'url'    => $this->getUrl('*/*/*', array('section'=>$section)),
             'class' => 'default',
         ));
 
-        foreach ($websitesConfig->children() as $wCode => $wConfig) {
-            $wName = (string)$wConfig->descend('system/website/name');
+        foreach (array_keys($config->getValue('websites')) as $wCode) {
+            $wName = $config->getValue('websites/' . $wCode . '/system/website/name');
             $wUrl = $this->getUrl('*/*/*', array('section' => $section, 'website' => $wCode));
             $this->addTab('website_' . $wCode, array(
                 'label' => $wName,
@@ -58,8 +57,8 @@ class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget
                     $this->_addBreadcrumb($wName);
                 }
             }
-            foreach (array_keys($wConfig->descend('system/stores')->children()) as $sCode) {
-                $sName = (string)$storesConfig->descend($sCode . '/system/store/name');
+            foreach (array_keys($config->getValue('websites/' . $wCode . '/system/stores')) as $sCode) {
+                $sName = $config->getValue('stores/' . $sCode . '/system/store/name');
                 $this->addTab('store_' . $sCode, array(
                     'label' => $sName,
                     'url'   => $this->getUrl('*/*/*', array(

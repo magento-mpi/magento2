@@ -44,13 +44,15 @@ class Mage_Cron_Model_Observer
         $scheduleLifetime = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
         $jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
-        $defaultJobsRoot = Mage::getConfig()->getNode('default/crontab/jobs');
+        $defaultJobsRoot = Mage::getConfig()->getValue('default/crontab/jobs');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
             if (!$jobConfig || !$jobConfig->run) {
-                $jobConfig = $defaultJobsRoot->{$schedule->getJobCode()};
-                if (!$jobConfig || !$jobConfig->run) {
+                $jobConfig = isset($defaultJobsRoot[$schedule->getJobCode()])
+                    ? $defaultJobsRoot[$schedule->getJobCode()]
+                    : false;
+                if (!$jobConfig || !$jobConfig['run']) {
                     continue;
                 }
             }
@@ -155,9 +157,9 @@ class Mage_Cron_Model_Observer
         /**
          * generate configurable crontab jobs
          */
-        $config = Mage::getConfig()->getNode('default/crontab/jobs');
-        if ($config instanceof Mage_Core_Model_Config_Element) {
-            $this->_generateJobs($config->children(), $exists);
+        $config = Mage::getConfig()->getValue('default/crontab/jobs');
+        if ($config) {
+            $this->_generateJobs($config, $exists);
         }
 
         /**
@@ -182,11 +184,11 @@ class Mage_Cron_Model_Observer
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
-            if ($jobConfig->schedule->config_path) {
-                $cronExpr = Mage::getStoreConfig((string)$jobConfig->schedule->config_path);
+            if (isset($jobConfig['schedule']['config_path'])) {
+                $cronExpr = Mage::getStoreConfig($jobConfig['schedule']['config_path']);
             }
-            if (empty($cronExpr) && $jobConfig->schedule->cron_expr) {
-                $cronExpr = (string)$jobConfig->schedule->cron_expr;
+            if (empty($cronExpr) && isset($jobConfig['schedule']['cron_expr'])) {
+                $cronExpr = $jobConfig['schedule']['cron_expr'];
             }
             if (!$cronExpr) {
                 continue;

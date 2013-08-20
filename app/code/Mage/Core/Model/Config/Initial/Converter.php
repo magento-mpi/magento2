@@ -49,7 +49,7 @@ class Mage_Core_Model_Config_Initial_Converter implements Magento_Config_Convert
      * Convert node oto array
      *
      * @param DOMNode $node
-     * @return array|string
+     * @return array|string|null
      */
     protected function _convertNode(DOMNode $node)
     {
@@ -66,6 +66,9 @@ class Mage_Core_Model_Config_Initial_Converter implements Magento_Config_Convert
                 } else {
                     $nodeData = $childrenData;
                 }
+            }
+            if (is_array($nodeData) && empty($nodeData)) {
+                $nodeData = null;
             }
             $output[$node->nodeName] = $nodeData;
         } elseif ($node->nodeType == XML_CDATA_SECTION_NODE

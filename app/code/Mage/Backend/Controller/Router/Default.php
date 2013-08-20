@@ -90,7 +90,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     protected function _getDefaultPath()
     {
-        return (string)Mage::getConfig()->getNode('default/web/default/admin');
+        return (string)Mage::getConfig()->getValue('default/web/default/admin');
     }
 
     /**
@@ -140,9 +140,9 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     protected function _shouldBeSecure($path)
     {
-        return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
+        return substr((string)Mage::getConfig()->getValue('default/web/unsecure/base_url'), 0, 5) === 'https'
             || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
-                && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'), 0, 5) === 'https';
+                && substr((string)Mage::getConfig()->getValue('default/web/secure/base_url'), 0, 5) === 'https';
     }
 
     /**

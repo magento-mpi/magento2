@@ -40,13 +40,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_configDataObject;
 
     /**
-     * System configuration root node
-     *
-     * @var Magento_Simplexml_Element
-     */
-    protected $_configRoot;
-
-    /**
      * Default fieldset rendering block
      *
      * @var Mage_Backend_Block_System_Config_Form_Fieldset
@@ -114,7 +107,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      *
      * @var Mage_Core_Model_Config
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
@@ -145,7 +138,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $this->_configStructure = $configStructure;
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $coreConfig;
 
         $this->_scopeLabels = array(
             self::SCOPE_DEFAULT  => $this->helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'),
@@ -161,8 +154,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _initObjects()
     {
-        $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
-
         $this->_configDataObject = $this->_configFactory->create(array(
             'data' => array(
                 'section' => $this->getSectionCode(),
@@ -205,9 +196,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Group $group
      * @param Mage_Backend_Model_Config_Structure_Element_Section $section
-     * @param Magento_Data_Form $form
+     * @param Magento_Data_Form_Abstract $form
      */
-    protected function _initGroup(Mage_Backend_Model_Config_Structure_Element_Group $group,
+    protected function _initGroup(
+        Mage_Backend_Model_Config_Structure_Element_Group $group,
         Mage_Backend_Model_Config_Structure_Element_Section $section,
         Magento_Data_Form_Abstract $form
     ) {
@@ -324,13 +316,14 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $labelPrefix = ''
     ) {
         $inherit = true;
+        $data = null;
         if (array_key_exists($path, $this->_configData)) {
             $data = $this->_configData[$path];
             $inherit = false;
         } elseif ($field->getConfigPath() !== null) {
-            $data = $this->_configRoot->descend($field->getConfigPath());
+            $data = $this->getConfigValue($field->getConfigPath());
         } else {
-            $data = $this->_configRoot->descend($path);
+            $data = $this->getConfigValue($path);
         }
         $fieldRendererClass = $field->getFrontendModel();
         if ($fieldRendererClass) {
@@ -440,16 +433,14 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
-     * Return config root node for current scope
+     * Get config value
      *
-     * @return Magento_Simplexml_Element
+     * @param string $path
+     * @return mixed
      */
-    public function getConfigRoot()
+    public function getConfigValue($path)
     {
-        if (empty($this->_configRoot)) {
-            $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
-        }
-        return $this->_configRoot;
+        return $this->_config->getValue($path, $this->getScope(), $this->getScopeCode());
     }
 
     /**

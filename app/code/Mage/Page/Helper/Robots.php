@@ -27,6 +27,6 @@ class Mage_Page_Helper_Robots extends Mage_Core_Helper_Abstract
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return trim((string)Mage::getConfig()->getNode(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS));
+        return trim((string)Mage::getConfig()->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS));
     }
 }

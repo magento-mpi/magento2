@@ -90,13 +90,14 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
 
         $conditions = array('reg_exp' => array(), 'plain' => array());
+        $config = $this->getConfig();
 
-        foreach ($this->getConfig()->dirs->exclude->children() as $dir) {
-            $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][(string) $dir] = true;
+        foreach ($config['dirs']['exclude'] as $dir) {
+            $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][$dir] = true;
         }
         // "include" section takes precedence and can revoke directory exclusion
-        foreach ($this->getConfig()->dirs->include->children() as $dir) {
-            unset($conditions['regexp'][(string) $dir], $conditions['plain'][(string) $dir]);
+        foreach ($config['dirs']['include'] as $dir) {
+            unset($conditions['regexp'][(string) $dir], $conditions['plain'][$dir]);
         }
 
         $regExp = $conditions['reg_exp'] ? ('~' . implode('|', array_keys($conditions['reg_exp'])) . '~i') : null;
@@ -469,12 +470,12 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     /**
      * Config object getter
      *
-     * @return Mage_Core_Model_Config_Element
+     * @return array|string
      */
     public function getConfig()
     {
         if (! $this->_config) {
-            $this->_config = Mage::getConfig()->getNode('cms/browser', 'adminhtml');
+            $this->_config = Mage::getConfig()->getValue('cms/browser', 'adminhtml');
         }
 
         return $this->_config;
@@ -488,7 +489,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     public function getConfigAsArray()
     {
         if (!$this->_configAsArray) {
-            $this->_configAsArray = $this->getConfig()->asCanonicalArray();
+            $this->_configAsArray = $this->getConfig();
         }
 
         return $this->_configAsArray;

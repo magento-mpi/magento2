@@ -331,33 +331,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Loading store configuration data
-     *
-     * @param   string $code
-     * @return  Mage_Core_Model_Store
-     */
-    public function loadConfig($code)
-    {
-        if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode()->stores->children() as $storeCode => $store) {
-                if ((int) $store->system->store->id == $code) {
-                    $code = $storeCode;
-                    break;
-                }
-            }
-        } else {
-            $store = Mage::getConfig()->getNode()->stores->{$code};
-        }
-        if (!empty($store)) {
-            $this->setCode($code);
-            $id = (int) $store->system->store->id;
-            $this->setId($id)->setStoreId($id);
-            $this->setWebsiteId((int) $store->system->website->id);
-        }
-        return $this;
-    }
-
-    /**
      * Retrieve Store code
      *
      * @return string
@@ -379,18 +352,12 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return $this->_configCache[$path];
         }
 
-        if (!$this->_appState->isInstalled()) {
-            /** @var $config Mage_Core_Model_ConfigInterface */
-            $config = Mage::getSingleton('Mage_Core_Model_Config_Modules');
-        } else {
-            /** @var $config Mage_Core_Model_ConfigInterface */
-            $config = Mage::getSingleton('Mage_Core_Model_Config');
-        }
-
+        /** @var $config Mage_Core_Model_Config */
+        $config = Mage::getSingleton('Mage_Core_Model_Config');
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
-        $data = $config->getNode($fullPath);
+        $data = $config->getValue($fullPath);
         if (!$data && !$this->_appState->isInstalled()) {
-            $data = $config->getNode('default/' . $path);
+            $data = $config->getValue('default/' . $path);
         }
         if (!$data) {
             return null;
@@ -478,32 +445,26 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      *
      * @param string $fullPath
      * @param string $path
-     * @param Magento_Simplexml_Element $node
+     * @param array|string $data
      * @return string
      */
-    protected function _processConfigValue($fullPath, $path, $node)
+    protected function _processConfigValue($fullPath, $path, $data)
     {
         if (isset($this->_configCache[$path])) {
             return $this->_configCache[$path];
         }
 
-        if ($node->hasChildren()) {
-            $aValue = array();
-            foreach ($node->children() as $k => $v) {
-                $aValue[$k] = $this->_processConfigValue($fullPath . '/' . $k, $path . '/' . $k, $v);
+        if (is_array($data)) {
+            $arrayValue = array();
+            foreach ($data as $key => $value) {
+                $arrayValue[$key] = $this->_processConfigValue($fullPath . '/' . $key, $path . '/' . $key, $value);
             }
-            $this->_configCache[$path] = $aValue;
-            return $aValue;
+            $this->_configCache[$path] = $arrayValue;
+            return $arrayValue;
         }
 
-        $sValue = (string) $node;
-        if (!empty($node['backend_model']) && !empty($sValue)) {
-            $backend = Mage::getModel((string) $node['backend_model']);
-            $backend->setPath($path)->setValue($sValue)->afterLoad();
-            $sValue = $backend->getValue();
-        }
-
-        if (is_string($sValue) && preg_match('/{{(.*)}}.*/', $sValue, $matches)) {
+        $stringValue = $data;
+        if (is_string($stringValue) && preg_match('/{{(.*)}}.*/', $stringValue, $matches)) {
             $placeholder = $matches[1];
             $url = false;
             if ($placeholder == 'unsecure_base_url') {
@@ -513,16 +474,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
 
             if ($url) {
-                $sValue = str_replace('{{' . $placeholder . '}}', $url, $sValue);
-            } elseif (strpos($sValue, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
+                $stringValue = str_replace('{{' . $placeholder . '}}', $url, $stringValue);
+            } elseif (strpos($stringValue, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
                 $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
-                $sValue = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $sValue);
+                $stringValue = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $stringValue);
             }
         }
 
-        $this->_configCache[$path] = $sValue;
+        $this->_configCache[$path] = $stringValue;
 
-        return $sValue;
+        return $stringValue;
     }
 
     /**
@@ -550,6 +511,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * @param string $type
      * @param boolean|null $secure
      * @return string
+     * @throws InvalidArgumentException
      */
     public function getBaseUrl($type = self::URL_TYPE_LINK, $secure = null)
     {
@@ -741,7 +703,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         if ($this->_isAdminSecure === null) {
             $this->_isAdminSecure = (boolean) (int) (string) Mage::getConfig()
-                ->getNode(Mage_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN);
+                ->getValue(Mage_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN);
         }
         return $this->_isAdminSecure;
     }
@@ -768,7 +730,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function isCurrentlySecure()
     {
         $standardRule = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
-        $offloaderHeader = trim((string) Mage::getConfig()->getNode(self::XML_PATH_OFFLOADER_HEADER, 'default'));
+        $offloaderHeader = trim((string) Mage::getConfig()->getValue(self::XML_PATH_OFFLOADER_HEADER, 'default'));
 
         if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {
             return true;

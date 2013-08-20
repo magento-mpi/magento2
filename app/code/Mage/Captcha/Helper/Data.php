@@ -136,14 +136,14 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFonts()
     {
-        $node = $this->_config->getNode(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS);
+        $fontsConfig = $this->_config->getValue(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS);
         $fonts = array();
-        if ($node) {
+        if ($fontsConfig) {
             $libDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LIB);
-            foreach ($node->children() as $fontName => $fontNode) {
+            foreach ($fontsConfig as $fontName => $fontConfig) {
                 $fonts[$fontName] = array(
-                    'label' => (string)$fontNode->label,
-                    'path' => $libDir . DIRECTORY_SEPARATOR . $fontNode->path
+                    'label' => $fontConfig['label'],
+                    'path' => $libDir . DIRECTORY_SEPARATOR . $fontConfig['path']
                 );
             }
         }

@@ -27,12 +27,7 @@
  * @method Mage_Core_Model_Website setDefaultGroupId(int $value)
  * @method int getIsDefault()
  * @method Mage_Core_Model_Website setIsDefault(int $value)
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
 {
     const ENTITY    = 'core_website';
@@ -164,22 +159,22 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function loadConfig($code)
     {
-        if (!Mage::getConfig()->getNode('websites')) {
+        if (!Mage::getConfig()->getValue('websites')) {
             return $this;
         }
         if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode('websites')->children() as $websiteCode => $website) {
-                if ((int)$website->system->website->id == $code) {
+            foreach (Mage::getConfig()->getValue('websites') as $websiteCode => $websiteConfig) {
+                if ((int)$websiteConfig['system']['website']['id'] == $code) {
                     $code = $websiteCode;
                     break;
                 }
             }
         } else {
-            $website = Mage::getConfig()->getNode('websites/' . $code);
+            $websiteConfig = Mage::getConfig()->getValue('websites/' . $code);
         }
-        if (!empty($website)) {
+        if (!empty($websiteConfig)) {
             $this->setCode($code);
-            $id = (int)$website->system->website->id;
+            $id = (int)$websiteConfig['system']['website']['id'];
             $this->setId($id)->setStoreId($id);
         }
         return $this;
@@ -194,19 +189,11 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 
-            $config = Mage::getConfig()->getNode('websites/' . $this->getCode() . '/' . $path);
+            $config = Mage::getConfig()->getValue('websites/' . $this->getCode() . '/' . $path);
             if (!$config) {
                 return false;
             }
-            if ($config->hasChildren()) {
-                $value = array();
-                foreach ($config->children() as $k => $v) {
-                    $value[$k] = $v;
-                }
-            } else {
-                $value = (string)$config;
-            }
-            $this->_configCache[$path] = $value;
+            $this->_configCache[$path] = $config;
         }
         return $this->_configCache[$path];
     }

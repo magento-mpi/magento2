@@ -108,7 +108,7 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLanguageCodes()
     {
-        return $this->_config->getNode(self::XML_PATH_LANGUAGES)->asArray();
+        return (array)$this->_config->getValue(self::XML_PATH_LANGUAGES);
     }
 
     /**
@@ -119,7 +119,7 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function convertLanguageCodeToLocaleCode($language)
     {
-        $convertArray = $this->_config->getNode(self::XML_PATH_LANGUAGE_CONVERT)->asArray();
+        $convertArray = (array)$this->_config->getValue(self::XML_PATH_LANGUAGE_CONVERT);
         return isset($convertArray[$language]) ? $convertArray[$language] : $language;
     }
 
@@ -130,7 +130,7 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getConversionJsSrc()
     {
-        return (string)$this->_config->getNode(self::XML_PATH_CONVERSION_JS_SRC);
+        return (string)$this->_config->getValue(self::XML_PATH_CONVERSION_JS_SRC);
     }
 
     /**
@@ -140,7 +140,7 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getConversionImgSrc()
     {
-        return sprintf($this->_config->getNode(self::XML_PATH_CONVERSION_IMG_SRC), $this->getConversionId(),
+        return sprintf($this->_config->getValue(self::XML_PATH_CONVERSION_IMG_SRC), $this->getConversionId(),
             $this->getConversionLabel());
     }
 

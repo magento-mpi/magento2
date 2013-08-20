@@ -69,10 +69,5 @@ class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderI
 
         //apply modules configuration
         $config->extend($this->_configFactory->create($this->_config->getNode()));
-
-        //load db configuration
-        Magento_Profiler::start('load_db');
-        $this->_resource->loadToXml($config);
-        Magento_Profiler::stop('load_db');
     }
 }

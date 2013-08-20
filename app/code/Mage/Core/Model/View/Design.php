@@ -150,7 +150,7 @@ class Mage_Core_Model_View_Design implements Mage_Core_Model_View_DesignInterfac
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME_ID)
+                ? Mage::getConfig()->getValue('default/' . self::XML_PATH_THEME_ID)
                 : (string)Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
         }
 

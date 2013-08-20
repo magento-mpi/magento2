@@ -42,11 +42,10 @@ class Mage_Core_Model_Theme_Customization_FileServiceFactory
         $this->_objectManager = $objectManager;
         $this->_config = $config;
 
-        $convertNode = $config->getNode(self::XML_PATH_CUSTOM_FILES);
+        $convertNode = $config->getValue(self::XML_PATH_CUSTOM_FILES);
         if ($convertNode) {
-            /** @var $node Mage_Core_Model_Config_Element */
-            foreach ($convertNode->children() as $node) {
-                $this->_types[$node->getName()] = strval($node);
+            foreach ($convertNode as $name => $value) {
+                $this->_types[$name] = $value;
             }
         }
     }

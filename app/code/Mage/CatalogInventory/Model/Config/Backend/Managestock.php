@@ -27,7 +27,7 @@ class Mage_CatalogInventory_Model_Config_Backend_Managestock
     protected function _afterSave()
     {
         $newValue = $this->getValue();
-        $oldValue = Mage::getConfig()->getNode(
+        $oldValue = Mage::getConfig()->getValue(
             Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()

@@ -62,11 +62,11 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     protected function _getConfigUrl()
     {
         $output = '';
-        $defaultUnsecure= (string) $this->_config->getNode(
+        $defaultUnsecure = $this->_config->getValue(
             'default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
         );
 
-        $defaultSecure  = (string) $this->_config->getNode(
+        $defaultSecure = $this->_config->getValue(
             'default/' . Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
         );
 
