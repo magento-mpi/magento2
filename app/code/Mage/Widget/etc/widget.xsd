@@ -30,7 +30,7 @@
             <element name="parameter" type="tns:parameterType" maxOccurs="unbounded"
                      minOccurs="0">
             </element>
-            <element name="container" type="string" maxOccurs="unbounded"
+            <element name="container" type="tns:containerType" maxOccurs="unbounded"
                      minOccurs="0"></element>
         </sequence>
         <attribute name="id" type="string" use="required"></attribute>
@@ -125,5 +125,18 @@
                 <attribute name="source_model" type="string"></attribute>
             </extension>
         </complexContent>
+    </complexType>
+        
+    <complexType name="containerType">
+    	<sequence>
+    		<element name="template" type="tns:templateType"></element>
+    	</sequence>
+    	<attribute name="section" type="string" use="required"></attribute>
+    	<attribute name="name" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="templateType">
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="value" type="string"></attribute>
     </complexType>
 </schema>
