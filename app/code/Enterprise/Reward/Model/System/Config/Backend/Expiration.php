@@ -63,7 +63,7 @@ class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core
     {
         parent::_beforeDelete();
         if ($this->getWebsiteCode()) {
-            $default = (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_EXPIRATION_DAYS);
+            $default = (string)Mage::getConfig()->getValue('default/' . self::XML_PATH_EXPIRATION_DAYS);
             $websiteIds = array(Mage::app()->getWebsite($this->getWebsiteCode())->getId());
             Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')
                 ->updateExpirationDate($default, $websiteIds);

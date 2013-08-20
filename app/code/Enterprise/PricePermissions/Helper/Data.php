@@ -95,6 +95,6 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDefaultProductPriceString()
     {
-        return (string) Mage::getConfig()->getNode(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH);
+        return (string) Mage::getConfig()->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH);
     }
 }

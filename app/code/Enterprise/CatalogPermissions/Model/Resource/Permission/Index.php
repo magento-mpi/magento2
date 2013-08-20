@@ -618,11 +618,10 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     {
         if (empty($this->_storeIds)) {
             $this->_storeIds = array();
-            $stores = Mage::app()->getConfig()->getNode('stores');
-            foreach ($stores->children() as $store) {
-                $storeId = (int) $store->descend('system/store/id');
-                if ($storeId) {
-                    $this->_storeIds[] = $storeId;
+            $storeConfigList = Mage::app()->getConfig()->getValue('stores');
+            foreach ($storeConfigList as $storeConfig) {
+                if (!empty($storeConfig['system']['store']['id'])) {
+                    $this->_storeIds[] = (int)$storeConfig['system']['store']['id'];
                 }
             }
         }

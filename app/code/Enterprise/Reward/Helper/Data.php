@@ -108,7 +108,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         if ($websiteId === null) {
             $websiteId = Mage::app()->getWebsite()->getId();
         }
-        return (string)Mage::app()->getConfig()->getNode($section . $field, 'website', (int)$websiteId);
+        return (string)Mage::app()->getConfig()->getValue($section . $field, 'website', (int)$websiteId);
     }
 
     /**
