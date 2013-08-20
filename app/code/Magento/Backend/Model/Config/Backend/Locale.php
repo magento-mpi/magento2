@@ -58,7 +58,8 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
                             break;
 
                         case 'store':
-                            $storeName = Mage::getModel('Magento_Core_Model_Store')->load($data->getScopeId())->getName();
+                            $storeName = Mage::getModel('Magento_Core_Model_Store')->load($data->getScopeId())
+                                ->getName();
                             $scopeName = __('store(%1) scope', $storeName);
                             break;
                     }

@@ -15,7 +15,8 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Store_Edit_Form_Store extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
+class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
+    extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
     /**
      * Prepare store specific fieldset

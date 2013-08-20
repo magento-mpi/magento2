@@ -83,7 +83,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
             'addColumn'
         );
 
-        $this->_formMock =  $this->getMock('Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form', $methods, $arguments);
+        $this->_formMock =  $this->getMock('Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form', $methods,
+            $arguments);
         $columnsSetMock = $this->_makeMock('Magento_Backend_Block_Widget_Grid_ColumnSet');
         $this->_setStub($this->_formMock, 'getChildBlock', $columnsSetMock);
 

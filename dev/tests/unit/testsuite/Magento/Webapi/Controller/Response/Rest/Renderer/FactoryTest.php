@@ -29,7 +29,8 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUn
         $this->_applicationMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
             ->getMock();
 
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
+        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest')
+            ->disableOriginalConstructor()
             ->getMock();
         /** Init SUT. */
         $this->_factory = new Magento_Webapi_Controller_Response_Rest_Renderer_Factory(

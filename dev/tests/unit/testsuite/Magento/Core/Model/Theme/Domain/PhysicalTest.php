@@ -49,7 +49,8 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($virtualTheme));
 
         $themeCollection = $this->getMock(
-            'Magento_Core_Model_Resource_Theme_Collection', array('addTypeFilter', 'addAreaFilter', 'addFilter', 'count'),
+            'Magento_Core_Model_Resource_Theme_Collection',
+            array('addTypeFilter', 'addAreaFilter', 'addFilter', 'count'),
             array(), '', false, false
         );
 

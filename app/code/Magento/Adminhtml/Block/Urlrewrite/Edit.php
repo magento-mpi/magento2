@@ -169,9 +169,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', '', array('data' => array(
-            'url_rewrite' => $this->_getUrlRewrite()
-        )));
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', '',
+            array('data' => array(
+                'url_rewrite' => $this->_getUrlRewrite()
+            ))
+        );
     }
 
     /**

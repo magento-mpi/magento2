@@ -28,7 +28,8 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
+            ->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );

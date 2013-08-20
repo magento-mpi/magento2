@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole() setApiRole(Magento_Webapi_Model_Acl_Role $role)
+ * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole(Magento_Webapi_Model_Acl_Role $role)
  * @method Magento_Webapi_Model_Acl_Role getApiRole() getApiRole()
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
+ * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources(array $srIds)
  * @method array getSelectedResources() getSelectedResources()
  */
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Backend_Block_Widget_Form

@@ -15,7 +15,8 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid extends Magento_Adminhtml_Block_Catalog_Product_Grid
+class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
+    extends Magento_Adminhtml_Block_Catalog_Product_Grid
 {
     /**
      * Return empty row url for disabling JS click events

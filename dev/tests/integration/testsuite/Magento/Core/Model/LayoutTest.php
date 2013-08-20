@@ -81,7 +81,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $layoutUtility = new Magento_Core_Utility_Layout($this);
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = $this->getMock('Magento_Core_Model_Layout', array('getUpdate'), $layoutUtility->getLayoutDependencies());
+        $layout = $this->getMock('Magento_Core_Model_Layout', array('getUpdate'),
+            $layoutUtility->getLayoutDependencies());
         $merge = $this->getMock('StdClass', array('asSimplexml'));
         $merge->expects($this->once())->method('asSimplexml')->will($this->returnValue(simplexml_load_string(
             '<layout><container name="container1"></container></layout>',
@@ -128,7 +129,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Test', $this->_layout->getElementProperty(
             $name, Magento_Core_Model_Layout::CONTAINER_OPT_LABEL
         ));
-        $this->assertEquals(Magento_Core_Model_Layout::TYPE_CONTAINER, $this->_layout->getElementProperty($name, 'type'));
+        $this->assertEquals(Magento_Core_Model_Layout::TYPE_CONTAINER,
+            $this->_layout->getElementProperty($name, 'type'));
         $this->assertSame(2, $this->_layout->getElementProperty($name, 'option2'));
 
         $this->_layout->addBlock('Magento_Core_Block_Text', 'text', $name);
@@ -215,7 +217,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testAddBlock()
     {
-        $this->assertInstanceOf('Magento_Core_Block_Text', $this->_layout->addBlock('Magento_Core_Block_Text', 'block1'));
+        $this->assertInstanceOf('Magento_Core_Block_Text', $this->_layout->addBlock('Magento_Core_Block_Text',
+            'block1'));
         $block2 = Mage::getObjectManager()->create('Magento_Core_Block_Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');

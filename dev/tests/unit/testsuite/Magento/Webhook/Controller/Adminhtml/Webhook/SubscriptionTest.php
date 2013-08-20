@@ -67,7 +67,8 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockConfig = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_mockConfig = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
+            ->getMock();
         $this->_mockApp->expects($this->any())->method('getConfig')->will($this->returnValue($this->_mockConfig));
         $this->_mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
             ->disableOriginalConstructor()

@@ -48,10 +48,12 @@ class Magento_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false, false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false,
+            false);
         $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
         $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
-        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false);
+        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '',
+            false);
         $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
 
         $data = array(

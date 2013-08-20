@@ -377,7 +377,8 @@ class Magento_Cardgate_Model_Base extends Magento_Object
             (($newState != $order->getState()) || ($newStatus != $order->getStatus()))
         ) {
             // Create an invoice when the payment is completed
-            if ($newState == Magento_Sales_Model_Order::STATE_PROCESSING && $this->getConfigData("autocreate_invoice")) {
+            if ($newState == Magento_Sales_Model_Order::STATE_PROCESSING &&
+                $this->getConfigData("autocreate_invoice")) {
                 $this->_createInvoice($order);
                 $this->log("Creating invoice for order ID: " . $order->getId() . ".");
             }

@@ -146,8 +146,9 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     public function categoriesJsonAction()
     {
         $categoryId = $this->getRequest()->getParam('id', null);
-        $this->getResponse()->setBody(Mage::getBlockSingleton('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree')
-            ->getTreeArray($categoryId, true, 1)
+        $this->getResponse()->setBody(
+            Mage::getBlockSingleton('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree')
+                ->getTreeArray($categoryId, true, 1)
         );
     }
 

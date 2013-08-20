@@ -18,7 +18,8 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Currency_Default extends Magento_Backend_Model_Config_Backend_Currency_Abstract
+class Magento_Backend_Model_Config_Backend_Currency_Default
+    extends Magento_Backend_Model_Config_Backend_Currency_Abstract
 {
     /**
      * Check default currency is available in installed currencies

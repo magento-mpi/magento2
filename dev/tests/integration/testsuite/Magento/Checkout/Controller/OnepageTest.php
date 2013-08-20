@@ -50,7 +50,8 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_Cont
         $this->dispatch('checkout/onepage/progress');
         $html = $this->getResponse()->getBody();
         $this->assertContains('Checkout', $html);
-        $methodTitle = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->getMethodInstance()
+        $methodTitle = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()
+            ->getMethodInstance()
             ->getTitle();
         $this->assertContains('<p>' . $methodTitle . '</p>', $html);
     }

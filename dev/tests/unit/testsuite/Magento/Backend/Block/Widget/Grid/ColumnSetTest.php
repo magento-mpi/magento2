@@ -55,7 +55,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             ->expects($this->any())
             ->method('getChildBlocks')
             ->will($this->returnValue(array('column' => $this->_columnMock)));
-        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(), array(),
+        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(),
+            array(),
             '', false
         );
 
@@ -125,8 +126,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
         $itemMock = $this->getMock('Magento_Object', array(), array(), '', false);
 
-        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'), array(),
-            '', false
+        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'),
+            array(), '', false
         );
         $rowUrlGenerator->expects($this->once())
             ->method('getUrl')

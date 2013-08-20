@@ -53,7 +53,8 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
 
     public function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false, false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false,
+            false);
         $responseMock = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false, false);
 
         $configStructureMock = $this->getMock('Magento_Backend_Model_Config_Structure',
@@ -62,7 +63,8 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
         $this->_configFactoryMock = $this->getMock('Magento_Backend_Model_Config_Factory',
             array(), array(), '', false, false
         );
-        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
+        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false,
+            false);
 
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false, false);
         $this->_sessionMock = $this->getMock('Magento_Backend_Model_Session',

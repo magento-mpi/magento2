@@ -83,7 +83,8 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest exten
         $themeImage = $this->getMock('Magento_Core_Model_Theme_Image', array(), array(), '', false);
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
-        $themeFactory = $this->getMock('Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock('Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(), '',
+            false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeMock));
 
         $this->_objectManagerMock

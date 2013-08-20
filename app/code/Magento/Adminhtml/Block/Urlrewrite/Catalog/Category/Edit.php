@@ -18,7 +18,8 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Magento_Adminhtml_Block_Urlrewrite_Edit
+class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
+    extends Magento_Adminhtml_Block_Urlrewrite_Edit
 {
     /**
      * Prepare layout for URL rewrite creating for category

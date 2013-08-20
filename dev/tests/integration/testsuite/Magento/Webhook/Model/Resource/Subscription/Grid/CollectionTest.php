@@ -99,13 +99,16 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         );
 
         $moduleList = Mage::getObjectManager()->create('Magento_Core_Model_ModuleList', array(
-            'reader' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
-                'fileResolver' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_FileResolver',
-                    array(
-                        'applicationDirs' => $dirs
+            'reader' => Mage::getObjectManager()->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
+                array(
+                    'fileResolver' => Mage::getObjectManager()->create(
+                        'Magento_Core_Model_Module_Declaration_FileResolver',
+                        array(
+                            'applicationDirs' => $dirs
+                        )
                     )
                 )
-            )),
+            ),
             'cache' => $this->getMock('Magento_Config_CacheInterface')
         ));
 

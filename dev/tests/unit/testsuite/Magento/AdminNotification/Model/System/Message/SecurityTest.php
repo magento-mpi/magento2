@@ -47,7 +47,8 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
             'storeConfig' => $this->_storeConfigMock,
             'curlFactory' => $this->_curlFactoryMock,
         );
-        $this->_messageModel = $objectManagerHelper->getObject('Magento_AdminNotification_Model_System_Message_Security',
+        $this->_messageModel = $objectManagerHelper->getObject(
+            'Magento_AdminNotification_Model_System_Message_Security',
             $arguments);
     }
 

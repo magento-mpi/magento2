@@ -118,7 +118,8 @@ class Magento_Backend_Model_Config_Backend_Baseurl extends Magento_Core_Model_Co
     private function _assertValuesOrUrl(array $values, $value)
     {
         if (!in_array($value, $values) && !$this->_isFullyQualifiedUrl($value)) {
-            throw new Magento_Core_Exception(__('Value must be a URL or one of placeholders: %1', implode(',', $values)));
+            throw new Magento_Core_Exception(__('Value must be a URL or one of placeholders: %1',
+                implode(',', $values)));
         }
     }
 

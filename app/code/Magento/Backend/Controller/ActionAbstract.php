@@ -431,7 +431,8 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
-        $this->_objectManager->get('Magento_Core_Model_Layout_Filter_Acl')->filterAclNodes($this->getLayout()->getNode());
+        $this->_objectManager->get('Magento_Core_Model_Layout_Filter_Acl')
+            ->filterAclNodes($this->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;

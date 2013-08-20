@@ -28,7 +28,8 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Fr
         $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')->getMock();
         $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
         $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')->disableOriginalConstructor()
+            ->getMock();
         /** Initialize SUT. */
         $this->_errorProcessor = new Magento_Webapi_Controller_Dispatcher_ErrorProcessor(
             $helperFactoryMock,
