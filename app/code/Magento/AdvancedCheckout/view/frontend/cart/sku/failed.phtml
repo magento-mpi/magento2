@@ -82,7 +82,7 @@
 //<![CDATA[
 if($('remove_all_failed_items')) {
     $('remove_all_failed_items').observe('click', function() {
-        setLocation('<?php echo $this->getDeleteAllItemsUrl(); ?>')
+        window.location.replace('<?php echo $this->getDeleteAllItemsUrl(); ?>');
     });
 }
 

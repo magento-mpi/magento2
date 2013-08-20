@@ -15,6 +15,12 @@
          * Declaration of resources needed for defined components
          */
         $.mage.component({
+            deletableItem: [
+                '<?php echo $this->getViewFileUrl('mage/deletable-item.js') ?>'
+            ],
+            itemTable: [
+                '<?php echo $this->getViewFileUrl('mage/item-table.js') ?>'
+            ],
             validation: [
                 '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>',
                 '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>',

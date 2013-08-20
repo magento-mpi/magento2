@@ -16,11 +16,25 @@
     <ul class="form-list">
         <li>
             <label for="customer_sku_csv"><?php echo __('File'); ?></label>
-            <div class="input-box" data-mage-init="{fieldsetControls: {}}">
-                <input id="customer_sku_csv" type="file" data-reset="true" name="<?php echo Magento_AdvancedCheckout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" class="customer-sku-csv"/>
-                <p class="btn-reset"><span data-mage-init="{fieldsetResetControl: {}}"><?php echo __('Reset')?></span></p>
-                <p class="note"><span><?php echo __('File extensions allowed: .csv'); ?></span></p>
-                <p class="note"><span><?php echo __('File must contain two columns, with "sku" and "qty" in the header row.'); ?></span></p>
+            <div class="input-box" data-mage-init="{fieldsetControls: {}, fileChooser: {
+                    fileNameSelector: '[name=<?php echo Magento_AdvancedCheckout_Model_Import::FIELD_NAME_SOURCE_FILE ?>]',
+                    fileNameIndicatorSelector: '[name=<?php echo Magento_AdvancedCheckout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG ?>]'
+                    }}">
+                <input id="customer_sku_csv" type="file" data-reset="true" class="customer-sku-csv"
+                       name="<?php echo Magento_AdvancedCheckout_Model_Import::FIELD_NAME_SOURCE_FILE ?>"/>
+                <input type="hidden" value="0" data-reset="true"
+                       name="<?php echo Magento_AdvancedCheckout_Helper_Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG ?>" />
+                <p class="btn-reset">
+                    <span data-mage-init="{fieldsetResetControl: {}}"><?php echo __('Reset')?></span>
+                </p>
+                <p class="note">
+                    <span><?php echo __('File extensions allowed: .csv'); ?></span>
+                </p>
+                <p class="note">
+                    <span>
+                        <?php echo __('File must contain two columns, with "sku" and "qty" in the header row.'); ?>
+                    </span>
+                </p>
             </div>
         </li>
     </ul>

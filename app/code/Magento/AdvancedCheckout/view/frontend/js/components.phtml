@@ -9,14 +9,17 @@
  */
 ?>
     <script type="text/javascript">
-        (function($) {
+        (function ($) {
             "use strict";
             /**
              * Declaration of resources needed for defined components
              */
             $.mage.component({
-                giftCard: [
-                    "<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/gift-card.js') ?>"
+                orderBySkuFailure: [
+                    '<?php echo $this->getViewFileUrl('Magento_AdvancedCheckout::js/order-by-sku-failure.js') ?>'
+                ],
+                fileChooser: [
+                    '<?php echo $this->getViewFileUrl('Magento_AdvancedCheckout::js/file-chooser.js') ?>'
                 ]
             });
         })(jQuery);
