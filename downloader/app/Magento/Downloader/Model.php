@@ -15,7 +15,7 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Model
+class Magento_Downloader_Model
 {
 
     /**
@@ -49,11 +49,11 @@ class Maged_Model
 
     /**
     * Retrieve controller
-    * @return Maged_Controller
+    * @return Magento_Downloader_Controller
     */
     public function controller()
     {
-        return Maged_Controller::singleton();
+        return Magento_Downloader_Controller::singleton();
     }
 
     /**
@@ -61,7 +61,7 @@ class Maged_Model
     *
     * @param string $key
     * @param mixed $value
-    * @return Maged_Model
+    * @return Magento_Downloader_Model
     */
     public function set($key, $value)
     {

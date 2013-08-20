@@ -15,11 +15,11 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Model_Config extends Maged_Model_Config_Abstract
+class Magento_Downloader_Model_Config extends Magento_Downloader_Model_Config_Abstract
 {
     /**
      * Get channel config class
-     * @return Maged_Model_Config_Interface
+     * @return Magento_Downloader_Model_Config_Interface
      */
     public function getChannelConfig()
     {
@@ -40,7 +40,7 @@ class Maged_Model_Config extends Maged_Model_Config_Abstract
     * Save post data to config
     *
     * @param array $p
-    * @return Maged_Model_Config
+    * @return Magento_Downloader_Model_Config
     */
     public function saveConfigPost($p)
     {

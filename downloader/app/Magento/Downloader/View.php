@@ -15,7 +15,7 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_View
+class Magento_Downloader_View
 {
     /**
      * Internal cache
@@ -33,13 +33,13 @@ class Maged_View
     }
 
     /**
-     * Retrieve Controller as singleton
-     *
-     * @return Maged_Controller
-     */
+    * Retrieve Controller as singleton
+    *
+    * @return Magento_Downloader_Controller
+    */
     public function controller()
     {
-        return Maged_Controller::singleton();
+        return Magento_Downloader_Controller::singleton();
     }
 
     /**
@@ -88,12 +88,12 @@ class Maged_View
     }
 
     /**
-     * Set value for key
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return Maged_Controller
-     */
+    * Set value for key
+    *
+    * @param string $key
+    * @param mixed $value
+    * @return Magento_Downloader_Controller
+    */
     public function set($key, $value)
     {
         $this->_data[$key] = $value;

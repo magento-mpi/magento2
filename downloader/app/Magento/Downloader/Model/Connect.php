@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-include_once "Maged/Connect.php";
+include_once "Magento/Connect.php";
 
 /**
  * Class for initialize Magento_Connect lib
@@ -18,16 +18,16 @@ include_once "Maged/Connect.php";
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Maged_Model_Connect extends Maged_Model
+class Magento_Downloader_Model_Connect extends Magento_Downloader_Model
 {
     /**
-     * Retrive object of Maged_Connect
+     * Retrive object of Magento_Downloader_Connect
      *
-     * @return Maged_Connect
+     * @return Magento_Downloader_Connect
      */
     public function connect()
     {
-        return Maged_Connect::getInstance();
+        return Magento_Downloader_Connect::getInstance();
     }
 
     /**

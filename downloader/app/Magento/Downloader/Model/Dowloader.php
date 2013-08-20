@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Maged_Model_Downloader extends Maged_Model
+class Magento_Downloader_Model_Downloader extends Magento_Downloader_Model
 {
 
 }

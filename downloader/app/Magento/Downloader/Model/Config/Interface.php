@@ -15,14 +15,14 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-interface Maged_Model_Config_Interface
+interface Magento_Downloader_Model_Config_Interface
 {
 
     /**
      * Set data for Settings View
      *
      * @param Magento_Connect_Config $config
-     * @param Maged_View $view
+     * @param Magento_Downloader_View $view
      * @return null
      */
     public function setInstallView($config, $view);
@@ -31,7 +31,7 @@ interface Maged_Model_Config_Interface
      * Set data for Settings View
      *
      * @param mixed $session Session object
-     * @param Maged_View $view
+     * @param Magento_Downloader_View $view
      * @return null
      */
     public function setSettingsView($session, $view);

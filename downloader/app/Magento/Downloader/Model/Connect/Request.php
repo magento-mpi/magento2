@@ -15,7 +15,7 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Model_Connect_Request extends Maged_Model
+class Magento_Downloader_Model_Connect_Request extends Magento_Downloader_Model
 {
     protected function _construct()
     {

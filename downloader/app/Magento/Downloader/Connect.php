@@ -15,7 +15,7 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-// add Mage lib in include_path if needed
+// add Magento lib in include_path if needed
 $_includePath = get_include_path();
 $_libDir = dirname(dirname(__FILE__)) . DS . 'lib';
 if (strpos($_includePath, $_libDir) === false) {
@@ -34,7 +34,7 @@ if (strpos($_includePath, $_libDir) === false) {
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Connect
+class Magento_Downloader_Connect
 {
 
     /**
@@ -75,7 +75,7 @@ class Maged_Connect
     /**
      * Instance of class
      *
-     * @var Maged_Connect
+     * @var Magento_Downloader_Connect
      */
     static protected $_instance;
 
@@ -102,7 +102,7 @@ class Maged_Connect
     /**
      * Initialize instance
      *
-     * @return Maged_Connect
+     * @return Magento_Downloader_Connect
      */
     public static function getInstance()
     {
@@ -157,12 +157,12 @@ class Maged_Connect
     /**
      * Retrieve object of frontend and set it to Magento_Connect_Command
      *
-     * @return Maged_Connect_Frontend
+     * @return Magento_Downloader_Connect_Frontend
      */
     public function getFrontend()
     {
         if (!$this->_frontend) {
-            $this->_frontend = new Maged_Connect_Frontend();
+            $this->_frontend = new Magento_Downloader_Connect_Frontend();
             Magento_Connect_Command::setFrontendObject($this->_frontend);
         }
         return $this->_frontend;
@@ -191,7 +191,7 @@ class Maged_Connect
     /**
      * Clean registry
      *
-     * @return Maged_Connect
+     * @return Magento_Downloader_Connect
      */
     public function cleanSconfig()
     {
@@ -203,7 +203,7 @@ class Maged_Connect
      * Delete directory recursively
      *
      * @param string $path
-     * @return Maged_Connect
+     * @return Magento_Downloader_Connect
      */
     public function delTree($path) {
         if (@is_dir($path)) {
@@ -265,7 +265,7 @@ class Maged_Connect
      * Set remote Config by URI
      *
      * @param $uri
-     * @return Maged_Connect
+     * @return Magento_Downloader_Connect
      */
     public function setRemoteConfig($uri)
     {
@@ -277,12 +277,12 @@ class Maged_Connect
      * Show Errors
      *
      * @param array $errors Error messages
-     * @return Maged_Connect
+     * @return Magento_Downloader_Connect
      */
     public function showConnectErrors($errors)
     {
         echo '<script type="text/javascript">';
-        $run = new Maged_Model_Connect_Request();
+        $run = new Magento_Downloader_Model_Connect_Request();
         if ($callback = $run->get('failure_callback')) {
             if (is_array($callback)) {
                 call_user_func_array($callback, array($errors));
@@ -298,8 +298,8 @@ class Maged_Connect
     /**
      * Run Magento_Connect_Command with html output console style
      *
-     * @throws Maged_Exception
-     * @param array|string|Maged_Model $runParams command, options, params, comment, success_callback, failure_callback
+     * @throws Magento_Downloader_Exception
+     * @param array|string|Magento_Downloader_Model $runParams command, options, params, comment, success_callback, failure_callback
      * @return bool|Magento_Connect_Error
      */
     public function runHtmlConsole($runParams)
@@ -316,14 +316,14 @@ class Maged_Connect
         $oldLogStream = $fe->getLogStream();
         $fe->setLogStream('stdout');
 
-        if ($runParams instanceof Maged_Model) {
+        if ($runParams instanceof Magento_Downloader_Model) {
             $run = $runParams;
         } elseif (is_array($runParams)) {
-            $run = new Maged_Model_Connect_Request($runParams);
+            $run = new Magento_Downloader_Model_Connect_Request($runParams);
         } elseif (is_string($runParams)) {
-            $run = new Maged_Model_Connect_Request(array('comment'=>$runParams));
+            $run = new Magento_Downloader_Model_Connect_Request(array('comment'=>$runParams));
         } else {
-            throw Maged_Exception("Invalid run parameters");
+            throw Magento_Downloader_Exception("Invalid run parameters");
         }
 
         if (!$run->get('no-header')) {

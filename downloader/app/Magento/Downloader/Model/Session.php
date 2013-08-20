@@ -15,7 +15,7 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Model_Session extends Maged_Model
+class Magento_Downloader_Model_Session extends Magento_Downloader_Model
 {
     /**
      * Session
@@ -27,11 +27,11 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Init session
      *
-     * @return Maged_Model_Session
+     * @return Magento_Downloader_Model_Session
      */
     public function start()
     {
-        if (class_exists('Mage') && Mage::isInstalled()) {
+        if (class_exists('Magento') && Mage::isInstalled()) {
             $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         } else {
             session_start();
@@ -134,7 +134,7 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Log Out
      *
-     * @return Maged_Model_Session
+     * @return Magento_Downloader_Model_Session
      */
     public function logout()
     {
@@ -164,7 +164,7 @@ class Maged_Model_Session extends Maged_Model
      * @param string $type
      * @param string $msg
      * @param string $clear
-     * @return Maged_Model_Session
+     * @return Magento_Downloader_Model_Session
      */
     public function addMessage($type, $msg, $clear = false)
     {

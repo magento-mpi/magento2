@@ -15,7 +15,7 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Connect_Frontend extends Magento_Connect_Frontend
+class Magento_Downloader_Connect_Frontend extends Magento_Connect_Frontend
 {
 
     /**

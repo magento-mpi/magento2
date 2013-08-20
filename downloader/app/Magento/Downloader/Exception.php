@@ -15,6 +15,6 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Maged_Exception extends Exception
+class Magento_Downloader_Exception extends Exception
 {
 }

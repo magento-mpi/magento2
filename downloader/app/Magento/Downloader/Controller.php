@@ -15,7 +15,7 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-final class Maged_Controller
+final class Magento_Downloader_Controller
 {
     /**
      * Request key of action
@@ -25,7 +25,7 @@ final class Maged_Controller
     /**
      * Instance of class
      *
-     * @var Maged_Controller
+     * @var Magento_Downloader_Controller
      */
     private static $_instance;
 
@@ -67,7 +67,7 @@ final class Maged_Controller
     /**
      * View instance
      *
-     * @var Maged_View
+     * @var Magento_Downloader_View
      */
     private $_view;
 
@@ -81,14 +81,14 @@ final class Maged_Controller
     /**
      * Config instance
      *
-     * @var Maged_Model_Config
+     * @var Magento_Downloader_Model_Config
      */
     private $_localConfig;
 
     /**
      * Session instance
      *
-     * @var Maged_Model_Session
+     * @var Magento_Downloader_Model_Session
      */
     private $_session;
 
@@ -481,7 +481,7 @@ final class Maged_Controller
     /**
      * Initialize object of class
      *
-     * @return Maged_Controller
+     * @return Magento_Downloader_Controller
      */
     public static function singleton()
     {
@@ -562,12 +562,12 @@ final class Maged_Controller
     /**
      * Retrieve object of view
      *
-     * @return Maged_View
+     * @return Magento_Downloader_View
      */
     public function view()
     {
         if (!$this->_view) {
-            $this->_view = new Maged_View;
+            $this->_view = new Magento_Downloader_View;
         }
         return $this->_view;
     }
@@ -577,7 +577,7 @@ final class Maged_Controller
      *
      * @param string $model
      * @param boolean $singleton
-     * @return Maged_Model
+     * @return Magento_Downloader_Model
      */
     public function model($model = null, $singleton = false)
     {
@@ -586,9 +586,9 @@ final class Maged_Controller
         }
 
         if (is_null($model)) {
-            $class = 'Maged_Model';
+            $class = 'Magento_Downloader_Model';
         } else {
-            $class = 'Maged_Model_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $model)));
+            $class = 'Magento_Downloader_Model_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $model)));
             if (!class_exists($class, false)) {
                 include_once str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
             }
@@ -625,7 +625,7 @@ final class Maged_Controller
     /**
      * Retrieve object of channel config
      *
-     * @return Maged_Model_Config_Interface
+     * @return Magento_Downloader_Model_Config_Interface
      */
     public function channelConfig()
     {
@@ -638,7 +638,7 @@ final class Maged_Controller
     /**
      * Retrieve object of session
      *
-     * @return Maged_Model_Session
+     * @return Magento_Downloader_Model_Session
      */
     public function session()
     {
@@ -652,7 +652,7 @@ final class Maged_Controller
      * Set Controller action
      *
      * @param string $action
-     * @return Maged_Controller
+     * @return Magento_Downloader_Controller
      */
     public function setAction($action=null)
     {
@@ -685,7 +685,7 @@ final class Maged_Controller
      *
      * @param string $url
      * @param bool $force
-     * @return Maged_Controller
+     * @return Magento_Downloader_Controller
      */
     public function redirect($url, $force = false)
     {
@@ -699,7 +699,7 @@ final class Maged_Controller
     /**
      * Precess redirect
      *
-     * @return Maged_Controller
+     * @return Magento_Downloader_Controller
      */
     public function processRedirect()
     {
@@ -719,7 +719,7 @@ final class Maged_Controller
      * Forward to action
      *
      * @param string $action
-     * @return Maged_Controller
+     * @return Magento_Downloader_Controller
      */
     public function forward($action)
     {
@@ -901,9 +901,9 @@ final class Maged_Controller
     public function endInstall()
     {
         //$connect
-        /** @var $connect Maged_Model_Connect */
+        /** @var $connect Magento_Downloader_Model_Connect */
         $frontend = $this->model('connect', true)->connect()->getFrontend();
-        if (!($frontend instanceof Maged_Connect_Frontend)) {
+        if (!($frontend instanceof Magento_Downloader_Connect_Frontend)) {
             $this->cleanCache();
         }
     }
@@ -995,7 +995,7 @@ final class Maged_Controller
      * @return bool
      */
     protected function _createBackup($archiveType, $archiveName){
-        /** @var $connect Maged_Connect */
+        /** @var $connect Magento_Downloader_Connect */
         $connect = $this->model('connect', true)->connect();
         $connect->runHtmlConsole('Creating backup...');
 
