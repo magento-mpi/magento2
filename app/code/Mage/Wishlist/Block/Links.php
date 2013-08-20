@@ -16,40 +16,41 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Block_Links extends Mage_Page_Block_Template_Links_Block
+class Mage_Wishlist_Block_Links extends Mage_Page_Block_Link
 {
-    /**
-     * Position in link list
-     * @var int
-     */
-    protected $_position = 30;
-
     /**
      * @return string
      */
     protected function _toHtml()
     {
         if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) {
-            $text = $this->_createLabel($this->_getItemCount());
-            $this->_label = $text;
-            $this->_title = $text;
-            $this->_url = $this->getUrl('wishlist');
             return parent::_toHtml();
         }
         return '';
     }
 
     /**
-     * Define label, title and url for wishlist link
-     *
-     * @deprecated after 1.6.2.0
+     * @return string
      */
-    public function initLinkProperties()
+    public function getHref()
     {
-        $text = $this->_createLabel($this->_getItemCount());
-        $this->_label = $text;
-        $this->_title = $text;
-        $this->_url = $this->getUrl('wishlist');
+        return $this->getUrl('wishlist');
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->_createLabel($this->_getItemCount());
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_createLabel($this->_getItemCount());
     }
 
     /**

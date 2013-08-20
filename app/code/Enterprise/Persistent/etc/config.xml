@@ -71,10 +71,6 @@
                         <class>Enterprise_Persistent_Model_Observer</class>
                         <method>applyPersistentData</method>
                     </enterprise_persistent>
-                    <enterprise_persistent_cart>
-                        <class>Enterprise_Persistent_Model_Observer</class>
-                        <method>removeCartLink</method>
-                    </enterprise_persistent_cart>
                 </observers>
             </controller_action_layout_generate_blocks_after>
             <controller_action_predispatch_catalog_product_compare_clear>

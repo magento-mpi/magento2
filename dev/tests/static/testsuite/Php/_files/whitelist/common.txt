@@ -33,6 +33,8 @@ app/code/Mage/Catalog/Model/Product/Type.php
 app/code/Mage/Catalog/Model/Observer/Reindex.php
 app/code/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/Mage/Centinel/Model/State/Jcb.php
+app/code/Mage/Checkout/Block/Cart/Link.php
+app/code/Mage/Checkout/Block/Link.php
 app/code/Mage/Cms/Controller/Router.php
 app/code/Mage/Core/Block/Abstract.php
 app/code/Mage/Core/Controller/Varien/ActionAbstract.php

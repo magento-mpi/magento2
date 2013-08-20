@@ -566,6 +566,7 @@ return array(
     array('Mage_Catalog_Model_Product_Limitation'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice'),
+    array('Mage_Checkout_Block_Links'),
     array('Mage_Core_Block_Flush'),
     array('Mage_Core_Block_Template_Facade'),
     array('Mage_Core_Block_Template_Smarty'),

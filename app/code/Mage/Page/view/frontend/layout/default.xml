@@ -17,7 +17,11 @@
             <container name="after_body_start" as="after_body_start" label="Page Top"/>
             <block type="Mage_Page_Block_Html_Notices" name="global_notices" as="global_notices" template="html/notices.phtml"/>
             <block type="Mage_Page_Block_Html_Header" name="header" as="header">
-                <block type="Mage_Page_Block_Template_Links" name="top.links" as="topLinks"/>
+                <block type="Mage_Page_Block_Links" name="top.links" as="topLinks">
+                    <arguments translate="label">
+                        <css_class>links</css_class>
+                    </arguments>
+                </block>
                 <block type="Mage_Page_Block_Switch" name="store_language" as="store_language" template="switch/languages.phtml"/>
                 <container name="top.menu" as="topMenu" label="Navigation Bar">
                     <block type="Mage_Page_Block_Html_Topmenu" name="catalog.topnav" template="html/topmenu.phtml"/>

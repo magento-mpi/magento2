@@ -100,22 +100,6 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
     }
 
     /**
-     * Remove Link block by blockName
-     *
-     * @param string $blockName
-     * @return Mage_Page_Block_Template_Links
-     */
-    public function removeLinkBlock($blockName)
-    {
-        foreach ($this->_links as $key => $link) {
-            if ($link instanceof Mage_Core_Block_Abstract && $link->getNameInLayout() == $blockName) {
-                unset($this->_links[$key]);
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Removes link by url
      *
      * @param string $url

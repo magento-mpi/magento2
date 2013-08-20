@@ -9,10 +9,10 @@
  * @var $this Mage_Page_Block_Links
  */
 ?>
-<?php if ($links = $this->getLinks()):?>
-<ul>
-<?php foreach ($links as $link):?>
-    <?php echo $this->renderLink($link)?>
-<?php endforeach;?>
+<?php if ($links = $this->getLinks()): ?>
+<ul <?php if ($this->hasCssClass()): echo 'class="' . $this->escapeHtml($this->getCssClass()) . '"'; endif; ?>>
+<?php foreach ($links as $link): ?>
+    <?php echo $this->renderLink($link) ?>
+<?php endforeach; ?>
 </ul>
-<?php endif;?>
+<?php endif; ?>

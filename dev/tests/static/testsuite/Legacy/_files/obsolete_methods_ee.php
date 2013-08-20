@@ -61,6 +61,7 @@ return array(
     array('refreshRequestIds', 'Enterprise_PageCache_Model_Processor',
         'Enterprise_PageCache_Model_Request_Identifier::refreshRequestIds'
     ),
+    array('removeCartLink', 'Enterprise_Persistent_Model_Observer'),
     array('resetColumns', 'Enterprise_Banner_Model_Resource_Salesrule_Collection'),
     array('resetSelect', 'Enterprise_Banner_Model_Resource_Catalogrule_Collection'),
     array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',

@@ -40,7 +40,11 @@
         </reference>
         <reference name="header">
             <block type="Mage_Page_Block_Template_Links" name="account.links" as="accountLinks" before="top.links"/>
-            <block type="Mage_Page_Block_Template_Links" name="checkout.links" as="checkoutLinks" after="top.links"/>
+            <block type="Mage_Page_Block_Links" name="checkout.links" as="checkoutLinks" after="top.links">
+                <arguments>
+                    <css_class>links</css_class>
+                </arguments>
+            </block>
             <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
             <block type="Mage_Page_Block_Html_Welcome" name="welcome" as="welcome" after="top.container"/>
         </reference>
