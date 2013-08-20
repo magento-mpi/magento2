@@ -10,25 +10,25 @@
  */
 -->
 <widgets>
-    <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister" translate="name description"
-            module="Enterprise_CatalogEvent">
+    <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister" module="Enterprise_CatalogEvent"
+            translate="name description">
         <name>Catalog Events Carousel</name>
         <description>List all open Catalog Events as a Paginated Carousel</description>
         <placeholder_image>Enterprise_CatalogEvent::widget_lister.gif</placeholder_image>
-        <parameter name="limit" translate="label description" required="true" visible="true" value="5" xsi:type="text">
+        <parameter name="limit" xsi:type="text" required="true" visible="true" value="5" translate="label description">
             <label>Frame Size</label>
             <description>Number of Items to display at once</description>
         </parameter>
-        <parameter name="scroll" translate="label description" required="true" visible="true" value="5" xsi:type="text">
+        <parameter name="scroll" xsi:type="text" required="true" visible="true" value="2" translate="label description">
             <label>Scroll</label>
             <description>Number of Items to scroll per click</description>
         </parameter>
-        <parameter name="width" translate="label description" visible="true" xsi:type="text">
+        <parameter name="width" xsi:type="text" visible="true" translate="label description">
             <label>Block Custom Width</label>
             <description>The width in pixels will be set automatically if this value is empty.</description>
         </parameter>
-        <parameter name="template" required="true" xsi:type="select">
-            <option name="default" translate="label" value="widget/lister.phtml" selected="true">
+        <parameter name="template" xsi:type="select" required="true">
+            <option name="default" value="widget/lister.phtml" selected="true" translate="label">
                 Catalog Events Carousel Default Template
             </option>
         </parameter>
