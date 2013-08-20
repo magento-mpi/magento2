@@ -37,6 +37,17 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_listConfigXml = array();
 
     /**
+     * List of module.xml files as SimpleXMLElement
+     *
+     * Format: array(
+     *  '{Module_Name}' => '{SimpleXMLElement}'
+     * )
+     *
+     * @var array
+     */
+    protected static $_listModulesXml = array();
+
+    /**
      * List of routers
      *
      * Format: array(
@@ -141,36 +152,25 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         self::$_namespaces = implode('|', Utility_Files::init()->getNamespaces());
 
         self::_prepareListConfigXml();
-
-        self::_initDependencies();
+//        self::_prepareListModuleXml();
 
         self::_prepareMapRouters();
         self::_prepareMapLayoutBlocks();
         self::_prepareMapLayoutHandles();
 
-        self::_instantiateConfiguration();
-        self::_instantiateRules();
+        self::_initDependencies();
+        self::_initThemes();
+        self::_initRules();
     }
 
     /**
-     * Build modules dependencies
+     * Initialize default themes
      */
-    protected static function _instantiateConfiguration()
+    protected static function _initThemes()
     {
         $defaultThemes = array();
-        foreach (self::$_listConfigXml as $module => $file) {
+        foreach (self::$_listConfigXml as $file) {
             $config = simplexml_load_file($file);
-
-            $nodes = $config->xpath("/config/modules/$module/depends") ?: array();
-            foreach ($nodes as $node) {
-                /** @var SimpleXMLElement $node */
-                $type = ($node->attributes()->type == self::TYPE_SOFT) ? self::TYPE_SOFT : self::TYPE_HARD;
-                foreach ($node->children() as $element) {
-                    /** @var SimpleXMLElement $element */
-                    self::_addDependencies($module, $type, self::MAP_TYPE_DECLARED, $element->getName());
-                }
-            }
-
             $nodes = $config->xpath("/config/*/design/theme/full_name") ?: array();
             foreach ($nodes as $node) {
                 $defaultThemes[] = (string)$node;
@@ -182,10 +182,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Create rules objects
      */
-    protected static function _instantiateRules()
+    protected static function _initRules()
     {
         self::$_rulesInstances = array();
-
         foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
                 /** @var Integrity_DependencyTest_RuleInterface $rule */
@@ -402,6 +401,55 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $this->fail("Undefined dependencies found!\r\n" . implode(' ', $result));
         }
     }
+
+//    /**
+//     * Generate XML file for all dependencies
+//     *
+//     * @test
+//     * @depends collectRedundant
+//     */
+//    public function generateXml()
+//    {
+//        // TODO:
+//        // self::$_listModulesXml
+//
+//        $dom = new DOMDocument('1.0', 'UTF-8');
+//        $dom->formatOutput = true;
+//
+//        $configNode = $dom->createElement('config');
+//        $modulesNode =  $dom->createElement('modules');
+//
+//        foreach (array_keys(self::$_mapDependencies) as $module) {
+//
+//            $moduleNameNode = $dom->createElement($module);
+//            foreach ($this->_getTypes() as $type) {
+//
+//                $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
+//                $found = $this->_getDependencies($module, $type, self::MAP_TYPE_FOUND);
+//                $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
+//
+//                $realModules = array_diff($declared, $redundant);
+//                $realModules = array_merge($realModules, $found);
+//
+//                if (count($realModules)) {
+//                    $dependsNode = $dom->createElement('depends');
+//                    $dependsNode->setAttribute('type', $type);
+//
+//                    foreach ($realModules as $realModule) {
+//                        $dependencyNode = $dom->createElement($realModule);
+//                        $dependsNode->appendChild($dependencyNode);
+//                    }
+//                    $moduleNameNode->appendChild($dependsNode);
+//                }
+//            }
+//            $modulesNode->appendChild($moduleNameNode);
+//        }
+//
+//        $configNode->appendChild($modulesNode);
+//        $dom->appendChild($configNode);
+//
+//        $dom->save('modules.xml');
+//    }
 
     /**
      * Extract Magento relative filename from absolute filename
@@ -620,17 +668,36 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected function _initDependencies()
     {
-        foreach (array_keys(self::$_listConfigXml) as $module) {
-            if (!isset(self::$_mapDependencies[$module])) {
-                self::$_mapDependencies[$module] = array();
+        $files = Utility_Files::init()->getConfigFiles('module.xml', array(), false);
+
+        foreach ($files as $file) {
+            $config = simplexml_load_file($file);
+
+            $module = $config->xpath("/config/module") ?: array();
+            $moduleName = (string)$module[0]->attributes()->name;
+
+            $_listModulesXml[$moduleName] = $config;
+
+            if (!isset(self::$_mapDependencies[$moduleName])) {
+                self::$_mapDependencies[$moduleName] = array();
             }
             foreach (self::_getTypes() as $type) {
-                if (!isset(self::$_mapDependencies[$module][$type])) {
-                    self::$_mapDependencies[$module][$type] = array(
+                if (!isset(self::$_mapDependencies[$moduleName][$type])) {
+                    self::$_mapDependencies[$moduleName][$type] = array(
                         self::MAP_TYPE_DECLARED      => array(),
                         self::MAP_TYPE_FOUND         => array(),
                         self::MAP_TYPE_REDUNDANT     => array(),
                     );
+                }
+            }
+
+            foreach ($module[0]->depends->children() as $dependency) {
+                /** @var SimpleXMLElement $dependency */
+                $type = ((string)$dependency->attributes()->type == self::TYPE_SOFT) ? self::TYPE_SOFT
+                    : self::TYPE_HARD;
+                if ($dependency->getName() == 'module') {
+                    self::_addDependencies($moduleName, $type, self::MAP_TYPE_DECLARED,
+                        (string)$dependency->attributes()->name);
                 }
             }
         }
