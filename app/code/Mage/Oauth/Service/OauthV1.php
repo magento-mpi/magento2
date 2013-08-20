@@ -93,37 +93,6 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /** @var  Mage_Oauth_Model_Consumer */
     protected $_consumer;
 
-
-    /**#@+
-     * Required parameters for each token operation
-     */
-    protected $_requiredGeneric = array(
-        "oauth_consumer_key",
-        "oauth_signature",
-        "oauth_signature_method",
-        "oauth_nonce",
-        "oauth_timestamp"
-    );
-
-    protected $_requiredAccess = array(
-        "oauth_consumer_key",
-        "oauth_signature",
-        "oauth_signature_method",
-        "oauth_nonce",
-        "oauth_timestamp",
-        "oauth_token",
-        "oauth_verifier"
-    );
-
-    protected $_requiredValidate = array(
-        "oauth_consumer_key",
-        "oauth_signature",
-        "oauth_signature_method",
-        "oauth_nonce",
-        "oauth_timestamp",
-        "oauth_token"
-    );
-
     /**
      * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
@@ -199,7 +168,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $consumer = $this->_getConsumerByKey($signedRequest['consumer_key']);
         $token = $this->_getTokenByConsumer($consumer->getId());
 
-        // TODO, verify the type of token 
+        // TODO: verify the type of token
         if (false) {
             throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
         }
@@ -247,7 +216,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $consumerKeyParam = $accessTokenReqArray['oauth_consumer_key'];
         $consumerObj = $this->_getConsumerByKey($consumerKeyParam);
 
-        $tokenObj = $this->_getToken($tokenParam, $consumerObj->getId());
+        $token = $this->_getToken($tokenParam, $consumerObj->getId());
 
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
@@ -293,11 +262,22 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $consumerKeyParam = $requestArray['oauth_consumer_key'];
 
         // make generic validation of request parameters
-        $this->_validateProtocolParams($requestArray, $this->_requiredValidate);
-        $this->_validateToken($tokenParam);
+        $this->_validateVersionParam($requestArray['oauth_version']);
 
-        $consumer = $this->_fetchConsumerByConsumerKey($consumerKeyParam);
-        $token = $this->_fetchToken($tokenParam);
+        // validate signature method
+        if (!in_array($requestArray['oauth_signature_method'], self::getSupportedSignatureMethods())) {
+            $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
+        }
+
+        $consumerObj = $this->_getConsumerByKey($consumerKeyParam);
+
+        $this->_validateNonce(
+            $requestArray['oauth_nonce'],
+            $consumerObj->getId(),
+            $requestArray['oauth_timestamp']
+        );
+
+        $token = $this->_getToken($tokenParam);
 
         //TODO: Verify if we need to check the association in token validation
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
@@ -343,7 +323,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_TIMESTAMP_REFUSED);
             }
 
-            $nonceObj = $this->_fetchNonce($nonce, $consumerId);
+            $nonceObj = $this->_getNonce($nonce, $consumerId);
 
             if ($nonceObj->getConsumerId() == $consumerId) {
                 throw new Mage_Oauth_Exception(
@@ -353,7 +333,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_NONCE_USED);
             }
 
-            $consumer = $this->_fetchConsumer($consumerId);
+            $consumer = $this->_getConsumer($consumerId);
 
             if (!$consumer->getId()) {
                 throw new Mage_Oauth_Exception(
@@ -536,12 +516,6 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     {
         $nonceObj = $this->_nonceFactory->create()->load($nonce, 'nonce');
         return $nonceObj;
-        $this->_consumer = $this->_consumer == null ? $this->_consumerFactory->create()->load($key, 'key')
-            : $this->_consumer;
-        if (!$this->_consumer->getId()) {
-            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
-        }
-        return $this->_consumer;
     }
 
 
