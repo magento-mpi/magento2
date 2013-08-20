@@ -736,6 +736,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
      * Data provider of row data and errors
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function validateRowDataProvider()
     {
