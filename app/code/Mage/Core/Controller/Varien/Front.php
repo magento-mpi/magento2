@@ -19,11 +19,6 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     const XML_FORBIDDEN_FOR_REDIRECT_AREAS = 'default/web/forbiddenForRedirectAreas';
 
     /**
-     * @var Mage_Core_Controller_Varien_Router_Factory
-     */
-    protected $_routerFactory;
-
-    /**
      * @var Mage_Core_Model_Url_RewriteFactory
      */
     protected $_rewriteFactory;
@@ -32,13 +27,6 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
      * @var array
      */
     protected $_defaults = array();
-
-    /**
-     * Available router classes
-     *
-     * @var array
-     */
-    protected $_routerTypes = array();
 
     /**
      * Available routers array
@@ -50,20 +38,29 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     /**
      * @param Mage_Core_Controller_Varien_Router_Factory $routerFactory
      * @param Mage_Core_Model_Url_RewriteFactory $rewriteFactory
-     * @param array $routerTypes
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param $routerTypes
      * @param array $data
      */
     public function __construct(
         Mage_Core_Controller_Varien_Router_Factory $routerFactory,
         Mage_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Mage_Core_Model_Event_Manager $eventManager,
         $routerTypes,
         array $data = array()
     ) {
         parent::__construct($data);
 
-        $this->_routerFactory  = $routerFactory;
         $this->_rewriteFactory = $rewriteFactory;
-        $this->_routersTypes = $routerTypes;
+        $this->_eventManager = $eventManager;
+        $this->_eventManager->dispatch('controller_front_init_before', array('front'=>$this));
+        foreach ($routerTypes as $routerCode => $routerClass) {
+            if ($routerClass) {
+                $router = $routerFactory->createRouter($routerClass);
+                $this->addRouter($routerCode, $router);
+            }
+        }
+        $this->_eventManager->dispatch('controller_front_init_routers', array('front'=>$this));
     }
 
     public function setDefault($key, $value=null)
@@ -142,27 +139,6 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     public function getRouters()
     {
         return $this->_routers;
-    }
-
-    /**
-     * Init Front Controller
-     *
-     * @return Mage_Core_Controller_Varien_Front
-     */
-    public function init()
-    {
-        Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
-
-        foreach ($this->_routersTypes as $routerCode => $routerClass) {
-            if ($routerClass) {
-                $router = $this->_routerFactory->createRouter($routerClass);
-                $this->addRouter($routerCode, $router);
-            }
-        }
-
-        Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
-
-        return $this;
     }
 
     /**
