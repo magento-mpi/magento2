@@ -337,7 +337,7 @@ class Magento_Core_Model_Layout_Merge
             $name = $node->getAttribute('id');
             $info = array(
                 'name'     => $name,
-                'label'    => __((string)$node->label),
+                'label'    => __((string)$node->getAttribute('label')),
                 'type'     => $node->getAttribute('type'),
                 'children' => array()
             );
