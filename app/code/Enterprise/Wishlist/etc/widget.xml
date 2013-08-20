@@ -12,14 +12,14 @@
 <widgets>
     <widget id="wishlist_search" class="Enterprise_Wishlist_Block_Widget_Search"
             translate="name description" module="Enterprise_Wishlist" is_email_compatible="false">
-        <name>Wishlist Search</name>
+        <label>Wishlist Search</label>
         <description>Wish List Search Description</description>
-        <parameter name="types" translate="label description" required="true" visible="true"
-                xsi:type="multiselect" sort_order="10">
+        <parameter name="types" xsi:type="multiselect" translate="label description" required="true"
+                   visible="true" sort_order="10">
             <label>Quick Search Form Types</label>
             <source_model>Enterprise_Wishlist_Model_Config_Source_Search</source_model>
         </parameter>
-        <parameter name="template" translate="label" required="true" visible="true" xsi:type="select">
+        <parameter name="template" xsi:type="select" translate="label" required="true" visible="true">
             <label>Template</label>
             <option name="default_template" translate="label" value="widget/search.phtml" selected="true">
                 <label>Wish List Search Template</label>
