@@ -12,7 +12,7 @@
 <widgets>
     <widget id="enterprise_giftregistry_search" class="Enterprise_GiftRegistry_Block_Search_Widget_Form"
             translate="name description" module="Enterprise_GiftRegistry" is_email_compatible="false">
-        <name>Gift Registry Search</name>
+        <label>Gift Registry Search</label>
         <description>Gift Registry Quick Search Form</description>
         <parameter name="type" translate="label" xsi:type="multiselect" visible="true" required="true">
             <label>Quick Search Form Types</label>

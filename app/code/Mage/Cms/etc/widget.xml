@@ -13,7 +13,7 @@
     <widget id="cms_page_link" class="Mage_Cms_Block_Widget_Page_Link" translate="name description"
             module="Mage_Cms" is_email_compatible="true"
             placeholder_image="Mage_Cms::images/widget_page_link.gif">
-        <name>CMS Page Link</name>
+        <label>CMS Page Link</label>
         <description>Link to a CMS Page</description>
         <parameter name="page_id" xsi:type="value_renderer" visible='true' required="true"
                    translate="label">
@@ -26,14 +26,14 @@
                 </data>
             </renderer>
         </parameter>
-        <parameter name="anchor_text" translate="label description" visible="true" xsi:type="text">
+        <parameter name="anchor_text" xsi:type="text" translate="label description" visible="true">
             <label>Anchor Custom Text</label>
             <description>If empty, the Page Title will be used</description>
         </parameter>
-        <parameter name="title" translate="label" visible="true" xsi:type="text">
+        <parameter name="title" xsi:type="text" translate="label" visible="true">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" translate="label" visible="true" xsi:type="select">
+        <parameter name="template" xsi:type="select" translate="label" visible="true">
             <label>Template</label>
             <option name="default" translate="label" value="widget/link/link_block.phtml"
                     selected="true">
@@ -46,7 +46,7 @@
     </widget>
     <widget id="cms_static_block" type="Mage_Cms_Block_Widget_Block" translate="name description"
             module="Mage_Cms" placeholder_image="Mage_Cms::images/widget_block.gif">
-        <name>CMS Static Block</name>
+        <label>CMS Static Block</label>
         <description>Contents of a Static Block</description>
         <parameter name="block_id" xsi:type="value_renderer" translate="label" visible="true"
                    required="true">

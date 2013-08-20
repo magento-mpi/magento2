@@ -12,12 +12,12 @@
 <widgets>
     <widget id="sales_widget_guestfrom" class="Mage_Sales_Block_Widget_Guest_Form"
             translate="name description" module="Mage_Sales" is_email_compatible="true">
-        <name>Orders and Returns</name>
+        <label>Orders and Returns</label>
         <description>Orders and Returns Search Form</description>
-        <parameter name="title" translate="label" visible="false" xsi:type="text">
+        <parameter name="title" xsi:type="text" translate="label" visible="false">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" visible="false" xsi:type="select">
+        <parameter name="template" xsi:type="select" visible="false">
             <option name="default_template" translate="label" value="widget/guest/form.phtml">
                     <label>Default Template</label>
             </option>

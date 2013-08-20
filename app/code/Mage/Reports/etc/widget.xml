@@ -13,15 +13,15 @@
     <widget id="recently_viewed" class="Mage_Reports_Block_Product_Widget_Viewed"
             translate="name description" module="Mage_Reports"
             placeholder_image="Mage_Reports::images/product_widget_viewed.gif">
-        <name>Recently Viewed Products</name>
+        <label>Recently Viewed Products</label>
         <description>List of Products Recently Viewed by Visitor</description>
-        <parameter name="page_size" translate="label" xsi:type="text" required="true" visible="true"
-                   value="5">
+        <parameter name="page_size" translate="label" xsi:type="text" value="5" required="true"
+                   visible="true">
             <label>Number of Products to display</label>
         </parameter>
         <parameter name="template" xsi:type="select" required="true" visible="true">
             <label>Template</label>
-            <option name="default" translate="label"value="widget/viewed/content/viewed_grid.phtml"
+            <option name="default" translate="label" value="widget/viewed/content/viewed_grid.phtml"
                     selected="true">
                 Viewed Products Grid Template
             </option>
@@ -59,13 +59,13 @@
     <widget id="recently_compared" class="Mage_Reports_Block_Product_Widget_Compared"
             translate="name description" module="Mage_Reports"
             placeholder_image="Mage_Reports::images/product_widget_compared.gif">
-        <name>Recently Compared Products</name>
+        <label>Recently Compared Products</label>
         <description>List of Products Recently Compared and Removed from the Compare List by Visitor</description>
-        <parameter name="page_size" translate="label" required="true" visible="true" value="5"
-                   xsi:type="text">
+        <parameter name="page_size" xsi:type="text" translate="label" value="5" required="true"
+                   visible="true">
             <label>Number of Products to display</label>
         </parameter>
-        <parameter name="template" visible="true" xsi:type="select" required="true">
+        <parameter name="template" xsi:type="select" visible="true" required="true">
             <label>Template</label>
             <option name="default" translate="label" selected="true"
                     value="widget/compared/content/compared_grid.phtml">
