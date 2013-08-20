@@ -160,6 +160,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expected = require(__DIR__ . '/_files/pages_hierarchy.php');
         $actual = $this->_model->getPageHandlesHierarchy();
         $this->assertEquals($expected, $actual);
+        $this->assertInstanceOf('Magento_Phrase', $actual['default']['label']);
     }
 
     /**
@@ -176,23 +177,6 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
             'non-existing handle'  => array('non_existing_handle', false),
             'non page type handle' => array('not_a_page_type',     false),
             'existing page type'   => array('default',             true),
-        );
-    }
-
-    /**
-     * @dataProvider getPageHandleLabelDataProvider
-     */
-    public function testGetPageHandleLabel($inputPageType, $expectedResult)
-    {
-        $this->assertSame($expectedResult, $this->_model->getPageHandleLabel($inputPageType));
-    }
-
-    public function getPageHandleLabelDataProvider()
-    {
-        return array(
-            'non-existing handle'  => array('non_existing_handle', null),
-            'non page type handle' => array('not_a_page_type',     null),
-            'existing page type'   => array('default',             'All Pages'),
         );
     }
 

@@ -337,7 +337,7 @@ class Magento_Core_Model_Layout_Merge
             $name = $node->getAttribute('id');
             $info = array(
                 'name'     => $name,
-                'label'    => (string)$node->label,
+                'label'    => __((string)$node->label),
                 'type'     => $node->getAttribute('type'),
                 'children' => array()
             );
@@ -347,18 +347,6 @@ class Magento_Core_Model_Layout_Merge
             $result[$name] = $info;
         }
         return $result;
-    }
-
-    /**
-     * Retrieve the label for a page handle
-     *
-     * @param string $handleName
-     * @return string|null
-     */
-    public function getPageHandleLabel($handleName)
-    {
-        $node = $this->_getPageHandleNode($handleName);
-        return $node ? (string)$node->label : null;
     }
 
     /**
