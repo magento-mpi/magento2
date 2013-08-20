@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,23 +9,73 @@
 /**
  * Manage consumers controller
  *
- * @category    Mage
- * @package     Mage_Oauth
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Controller_Action
+class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Backend_Controller_ActionAbstract
 {
+    /** Param Key for extracting consumer id from Request */
+    const PARAM_CONSUMER_ID = 'id';
+
+    /** Data keys for extracting information from Consumer data array */
+    const DATA_ENTITY_ID = 'entity_id';
+    const DATA_KEY = 'key';
+    const DATA_SECRET = 'secret';
+
+    /** Keys used for registering data into the registry */
+    const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
+
+    /** Key use for storing/retrieving consumer data in/from the session */
+    const SESSION_KEY_CONSUMER_DATA = 'consumer_data';
+
+    /** @var Mage_Core_Model_Registry  */
+    private $_registry;
+
+    /** @var Mage_Oauth_Model_Consumer_Factory */
+    private $_consumerFactory;
+
+    /** @var Mage_Oauth_Service_OauthInterfaceV1 */
+    private $_oauthService;
+
+    /** @var Mage_Oauth_Helper_Data */
+    protected $_oauthHelper;
+
+    /**
+     * Class constructor
+     *
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
+     * @param Mage_Oauth_Service_OauthInterfaceV1 $oauthService
+     * @param Mage_Backend_Controller_Context $context
+     * @param string $areaCode
+     */
+    public function __construct(
+        Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Oauth_Model_Consumer_Factory $consumerFactory,
+        Mage_Oauth_Service_OauthInterfaceV1 $oauthService,
+        Mage_Backend_Controller_Context $context,
+        $areaCode = null
+    ) {
+        parent::__construct($context, $areaCode);
+        $this->_registry = $registry;
+        $this->_oauthHelper = $helperFactory->get('Mage_Oauth_Helper_Data');
+        $this->_consumerFactory = $consumerFactory;
+        $this->_oauthService = $oauthService;
+    }
+
     /**
      * Perform layout initialization actions
      *
      * @return Mage_Oauth_Adminhtml_Oauth_ConsumerController
      */
-    protected function  _initAction()
+    protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Oauth::system_legacy_api_oauth_consumer');
+            ->_setActiveMenu('Mage_Oauth::system_api_oauth_consumer');
         return $this;
     }
+
     /**
      * Unset unused data from request
      * Skip getting "key" and "secret" because its generated from server side only
@@ -37,12 +85,39 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _filter(array $data)
     {
-        foreach (array('id', 'back', 'form_key', 'key', 'secret') as $field) {
+        foreach (array(self::PARAM_CONSUMER_ID, self::DATA_KEY, self::DATA_SECRET, 'back', 'form_key') as $field) {
             if (isset($data[$field])) {
                 unset($data[$field]);
             }
         }
         return $data;
+    }
+
+    /**
+     * Retrieve the consumer.
+     *
+     * @param int $consumerId - The ID of the consumer
+     * @return Mage_Oauth_Model_Consumer
+     */
+    protected function _fetchConsumer($consumerId)
+    {
+        $consumer = $this->_consumerFactory->create();
+
+        if (!$consumerId) {
+            $this->_getSession()->addError($this->__('Invalid ID parameter.'));
+            $this->_redirect('*/*/index');
+            return $consumer;
+        }
+
+        $consumer = $consumer->load($consumerId);
+
+        if (!$consumer->getId()) {
+            $this->_getSession()
+                ->addError($this->__('An add-on with ID %s was not found.', $consumerId));
+            $this->_redirect('*/*/index');
+        }
+
+        return $consumer;
     }
 
     /**
@@ -52,7 +127,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     public function preDispatch()
     {
-        $this->_title($this->__('Consumers'));
+        $this->_title($this->__('Add-Ons'));
         parent::preDispatch();
         return $this;
     }
@@ -76,130 +151,91 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
     }
 
     /**
-     * Create page action
+     * Create new consumer action
      */
     public function newAction()
     {
-        /** @var $model Mage_Oauth_Model_Consumer */
-        $model = Mage::getModel('Mage_Oauth_Model_Consumer');
+        $consumer = $this->_consumerFactory->create();
 
         $formData = $this->_getFormData();
         if ($formData) {
             $this->_setFormData($formData);
-            $model->addData($formData);
+            $consumer->addData($formData);
         } else {
-            /** @var $helper Mage_Oauth_Helper_Data */
-            $helper = Mage::helper('Mage_Oauth_Helper_Data');
-            $model->setKey($helper->generateConsumerKey());
-            $model->setSecret($helper->generateConsumerSecret());
-            $this->_setFormData($model->getData());
+            $consumer->setData(self::DATA_KEY, $this->_oauthHelper->generateConsumerKey());
+            $consumer->setData(self::DATA_SECRET, $this->_oauthHelper->generateConsumerSecret());
+            $this->_setFormData($consumer->getData());
         }
 
-        Mage::register('current_consumer', $model);
+        $this->_registry->register(self::REGISTRY_KEY_CURRENT_CONSUMER, $consumer->getData());
 
         $this->_initAction();
         $this->renderLayout();
     }
 
     /**
-     * Edit page action
+     * Edit consumer action
      */
     public function editAction()
     {
-        $id = (int) $this->getRequest()->getParam('id');
+        $consumerId = (int)$this->getRequest()->getParam(self::PARAM_CONSUMER_ID);
+        $consumer = $this->_fetchConsumer($consumerId);
 
-        if (!$id) {
-            $this->_getSession()->addError(Mage::helper('Mage_Oauth_Helper_Data')->__('Invalid ID parameter.'));
-            $this->_redirect('*/*/index');
-            return;
-        }
-
-        /** @var $model Mage_Oauth_Model_Consumer */
-        $model = Mage::getModel('Mage_Oauth_Model_Consumer');
-        $model->load($id);
-
-        if (!$model->getId()) {
-            $this->_getSession()->addError(Mage::helper('Mage_Oauth_Helper_Data')->__('Entry with ID #%s not found.', $id));
-            $this->_redirect('*/*/index');
-            return;
-        }
-
-        $model->addData($this->_filter($this->getRequest()->getParams()));
-        Mage::register('current_consumer', $model);
+        $consumer->addData($this->_filter($this->getRequest()->getParams()));
+        $this->_registry->register(self::REGISTRY_KEY_CURRENT_CONSUMER, $consumer->getData());
 
         $this->_initAction();
         $this->renderLayout();
     }
 
     /**
-     * Render edit page
+     * Save consumer action
      */
     public function saveAction()
     {
-        $id = $this->getRequest()->getParam('id');
+        $consumerId = $this->getRequest()->getParam(self::PARAM_CONSUMER_ID);
         if (!$this->_validateFormKey()) {
-            if ($id) {
-                $this->_redirect('*/*/edit', array('id' => $id));
+            if ($consumerId) {
+                $this->_redirect('*/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
             } else {
-                $this->_redirect('*/*/new', array('id' => $id));
+                $this->_redirect('*/*/new');
             }
             return;
         }
 
         $data = $this->_filter($this->getRequest()->getParams());
 
-        /** @var $model Mage_Oauth_Model_Consumer */
-        $model = Mage::getModel('Mage_Oauth_Model_Consumer');
-
-        if ($id) {
-            if (!(int) $id) {
-                $this->_getSession()->addError(
-                    $this->__('Invalid ID parameter.'));
-                $this->_redirect('*/*/index');
-                return;
-            }
-            $model->load($id);
-
-            if (!$model->getId()) {
-                $this->_getSession()->addError(
-                    $this->__('Entry with ID #%s not found.', $id));
-                $this->_redirect('*/*/index');
-                return;
-            }
+        if ($consumerId) {
+            $data = array_merge($this->_fetchConsumer($consumerId)->getData(), $data);
         } else {
             $dataForm = $this->_getFormData();
             if ($dataForm) {
-                $data['key']    = $dataForm['key'];
-                $data['secret'] = $dataForm['secret'];
+                $data[self::DATA_KEY] = $dataForm[self::DATA_KEY];
+                $data[self::DATA_SECRET] = $dataForm[self::DATA_SECRET];
             } else {
-                // If an admin was started create a new consumer and at this moment he has been edited an existing
+                // If an admin started to create a new consumer and at this moment he has been edited an existing
                 // consumer, we save the new consumer with a new key-secret pair
-                /** @var $helper Mage_Oauth_Helper_Data */
-                $helper = Mage::helper('Mage_Oauth_Helper_Data');
-
-                $data['key']    = $helper->generateConsumerKey();
-                $data['secret'] = $helper->generateConsumerSecret();
+                $data[self::DATA_KEY] = $this->_oauthHelper->generateConsumerKey();
+                $data[self::DATA_SECRET] = $this->_oauthHelper->generateConsumerSecret();
             }
         }
 
         try {
-            $model->addData($data);
-            $model->save();
-            $this->_getSession()->addSuccess($this->__('The consumer has been saved.'));
+            $this->_oauthService->createConsumer($data);
+            $this->_getSession()->addSuccess($this->__('The add-on has been saved.'));
             $this->_setFormData(null);
         } catch (Mage_Core_Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError($this->_oauthHelper->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
         } catch (Exception $e) {
             $this->_setFormData(null);
-            Mage::logException($e);
-            $this->_getSession()->addError($this->__('An error occurred on saving consumer data.'));
+            $this->_getSession()->addError($this->__('An error occurred on saving add-on data.'));
         }
 
         if ($this->getRequest()->getParam('back')) {
-            if ($id || $model->getId()) {
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+            if ($consumerId) {
+                $this->_redirect('*/*/edit', array(self::PARAM_CONSUMER_ID => $consumerId));
             } else {
                 $this->_redirect('*/*/new');
             }
@@ -217,16 +253,15 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
     {
         $action = $this->getRequest()->getActionName();
         $resourceId = null;
+
         switch ($action) {
             case 'delete':
                 $resourceId = 'Mage_Oauth::consumer_delete';
                 break;
-
             case 'new':
             case 'save':
                 $resourceId = 'Mage_Oauth::consumer_edit';
                 break;
-
             default:
                 $resourceId = 'Mage_Oauth::consumer';
                 break;
@@ -242,7 +277,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _getFormData()
     {
-        return $this->_getSession()->getData('consumer_data', true);
+        return $this->_getSession()->getData(self::SESSION_KEY_CONSUMER_DATA, true);
     }
 
     /**
@@ -253,7 +288,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     protected function _setFormData($data)
     {
-        $this->_getSession()->setData('consumer_data', $data);
+        $this->_getSession()->setData(self::SESSION_KEY_CONSUMER_DATA, $data);
         return $this;
     }
 
@@ -262,24 +297,16 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     public function deleteAction()
     {
-        $consumerId = (int) $this->getRequest()->getParam('id');
+        $consumerId = (int) $this->getRequest()->getParam(self::PARAM_CONSUMER_ID);
         if ($consumerId) {
             try {
-                /** @var $consumer Mage_Oauth_Model_Consumer */
-                $consumer = Mage::getModel('Mage_Oauth_Model_Consumer')->load($consumerId);
-                if (!$consumer->getId()) {
-                    Mage::throwException(Mage::helper('Mage_Oauth_Helper_Data')->__('Unable to find a consumer.'));
-                }
-
-                $consumer->delete();
-
-                $this->_getSession()->addSuccess(Mage::helper('Mage_Oauth_Helper_Data')->__('The consumer has been deleted.'));
+                $this->_fetchConsumer($consumerId)->delete();
+                $this->_getSession()->addSuccess($this->__('The add-on has been deleted.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addException(
-                    $e, Mage::helper('Mage_Oauth_Helper_Data')->__('An error occurred while deleting the consumer.')
-                );
+                $this->_getSession()
+                    ->addException($e, $this->__('An error occurred while deleting the add-on.'));
             }
         }
         $this->_redirect('*/*/index');

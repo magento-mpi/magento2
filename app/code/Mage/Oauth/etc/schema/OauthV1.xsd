@@ -15,12 +15,10 @@
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="store_url" type="xsd:string">
+            <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Store Url</xsd:documentation>
+                    <xsd:documentation>Add-On Name</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:min/>
-                        <inf:max/>
                         <inf:callInfo>
                             <inf:callName>CreateConsumer</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
@@ -28,12 +26,23 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="store_api_base_url" type="xsd:string">
+            <xsd:element name="key" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Store Api Base Url</xsd:documentation>
+                    <xsd:documentation>OAuth Consumer Key</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:min/>
-                        <inf:max/>
+                        <inf:length>32</inf:length>
+                        <inf:callInfo>
+                            <inf:callName>CreateConsumer</inf:callName>
+                            <inf:requiredInput>Yes</inf:requiredInput>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="secret" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>OAuth Consumer Secret</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:length>32</inf:length>
                         <inf:callInfo>
                             <inf:callName>CreateConsumer</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
@@ -45,8 +54,6 @@
                 <xsd:annotation>
                     <xsd:documentation>Add-On HTTP POST Url</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:min/>
-                        <inf:max/>
                         <inf:callInfo>
                             <inf:callName>CreateConsumer</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
@@ -63,11 +70,11 @@
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="store_url" type="xsd:string">
+            <xsd:element name="oauth_consumer_key" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Default label</xsd:documentation>
+                    <xsd:documentation>OAuth Consumer Key</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:maxLength/>
+                        <inf:length>32</inf:length>
                         <inf:callInfo>
                             <inf:callName>CreateConsumer</inf:callName>
                             <inf:returned>Always</inf:returned>
@@ -75,35 +82,11 @@
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="store_api_base_url" type="xsd:string">
+            <xsd:element name="oauth_consumer_secret" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Default label</xsd:documentation>
+                    <xsd:documentation>OAuth Consumer Secret</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:maxLength/>
-                        <inf:callInfo>
-                            <inf:callName>CreateConsumer</inf:callName>
-                            <inf:returned>Always</inf:returned>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="oauth_consumer_key"  type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>Default label</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:maxLength/>
-                        <inf:callInfo>
-                            <inf:callName>CreateConsumer</inf:callName>
-                            <inf:returned>Always</inf:returned>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="oauth_consumer_secret"  type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>Default label</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:maxLength/>
+                        <inf:length>32</inf:length>
                         <inf:callInfo>
                             <inf:callName>CreateConsumer</inf:callName>
                             <inf:returned>Always</inf:returned>

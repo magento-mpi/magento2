@@ -193,10 +193,9 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
     /**
      * Get string representation of token
      *
-     * @param string $format
      * @return string
      */
-    public function toString($format = '')
+    public function toString()
     {
         return http_build_query(array('oauth_token' => $this->getToken(), 'oauth_token_secret' => $this->getSecret()));
     }

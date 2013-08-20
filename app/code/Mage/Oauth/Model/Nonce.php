@@ -50,4 +50,17 @@ class Mage_Oauth_Model_Nonce extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Load given a composite key consisting of a nonce string and a consumer id
+     *
+     * @param string $nonce - The nonce string
+     * @param int $consumerId - The consumer id
+     * @return $this
+     */
+    public function loadByCompositeKey($nonce, $consumerId)
+    {
+        $this->setData($this->getResource()->selectByCompositeKey($nonce, $consumerId));
+        return $this;
+    }
 }

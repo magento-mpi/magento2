@@ -34,9 +34,9 @@ class Mage_Oauth_TokenController extends Mage_Oauth_Controller_Abstract
     }
 
     /**
-     * Index action. Process request and response permanent token
+     * Action to intercept and process access token request
      */
-    public function indexAction()
+    public function accessAction()
     {
         try {
             if (!$this->getRequest()->isPost()) {

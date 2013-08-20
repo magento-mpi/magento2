@@ -91,10 +91,38 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     protected $_helper;
 
     /** @var  Mage_Oauth_Model_Consumer */
-    protected $_consumerObj;
+    protected $_consumer;
 
-    /** @var  Mage_Oauth_Model_Token */
-    protected $_tokenObj;
+
+    /**#@+
+     * Required parameters for each token operation
+     */
+    protected $_requiredGeneric = array(
+        "oauth_consumer_key",
+        "oauth_signature",
+        "oauth_signature_method",
+        "oauth_nonce",
+        "oauth_timestamp"
+    );
+
+    protected $_requiredAccess = array(
+        "oauth_consumer_key",
+        "oauth_signature",
+        "oauth_signature_method",
+        "oauth_nonce",
+        "oauth_timestamp",
+        "oauth_token",
+        "oauth_verifier"
+    );
+
+    protected $_requiredValidate = array(
+        "oauth_consumer_key",
+        "oauth_signature",
+        "oauth_signature_method",
+        "oauth_nonce",
+        "oauth_timestamp",
+        "oauth_token"
+    );
 
     /**
      * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
@@ -130,32 +158,23 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Create a new consumer account when an Add-On is installed.
      *
-     * @param array $addOnData
+     * @param array $consumerData
      * @return array
      * @throws Mage_Core_Exception
      * @throws Mage_Oauth_Exception
      */
-    public function createConsumer($addOnData)
+    public function createConsumer($consumerData)
     {
         try {
-            $consumer = $this->_consumerFactory->create(
-                array(
-                    'key' => $this->_helper->generateConsumerKey(),
-                    'secret' => $this->_helper->generateConsumerSecret()
-                )
-            );
+            $consumer = $this->_consumerFactory->create($consumerData);
             $consumer->save();
-            $data['store_url'] = $addOnData['store_url'];
-            $data['store_api_base_url'] = $addOnData['store_api_base_url'];
-            $data['oauth_consumer_key'] = $consumer->getKey();
-            $data['oauth_consumer_secret'] = $consumer->getSecret();
-            // TODO: Execute HTTP POST to $addOnData['http_post_url'] containing the attributes returned in the array.
-            return $data;
+            return array(
+                'oauth_consumer_key' => $consumer->getKey(), 'oauth_consumer_secret' => $consumer->getSecret());
         } catch (Mage_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
             throw new Mage_Oauth_Exception(
-                $this->_translator->translate(array('Unexpected error. Unable to create Oauth consumer.')));
+                $this->_translator->translate(array('Unexpected error. Unable to create OAuth Consumer account.')));
         }
     }
 
@@ -179,11 +198,13 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
         $consumer = $this->_getConsumerByKey($signedRequest['consumer_key']);
         $token = $this->_getTokenByConsumer($consumer->getId());
-        $this->_validateVerifierParam($signedRequest['oauth_verifier'], $token->getVerifier());
 
-        if (Mage_Oauth_Model_Token::TYPE_AUTH_CODE != $token->getType()) {
+        // TODO, verify the type of token 
+        if (false) {
             throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
         }
+
+        $this->_validateVerifierParam($signedRequest['oauth_verifier'], $token->getVerifier());
 
         $this->_validateSignature($signedRequest, $consumer->getSecret(), null,
             $signedRequest['http_method'], $signedRequest['request_url']);
@@ -192,13 +213,15 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
+     * TODO: log the request token in dev mode since its not persisted
      * Get an access token in exchange for a pre-authorized token
      * Perform appropriate parameter and signature validation
      *
-     * @param array $accessTokenReqArray
+     * @param array $requestArray
      * @return string
+     * @throws Mage_Oauth_Exception
      */
-    public function getAccessToken($accessTokenReqArray)
+    public function getAccessToken($requestArray)
     {
         // make generic validation of request parameters
         $this->_validateVersionParam($accessTokenReqArray['oauth_version']);
@@ -216,38 +239,88 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             $accessTokenReqArray['oauth_timestamp']
         );
 
-        $tokenParam = $accessTokenReqArray['oauth_token'];
-        $requestUrl = $accessTokenReqArray['request_url'];
-        $httpMethod = $accessTokenReqArray['http_method'];
+        $tokenParam = $requestArray['oauth_token'];
+        $requestUrl = $requestArray['request_url'];
+        $httpMethod = $requestArray['http_method'];
+        $consumerKeyParam = $requestArray['oauth_consumer_key'];
 
         $consumerKeyParam = $accessTokenReqArray['oauth_consumer_key'];
         $consumerObj = $this->_getConsumerByKey($consumerKeyParam);
 
         $tokenObj = $this->_getToken($tokenParam, $consumerObj->getId());
 
+        if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+
         //The pre-auth token has a value of "request" in the type when it is requested and created initially
         //In this flow (token flow) the token has to be of type "request" else its marked as reused
         //TODO: Need to check security implication of this message
-        if (Mage_Oauth_Model_Token::TYPE_REQUEST != $tokenObj->getType()) {
+        if (Mage_Oauth_Model_Token::TYPE_REQUEST != $token->getType()) {
             $this->_throwException('', self::ERR_TOKEN_USED);
         }
 
-        $this->_validateVerifierParam($accessTokenReqArray['oauth_verifier'], $tokenObj->getVerifier());
+        $this->_validateVerifierParam($requestArray['oauth_verifier'], $token->getVerifier());
 
         // Need to unset and remove unnecessary params from the requestTokenData array
-        unset($accessTokenReqArray['request_url']);
-        unset($accessTokenReqArray['http_method']);
+        unset($requestArray['request_url']);
+        unset($requestArray['http_method']);
 
         $this->_validateSignature(
-            $accessTokenReqArray,
-            $consumerObj->getSecret(),
-            $tokenObj->getSecret(),
+            $requestArray,
+            $consumer->getSecret(),
+            $token->getSecret(),
             $httpMethod,
             $requestUrl
         );
 
-        //Mark this token associated o the consumer as "access". Replace type with access
-        return $tokenObj->convertToAccess()->toString();
+        //Mark this token associated to the consumer as "access". Replace type with "access" from "request"
+        return $token->convertToAccess()->toString();
+    }
+
+    /**
+     * Validate a requested access token
+     *
+     * @param array $requestArray
+     * @return boolean
+     * @throws Mage_Oauth_Exception
+     */
+    public function validateAccessToken($requestArray)
+    {
+        $tokenParam = $requestArray['oauth_token'];
+        $requestUrl = $requestArray['request_url'];
+        $httpMethod = $requestArray['http_method'];
+        $consumerKeyParam = $requestArray['oauth_consumer_key'];
+
+        // make generic validation of request parameters
+        $this->_validateProtocolParams($requestArray, $this->_requiredValidate);
+        $this->_validateToken($tokenParam);
+
+        $consumer = $this->_fetchConsumerByConsumerKey($consumerKeyParam);
+        $token = $this->_fetchToken($tokenParam);
+
+        //TODO: Verify if we need to check the association in token validation
+        if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+
+        if (Mage_Oauth_Model_Token::TYPE_ACCESS != $token->getType()) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+        if ($token->getRevoked()) {
+            $this->_throwException('', self::ERR_TOKEN_REVOKED);
+        }
+
+        $this->_validateSignature(
+            $requestArray,
+            $consumer->getSecret(),
+            $token->getSecret(),
+            $httpMethod,
+            $requestUrl
+        );
+
+        //If no exceptions were raised return as a valid token
+        return true;
     }
 
     /**
@@ -270,7 +343,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_TIMESTAMP_REFUSED);
             }
 
-            $nonceObj = $this->_getNonce($nonce);
+            $nonceObj = $this->_fetchNonce($nonce, $consumerId);
 
             if ($nonceObj->getConsumerId() == $consumerId) {
                 throw new Mage_Oauth_Exception(
@@ -280,7 +353,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
                     self::ERR_NONCE_USED);
             }
 
-            $consumer = $this->_getConsumer($consumerId);
+            $consumer = $this->_fetchConsumer($consumerId);
 
             if (!$consumer->getId()) {
                 throw new Mage_Oauth_Exception(
@@ -415,8 +488,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     }
 
     /**
-     * //TODO : Can be cached if used more than once in a flow
-     * Fetch token based on token param
+     * Load token object, validate it depending on request type, set access data and save
      *
      * @param $tokenParam
      * @return Mage_Oauth_Model_Token
@@ -464,7 +536,27 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     {
         $nonceObj = $this->_nonceFactory->create()->load($nonce, 'nonce');
         return $nonceObj;
+        $this->_consumer = $this->_consumer == null ? $this->_consumerFactory->create()->load($key, 'key')
+            : $this->_consumer;
+        if (!$this->_consumer->getId()) {
+            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
+        }
+        return $this->_consumer;
     }
+
+
+    /**
+     * Check if token belongs to the same consumer
+     *
+     * @param $token Mage_Oauth_Model_Token
+     * @param $consumer Mage_Oauth_Model_Consumer
+     * @return boolean
+     */
+    protected function _isTokenAssociatedToConsumer($token, $consumer)
+    {
+        return $token->getConsumerId() == $consumer->getId();
+    }
+
 
     /**
      * Throw OAuth exception
