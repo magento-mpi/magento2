@@ -15,7 +15,7 @@ class SimpleClassPluginB
      * @param Magento_Code_Plugin_InvocationChain $invocationChain
      * @return string
      */
-    public function doWorkAround(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
+    public function aroundDoWork(array $arguments, Magento_Code_Plugin_InvocationChain $invocationChain)
     {
         return '<PluginB>' . $invocationChain->proceed($arguments) . '</PluginB>';
     }
