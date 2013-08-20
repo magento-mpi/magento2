@@ -53,7 +53,7 @@ class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
             $this->_idAttributes
         );
 
-        foreach($files as $file) {
+        foreach ($files as $file) {
             $content = file_get_contents($file);
             try {
                 new Magento_Config_Dom(
