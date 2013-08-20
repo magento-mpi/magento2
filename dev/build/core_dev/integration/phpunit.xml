@@ -34,7 +34,7 @@
     <listeners>
         <listener class="Magento_Test_Event_PhpUnit"/>
     </listeners>
-	<logging>
+    <logging>
         <!--coverage_html_placeholder-->
     </logging>
 </phpunit>
