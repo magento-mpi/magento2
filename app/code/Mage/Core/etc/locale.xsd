@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="locale" type="localeDeclaration" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueLocaleCode">
+            <xs:annotation>
+                <xs:documentation>
+                    Locale code must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="locale"/>
+            <xs:field xpath="@code"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="localeDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Locale declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="code" type="localeCode" use="required" />
+        <xs:attribute name="parent" type="localeCode" use="required" />
+    </xs:complexType>
+
+    <xs:simpleType name="localeCode">
+        <xs:annotation>
+            <xs:documentation>
+                Locale code attribute can contain only [A-Za-z0-9_.-].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-zA-Z_\-.]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
