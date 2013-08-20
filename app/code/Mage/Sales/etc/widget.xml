@@ -10,38 +10,23 @@
  */
 -->
 <widgets>
-    <sales_widget_guestfrom type="Mage_Sales_Block_Widget_Guest_Form" translate="name description" module="Mage_Sales">
+    <widget id="sales_widget_guestfrom" class="Mage_Sales_Block_Widget_Guest_Form"
+            translate="name description" module="Mage_Sales" is_email_compatible="true">
         <name>Orders and Returns</name>
         <description>Orders and Returns Search Form</description>
-        <is_email_compatible>1</is_email_compatible>
-        <parameters>
-            <title translate="label">
-                <visible>0</visible>
-                <label>Anchor Custom Title</label>
-                <type>text</type>
-            </title>
-            <template>
-                <values>
-                    <default_template translate="label">
-                        <label>Default Template</label>
-                        <value>widget/guest/form.phtml</value>
-                    </default_template>
-                </values>
-            </template>
-        </parameters>
-        <supported_containers>
-            <left_column>
-                <container_name>left</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </left_column>
-            <right_column>
-                <container_name>right</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </right_column>
-        </supported_containers>
-    </sales_widget_guestfrom>
+        <parameter name="title" translate="label" visible="false" xsi:type="text">
+            <label>Anchor Custom Title</label>
+        </parameter>
+        <parameter name="template" visible="false" xsi:type="select">
+            <option name="default_template" translate="label" value="widget/guest/form.phtml">
+                    <label>Default Template</label>
+            </option>
+        </parameter>
+        <container section="left_column" name="left">
+            <template name="default" value="default_template" />
+        </container>
+        <container section="right_column" name="right">
+            <template name="default" value="default_template" />
+        </container>
+    </widget>
 </widgets>
