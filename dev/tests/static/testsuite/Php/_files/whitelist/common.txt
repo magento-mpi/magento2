@@ -35,7 +35,6 @@ app/code/Mage/Cms/Controller/Router.php
 app/code/Mage/Core/Block/Abstract.php
 app/code/Mage/Core/Controller/Varien/ActionAbstract.php
 app/code/Mage/Core/Controller/Varien/Action/Factory.php
-app/code/Mage/Core/Controller/Varien/Router/Factory.php
 app/code/Mage/Core/Controller/Varien/Action/Forward.php
 app/code/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/Mage/Core/Controller/Varien/Router/Abstract.php
