@@ -163,6 +163,13 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_configData;
 
     /**
+     * List of loaded scopes
+     *
+     * @var Mage_Core_Model_Config_DataInterface[]
+     */
+    protected $_scopes = array();
+
+    /**
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
@@ -170,7 +177,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
-     * @param Mage_Core_Model_Config_DataInterface $configData
+     * @param Mage_Core_Model_Config_Data_Reader $reader
+     * @param Magento_Cache_FrontendInterface $cache
+     * @param string $cacheId
      */
     public function __construct(
         Mage_Core_Model_ObjectManager $objectManager,
@@ -180,7 +189,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         Mage_Core_Model_ModuleListInterface $moduleList,
         Mage_Core_Model_Config_InvalidatorInterface $invalidator,
         Magento_Config_ScopeInterface $configScope,
-        Mage_Core_Model_Config_DataInterface $configData
+        Mage_Core_Model_Config_Data_Reader $reader,
+        Magento_Cache_FrontendInterface $cache,
+        $cacheId = 'default_config_cache'
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -191,7 +202,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
-        $this->_configData = $configData;
+        $this->_configReader = $reader;
+        $this->_cache = $cache;
+        $this->_cacheId = $cacheId;
         Magento_Profiler::stop('config_load');
     }
 
@@ -282,16 +295,25 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Get config value
+     * Retrieve config value by path and scope
      *
-     * @param null $path
+     * @param string $path
      * @param string $scope
-     * @param null $scopeCode
-     * @return array|string
+     * @param string $scopeCode
      */
-    public function getValue($path = null, $scope = '', $scopeCode = null)
+    public function getValue($path = null, $scope = 'default', $scopeCode = null)
     {
-        return $this->getNode($path, $scope, $scopeCode);
+        if (!isset($this->_scopes[$scope][$scopeCode])) {
+            $cacheKey = $this->_cacheId . $scope . $scopeCode;
+            $data = $this->_cache->load($cacheKey);
+            if ($data) {
+                $this->_scopes[$scope][$scopeCode] = unserialize($data);
+            } else {
+                $this->_scopes[$scope][$scopeCode] = $this->_configReader->read($scope, $scopeCode);
+                $this->_cache->save(serialize($this->_scopes[$scope][$scopeCode]), $cacheKey);
+            }
+        }
+        $this->_scopes[$scope][$scopeCode]->getValue($path);
     }
 
     /**
