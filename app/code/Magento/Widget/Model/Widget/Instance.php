@@ -417,8 +417,9 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             }
             if ($name && strlen((string)$value)) {
                 $xml .= '<action method="setData">'
-                    . '<name>' . $name . '</name>'
-                    . '<value>' . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</value>'
+                    . '<argument name="name" xsi:type="string">' . $name . '</argument>'
+                    . '<argument name="value" xsi:type="string">'
+                    . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }
