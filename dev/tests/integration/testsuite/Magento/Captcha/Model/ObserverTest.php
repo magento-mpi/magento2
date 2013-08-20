@@ -68,7 +68,7 @@ class Magento_Captcha_Model_ObserverTest extends Magento_Test_TestCase_Controlle
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Captcha/_files/dummy_user.php
+     * @magentoDataFixture Magento/Captcha/_files/dummy_user.php
      * @magentoConfigFixture admin_store admin/captcha/enable 1
      * @magentoConfigFixture admin_store admin/captcha/forms backend_forgotpassword
      * @magentoConfigFixture admin_store admin/captcha/mode always

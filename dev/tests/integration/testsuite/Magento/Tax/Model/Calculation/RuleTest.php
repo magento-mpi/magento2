@@ -11,7 +11,7 @@
 
 
 /**
- * @magentoDataFixture Mage/Tax/_files/tax_classes.php
+ * @magentoDataFixture Magento/Tax/_files/tax_classes.php
  */
 class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
 {

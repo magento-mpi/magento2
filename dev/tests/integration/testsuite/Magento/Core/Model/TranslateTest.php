@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
 class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 {
@@ -62,8 +62,8 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getObjectManager()->addSharedInstance($this->_viewFileSystem, 'Magento_Core_Model_View_FileSystem');
 
-        Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
-        Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
+        Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
+        Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale', dirname(__FILE__) . '/_files/Magento/Catalog/locale');
 
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
@@ -84,8 +84,8 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/db_translate.php
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Core/_files/db_translate.php
+     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
      */
     public function testInitCaching()
     {
@@ -124,7 +124,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             '<Magento_Core>
                 <files>
                     <default>Magento_Core.csv</default>
-                    <fixture>../../../../../../dev/tests/integration/testsuite/Mage/Core/_files/fixture.csv</fixture>
+                    <fixture>../../../../../../dev/tests/integration/testsuite/Magento/Core/_files/fixture.csv</fixture>
                 </files>
             </Magento_Core>',
             $modulesConfig->$checkedNode->asXML()

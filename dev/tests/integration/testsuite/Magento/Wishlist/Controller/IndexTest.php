@@ -43,7 +43,7 @@ class Magento_Wishlist_Controller_IndexTest extends Magento_Test_TestCase_Contro
      * - Magento_Wishlist_Block_Customer_Wishlist_Button
      * - that Magento_Wishlist_Block_Customer_Wishlist_Item_Options doesn't throw a fatal error
      *
-     * @magentoDataFixture Mage/Wishlist/_files/wishlist.php
+     * @magentoDataFixture Magento/Wishlist/_files/wishlist.php
      */
     public function testItemColumnBlock()
     {
@@ -54,8 +54,8 @@ class Magento_Wishlist_Controller_IndexTest extends Magento_Test_TestCase_Contro
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple_xss.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple_xss.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testAddActionProductNameXss()
     {

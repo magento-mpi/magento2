@@ -12,7 +12,7 @@
 class Magento_CatalogSearch_Controller_ResultTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/CatalogSearch/_files/query.php
+     * @magentoDataFixture Magento/CatalogSearch/_files/query.php
      * @magentoConfigFixture current_store general/locale/code de_DE
      */
     public function testIndexActionTranslation()

@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+ * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
 class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -98,7 +98,7 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCa
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple_xss.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple_xss.php
      */
     public function testRemoveActionProductNameXss()
     {

@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Sales/_files/quote.php
+ * @magentoDataFixture Magento/Sales/_files/quote.php
  */
 class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -35,7 +35,7 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * Covers app/code/Mage/Checkout/Block/Onepage/Payment/Info.php
+     * Covers app/code/Magento/Checkout/Block/Onepage/Payment/Info.php
      */
     public function testProgressAction()
     {
