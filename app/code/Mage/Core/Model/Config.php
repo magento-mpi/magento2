@@ -313,7 +313,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
                 $this->_cache->save(serialize($this->_scopes[$scope][$scopeCode]), $cacheKey);
             }
         }
-        $this->_scopes[$scope][$scopeCode]->getValue($path);
+        return $this->_scopes[$scope][$scopeCode]->getValue($path);
     }
 
     /**
