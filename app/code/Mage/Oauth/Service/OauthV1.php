@@ -193,19 +193,19 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     public function getAccessToken($requestArray)
     {
         // make generic validation of request parameters
-        $this->_validateVersionParam($accessTokenReqArray['oauth_version']);
+        $this->_validateVersionParam($requestArray['oauth_version']);
 
         // validate signature method
-        if (!in_array($accessTokenReqArray['oauth_signature_method'], self::getSupportedSignatureMethods())) {
+        if (!in_array($requestArray['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
         }
 
-        $consumerObj = $this->_getConsumerByKey($accessTokenReqArray['oauth_consumer_key']);
+        $consumerObj = $this->_getConsumerByKey($requestArray['oauth_consumer_key']);
 
         $this->_validateNonce(
-            $accessTokenReqArray['oauth_nonce'],
+            $requestArray['oauth_nonce'],
             $consumerObj->getId(),
-            $accessTokenReqArray['oauth_timestamp']
+            $requestArray['oauth_timestamp']
         );
 
         $tokenParam = $requestArray['oauth_token'];
@@ -213,7 +213,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $httpMethod = $requestArray['http_method'];
         $consumerKeyParam = $requestArray['oauth_consumer_key'];
 
-        $consumerKeyParam = $accessTokenReqArray['oauth_consumer_key'];
+        $consumerKeyParam = $requestArray['oauth_consumer_key'];
         $consumerObj = $this->_getConsumerByKey($consumerKeyParam);
 
         $token = $this->_getToken($tokenParam, $consumerObj->getId());
@@ -280,7 +280,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $token = $this->_getToken($tokenParam);
 
         //TODO: Verify if we need to check the association in token validation
-        if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
+        if (!$this->_isTokenAssociatedToConsumer($token, $consumerObj)) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
 
@@ -293,7 +293,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
         $this->_validateSignature(
             $requestArray,
-            $consumer->getSecret(),
+            $consumerObj->getSecret(),
             $token->getSecret(),
             $httpMethod,
             $requestUrl
