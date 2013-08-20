@@ -10,91 +10,56 @@
  */
 -->
 <widgets>
-    <enterprise_banner type="Enterprise_Banner_Block_Widget_Banner" translate="name description" module="Enterprise_Banner">
-        <name>Banner Rotator</name>
+    <widget id="enterprise_banner" class="Enterprise_Banner_Block_Widget_Banner" translate="label description"
+            module="Enterprise_Banner" placeholder_image="Enterprise_Banner::widget_banner.gif">
+        <label>Banner Rotator</label>
         <description>Displays Specified or Promotion Banners</description>
-        <placeholder_image>Enterprise_Banner::widget_banner.gif</placeholder_image>
-        <parameters>
-            <display_mode translate="label">
-                <required>1</required>
-                <visible>1</visible>
-                <value>fixed</value>
+        <parameter name="display_mode" translate="label" required="true" visible="true" xsi:type="select">
+            <label>Banners to Display</label>
+            <option name="fixed" translate="label" value="fixed" selected="true">
                 <label>Banners to Display</label>
-                <type>select</type>
-                <values>
-                    <fixed translate="label">
-                        <value>fixed</value>
-                        <label>Specified Banners</label>
-                    </fixed>
-                    <salesrule translate="label">
-                        <value>salesrule</value>
-                        <label>Shopping Cart Promotions Related</label>
-                    </salesrule>
-                    <catalogrule translate="label">
-                        <value>catalogrule</value>
-                        <label>Catalog Promotions Related</label>
-                    </catalogrule>
-                </values>
-            </display_mode>
-            <types translate="label">
-                <visible>1</visible>
-                <label>Restrict by Banner Types</label>
-                <type>multiselect</type>
-                <source_model>Enterprise_Banner_Model_Config</source_model>
-            </types>
-            <rotate translate="label">
-                <visible>1</visible>
-                <label>Rotation Mode</label>
-                <type>select</type>
-                <values>
-                    <none translate="label">
-                        <value></value>
-                        <label>Display all instead of rotating.</label>
-                    </none>
-                    <random translate="label">
-                        <value>random</value>
-                        <label>One at the time, Random</label>
-                    </random>
-                    <series translate="label">
-                        <value>series</value>
-                        <label>One at the time, Series</label>
-                    </series>
-                    <shuffle translate="label">
-                        <value>shuffle</value>
-                        <label>One at the time, Shuffle</label>
-                    </shuffle>
-                </values>
-            </rotate>
-            <banner_ids translate="label">
-                <visible>1</visible>
-                <label>Specify Banners</label>
-                <type>label</type>
-                <helper_block>
-                    <type>Enterprise_Banner_Block_Adminhtml_Widget_Chooser</type>
-                </helper_block>
-                <depends>
-                    <display_mode>
-                        <value>fixed</value>
-                    </display_mode>
-                </depends>
-            </banner_ids>
-            <template>
-                <required>1</required>
-                <value>widget/block.phtml</value>
-                <values>
-                    <block translate="label">
-                        <value>widget/block.phtml</value>
-                        <label>Banner Block Template</label>
-                    </block>
-                    <inline translate="label">
-                        <value>widget/inline.phtml</value>
-                        <label>Banner Inline Template</label>
-                    </inline>
-                </values>
-            </template>
-            <unique_id>
-                <required>1</required>
-            </unique_id>
-        </parameters>
-    </enterprise_banner>
+            </option>
+            <option name="salesrule" translate="label" value="salesrule">
+                <label>Shopping Cart Promotions Related</label>
+            </option>
+            <option name="catalogrule" translate="label" value="catalogrule">
+                <label>Catalog Promotions Related</label>
+            </option>
+        </parameter>
+        <parameter name="display_mode" translate="label" required="true" visible="true" xsi:type="multiselect"
+                   source_model="Enterprise_Banner_Model_Config">
+            <label>Restrict by Banner Types</label>
+        </parameter>
+        <parameter name="rotate" translate="label" visible="true" xsi:type="select">
+            <label>Rotation Mode</label>
+            <option name="none" translate="label" value="" selected="true">
+                <label>Display all instead of rotating.</label>
+            </option>
+            <option name="random" translate="label" value="random">
+                <label>One at the time, Random</label>
+            </option>
+            <option name="series" translate="label" value="series">
+                <label>One at the time, Series</label>
+            </option>
+            <option name="shuffle" translate="label" value="shuffle">
+                <label>One at the time, Shuffle</label>
+            </option>
+        </parameter>
+        <parameter name="banner_ids" translate="label" visible="true" xsi:type="value_renderer">
+            <label>Specify Banners</label>
+            <renderer class="Enterprise_Banner_Block_Adminhtml_Widget_Chooser" />
+            <depends>
+                <parameter name="display_mode" value="fixed" />
+            </depends>
+        </parameter>
+        <parameter name="template" required="true" xsi:type="select">
+            <option name="block" translate="label" value="widget/block.phtml" selected="true">
+                <label>Banner Block Template</label>
+            </option>
+            <option name="inline" translate="label" value="widget/inline.phtml">
+                <label>Banner Inline Template</label>
+            </option>
+        </parameter>
+        <parameter name="unique_id" required="true" xsi:type="text" visible="false" />
+    </widget>
 </widgets>
