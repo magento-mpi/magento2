@@ -10,54 +10,38 @@
  */
 -->
 <widgets>
-    <cms_hierarchy_node type="Enterprise_Cms_Block_Widget_Node" translate="name description" module="Enterprise_Cms">
+    <widget id="cms_hierarchy_node" class="Enterprise_Cms_Block_Widget_Node" is_email_compatible="true"
+            translate="name description" module="Enterprise_Cms"
+            placeholder_image="Enterprise_Cms::widget_node.gif">
         <name>CMS Hierarchy Node Link</name>
         <description>Link to Specified CMS Hierarchy Node</description>
-        <is_email_compatible>1</is_email_compatible>
-        <placeholder_image>Enterprise_Cms::widget_node.gif</placeholder_image>
-        <parameters>
-            <node_id translate="label">
-                <label>Node</label>
-                <visible>1</visible>
-                <required>1</required>
-                <type>label</type>
-                <helper_block>
-                    <type>Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser</type>
-                    <data>
-                        <button translate="open">
-                            <open>Select a page or node.</open>
-                        </button>
-                    </data>
-                </helper_block>
-                <sort_order>10</sort_order>
-            </node_id>
-            <anchor_text translate="label description">
-                <visible>1</visible>
-                <label>Anchor Custom Text</label>
-                <description>If this value is empty, the node or page name will be used.</description>
-                <type>text</type>
-            </anchor_text>
-            <title translate="label">
-                <visible>1</visible>
-                <label>Anchor Custom Title</label>
-                <type>text</type>
-            </title>
-            <template translate="label">
-                <label>Template</label>
-                <visible>1</visible>
-                <type>select</type>
-                <value>hierarchy/widget/link/link_block.phtml</value>
-                <values>
-                    <default translate="label">
-                        <value>hierarchy/widget/link/link_block.phtml</value>
-                        <label>CMS Page Link Block Template</label>
-                    </default>
-                    <link_inline translate="label">
-                        <value>hierarchy/widget/link/link_inline.phtml</value>
-                        <label>CMS Page Link Inline Template</label>
-                    </link_inline>
-                </values>
-            </template>
-        </parameters>
-    </cms_hierarchy_node>
+        <parameter name="node_id" translate="label" visible="true" required="true"
+                   xsi:type="value_renderer" sort_order="10">
+            <label>Node</label>
+            <renderer class="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
+                <data>
+                    <button translate="open">
+                        <open>Select a page or node.</open>
+                    </button>
+                </data>
+            </renderer>
+        </parameter>
+        <parameter name="anchor_text" translate="label description" visible="true" xsi:type="text">
+            <label>Anchor Custom Text</label>
+            <description>If this value is empty, the node or page name will be used.</description>
+        </parameter>
+        <parameter name="title" translate="label" visible="true" xsi:type="text">
+            <label>Anchor Custom Title</label>
+        </parameter>
+        <parameter name="template" translate="label" visible="true" xsi:type="select">
+            <label>Template</label>
+            <option name="default" translate="label" value="hierarchy/widget/link/link_block.phtml"
+                    selected="true">
+                <label>CMS Page Link Block Template</label>
+            </option>
+            <option name="link_inline" translate="label" value="hierarchy/widget/link/link_inline.phtml">
+                <label>CMS Page Link Inline Template</label>
+            </option>
+        </parameter>
+    </widget>
 </widgets>
