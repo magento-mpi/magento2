@@ -77,4 +77,5 @@ return array(
     array('Enterprise_Rma_Block_Order_Guest'),
     array('Enterprise_Rma_Block_Order_Info'),
     array('Enterprise_Rma_Block_Return_Info'),
+    array('Magento_MultipleWishlist_Block_Links', 'Magento_MultipleWishlist_Block_Link'),
 );

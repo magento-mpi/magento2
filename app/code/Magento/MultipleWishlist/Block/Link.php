@@ -15,7 +15,7 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Links extends Magento_Wishlist_Block_Links
+class Magento_MultipleWishlist_Block_Link extends Magento_Wishlist_Block_Link
 {
     /**
      * Count items in wishlist

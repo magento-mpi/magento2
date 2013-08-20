@@ -191,7 +191,6 @@ return array(
     array('addVisibleInSiteFilterToCollection', '',
         '$collection->setVisibility(Magento_Catalog_Model_Product_Visibility->getVisibleInSiteIds());'
     ),
-    array('addWishlistLink', 'Magento_Wishlist_Block_Links'),
     array('addWishListSortOrder', 'Magento_Wishlist_Model_Resource_Item_Collection'),
     array('applyAllDataUpdates', 'Magento_Core_Model_Resource_Setup'),
     array('applyAllUpdates', 'Magento_Core_Model_Resource_Setup'),

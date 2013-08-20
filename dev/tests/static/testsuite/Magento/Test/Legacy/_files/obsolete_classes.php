@@ -767,4 +767,5 @@ return array(
     array('Varien_Db_Adapter_Mysqli'),
     array('Mage_DB_Mysqli'),
     array('Mage_DB_Exception'),
+    array('Magento_Wishlist_Block_Links', 'Magento_Wishlist_Block_Link'),
 );
