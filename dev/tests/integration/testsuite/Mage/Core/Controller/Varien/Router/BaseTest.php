@@ -26,12 +26,6 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
         $this->_model->setFront(Mage::getModel('Mage_Core_Controller_Varien_Front'));
     }
 
-    public function testCollectRoutes()
-    {
-        $this->_model->collectRoutes('frontend', 'standard');
-        $this->assertEquals('catalog', $this->_model->getFrontNameByRoute('catalog'));
-    }
-
     public function testFetchDefault()
     {
         $default = array(
