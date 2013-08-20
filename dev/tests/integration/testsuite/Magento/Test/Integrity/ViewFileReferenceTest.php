@@ -231,7 +231,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
      */
     static protected function _getRootDir()
     {
-        return realpath(__DIR__ . '/../../../../../');
+        return realpath(__DIR__ . '/../../../../../../../../../../');
     }
 
     /**
