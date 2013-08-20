@@ -94,11 +94,9 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected $_exceptions = array();
 
     /**
-     * Exceptions flag
-     *
-     * @var bool
+     * Display exceptions
      */
-    protected $_isExceptionsAllowed = false;
+    const EXCEPTION_ALLOWED = false;
 
     /**
      * Unknown layout handle
@@ -172,7 +170,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      */
     protected function _applyExceptions()
     {
-        if (!$this->_isExceptionsAllowed) {
+        if (!self::EXCEPTION_ALLOWED) {
             return array();
         }
 

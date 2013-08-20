@@ -82,11 +82,9 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected $_exceptions = array();
 
     /**
-     * Exceptions flag
-     *
-     * @var bool
+     * Display exceptions
      */
-    protected $_isExceptionsAllowed = false;
+    const EXCEPTION_ALLOWED = false;
 
     /**
      * Unknown layout block
@@ -152,7 +150,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      */
     protected function _applyExceptions()
     {
-        if (!$this->_isExceptionsAllowed) {
+        if (!self::EXCEPTION_ALLOWED) {
             return array();
         }
 

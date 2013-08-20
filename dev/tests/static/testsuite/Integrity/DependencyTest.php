@@ -86,6 +86,18 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_mapDependencies = array();
 
     /**
+     * List of fake dependencies
+     *
+     * Format: array(
+     *  '{Module_Name}' => array(
+     *   '{Dependency_Name}' => '{Dependency_Name}',
+     * ))
+     *
+     * @var array
+     */
+    protected static $_mapExceptions = array();
+
+    /**
      * Regex pattern for validation file path of theme
      *
      * @var string
@@ -307,7 +319,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
             $declared = ($type == self::TYPE_SOFT) ? array_merge($soft, $hard) : $hard;
             if (!in_array($module, $declared)) {
-                if (!isset(self::$_mapDependencies[$module])) {
+                if ($this->_isFake($module)) {
+                    $this->_addFake($currentModule, $module);
                     continue;
                 }
                 $undeclared[$type][] = $module;
@@ -372,49 +385,22 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Generate XML file for all dependencies
+     * Check fake dependencies that was found in a previous tests
      *
-     * @test
-     * @depends collectRedundant
+     * @depends testUndeclared
      */
-    public function generateXml()
+    public function testFake()
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
+        $this->markTestSkipped('Skip fake modules!');
 
-        $configNode = $dom->createElement('config');
-        $modulesNode =  $dom->createElement('modules');
-
-        foreach (array_keys(self::$_mapDependencies) as $module) {
-
-            $moduleNameNode = $dom->createElement($module);
-            foreach ($this->_getTypes() as $type) {
-
-                $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
-                $found = $this->_getDependencies($module, $type, self::MAP_TYPE_FOUND);
-                $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
-
-                $realModules = array_diff($declared, $redundant);
-                $realModules = array_merge($realModules, $found);
-
-                if (count($realModules)) {
-                    $dependsNode = $dom->createElement('depends');
-                    $dependsNode->setAttribute('type', $type);
-
-                    foreach ($realModules as $realModule) {
-                        $dependencyNode = $dom->createElement($realModule);
-                        $dependsNode->appendChild($dependencyNode);
-                    }
-                    $moduleNameNode->appendChild($dependsNode);
-                }
+        if (count(self::$_mapExceptions)) {
+            $result = array();
+            foreach (self::$_mapExceptions as $module => $items) {
+                $result[] = sprintf("\r\nModule %s: [%s]",
+                    $module, implode(', ', array_values($items)));
             }
-            $modulesNode->appendChild($moduleNameNode);
+            $this->fail("Undefined dependencies found!\r\n" . implode(' ', $result));
         }
-
-        $configNode->appendChild($modulesNode);
-        $dom->appendChild($configNode);
-
-        $dom->save('modules.xml');
     }
 
     /**
@@ -664,9 +650,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $dependencies = array($dependencies);
         }
         foreach ($dependencies as $dependency) {
-            if (!isset(self::$_mapDependencies[$dependency])) {
-                continue;
-            }
             if (isset(self::$_mapDependencies[$module][$type][$mapType])) {
                 self::$_mapDependencies[$module][$type][$mapType][$dependency] = $dependency;
             }
@@ -705,5 +688,27 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         if (isset(self::$_mapDependencies[$module][$type][$mapType])) {
             self::$_mapDependencies[$module][$type][$mapType] = $dependencies;
         }
+    }
+
+    /**
+     * Check if module is fake
+     *
+     * @param $module
+     * @return bool
+     */
+    protected function _isFake($module)
+    {
+        return isset(self::$_mapDependencies[$module]) ? false : true;
+    }
+
+    /**
+     * Add fake dependency to list
+     *
+     * @param $module
+     * @param $dependency
+     */
+    protected function _addFake($module, $dependency)
+    {
+        self::$_mapExceptions[$module][$dependency] = $dependency;
     }
 }
