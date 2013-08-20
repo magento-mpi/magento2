@@ -19,10 +19,10 @@
     <div class="order-payment-method<?php if ($_order->getIsVirtual()): ?> order-payment-method-virtual<?php endif; ?>">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
+                <span class="title"><?php echo __('Payment Information') ?></span>
             </div>
             <div><?php echo $this->getChildHtml('order_payment') ?></div>
-            <div class="order-payment-currency"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
+            <div class="order-payment-currency"><?php echo __('The order was placed using %1.', $_order->getOrderCurrencyCode()) ?></div>
         </div>
     </div>
     <?php if (!$_order->getIsVirtual()): ?>
@@ -30,12 +30,12 @@
         <?php /*Shipping Address */ ?>
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
+                <span class="title"><?php echo __('Shipping Information') ?></span>
             </div>
             <div class="shipping-description-wrapper">
                 <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
                 <div class="shipping-description-content">
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+                    <?php echo __('Total Shipping Charges'); ?>:
 
                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                         <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
@@ -46,17 +46,17 @@
 
                     <?php echo $_excl; ?>
                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
                 </div>
             </div>
             <?php if ($this->canCreateShipment() && $this->canShipPartiallyItem()): ?>
             <div>
-                <label for="invoice_do_shipment" class="normal"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Create Shipment') ?></label>
+                <label for="invoice_do_shipment" class="normal"><?php echo __('Create Shipment') ?></label>
                 <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" <?php echo $this->hasInvoiceShipmentTypeMismatch()?' disabled="disabled"':'' ?> />
             </div>
             <?php if ($this->hasInvoiceShipmentTypeMismatch()): ?>
-                <small><?php echo $this->__('Invoice and shipment types do not match for some items on this order. You can create a shipment only after creating the invoice.') ?></small>
+                <small><?php echo __('Invoice and shipment types do not match for some items on this order. You can create a shipment only after creating the invoice.') ?></small>
                 <?php endif; ?>
             <?php endif; ?>
             <div id="tracking" style="display:none;"><?php echo $this->getChildHtml('tracking',false) ?></div>

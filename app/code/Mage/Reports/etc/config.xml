@@ -10,36 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Reports>
-            <version>1.6.0.0.2</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_Widget/>
-                <Mage_Bundle/>
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Log/>
-                <Mage_Sales/>
-                <Mage_Wishlist/>
-                <Mage_Review/>
-                <Mage_Adminhtml/>
-                <Mage_CatalogInventory/>
-                <Mage_Cms/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Sales/>
-                <Mage_Cms/>
-            </sequence>
-        </Mage_Reports>
-    </modules>
     <global>
         <resources>
             <reports_setup>

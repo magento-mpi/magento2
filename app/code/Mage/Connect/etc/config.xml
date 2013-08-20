@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Connect>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_Catalog/>
-            </depends>
-        </Mage_Connect>
-    </modules>
     <admin>
         <routers>
             <adminhtml>

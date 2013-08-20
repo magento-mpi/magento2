@@ -28,7 +28,7 @@ class Enterprise_Search_Controller_Adminhtml_Catalog_Search extends Mage_Adminht
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -42,7 +42,7 @@ class Enterprise_Search_Controller_Adminhtml_Catalog_Search extends Mage_Adminht
 
         Mage::register('current_catalog_search', $model);
 
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 }

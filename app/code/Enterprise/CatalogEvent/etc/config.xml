@@ -10,32 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_CatalogEvent>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_Cms/>
-                <Mage_Core/>
-                <Mage_Eav/>
-                <Mage_Widget/>
-                <Mage_Sales/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_Cms/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-            </sequence>
-        </Enterprise_CatalogEvent>
-    </modules>
     <global>
         <resources>
             <enterprise_catalogevent_setup>

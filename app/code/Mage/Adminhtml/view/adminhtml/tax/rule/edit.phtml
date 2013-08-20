@@ -86,7 +86,7 @@
         TaxRateEditableMultiselect.prototype.init = function () {
             var options = {
                 toggleAddButton:false,
-                addText: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rate'); ?>',
+                addText: '<?php echo __('Add New Tax Rate'); ?>',
                 parse: null,
                 mselectInputSubmitCallback: function (value, options) {
                     var select = $('#tax_rate');
@@ -132,7 +132,7 @@
             taxRateField.find('.mselect-list')
                     .on('click.mselect-edit', '.mselect-edit', this.edit)
                     .on("click.mselect-delete", ".mselect-delete", function () {
-                        if (!confirm('<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax rate?'); ?>')) {
+                        if (!confirm('<?php echo __('Do you really want to delete this tax rate?'); ?>')) {
                             return;
                         }
 
@@ -174,7 +174,7 @@
             taxRateFormElement.mage('form').mage('validation');
 
             taxRateForm.dialogRates({
-                title: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'); ?>',
+                title: '<?php echo __('Tax Rate'); ?>',
                 autoOpen: false,
                 id: '<?php echo $this->getJsId() ?>',
                 minWidth: 560,
@@ -183,7 +183,7 @@
                 dialogClass: 'tax-rate-popup',
                 resizable: false,
                 buttons: [{
-                    text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Save'); ?>',
+                    text: '<?php echo __('Save'); ?>',
                     id: '<?php echo $this->getJsId('apply-button') ?>',
                     'class' :'action-save primary',
                     click: function() {
@@ -229,7 +229,7 @@
                         $.ajax(ajaxOptions);
                     }
                 }, {
-                    text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Cancel'); ?>',
+                    text: '<?php echo __('Cancel'); ?>',
                     id: '<?php echo $this->getJsId('close-button') ?>',
                     'class': 'action-cancel',
                     click: function() {

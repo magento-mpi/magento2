@@ -10,51 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Adminhtml>
-            <version>0.7.1</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Poll/>
-                <Mage_AdminNotification/>
-                <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_Directory/>
-                <Mage_Reports/>
-                <Mage_Customer/>
-                <Mage_Newsletter/>
-                <Mage_Wishlist/>
-                <Mage_Sales/>
-                <Mage_CatalogRule/>
-                <Mage_Cms/>
-                <Mage_Review/>
-                <Mage_Rating/>
-                <Mage_Sitemap/>
-                <Mage_Tax/>
-                <Mage_CatalogSearch/>
-                <Mage_Eav/>
-                <Mage_CatalogInventory/>
-                <Mage_Index/>
-                <Mage_Api/>
-                <Mage_SalesRule/>
-                <Mage_Rule/>
-                <Mage_Downloadable/>
-                <Mage_Payment/>
-                <Mage_Shipping/>
-                <Mage_GiftMessage/>
-                <Mage_Backup/>
-                <Mage_User/>
-                <Mage_Checkout/>
-                <Mage_Widget/>
-                <Mage_Weee/>
-                <Mage_ProductAlert/>
-                <Mage_Log/>
-                <Mage_Page/>
-                <Mage_Usa/>
-            </depends>
-        </Mage_Adminhtml>
-    </modules>
     <global>
         <events>
             <adminhtml_controller_action_predispatch_start>
@@ -167,7 +122,9 @@
         </general>
         <hints>
             <store_switcher>
-                <url><![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]></url>
+                <url>
+                    <![CDATA[http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes]]>
+</url>
                 <enabled>1</enabled>
             </store_switcher>
         </hints>

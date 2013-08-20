@@ -27,12 +27,12 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
         $this->loadLayout()
             ->_setActiveMenu('Enterprise_Wishlist::report_customers_wishlist')
             ->_addBreadcrumb(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports'),
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customers'),
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customers')
+                __('Customers'),
+                __('Customers')
             );
         return $this;
     }
@@ -51,7 +51,7 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
      */
     public function wishlistAction()
     {
-        $this->_title($this->__("Customer Wishlist Report"));
+        $this->_title(__("Customer Wish List Report"));
 
         $this->_initAction();
         $this->renderLayout();
@@ -62,11 +62,11 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
      */
     public function exportExcelAction()
     {
+        $this->loadLayout();
         $fileName = 'customer_wishlists.xml';
-        $content = $this->getLayout()
-            ->createBlock('Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid')
-            ->getExcelFile($fileName);
-        $this->_prepareDownloadResponse($fileName, $content);
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -74,11 +74,11 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
      */
     public function exportCsvAction()
     {
+        $this->loadLayout();
         $fileName = 'customer_wishlists.csv';
-        $content = $this->getLayout()
-            ->createBlock('Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid')
-            ->getCsvFile();
-        $this->_prepareDownloadResponse($fileName, $content);
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+ 	 	$exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
+ 	 	$this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
     /**

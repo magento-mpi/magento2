@@ -28,23 +28,15 @@ abstract class Mage_Core_Controller_Varien_ActionAbstract implements Mage_Core_C
     protected $_response;
 
     /**
-     * @var string
-     */
-    protected $_currentArea;
-
-    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        $areaCode = null
+        Mage_Core_Controller_Response_Http $response
     ) {
-        $this->_request     = $request;
-        $this->_response    = $response;
-        $this->_currentArea = $areaCode;
+        $this->_request  = $request;
+        $this->_response = $response;
     }
 
     /**

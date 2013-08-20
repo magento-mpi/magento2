@@ -39,7 +39,7 @@
         </section>
         <section id="sales">
             <group id="totals_sort">
-                <field id="customerbalance" module="Enterprise_CustomerBalance" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="customerbalance" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Store Credit</label>
                 </field>
             </group>

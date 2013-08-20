@@ -10,26 +10,10 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_PageCache>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Core/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-            </sequence>
-        </Mage_PageCache>
-    </modules>
     <global>
         <external_cache>
             <controls>
-                <zend_page_cache translate="label" module="Mage_PageCache">
+                <zend_page_cache translate="label">
                     <label>Zend Full Page Cache</label>
                     <class>Mage_PageCache_Model_Control_Zend</class>
                 </zend_page_cache>
@@ -78,15 +62,15 @@
         </events>
         <cache>
             <allowed_requests>
-                <cms/>
+                <cms />
                 <catalog>
                     <category>
-                        <view/>
+                        <view />
                     </category>
                 </catalog>
                 <catalog>
                     <product>
-                        <view/>
+                        <view />
                     </product>
                 </catalog>
             </allowed_requests>

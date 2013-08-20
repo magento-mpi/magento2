@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::marketing">
                     <resource id="Mage_Adminhtml::marketing_seo">
-                        <resource id="Mage_CatalogSearch::search" module="Mage_CatalogSearch" title="Search Terms" sortOrder="10" />
+                        <resource id="Mage_CatalogSearch::search" title="Search Terms" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

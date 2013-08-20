@@ -114,7 +114,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
-            $this->setConfirmationMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
+            $this->setConfirmationMessage(__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
         }
 
         return $result;

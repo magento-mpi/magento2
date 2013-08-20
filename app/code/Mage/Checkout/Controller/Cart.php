@@ -36,19 +36,16 @@ class Mage_Checkout_Controller_Cart
      * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param Mage_Core_Model_Store_ConfigInterface $storeConfig
      * @param Mage_Checkout_Model_Session $checkoutSession
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Context $context,
         Mage_Core_Model_Store_ConfigInterface $storeConfig,
-        Mage_Checkout_Model_Session $checkoutSession,
-        $areaCode = null
+        Mage_Checkout_Model_Session $checkoutSession
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_storeConfig = $storeConfig;
         $this->_checkoutSession = $checkoutSession;
     }
-
 
     /**
      * Retrieve shopping cart model object
@@ -130,7 +127,7 @@ class Mage_Checkout_Controller_Cart
 
                 $warning = $this->_storeConfig->getConfig('sales/minimum_order/description')
                     ? $this->_storeConfig->getConfig('sales/minimum_order/description')
-                    : Mage::helper('Mage_Checkout_Helper_Data')->__('Minimum order amount is %s', $minimumAmount);
+                    : __('Minimum order amount is %1', $minimumAmount);
 
                 $cart->getCheckoutSession()->addNotice($warning);
             }
@@ -158,7 +155,7 @@ class Mage_Checkout_Controller_Cart
             ->loadLayout()
             ->_initLayoutMessages('Mage_Checkout_Model_Session')
             ->_initLayoutMessages('Mage_Catalog_Model_Session')
-            ->getLayout()->getBlock('head')->setTitle($this->__('Shopping Cart'));
+            ->getLayout()->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->renderLayout();
         Magento_Profiler::stop(__METHOD__ . 'cart_display');
     }
@@ -207,7 +204,7 @@ class Mage_Checkout_Controller_Cart
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('You added %s to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()));
+                    $message = __('You added %1 to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()));
                     $this->_checkoutSession->addSuccess($message);
                 }
                 $this->_goBack();
@@ -229,7 +226,7 @@ class Mage_Checkout_Controller_Cart
                 $this->_redirectReferer(Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl());
             }
         } catch (Exception $e) {
-            $this->_checkoutSession->addException($e, $this->__('We cannot add this item to your shopping cart'));
+            $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
             Mage::logException($e);
             $this->_goBack();
         }
@@ -255,7 +252,7 @@ class Mage_Checkout_Controller_Cart
                         $this->_checkoutSession->addError($e->getMessage());
                     }
                 } catch (Exception $e) {
-                    $this->_checkoutSession->addException($e, $this->__('We cannot add this item to your shopping cart'));
+                    $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
                     Mage::logException($e);
                     $this->_goBack();
                 }
@@ -280,7 +277,7 @@ class Mage_Checkout_Controller_Cart
         }
 
         if (!$quoteItem) {
-            $this->_checkoutSession->addError($this->__("We can't find the quote item."));
+            $this->_checkoutSession->addError(__("We can't find the quote item."));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -295,7 +292,7 @@ class Mage_Checkout_Controller_Cart
                 $quoteItem->getProduct()->getId(), $this, $params
             );
         } catch (Exception $e) {
-            $this->_checkoutSession->addError($this->__('We cannot configure the product.'));
+            $this->_checkoutSession->addError(__('We cannot configure the product.'));
             Mage::logException($e);
             $this->_goBack();
             return;
@@ -324,7 +321,7 @@ class Mage_Checkout_Controller_Cart
 
             $quoteItem = $cart->getQuote()->getItemById($id);
             if (!$quoteItem) {
-                Mage::throwException($this->__("We can't find the quote item."));
+                Mage::throwException(__("We can't find the quote item."));
             }
 
             $item = $cart->updateItem($id, new Magento_Object($params));
@@ -349,7 +346,7 @@ class Mage_Checkout_Controller_Cart
             );
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
+                    $message = __('%1 was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
                     $this->_checkoutSession->addSuccess($message);
                 }
                 $this->_goBack();
@@ -371,7 +368,7 @@ class Mage_Checkout_Controller_Cart
                 $this->_redirectReferer(Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl());
             }
         } catch (Exception $e) {
-            $this->_checkoutSession->addException($e, $this->__('We cannot update the item.'));
+            $this->_checkoutSession->addException($e, __('We cannot update the item.'));
             Mage::logException($e);
             $this->_goBack();
         }
@@ -428,7 +425,7 @@ class Mage_Checkout_Controller_Cart
         } catch (Mage_Core_Exception $e) {
             $this->_checkoutSession->addError(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($e->getMessage()));
         } catch (Exception $e) {
-            $this->_checkoutSession->addException($e, $this->__('We cannot update the shopping cart.'));
+            $this->_checkoutSession->addException($e, __('We cannot update the shopping cart.'));
             Mage::logException($e);
         }
     }
@@ -444,7 +441,7 @@ class Mage_Checkout_Controller_Cart
         } catch (Mage_Core_Exception $exception) {
             $this->_checkoutSession->addError($exception->getMessage());
         } catch (Exception $exception) {
-            $this->_checkoutSession->addException($exception, $this->__('We cannot update the shopping cart.'));
+            $this->_checkoutSession->addException($exception, __('We cannot update the shopping cart.'));
         }
     }
 
@@ -459,7 +456,7 @@ class Mage_Checkout_Controller_Cart
                 $this->_getCart()->removeItem($id)
                   ->save();
             } catch (Exception $e) {
-                $this->_checkoutSession->addError($this->__('We cannot remove the item.'));
+                $this->_checkoutSession->addError(__('We cannot remove the item.'));
                 Mage::logException($e);
             }
         }
@@ -533,21 +530,21 @@ class Mage_Checkout_Controller_Cart
             if ($codeLength) {
                 if ($isCodeLengthValid && $couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_checkoutSession->addSuccess(
-                        $this->__('The coupon code "%s" was applied.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
+                        __('The coupon code "%1" was applied.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 } else {
                     $this->_checkoutSession->addError(
-                        $this->__('The coupon code "%s" is not valid.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
+                        __('The coupon code "%1" is not valid.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 }
             } else {
-                $this->_checkoutSession->addSuccess($this->__('The coupon code was canceled.'));
+                $this->_checkoutSession->addSuccess(__('The coupon code was canceled.'));
             }
 
         } catch (Mage_Core_Exception $e) {
             $this->_checkoutSession->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_checkoutSession->addError($this->__('We cannot apply the coupon code.'));
+            $this->_checkoutSession->addError(__('We cannot apply the coupon code.'));
             Mage::logException($e);
         }
 

@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_CatalogSearch>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Catalog/>
-                <Mage_Checkout/>
-                <Mage_Directory/>
-                <Mage_Index/>
-                <Mage_Eav/>
-                <Mage_Backend/>
-                <Mage_Adminhtml/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Catalog/>
-            </sequence>
-        </Mage_CatalogSearch>
-    </modules>
     <global>
         <resources>
             <catalogsearch_setup>

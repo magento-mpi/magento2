@@ -21,18 +21,18 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
     protected function _construct()
     {
         parent::_construct();
-        $this->_headerText = $this->__('Media Storage');
+        $this->_headerText = __('Media Storage');
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('newfolder', array(
             'class'   => 'save',
-            'label'   => $this->__('Create Folder'),
+            'label'   => __('Create Folder'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.newFolder();'
         ));
 
         $this->_addButton('delete_folder', array(
             'class'   => 'delete no-display',
-            'label'   => $this->__('Delete Folder'),
+            'label'   => __('Delete Folder'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.deleteFolder();',
             'id'      => 'button_delete_folder'
@@ -40,7 +40,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
 
         $this->_addButton('delete_files', array(
             'class'   => 'delete no-display',
-            'label'   => $this->__('Delete File'),
+            'label'   => __('Delete File'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.deleteFiles();',
             'id'      => 'button_delete_files'
@@ -48,7 +48,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
 
         $this->_addButton('insert_files', array(
             'class'   => 'save no-display',
-            'label'   => $this->__('Insert File'),
+            'label'   => __('Insert File'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.insert();',
             'id'      => 'button_insert_files'
@@ -76,9 +76,9 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
         $setupObject = new Magento_Object();
 
         $setupObject->setData(array(
-            'newFolderPrompt'                 => $this->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->__('Are you sure you want to delete this folder?'),
-            'deleteFileConfirmationMessage'   => $this->__('Are you sure you want to delete this file?'),
+            'newFolderPrompt'                 => __('New Folder Name:'),
+            'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
+            'deleteFileConfirmationMessage'   => __('Are you sure you want to delete this file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
             'onInsertUrl'     => $this->getOnInsertUrl(),

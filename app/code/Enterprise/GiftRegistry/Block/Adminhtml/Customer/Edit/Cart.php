@@ -39,25 +39,25 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product ID'),
+            'header' => __('Product ID'),
             'index'  => 'product_id',
             'type'   => 'number',
             'width'  => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product'),
+            'header' => __('Product'),
             'index' => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('SKU'),
+            'header' => __('SKU'),
             'index' => 'sku',
             'width' => '200px',
         ));
 
         $this->addColumn('price', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Price'),
+            'header' => __('Price'),
             'index' => 'price',
             'type'  => 'currency',
             'width' => '120px',
@@ -65,14 +65,14 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Quantity'),
+            'header' => __('Quantity'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '120px',
         ));
 
         $this->addColumn('total', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Total'),
+            'header' => __('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
             'width' => '120px',
@@ -92,9 +92,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $this->setMassactionIdField('item_id');
         $this->getMassactionBlock()->setFormFieldName('products');
         $this->getMassactionBlock()->addItem('add', array(
-            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add to Gift Registry'),
+            'label'    => __('Add to Gift Registry'),
             'url'      => $this->getUrl('*/*/add', array('id' => $this->getEntity()->getId())),
-            'confirm'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Are you sure you want to add these products?')
+            'confirm'  => __('Are you sure you want to add these products?')
         ));
 
         return $this;

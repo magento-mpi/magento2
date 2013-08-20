@@ -10,54 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Enterprise>
-            <version>1.11.0.3</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_AdminNotification/>
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_Cms/>
-                <Mage_Install/>
-                <Enterprise_AdminGws/>
-                <Enterprise_CatalogEvent/>
-                <Enterprise_CatalogPermissions/>
-                <Enterprise_CustomerBalance/>
-                <Enterprise_CustomerSegment/>
-                <Enterprise_GiftCard/>
-                <Enterprise_GiftCardAccount/>
-                <Enterprise_GiftRegistry/>
-                <Enterprise_GiftWrapping/>
-                <Enterprise_ImportExport/>
-                <Enterprise_PageCache/>
-                <Enterprise_PricePermissions/>
-                <Enterprise_PromotionPermissions/>
-                <Enterprise_SalesArchive/>
-                <Enterprise_TargetRule/>
-                <Enterprise_WebsiteRestriction/>
-                <Enterprise_Rma/>
-                <Enterprise_Banner/>
-                <Enterprise_Checkout/>
-                <Enterprise_Cms/>
-                <Enterprise_Customer/>
-                <Enterprise_Invitation/>
-                <Enterprise_Logging/>
-                <Enterprise_Pci/>
-                <Enterprise_Reminder/>
-                <Enterprise_Reward/>
-                <Enterprise_Wishlist/>
-            </depends>
-            <sequence>
-                <Mage_Cms/>
-                <Mage_Install/>
-                <Mage_Adminhtml/>
-                <Mage_AdminNotification/>
-                <Mage_Widget/>
-            </sequence>
-        </Enterprise_Enterprise>
-    </modules>
     <global>
         <resources>
             <enterprise_enterprise_setup>

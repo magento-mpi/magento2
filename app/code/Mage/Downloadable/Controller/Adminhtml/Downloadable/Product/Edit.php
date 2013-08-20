@@ -17,16 +17,6 @@
  */
 class Mage_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit extends Mage_Adminhtml_Controller_Catalog_Product
 {
-
-    /**
-     * Magento class constructor
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Downloadable');
-    }
-
     /**
      * Load downloadable tab fieldsets
      *
@@ -106,7 +96,7 @@ class Mage_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit extends M
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
-                $this->_getCustomerSession()->addError(Mage::helper('Mage_Downloadable_Helper_Data')->__('Something went wrong while getting the requested content.'));
+                $this->_getCustomerSession()->addError(__('Something went wrong while getting the requested content.'));
             }
         }
         exit(0);

@@ -22,6 +22,36 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Radio
     protected $_values;
 
     /**
+     * @var Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter
+     */
+    protected $_converter;
+
+    /**
+     * @param Mage_Backend_Block_Context $context
+     * @param Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Context $context,
+        Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_converter = $converter;
+    }
+
+    /**
+     * Prepare data for renderer
+     *
+     * @return array
+     */
+    protected function _getSimpleValue()
+    {
+        $values = $this->getColumn()->getValues();
+        return $this->_converter->toFlatArray($values);
+    }
+
+    /**
      * Returns all values for the column
      *
      * @return array
@@ -41,7 +71,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Radio
      */
     public function render(Magento_Object $row)
     {
-        $values = $this->getColumn()->getValues();
+        $values = $this->_getSimpleValue();
         $value  = $row->getData($this->getColumn()->getIndex());
         if (is_array($values)) {
             $checked = in_array($value, $values) ? ' checked="checked"' : '';

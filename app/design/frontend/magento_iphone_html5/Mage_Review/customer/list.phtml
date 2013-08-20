@@ -9,7 +9,7 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo $this->__('My Product Reviews') ?></h1>
+    <h1><?php echo __('My Product Reviews') ?></h1>
 </div>
 <div class="review-history">
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -31,12 +31,12 @@
                             </dd>
                         <?php endif; ?>
                         <dd><?php echo $this->helper('Mage_Review_Helper_Data')->getDetailHtml($_review->getDetail()) ?></dd>
-                        <dd><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>"><?php echo $this->__('View Details') ?></a></dd>
+                        <dd><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>"><?php echo __('View Details') ?></a></dd>
                     </dl>
                 </li>
                 <?php endforeach; ?>
             </ol>
     <?php else: ?>
-        <p><?php echo $this->__('You have submitted no reviews.') ?></p>
+        <p><?php echo __('You have submitted no reviews.') ?></p>
     <?php endif; ?>
 </div>

@@ -156,7 +156,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
     public function indexAction()
     {
         if (!Mage::helper('Mage_Checkout_Helper_Data')->canOnepageCheckout()) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('The onepage checkout is disabled.'));
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -168,7 +168,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
         if (!$quote->validateMinimumAmount()) {
             $error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
                 Mage::getStoreConfig('sales/minimum_order/error_message') :
-                Mage::helper('Mage_Checkout_Helper_Data')->__('Subtotal must exceed minimum order amount');
+                __('Subtotal must exceed minimum order amount');
 
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError($error);
             $this->_redirect('checkout/cart');
@@ -181,7 +181,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->getLayout()->getBlock('head')->setTitle($this->__('Checkout'));
+        $this->getLayout()->getBlock('head')->setTitle(__('Checkout'));
         $this->renderLayout();
     }
 
@@ -439,7 +439,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
             $result['error'] = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            $result['error'] = $this->__('Unable to set Payment Method');
+            $result['error'] = __('Unable to set Payment Method');
         }
         $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
@@ -457,7 +457,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
             $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new Mage_Payment_Model_Info_Exception(
-                    Mage::helper('Mage_Core_Helper_Data')->__('Can not create invoice. Order was not found.')
+                    __('Can not create invoice. Order was not found.')
                 );
             }
         }
@@ -502,8 +502,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                 if ($agreementsDiff) {
                     $result['success'] = false;
                     $result['error'] = true;
-                    $result['error_messages'] = $this
-                        ->__('Please agree to all the terms and conditions before placing the order.');
+                    $result['error_messages'] = __('Please agree to all the terms and conditions before placing the order.');
                     $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
                     return;
                 }
@@ -568,8 +567,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
             );
             $result['success'] = false;
             $result['error'] = true;
-            $result['error_messages'] = $this
-                ->__('Something went wrong processing your order. Please try again later.');
+            $result['error_messages'] = __('Something went wrong processing your order. Please try again later.');
         }
         $this->getOnepage()->getQuote()->save();
         /**

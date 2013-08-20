@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="catalog">
-            <group id="review" translate="label" module="Mage_Review" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+            <group id="review" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Product Reviews</label>
                 <field id="allow_guest" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Guests to Write Reviews</label>

@@ -20,11 +20,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute exte
     {
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Attribute')));
+        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Attribute')));
 
         $fieldset->addField('new_attribute', 'text',
                             array(
-                                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
+                                'label' => __('Name'),
                                 'name' => 'new_attribute',
                                 'required' => true,
                             )
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute exte
                             array(
                                 'text' => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                                             ->setData(array(
-                                                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Attribute'),
+                                                'label'     => __('Add Attribute'),
                                                 'onclick'   => 'this.form.submit();',
                                                                                                 'class' => 'add'
                                             ))

@@ -10,19 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Webhook>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Webapi/>
-                <Mage_Backend/>
-                <Mage_Page/>
-                <Mage_Adminhtml/>
-            </depends>
-        </Mage_Webhook>
-    </modules>
     <global>
         <resources>
             <webhook_setup>
@@ -98,6 +85,14 @@
                 <schedule><cron_expr>* * * * *</cron_expr></schedule>
                 <run><model>Magento_PubSub_Job_QueueHandler::handle</model></run>
             </webhook_process_dispatchers>
+            <webhook_events_revoke_idling>
+                <schedule><cron_expr>*/15 * * * *</cron_expr></schedule>
+                <run><model>Mage_Webhook_Model_Resource_Event_Collection::revokeIdlingInProgress</model></run>
+            </webhook_events_revoke_idling>
+            <webhook_jobs_revoke_idling>
+                <schedule><cron_expr>*/15 * * * *</cron_expr></schedule>
+                <run><model>Mage_Webhook_Model_Resource_Job_Collection::revokeIdlingInProgress</model></run>
+            </webhook_jobs_revoke_idling>
         </jobs>
     </crontab>
 </config>

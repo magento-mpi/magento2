@@ -10,35 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Wishlist>
-            <version>1.12.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Wishlist/>
-                <Mage_Customer/>
-                <Mage_Core/>
-                <Mage_Checkout/>
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Eav/>
-                <Mage_Rss/>
-                <Mage_Sales/>
-                <Mage_Catalog/>
-                <Mage_CatalogInventory/>
-                <Mage_Widget/>
-                <Enterprise_Checkout/>
-            </depends>
-            <depends type="soft">
-                <Mage_Reports/>
-                <Mage_Page/>
-                <Mage_Persistent/>
-            </depends>
-            <sequence>
-                <Mage_Wishlist />
-            </sequence>
-        </Enterprise_Wishlist>
-    </modules>
     <global>
         <resources>
             <enterprise_wishlist_setup>
@@ -127,4 +98,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

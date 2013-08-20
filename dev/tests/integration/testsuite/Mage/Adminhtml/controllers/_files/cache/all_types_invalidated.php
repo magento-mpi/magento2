@@ -6,10 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var $cache Mage_Core_Model_Cache */
-$cache = Mage::getModel('Mage_Core_Model_Cache');
-$types = array_keys($cache->getTypes());
-
-/** @var $cacheTypes Mage_Core_Model_Cache_Types */
-$cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
-$cache->invalidateType($types);
+/** @var $cacheTypeList Mage_Core_Model_Cache_TypeListInterface */
+$cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+$cacheTypeList->invalidate(array_keys($cacheTypeList->getTypes()));

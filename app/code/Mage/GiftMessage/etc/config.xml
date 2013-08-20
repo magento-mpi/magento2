@@ -10,25 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_GiftMessage>
-            <version>1.6.0.1</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-                <Mage_Eav/>
-            </depends>
-            <sequence>
-                <Mage_Catalog/>
-                <Mage_Sales/>
-            </sequence>
-        </Mage_GiftMessage>
-    </modules>
     <global>
         <resources>
             <giftmessage_setup>
@@ -42,7 +23,7 @@
             <quote>
                 <item>
                     <product_attributes>
-                        <gift_message_available/>
+                        <gift_message_available />
                     </product_attributes>
                 </item>
             </quote>

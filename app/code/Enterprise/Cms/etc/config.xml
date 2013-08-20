@@ -10,30 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Cms>
-            <version>1.11.0.4</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_Cms/>
-                <Mage_Core/>
-                <Mage_Widget/>
-                <Mage_User/>
-                <Enterprise_Enterprise/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml />
-                <Mage_Cms />
-                <Mage_Widget />
-            </sequence>
-        </Enterprise_Cms>
-    </modules>
     <global>
         <resources>
             <enterprise_cms_setup>
@@ -65,12 +41,12 @@
             <hierarchy>
                 <menu>
                     <layouts>
-                        <content module="Enterprise_Cms" translate="label">
+                        <content translate="label">
                             <label>Content</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_content</layout_handle>
                             <is_default>1</is_default>
                         </content>
-                        <left_column module="Enterprise_Cms" translate="label">
+                        <left_column translate="label">
                             <label>Left Column</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_left_column</layout_handle>
                             <page_layout_handles>
@@ -78,7 +54,7 @@
                                 <page_three_columns />
                             </page_layout_handles>
                         </left_column>
-                        <right_column module="Enterprise_Cms" translate="label">
+                        <right_column translate="label">
                             <label>Right Column</label>
                             <layout_handle>enterprise_cms_hierarchy_menu_right_column</layout_handle>
                             <page_layout_handles>

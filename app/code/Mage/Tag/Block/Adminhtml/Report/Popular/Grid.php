@@ -48,14 +48,14 @@ class Mage_Tag_Block_Adminhtml_Report_Popular_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Tag'),
+            'header'    =>__('Tag'),
             'index'     =>'name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Popularity'),
+            'header'    =>__('Popularity'),
             'index'     =>'popularity',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -63,12 +63,12 @@ class Mage_Tag_Block_Adminhtml_Report_Popular_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
+                'header'    => __('Action'),
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('Mage_Tag_Helper_Data')->__('Show Details'),
+                        'caption' => __('Show Details'),
                         'url'     => array(
                             'base'=>'*/*/tagDetail'
                         ),
@@ -84,8 +84,8 @@ class Mage_Tag_Block_Adminhtml_Report_Popular_Grid extends Mage_Adminhtml_Block_
         ));
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportPopularCsv', Mage::helper('Mage_Tag_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportPopularExcel', Mage::helper('Mage_Tag_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportPopularCsv', __('CSV'));
+        $this->addExportType('*/*/exportPopularExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

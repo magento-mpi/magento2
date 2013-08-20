@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_ImportExport>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Core/>
-                <Mage_Backend/>
-                <Mage_Eav/>
-                <Mage_Index/>
-                <Mage_Catalog/>
-                <Mage_CatalogInventory/>
-                <Mage_Customer/>
-                <Mage_Directory/>
-            </depends>
-            <sequence>
-                <Mage_Catalog/>
-            </sequence>
-        </Mage_ImportExport>
-    </modules>
     <global>
         <resources>
             <importexport_setup>
@@ -39,7 +19,7 @@
                 </setup>
             </importexport_setup>
         </resources>
-        <importexport module="Mage_ImportExport">
+        <importexport>
             <import_entities>
                 <catalog_product translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Product</model_token>

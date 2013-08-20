@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Cardgate>
-            <version>0.0.0.1</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Payment/>
-                <Mage_Checkout/>
-                <Mage_Core/>
-                <Mage_Sales/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Payment/>
-                <Mage_Checkout/>
-            </sequence>
-        </Mage_Cardgate>
-    </modules>
-
     <global>
         <payment>
             <cc>
@@ -49,7 +31,6 @@
             </groups>
         </payment>
     </global>
-
     <frontend>
         <routers>
             <cardgate>
@@ -70,7 +51,6 @@
             </modules>
         </translate>
     </frontend>
-
     <adminhtml>
         <translate>
             <modules>
@@ -82,7 +62,6 @@
             </modules>
         </translate>
     </adminhtml>
-
     <default>
         <payment>
             <cardgate>

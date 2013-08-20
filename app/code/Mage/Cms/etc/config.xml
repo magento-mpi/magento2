@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Cms>
-            <version>2.0.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Widget/>
-                <Mage_Backend/>
-                <Mage_Adminhtml/>
-                <Mage_Page/>
-                <Mage_Catalog/>
-                <Mage_Checkout/>
-                <Mage_Customer/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-                <Mage_Page/>
-            </sequence>
-        </Mage_Cms>
-    </modules>
     <frontend>
         <routers>
             <cms>
@@ -81,11 +61,8 @@
         <cms>
             <browser>
                 <dirs>
-                    <exclude>
-
-
-                    </exclude>
-                    <include/>
+                    <exclude />
+                    <include />
                 </dirs>
                 <extensions>
                     <allowed>

@@ -10,31 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_SalesRule>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Eav/>
-                <Mage_Rule/>
-                <Mage_Sales/>
-                <Mage_Tax/>
-                <Mage_Adminhtml/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Directory/>
-                <Mage_Shipping/>
-                <Mage_Payment/>
-                <Mage_Reports/>
-            </depends>
-            <sequence>
-                <Mage_Rule/>
-                <Mage_Catalog/>
-                <Mage_Sales/>
-            </sequence>
-        </Mage_SalesRule>
-    </modules>
     <global>
         <resources>
             <salesrule_setup>

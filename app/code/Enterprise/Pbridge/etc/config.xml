@@ -10,29 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Pbridge>
-            <version>1.8.0.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Payment/>
-                <Mage_Checkout/>
-                <Mage_Adminhtml/>
-                <Mage_Sales/>
-                <Mage_Customer/>
-                <Mage_Page/>
-                <Mage_Paypal/>
-                <Mage_Backend/>
-                <Mage_Directory/>
-                <Mage_PaypalUk/>
-                <Enterprise_Pci/>
-            </depends>
-            <sequence>
-                <Enterprise_Enterprise/>
-            </sequence>
-        </Enterprise_Pbridge>
-    </modules>
     <global>
         <events>
             <controller_action_predispatch>
@@ -102,7 +79,7 @@
     </admin>
     <default>
         <payment>
-            <pbridge translate="title" module="Enterprise_Pbridge">
+            <pbridge translate="title">
                 <model>Enterprise_Pbridge_Model_Payment_Method_Pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>

@@ -26,12 +26,12 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type
     public function render(Magento_Object $row)
     {
 
-        $str = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unknown');
+        $str = __('Unknown');
 
         if(isset(self::$_types[$row->getTemplateType()])) {
             $str = self::$_types[$row->getTemplateType()];
         }
 
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__($str);
+        return __($str);
     }
 }

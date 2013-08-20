@@ -37,12 +37,12 @@ class Mage_Catalog_Model_Category_Attribute_Source_Sortby
     {
         if (is_null($this->_options)) {
             $this->_options = array(array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
+                'label' => __('Position'),
                 'value' => 'position'
             ));
             foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
                 $this->_options[] = array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__($attribute['frontend_label']),
+                    'label' => __($attribute['frontend_label']),
                     'value' => $attribute['attribute_code']
                 );
             }

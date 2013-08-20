@@ -63,6 +63,7 @@ class Magento_PubSub_Event_QueueHandler
                 $job = $this->_jobFactory->create($subscription, $event);
                 $this->_jobQueue->offer($job);
             }
+            $event->complete();
             $event = $this->_eventQueue->poll();
         }
     }

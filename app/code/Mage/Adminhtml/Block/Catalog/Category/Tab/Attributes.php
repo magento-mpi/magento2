@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('fieldset_group_' . $group->getId(), array(
-            'legend'    => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
+            'legend'    => __($group->getAttributeGroupName()),
             'class'     => 'fieldset-wide',
         ));
 

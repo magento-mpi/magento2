@@ -38,11 +38,9 @@ class Mage_Tax_Model_Class_Type_ProductTest extends PHPUnit_Framework_TestCase
             'Mage_Tax_Model_Class_Type_Product',
             array(
                 'modelProduct' => $productMock,
-                'helper' => $this->getMock('Mage_Tax_Helper_Data', array(), array(), '', false),
                 'data' => array('id' => 1)
             )
         );
         $this->assertEquals($collectionMock, $model->getAssignedToObjects());
     }
-
 }

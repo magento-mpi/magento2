@@ -22,15 +22,15 @@ class Mage_Cms_Model_Config_Source_Wysiwyg_Enabled implements Mage_Core_Model_Op
         return array(
             array(
                 'value' => Mage_Cms_Model_Wysiwyg_Config::WYSIWYG_ENABLED,
-                'label' => Mage::helper('Mage_Cms_Helper_Data')->__('Enabled by Default')
+                'label' => __('Enabled by Default')
             ),
             array(
                 'value' => Mage_Cms_Model_Wysiwyg_Config::WYSIWYG_HIDDEN,
-                'label' => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled by Default')
+                'label' => __('Disabled by Default')
             ),
             array(
                 'value' => Mage_Cms_Model_Wysiwyg_Config::WYSIWYG_DISABLED,
-                'label' => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled Completely')
+                'label' => __('Disabled Completely')
             )
         );
     }

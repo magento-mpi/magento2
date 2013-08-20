@@ -78,7 +78,16 @@
                             <type>options</type>
                             <width>120</width>
                             <align>left</align>
-                            <options type="options">Mage_Backend_Model_Cache_Resource_Grid_Options_Statuses</options>
+                            <options>
+                                <disabled>
+                                    <value>0</value>
+                                    <label translate="true">Disabled</label>
+                                </disabled>
+                                <enabled>
+                                    <value>1</value>
+                                    <label translate="true">Enabled</label>
+                                </enabled>
+                            </options>
                         </arguments>
                     </block>
                 </block>

@@ -10,28 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_PaypalUk>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Paypal/>
-                <Mage_Payment/>
-                <Mage_Core/>
-                <Mage_Checkout/>
-                <Mage_Page/>
-            </depends>
-            <depends type="soft">
-                <Mage_Catalog/>
-            </depends>
-            <sequence>
-                <Mage_Paygate/>
-                <Mage_Checkout/>
-                <Mage_Sales/>
-                <Mage_Paypal/>
-            </sequence>
-        </Mage_PaypalUk>
-    </modules>
     <global>
         <resources>
             <paypaluk_setup>

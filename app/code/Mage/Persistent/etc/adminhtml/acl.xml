@@ -16,7 +16,7 @@
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_Persistent::persistent" module="Mage_Persistent" title="Persistent Shopping Cart" sortOrder="60" />
+                            <resource id="Mage_Persistent::persistent" title="Persistent Shopping Cart" sortOrder="60" />
                         </resource>
                     </resource>
                 </resource>

@@ -10,21 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Rating>
-            <version>1.6.0.1</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Review/>
-                <Mage_Customer/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-                <Mage_Review/>
-            </sequence>
-        </Mage_Rating>
-    </modules>
     <global>
         <resources>
             <rating_setup>

@@ -209,7 +209,9 @@ class Mage_Eav_Model_Config
     protected function _isCacheEnabled()
     {
         if ($this->_isCacheEnabled === null) {
-            $this->_isCacheEnabled = Mage::app()->useCache(Mage_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
+            /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+            $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+            $this->_isCacheEnabled = $cacheState->isEnabled(Mage_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
         }
         return $this->_isCacheEnabled;
     }
@@ -309,7 +311,7 @@ class Mage_Eav_Model_Config
             }
 
             if (!$entityType->getId()) {
-                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity_type specified: %s', $code));
+                Mage::throwException(__('Invalid entity_type specified: %1', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());

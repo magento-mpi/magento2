@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Templ
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button','del.button')
                 ->setData(
                     array(
-                        'label' => Mage::helper('Mage_Newsletter_Helper_Data')->__('Delete Selected Problems'),
+                        'label' => __('Delete Selected Problems'),
                         'onclick' => 'problemController.deleteSelected();'
                     )
                 )
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Templ
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button','unsubscribe.button')
                 ->setData(
                     array(
-                        'label' => Mage::helper('Mage_Newsletter_Helper_Data')->__('Unsubscribe Selected'),
+                        'label' => __('Unsubscribe Selected'),
                         'onclick' => 'problemController.unsubscribe();'
                     )
                 )

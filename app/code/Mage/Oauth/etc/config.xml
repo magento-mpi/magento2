@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Oauth>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Page/>
-                <Mage_Index/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-                <Mage_User/>
-            </sequence>
-        </Mage_Oauth>
-    </modules>
     <global>
         <resources>
             <oauth_setup>

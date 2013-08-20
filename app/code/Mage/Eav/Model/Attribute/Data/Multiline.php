@@ -113,7 +113,8 @@ class Mage_Eav_Model_Attribute_Data_Multiline extends Mage_Eav_Model_Attribute_D
     /**
      * Return formated attribute value from entity model
      *
-     * @return string|array
+     * @param string $format
+     * @return array|string
      */
     public function outputValue($format = Mage_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {

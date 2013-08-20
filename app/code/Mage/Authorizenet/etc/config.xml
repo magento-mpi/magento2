@@ -10,27 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Authorizenet>
-            <version>1.5.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-                <Mage_Payment/>
-                <Mage_Paygate/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Paygate/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-            </sequence>
-        </Mage_Authorizenet>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

@@ -10,25 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Shipping>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Sales/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Backend/>
-                <Mage_Directory/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-                <Mage_Catalog/>
-            </sequence>
-        </Mage_Shipping>
-    </modules>
     <global>
         <resources>
             <shipping_setup>

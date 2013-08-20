@@ -10,27 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Install>
-            <version>0.7.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_AdminNotification/>
-                <Mage_Adminhtml/>
-                <Mage_User/>
-                <Mage_Index/>
-                <Mage_Directory/>
-                <Mage_Backend/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-            </sequence>
-        </Mage_Install>
-    </modules>
     <frontend>
         <secure_url>
             <install>/install/wizard/checkSecureHost</install>

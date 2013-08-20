@@ -28,7 +28,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reminder">ID</header>
+                            <header translate="true">ID</header>
                             <align>right</align>
                             <width>50px</width>
                             <index>rule_id</index>
@@ -36,14 +36,14 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reminder">Rule</header>
+                            <header translate="true">Rule</header>
                             <align>left</align>
                             <index>name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reminder">Start on</header>
+                            <header translate="true">Start on</header>
                             <align>left</align>
                             <width>120px</width>
                             <type>date</type>
@@ -53,7 +53,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reminder">End on</header>
+                            <header translate="true">End on</header>
                             <align>left</align>
                             <width>120px</width>
                             <type>date</type>
@@ -63,17 +63,26 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reminder">Status</header>
+                            <header translate="true">Status</header>
                             <align>left</align>
                             <width>80px</width>
                             <type>options</type>
-                            <options type="options">Enterprise_Reminder_Model_Reminder_Options_Status</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>0</value>
+                                    <label translate="true">Inactive</label>
+                                </inactive>
+                            </options>
                             <index>is_active</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
                         <arguments>
-                            <header translate="true" module="Enterprise_Reminder">Website</header>
+                            <header translate="true">Website</header>
                             <align>left</align>
                             <index>website_ids</index>
                             <type>options</type>

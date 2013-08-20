@@ -51,7 +51,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Bac
      */
     public function getHeader()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Currency Symbols');
+        return __('Currency Symbols');
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Bac
         /** @var $block Mage_Core_Block_Abstract */
         $block = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button');
         $block->setData(array(
-            'label'     => Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('Save Currency Symbols'),
+            'label'     => __('Save Currency Symbols'),
             'class'     => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -127,6 +127,6 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Bac
      */
     public function getInheritText()
     {
-        return Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('Use Standard');
+        return __('Use Standard');
     }
 }

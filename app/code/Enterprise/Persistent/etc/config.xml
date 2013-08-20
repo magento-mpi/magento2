@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Persistent>
-            <version>1.0.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Backend/>
-                <Mage_Persistent/>
-                <Mage_Customer/>
-                <Mage_Wishlist/>
-                <Mage_Core/>
-                <Mage_Catalog/>
-                <Mage_Reports/>
-            </depends>
-            <sequence>
-                <Mage_Persistent/>
-            </sequence>
-        </Enterprise_Persistent>
-    </modules>
     <default>
         <persistent>
             <options>

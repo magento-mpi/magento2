@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Persistent>
-            <version>1.0.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Checkout/>
-                <Mage_Cron/>
-                <Mage_GoogleCheckout/>
-                <Mage_Paypal/>
-                <Mage_Sales/>
-                <Mage_Directory/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml />
-                <Mage_Checkout />
-            </sequence>
-        </Mage_Persistent>
-    </modules>
     <global>
         <resources>
             <persistent_setup>

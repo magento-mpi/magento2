@@ -10,45 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Catalog>
-            <version>1.6.0.0.23</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Page/>
-                <Mage_Checkout/>
-                <Mage_Log/>
-                <Mage_Customer/>
-                <Mage_Backend/>
-                <Mage_Widget/>
-                <Mage_Rss/>
-                <Mage_Cms/>
-                <Mage_Wishlist/>
-                <Mage_Review/>
-                <Mage_Tax/>
-                <Mage_Eav/>
-                <Mage_Bundle/>
-                <Mage_Index/>
-                <Mage_Api/>
-                <Mage_Adminhtml/>
-                <Mage_Directory/>
-                <Mage_Media/>
-                <Mage_Sales/>
-                <Mage_Cron/>
-                <Mage_CatalogInventory/>
-                <Mage_CatalogSearch/>
-                <Mage_CatalogRule/>
-                <Mage_Weee/>
-            </depends>
-            <sequence>
-                <Mage_Eav />
-                <Mage_Cms />
-                <Mage_Index />
-                <Mage_Customer />
-            </sequence>
-        </Mage_Catalog>
-    </modules>
     <global>
         <resources>
             <catalog_setup>
@@ -117,13 +78,13 @@
         <catalog>
             <product>
                 <type>
-                    <simple translate="label" module="Mage_Catalog">
+                    <simple translate="label">
                         <label>Simple Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Simple</model>
                         <composite>0</composite>
                         <index_priority>10</index_priority>
                     </simple>
-                    <grouped translate="label" module="Mage_Catalog">
+                    <grouped translate="label">
                         <label>Grouped Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Grouped</model>
                         <price_model>Mage_Catalog_Model_Product_Type_Grouped_Price</price_model>
@@ -135,7 +96,7 @@
                         <index_priority>50</index_priority>
                         <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped</price_indexer>
                     </grouped>
-                    <configurable translate="label" module="Mage_Catalog">
+                    <configurable translate="label">
                         <label>Configurable Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Configurable</model>
                         <price_model>Mage_Catalog_Model_Product_Type_Configurable_Price</price_model>
@@ -147,7 +108,7 @@
                         <index_priority>30</index_priority>
                         <price_indexer>Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable</price_indexer>
                     </configurable>
-                    <virtual translate="label" module="Mage_Catalog">
+                    <virtual translate="label">
                         <label>Virtual Product</label>
                         <model>Mage_Catalog_Model_Product_Type_Virtual</model>
                         <composite>0</composite>
@@ -169,56 +130,56 @@
                 <options>
                     <custom>
                         <groups>
-                            <text translate="label" module="Mage_Adminhtml">
+                            <text translate="label">
                                 <label>Text</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Text</render>
                                 <types>
-                                    <field translate="label" module="Mage_Adminhtml">
+                                    <field translate="label">
                                         <label>Field</label>
                                     </field>
-                                    <area translate="label" module="Mage_Adminhtml">
+                                    <area translate="label">
                                         <label>Area</label>
                                     </area>
                                 </types>
                             </text>
-                            <file translate="label" module="Mage_Adminhtml">
+                            <file translate="label">
                                 <label>File</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_File</render>
                                 <types>
-                                    <file translate="label" module="Mage_Adminhtml">
+                                    <file translate="label">
                                         <label>File</label>
                                     </file>
                                 </types>
                             </file>
-                            <select translate="label" module="Mage_Adminhtml">
+                            <select translate="label">
                                 <label>Select</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select</render>
                                 <types>
-                                    <drop_down translate="label" module="Mage_Adminhtml">
+                                    <drop_down translate="label">
                                         <label>Drop-down</label>
                                     </drop_down>
-                                    <radio translate="label" module="Mage_Adminhtml">
+                                    <radio translate="label">
                                         <label>Radio Buttons</label>
                                     </radio>
-                                    <checkbox translate="label" module="Mage_Adminhtml">
+                                    <checkbox translate="label">
                                         <label>Checkbox</label>
                                     </checkbox>
-                                    <multiple translate="label" module="Mage_Adminhtml">
+                                    <multiple translate="label">
                                         <label>Multiple Select</label>
                                     </multiple>
                                 </types>
                             </select>
-                            <date translate="label" module="Mage_Adminhtml">
+                            <date translate="label">
                                 <label>Date</label>
                                 <render>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Date</render>
                                 <types>
-                                    <date translate="label" module="Mage_Adminhtml">
+                                    <date translate="label">
                                         <label>Date</label>
                                     </date>
-                                    <date_time translate="label" module="Mage_Adminhtml">
+                                    <date_time translate="label">
                                         <label>Date &amp; Time</label>
                                     </date_time>
-                                    <time translate="label" module="Mage_Adminhtml">
+                                    <time translate="label">
                                         <label>Time</label>
                                     </time>
                                 </types>
@@ -491,8 +452,8 @@
                 <enabled>0</enabled>
                 <apply_for_all>0</apply_for_all>
                 <display_price_type>1</display_price_type>
-                <explanation_message>Our price is lower than the manufacturer&apos;s &quot;minimum advertised price.&quot;  As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message>
-                <explanation_message_whats_this>Our price is lower than the manufacturer&apos;s &quot;minimum advertised price.&quot;  As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message_whats_this>
+                <explanation_message>Our price is lower than the manufacturer's "minimum advertised price." As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message>
+                <explanation_message_whats_this>Our price is lower than the manufacturer's "minimum advertised price." As a result, we cannot show you the price in catalog or the product page. &lt;br /&gt;&lt;br /&gt; You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart.</explanation_message_whats_this>
             </msrp>
         </sales>
     </default>

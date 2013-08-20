@@ -13,7 +13,7 @@ $billingBlock = $this->getChildBlock('billing')->setFieldNamePrefix('billing')->
 $shippingAddress = $this->getShippingAddress();
 ?>
 <div class="page-title">
-    <h1><?php echo $this->__('Review Order') ?></h1>
+    <h1><?php echo __('Review Order') ?></h1>
 </div>
 <?php echo $this->getLayout()->renderElement('messages') ?>
 <script type="text/javascript">
@@ -28,13 +28,13 @@ $shippingAddress = $this->getShippingAddress();
     <form method="post" id="order_review_form" action="<?php echo $this->getPlaceOrderUrl() ?>">
     <?php if(!$billingBlock->isCustomerLoggedIn()): ?>
         <div class="info-set">
-            <h2 class="legend"><?php echo $this->__('Customer Information') ?></h2>
+            <h2 class="legend"><?php echo __('Customer Information') ?></h2>
             <ul class="form-list form-list-narrow">
                 <li id="customer-info-form" class="address-form">
                     <div class="field">
-                        <label for="customer:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                        <label for="customer:email" class="required"><em>*</em><?php echo __('Email Address') ?></label>
                         <div class="input-box">
-                            <input type="text" name="customer-email" id="customer:email" value="<?php echo $this->escapeHtml($billingBlock->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                            <input type="text" name="customer-email" id="customer:email" value="<?php echo $this->escapeHtml($billingBlock->getAddress()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text validate-email required-entry" />
                         </div>
                     </div>
                 </li>
@@ -43,7 +43,7 @@ $shippingAddress = $this->getShippingAddress();
     <?php endif ?>
     <div class="info-set">
         <div class="col-1" id="billing-address">
-            <h2 class="legend"><?php echo $this->__('Billing Address') ?></h2>
+            <h2 class="legend"><?php echo __('Billing Address') ?></h2>
             <?php if ($shippingAddress): ?>
                 <?php echo $billingBlock->setShowAsShippingCheckbox(true)->toHtml(); ?>
             <?php else: ?>
@@ -52,7 +52,7 @@ $shippingAddress = $this->getShippingAddress();
         </div>
     <?php if ($shippingAddress): ?>
         <div class="col-2" id="shipping-address">
-            <h2 class="legend"><?php echo $this->__('Shipping Address') ?></h2>
+            <h2 class="legend"><?php echo __('Shipping Address') ?></h2>
             <?php echo $this->getChildBlock('shipping')->setFieldNamePrefix('shipping')->setHideEmailAddress(true)->toHtml(); ?>
         </div>
     </div>
@@ -61,7 +61,7 @@ $shippingAddress = $this->getShippingAddress();
         <div class="col-2">
             <div class="box paypal-shipping-method">
                 <div class="box-title">
-                    <h3><?php echo $this->__('Shipping Method') ?></h3>
+                    <h3><?php echo __('Shipping Method') ?></h3>
                 </div>
                 <div class="box-content">
                     <?php echo $this->getChildBlock('shipping_method')->toHtml(); ?>
@@ -72,18 +72,18 @@ $shippingAddress = $this->getShippingAddress();
     </div>
 
     <div class="info-set">
-        <h2 class="legend"><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h2>
+        <h2 class="legend"><?php echo __('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo __('Edit Shopping Cart') ?></a></h2>
         <div id="details-reload">
             <?php echo $this->getChildHtml('details') ?>
         </div>
     </div>
         <?php echo $this->getChildHtml('agreements'); ?>
         <div class="buttons-set buttons-set-order" id="review-buttons-container">
-            <button type="button" id="review_button" value="<?php echo $this->__('Place Order') ?>" class="button btn-checkout"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
-            <button type="button" id="review_submit" value="<?php echo $this->__('Place Order') ?>" class="button btn-checkout"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
-            <button type="button" id="update_order" class="button btn-checkout"><span><span><?php echo $this->__('Update Order Data') ?></span></span></button>
+            <button type="button" id="review_button" value="<?php echo __('Place Order') ?>" class="button btn-checkout"><span><span><?php echo __('Place Order') ?></span></span></button>
+            <button type="button" id="review_submit" value="<?php echo __('Place Order') ?>" class="button btn-checkout"><span><span><?php echo __('Place Order') ?></span></span></button>
+            <button type="button" id="update_order" class="button btn-checkout"><span><span><?php echo __('Update Order Data') ?></span></span></button>
             <span class="please-wait" id="review-please-wait" style="display:none;">
-                <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
+                <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo __('Submitting order information...') ?>" title="<?php echo __('Submitting order information...') ?>" class="v-middle" /> <?php echo __('Submitting order information...') ?>
             </span>
         </div>
     </form>
@@ -129,11 +129,11 @@ if ($('update_shipping_method_submit')) {
                         }
                     }
                     $('review-please-wait').hide();
-                    alert('<?php echo $this->jsQuoteEscape($this->__('Unknown Error. Please try again later.')); ?>');
+                    alert('<?php echo $this->jsQuoteEscape(__('Unknown Error. Please try again later.')); ?>');
                     return;
                 },
                 onFailure: function(){
-                    alert('<?php echo $this->jsQuoteEscape($this->__('Server Error. Please try again.')) ?>');
+                    alert('<?php echo $this->jsQuoteEscape(__('Server Error. Please try again.')) ?>');
                     $('review-please-wait').hide();
                 }
             });

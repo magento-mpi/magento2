@@ -32,7 +32,6 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
             'Mage_Core_Model_Cache_Frontend_Pool', array('valid', 'current'), array(
-                $this->_config,
                 $this->getMock('Mage_Core_Model_Cache_Frontend_Factory', array(), array(), '', false),
             )
         );

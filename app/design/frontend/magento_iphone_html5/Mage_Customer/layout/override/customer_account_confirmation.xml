@@ -14,7 +14,7 @@
             <action method="setTemplate">
                 <template>1column.phtml</template>
             </action>
-            <action method="setHeaderTitle" translate="title" module="Mage_Customer">
+            <action method="setHeaderTitle" translate="title">
                 <title>Send confirmation link</title>
             </action>
         </reference>

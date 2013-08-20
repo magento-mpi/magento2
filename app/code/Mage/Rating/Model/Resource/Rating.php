@@ -55,7 +55,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     {
         $this->_uniqueFields = array(array(
             'field' => 'rating_code',
-            'title' => /* Mage::helper('Mage_Rating_Helper_Data')->__('Rating with the same title')*/ ''
+            'title' => /* __('Rating with the same title')*/ ''
         ));
         return $this;
     }

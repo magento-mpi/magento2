@@ -10,31 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Wishlist>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Checkout/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Core/>
-                <Mage_Page/>
-                <Mage_Sales/>
-                <Mage_Adminhtml/>
-                <Mage_CatalogInventory/>
-                <Mage_Backend/>
-                <Mage_Tax/>
-            </depends>
-            <depends type="soft">
-                <Mage_Bundle/>
-            </depends>
-            <sequence>
-                <Mage_Customer />
-                <Mage_Catalog />
-            </sequence>
-        </Mage_Wishlist>
-    </modules>
     <global>
         <resources>
             <wishlist_setup>
@@ -145,4 +120,4 @@
             </email>
         </wishlist>
     </default>
-</config>
+</config>

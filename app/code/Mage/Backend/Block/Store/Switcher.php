@@ -114,7 +114,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
 
         $this->setUseConfirm(true);
         $this->setUseAjax(true);
-        $this->setDefaultStoreName($this->__('All Store Views'));
+        $this->setDefaultStoreName(__('All Store Views'));
     }
 
     /**
@@ -338,9 +338,9 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
                 . '<span class="help"><a'
                 . ' href="'. $this->escapeUrl($url) . '"'
                 . ' onclick="this.target=\'_blank\'"'
-                . ' title="' . $this->__('What is this?') . '"'
+                . ' title="' . __('What is this?') . '"'
                 . ' class="link-store-scope">'
-                . $this->__('What is this?')
+                . __('What is this?')
                 . '</a></span>'
                 .' </div>';
         }

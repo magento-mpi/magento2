@@ -893,3 +893,25 @@ newsletter_subscribers:
         7: Web Site
         8: Store
         9: Store View
+
+#dataset for ui elements in Low Stock Report grid
+report_product_lowstock:
+    fieldset:
+        report_product_lowstock_grid: tablename
+    field:
+        page: ~
+        filter_product: ~
+        filter_sku: ~
+        filter_stock_quantity_from: ~
+        filter_stock_quantity_to: ~
+    dropdown:
+        view_per_page: ~
+        export_to: ~
+    button:
+        export: ~
+        reset_filter: ~
+        search: ~
+    headers:
+        0: Product
+        1: SKU
+        2: Stock Quantity

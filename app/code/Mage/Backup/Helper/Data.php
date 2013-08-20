@@ -71,10 +71,10 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     public function getBackupTypes()
     {
         return array(
-            self::TYPE_DB                     => $this->__('Database'),
-            self::TYPE_MEDIA                  => $this->__('Database and Media'),
-            self::TYPE_SYSTEM_SNAPSHOT        => $this->__('System'),
-            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => $this->__('System (excluding Media)')
+            self::TYPE_DB                     => __('Database'),
+            self::TYPE_MEDIA                  => __('Database and Media'),
+            self::TYPE_SYSTEM_SNAPSHOT        => __('System'),
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => __('System (excluding Media)')
         );
     }
 
@@ -235,10 +235,10 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCreateSuccessMessageByType($type)
     {
         $messagesMap = array(
-            self::TYPE_SYSTEM_SNAPSHOT => $this->__('The system backup has been created.'),
-            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => $this->__('The system backup (excluding media) has been created.'),
-            self::TYPE_MEDIA => $this->__('The database and media backup has been created.'),
-            self::TYPE_DB => $this->__('The database backup has been created.')
+            self::TYPE_SYSTEM_SNAPSHOT => __('The system backup has been created.'),
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => __('The system backup (excluding media) has been created.'),
+            self::TYPE_MEDIA => __('The database and media backup has been created.'),
+            self::TYPE_DB => __('The database backup has been created.')
         );
 
         if (!isset($messagesMap[$type])) {
@@ -265,9 +265,13 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function invalidateCache()
     {
-        if ($cacheTypesNode = Mage::getConfig()->getNode(Mage_Core_Model_Cache::XML_PATH_TYPES)) {
-            $cacheTypesList = array_keys($cacheTypesNode->asArray());
-            Mage::app()->getCacheInstance()->invalidateType($cacheTypesList);
+        /** @var Mage_Core_Model_Cache_Config $config */
+        $config = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Config');
+        if ($cacheTypes = $config->getTypes()) {
+            $cacheTypesList = array_keys($cacheTypes);
+            /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
+            $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+            $cacheTypeList->invalidate($cacheTypesList);
         }
         return $this;
     }

@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Webapi>
-            <version>1.0.0.3</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_Adminhtml/>
-                <Mage_Oauth/>
-                <Mage_Catalog/>
-            </depends>
-            <sequence>
-                <Mage_Core />
-                <Mage_Oauth />
-                <Mage_Backend />
-            </sequence>
-        </Mage_Webapi>
-    </modules>
     <global>
         <areas>
             <webapi>
@@ -44,15 +26,6 @@
                 </setup>
             </webapi_setup>
         </resources>
-        <cache>
-            <types>
-                <config_webservice translate="label,description" module="Mage_Webapi">
-                    <label>Web Services Configuration</label>
-                    <description>REST and SOAP configurations, generated WSDL file.</description>
-                    <class>Mage_Webapi_Model_Cache_Type</class>
-                </config_webservice>
-            </types>
-        </cache>
         <webapi>
             <rest>
                 <request>

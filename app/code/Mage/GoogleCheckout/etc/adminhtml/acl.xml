@@ -16,7 +16,7 @@
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_GoogleCheckout::google" module="Mage_GoogleCheckout" title="Google API" />
+                            <resource id="Mage_GoogleCheckout::google" title="Google API" />
                         </resource>
                     </resource>
                 </resource>

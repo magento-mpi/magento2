@@ -10,38 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Rss>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Wishlist/>
-                <Mage_Sales/>
-                <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_Review/>
-                <Mage_Adminhtml/>
-                <Mage_CatalogInventory/>
-                <Mage_SalesRule/>
-                <Mage_GiftMessage/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Catalog/>
-                <Mage_CatalogInventory/>
-                <Mage_Sales/>
-                <Mage_SalesRule/>
-                <Mage_Wishlist/>
-            </sequence>
-        </Mage_Rss>
-    </modules>
-    <admin>
-
-    </admin>
     <adminhtml>
         <translate>
             <modules>

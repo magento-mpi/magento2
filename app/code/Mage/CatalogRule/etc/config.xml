@@ -10,27 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_CatalogRule>
-            <version>1.6.0.4</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Rule/>
-                <Mage_Catalog/>
-                <Mage_Index/>
-                <Mage_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_CatalogInventory/>
-                <Mage_Eav/>
-            </depends>
-            <sequence>
-                <Mage_Rule />
-                <Mage_Catalog />
-                <Mage_Customer />
-            </sequence>
-        </Mage_CatalogRule>
-    </modules>
     <global>
         <resources>
             <catalogrule_setup>
@@ -183,4 +162,4 @@
             </catalog_product_get_final_price>
         </events>
     </crontab>
-</config>
+</config>

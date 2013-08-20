@@ -20,7 +20,7 @@ class Enterprise_Pci_Controller_Adminhtml_Locks extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
-        $this->_title($this->__('Locked Users'));
+        $this->_title(__('Locked Users'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Pci::system_acl_locks');
@@ -50,7 +50,7 @@ class Enterprise_Pci_Controller_Adminhtml_Locks extends Mage_Adminhtml_Controlle
                 $affectedUsers = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User')
                     ->unlock($userIds);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                        ->addSuccess($this->__('Unlocked %d user(s).', $affectedUsers));
+                        ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
         catch (Exception $e) {

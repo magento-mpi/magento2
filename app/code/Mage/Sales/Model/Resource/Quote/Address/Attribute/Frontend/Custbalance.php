@@ -31,7 +31,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Custbalance
         if ($custbalance != 0) {
             $address->addTotal(array(
                 'code'  => 'custbalance',
-                'title' => Mage::helper('Mage_Sales_Helper_Data')->__('Store Credit'),
+                'title' => __('Store Credit'),
                 'value' => -$custbalance
             ));
         }

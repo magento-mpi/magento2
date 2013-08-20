@@ -29,9 +29,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
 
         if ($this->_getUrlRewrite()->getId()) {
-            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit URL Rewrite for a Category');
+            $this->_headerText = __('Edit URL Rewrite for a Category');
         } else {
-            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Category');
+            $this->_headerText = __('Add URL Rewrite for a Category');
         }
 
         if ($this->_getCategory()->getId()) {
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
         $this->addChild('category_link', 'Mage_Adminhtml_Block_Urlrewrite_Link', array(
             'item_url'  => $helper->getUrl('*/*/*') . 'category',
             'item_name' => $this->_getCategory()->getName(),
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Category:')
+            'label'     => __('Category:')
         ));
     }
 

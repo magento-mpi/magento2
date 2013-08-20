@@ -37,17 +37,15 @@ class Mage_Backend_Controller_Adminhtml_System_Config_Save extends Mage_Backend_
      * @param Mage_Backend_Model_Config_Factory $configFactory
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
      * @param Magento_Cache_FrontendInterface $cache
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Backend_Model_Config_Factory $configFactory,
         Mage_Backend_Model_Auth_StorageInterface $authSession,
-        Magento_Cache_FrontendInterface $cache,
-        $areaCode = null
+        Magento_Cache_FrontendInterface $cache
     ) {
-        parent::__construct($context, $configStructure, $authSession, $areaCode);
+        parent::__construct($context, $configStructure, $authSession);
         $this->_configFactory = $configFactory;
         $this->_cache = $cache;
     }
@@ -59,7 +57,7 @@ class Mage_Backend_Controller_Adminhtml_System_Config_Save extends Mage_Backend_
     {
         try {
             if (false == $this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception($this->_getHelper()->__('This section is not allowed.'));
+                throw new Exception(__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -79,7 +77,7 @@ class Mage_Backend_Controller_Adminhtml_System_Config_Save extends Mage_Backend_
             $configModel->save();
 
             $this->_session->addSuccess(
-                $this->_getHelper()->__('You saved the configuration.')
+                __('You saved the configuration.')
             );
         } catch (Mage_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
@@ -89,7 +87,7 @@ class Mage_Backend_Controller_Adminhtml_System_Config_Save extends Mage_Backend_
         } catch (Exception $e) {
             $this->_session->addException(
                 $e,
-                $this->_getHelper()->__('An error occurred while saving this configuration:') . ' ' . $e->getMessage()
+                __('An error occurred while saving this configuration:') . ' ' . $e->getMessage()
             );
         }
 

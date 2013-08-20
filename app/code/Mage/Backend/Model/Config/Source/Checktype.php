@@ -28,11 +28,11 @@ class Mage_Backend_Model_Config_Source_Checktype implements Mage_Core_Model_Opti
         return array(
             array(
                 'value' => Mage_Sendfriend_Helper_Data::CHECK_IP,
-                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('IP Address')
+                'label' => __('IP Address')
             ),
             array(
                 'value' => Mage_Sendfriend_Helper_Data::CHECK_COOKIE,
-                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Cookie (unsafe)')
+                'label' => __('Cookie (unsafe)')
             ),
         );
     }

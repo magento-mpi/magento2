@@ -25,9 +25,9 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <delete>
-                                <label translate="true" module="Mage_Catalog">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Mage_Catalog">Are you sure?</confirm>
+                                <confirm translate="true">Are you sure?</confirm>
                             </delete>
                         </options>
                     </arguments>
@@ -43,13 +43,13 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="search_query">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Search Query</header>
+                            <header translate="true">Search Query</header>
                             <index>query_text</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Store</header>
+                            <header translate="true">Store</header>
                             <type>store</type>
                             <id>store_id</id>
                             <index>store_id</index>
@@ -59,21 +59,21 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="num_results">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Results</header>
+                            <header translate="true">Results</header>
                             <index>num_results</index>
                             <type>number</type>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="popularity">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Uses</header>
+                            <header translate="true">Uses</header>
                             <index>popularity</index>
                             <type>number</type>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="synonym_for">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Synonym</header>
+                            <header translate="true">Synonym</header>
                             <index>synonym_for</index>
                             <align>left</align>
                             <width>160px</width>
@@ -81,7 +81,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="redirect">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Redirect URL</header>
+                            <header translate="true">Redirect URL</header>
                             <align>left</align>
                             <index>redirect</index>
                             <width>200px</width>
@@ -89,26 +89,35 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="display_in_terms">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Suggested Terms</header>
+                            <header translate="true">Suggested Terms</header>
                             <sortable>1</sortable>
                             <index>display_in_terms</index>
                             <width>100px</width>
                             <align>left</align>
                             <type>options</type>
-                            <options type="options">Mage_CatalogSearch_Model_Terms_Grid_OptionsArray</options>
+                            <options>
+                                <yes>
+                                    <value>1</value>
+                                    <label translate="true">yes</label>
+                                </yes>
+                                <no>
+                                    <value>0</value>
+                                    <label translate="true">no</label>
+                                </no>
+                            </options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <type>action</type>
-                            <header translate="true" module="Mage_Catalog">Action</header>
+                            <header translate="true">Action</header>
                             <width>100px</width>
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <index>query_id</index>
                             <actions>
                                 <edit>
-                                    <caption translate="true" module="Mage_Catalog">Edit</caption>
+                                    <caption translate="true">Edit</caption>
                                     <url>
                                         <base>*/*/edit</base>
                                     </url>

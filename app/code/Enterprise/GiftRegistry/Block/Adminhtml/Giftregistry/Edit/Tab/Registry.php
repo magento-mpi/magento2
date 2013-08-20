@@ -14,7 +14,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
     protected function _construct()
     {
         parent::_construct();
-        $this->setFormTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Attributes'));
+        $this->setFormTitle(__('Attributes'));
     }
 
     /**

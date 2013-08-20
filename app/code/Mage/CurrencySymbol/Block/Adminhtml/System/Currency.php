@@ -23,7 +23,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currency extends Mage_Backend_B
     protected function _prepareLayout()
     {
         $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Currency Rates'),
+                'label' => __('Save Currency Rates'),
                 'class' => 'save',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -31,13 +31,13 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currency extends Mage_Backend_B
         ))));
 
         $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reset'),
+                'label' => __('Reset'),
                 'onclick' => 'document.location.reload()',
                 'class' => 'reset'
         ));
 
         $this->addChild('import_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Import'),
+                'label' => __('Import'),
                 'class' => 'add',
                 'type' => 'submit',
         ));
@@ -51,7 +51,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currency extends Mage_Backend_B
 
     public function getHeader()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Manage Currency Rates');
+        return __('Manage Currency Rates');
     }
 
     public function getSaveButtonHtml()

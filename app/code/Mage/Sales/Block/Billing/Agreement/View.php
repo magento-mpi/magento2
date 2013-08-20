@@ -76,7 +76,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
-                    ? $this->escapeHtml($order->getShippingAddress()->getName()) : $this->__('N/A');
+                    ? $this->escapeHtml($order->getShippingAddress()->getName()) : __('N/A');
                 break;
             case 'order_total':
                 $value = $order->formatPrice($order->getGrandTotal());
@@ -89,7 +89,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
                 $value = $this->getUrl('*/order/view', array('order_id' => $order->getId()));
                 break;
             default:
-                $value = ($order->getData($key)) ? $order->getData($key) : $this->__('N/A');
+                $value = ($order->getData($key)) ? $order->getData($key) : __('N/A');
         }
         return ($escape) ? $this->escapeHtml($value) : $value;
     }
@@ -154,7 +154,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('Mage_Core_Helper_Data')->formatDate($createdAt, 'short', true) : $this->__('N/A')
+                ($createdAt) ? $this->helper('Mage_Core_Helper_Data')->formatDate($createdAt, 'short', true) : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(

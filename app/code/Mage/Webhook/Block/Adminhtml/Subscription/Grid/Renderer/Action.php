@@ -27,14 +27,14 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action
         switch ($row->getStatus()) {
             case Mage_Webhook_Model_Subscription::STATUS_ACTIVE :
                 return '<a href="' . $this->getUrl('*/webhook_subscription/revoke', array('id' => $row->getId()))
-                    . '">' . $this->__('Revoke') . '</a>';
+                    . '">' . __('Revoke') . '</a>';
             case Mage_Webhook_Model_Subscription::STATUS_REVOKED :
                 return '<a href="' . $this->getUrl('*/webhook_subscription/activate', array('id' => $row->getId()))
-                    . '">' . $this->__('Activate') . '</a>';
+                    . '">' . __('Activate') . '</a>';
             case  Mage_Webhook_Model_Subscription::STATUS_INACTIVE :
                 $url = $this->getUrl('*/webhook_registration/activate', array('id' => $row->getId()));
                 return '<a href="#" onclick="activateSubscription(\''. $url .'\'); return false;">'
-                    . $this->__('Activate') . '</a>';
+                    . __('Activate') . '</a>';
             default :
                 return '';
         }

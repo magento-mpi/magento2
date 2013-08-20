@@ -27,15 +27,28 @@ class Magento_Acl_Loader_ResourceTest extends PHPUnit_Framework_TestCase
         $factoryObject = $this->getMock('Magento_Acl_ResourceFactory', array('createResource'), array(), '', false);
         $factoryObject->expects($this->any())->method('createResource')->will($this->returnValue($aclResource));
 
-        /** @var $configObject Magento_Acl_Resource_ConfigInterface */
-        $configObject = $this->getMock('Magento_Acl_Loader_Resource_ConfigReaderInterface');
-        $configObject->expects($this->once())->method('getAclResources')
-            ->will($this->returnValue(
-                include realpath(__DIR__ . '/../_files/loader/resource/configReader/xml/result.php')
-            ));
+        /** @var $resourceProvider Magento_Acl_Resource_ProviderInterface */
+        $resourceProvider = $this->getMock('Magento_Acl_Resource_ProviderInterface');
+        $resourceProvider->expects($this->once())
+            ->method('getAclResources')
+            ->will($this->returnValue(array(
+                array(
+                    'id' => 'parent_resource::id',
+                    'title' => 'Parent Resource Title',
+                    'sortOrder' => 10,
+                    'children' => array(
+                        array(
+                            'id' => 'child_resource::id',
+                            'title' => 'Child Resource Title',
+                            'sortOrder' => 10,
+                            'children' => array(),
+                        ),
+                    ),
+                ),
+            )));
 
         /** @var $loaderResource Magento_Acl_Loader_Resource */
-        $loaderResource = new Magento_Acl_Loader_Resource($configObject, $factoryObject);
+        $loaderResource = new Magento_Acl_Loader_Resource($resourceProvider, $factoryObject);
 
         $loaderResource->populateAcl($acl);
     }

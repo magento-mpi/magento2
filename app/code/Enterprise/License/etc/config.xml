@@ -10,23 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_License>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Core/>
-            </depends>
-            <depends type="soft">
-                <Mage_AdminNotification/>
-            </depends>
-            <sequence>
-                <Enterprise_Enterprise/>
-            </sequence>
-        </Enterprise_License>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

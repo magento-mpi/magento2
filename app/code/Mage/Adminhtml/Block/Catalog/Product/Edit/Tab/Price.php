@@ -22,11 +22,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Mage_Adminhtml
         $product = Mage::registry('product');
 
         $form = new Magento_Data_Form();
-        $fieldset = $form->addFieldset('tiered_price', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Tier Pricing')));
+        $fieldset = $form->addFieldset('tiered_price', array('legend' => __('Tier Pricing')));
 
         $fieldset->addField('default_price', 'label', array(
-                'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Default Price'),
-                'title'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Default Price'),
+                'label'=> __('Default Price'),
+                'title'=> __('Default Price'),
                 'name'=>'default_price',
                 'bold'=>true,
                 'value'=>$product->getPrice()

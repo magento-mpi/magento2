@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('simple_product', array(
-            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Quick simple product creation')
+            'legend' => __('Quick simple product creation')
         ));
         $this->_addElementTypes($fieldset);
         $attributesConfig = array(
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
                          . 'name="simple_product[' . $attributeCode . '_autogenerate]" value="1" '
                          . 'onclick="toggleValueElements(this, this.parentNode)" checked="checked" /> '
                          . '<label for="simple_product_' . $attributeCode . '_autogenerate" >'
-                         . Mage::helper('Mage_Catalog_Helper_Data')->__('Autogenerate')
+                         . __('Autogenerate')
                          . '</label>'
                     );
                 }
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
         /* Inventory Data */
         $fieldset->addField('simple_product_inventory_qty', 'text', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
+            'label' => __('Qty'),
             'name'  => 'stock_data[qty]',
             'class' => 'validate-number',
             'required' => true,
@@ -130,11 +130,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         ));
 
         $fieldset->addField('simple_product_inventory_is_in_stock', 'select', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Stock Availability'),
+            'label' => __('Stock Availability'),
             'name'  => 'stock_data[is_in_stock]',
             'values' => array(
-                array('value'=>1, 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('In Stock')),
-                array('value'=>0, 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Out of Stock'))
+                array('value'=>1, 'label'=> __('In Stock')),
+                array('value'=>0, 'label'=> __('Out of Stock'))
             ),
             'value' => 1
         ));

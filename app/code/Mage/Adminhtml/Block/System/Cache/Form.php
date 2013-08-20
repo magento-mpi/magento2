@@ -28,27 +28,30 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
         $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('cache_enable', array(
-            'legend' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Cache Control')
+            'legend' => __('Cache Control')
         ));
 
         $fieldset->addField('all_cache', 'select', array(
             'name'=>'all_cache',
-            'label'=>'<strong>'.Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Cache').'</strong>',
+            'label'=>'<strong>'.__('All Cache').'</strong>',
             'value'=>1,
             'options'=>array(
-                '' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('No change'),
-                'refresh' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
-                'disable' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disable'),
-                'enable' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Enable'),
+                '' => __('No change'),
+                'refresh' => __('Refresh'),
+                'disable' => __('Disable'),
+                'enable' => __('Enable'),
             ),
         ));
+
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
 
         foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
                 'name'=>'enable['.$type.']',
-                'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__($label),
+                'label'=>__($label),
                 'value'=>1,
-                'checked'=>(int)Mage::app()->useCache($type),
+                'checked'=>(int)$cacheState->isEnabled($type),
                 //'options'=>$options,
             ));
         }

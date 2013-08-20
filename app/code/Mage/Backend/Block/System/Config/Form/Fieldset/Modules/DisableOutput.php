@@ -29,6 +29,25 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected $_values;
 
     /**
+     * @var Mage_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
+     * @param Mage_Backend_Block_Context $context
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Context $context,
+        Mage_Core_Model_ModuleListInterface $moduleList,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_moduleList = $moduleList;
+    }
+
+    /**
      * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
@@ -36,7 +55,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     {
         $html = $this->_getHeaderHtml($element);
 
-        $modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
+        $modules = array_keys($this->_moduleList->getModules());
 
         $dispatchResult = new Magento_Object($modules);
         $this->_eventManager->dispatch('adminhtml_system_config_advanced_disableoutput_render_before',
@@ -86,8 +105,8 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     {
         if (empty($this->_values)) {
             $this->_values = array(
-                array('label' => $this->helper('Mage_Backend_Helper_Data')->__('Enable'), 'value' => 0),
-                array('label' => $this->helper('Mage_Backend_Helper_Data')->__('Disable'), 'value' => 1),
+                array('label' => __('Enable'), 'value' => 0),
+                array('label' => __('Disable'), 'value' => 1),
             );
         }
         return $this->_values;

@@ -25,15 +25,15 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($fieldName) {
             case Mage_Centinel_Model_Service::CMPI_PARES:
-               return $this->__('3D Secure Verification Result');
+               return __('3D Secure Verification Result');
             case Mage_Centinel_Model_Service::CMPI_ENROLLED:
-               return $this->__('3D Secure Cardholder Validation');
+               return __('3D Secure Cardholder Validation');
             case Mage_Centinel_Model_Service::CMPI_ECI:
-               return $this->__('3D Secure Electronic Commerce Indicator');
+               return __('3D Secure Electronic Commerce Indicator');
             case Mage_Centinel_Model_Service::CMPI_CAVV:
-               return $this->__('3D Secure CAVV');
+               return __('3D Secure CAVV');
             case Mage_Centinel_Model_Service::CMPI_XID:
-               return $this->__('3D Secure XID');
+               return __('3D Secure XID');
         }
         return '';
     }
@@ -72,11 +72,11 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
         switch ($value) {
             case '01':
             case '07':
-                return $this->__('Merchant Liability');
+                return __('Merchant Liability');
             case '02':
             case '05':
             case '06':
-                return $this->__('Card Issuer Liability');
+                return __('Card Issuer Liability');
             default:
                 return $value;
         }
@@ -92,12 +92,12 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($value) {
             case 'Y':
-                return $this->__('Enrolled');
+                return __('Enrolled');
             case 'U':
-                return $this->__('Enrolled but Authentication Unavailable');
+                return __('Enrolled but Authentication Unavailable');
             case 'N': // break intentionally omitted
             default:
-                return $this->__('Not Enrolled');
+                return __('Not Enrolled');
         }
     }
 
@@ -111,13 +111,13 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($value) {
             case 'Y':
-                return $this->__('Successful');
+                return __('Successful');
             case 'N':
-                return $this->__('Failed');
+                return __('Failed');
             case 'U':
-                return $this->__('Unable to complete');
+                return __('Unable to complete');
             case 'A':
-                return $this->__('Successful attempt');
+                return __('Successful attempt');
             default:
                 return $value;
         }

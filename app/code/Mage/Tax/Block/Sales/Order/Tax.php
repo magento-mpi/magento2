@@ -134,13 +134,13 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
                 'code'      => 'subtotal_excl',
                 'value'     => $subtotal,
                 'base_value'=> $baseSubtotal,
-                'label'     => $this->__('Subtotal (Excl.Tax)')
+                'label'     => __('Subtotal (Excl.Tax)')
             ));
             $totalIncl = new Magento_Object(array(
                 'code'      => 'subtotal_incl',
                 'value'     => $subtotalIncl,
                 'base_value'=> $baseSubtotalIncl,
-                'label'     => $this->__('Subtotal (Incl.Tax)')
+                'label'     => __('Subtotal (Incl.Tax)')
             ));
             $parent->addTotal($totalExcl, 'subtotal');
             $parent->addTotal($totalIncl, 'subtotal_excl');
@@ -194,13 +194,13 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
                 'code'      => 'shipping',
                 'value'     => $shipping,
                 'base_value'=> $baseShipping,
-                'label'     => $this->__('Shipping & Handling (Excl.Tax)')
+                'label'     => __('Shipping & Handling (Excl.Tax)')
             ));
             $totalIncl = new Magento_Object(array(
                 'code'      => 'shipping_incl',
                 'value'     => $shippingIncl,
                 'base_value'=> $baseShippingIncl,
-                'label'     => $this->__('Shipping & Handling (Incl.Tax)')
+                'label'     => __('Shipping & Handling (Incl.Tax)')
             ));
             $parent->addTotal($totalExcl, 'shipping');
             $parent->addTotal($totalIncl, 'shipping');
@@ -256,14 +256,14 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
                 'strong'    => true,
                 'value'     => $grandtotalExcl,
                 'base_value'=> $baseGrandtotalExcl,
-                'label'     => $this->__('Grand Total (Excl.Tax)')
+                'label'     => __('Grand Total (Excl.Tax)')
             ));
             $totalIncl = new Magento_Object(array(
                 'code'      => 'grand_total_incl',
                 'strong'    => true,
                 'value'     => $grandtotal,
                 'base_value'=> $baseGrandtotal,
-                'label'     => $this->__('Grand Total (Incl.Tax)')
+                'label'     => __('Grand Total (Incl.Tax)')
             ));
             $parent->addTotal($totalExcl, 'grand_total');
             $this->_addTax('grand_total');

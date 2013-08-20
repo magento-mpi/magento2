@@ -24,6 +24,6 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tabs extends Mage_Adminhtml_Block_
         parent::_construct();
         $this->setId('promo_catalog_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_CatalogRule_Helper_Data')->__('Catalog Price Rule'));
+        $this->setTitle(__('Catalog Price Rule'));
     }
 }

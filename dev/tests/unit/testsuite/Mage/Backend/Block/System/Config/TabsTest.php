@@ -40,8 +40,7 @@ class Mage_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_TestCa
         $this->_structureMock->expects($this->once())->method('getTabs')->will($this->returnValue(array()));
         $this->_urlBuilderMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array('__', 'addPageHelpUrl'), array(), '', false);
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $helperMock = $this->getMock('Mage_Core_Helper_Data', array('addPageHelpUrl'), array(), '', false);
         $helperMock->expects($this->once())->method('addPageHelpUrl')->with('currentSectionId/');
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
 

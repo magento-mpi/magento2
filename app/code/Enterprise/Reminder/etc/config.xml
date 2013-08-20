@@ -10,31 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Reminder>
-            <version>1.11.0.2</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_Cron/>
-                <Mage_Customer/>
-                <Mage_Eav/>
-                <Mage_SalesRule/>
-                <Mage_Rule/>
-                <Enterprise_Enterprise/>
-            </depends>
-            <sequence>
-                <Mage_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Checkout/>
-                <Mage_Wishlist/>
-                <Mage_SalesRule/>
-                <Mage_Rule/>
-            </sequence>
-        </Enterprise_Reminder>
-    </modules>
     <global>
         <resources>
             <enterprise_reminder_setup>

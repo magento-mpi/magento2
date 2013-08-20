@@ -187,34 +187,6 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $subscription->getId());
     }
 
-    public function testValidateOwnershipPass()
-    {
-        /** @var Mage_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Mage_Webhook_Model_Subscription');
-        $subscription->setData($this->_subscriptionData);
-        $subscription->save();
-
-        /** @var Mage_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Mage_Webhook_Service_SubscriptionV1');
-        $service->validateOwnership($this->_apiUserId, $subscription->getId());
-    }
-
-    /**
-     * @expectedException Mage_Webhook_Exception
-     * @expectedExceptionMessage permission
-     */
-    public function testValidateOwnershipFail()
-    {
-        /** @var Mage_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Mage_Webhook_Model_Subscription');
-        $subscription->setData($this->_subscriptionData);
-        $subscription->save();
-
-        /** @var Mage_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Mage_Webhook_Service_SubscriptionV1');
-        $service->validateOwnership($this->_apiUserId + 42, $subscription->getId());
-    }
-
     public function testActivate()
     {
         /** @var Mage_Webhook_Model_Subscription $subscription */

@@ -10,28 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Backend>
-            <version>2.0.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_AdminNotification/>
-                <Mage_Core/>
-                <Mage_Eav/>
-                <Mage_Directory/>
-                <Mage_Catalog/>
-                <Mage_Cron/>
-                <Mage_Sendfriend/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Directory />
-            </sequence>
-        </Mage_Backend>
-    </modules>
     <global>
         <areas>
             <adminhtml>
@@ -45,13 +23,6 @@
                 <auth />
             </adminhtml>
         </areas>
-        <cache>
-            <types>
-                <config translate="description" module="Mage_Backend">
-                    <description>System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).</description>
-                </config>
-            </types>
-        </cache>
     </global>
     <admin>
         <routers>

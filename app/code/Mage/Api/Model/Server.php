@@ -50,7 +50,7 @@ class Mage_Api_Model_Server
         $method = $aliases[$alias][1];
 
         if (!method_exists($object, $method)) {
-            Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Can not find webservice adapter.'));
+            Mage::throwException(__('Can not find webservice adapter.'));
         }
         return $object->$method();
     }
@@ -90,7 +90,7 @@ class Mage_Api_Model_Server
             $adapterModel = Mage::getModel((string) $adapters[$adapterCode]->model);
 
             if (!($adapterModel instanceof Mage_Api_Model_Server_Adapter_Soap)) {
-                Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Please correct the webservice adapter specified.'));
+                Mage::throwException(__('Please correct the webservice adapter specified.'));
             }
             $this->_adapter = $adapterModel;
             $this->_api     = $adapterCode;
@@ -102,13 +102,13 @@ class Mage_Api_Model_Server
             $handlers = $helper->getHandlers();
 
             if (!isset($handlers->$handler)) {
-                Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Please correct the webservice handler specified.'));
+                Mage::throwException(__('Please correct the webservice handler specified.'));
             }
             $handlerClassName = (string) $handlers->$handler->model;
 
             $this->_adapter->setHandler($handlerClassName);
         } else {
-            Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Please correct the webservice adapter specified.'));
+            Mage::throwException(__('Please correct the webservice adapter specified.'));
         }
         return $this;
     }

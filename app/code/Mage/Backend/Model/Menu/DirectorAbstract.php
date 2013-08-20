@@ -10,34 +10,27 @@
 abstract class Mage_Backend_Model_Menu_DirectorAbstract
 {
     /**
-     * Configuration data
-     * @var
-     */
-    protected $_configModel;
-
-    /**
      * Factory model
-     * @var Magento_ObjectManager
+     * @var Mage_Backend_Model_Menu_Builder_CommandFactory
      */
-    protected $_factory;
+    protected $_commandFactory;
 
     /**
-     * @param $menuConfig
-     * @param Magento_ObjectManager $factory
+     * @param Mage_Backend_Model_Menu_Builder_CommandFactory $factory
      */
-    public function __construct(
-        $menuConfig,
-        Magento_ObjectManager $factory
-    ) {
-        $this->_configModel = $menuConfig;
-        $this->_factory = $factory;
+    public function __construct(Mage_Backend_Model_Menu_Builder_CommandFactory $factory)
+    {
+        $this->_commandFactory = $factory;
     }
 
     /**
-     * Apply menu commands to builder object
-     * @abstract
-     * @param  Mage_Backend_Model_Menu_Builder $builder
-     * @return Mage_Backend_Model_Menu_DirectorAbstract
+     * Build menu instance
+     *
+     * @param array $config
+     * @param Mage_Backend_Model_Menu_Builder $builder
+     * @param Mage_Core_Model_Logger $logger
      */
-    abstract public function buildMenu(Mage_Backend_Model_Menu_Builder $builder);
+    abstract public function direct(
+        array $config, Mage_Backend_Model_Menu_Builder $builder, Mage_Core_Model_Logger $logger
+    );
 }

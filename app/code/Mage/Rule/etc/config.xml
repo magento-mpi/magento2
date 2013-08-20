@@ -10,22 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Rule>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Eav/>
-                <Mage_Catalog/>
-                <Mage_CatalogRule/>
-                <Mage_Adminhtml/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-            </sequence>
-        </Mage_Rule>
-    </modules>
     <adminhtml>
         <translate>
             <modules>

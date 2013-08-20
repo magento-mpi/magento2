@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Pci>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Api/>
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_User/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml />
-                <Mage_Customer />
-                <Mage_Api />
-            </sequence>
-        </Enterprise_Pci>
-    </modules>
     <global>
         <helpers>
             <core>
@@ -141,4 +123,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

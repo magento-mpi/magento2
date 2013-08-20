@@ -13,10 +13,23 @@
  */
 class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Model_Resource_Item_Collection
 {
-    public function __construct($resource = null)
-    {
-        $resource = $resource ?: Mage::getResourceSingleton('Mage_Wishlist_Model_Resource_Item');
-        parent::__construct($resource);
+    /**
+     * @var Mage_Core_Model_Registry
+     */
+    protected $_registryManager;
+
+    /**
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_Resource_Db_Abstract $resource
+    ) {
+        $this->_registryManager = $registry;
+        parent::__construct($fetchStrategy, $resource);
     }
 
     /**
@@ -27,7 +40,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Mo
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addCustomerIdFilter(Mage::registry('current_customer')->getId())
+        $this->addCustomerIdFilter($this->_registryManager->registry('current_customer')->getId())
         ->resetSortOrder()
         ->addDaysInWishlist()
         ->addStoreData();

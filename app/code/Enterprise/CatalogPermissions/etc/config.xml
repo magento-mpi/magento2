@@ -10,32 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_CatalogPermissions>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Index/>
-                <Mage_Eav/>
-            </depends>
-            <depends type="soft">
-                <Mage_CatalogSearch/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogSearch/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-                <Enterprise_WebsiteRestriction/>
-            </sequence>
-        </Enterprise_CatalogPermissions>
-    </modules>
     <global>
         <resources>
             <enterprise_catalogpermissions_setup>
@@ -326,7 +300,7 @@
                 <grant_catalog_product_price>0</grant_catalog_product_price>
                 <grant_checkout_items>0</grant_checkout_items>
                 <restricted_landing_page>no-route</restricted_landing_page>
-                <deny_catalog_search/>
+                <deny_catalog_search />
                 <enabled>0</enabled>
             </enterprise_catalogpermissions>
         </catalog>

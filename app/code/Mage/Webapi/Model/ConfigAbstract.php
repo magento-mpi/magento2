@@ -253,8 +253,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
             if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])
                 && isset($deprecationPolicy['use_version'])
             ) {
-                $messageUseMethod = $this->_helper
-                    ->__('Please use version "%s" of "%s" method in "%s" resource instead.',
+                $messageUseMethod = __('Please use version "%1" of "%2" method in "%3" resource instead.',
                     $deprecationPolicy['use_version'],
                     $deprecationPolicy['use_method'],
                     $deprecationPolicy['use_resource']
@@ -265,16 +264,14 @@ abstract class Mage_Webapi_Model_ConfigAbstract
 
             $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
-                $removalMessage = $this->_helper
-                    ->__('Version "%s" of "%s" method in "%s" resource was removed.',
+                $removalMessage = __('Version "%1" of "%2" method in "%3" resource was removed.',
                     $resourceVersion,
                     $method,
                     $resourceName
                 );
                 throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
             } elseif (isset($deprecationPolicy['deprecated']) && $this->_application->isDeveloperMode()) {
-                $deprecationMessage = $this->_helper
-                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
+                $deprecationMessage = __('Version "%1" of "%2" method in "%3" resource is deprecated.',
                     $resourceVersion,
                     $method,
                     $resourceName
@@ -327,8 +324,8 @@ abstract class Mage_Webapi_Model_ConfigAbstract
             }
             $methodVersion--;
         }
-        throw new Mage_Webapi_Exception($this->_helper
-                ->__('The "%s" operation is not implemented in version %s', $operationName, $requestedVersion),
+        throw new Mage_Webapi_Exception(
+            __('The "%1" operation is not implemented in version %2', $operationName, $requestedVersion),
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
     }
@@ -345,12 +342,12 @@ abstract class Mage_Webapi_Model_ConfigAbstract
         $maxVersion = $this->getResourceMaxVersion($resourceName);
         if ((int)$version > $maxVersion) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('The maximum version of the requested resource is "%s".', $maxVersion),
+                __('The maximum version of the requested resource is "%1".', $maxVersion),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } elseif ((int)$version < self::VERSION_MIN) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Resource version cannot be lower than "%s".', self::VERSION_MIN),
+                __('Resource version cannot be lower than "%1".', self::VERSION_MIN),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -422,11 +419,11 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     protected function _checkIfResourceVersionExists($resourceName, $resourceVersion)
     {
         if (!isset($this->_data['resources'][$resourceName])) {
-            throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
+            throw new RuntimeException(__('Unknown resource "%1".', $resourceName));
         }
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
-            throw new RuntimeException($this->_helper->__(
-                'Unknown version "%s" for resource "%s".',
+            throw new RuntimeException(__(
+                'Unknown version "%1" for resource "%2".',
                 $resourceVersion,
                 $resourceName
             ));

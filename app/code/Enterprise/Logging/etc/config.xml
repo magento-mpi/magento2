@@ -10,27 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Logging>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Core/>
-                <Mage_User/>
-                <Enterprise_Pci/>
-            </depends>
-            <depends type="soft">
-                <Mage_Customer/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml/>
-                <Mage_Sales/>
-                <Mage_Catalog/>
-            </sequence>
-        </Enterprise_Logging>
-    </modules>
     <global>
         <resources>
             <enterprise_logging_setup>

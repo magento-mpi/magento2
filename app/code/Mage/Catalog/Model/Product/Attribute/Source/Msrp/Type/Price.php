@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
         if (!$this->_options) {
             $this->_options = parent::getAllOptions();
             $this->_options[] = array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use config'),
+                'label' => __('Use config'),
                 'value' => self::TYPE_USE_CONFIG
             );
         }

@@ -10,36 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Rma>
-            <version>1.11.0.11</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Sales/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Adminhtml/>
-                <Mage_Eav/>
-                <Enterprise_Eav/>
-                <Mage_Backend/>
-                <Mage_Tax/>
-                <Mage_Shipping/>
-                <Mage_Usa/>
-                <Mage_Page/>
-                <Mage_Payment/>
-                <Mage_Directory/>
-                <Enterprise_Enterprise/>
-            </depends>
-            <depends type="soft">
-                <Enterprise_Customer/>
-            </depends>
-            <sequence>
-                <Mage_Customer/>
-                <Mage_Sales/>
-            </sequence>
-        </Enterprise_Rma>
-    </modules>
     <global>
         <resources>
             <enterprise_rma_setup>
@@ -173,8 +143,7 @@
                 </Enterprise_Rma>
             </modules>
         </translate>
-        <events>
-        </events>
+        <events></events>
     </adminhtml>
     <frontend>
         <translate>
@@ -195,7 +164,6 @@
                 </args>
             </enterprise_rma>
         </routers>
-        <events>
-        </events>
+        <events></events>
     </frontend>
 </config>

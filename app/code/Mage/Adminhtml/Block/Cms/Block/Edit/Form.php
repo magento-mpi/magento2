@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
     {
         parent::_construct();
         $this->setId('block_form');
-        $this->setTitle(Mage::helper('Mage_Cms_Helper_Data')->__('Block Information'));
+        $this->setTitle(__('Block Information'));
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $form->setHtmlIdPrefix('block_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('General Information'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information'), 'class' => 'fieldset-wide'));
 
         if ($model->getBlockId()) {
             $fieldset->addField('block_id', 'hidden', array(
@@ -60,15 +60,15 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Block Title'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Block Title'),
+            'label'     => __('Block Title'),
+            'title'     => __('Block Title'),
             'required'  => true,
         ));
 
         $fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Identifier'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Identifier'),
+            'label'     => __('Identifier'),
+            'title'     => __('Identifier'),
             'required'  => true,
             'class'     => 'validate-xml-identifier',
         ));
@@ -79,8 +79,8 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         if (!Mage::app()->isSingleStoreMode()) {
             $field =$fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
-                'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'label'     => __('Store View'),
+                'title'     => __('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
@@ -96,13 +96,13 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
+            'title'     => __('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('Mage_Cms_Helper_Data')->__('Enabled'),
-                '0' => Mage::helper('Mage_Cms_Helper_Data')->__('Disabled'),
+                '1' => __('Enabled'),
+                '0' => __('Disabled'),
             ),
         ));
         if (!$model->getId()) {
@@ -111,8 +111,8 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
         $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content'),
+            'label'     => __('Content'),
+            'title'     => __('Content'),
             'style'     => 'height:36em',
             'required'  => true,
             'config'    => Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig()

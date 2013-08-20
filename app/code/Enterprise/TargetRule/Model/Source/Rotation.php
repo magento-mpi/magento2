@@ -20,9 +20,9 @@ class Enterprise_TargetRule_Model_Source_Rotation
     {
         return array(
             Enterprise_TargetRule_Model_Rule::ROTATION_NONE =>
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Do not rotate'),
+                __('Do not rotate'),
             Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE =>
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Shuffle'),
+                __('Shuffle'),
         );
     }
 

@@ -22,6 +22,10 @@ class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_Inli
     protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
 
     /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+    /**
      * Indicator to hold state of whether inline translation is allowed
      *
      * @var bool
@@ -46,9 +50,11 @@ class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_Inli
      * @param Mage_Core_Model_Translate_InlineParser $parser
      */
     public function __construct(
-        Mage_Core_Model_Translate_InlineParser $parser
+        Mage_Core_Model_Translate_InlineParser $parser,
+        Mage_Core_Model_Translate $translate
     ) {
         $this->_parser = $parser;
+        $this->_translator = $translate;
     }
 
     /**
@@ -74,7 +80,7 @@ class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_Inli
             }
             $this->_isAllowed = $active && $this->_parser->getHelper()->isDevAllowed($store);
         }
-        return $this->_parser->getHelper()->getTranslator()->getTranslateInline() && $this->_isAllowed;
+        return $this->_translator->getTranslateInline() && $this->_isAllowed;
     }
 
     /**

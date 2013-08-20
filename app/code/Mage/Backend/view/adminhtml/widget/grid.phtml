@@ -49,15 +49,15 @@ $numColumns = sizeof($this->getColumns());
             <?php if ($this->getPagerVisibility()): ?>
             <div class="pager">
                 <label>
-                    <?php echo $this->__('Page') ?>
+                    <?php echo __('Page') ?>
 
                     <?php $_curPage = $this->getCollection()->getCurPage() ?>
                     <?php $_lastPage = $this->getCollection()->getLastPageNumber() ?>
 
                     <?php if ($_curPage > 1): ?>
-                        <a href="#" title="<?php echo $this->__('Previous page') ?>" class="action-previous" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage - 1) ?>');return false;"><?php echo $this->__('Previous page') ?></a>
+                        <a href="#" title="<?php echo __('Previous page') ?>" class="action-previous" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage - 1) ?>');return false;"><?php echo __('Previous page') ?></a>
                     <?php else: ?>
-                        <span class="action-previous disabled"><?php echo $this->__('Previous page') ?></span>
+                        <span class="action-previous disabled"><?php echo __('Previous page') ?></span>
                     <?php endif; ?>
 
                     <input type="text" name="<?php echo $this->getVarNamePage() ?>" value="<?php echo $_curPage ?>"
@@ -66,15 +66,15 @@ $numColumns = sizeof($this->getColumns());
                 </label>
 
                 <?php if ($_curPage < $_lastPage): ?>
-                    <a href="#" title="<?php echo $this->__('Next page') ?>" class="action-next" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage + 1) ?>');return false;"><?php echo $this->__('Next page') ?></a>
+                    <a href="#" title="<?php echo __('Next page') ?>" class="action-next" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage + 1) ?>');return false;"><?php echo __('Next page') ?></a>
                 <?php else: ?>
-                    <span class="action-next disabled"><?php echo $this->__('Next page') ?></span>
+                    <span class="action-next disabled"><?php echo __('Next page') ?></span>
                 <?php endif; ?>
 
-                <?php echo $this->__('of %s pages', $this->getCollection()->getLastPageNumber()) ?>
+                <?php echo __('of %1 pages', $this->getCollection()->getLastPageNumber()) ?>
                 <span class="separator">|</span>
                 <label>
-                    <?php echo $this->__('View') ?>
+                    <?php echo __('View') ?>
                     <select name="<?php echo $this->getVarNameLimit() ?>"
                             onchange="<?php echo $this->getJsObjectName() ?>.loadByElement(this)" <?php echo $this->getUiId('per-page') ?>>
                         <option value="20"<?php if ($this->getCollection()->getPageSize() == 20): ?>
@@ -94,10 +94,10 @@ $numColumns = sizeof($this->getColumns());
                         </option>
                     </select>
                 </label>
-                <?php echo $this->__('per page') ?>
+                <?php echo __('per page') ?>
                 <span class="separator">|</span>
                 <?php $countRecords = $this->getCollection()->getSize(); ?>
-                <?php echo $this->__('Total %d records found', $countRecords) ?>
+                <?php echo __('Total %1 records found', $countRecords) ?>
                 <span id="<?php echo $this->getHtmlId() ?>-total-count"
                       class="total-count no-display"<?php echo $this->getUiId('total-count') ?>><?php echo $countRecords ?></span>
                 <?php if ($this->getRssLists()): ?>
@@ -137,7 +137,7 @@ $numColumns = sizeof($this->getColumns());
 </div>
 <script type="text/javascript">
         <?php echo $this->getJsObjectName() ?>= new varienGrid('<?php echo $this->getId() ?>', '<?php echo $this->getGridUrl() ?>', '<?php echo $this->getVarNamePage() ?>', '<?php echo $this->getVarNameSort() ?>', '<?php echo $this->getVarNameDir() ?>', '<?php echo $this->getVarNameFilter() ?>');
-        <?php echo $this->getJsObjectName() ?>.useAjax = '<?php echo $this->getUseAjax() ?>';
+        <?php echo $this->getJsObjectName() ?>.useAjax = <?php echo $this->getUseAjax() ? 'true' : 'false' ?>;
         <?php if ($this->getRowClickCallback()): ?>
         <?php echo $this->getJsObjectName() ?>.rowClickCallback = <?php echo $this->getRowClickCallback() ?>;
         <?php endif; ?>

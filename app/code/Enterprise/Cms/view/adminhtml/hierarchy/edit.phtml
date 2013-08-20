@@ -28,7 +28,7 @@
         <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
         <div class="cms-scope">
             <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-            <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use the parent node hierarchy.') ?></label>
+            <label for="use_default_scope"><?php echo __('Use the parent node hierarchy.') ?></label>
         </div>
         <?php endif; ?>
 
@@ -61,7 +61,7 @@
 
     function deleteCurrentHierarchy()
     {
-        if (confirm(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Are you sure you want to delete current hierarchy?")); ?>)) {
+        if (confirm(<?php echo json_encode(__("Are you sure you want to delete current hierarchy?")); ?>)) {
             document.location = '<?php echo $this->getDeleteHierarchyUrl() ?>';
         }
     }
@@ -334,7 +334,7 @@
             for (var i=0, l = parent.childNodes.length; i < l; i++) {
                 var comparedNode = parent.childNodes[i];
                 if (comparedNode.id != currentId && comparedNode.attributes.identifier == currentUrlKey) {
-                    alert('<?php echo $this->jsQuoteEscape($this->__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.'))?>');
+                    alert('<?php echo $this->jsQuoteEscape(__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.'))?>');
                     return false;
                 }
             }
@@ -429,7 +429,7 @@
             }
 
             //if (this.dataModification) {
-            //    if (!confirm('<?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
+            //    if (!confirm('<?php echo __('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
             //        return;
             //    }
             //}
@@ -553,7 +553,7 @@
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
                     var comparedNode = node.parentNode.childNodes[i];
                     if (comparedNode.id != node_id && identifier == comparedNode.attributes.identifier) {
-                        alert('<?php echo $this->jsQuoteEscape($this->__('This URL key is already in use.'))?>');
+                        alert('<?php echo $this->jsQuoteEscape(__('This URL key is already in use.'))?>');
                         return false;
                     }
                 }
@@ -741,7 +741,7 @@
             });
 
             var allowedTypes = this.menuListTypes[listType];
-            this.addOptionToSelect('menu_list_type', '', '<?php echo $this->__('Default') ?>');
+            this.addOptionToSelect('menu_list_type', '', '<?php echo __('Default') ?>');
             if (allowedTypes) {
                 Object.keys(allowedTypes).each(function(k) {
                     this.addOptionToSelect('menu_list_type', k, allowedTypes[k]);
@@ -931,7 +931,7 @@
         <div class="entry-edit">
             <div class="fieldset-wrapper">
                 <div class="fieldset-wrapper-title">
-                    <strong class="title"><span><?php echo $this->__('CMS Pages')?></span></strong>
+                    <strong class="title"><span><?php echo __('CMS Pages')?></span></strong>
                     <div class="actions">
                         <?php echo $this->getPageGridButtonsHtml() ?>
                     </div>

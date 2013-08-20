@@ -10,33 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Reward>
-            <version>1.11.0.2</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Checkout/>
-                <Mage_Adminhtml/>
-                <Mage_Page/>
-                <Mage_Backend/>
-                <Mage_Sales/>
-                <Mage_SalesRule/>
-                <Mage_Paypal/>
-                <Mage_Newsletter/>
-                <Mage_Cms/>
-                <Enterprise_Invitation/>
-            </depends>
-            <depends type="soft">
-                <Mage_Review/>
-            </depends>
-            <sequence>
-                <Mage_Customer />
-                <Mage_Checkout />
-            </sequence>
-        </Enterprise_Reward>
-    </modules>
     <global>
         <resources>
             <enterprise_reward_setup>

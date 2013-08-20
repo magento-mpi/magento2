@@ -52,27 +52,17 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
     protected $_elementsFactory;
 
     /**
-     * Helper
-     *
-     * @var Mage_DesignEditor_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
-     * @param Mage_DesignEditor_Helper_Data $helper
      * @param array $attributes
      */
     public function __construct(
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
-        Mage_DesignEditor_Helper_Data $helper,
         $attributes = array()
     ) {
         $this->_elementsFactory = $elementsFactory;
         $this->_rendererFactory = $rendererFactory;
-        $this->_helper = $helper;
 
         parent::__construct($attributes);
     }
@@ -138,8 +128,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
         $components = $this->getComponents();
         $componentId = $this->getComponentId($type);
         if (!isset($components[$componentId])) {
-            throw new Mage_Core_Exception($this->_helper->__(
-                'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
+            throw new Mage_Core_Exception(__(
+                'Component of the type "%1" is not found between elements of "%2"', $type, $this->getData('name')
             ));
         }
         $component = $components[$componentId];

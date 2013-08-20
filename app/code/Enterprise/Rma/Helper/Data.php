@@ -129,7 +129,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
             $orderId = $orderId->getId();
         }
         if (!is_numeric($orderId)) {
-            Mage::throwException($this->__('This is not a valid order.'));
+            Mage::throwException(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
             $this->_orderItems[$orderId] = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
@@ -312,7 +312,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getContactEmailLabel()
     {
-        return $this->__('Contact Email Address');
+        return __('Contact Email Address');
     }
 
     /**

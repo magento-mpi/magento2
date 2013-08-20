@@ -10,40 +10,13 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Downloadable>
-            <version>1.6.0.0.3</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_CatalogInventory/>
-                <Mage_Adminhtml/>
-                <Mage_Tax/>
-                <Mage_Page/>
-                <Mage_Eav/>
-                <Mage_Backend/>
-                <Mage_Sales/>
-                <Mage_GiftMessage/>
-                <Mage_Checkout/>
-                <Mage_Directory/>
-                <Mage_Api/>
-                <Mage_Weee/>
-                <Mage_Wishlist/>
-            </depends>
-            <sequence>
-                <Mage_Catalog />
-            </sequence>
-        </Mage_Downloadable>
-    </modules>
     <global>
         <sales>
             <quote>
                 <item>
                     <product_attributes>
-                        <links_purchased_separately/>
-                        <links_title/>
+                        <links_purchased_separately />
+                        <links_title />
                     </product_attributes>
                 </item>
             </quote>
@@ -59,7 +32,7 @@
         <catalog>
             <product>
                 <type>
-                    <downloadable translate="label" module="Mage_Downloadable">
+                    <downloadable translate="label">
                         <label>Downloadable Product</label>
                         <model>Mage_Downloadable_Model_Product_Type</model>
                         <is_qty>1</is_qty>
@@ -70,12 +43,12 @@
                     </downloadable>
                     <configurable>
                         <allow_product_types>
-                            <downloadable/>
+                            <downloadable />
                         </allow_product_types>
                     </configurable>
                     <grouped>
                         <allow_product_types>
-                            <downloadable/>
+                            <downloadable />
                         </allow_product_types>
                     </grouped>
                 </type>
@@ -111,7 +84,7 @@
             <order>
                 <create>
                     <available_product_types>
-                        <downloadable/>
+                        <downloadable />
                     </available_product_types>
                 </create>
             </order>

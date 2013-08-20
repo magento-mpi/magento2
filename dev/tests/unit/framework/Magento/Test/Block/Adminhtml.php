@@ -87,6 +87,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
         $viewFileSystemMock         = $this->_makeMock('Mage_Core_Model_View_FileSystem');
         $templateFactoryMock        = $this->_makeMock('Mage_Core_Model_TemplateEngine_Factory');
         $authorizationMock          = $this->_makeMock('Magento_AuthorizationInterface');
+        $cacheStateMock             = $this->_makeMock('Mage_Core_Model_Cache_StateInterface');
 
         $this->_translatorMock
             ->expects($this->any())
@@ -107,6 +108,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
             $this->_helperFactoryMock,
             $viewUrlMock,
             $viewConfigMock,
+            $cacheStateMock,
             $this->_dirMock,
             $this->_loggerMock,
             $this->_filesystemMock,

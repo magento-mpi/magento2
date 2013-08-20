@@ -105,8 +105,8 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      */
     public function refund(Magento_Object $payment, $amount)
     {
-        $reason = $this->getReason() ? $this->getReason() : Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('No Reason');
-        $comment = $this->getComment() ? $this->getComment() : Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('No Comment');
+        $reason = $this->getReason() ? $this->getReason() : __('No Reason');
+        $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
         $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
@@ -131,8 +131,8 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     public function cancel(Magento_Object $payment)
     {
         if (!$payment->getOrder()->getBeingCanceledFromGoogleApi()) {
-            $reason = $this->getReason() ? $this->getReason() : Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('Unknown Reason');
-            $comment = $this->getComment() ? $this->getComment() : Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('No Comment');
+            $reason = $this->getReason() ? $this->getReason() : __('Unknown Reason');
+            $comment = $this->getComment() ? $this->getComment() : __('No Comment');
 
             $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
             $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);

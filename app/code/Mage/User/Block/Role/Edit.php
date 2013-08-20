@@ -15,7 +15,7 @@ class Mage_User_Block_Role_Edit extends Mage_Backend_Block_Widget_Tabs
         parent::_construct();
         $this->setId('role_info_tabs');
         $this->setDestElementId('role-edit-form');
-        $this->setTitle(Mage::helper('Mage_User_Helper_Data')->__('Role Information'));
+        $this->setTitle(__('Role Information'));
     }
 
     protected function _prepareLayout()
@@ -32,8 +32,8 @@ class Mage_User_Block_Role_Edit extends Mage_Backend_Block_Widget_Tabs
 
         if ($role->getId()) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('Mage_User_Helper_Data')->__('Role Users'),
-                'title'     => Mage::helper('Mage_User_Helper_Data')->__('Role Users'),
+                'label'     => __('Role Users'),
+                'title'     => __('Role Users'),
                 'content'   => $this->getLayout()
                     ->createBlock('Mage_User_Block_Role_Tab_Users', 'role.users.grid')
                     ->toHtml(),

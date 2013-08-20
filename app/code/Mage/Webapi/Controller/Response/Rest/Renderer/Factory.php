@@ -22,9 +22,6 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
     /** @var Mage_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
 
@@ -33,18 +30,15 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
      *
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Webapi_Controller_Request_Rest $request
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config $applicationConfig,
-        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Request_Rest $request
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
-        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_request = $request;
     }
 
@@ -77,7 +71,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
         if (!isset($rendererClass)) {
             /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Server cannot understand Accept HTTP header media type.'),
+                __('Server cannot understand Accept HTTP header media type.'),
                 Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
             );
         }

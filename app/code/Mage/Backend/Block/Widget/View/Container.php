@@ -31,13 +31,13 @@ class Mage_Backend_Block_Widget_View_Container extends Mage_Backend_Block_Widget
         parent::_construct();
 
         $this->_addButton('back', array(
-            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),
+            'label'     => __('Back'),
             'onclick'   => 'window.location.href=\'' . $this->getUrl('*/*/') . '\'',
             'class'     => 'back',
         ));
 
         $this->_addButton('edit', array(
-            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Edit'),
+            'label'     => __('Edit'),
             'class'     => 'edit',
             'onclick'   => 'window.location.href=\'' . $this->getEditUrl() . '\'',
         ));

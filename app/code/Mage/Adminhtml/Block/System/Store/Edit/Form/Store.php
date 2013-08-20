@@ -29,13 +29,13 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_B
             $storeModel->setData($postData['store']);
         }
         $fieldset = $form->addFieldset('store_fieldset', array(
-            'legend' => Mage::helper('Mage_Core_Helper_Data')->__('Store View Information')
+            'legend' => __('Store View Information')
         ));
 
         if (Mage::registry('store_action') == 'edit' || Mage::registry('store_action') == 'add' ) {
             $fieldset->addField('store_group_id', 'select', array(
                 'name'      => 'store[group_id]',
-                'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
+                'label'     => __('Store'),
                 'value'     => $storeModel->getGroupId(),
                 'values'    => $this->_getStoreGroups(),
                 'required'  => true,
@@ -62,14 +62,14 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_B
 
         $fieldset->addField('store_name', 'text', array(
             'name'      => 'store[name]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Name'),
+            'label'     => __('Name'),
             'value'     => $storeModel->getName(),
             'required'  => true,
             'disabled'  => $storeModel->isReadOnly(),
         ));
         $fieldset->addField('store_code', 'text', array(
             'name'      => 'store[code]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Code'),
+            'label'     => __('Code'),
             'value'     => $storeModel->getCode(),
             'required'  => true,
             'disabled'  => $storeModel->isReadOnly(),
@@ -77,18 +77,18 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_B
 
         $fieldset->addField('store_is_active', 'select', array(
             'name'      => 'store[is_active]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
             'value'     => $storeModel->getIsActive(),
             'options'   => array(
-                0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disabled'),
-                1 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Enabled')),
+                0 => __('Disabled'),
+                1 => __('Enabled')),
             'required'  => true,
             'disabled'  => $storeModel->isReadOnly(),
         ));
 
         $fieldset->addField('store_sort_order', 'text', array(
             'name'      => 'store[sort_order]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Sort Order'),
+            'label'     => __('Sort Order'),
             'value'     => $storeModel->getSortOrder(),
             'required'  => false,
             'disabled'  => $storeModel->isReadOnly(),

@@ -10,25 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Widget>
-            <version>1.6.0.2</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Core/>
-                <Mage_Backend/>
-                <Mage_Cms/>
-                <Mage_Catalog/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Cms />
-            </sequence>
-        </Mage_Widget>
-    </modules>
     <global>
         <resources>
             <widget_setup>
@@ -47,13 +28,11 @@
         </cms>
         <widget>
             <related_cache_types>
-                <block_html/>
-                <layout/>
+                <block_html />
+                <layout />
             </related_cache_types>
         </widget>
     </global>
-    <frontend>
-    </frontend>
     <adminhtml>
         <translate>
             <modules>

@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_PageCache>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Reports/>
-                <Mage_Wishlist/>
-                <Mage_Page/>
-                <Enterprise_Banner/>
-                <Enterprise_TargetRule/>
-                <Enterprise_WebsiteRestriction/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-            </sequence>
-        </Enterprise_PageCache>
-    </modules>
     <global>
         <resources>
             <enterprise_pagecache_setup>
@@ -38,21 +18,12 @@
                 </setup>
             </enterprise_pagecache_setup>
         </resources>
-        <cache>
-            <types>
-                <full_page translate="label,description" module="Enterprise_PageCache">
-                    <label>Page Cache</label>
-                    <description>Full page caching.</description>
-                    <class>Enterprise_PageCache_Model_Cache_Type</class>
-                </full_page>
-            </types>
-        </cache>
         <ignore_user_agents>
             <cache_crawler>MagentoCrawler</cache_crawler>
         </ignore_user_agents>
         <widget>
             <related_cache_types>
-                <full_page/>
+                <full_page />
             </related_cache_types>
         </widget>
         <events>
@@ -494,7 +465,7 @@
         <dev>
             <translate_inline>
                 <invalid_caches>
-                    <full_page/>
+                    <full_page />
                 </invalid_caches>
             </translate_inline>
         </dev>

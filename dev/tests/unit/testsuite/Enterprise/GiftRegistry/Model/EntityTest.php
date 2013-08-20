@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $resource = $this->getMock('Enterprise_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
         $helper = $this->getMock('Enterprise_GiftRegistry_Helper_Data',
-            array('__', 'getRegistryLink'), array(), '', false, false
+            array('getRegistryLink'), array(), '', false, false
         );
         $translate = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
 
@@ -57,10 +57,6 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $this->_store->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(1));
-
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
 
         $emailTemplate = $this->_emailTemplate;
 
@@ -125,7 +121,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $result = $this->_model->sendShareRegistryEmails();
 
         $this->assertTrue($result->hasErrorMessage());
-        $this->assertContains('We couldn\'t share the registry.', $result->getErrorMessage());
+        $this->assertContains('We couldn\'t share the registry.', (string)$result->getErrorMessage());
     }
 
     public function invalidSenderAndRecipientInfoDataProvider()

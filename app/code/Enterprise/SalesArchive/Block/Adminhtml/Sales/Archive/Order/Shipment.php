@@ -18,6 +18,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment exten
     protected function _construct()
     {
         $this->_controller = 'sales_shipment';
-        $this->_headerText = Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Shipments Archive');
+        $this->_headerText = __('Shipments Archive');
     }
 }

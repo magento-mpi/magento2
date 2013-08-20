@@ -10,27 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_PricePermissions>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Backend/>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_Downloadable/>
-                <Mage_Bundle/>
-                <Enterprise_GiftCard/>
-                <Mage_Core/>
-            </depends>
-            <sequence>
-                <Mage_Bundle/>
-                <Mage_Catalog/>
-                <Mage_Downloadable/>
-                <Enterprise_GiftCard/>
-            </sequence>
-        </Enterprise_PricePermissions>
-    </modules>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>

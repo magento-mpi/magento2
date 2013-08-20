@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Centinel>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Checkout/>
-                <Mage_Adminhtml/>
-                <Mage_Payment/>
-                <Mage_Backend/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Payment/>
-                <Mage_Checkout/>
-            </sequence>
-        </Mage_Centinel>
-    </modules>
     <global>
         <events>
             <sales_convert_quote_to_order>

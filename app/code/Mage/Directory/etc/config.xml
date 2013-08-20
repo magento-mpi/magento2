@@ -10,23 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Directory>
-            <version>1.6.0.1</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Backend/>
-                <Mage_Api/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-            </sequence>
-        </Mage_Directory>
-    </modules>
     <global>
         <currency>
             <import>

@@ -12,9 +12,9 @@ class Magento_Acl_Loader_Resource implements Magento_Acl_LoaderInterface
     /**
      * Acl resource config
      *
-     * @var Magento_Acl_Loader_Resource_ConfigReaderInterface
+     * @var Magento_Acl_Resource_ProviderInterface $resourceProvider
      */
-    protected $_configReader;
+    protected $_resourceProvider;
 
     /**
      * Resource factory
@@ -24,14 +24,14 @@ class Magento_Acl_Loader_Resource implements Magento_Acl_LoaderInterface
     protected $_resourceFactory;
 
     /**
-     * @param Magento_Acl_Loader_Resource_ConfigReaderInterface $reader
+     * @param Magento_Acl_Resource_ProviderInterface $resourceProvider
      * @param Magento_Acl_ResourceFactory $resourceFactory
      */
     public function __construct(
-        Magento_Acl_Loader_Resource_ConfigReaderInterface $reader,
+        Magento_Acl_Resource_ProviderInterface $resourceProvider,
         Magento_Acl_ResourceFactory $resourceFactory
     ) {
-        $this->_configReader = $reader;
+        $this->_resourceProvider = $resourceProvider;
         $this->_resourceFactory = $resourceFactory;
     }
 
@@ -42,7 +42,7 @@ class Magento_Acl_Loader_Resource implements Magento_Acl_LoaderInterface
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $this->_addResourceTree($acl, $this->_configReader->getAclResources(), null);
+        $this->_addResourceTree($acl, $this->_resourceProvider->getAclResources(), null);
     }
 
     /**

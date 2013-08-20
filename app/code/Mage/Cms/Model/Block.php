@@ -61,7 +61,7 @@ class Mage_Cms_Model_Block extends Mage_Core_Model_Abstract
             return parent::_beforeSave();
         }
         Mage::throwException(
-            Mage::helper('Mage_Cms_Helper_Data')->__('Make sure that static block content does not reference the block itself.')
+            __('Make sure that static block content does not reference the block itself.')
         );
     }
 }

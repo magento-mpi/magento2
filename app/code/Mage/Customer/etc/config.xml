@@ -10,47 +10,21 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Customer>
-            <version>1.6.2.0.3</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Core/>
-                <Mage_Catalog/>
-                <Mage_Directory/>
-                <Mage_Newsletter/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-                <Mage_Wishlist/>
-                <Mage_Eav/>
-                <Mage_Index/>
-                <Mage_Api/>
-                <Mage_Log/>
-            </depends>
-            <depends type="soft">
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Eav/>
-                <Mage_Directory/>
-            </sequence>
-        </Mage_Customer>
-    </modules>
     <global>
         <customer>
             <address>
                 <formats>
-                    <text translate="title" module="Mage_Customer">
+                    <text translate="title">
                         <title>Text</title>
                     </text>
-                    <oneline translate="title" module="Mage_Customer">
+                    <oneline translate="title">
                         <title>Text One Line</title>
                     </oneline>
-                    <html translate="title" module="Mage_Customer">
+                    <html translate="title">
                         <title>HTML</title>
                         <escapeHtml>true</escapeHtml>
                     </html>
-                    <pdf translate="title" module="Mage_Customer">
+                    <pdf translate="title">
                         <title>PDF</title>
                     </pdf>
                 </formats>

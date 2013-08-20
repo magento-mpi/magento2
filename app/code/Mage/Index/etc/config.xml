@@ -10,22 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Index>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Cms/>
-                <Mage_Core/>
-                <Mage_AdminNotification/>
-            </depends>
-            <sequence>
-                <Mage_Core/>
-            </sequence>
-        </Mage_Index>
-    </modules>
     <global>
         <resources>
             <index_setup>
@@ -119,4 +103,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

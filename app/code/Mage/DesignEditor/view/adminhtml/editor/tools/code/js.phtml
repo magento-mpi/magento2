@@ -14,13 +14,13 @@
     <div class="files-list">
         <div class="files-list-header">
             <h5 class="title" title="<?php echo $this->escapeHtml($this->getTitle()) ?>"><?php echo $this->getTitle() ?></h5>
-            <span class="action-add" title="<?php echo $this->__('Add Files'); ?>">
-                <span><?php echo $this->__('Add Files'); ?></span>
+            <span class="action-add" title="<?php echo __('Add Files'); ?>">
+                <span><?php echo __('Add Files'); ?></span>
                 <?php echo $this->getFormHtml() ?>
             </span>
         </div>
         <div>
-            <p><?php echo $this->__('Drag and drop files to reorder them.'); ?></p>
+            <p><?php echo __('Drag and drop files to reorder them.'); ?></p>
         </div>
         <div id="js-file-uploader" class="uploader"></div>
         <div class="files-list-content">
@@ -42,13 +42,13 @@
 
 <li class="js-file item no-display" id="js-uploaded-file-template">
     <span class="filename" title="${name}">${name}</span>
-    <a href="#" class="action-delete" title="<?php echo $this->__('Delete File'); ?>" data-id="${id}">
-        <span><?php echo $this->__('Delete File'); ?></span>
+    <a href="#" class="action-delete" title="<?php echo __('Delete File'); ?>" data-id="${id}">
+        <span><?php echo __('Delete File'); ?></span>
     </a>
 </li>
 
 <li class="no-display" id="js-empty-template">
-    <span class="filename"><?php echo $this->__('We found no javascript files.') ?></span>
+    <span class="filename"><?php echo __('We found no javascript files.') ?></span>
 </li>
 
 <script type="text/javascript">

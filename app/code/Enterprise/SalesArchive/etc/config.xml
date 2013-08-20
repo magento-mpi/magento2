@@ -10,22 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_SalesArchive>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Core/>
-                <Mage_Backend/>
-                <Mage_Sales/>
-            </depends>
-            <sequence>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-            </sequence>
-        </Enterprise_SalesArchive>
-    </modules>
     <global>
         <resources>
             <enterprise_salesarchive_setup>

@@ -31,25 +31,25 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
                     </name_missing>
                 </xml>';
 
-    const VERSION_INCREMENTED_XML =
+    const EXISTING_SUBSCRIPTION =
                 '<xml>
-                    <setting_name_on_existing_subscription_with_version_incremented>
+                    <setting_name_on_existing_subscription>
                         <name>Extension Name</name>
-                        <version>0.1</version>
                         <topics>
                             <topic_one>
                                 <subcall/>
                             </topic_one>
                         </topics>
-                    </setting_name_on_existing_subscription_with_version_incremented>
+                    </setting_name_on_existing_subscription>
                 </xml>';
 
-    const WITHOUT_VERSION =
-                '<xml>
-                    <setting_name_on_existing_subscription_without_version>
-                        <name>Extension Name</name>
-                    </setting_name_on_existing_subscription_without_version>
-                </xml>';
+    const AUTHENTICATION_TYPE =
+        '<xml>
+            <setting_authentication_type>
+                <name>Extension Name</name>
+                <authentication_type>HMAC</authentication_type>
+            </setting_authentication_type>
+        </xml>';
 
     /** @var Mage_Webhook_Model_Subscription_Config that is also our unit under test */
     protected $_config;
@@ -69,33 +69,97 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscription;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockTranslator;
-
     public function setUp()
     {
         $this->_mockSubscription = $this->_createMockSubscription();
-
-        // Hack needed since _config isn't set in Mage
-        Mage::unregister('_helper/Mage_Webhook_Helper_Data');
-        $mockHelper = $this->getMockBuilder('Mage_Webhook_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-        Mage::register('_helper/Mage_Webhook_Helper_Data', $mockHelper);
     }
 
-    /**
-     * Translates array of errors into string
-     *
-     * @param array $errors
-     * @return string
-     */
-    public static function translateCallback(array $errors)
+
+
+    public function testSettingNameNewSubscription()
     {
-        return implode("\n", $errors);
+        $configNode = $this->_createStubConfigElement(self::SETTING_NAME_XML);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('save');
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('setName')
+            ->with($this->equalTo('Extension Name'));
+
+        $this->_stubMock($configNode);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testNameMissing()
+    {
+        $configNode = $this->_createStubConfigElement(self::NAME_MISSING_XML);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->never())
+            ->method('save');
+        $this->_mockSubscription->expects($this->never())
+            ->method('setName');
+
+        $expectedErrors = array(
+            __("Invalid config data for subscription '%1'.", 'name_missing'),
+        );
+
+        $this->_stubMock($configNode, null, $expectedErrors);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testSettingNameExistingSubscription()
+    {
+        // Make sure we never call save or setName on the existing subscription
+        $existingSubscription = $this->_createMockSubscription();
+        $existingSubscription->expects($this->once())
+            ->method('save');
+        $existingSubscription->expects($this->once())
+            ->method('setName');
+
+        $configNode = $this->_createStubConfigElement(self::EXISTING_SUBSCRIPTION);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->never())
+            ->method('save');
+        $this->_mockSubscription->expects($this->never())
+            ->method('setName');
+
+        $subxCollection = $this->_createMockSubscriptionCollection(
+            array(
+                'setting_name_on_existing_subscription' => array(&$existingSubscription)
+            )
+        );
+
+        $this->_stubMock($configNode, $subxCollection);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testSettingAuthenticationType()
+    {
+        $configNode = $this->_createStubConfigElement(self::AUTHENTICATION_TYPE);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('save');
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('setName')
+            ->with($this->equalTo('Extension Name'));
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('setAuthenticationType')
+            ->with($this->equalTo('HMAC'));
+
+        $this->_stubMock($configNode);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
     }
 
     /**
@@ -109,8 +173,8 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
         // If we don't define any methods, then we can only stub out concrete methods, but not any
         // of the magic methods, since they weren't explicitly defined.
         $methods = array('setData', 'getData', 'unsetData', 'save', 'setName', 'setTopics', 'setFormat',
-                         'setEndpointUrl', 'getAuthenticationOptions', 'unsetAuthenticationOption', 'getVersion',
-                         'setVersion', 'setAuthenticationType');
+                        'setEndpointUrl', 'getAuthenticationOptions', 'unsetAuthenticationOption',
+                        'setAuthenticationType');
         $mock = $this->getMockBuilder('Mage_Webhook_Model_Subscription')
             ->disableOriginalConstructor()
             ->setMethods($methods)
@@ -161,10 +225,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockTranslator = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // Stub create
         $this->_mockSubscribFactory->expects($this->any())
             ->method('create')
@@ -190,14 +250,8 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             $this->_mockCollection = $this->_createMockSubscriptionCollection();
         }
 
-        // Stub translate
-        $this->_mockTranslator->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(array($this, 'translateCallback')));
-
         // Create config object
         $this->_config = new Mage_Webhook_Model_Subscription_Config(
-            $this->_mockTranslator,
             $this->_mockCollection,
             $this->_mockMageConfig,
             $this->_mockSubscribFactory,
@@ -227,102 +281,5 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->method('getSubscriptionsByAlias')
             ->will($this->returnValue(array()));
         return $mock;
-    }
-
-    public function testSettingNameNoSubscription()
-    {
-        $configNode = $this->_createStubConfigElement(self::SETTING_NAME_XML);
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->atLeastOnce())
-            ->method('save');
-        $this->_mockSubscription->expects($this->atLeastOnce())
-            ->method('setName')
-            ->with($this->equalTo('Extension Name'));
-
-        $this->_stubMock($configNode);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
-    }
-
-    public function testNameMissing()
-    {
-        $configNode = $this->_createStubConfigElement(self::NAME_MISSING_XML);
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->never())
-            ->method('save');
-        $this->_mockSubscription->expects($this->never())
-            ->method('setName');
-
-        $expectedErrors = array(
-            "Invalid config data for subscription '%s'.",
-            'name_missing'
-        );
-
-        $this->_stubMock($configNode, null, $expectedErrors);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
-    }
-
-    public function testSettingNameVersionIncremented()
-    {
-        $existingSubscription = $this->_createMockSubscription();
-        $existingSubscription->expects($this->atLeastOnce())
-            ->method('save');
-        $existingSubscription->expects($this->atLeastOnce())
-            ->method('setName')
-            ->with($this->equalTo('Extension Name'));
-        $existingSubscription->expects($this->any())
-            ->method('getVersion')
-            ->will($this->returnValue('0.0'));
-
-        $configNode = $this->_createStubConfigElement(self::VERSION_INCREMENTED_XML);
-        $subxCollection = $this->_createMockSubscriptionCollection(
-            array(
-                'setting_name_on_existing_subscription_with_version_incremented' => array(&$existingSubscription)
-            ));
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->never())
-            ->method('save');
-        $this->_mockSubscription->expects($this->never())
-            ->method('setName');
-
-        $this->_stubMock($configNode, $subxCollection);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
-    }
-
-    public function testSettingNameNoVersion()
-    {
-        // Make sure we never call save or setName on the existing subscription
-        $existingSubscription = $this->_createMockSubscription();
-        $existingSubscription->expects($this->never())
-            ->method('save');
-        $existingSubscription->expects($this->never())
-            ->method('setName');
-
-        $configNode = $this->_createStubConfigElement(self::WITHOUT_VERSION);
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->never())
-            ->method('save');
-        $this->_mockSubscription->expects($this->never())
-            ->method('setName');
-
-        $subxCollection = $this->_createMockSubscriptionCollection(
-            array(
-                'setting_name_on_existing_subscription_without_version' => array(&$existingSubscription)
-            )
-        );
-
-        $this->_stubMock($configNode, $subxCollection);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
     }
 }

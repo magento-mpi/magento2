@@ -30,15 +30,13 @@ class Mage_Backend_Model_Config_Backend_Currency_Default extends Mage_Backend_Mo
     {
         if (!in_array($this->getValue(), $this->_getInstalledCurrencies())) {
             Mage::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('Sorry, we haven\'t installed the default display currency you selected.')
+                __('Sorry, we haven\'t installed the default display currency you selected.')
             );
         }
 
         if (!in_array($this->getValue(), $this->_getAllowedCurrencies())) {
             Mage::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('Sorry, the default display currency you selected in not available in allowed currencies.')
+                __('Sorry, the default display currency you selected in not available in allowed currencies.')
             );
         }
 

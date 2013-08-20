@@ -113,17 +113,14 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
 
     /**
      * @param Mage_Core_Controller_Varien_Action_Context $context
-     * @param string $areaCode
      */
-    public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
-        $areaCode = null
-    ) {
-        parent::__construct($context->getRequest(), $context->getResponse(), $areaCode);
+    public function __construct(Mage_Core_Controller_Varien_Action_Context $context)
+    {
+        parent::__construct($context->getRequest(), $context->getResponse());
 
         $this->_objectManager   = $context->getObjectManager();
         $this->_frontController = $context->getFrontController();
-        $this->_layout   = $context->getLayout();
+        $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
         $this->_frontController->setAction($this);
 
@@ -132,18 +129,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
 
     protected function _construct()
     {
-    }
-
-    /**
-     * Set currently used area code
-     * @param string $areaCode
-     * @return Mage_Core_Controller_Varien_Action
-     */
-    public function setCurrentArea($areaCode)
-    {
-        Mage::getConfig()->setCurrentAreaCode($areaCode);
-        $this->_currentArea = $areaCode;
-        return $this;
     }
 
     /**
@@ -202,7 +187,9 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     public function getLayout()
     {
-        $this->_layout->setArea($this->_currentArea);
+        /** @var Magento_Config_ScopeInterface $configScope */
+        $configScope = $this->_objectManager->get('Magento_Config_ScopeInterface');
+        $this->_layout->setArea($configScope->getCurrentScope());
         return $this->_layout;
     }
 
@@ -420,8 +407,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
 
             $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
             Magento_Profiler::start($profilerKey);
-
-            Mage::getConfig()->setCurrentAreaCode($this->_currentArea);
 
             Magento_Profiler::start('predispatch');
             $this->preDispatch();
@@ -708,8 +693,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $block->addStorageType($storageName);
             } else {
                 Mage::throwException(
-                     Mage::helper('Mage_Core_Helper_Data')
-                         ->__('Invalid messages storage "%s" for layout messages initialization', (string)$storageName)
+                     __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
                 );
             }
         }
@@ -884,24 +868,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     }
 
     /**
-     * Get real module name (like 'Mage_Module')
-     *
-     * @return  string
-     */
-    protected function _getRealModuleName()
-    {
-        if (empty($this->_realModuleName)) {
-            $class = get_class($this);
-            $this->_realModuleName = substr(
-                $class,
-                0,
-                strpos(strtolower($class), '_' . strtolower($this->getRequest()->getControllerName() . 'Controller'))
-            );
-        }
-        return $this->_realModuleName;
-    }
-
-    /**
      * Support for controllers rewrites
      *
      * Example of configuration:
@@ -976,42 +942,19 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     }
 
     /**
-     * Add an extra title to the end or one from the end, or remove all
+     * Add an extra title to the end
      *
      * Usage examples:
      * $this->_title('foo')->_title('bar');
      * => bar / foo / <default title>
      *
-     * $this->_title()->_title('foo')->_title('bar');
-     * => bar / foo
-     *
-     * $this->_title('foo')->_title(false)->_title('bar');
-     * bar / <default title>
-     *
      * @see self::_renderTitles()
-     * @param string|false|-1|null $text
-     * @param bool $resetIfExists
+     * @param string $text
      * @return Mage_Core_Controller_Varien_Action
      */
-    protected function _title($text = null, $resetIfExists = true)
+    protected function _title($text)
     {
-        if (is_string($text)) {
-            $this->_titles[] = $text;
-        } elseif (-1 === $text) {
-            if (empty($this->_titles)) {
-                $this->_removeDefaultTitle = true;
-            } else {
-                array_pop($this->_titles);
-            }
-        } elseif (empty($this->_titles) || $resetIfExists) {
-            if (false === $text) {
-                $this->_removeDefaultTitle = false;
-                $this->_titles = array();
-            } elseif (null === $text) {
-                $this->_removeDefaultTitle = true;
-                $this->_titles = array();
-            }
-        }
+        $this->_titles[] = $text;
         return $this;
     }
 
@@ -1142,7 +1085,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $this->getResponse()->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
-                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('File not found'));
+                    Mage::throwException(__('File not found'));
                 }
                 $stream = $filesystem->createAndOpenStream($file, 'r');
                 while ($buffer = $stream->read(1024)) {

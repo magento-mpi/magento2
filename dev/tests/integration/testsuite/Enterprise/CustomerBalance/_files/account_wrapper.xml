@@ -11,7 +11,7 @@
  */
 -->
 <layout>
-    <enterprise_customerbalance_info_index translate="label" module="Enterprise_CustomerBalance" type="page" parent="customer_account_index">
+    <enterprise_customerbalance_info_index translate="label" type="page" parent="customer_account_index">
         <block type="Mage_Core_Block_Template" name="customerbalance.wrapper" template="Enterprise_CustomerBalance::account/wrapper.phtml" translate="label">
             <label>Store Credit Balance and History Wrapper</label>
             <block type="Enterprise_CustomerBalance_Block_Account_Balance" name="balance" template="account/balance.phtml" before="-"/>

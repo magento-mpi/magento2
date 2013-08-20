@@ -44,20 +44,20 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Mage_Adminhtml_Block
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header' => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
+            'header' => __('Title'),
             'align'  => 'left',
             'index'  => 'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header' => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'header' => __('URL Key'),
             'align'  => 'left',
             'index'  => 'identifier'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'                    => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'header'                    => __('Store View'),
                 'index'                     => 'store_id',
                 'type'                      => 'store',
                 'store_all'                 => true,
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Mage_Adminhtml_Block
         }
 
         $this->addColumn('is_active', array(
-            'header'  => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'header'  => __('Status'),
             'index'   => 'is_active',
             'type'    => 'options',
             'options' => Mage::getSingleton('Mage_Cms_Model_Page')->getAvailableStatuses()

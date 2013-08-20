@@ -10,30 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_GiftWrapping>
-            <version>1.11.0.0.2</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Backend/>
-                <Mage_Catalog/>
-                <Mage_Checkout/>
-                <Mage_Core/>
-                <Mage_Eav/>
-                <Mage_Sales/>
-                <Mage_Tax/>
-            </depends>
-            <depends type="soft">
-                <Mage_GiftMessage/>
-                <Mage_Page/>
-            </depends>
-            <sequence>
-                <Mage_Adminhtml/>
-                <Mage_GiftMessage/>
-            </sequence>
-        </Enterprise_GiftWrapping>
-    </modules>
     <global>
         <resources>
             <enterprise_giftwrapping_setup>
@@ -47,8 +23,8 @@
             <quote>
                 <item>
                     <product_attributes>
-                        <gift_wrapping_available/>
-                        <gift_wrapping_price/>
+                        <gift_wrapping_available />
+                        <gift_wrapping_price />
                     </product_attributes>
                 </item>
                 <totals>

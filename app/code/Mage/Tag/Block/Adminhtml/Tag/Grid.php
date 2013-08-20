@@ -54,12 +54,12 @@ class Mage_Tag_Block_Adminhtml_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Tag'),
+            'header'        => __('Tag'),
             'index'         => 'name',
         ));
 
         $this->addColumn('products', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Products'),
+            'header'        => __('Products'),
             'width'         => 140,
             'align'         => 'right',
             'index'         => 'products',
@@ -67,7 +67,7 @@ class Mage_Tag_Block_Adminhtml_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('customers', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Customers'),
+            'header'        => __('Customers'),
             'width'         => 140,
             'align'         => 'right',
             'index'         => 'customers',
@@ -75,7 +75,7 @@ class Mage_Tag_Block_Adminhtml_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('status', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
+            'header'        => __('Status'),
             'width'         => 90,
             'index'         => 'status',
             'type'          => 'options',
@@ -84,7 +84,7 @@ class Mage_Tag_Block_Adminhtml_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'                => Mage::helper('Mage_Tag_Helper_Data')->__('Store View'),
+                'header'                => __('Store View'),
                 'type'                  => 'store',
                 'skipAllStoresLabel'    => true,
                 'index'                 => 'stores',
@@ -102,9 +102,9 @@ class Mage_Tag_Block_Adminhtml_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->getMassactionBlock()->setFormFieldName('tag');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('Mage_Tag_Helper_Data')->__('Delete'),
+             'label'    => __('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('Mage_Tag_Helper_Data')->__('Are you sure?')
+             'confirm'  => __('Are you sure?')
         ));
 
         $statuses = $this->helper('Mage_Tag_Helper_Data')->getStatusesOptionsArray();
@@ -112,14 +112,14 @@ class Mage_Tag_Block_Adminhtml_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         array_unshift($statuses, array('label'=>'', 'value'=>''));
 
         $this->getMassactionBlock()->addItem('status', array(
-            'label'=> Mage::helper('Mage_Tag_Helper_Data')->__('Change status'),
+            'label'=> __('Change status'),
             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
             'additional' => array(
                 'visibility' => array(
                     'name'     => 'status',
                     'type'     => 'select',
                     'class'    => 'required-entry',
-                    'label'    => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
+                    'label'    => __('Status'),
                     'values'   => $statuses
                 )
              )

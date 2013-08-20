@@ -114,10 +114,10 @@ abstract class Mage_Eav_Model_Form
     public function __construct()
     {
         if (empty($this->_moduleName)) {
-            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Current module pathname is undefined'));
+            Mage::throwException(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Current module EAV entity is undefined'));
+            Mage::throwException(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -218,7 +218,7 @@ abstract class Mage_Eav_Model_Form
     public function getFormCode()
     {
         if (empty($this->_formCode)) {
-            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Form code is not defined'));
+            Mage::throwException(__('Form code is not defined'));
         }
         return $this->_formCode;
     }
@@ -246,7 +246,7 @@ abstract class Mage_Eav_Model_Form
     public function getEntity()
     {
         if (is_null($this->_entity)) {
-            Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Entity instance is not defined'));
+            Mage::throwException(__('Entity instance is not defined'));
         }
         return $this->_entity;
     }
@@ -395,7 +395,7 @@ abstract class Mage_Eav_Model_Form
     {
         if (is_null($this->_validator)) {
             $configFiles = Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
-                ->getModuleConfigurationFiles('validation.xml');
+                ->getConfigurationFiles('validation.xml');
             $validatorFactory = new Magento_Validator_Config($configFiles);
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 

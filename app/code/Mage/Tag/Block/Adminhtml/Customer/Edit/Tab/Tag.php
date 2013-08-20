@@ -28,7 +28,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
     {
         parent::__construct($context, $data);
         $this->setId('tags');
-        $this->setTitle($this->_helperFactory->get('Mage_Tag_Helper_Data')->__('Product Tags'));
+        $this->setTitle(__('Product Tags'));
     }
 
     /**

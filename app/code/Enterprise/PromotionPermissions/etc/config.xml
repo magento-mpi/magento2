@@ -10,22 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_PromotionPermissions>
-            <version>1.11.0.0</version>
-            <active>false</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Core/>
-                <Enterprise_Banner/>
-                <Enterprise_Reminder/>
-            </depends>
-            <sequence>
-                <Mage_CatalogRule/>
-                <Mage_SalesRule/>
-            </sequence>
-        </Enterprise_PromotionPermissions>
-    </modules>
     <adminhtml>
         <events>
             <core_block_abstract_to_html_before>

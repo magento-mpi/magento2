@@ -10,35 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Bundle>
-            <version>1.6.0.0.2</version>
-            <active>true</active>
-            <depends type="hard">
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_Tax/>
-                <Mage_Core/>
-                <Mage_Backend/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
-                <Mage_CatalogInventory/>
-                <Mage_Customer/>
-                <Mage_CatalogRule/>
-                <Mage_Eav/>
-                <Mage_Weee/>
-                <Mage_GiftMessage/>
-            </depends>
-            <depends type="soft">
-                <Mage_Wishlist/>
-                <Mage_Page/>
-                <Mage_Rss/>
-            </depends>
-            <sequence>
-                <Mage_Catalog />
-            </sequence>
-        </Mage_Bundle>
-    </modules>
     <global>
         <resources>
             <bundle_setup>
@@ -51,13 +22,13 @@
         <catalog>
             <product>
                 <type>
-                    <bundle translate="label" module="Mage_Bundle">
+                    <bundle translate="label">
                         <label>Bundle Product</label>
                         <model>Mage_Bundle_Model_Product_Type</model>
                         <composite>1</composite>
                         <allowed_selection_types>
-                            <simple/>
-                            <virtual/>
+                            <simple />
+                            <virtual />
                         </allowed_selection_types>
                         <price_model>Mage_Bundle_Model_Product_Price</price_model>
                         <index_priority>40</index_priority>
@@ -68,16 +39,16 @@
                 <options>
                     <bundle>
                         <types>
-                            <select translate="label" module="Mage_Bundle">
+                            <select translate="label">
                                 <label>Drop-down</label>
                             </select>
-                            <radio translate="label" module="Mage_Bundle">
+                            <radio translate="label">
                                 <label>Radio Buttons</label>
                             </radio>
-                            <checkbox translate="label" module="Mage_Bundle">
+                            <checkbox translate="label">
                                 <label>Checkbox</label>
                             </checkbox>
-                            <multi translate="label" module="Mage_Bundle">
+                            <multi translate="label">
                                 <label>Multiple Select</label>
                             </multi>
                         </types>
@@ -85,8 +56,8 @@
                 </options>
                 <attributes>
                     <unassignable>
-                        <price_type/>
-                        <price_view/>
+                        <price_type />
+                        <price_view />
                     </unassignable>
                 </attributes>
             </product>
@@ -95,11 +66,11 @@
             <quote>
                 <item>
                     <product_attributes>
-                        <price_view/>
-                        <price_type/>
-                        <shipment_type/>
-                        <weight_type/>
-                        <sku_type/>
+                        <price_view />
+                        <price_type />
+                        <shipment_type />
+                        <weight_type />
+                        <sku_type />
                     </product_attributes>
                 </item>
             </quote>
@@ -129,8 +100,8 @@
         <product>
             <collection>
                 <attributes>
-                    <price_view/>
-                    <price_type/>
+                    <price_view />
+                    <price_type />
                 </attributes>
             </collection>
         </product>
@@ -194,7 +165,7 @@
             <order>
                 <create>
                     <available_product_types>
-                        <bundle/>
+                        <bundle />
                     </available_product_types>
                 </create>
             </order>

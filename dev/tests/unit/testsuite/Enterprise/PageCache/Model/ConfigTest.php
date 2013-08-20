@@ -27,7 +27,7 @@ class Enterprise_PageCache_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $readerMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $readerMock->expects($this->once())
             ->method('loadModulesConfiguration')
-            ->with('cache.xml')
+            ->with('placeholder.xml')
             ->will($this->returnValue($config));
         $configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
         $configCacheTypeMock->expects($this->once())
