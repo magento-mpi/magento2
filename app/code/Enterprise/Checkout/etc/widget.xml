@@ -12,9 +12,9 @@
 <widgets>
     <widget id="order_by_sku" class="Enterprise_Checkout_Block_Widget_Sku" translate="name description"
             module="Enterprise_Checkout" is_email_compatible="true" >
-        <name>Order by SKU</name>
+        <label>Order by SKU</label>
         <description>Order by SKU Description</description>
-        <parameter name="link_display" translate="label_description" visible="true" xsi:type="select"
+        <parameter name="link_display" xsi:type="select" translate="label_description" visible="true"
                    sort_order="10">
             <label>Display a Link to Loading a Spreadsheet</label>
             <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
