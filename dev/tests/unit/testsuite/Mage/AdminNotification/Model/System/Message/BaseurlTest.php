@@ -63,7 +63,7 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
             ->with('Mage_AdminNotification_Helper_Data')->will($this->returnValue($this->_helperMock));
 
         $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManagerInterface');
-        $configFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array('create'),
+        $configFactoryMock = $this->getMock('Mage_Core_Model_Config_ValueFactory', array('create'),
             array(), '', false
         );
         $this->_configDataMock = $this->getMock('Mage_Core_Model_Config_Value',

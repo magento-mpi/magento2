@@ -78,9 +78,9 @@ class Mage_Backend_Model_Config extends Magento_Object
     /**
      * Config data factory
      *
-     * @var Mage_Core_Model_Config_DataFactory
+     * @var Mage_Core_Model_Config_ValueFactory
      */
-    protected $_configDataFactory;
+    protected $_configValueFactory;
 
     /**
      * @var Mage_Core_Model_StoreManagerInterface
@@ -94,7 +94,7 @@ class Mage_Backend_Model_Config extends Magento_Object
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Backend_Model_Config_Loader $configLoader
-     * @param Mage_Core_Model_Config_DataFactory $configDataFactory
+     * @param Mage_Core_Model_Config_ValueFactory $configValueFactory
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
@@ -105,7 +105,7 @@ class Mage_Backend_Model_Config extends Magento_Object
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
-        Mage_Core_Model_Config_DataFactory $configDataFactory,
+        Mage_Core_Model_Config_ValueFactory $configValueFactory,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -116,7 +116,7 @@ class Mage_Backend_Model_Config extends Magento_Object
         $this->_appConfig = $config;
         $this->_application = $application;
         $this->_configLoader = $configLoader;
-        $this->_configDataFactory = $configDataFactory;
+        $this->_configValueFactory = $configValueFactory;
         $this->_storeManager = $storeManager;
     }
 
@@ -252,7 +252,7 @@ class Mage_Backend_Model_Config extends Magento_Object
                 /** @var Mage_Core_Model_Config_Value $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
-                    $this->_configDataFactory->create();
+                    $this->_configValueFactory->create();
 
                 $data = array(
                     'field' => $fieldId,

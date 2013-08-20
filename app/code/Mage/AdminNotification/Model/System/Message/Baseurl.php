@@ -29,29 +29,29 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Config_DataFactory
+     * @var Mage_Core_Model_Config_ValueFactory
      */
-    protected $_configDataFactory;
+    protected $_configValueFactory;
 
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Config_DataFactory $configDataFactory
+     * @param Mage_Core_Model_Config_ValueFactory $configValueFactory
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Config_DataFactory $configDataFactory
+        Mage_Core_Model_Config_ValueFactory $configValueFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_helperFactory = $helperFactory;
         $this->_config = $config;
         $this->_storeManager = $storeManager;
-        $this->_configDataFactory = $configDataFactory;
+        $this->_configValueFactory = $configValueFactory;
     }
 
     /**
@@ -76,7 +76,7 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
             $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', array('section' => 'web'));
         } else {
             /** @var $dataCollection Mage_Core_Model_Resource_Config_Data_Collection */
-            $dataCollection = $this->_configDataFactory->create()->getCollection();
+            $dataCollection = $this->_configValueFactory->create()->getCollection();
             $dataCollection->addValueFilter(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER);
 
             /** @var $data Mage_Core_Model_Config_Value */
