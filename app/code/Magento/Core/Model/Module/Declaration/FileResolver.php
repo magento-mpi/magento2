@@ -31,7 +31,7 @@ class Magento_Core_Model_Module_Declaration_FileResolver implements Magento_Conf
             . 'etc' . DIRECTORY_SEPARATOR . 'module.xml';
         $moduleFileList = glob($moduleFilePattern);
 
-        $mageScopePath = $appCodeDir . DIRECTORY_SEPARATOR . 'Mage' . DIRECTORY_SEPARATOR;
+        $mageScopePath = $appCodeDir . DIRECTORY_SEPARATOR . 'Magento' . DIRECTORY_SEPARATOR;
         $output = array(
             'base' => array(),
             'mage' => array(),

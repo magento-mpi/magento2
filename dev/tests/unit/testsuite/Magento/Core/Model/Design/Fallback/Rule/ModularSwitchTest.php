@@ -62,7 +62,7 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_
 
     public function testGetPatternDirsModular()
     {
-        $inputParams = array('param' => 'value', 'namespace' => 'Mage', 'module' => 'Core');
+        $inputParams = array('param' => 'value', 'namespace' => 'Magento', 'module' => 'Core');
         $expectedResult = new stdClass();
         $this->_ruleNonModular
             ->expects($this->never())
@@ -92,7 +92,7 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_
     {
         return array(
             'no namespace'  => array(array('module' => 'Core')),
-            'no module'     => array(array('namespace' => 'Mage')),
+            'no module'     => array(array('namespace' => 'Magento')),
         );
     }
 }
