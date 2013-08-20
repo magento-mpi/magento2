@@ -13,10 +13,10 @@
     <widget id="cms_hierarchy_node" class="Enterprise_Cms_Block_Widget_Node" is_email_compatible="true"
             translate="name description" module="Enterprise_Cms"
             placeholder_image="Enterprise_Cms::widget_node.gif">
-        <name>CMS Hierarchy Node Link</name>
+        <label>CMS Hierarchy Node Link</label>
         <description>Link to Specified CMS Hierarchy Node</description>
-        <parameter name="node_id" translate="label" visible="true" required="true"
-                   xsi:type="value_renderer" sort_order="10">
+        <parameter name="node_id" xsi:type="value_renderer" translate="label" visible="true"
+                   required="true" sort_order="10">
             <label>Node</label>
             <renderer class="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
                 <data>
@@ -26,14 +26,14 @@
                 </data>
             </renderer>
         </parameter>
-        <parameter name="anchor_text" translate="label description" visible="true" xsi:type="text">
+        <parameter name="anchor_text" xsi:type="text" translate="label description" visible="true">
             <label>Anchor Custom Text</label>
             <description>If this value is empty, the node or page name will be used.</description>
         </parameter>
-        <parameter name="title" translate="label" visible="true" xsi:type="text">
+        <parameter name="title" xsi:type="text" translate="label" visible="true">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" translate="label" visible="true" xsi:type="select">
+        <parameter name="template" xsi:type="select" translate="label" visible="true">
             <label>Template</label>
             <option name="default" translate="label" value="hierarchy/widget/link/link_block.phtml"
                     selected="true">
