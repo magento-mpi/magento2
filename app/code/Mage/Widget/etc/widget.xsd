@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<schema targetNamespace="http://www.magentocommerce.com/widget"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.magentocommerce.com/widget">
+
+    <annotation>
+        <documentation>Contains widgets.</documentation>
+    </annotation>
+    <element name="widgets">
+        <complexType>
+            <sequence maxOccurs="unbounded" minOccurs="0">
+                <element name="widget" type="tns:widgetType"></element>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="widgetType">
+        <sequence>
+            <element name="label" type="string" maxOccurs="1" minOccurs="1"></element>
+            <element name="description" type="string" maxOccurs="1"
+                     minOccurs="1"></element>
+            <element name="parameter" type="tns:parameterType" maxOccurs="unbounded"
+                     minOccurs="0">
+            </element>
+            <element name="container" type="string" maxOccurs="unbounded"
+                     minOccurs="0"></element>
+        </sequence>
+        <attribute name="id" type="string" use="required"></attribute>
+        <attribute name="translate" type="string"></attribute>
+        <attribute name="class" type="string" use="required"></attribute>
+        <attribute name="module" type="string" use="required"></attribute>
+        <attribute name="is_email_compatible" type="boolean"></attribute>
+        <attribute name="placeholder_image" type="string"></attribute>
+    </complexType>
+
+
+    <complexType name="parameterType" abstract="true">
+        <sequence>
+            <element name="label" type="string" minOccurs="0" maxOccurs="1"></element>
+        </sequence>
+        <attribute name="name" type="string" use="required"></attribute>
+        <attribute name="translate" type="string"></attribute>
+        <attribute name="visible" type="boolean"></attribute>
+        <attribute name="sort_order" type="int"></attribute>
+        <attribute name="required" type="string"></attribute>
+    </complexType>
+
+
+    <complexType name="dependsParameterType">
+        <attribute name="name" type="string"></attribute>
+        <attribute name="value" type="string"></attribute>
+    </complexType>
+
+    <complexType name="value_renderer">
+        <complexContent>
+            <extension base="tns:parameterType">
+                <sequence>
+                    <element name="renderer" type="tns:rendererType"></element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="dataType">
+        <sequence>
+            <element name="button" type="tns:buttonType"></element>
+        </sequence>
+    </complexType>
+
+    <complexType name="buttonType">
+        <sequence>
+            <element name="open" type="string"></element>
+        </sequence>
+    </complexType>
+
+    <complexType name="rendererType">
+        <sequence>
+            <element name="data" type="tns:dataType"></element>
+        </sequence>
+        <attribute name="class" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="text">
+        <complexContent>
+            <extension base="tns:parameterType">
+                <sequence>
+                    <element name="description" type="string"></element>
+                </sequence>
+                <attribute name="value" type="string"></attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="select">
+        <complexContent>
+            <extension base="tns:parameterType">
+                <sequence>
+                    <element name="option" type="tns:optionType"></element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="optionType">
+        <sequence>
+            <element name="label" type="string"></element>
+        </sequence>
+        <attribute name="name" type="string" use="required"></attribute>
+        <attribute name="translate" type="string"></attribute>
+        <attribute name="value" type="string" use="required"></attribute>
+        <attribute name="selected" type="boolean"></attribute>
+    </complexType>
+
+    <complexType name="multiselect">
+        <complexContent>
+            <extension base="tns:parameterType">
+                <attribute name="source_model" type="string"></attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+</schema>
