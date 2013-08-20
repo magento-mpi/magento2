@@ -70,7 +70,7 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Get access token for a pre-authorized request token
      *
-     * @param array $accessTokenReqArray array containing parameters necessary for requesting Access Token
+     * @param array $requestArray containing parameters necessary for requesting Access Token
      * <pre> eg array(
      *  'oauth_version' => '1.0',
      *  'oauth_signature_method' => 'HMAC-SHA1',
@@ -85,8 +85,38 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      *  'http_method' => 'POST'
      * )
      * </pre>
+     *
+     * @return string query param like string containing oauth_token and oauth_token_secret eg
+     * <pre>
+     * oauth_token=24ea75e385a22504dda4ddf3a272d4ae&oauth_token_secret=1b61498676db75abbe0e21df0b231067
+     * </pre>
+     * @throws Mage_Oauth_Exception
      */
-    public function getAccessToken($accessTokenReqArray);
+    public function getAccessToken($requestArray);
+
+
+    /**
+     * Validate a requested access token
+     *
+     * @param array $requestArray containing parameters necessary for validating Access Token
+     * <pre> eg array(
+     *  'oauth_version' => '1.0',
+     *  'oauth_signature_method' => 'HMAC-SHA1',
+     *  'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
+     *  'oauth_nonce' => 'BXzEolwaQDDNlCv',
+     *  'oauth_timestamp' => '1376922156',
+     *  'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *  'oauth_signature' => 'C1wtpLrci5Ak6kMCl/YN9J8Hmi0=',
+     *  'request_url' => 'http://magento.ll/oauth/token?oauth_token=a6aa81cc3e65e2960a487939244sssss
+     *                                                          &oauth_verifier=a6aa81cc3e65e2960a487939244vvvvv',
+     *  'http_method' => 'POST'
+     * )
+     * </pre>
+     * @return boolean true if requested access token is valid
+     * @throws Mage_Oauth_Exception
+     *
+     */
+    public function validateAccessToken($requestArray);
 
 
     /**
