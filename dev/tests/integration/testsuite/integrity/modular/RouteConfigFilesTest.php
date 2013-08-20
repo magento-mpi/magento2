@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-class Integrity_Modular_RouterConfigFilesTest extends PHPUnit_Framework_TestCase
+class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules
-     * copied from original class Mage_Core_Model_Router_Config_Reader
+     * copied from original class Mage_Core_Model_Route_Config_Reader
      * @var array
      */
     protected $_idAttributes = array(
@@ -41,12 +41,12 @@ class Integrity_Modular_RouterConfigFilesTest extends PHPUnit_Framework_TestCase
         $this->_mergedSchemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/route_merged.xsd';
     }
 
-    public function testRouterConfigsValidation()
+    public function testRouteConfigsValidation()
     {
         global $magentoBaseDir;
         $invalidFiles = array();
 
-        $mask = $magentoBaseDir . '/app/code/*/*/etc/*/router.xml';
+        $mask = $magentoBaseDir . '/app/code/*/*/etc/*/route.xml';
         $files = glob($mask);
         $mergedConfig = new Magento_Config_Dom(
             '<config></config>',

@@ -1,11 +1,13 @@
 <?php
 /**
+ * Routes configuration interface
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Core_Model_Router_ConfigInterface
+interface Mage_Core_Model_Route_ConfigInterface
 {
 
     /**

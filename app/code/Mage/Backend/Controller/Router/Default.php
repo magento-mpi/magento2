@@ -12,11 +12,6 @@
 class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
-     * Default route id
-     */
-    const DEFAULT_ROUTE_ID = 'adminhtml';
-
-    /**
      * List of required request parameters
      * Order sensitive
      * @var array
@@ -36,14 +31,22 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     protected $_areaFrontName;
 
     /**
+     * Default routeId for router
+     *
+     * @var string
+     */
+    protected $_defaultRouteId;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config_Scope $configScope
-     * @param Mage_Core_Model_Router_Config $routerConfig
+     * @param Mage_Core_Model_Route_Config $routeConfig
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
+     * @param string $defaultRouteId
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -51,15 +54,18 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config_Scope $configScope,
-        Mage_Core_Model_Router_Config $routerConfig,
+        Mage_Core_Model_Route_Config $routeConfig,
         $areaCode,
         $baseController,
-        $routerId
+        $routerId,
+        $defaultRouteId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routerConfig, $areaCode,
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
             $baseController, $routerId);
 
         $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+        $this->_defaultRouteId = $defaultRouteId;
+
         if (empty($this->_areaFrontName)) {
             throw new InvalidArgumentException('Area Front Name should be defined');
         }
@@ -70,27 +76,17 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     public function fetchDefault()
     {
-        $moduleFrontName = $this->getDefaultModuleFrontName();
         // set defaults
         $pathParts = explode('/', $this->_getDefaultPath());
+        $backendRoutes = $this->_getRoutes();
+        $moduleFrontName = $backendRoutes[$this->_defaultRouteId]['frontName'];
+
         $this->getFront()->setDefault(array(
             'area'       => $this->_getParamWithDefaultValue($pathParts, 0, ''),
-            'module'     => $this->_getParamWithDefaultValue($pathParts, 1, $moduleFrontName),
+            'module'     => $this->_getParamWithDefaultValue($pathParts, 1,$moduleFrontName),
             'controller' => $this->_getParamWithDefaultValue($pathParts, 2, 'index'),
             'action'     => $this->_getParamWithDefaultValue($pathParts, 3, 'index'),
         ));
-    }
-
-    /**
-     * Get first backend route as a default
-     *
-     * @return string
-     */
-    public function getDefaultModuleFrontName()
-    {
-        $backendRoutes = $this->_getRoutes();
-        $defaultRoute = $backendRoutes[self::DEFAULT_ROUTE_ID];
-        return $defaultRoute['frontName'];
     }
 
     /**

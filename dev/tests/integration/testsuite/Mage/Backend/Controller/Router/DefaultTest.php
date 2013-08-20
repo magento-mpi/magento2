@@ -27,17 +27,17 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_routerConfigMock;
+    protected $_routeConfigMock;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->_routerConfigMock = $this->getMock('Mage_Core_Model_Router_Config', array(), array(), '', false);
+        $this->_routeConfigMock = $this->getMock('Mage_Core_Model_Route_Config', array(), array(), '', false);
         $options = array(
             'areaCode'        => Mage_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
-            'routerConfig' => $this->_routerConfigMock
+            'routeConfig' => $this->_routeConfigMock
         );
         $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
         $this->_model = Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
@@ -88,7 +88,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             'key1' => array('frontName' => 'something'),
         );
 
-        $this->_routerConfigMock->expects($this->once())->method('getRoutes')
+        $this->_routeConfigMock->expects($this->once())->method('getRoutes')
             ->will($this->returnValue($routes));
 
         $this->_frontMock->expects($this->once())

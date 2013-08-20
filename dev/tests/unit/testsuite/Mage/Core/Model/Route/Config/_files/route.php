@@ -8,9 +8,6 @@
 return array(
     'backend' => array(
         'id'        => 'backend',
-        'instance'  => 'Mage_Core_Controller_Router_Admin',
-        'frontName' => 'backend',
-        'disabled'  => true,
         'routes'    => array(
             'adminhtml' => array(
                 'id'        => 'adminhtml',
@@ -42,8 +39,5 @@ return array(
     ),
     'front' => array(
         'id'        => 'front',
-        'instance'  => 'Mage_Core_Controller_Router_Base',
-        'frontName' => '',
-        'disabled'  => '',
     ),
 );

@@ -10,7 +10,14 @@
 
 class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varien_Router_Abstract
 {
+    /**
+     * @var array
+     */
     protected $_modules = array();
+
+    /**
+     * @var array
+     */
     protected $_dispatchData = array();
 
     /**
@@ -56,16 +63,21 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     protected $_configScope;
 
     /**
-     * @var Mage_Core_Model_Router_Config
+     * @var Mage_Core_Model_Route_Config
      */
-    protected $_routerConfig;
+    protected $_routeConfig;
+
+    /**
+     * @var array
+     */
+    protected $_routes;
 
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config_Scope $configScope
-     * @param Mage_Core_Model_Router_Config
+     * @param Mage_Core_Model_Route_Config $routeConfig
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -76,7 +88,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config_Scope $configScope,
-        Mage_Core_Model_Router_Config $routerConfig,
+        Mage_Core_Model_Route_Config $routeConfig,
         $areaCode,
         $baseController,
         $routerId
@@ -88,7 +100,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
         $this->_configScope    = $configScope;
-        $this->_routerConfig   = $routerConfig;
+        $this->_routeConfig    = $routeConfig;
         $this->_routerId       = $routerId;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
@@ -101,11 +113,18 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      *
      * @return array
      */
-    public function _getRoutes()
+    protected function _getRoutes()
     {
-        return $this->_routerConfig->getRoutes($this->_areaCode, $this->_routerId);
+        if (empty($this->_routes)) {
+            $this->_routes = $this->_routeConfig->getRoutes($this->_areaCode, $this->_routerId);
+        }
+
+        return $this->_routes;
     }
 
+    /**
+     * Set default module/controller/action values
+     */
     public function fetchDefault()
     {
         $this->getFront()->setDefault(array(
@@ -481,11 +500,14 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         $modules = array();
 
         $routes = $this->_getRoutes();
-        $routeId = $this->getRouteByFrontName($frontName);
-        if ($routeId && isset($routes[$routeId]) && isset($routes[$routeId]['modules'])) {
-            $modules = $routes[$routeId]['modules'];
+        foreach ($routes as $routeData) {
+            if ($routeData['frontName'] == $frontName && isset($routeData['modules'])) {
+                $modules = $routeData['modules'];
+                break;
+            }
         }
-        return $modules;
+
+        return array_unique($modules);
     }
 
     /**

@@ -1,11 +1,13 @@
 <?php
 /**
+ * Routes configuration reader
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Router_Config_Reader extends Magento_Config_Reader_Filesystem
+class Mage_Core_Model_Route_Config_Reader extends Magento_Config_Reader_Filesystem
 {
     /**
      * List of paths to identifiable nodes
@@ -20,15 +22,15 @@ class Mage_Core_Model_Router_Config_Reader extends Magento_Config_Reader_Filesys
 
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
-     * @param Mage_Core_Model_Router_Config_Converter $converter
-     * @param Mage_Core_Model_Router_Config_SchemaLocator $schemaLocator
+     * @param Mage_Core_Model_Route_Config_Converter $converter
+     * @param Mage_Core_Model_Route_Config_SchemaLocator $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
      * @param string $fileName
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Mage_Core_Model_Router_Config_Converter $converter,
-        Mage_Core_Model_Router_Config_SchemaLocator $schemaLocator,
+        Mage_Core_Model_Route_Config_Converter $converter,
+        Mage_Core_Model_Route_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'routes.xml'
     ) {

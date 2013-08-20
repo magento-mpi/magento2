@@ -182,14 +182,19 @@
             <instance type="Mage_Core_Model_Theme_Image_UploaderProxy" />
         </param>
     </type>
-    <type name="Mage_Core_Controller_Varien_Front">
-        <param name="routerTypes">
+    <type name="Mage_Core_Model_RouterList">
+        <param name="routerList">
             <value>
-                <admin>Mage_Backend_Controller_Router_Default</admin>
-                <standard>Mage_Core_Controller_Varien_Router_Base</standard>
-                <vde>Mage_DesignEditor_Controller_Varien_Router_Standard</vde>
-                <cms>Mage_Cms_Controller_Router</cms>
-                <default>Mage_Core_Controller_Varien_Router_Default</default>
+                <standard>
+                    <class>Mage_Core_Controller_Varien_Router_Base</class>
+                    <disable>false</disable>
+                    <sortOrder>20</sortOrder>
+                </standard>
+                <default>
+                    <class>Mage_Core_Controller_Varien_Router_Default</class>
+                    <disable>false</disable>
+                    <sortOrder>100</sortOrder>
+                </default>
             </value>
         </param>
     </type>
@@ -202,28 +207,6 @@
         </param>
         <param name="routerId">
             <value>standard</value>
-        </param>
-    </type>
-    <type name="Mage_Backend_Controller_Router_Default">
-        <param name="areaCode">
-            <value>adminhtml</value>
-        </param>
-        <param name="baseController">
-            <value>Mage_Backend_Controller_ActionAbstract</value>
-        </param>
-        <param name="routerId">
-            <value>admin</value>
-        </param>
-    </type>
-    <type name="Mage_DesignEditor_Controller_Varien_Router_Standard">
-        <param name="areaCode">
-            <value>frontend</value>
-        </param>
-        <param name="baseController">
-            <value>Mage_Core_Controller_Varien_Action</value>
-        </param>
-        <param name="routerId">
-            <value>vde</value>
         </param>
     </type>
 </config>

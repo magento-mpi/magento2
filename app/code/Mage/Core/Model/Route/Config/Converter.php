@@ -1,11 +1,13 @@
 <?php
 /**
+ * Routes configuration converter
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Router_Config_Converter implements Magento_Config_ConverterInterface
+class Mage_Core_Model_Route_Config_Converter implements Magento_Config_ConverterInterface
 {
     /**
      * Convert config
@@ -16,7 +18,6 @@ class Mage_Core_Model_Router_Config_Converter implements Magento_Config_Converte
     public function convert($source)
     {
         $output = array();
-        $typeCast = array('disabled');
 
         /** @var DOMNodeList $routers */
         $routers = $source->getElementsByTagName('router');
@@ -25,9 +26,7 @@ class Mage_Core_Model_Router_Config_Converter implements Magento_Config_Converte
         foreach ($routers as $router) {
             $routerConfig = array();
             foreach ($router->attributes as $attribute) {
-                $routerConfig[$attribute->nodeName] = !in_array($attribute->nodeName, $typeCast)
-                    ? $attribute->nodeValue
-                    : (bool) $attribute->nodeValue;
+                $routerConfig[$attribute->nodeName] = $attribute->nodeValue;
             }
 
             /** @var DOMNode $routeData */

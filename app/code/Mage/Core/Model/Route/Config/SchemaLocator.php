@@ -1,13 +1,13 @@
 <?php
 /**
- * Routers configuration schema locator
+ * Routes configuration schema locator
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Router_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
+class Mage_Core_Model_Route_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -28,8 +28,8 @@ class Mage_Core_Model_Router_Config_SchemaLocator implements Magento_Config_Sche
      */
     public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'router.xsd';
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'router_merged.xsd';
+        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'route.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'route_merged.xsd';
     }
 
     /**

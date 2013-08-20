@@ -503,7 +503,7 @@ class Mage_Core_Model_Url extends Magento_Object implements Mage_Core_Model_UrlI
     {
         if (!$this->hasData('route_front_name')) {
             $routeId = $this->getRouteName();
-            $router = Mage::app()->getFrontController()->getRouterByRoute($routeId);
+            $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($routeId);
             $frontName = $router->getFrontNameByRoute($routeId);
 
             $this->setRouteFrontName($frontName);

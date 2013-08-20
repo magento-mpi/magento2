@@ -28,7 +28,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config_Scope $configScope
-     * @param Mage_Core_Model_Router_Config $routerConfig
+     * @param Mage_Core_Model_Route_Config $routeConfig
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -39,12 +39,12 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config_Scope $configScope,
-        Mage_Core_Model_Router_Config $routerConfig,
+        Mage_Core_Model_Route_Config $routeConfig,
         $areaCode,
         $baseController,
         $routerId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routerConfig, $areaCode,
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
             $baseController, $routerId);
         $this->_objectManager = $objectManager;
     }

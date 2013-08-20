@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <router id="backend" instance="Mage_Core_Controller_Router_Admin" frontName="backend" disabled="true">
+    <router id="backend">
         <route id="adminhtml" frontName="admin">
             <module name="Mage_Adminhtml" />
             <module name="Mage_Catalog" before="Mage_Adminhtml" />
@@ -24,5 +24,5 @@
             <module name="Mage_Wishlist" />
         </route>
     </router>
-    <router id="front" instance="Mage_Core_Controller_Router_Base" frontName="" disabled="" />
+    <router id="front" />
 </config>

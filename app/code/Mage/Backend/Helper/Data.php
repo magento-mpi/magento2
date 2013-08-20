@@ -10,7 +10,6 @@
 
 class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_BACKEND_FRONTNAME            = 'global/areas/adminhtml/frontName';
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'default/admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'default/admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'default/admin/url/custom_path';
@@ -23,16 +22,26 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected $_config;
 
+    /**
+     * @var string
+     */
+    protected $_defaultAreaFrontName;
+
     protected $_areaFrontName = null;
 
     /**
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Helper_Context $context
+     * @param string $defaultAreaFrontName
      */
-    public function __construct(Mage_Core_Model_Config $applicationConfig, Mage_Core_Helper_Context $context)
-    {
+    public function __construct(
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Helper_Context $context,
+        $defaultAreaFrontName
+    ) {
         parent::__construct($context);
         $this->_config = $applicationConfig;
+        $this->_defaultAreaFrontName = $defaultAreaFrontName;
     }
 
     public function getPageHelpUrl()
@@ -156,7 +165,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
         if (null === $this->_areaFrontName) {
             $this->_areaFrontName = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
                 (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH) :
-                (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
+                $this->_defaultAreaFrontName;
         }
         return $this->_areaFrontName;
     }

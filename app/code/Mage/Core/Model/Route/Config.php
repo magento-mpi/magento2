@@ -1,21 +1,38 @@
 <?php
 /**
+ * Routes configuration model
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Router_Config implements Mage_Core_Model_Router_ConfigInterface
+class Mage_Core_Model_Route_Config implements Mage_Core_Model_Route_ConfigInterface
 {
     /**
-     * @param Mage_Core_Model_Router_Config_Reader $reader
-     * @param Magento_Config_CacheInterface $cache
+     * @var Mage_Core_Model_Route_Config_Reader
+     */
+    protected $_reader;
+
+    /**
+     * @var Magento_Cache_FrontendInterface
+     */
+    protected $_cache;
+
+    /**
+     * @var string
+     */
+    protected $_cacheId;
+
+    /**
+     * @param Mage_Core_Model_Route_Config_Reader $reader
+     * @param Magento_Cache_FrontendInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Mage_Core_Model_Router_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
-        $cacheId = 'RouterConfig'
+        Mage_Core_Model_Route_Config_Reader $reader,
+        Magento_Cache_FrontendInterface $cache,
+        $cacheId = 'RoutesConfig'
     ) {
         $this->_reader = $reader;
         $this->_cache = $cache;
@@ -39,13 +56,11 @@ class Mage_Core_Model_Router_Config implements Mage_Core_Model_Router_ConfigInte
 
         $routes = array();
         $areaConfig = $this->_reader->read($areaCode);
-        if (!array_key_exists($routerId, $areaConfig)) {
-            return $routes;
+        if (array_key_exists($routerId, $areaConfig)) {
+            $routes = $areaConfig[$routerId]['routes'];
+            $this->_cache->put($routes, $areaCode, $cacheId);
         }
-        $routes = $areaConfig[$routerId]['routes'];
-        $this->_cache->put($routes, $areaCode, $cacheId);
 
         return $routes;
-
     }
 }
