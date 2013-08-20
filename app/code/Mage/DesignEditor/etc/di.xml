@@ -13,7 +13,7 @@
             <value>
                 <vde>
                     <class>Mage_DesignEditor_Controller_Varien_Router_Standard</class>
-                    <disable>false</disable>
+                    <disable type="bool">false</disable>
                     <sortOrder>40</sortOrder>
                 </vde>
             </value>

@@ -35,6 +35,7 @@ class Mage_Core_Model_RouterList
      */
     public function __construct(Magento_ObjectManager $objectManager,array $routerList)
     {
+        $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;
     }
 
@@ -92,6 +93,8 @@ class Mage_Core_Model_RouterList
      */
     public function getRouterByRoute($routeId)
     {
+        $this->getRouters();
+
         // empty route supplied - return base url
         if (empty($routeId)) {
             return $this->_activeRouters['standard'];

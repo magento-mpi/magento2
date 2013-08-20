@@ -13,7 +13,7 @@
             <value>
                 <cms>
                     <class>Mage_Cms_Controller_Router</class>
-                    <disable>false</disable>
+                    <disable type="bool">false</disable>
                     <sortOrder>60</sortOrder>
                 </cms>
             </value>

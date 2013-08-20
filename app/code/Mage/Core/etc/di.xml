@@ -187,12 +187,12 @@
             <value>
                 <standard>
                     <class>Mage_Core_Controller_Varien_Router_Base</class>
-                    <disable>false</disable>
+                    <disable type="bool">false</disable>
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
                     <class>Mage_Core_Controller_Varien_Router_Default</class>
-                    <disable>false</disable>
+                    <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
             </value>
