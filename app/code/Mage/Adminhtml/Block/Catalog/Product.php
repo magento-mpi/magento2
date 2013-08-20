@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
     {
         $addButtonProps = array(
             'id' => 'add_new_product',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
+            'label' => __('Add Product'),
             'class' => 'btn-add',
             'button_class' => 'btn-round',
             'class_name' => 'Mage_Backend_Block_Widget_Button_Split',

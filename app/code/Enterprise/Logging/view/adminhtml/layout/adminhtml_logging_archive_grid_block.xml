@@ -28,14 +28,14 @@
                 <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="download">
                         <arguments>
-                            <header translate="true" module="Enterprise_Logging">Archive File</header>
+                            <header translate="true">Archive File</header>
                             <index>basename</index>
                             <renderer>Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Download</renderer>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="date">
                         <arguments>
-                            <header translate="true" module="Enterprise_Logging">Date</header>
+                            <header translate="true">Date</header>
                             <index>time</index>
                             <type>date</type>
                             <filter>Enterprise_Logging_Block_Adminhtml_Archive_Grid_Filter_Date</filter>

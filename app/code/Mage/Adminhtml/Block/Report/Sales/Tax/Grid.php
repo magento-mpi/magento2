@@ -36,20 +36,20 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Interval'),
+            'header'            => __('Interval'),
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
-            'totals_label'      => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
-            'subtotals_label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
+            'totals_label'      => __('Total'),
+            'subtotals_label'   => __('Subtotal'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('code', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
+            'header'    => __('Tax'),
             'index'     => 'code',
             'type'      => 'string',
             'sortable'  => false,
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
         ));
 
         $this->addColumn('percent', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Rate'),
+            'header'    => __('Rate'),
             'index'     => 'percent',
             'type'      => 'number',
             'sortable'  => false,
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
+            'header'    => __('Orders'),
             'index'     => 'orders_count',
             'total'     => 'sum',
             'type'      => 'number',
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('tax_base_amount_sum', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Tax Amount'),
+            'header'        => __('Tax Amount'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'tax_base_amount_sum',
@@ -93,8 +93,8 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
             'column_css_class'  => 'col-tax-amount'
         ));
 
-        $this->addExportType('*/*/exportTaxCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportTaxExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportTaxCsv', __('CSV'));
+        $this->addExportType('*/*/exportTaxExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

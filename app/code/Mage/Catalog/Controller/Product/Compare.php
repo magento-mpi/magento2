@@ -75,7 +75,7 @@ class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front
                 Mage::getSingleton('Mage_Catalog_Model_Product_Compare_List')->addProduct($product);
                 $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
                 Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
-                    $this->__('You added product %s to the comparison list.', $productName)
+                    __('You added product %1 to the comparison list.', $productName)
                 );
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));
             }
@@ -117,7 +117,7 @@ class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front
                     $item->delete();
                     $productName = $helper->escapeHtml($product->getName());
                     Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
-                        $this->__('You removed product %s from the comparison list.', $productName)
+                        __('You removed product %1 from the comparison list.', $productName)
                     );
                     $this->_eventManager->dispatch('catalog_product_compare_remove_product', array('product' => $item));
                     $helper->calculate();
@@ -150,12 +150,12 @@ class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front
 
         try {
             $items->clear();
-            $session->addSuccess($this->__('You cleared the comparison list.'));
+            $session->addSuccess(__('You cleared the comparison list.'));
             Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addException($e, $this->__('Something went wrong  clearing the comparison list.'));
+            $session->addException($e, __('Something went wrong  clearing the comparison list.'));
         }
 
         $this->_redirectReferer();

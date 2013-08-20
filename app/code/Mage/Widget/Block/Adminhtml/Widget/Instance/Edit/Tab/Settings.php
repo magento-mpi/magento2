@@ -32,7 +32,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Widget_Helper_Data')->__('Settings');
+        return __('Settings');
     }
 
     /**
@@ -42,7 +42,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Widget_Helper_Data')->__('Settings');
+        return __('Settings');
     }
 
     /**
@@ -90,33 +90,33 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
         ));
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('Mage_Widget_Helper_Data')->__('Settings'))
+            array('legend'=>__('Settings'))
         );
 
         $this->_addElementTypes($fieldset);
 
         $fieldset->addField('type', 'select', array(
             'name'     => 'type',
-            'label'    => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
-            'title'    => Mage::helper('Mage_Widget_Helper_Data')->__('Type'),
+            'label'    => __('Type'),
+            'title'    => __('Type'),
             'required' => true,
             'values'   => $this->getTypesOptionsArray()
         ));
 
         /** @var $label Mage_Core_Model_Theme_Label */
         $label = Mage::getModel('Mage_Core_Model_Theme_Label');
-        $options = $label->getLabelsCollection($this->__('-- Please Select --'));
+        $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'     => 'theme_id',
-            'label'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Theme'),
-            'title'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Theme'),
+            'label'    => __('Design Theme'),
+            'title'    => __('Design Theme'),
             'required' => true,
             'values'   => $options
         ));
         $continueButton = $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Continue'),
+                'label'     => __('Continue'),
                 'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",
                 'class'     => 'save'
             ));
@@ -153,7 +153,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
         $widgets = $this->getWidgetInstance()->getWidgetsOptionArray();
         array_unshift($widgets, array(
             'value' => '',
-            'label' => Mage::helper('Mage_Widget_Helper_Data')->__('-- Please Select --')
+            'label' => __('-- Please Select --')
         ));
         return $widgets;
     }

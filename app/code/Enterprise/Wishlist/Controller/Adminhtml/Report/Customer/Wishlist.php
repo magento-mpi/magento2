@@ -27,12 +27,12 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
         $this->loadLayout()
             ->_setActiveMenu('Enterprise_Wishlist::report_customers_wishlist')
             ->_addBreadcrumb(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports'),
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customers'),
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customers')
+                __('Customers'),
+                __('Customers')
             );
         return $this;
     }
@@ -51,7 +51,7 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
      */
     public function wishlistAction()
     {
-        $this->_title($this->__("Customer Wish List Report"));
+        $this->_title(__("Customer Wish List Report"));
 
         $this->_initAction();
         $this->renderLayout();

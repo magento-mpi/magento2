@@ -22,22 +22,22 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
     {
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('add_review_form', array('legend' => Mage::helper('Mage_Review_Helper_Data')->__('Review Details')));
+        $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
 
         $fieldset->addField('product_name', 'note', array(
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Product'),
+            'label'     => __('Product'),
             'text'      => 'product_name',
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Product Rating'),
+            'label'     => __('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
                 . $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Rating_Detailed')->toHtml() . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
             'values'    => Mage::helper('Mage_Review_Helper_Data')->getReviewStatusesOptionArray(),
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
          */
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
-                'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Visible In'),
+                'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'select_stores[]',
                 'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
@@ -59,24 +59,24 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
 
         $fieldset->addField('nickname', 'text', array(
             'name'      => 'nickname',
-            'title'     => Mage::helper('Mage_Review_Helper_Data')->__('Nickname'),
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Nickname'),
+            'title'     => __('Nickname'),
+            'label'     => __('Nickname'),
             'maxlength' => '50',
             'required'  => true,
         ));
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'title'     => Mage::helper('Mage_Review_Helper_Data')->__('Summary of Review'),
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Summary of Review'),
+            'title'     => __('Summary of Review'),
+            'label'     => __('Summary of Review'),
             'maxlength' => '255',
             'required'  => true,
         ));
 
         $fieldset->addField('detail', 'textarea', array(
             'name'      => 'detail',
-            'title'     => Mage::helper('Mage_Review_Helper_Data')->__('Review'),
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Review'),
+            'title'     => __('Review'),
+            'label'     => __('Review'),
             'style'     => 'height: 600px;',
             'required'  => true,
         ));
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             'name'      => 'product_id',
         ));
 
-        /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => Mage::helper('Mage_Review_Helper_Data')->__('Please select a product')));
+        /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Product_Grid')->toHtml(),
         ));*/

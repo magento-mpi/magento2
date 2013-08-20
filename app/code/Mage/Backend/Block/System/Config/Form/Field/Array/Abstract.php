@@ -62,7 +62,7 @@ abstract class Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
     protected function _construct()
     {
         if (!$this->_addButtonLabel) {
-            $this->_addButtonLabel = $this->helper('Mage_Backend_Helper_Data')->__('Add');
+            $this->_addButtonLabel = __('Add');
         }
         parent::_construct();
         

@@ -12,9 +12,9 @@
 <div class="tree-panel" >
     <div class="categories-side-col">
         <div class="tree-actions">
-            <a onclick="jQuery('[data-role=tree]').jstree('close_all');"><?php echo $this->helper('Mage_Cms_Helper_Data')->__('Collapse All'); ?></a>
+            <a onclick="jQuery('[data-role=tree]').jstree('close_all');"><?php echo __('Collapse All'); ?></a>
             <span class="separator">|</span>
-            <a onclick="jQuery('[data-role=tree]').jstree('open_all');"><?php echo $this->helper('Mage_Cms_Helper_Data')->__('Expand All'); ?></a>
+            <a onclick="jQuery('[data-role=tree]').jstree('open_all');"><?php echo __('Expand All'); ?></a>
         </div>
     </div>
     <div data-role="tree" data-mage-init="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getTreeWidgetOptions())); ?>">

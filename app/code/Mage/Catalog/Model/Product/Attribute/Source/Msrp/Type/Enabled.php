@@ -43,15 +43,15 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Yes'),
+                    'label' => __('Yes'),
                     'value' => self::MSRP_ENABLE_YES
                 ),
                 array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No'),
+                    'label' => __('No'),
                     'value' => self::MSRP_ENABLE_NO
                 ),
                 array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use config'),
+                    'label' => __('Use config'),
                     'value' => self::MSRP_ENABLE_USE_CONFIG
                 )
             );

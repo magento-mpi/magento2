@@ -26,11 +26,11 @@
         $inputTypes = array(
             array(
                 'value' => 'price',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Price')
+                'label' => __('Price')
             ),
             array(
                 'value' => 'media_image',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Media Image')
+                'label' => __('Media Image')
             )
         );
 

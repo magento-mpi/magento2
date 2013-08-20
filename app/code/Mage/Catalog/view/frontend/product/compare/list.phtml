@@ -10,8 +10,8 @@
 /* @var $this Mage_Catalog_Block_Product_Compare_List */
 ?>
 <div class="page-title title-buttons">
-    <h1><?php echo $this->__('Compare Products') ?></h1>
-    <a href="#" class="link-print"><?php echo $this->__('Print This Page') ?></a>
+    <h1><?php echo __('Compare Products') ?></h1>
+    <a href="#" class="link-print"><?php echo __('Print This Page') ?></a>
 </div>
 <?php $_total=$this->getItems()->getSize() ?>
 <?php if($_total): ?>
@@ -31,7 +31,7 @@
         <?php if($_i++%10==0): ?>
             <th>&nbsp;</th>
             <?php endif; ?>
-        <td class="a-right"><a href="#" data-url='<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' class="btn-remove"  title="<?php echo $this->__('Remove This Item') ?>"><?php echo $this->__('Remove This Item') ?></a></td>
+        <td class="a-right"><a href="#" data-url='<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' class="btn-remove"  title="<?php echo __('Remove This Item') ?>"><?php echo __('Remove This Item') ?></a></td>
         <?php endforeach; ?>
     </tr>
     </thead>
@@ -49,13 +49,13 @@
             <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
             <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
             <?php if($_item->isSaleable()): ?>
-            <p><button type="button" data-url="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+            <p><button type="button" data-url="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
             <?php else: ?>
-            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+            <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
             <?php endif; ?>
             <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
             <ul class="add-to-links" data-role="add-to-links">
-                <li><a href="#" data-url="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist" ><?php echo $this->__('Add to Wishlist') ?></a></li>
+                <li><a href="#" data-url="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist" ><?php echo __('Add to Wishlist') ?></a></li>
             </ul>
             <?php endif; ?>
         </td>
@@ -102,13 +102,13 @@
         <td>
             <?php echo $this->getPriceHtml($_item, true, '-compare-list-bottom') ?>
             <?php if($_item->isSaleable()): ?>
-            <p><button type="button" data-url="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+            <p><button type="button" data-url="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
             <?php else: ?>
-            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+            <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
             <?php endif; ?>
             <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
             <ul class="add-to-links" data-role="add-to-links">
-                <li><a href="#" data-url="<?php echo $this->getAddToWishlistUrl($_item);?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                <li><a href="#" data-url="<?php echo $this->getAddToWishlistUrl($_item);?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
             </ul>
             <?php endif; ?>
         </td>
@@ -117,9 +117,9 @@
     </tbody>
 </table>
 <div class="buttons-set">
-    <button id="window-close" type="button" title="<?php echo $this->__('Close Window') ?>" class="button"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
+    <button id="window-close" type="button" title="<?php echo __('Close Window') ?>" class="button"><span><span><?php echo __('Close Window') ?></span></span></button>
         <span class="please-wait" id="compare-list-please-wait" style="display:none;">
-            <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
+            <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo __('Please wait...') ?>" title="<?php echo __('Please wait...') ?>" class="v-middle" /> <?php echo __('Please wait...') ?>
         </span>
 </div>
 <?php endif; ?>

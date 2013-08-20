@@ -17,11 +17,6 @@
  */
 class Mage_Bundle_Controller_Adminhtml_Bundle_Product_Edit extends Mage_Adminhtml_Controller_Catalog_Product
 {
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Bundle');
-    }
-
     public function formAction()
     {
         $product = $this->_initProduct();

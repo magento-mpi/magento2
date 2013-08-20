@@ -26,19 +26,19 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
                if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
                 $actions[] = array(
                     'url' => $this->getUrl('*/*/start', array('id'=>$row->getId())),
-                    'caption'	=> Mage::helper('Mage_Newsletter_Helper_Data')->__('Start')
+                    'caption'	=> __('Start')
                 );
             }
         } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_SENDING) {
             $actions[] = array(
                     'url' => $this->getUrl('*/*/pause', array('id'=>$row->getId())),
-                    'caption'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Pause')
+                    'caption'	=>	__('Pause')
             );
 
             $actions[] = array(
                 'url'		=>	$this->getUrl('*/*/cancel', array('id'=>$row->getId())),
-                'confirm'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Do you really want to cancel the queue?'),
-                'caption'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Cancel')
+                'confirm'	=>	__('Do you really want to cancel the queue?'),
+                'caption'	=>	__('Cancel')
             );
 
 
@@ -46,14 +46,14 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 
             $actions[] = array(
                 'url' => $this->getUrl('*/*/resume', array('id'=>$row->getId())),
-                'caption'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Resume')
+                'caption'	=>	__('Resume')
             );
 
         }
 
         $actions[] = array(
             'url'       =>  $this->getUrl('*/newsletter_queue/preview',array('id'=>$row->getId())),
-            'caption'   =>  Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview'),
+            'caption'   =>  __('Preview'),
             'popup'     =>  true
         );
 

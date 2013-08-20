@@ -46,19 +46,19 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Magento_Object
         parent::__construct();
         $this->_steps = array(
             self::STEP_SELECT_ADDRESSES => new Magento_Object(array(
-                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Select Addresses')
+                'label' => __('Select Addresses')
             )),
             self::STEP_SHIPPING => new Magento_Object(array(
-                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Shipping Information')
+                'label' => __('Shipping Information')
             )),
             self::STEP_BILLING => new Magento_Object(array(
-                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Billing Information')
+                'label' => __('Billing Information')
             )),
             self::STEP_OVERVIEW => new Magento_Object(array(
-                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Place Order')
+                'label' => __('Place Order')
             )),
             self::STEP_SUCCESS => new Magento_Object(array(
-                'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Order Success')
+                'label' => __('Order Success')
             )),
         );
 

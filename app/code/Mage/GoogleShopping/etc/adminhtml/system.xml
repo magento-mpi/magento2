@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="google" translate="label" module="Mage_GoogleShopping">
+        <section id="google" translate="label">
             <group id="googleshopping" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Google Shopping</label>
                 <field id="account_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">

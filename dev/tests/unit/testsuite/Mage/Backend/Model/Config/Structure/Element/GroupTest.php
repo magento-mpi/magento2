@@ -19,11 +19,6 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -46,7 +41,6 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_cloneFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_Clone_Factory', array(), array(), '', false
@@ -56,7 +50,6 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         );
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Group(
-            $this->_factoryHelperMock,
             $this->_applicationMock,
             $this->_iteratorMock, $this->_cloneFactoryMock,
             $this->_depMapperMock
@@ -67,7 +60,6 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     {
         unset($this->_model);
         unset($this->_iteratorMock);
-        unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
         unset($this->_cloneFactoryMock);
         unset($this->_depMapperMock);

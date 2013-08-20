@@ -26,15 +26,15 @@ class Mage_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Mag
         $this->loadLayout()
             ->_setActiveMenu('Mage_CurrencySymbol::system_currency_symbols')
             ->_addBreadcrumb(
-                Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('System'),
-                Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('System')
+                __('System'),
+                __('System')
             )
             ->_addBreadcrumb(
-                Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('Manage Currency Rates'),
-                Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('Manage Currency Rates')
+                __('Manage Currency Rates'),
+                __('Manage Currency Rates')
             );
 
-        $this->_title($this->__('Currency Symbols'));
+        $this->_title(__('Currency Symbols'));
         $this->renderLayout();
     }
 
@@ -53,7 +53,7 @@ class Mage_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Mag
         try {
             Mage::getModel('Mage_CurrencySymbol_Model_System_Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
             Mage::getSingleton('Mage_Connect_Model_Session')->addSuccess(
-                Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('The custom currency symbols were applied.')
+                __('The custom currency symbols were applied.')
             );
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());

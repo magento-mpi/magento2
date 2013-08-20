@@ -77,7 +77,7 @@ class Mage_Downloadable_Model_Link_Purchased_Item extends Mage_Core_Model_Abstra
     {
         if (null == $this->getOrderItemId()) {
             throw new Exception(
-                Mage::helper('Mage_Downloadable_Helper_Data')->__('Order item id cannot be null'));
+                __('Order item id cannot be null'));
         }
         return parent::_beforeSave();
     }

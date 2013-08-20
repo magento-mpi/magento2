@@ -14,11 +14,6 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_syncFlagMock;
 
     /**
@@ -36,14 +31,12 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
         $this->_syncFlagMock = $this->getMock('Mage_Core_Model_File_Storage_Flag', array(), array(), '', false);
 
         $this->_fileStorage = $this->getMock('Mage_Core_Model_File_Storage', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_fileStorage->expects($this->any())->method('getSyncFlag')
             ->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $this->_model = $objectManagerHelper
             ->getObject('Mage_AdminNotification_Model_System_Message_Media_Synchronization_Error', $arguments);
@@ -54,10 +47,7 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
     {
         $messageText = 'One or more media files failed to be synchronized';
 
-        $dataHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($dataHelperMock));
-        $dataHelperMock->expects($this->atLeastOnce())->method('__')->will($this->returnValue($messageText));
-        $this->assertContains($messageText, $this->_model->getText());
+        $this->assertContains($messageText, (string)$this->_model->getText());
     }
 
     /**
@@ -69,7 +59,6 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
     {
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         // create new instance to ensure that it hasn't been displayed yet (var $this->_isDisplayed is unset)

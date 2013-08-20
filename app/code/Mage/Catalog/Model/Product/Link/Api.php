@@ -124,7 +124,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             $indexerPrice = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Price');
             $indexerPrice->reindexProductIds($productId);
         } catch (Exception $e) {
-            $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('The linked product does not exist.'));
+            $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
         return true;
@@ -180,7 +180,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             $indexerPrice = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Indexer_Price');
             $indexerPrice->reindexProductIds($productId);
         } catch (Exception $e) {
-            $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('The linked product does not exist.'));
+            $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
         return true;

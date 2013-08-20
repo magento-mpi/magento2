@@ -40,7 +40,7 @@ class Mage_Newsletter_Controller_Manage extends Mage_Core_Controller_Front_Actio
         if ($block = $this->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
-        $this->getLayout()->getBlock('head')->setTitle($this->__('Newsletter Subscription'));
+        $this->getLayout()->getBlock('head')->setTitle(__('Newsletter Subscription'));
         $this->renderLayout();
     }
 
@@ -55,13 +55,13 @@ class Mage_Newsletter_Controller_Manage extends Mage_Core_Controller_Front_Actio
             ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
             ->save();
             if ((boolean)$this->getRequest()->getParam('is_subscribed', false)) {
-                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess($this->__('We saved the subscription.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(__('We saved the subscription.'));
             } else {
-                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess($this->__('We removed the subscription.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(__('We removed the subscription.'));
             }
         }
         catch (Exception $e) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->addError($this->__('Something went wrong while saving your subscription.'));
+            Mage::getSingleton('Mage_Customer_Model_Session')->addError(__('Something went wrong while saving your subscription.'));
         }
         $this->_redirect('customer/account/');
     }

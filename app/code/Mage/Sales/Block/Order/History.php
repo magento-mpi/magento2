@@ -38,7 +38,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
 
         if (Mage::app()->getFrontController()->getAction()) {
             Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
-                Mage::helper('Mage_Sales_Helper_Data')->__('My Orders')
+                __('My Orders')
             );
         }
     }

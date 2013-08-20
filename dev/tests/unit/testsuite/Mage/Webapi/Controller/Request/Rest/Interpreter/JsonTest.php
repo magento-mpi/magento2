@@ -26,7 +26,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         /** Prepare mocks for SUT constructor. */
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
         $this->_coreHelperMock = $this->getMock('Mage_Core_Helper_Data',
-            array('__', 'jsonDecode'), array(), '', false, false
+            array('jsonDecode'), array(), '', false, false
         );
         $this->_helperFactoryMock->expects($this->any())
             ->method('get')
@@ -90,7 +90,6 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         $this->_appMock->expects($this->once())
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
-        $this->_coreHelperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Decoding error.',

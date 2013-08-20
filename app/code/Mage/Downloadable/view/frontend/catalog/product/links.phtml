@@ -29,7 +29,7 @@
                             <?php echo $this->escapeHtml($_link->getTitle()); ?>
                         </label>
                     <?php if ($_link->getSampleFile() || $_link->getSampleUrl()): ?>
-                        &nbsp;(<a href="<?php echo $this->getLinkSamlpeUrl($_link) ?>" <?php echo $this->getIsOpenInNewWindow() ? 'target="_blank"' : ''; ?>><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('sample') ?></a>)
+                        &nbsp;(<a href="<?php echo $this->getLinkSamlpeUrl($_link) ?>" <?php echo $this->getIsOpenInNewWindow() ? 'target="_blank"' : ''; ?>><?php echo __('sample') ?></a>)
                     <?php endif; ?>
                     <?php if ($_linksPurchasedSeparately): ?>
                     <?php echo $this->getFormattedLinkPrice($_link); ?>

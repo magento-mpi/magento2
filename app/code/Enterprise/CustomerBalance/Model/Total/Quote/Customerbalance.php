@@ -97,7 +97,7 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
         if ($address->getCustomerBalanceAmount()) {
             $address->addTotal(array(
                 'code'=>$this->getCode(),
-                'title'=>Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit'),
+                'title'=>__('Store Credit'),
                 'value'=>-$address->getCustomerBalanceAmount(),
             ));
         }

@@ -12,9 +12,9 @@ class Mage_Backend_Model_Config_Source_Nooptreq implements Mage_Core_Model_Optio
     public function toOptionArray()
     {
         return array(
-            array('value'=>'', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('No')),
-            array('value'=>'opt', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Optional')),
-            array('value'=>'req', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Required')),
+            array('value'=>'', 'label'=>__('No')),
+            array('value'=>'opt', 'label'=>__('Optional')),
+            array('value'=>'req', 'label'=>__('Required')),
         );
     }
 

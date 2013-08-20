@@ -13,14 +13,14 @@
     <acl>
         <resources>
             <resource id="Map_Module::admin">
-                <resource id="Module_One::customer" title="Customers" module="Module_One" sortOrder="40" >
-                    <resource id="Module_Two::group" title="Customer Groups" module="Module_Two" sortOrder="10" />
-                    <resource id="Map_Module::manage" title="Manage Customers" module="Module_Three" sortOrder="0"/>
-                    <resource id="Module_Four::online" title="Online Customers" module="Module_Four" sortOrder="100"/>
+                <resource id="Module_One::customer" title="Customers" sortOrder="40" >
+                    <resource id="Module_Two::group" title="Customer Groups" sortOrder="10" />
+                    <resource id="Map_Module::manage" title="Manage Customers" sortOrder="0"/>
+                    <resource id="Module_Four::online" title="Online Customers" sortOrder="100"/>
                 </resource>
                 <resource id="Map_Module::system">
                     <resource id="Map_Module::config">
-                        <resource id="Module_Five::customer" title="Customers Section" module="Module_Five" sortOrder="50"/>
+                        <resource id="Module_Five::customer" title="Customers Section" sortOrder="50"/>
                     </resource>
                 </resource>
             </resource>

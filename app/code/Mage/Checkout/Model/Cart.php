@@ -192,7 +192,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
             || !is_array($product->getWebsiteIds())
             || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
-            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('We can\'t find the product.'));
+            Mage::throwException(__('We can\'t find the product.'));
         }
         return $product;
     }
@@ -268,7 +268,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
                 Mage::throwException($result);
             }
         } else {
-            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('The product does not exist.'));
+            Mage::throwException(__('The product does not exist.'));
         }
 
         Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
@@ -307,12 +307,12 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
 
             if (!$allAvailable) {
                 $this->getCheckoutSession()->addError(
-                    Mage::helper('Mage_Checkout_Helper_Data')->__("We don't have some of the products you want.")
+                    __("We don't have some of the products you want.")
                 );
             }
             if (!$allAdded) {
                 $this->getCheckoutSession()->addError(
-                    Mage::helper('Mage_Checkout_Helper_Data')->__("We don't have as many of some products as you want.")
+                    __("We don't have as many of some products as you want.")
                 );
             }
         }
@@ -400,7 +400,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $messageFactory->notice(Mage::helper('Mage_Checkout_Helper_Data')->__('Quantity was recalculated from %d to %d', $itemInfo['before_suggest_qty'], $qty));
+                    $message = $messageFactory->notice(__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
                     $session->addQuoteItemMessage($item->getId(), $message);
                 }
             }
@@ -408,7 +408,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
 
         if ($qtyRecalculatedFlag) {
             $session->addNotice(
-                Mage::helper('Mage_Checkout_Helper_Data')->__('Some products quantities were recalculated because of quantity increment mismatch.')
+                __('Some products quantities were recalculated because of quantity increment mismatch.')
             );
         }
 
@@ -547,7 +547,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
         try {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
-                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('This quote item does not exist.'));
+                Mage::throwException(__('This quote item does not exist.'));
             }
             $productId = $item->getProduct()->getId();
             $product = $this->_getProduct($productId);

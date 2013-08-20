@@ -52,7 +52,7 @@ class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_W
     {
         $invalidedTypes = $this->_cacheTypeList->getInvalidated();
         if (isset($invalidedTypes[$row->getId()])) {
-            $cell = '<span class="grid-severity-minor"><span>' . $this->__('Invalidated') . '</span></span>';
+            $cell = '<span class="grid-severity-minor"><span>' . __('Invalidated') . '</span></span>';
         } else {
             if ($row->getStatus()) {
                 $cell = '<span class="grid-severity-notice"><span>' . $value . '</span></span>';

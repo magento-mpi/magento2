@@ -65,23 +65,22 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
         parent::__construct($data);
 
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('Website is not specified')
+            __('Website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('E-mail is not specified')
+            __('E-mail is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__("Invalid value in website column")
+            __("Invalid value in website column")
         );
         $this->addMessageTemplate(self::ERROR_INVALID_EMAIL,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__('E-mail is invalid')
+            __('E-mail is invalid')
         );
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
-            $this->_helper('Mage_ImportExport_Helper_Data')->__("Required attribute '%s' has an empty value")
+            __("Required attribute '%s' has an empty value")
         );
         $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
-            $this->_helper('Mage_ImportExport_Helper_Data')
-                ->__("Customer with such email and website code doesn't exist")
+            __("Customer with such email and website code doesn't exist")
         );
 
         $this->_initCustomers($data)

@@ -39,12 +39,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Websites');
+        return __('Websites');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Websites');
+        return __('Websites');
     }
 
     public function canShowTab()

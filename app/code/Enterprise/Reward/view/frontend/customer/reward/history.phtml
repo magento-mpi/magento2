@@ -14,7 +14,7 @@
  */
 ?>
 <div class="box">
-    <h2 class="sub-title"><?php echo $this->__('Balance History'); ?></h2>
+    <h2 class="sub-title"><?php echo __('Balance History'); ?></h2>
 
     <?php if ($history = $this->getHistory()):?>
 
@@ -28,11 +28,11 @@
         <col width="1" />
         <thead>
             <tr>
-                <th><?php echo $this->__('Balance'); ?></th>
-                <th><?php echo $this->__('Amount'); ?></th>
-                <th><?php echo $this->__('Points'); ?></th>
-                <th><?php echo $this->__('Reason'); ?></th>
-                <th><?php echo $this->__('Date'); ?></th>
+                <th><?php echo __('Balance'); ?></th>
+                <th><?php echo __('Amount'); ?></th>
+                <th><?php echo __('Points'); ?></th>
+                <th><?php echo __('Reason'); ?></th>
+                <th><?php echo __('Date'); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -48,7 +48,7 @@
                 <td>
                     <span class="nobr"><?php echo $this->getDate($item)?></span>
                     <?php if ($expirationDate = $this->getExpirationDate($item)):?>
-                    <small class="nobr"><?php echo $this->__('Expires on %s', $expirationDate);?></small>
+                    <small class="nobr"><?php echo __('Expires on %1', $expirationDate);?></small>
                     <?php endif;?>
                 </td>
             </tr>
@@ -61,7 +61,7 @@
 
     <?php else:?>
 
-    <p><?php echo $this->__('There is no balance history.')?></p>
+    <p><?php echo __('There is no balance history.')?></p>
 
     <?php endif;?>
 </div>

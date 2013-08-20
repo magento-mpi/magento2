@@ -52,7 +52,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
      */
     public function preDispatch()
     {
-        $this->_title($this->__('Consumers'));
+        $this->_title(__('Consumers'));
         parent::preDispatch();
         return $this;
     }
@@ -109,7 +109,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
         $id = (int) $this->getRequest()->getParam('id');
 
         if (!$id) {
-            $this->_getSession()->addError(Mage::helper('Mage_Oauth_Helper_Data')->__('Invalid ID parameter.'));
+            $this->_getSession()->addError(__('Invalid ID parameter.'));
             $this->_redirect('*/*/index');
             return;
         }
@@ -119,7 +119,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
         $model->load($id);
 
         if (!$model->getId()) {
-            $this->_getSession()->addError(Mage::helper('Mage_Oauth_Helper_Data')->__('Entry with ID #%s not found.', $id));
+            $this->_getSession()->addError(__('Entry with ID #%1 not found.', $id));
             $this->_redirect('*/*/index');
             return;
         }
@@ -154,7 +154,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
         if ($id) {
             if (!(int) $id) {
                 $this->_getSession()->addError(
-                    $this->__('Invalid ID parameter.'));
+                    __('Invalid ID parameter.'));
                 $this->_redirect('*/*/index');
                 return;
             }
@@ -162,7 +162,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
 
             if (!$model->getId()) {
                 $this->_getSession()->addError(
-                    $this->__('Entry with ID #%s not found.', $id));
+                    __('Entry with ID #%1 not found.', $id));
                 $this->_redirect('*/*/index');
                 return;
             }
@@ -185,7 +185,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
         try {
             $model->addData($data);
             $model->save();
-            $this->_getSession()->addSuccess($this->__('The consumer has been saved.'));
+            $this->_getSession()->addSuccess(__('The consumer has been saved.'));
             $this->_setFormData(null);
         } catch (Mage_Core_Exception $e) {
             $this->_setFormData($data);
@@ -194,7 +194,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
         } catch (Exception $e) {
             $this->_setFormData(null);
             Mage::logException($e);
-            $this->_getSession()->addError($this->__('An error occurred on saving consumer data.'));
+            $this->_getSession()->addError(__('An error occurred on saving consumer data.'));
         }
 
         if ($this->getRequest()->getParam('back')) {
@@ -268,17 +268,17 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Mage_Adminhtml_Cont
                 /** @var $consumer Mage_Oauth_Model_Consumer */
                 $consumer = Mage::getModel('Mage_Oauth_Model_Consumer')->load($consumerId);
                 if (!$consumer->getId()) {
-                    Mage::throwException(Mage::helper('Mage_Oauth_Helper_Data')->__('Unable to find a consumer.'));
+                    Mage::throwException(__('Unable to find a consumer.'));
                 }
 
                 $consumer->delete();
 
-                $this->_getSession()->addSuccess(Mage::helper('Mage_Oauth_Helper_Data')->__('The consumer has been deleted.'));
+                $this->_getSession()->addSuccess(__('The consumer has been deleted.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException(
-                    $e, Mage::helper('Mage_Oauth_Helper_Data')->__('An error occurred while deleting the consumer.')
+                    $e, __('An error occurred while deleting the consumer.')
                 );
             }
         }

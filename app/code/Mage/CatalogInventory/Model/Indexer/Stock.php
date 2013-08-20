@@ -95,7 +95,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Stock Status');
+        return __('Stock Status');
     }
 
     /**
@@ -105,7 +105,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Index Product Stock Status');
+        return __('Index Product Stock Status');
     }
 
     /**

@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="payment">
-            <group id="ogone" translate="label,comment" module="Mage_Ogone" type="text" sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="ogone" translate="label,comment" type="text" sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Ogone</label>
                 <comment>
                     <![CDATA[<br />

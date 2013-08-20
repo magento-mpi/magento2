@@ -95,8 +95,8 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     static public function getOptionArray()
     {
         return array(
-            self::STATUS_ENABLED    => Mage::helper('Mage_Catalog_Helper_Data')->__('Enabled'),
-            self::STATUS_DISABLED   => Mage::helper('Mage_Catalog_Helper_Data')->__('Disabled')
+            self::STATUS_ENABLED    => __('Enabled'),
+            self::STATUS_DISABLED   => __('Disabled')
         );
     }
 

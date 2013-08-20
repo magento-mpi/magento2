@@ -104,7 +104,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         $type = $this->getData('type');
         if (is_null($type)) {
             Mage::throwException(
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
+                __('Undefined Catalog Product List Type')
             );
         }
         return $type;
@@ -206,7 +206,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     {
         $product = $this->getData('product');
         if (!$product instanceof Magento_Object) {
-            Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please define a product data object.'));
+            Mage::throwException(__('Please define a product data object.'));
         }
         return $product;
     }
@@ -314,7 +314,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      */
     public function getName()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Target Rules');
+        return __('Target Rules');
     }
 
     /**

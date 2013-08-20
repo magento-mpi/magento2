@@ -34,7 +34,7 @@
                             <url>*/sales_archive/massUnhold</url>
                         </unhold_order>
                         <remove_order_from_archive>
-                            <label translate="true" module="Enterprise_SalesArchive">Move to Orders Management</label>
+                            <label translate="true">Move to Orders Management</label>
                             <url>*/sales_archive/massRemove</url>
                         </remove_order_from_archive>
                         <pdfinvoices_order>

@@ -21,7 +21,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
 
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle($this->__('User Information'));
+        $this->setTitle(__('User Information'));
     }
 
     /**
@@ -35,16 +35,16 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
         $mainTab = $this->getLayout()->getBlock('webapi.user.edit.tab.main');
         $mainTab->setApiUser($this->getApiUser());
         $this->addTab('main_section', array(
-            'label' => $this->__('User Info'),
-            'title' => $this->__('User Info'),
+            'label' => __('User Info'),
+            'title' => __('User Info'),
             'content' => $mainTab->toHtml(),
             'active' => true
         ));
 
         $rolesGrid = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid');
         $this->addTab('roles_section', array(
-            'label' => $this->__('User Role'),
-            'title' => $this->__('User Role'),
+            'label' => __('User Role'),
+            'title' => __('User Role'),
             'content' => $rolesGrid->toHtml(),
         ));
         return parent::_beforeToHtml();

@@ -34,75 +34,75 @@ class Mage_Core_Model_Source_Email_Variables
         $this->_configVariables = array(
             array(
                 'value' => Mage_Core_Model_Url::XML_PATH_UNSECURE_URL,
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Base Unsecure URL')
+                'label' => __('Base Unsecure URL')
             ),
             array(
                 'value' => Mage_Core_Model_Url::XML_PATH_SECURE_URL,
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Base Secure URL')
+                'label' => __('Base Secure URL')
             ),
             array(
                 'value' => 'trans_email/ident_general/name',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('General Contact Name')
+                'label' => __('General Contact Name')
             ),
             array(
                 'value' => 'trans_email/ident_general/email',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('General Contact Email')
+                'label' => __('General Contact Email')
             ),
             array(
                 'value' => 'trans_email/ident_sales/name',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Sales Representative Contact Name')
+                'label' => __('Sales Representative Contact Name')
             ),
             array(
                 'value' => 'trans_email/ident_sales/email',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Sales Representative Contact Email')
+                'label' => __('Sales Representative Contact Email')
             ),
             array(
                 'value' => 'trans_email/ident_custom1/name',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Custom1 Contact Name')
+                'label' => __('Custom1 Contact Name')
             ),
             array(
                 'value' => 'trans_email/ident_custom1/email',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Custom1 Contact Email')
+                'label' => __('Custom1 Contact Email')
             ),
             array(
                 'value' => 'trans_email/ident_custom2/name',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Custom2 Contact Name')
+                'label' => __('Custom2 Contact Name')
             ),
             array(
                 'value' => 'trans_email/ident_custom2/email',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Custom2 Contact Email')
+                'label' => __('Custom2 Contact Email')
             ),
             array(
                 'value' => 'general/store_information/name',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Name')
+                'label' => __('Store Name')
             ),
             array(
                 'value' => 'general/store_information/phone',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Phone Number')
+                'label' => __('Store Phone Number')
             ),
             array(
                 'value' => 'general/store_information/country_id',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Country')
+                'label' => __('Country')
             ),
             array(
                 'value' => 'general/store_information/region_id',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Region/State')
+                'label' => __('Region/State')
             ),
             array(
                 'value' => 'general/store_information/postcode',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Zip/Postal Code')
+                'label' => __('Zip/Postal Code')
             ),
             array(
                 'value' => 'general/store_information/city',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('City')
+                'label' => __('City')
             ),
             array(
                 'value' => 'general/store_information/street_line1',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Street Address 1')
+                'label' => __('Street Address 1')
             ),
             array(
                 'value' => 'general/store_information/street_line2',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Street Address 2')
+                'label' => __('Street Address 2')
             )
         );
     }
@@ -124,7 +124,7 @@ class Mage_Core_Model_Source_Email_Variables
         }
         if ($withGroup && $optionArray) {
             $optionArray = array(
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Contact Information'),
+                'label' => __('Store Contact Information'),
                 'value' => $optionArray
             );
         }

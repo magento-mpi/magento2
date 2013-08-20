@@ -27,9 +27,9 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
     {
         $this->loadLayout();
         $this->_setActiveMenu('Mage_User::system_acl_roles');
-        $this->_addBreadcrumb($this->__('System'), $this->__('System'));
-        $this->_addBreadcrumb($this->__('Permissions'), $this->__('Permissions'));
-        $this->_addBreadcrumb($this->__('Roles'), $this->__('Roles'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
+        $this->_addBreadcrumb(__('Roles'), __('Roles'));
         return $this;
     }
 
@@ -40,7 +40,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
      */
     protected function _initRole($requestVariable = 'rid')
     {
-        $this->_title($this->__('Roles'));
+        $this->_title(__('Roles'));
 
         $role = Mage::getModel('Mage_User_Model_Role')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
@@ -58,7 +58,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
      */
     public function indexAction()
     {
-        $this->_title($this->__('Roles'));
+        $this->_title(__('Roles'));
 
         $this->_initAction();
 
@@ -85,14 +85,14 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
         $this->_initAction();
 
         if ($role->getId()) {
-            $breadCrumb      = $this->__('Edit Role');
-            $breadCrumbTitle = $this->__('Edit Role');
+            $breadCrumb      = __('Edit Role');
+            $breadCrumbTitle = __('Edit Role');
         } else {
-            $breadCrumb = $this->__('Add New Role');
-            $breadCrumbTitle = $this->__('Add New Role');
+            $breadCrumb = __('Add New Role');
+            $breadCrumbTitle = __('Add New Role');
         }
 
-        $this->_title($role->getId() ? $role->getRoleName() : $this->__('New Role'));
+        $this->_title($role->getId() ? $role->getRoleName() : __('New Role'));
 
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
@@ -118,7 +118,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
 
         if (in_array($rid, $currentUser->getRoles()) ) {
             $this->_session->addError(
-                $this->__('You cannot delete self-assigned roles.')
+                __('You cannot delete self-assigned roles.')
             );
             $this->_redirect('*/*/editrole', array('rid' => $rid));
             return;
@@ -128,11 +128,11 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
             $this->_initRole()->delete();
 
             $this->_session->addSuccess(
-                $this->__('You deleted the role.')
+                __('You deleted the role.')
             );
         } catch (Exception $e) {
             $this->_session->addError(
-                $this->__('An error occurred while deleting this role.')
+                __('An error occurred while deleting this role.')
             );
         }
 
@@ -162,7 +162,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
 
         $role = $this->_initRole('role_id');
         if (!$role->getId() && $rid) {
-            $this->_session->addError($this->__('This role no longer exists.'));
+            $this->_session->addError(__('This role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -193,13 +193,13 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
             }
 
             $this->_session->addSuccess(
-                $this->__('You saved the role.')
+                __('You saved the role.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError(
-                $this->__('An error occurred while saving this role.')
+                __('An error occurred while saving this role.')
             );
         }
         $this->_redirect('*/*/');

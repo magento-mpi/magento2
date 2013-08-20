@@ -28,7 +28,7 @@
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="url_rewrite_id">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">ID</header>
+                                <header translate="true">ID</header>
                                 <width>50px</width>
                                 <type>text</type>
                                 <id>url_rewrite_id</id>
@@ -37,7 +37,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">Store View</header>
+                                <header translate="true">Store View</header>
                                 <width>200px</width>
                                 <type>store</type>
                                 <id>store_id</id>
@@ -47,7 +47,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_system">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">Type</header>
+                                <header translate="true">Type</header>
                                 <width>50px</width>
                                 <type>options</type>
                                 <id>is_system</id>
@@ -55,18 +55,18 @@
                                 <options>
                                     <system>
                                         <value>1</value>
-                                        <label translate="true" module="Mage_Backend">System</label>
+                                        <label translate="true">System</label>
                                     </system>
                                     <custom>
                                         <value>0</value>
-                                        <label translate="true" module="Mage_Backend">Custom</label>
+                                        <label translate="true">Custom</label>
                                     </custom>
                                 </options>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="id_path">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">ID Path</header>
+                                <header translate="true">ID Path</header>
                                 <width>50px</width>
                                 <type>text</type>
                                 <id>id_path</id>
@@ -75,7 +75,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="request_path">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">Request Path</header>
+                                <header translate="true">Request Path</header>
                                 <width>50px</width>
                                 <type>text</type>
                                 <id>request_path</id>
@@ -84,7 +84,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="target_path">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">Target Path</header>
+                                <header translate="true">Target Path</header>
                                 <width>50px</width>
                                 <type>text</type>
                                 <id>target_path</id>
@@ -93,7 +93,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="options">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">Options</header>
+                                <header translate="true">Options</header>
                                 <width>50px</width>
                                 <type>text</type>
                                 <id>options</id>
@@ -102,7 +102,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="actions">
                             <arguments>
-                                <header translate="true" module="Mage_Adminhtml">Action</header>
+                                <header translate="true">Action</header>
                                 <sortable>0</sortable>
                                 <filter>0</filter>
                                 <width>15px</width>
@@ -111,7 +111,7 @@
                                 <index>url_rewrite_id</index>
                                 <actions>
                                     <view_action>
-                                        <caption translate="true" module="Mage_Adminhtml">Edit</caption>
+                                        <caption translate="true">Edit</caption>
                                         <url>
                                             <base>*/*/edit</base>
                                         </url>

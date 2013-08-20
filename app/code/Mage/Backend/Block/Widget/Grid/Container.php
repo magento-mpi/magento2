@@ -46,7 +46,7 @@ class Mage_Backend_Block_Widget_Grid_Container extends Mage_Backend_Block_Widget
         } else {
             // legacy logic to support all descendants
             if (is_null($this->_addButtonLabel)) {
-                $this->_addButtonLabel = $this->__('Add New');
+                $this->_addButtonLabel = __('Add New');
             }
             $this->_addNewButton();
         }
@@ -55,7 +55,7 @@ class Mage_Backend_Block_Widget_Grid_Container extends Mage_Backend_Block_Widget
         } else {
             // legacy logic
             if (is_null($this->_backButtonLabel)) {
-                $this->_backButtonLabel = $this->__('Back');
+                $this->_backButtonLabel = __('Back');
             }
         }
     }

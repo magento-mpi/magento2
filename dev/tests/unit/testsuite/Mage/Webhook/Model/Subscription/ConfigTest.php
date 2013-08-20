@@ -69,33 +69,9 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscription;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockTranslator;
-
     public function setUp()
     {
         $this->_mockSubscription = $this->_createMockSubscription();
-
-        // Hack needed since _config isn't set in Mage
-        Mage::unregister('_helper/Mage_Webhook_Helper_Data');
-        $mockHelper = $this->getMockBuilder('Mage_Webhook_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-        Mage::register('_helper/Mage_Webhook_Helper_Data', $mockHelper);
-    }
-
-    /**
-     * Translates array of errors into string
-     *
-     * @param array $errors
-     * @return string
-     */
-    public static function translateCallback(array $errors)
-    {
-        return implode("\n", $errors);
     }
 
     /**
@@ -161,10 +137,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockTranslator = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // Stub create
         $this->_mockSubscribFactory->expects($this->any())
             ->method('create')
@@ -190,14 +162,8 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             $this->_mockCollection = $this->_createMockSubscriptionCollection();
         }
 
-        // Stub translate
-        $this->_mockTranslator->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(array($this, 'translateCallback')));
-
         // Create config object
         $this->_config = new Mage_Webhook_Model_Subscription_Config(
-            $this->_mockTranslator,
             $this->_mockCollection,
             $this->_mockMageConfig,
             $this->_mockSubscribFactory,
@@ -257,8 +223,7 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->method('setName');
 
         $expectedErrors = array(
-            "Invalid config data for subscription '%s'.",
-            'name_missing'
+            __("Invalid config data for subscription '%1'.", 'name_missing'),
         );
 
         $this->_stubMock($configNode, null, $expectedErrors);

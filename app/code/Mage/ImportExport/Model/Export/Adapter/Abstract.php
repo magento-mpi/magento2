@@ -45,15 +45,15 @@ abstract class Mage_ImportExport_Model_Export_Adapter_Abstract
             $destination = tempnam(sys_get_temp_dir(), 'importexport_');
         }
         if (!is_string($destination)) {
-            Mage::throwException($helper->__('Destination file path must be a string'));
+            Mage::throwException(__('Destination file path must be a string'));
         }
         $pathinfo = pathinfo($destination);
 
         if (empty($pathinfo['dirname']) || !is_writable($pathinfo['dirname'])) {
-            Mage::throwException($helper->__('Destination directory is not writable'));
+            Mage::throwException(__('Destination directory is not writable'));
         }
         if (is_file($destination) && !is_writable($destination)) {
-            Mage::throwException($helper->__('Destination file is not writable'));
+            Mage::throwException(__('Destination file is not writable'));
         }
         $this->_destination = $destination;
 

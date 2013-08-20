@@ -105,7 +105,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
         if ($withEmpty) {
             $result = array_merge(array(array(
                 'value' => '',
-                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('-- All --')
+                'label' => __('-- All --')
             )), $result);
         }
         return $result;

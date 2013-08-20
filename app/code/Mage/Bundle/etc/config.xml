@@ -22,7 +22,7 @@
         <catalog>
             <product>
                 <type>
-                    <bundle translate="label" module="Mage_Bundle">
+                    <bundle translate="label">
                         <label>Bundle Product</label>
                         <model>Mage_Bundle_Model_Product_Type</model>
                         <composite>1</composite>
@@ -39,16 +39,16 @@
                 <options>
                     <bundle>
                         <types>
-                            <select translate="label" module="Mage_Bundle">
+                            <select translate="label">
                                 <label>Drop-down</label>
                             </select>
-                            <radio translate="label" module="Mage_Bundle">
+                            <radio translate="label">
                                 <label>Radio Buttons</label>
                             </radio>
-                            <checkbox translate="label" module="Mage_Bundle">
+                            <checkbox translate="label">
                                 <label>Checkbox</label>
                             </checkbox>
-                            <multi translate="label" module="Mage_Bundle">
+                            <multi translate="label">
                                 <label>Multiple Select</label>
                             </multi>
                         </types>

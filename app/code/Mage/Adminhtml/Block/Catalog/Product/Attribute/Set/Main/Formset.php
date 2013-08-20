@@ -27,10 +27,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
             ->load($this->getRequest()->getParam('id'));
 
         $form = new Magento_Data_Form();
-        $fieldset = $form->addFieldset('set_name', array('legend'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Set Name')));
+        $fieldset = $form->addFieldset('set_name', array('legend'=> __('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
-            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('For internal use'),
+            'label' => __('Name'),
+            'note' => __('For internal use'),
             'name' => 'attribute_set_name',
             'required' => true,
             'class' => 'required-entry validate-no-html-tags',
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
                 ->toOptionArray();
 
             $fieldset->addField('skeleton_set', 'select', array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Based On'),
+                'label' => __('Based On'),
                 'name' => 'skeleton_set',
                 'required' => true,
                 'class' => 'required-entry',

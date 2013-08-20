@@ -14,8 +14,8 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Virtual_Schedule
     public function toOptionArray()
     {
         return array(
-            array('value' => 'OPTIMISTIC',  'label' => Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('Optimistic')),
-            array('value' => 'PESSIMISTIC', 'label' => Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('Pessimistic')),
+            array('value' => 'OPTIMISTIC',  'label' => __('Optimistic')),
+            array('value' => 'PESSIMISTIC', 'label' => __('Pessimistic')),
         );
     }
 }

@@ -72,7 +72,6 @@ class Mage_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_TestCa
         $domainModel = new Mage_Core_Model_Theme_Domain_Physical(
             $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false),
             $themeFactory,
-            $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false, false),
             $copyService,
             $themeCollection
         );

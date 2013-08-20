@@ -126,8 +126,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             $hourEnd = 12;
             $dayPartHtml = $this->_getHtmlSelect('day_part')
                 ->setOptions(array(
-                    'am' => Mage::helper('Mage_Catalog_Helper_Data')->__('AM'),
-                    'pm' => Mage::helper('Mage_Catalog_Helper_Data')->__('PM')
+                    'am' => __('AM'),
+                    'pm' => __('PM')
                 ))
                 ->getHtml();
         }

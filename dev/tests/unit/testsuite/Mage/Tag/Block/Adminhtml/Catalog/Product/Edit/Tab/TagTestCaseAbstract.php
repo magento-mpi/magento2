@@ -41,10 +41,6 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract exte
     protected function setUp()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $helperMock = $this->getMock('Mage_Tag_Helper_Data', array('__'), array(), '', false);
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
 
         $authorization = $this->getMock('Magento_AuthorizationInterface');
         $authorization->expects($this->any())
@@ -52,15 +48,8 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract exte
             ->with('Mage_Tag::tag_all')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($helperMock));
-
         $data = array(
             'authorization' => $authorization,
-            'helperFactory' => $helperFactoryMock,
-
         );
         $this->_model = $objectManagerHelper->getObject($this->_modelName, $data);
     }

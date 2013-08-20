@@ -20,7 +20,7 @@ class Mage_Adminhtml_Controller_System_Account extends Mage_Adminhtml_Controller
 {
     public function indexAction()
     {
-        $this->_title($this->__('My Account'));
+        $this->_title(__('My Account'));
 
         $this->loadLayout();
         $this->renderLayout();
@@ -63,13 +63,13 @@ class Mage_Adminhtml_Controller_System_Account extends Mage_Adminhtml_Controller
             $user->save();
             $user->sendPasswordResetNotificationEmail();
             $this->_getSession()->addSuccess(
-                $this->__('The account has been saved.')
+                __('The account has been saved.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                $this->__('An error occurred while saving account.')
+                __('An error occurred while saving account.')
             );
         }
         $this->getResponse()->setRedirect($this->getUrl("*/*/"));

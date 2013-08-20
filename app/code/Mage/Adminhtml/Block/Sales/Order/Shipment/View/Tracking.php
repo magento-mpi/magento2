@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
     {
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Add'),
+            'label'   => __('Add'),
             'class'   => 'save',
             'onclick' => $onclick
         ));
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
         $carrierInstances = Mage::getSingleton('Mage_Shipping_Model_Config')->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
-        $carriers['custom'] = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
+        $carriers['custom'] = __('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
             return $carrier->getConfigData('title');
         }
         else {
-            return Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
+            return __('Custom Value');
         }
         return false;
     }

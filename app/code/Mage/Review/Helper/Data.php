@@ -43,9 +43,9 @@ class Mage_Review_Helper_Data extends Mage_Core_Helper_Abstract
     public function getReviewStatuses()
     {
         return array(
-            Mage_Review_Model_Review::STATUS_APPROVED     => $this->__('Approved'),
-            Mage_Review_Model_Review::STATUS_PENDING      => $this->__('Pending'),
-            Mage_Review_Model_Review::STATUS_NOT_APPROVED => $this->__('Not Approved'),
+            Mage_Review_Model_Review::STATUS_APPROVED     => __('Approved'),
+            Mage_Review_Model_Review::STATUS_PENDING      => __('Pending'),
+            Mage_Review_Model_Review::STATUS_NOT_APPROVED => __('Not Approved'),
         );
     }
 

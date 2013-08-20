@@ -29,13 +29,13 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml
             $websiteModel->setData($postData['website']);
         }
         $fieldset = $form->addFieldset('website_fieldset', array(
-            'legend' => Mage::helper('Mage_Core_Helper_Data')->__('Web Site Information')
+            'legend' => __('Web Site Information')
         ));
         /* @var $fieldset Magento_Data_Form */
 
         $fieldset->addField('website_name', 'text', array(
             'name'      => 'website[name]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Name'),
+            'label'     => __('Name'),
             'value'     => $websiteModel->getName(),
             'required'  => true,
             'disabled'  => $websiteModel->isReadOnly(),
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml
 
         $fieldset->addField('website_code', 'text', array(
             'name'      => 'website[code]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Code'),
+            'label'     => __('Code'),
             'value'     => $websiteModel->getCode(),
             'required'  => true,
             'disabled'  => $websiteModel->isReadOnly(),
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml
 
         $fieldset->addField('website_sort_order', 'text', array(
             'name'      => 'website[sort_order]',
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Sort Order'),
+            'label'     => __('Sort Order'),
             'value'     => $websiteModel->getSortOrder(),
             'required'  => false,
             'disabled'  => $websiteModel->isReadOnly(),
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml
 
             $fieldset->addField('website_default_group_id', 'select', array(
                 'name'      => 'website[default_group_id]',
-                'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Default Store'),
+                'label'     => __('Default Store'),
                 'value'     => $websiteModel->getDefaultGroupId(),
                 'values'    => $groups,
                 'required'  => false,
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml
         if (!$websiteModel->getIsDefault() && $websiteModel->getStoresCount()) {
             $fieldset->addField('is_default', 'checkbox', array(
                 'name'      => 'website[is_default]',
-                'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Set as Default'),
+                'label'     => __('Set as Default'),
                 'value'     => 1,
                 'disabled'  => $websiteModel->isReadOnly(),
             ));

@@ -40,10 +40,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Cond
         $conditions = array_merge_recursive($conditions, array(
             array(
                 'value' => 'Mage_CatalogRule_Model_Rule_Condition_Combine',
-                'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Conditions Combination')
+                'label' => __('Conditions Combination')
             ),
             array(
-                'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Product Attribute'),
+                'label' => __('Product Attribute'),
                 'value' => $attributes
             ),
         ));

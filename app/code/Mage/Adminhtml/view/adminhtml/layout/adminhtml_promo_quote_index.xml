@@ -30,7 +30,7 @@
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">ID</header>
+                                <header translate="true">ID</header>
                                 <width>50px</width>
                                 <align>right</align>
                                 <index>rule_id</index>
@@ -38,14 +38,14 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">Rule</header>
+                                <header translate="true">Rule</header>
                                 <align>left</align>
                                 <index>name</index>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="coupon_code">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">Coupon Code</header>
+                                <header translate="true">Coupon Code</header>
                                 <width>150px</width>
                                 <align>left</align>
                                 <index>code</index>
@@ -53,7 +53,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">Start on</header>
+                                <header translate="true">Start on</header>
                                 <width>120px</width>
                                 <align>left</align>
                                 <type>date</type>
@@ -62,7 +62,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">End on</header>
+                                <header translate="true">End on</header>
                                 <width>120px</width>
                                 <align>left</align>
                                 <type>date</type>
@@ -72,7 +72,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">Status</header>
+                                <header translate="true">Status</header>
                                 <width>80px</width>
                                 <align>left</align>
                                 <index>is_active</index>
@@ -80,18 +80,18 @@
                                 <options>
                                     <active>
                                         <value>1</value>
-                                        <label translate="true" module="Mage_SalesRule">Active</label>
+                                        <label translate="true">Active</label>
                                     </active>
                                     <inactive>
                                         <value>0</value>
-                                        <label translate="true" module="Mage_SalesRule">Inactive</label>
+                                        <label translate="true">Inactive</label>
                                     </inactive>
                                 </options>
                             </arguments>
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">Web Site</header>
+                                <header translate="true">Web Site</header>
                                 <width>200</width>
                                 <align>left</align>
                                 <index>website_ids</index>
@@ -102,7 +102,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="sort_order">
                             <arguments>
-                                <header translate="true" module="Mage_SalesRule">Priority</header>
+                                <header translate="true">Priority</header>
                                 <width>100</width>
                                 <align>right</align>
                                 <index>sort_order</index>
