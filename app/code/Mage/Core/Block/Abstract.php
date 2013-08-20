@@ -600,11 +600,11 @@ abstract class Mage_Core_Block_Abstract extends Magento_Object
     /**
      * Produce and return block's html output
      *
-     * It is a final method, but you can override _toHtml() method in descendants if needed.
+     * This method should not be overridden. You can override _toHtml() method in descendants if needed.
      *
      * @return string
      */
-    final public function toHtml()
+    public function toHtml()
     {
         $this->_eventManager->dispatch('core_block_abstract_to_html_before', array('block' => $this));
         if ($this->_storeConfig->getConfig('advanced/modules_disable_output/' . $this->getModuleName())) {

@@ -184,7 +184,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
         );
         $methods[] = array(
             'name' => '__sleep',
-            'body' => "\$this->_getSubject();\nreturn array('_subject');",
+            'body' => "\$this->_getSubject();\nreturn array('_subject', '_subjectType');",
             'docblock' => array(
                 'tags' => array(
                     array(
