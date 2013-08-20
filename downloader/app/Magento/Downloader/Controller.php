@@ -489,7 +489,7 @@ final class Magento_Downloader_Controller
             self::$_instance = new self;
 
             if (self::$_instance->isDownloaded()) {
-                if (!class_exists('Mage', false)) {
+                if (!class_exists('Magento', false)) {
                     if (!file_exists(self::getBootstrapPath())) {
                         return false;
                     }
