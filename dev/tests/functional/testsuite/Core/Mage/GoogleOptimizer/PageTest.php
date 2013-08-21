@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Core_Magento_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
+class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
 {
     /**
      * @var array

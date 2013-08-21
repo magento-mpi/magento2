@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Core_Magento_Api_SmokeTest extends Mage_Selenium_TestCase
+class Core_Mage_Api_SmokeTest extends Mage_Selenium_TestCase
 {
     protected static $_apiCredentials;
 

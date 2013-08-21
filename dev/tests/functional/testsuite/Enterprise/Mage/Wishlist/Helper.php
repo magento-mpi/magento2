@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Wishlist
+ * @package     Mage_Wishlist
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_Wishlist_Helper extends Core_Magento_Wishlist_Helper
+class Enterprise_Mage_Wishlist_Helper extends Core_Mage_Wishlist_Helper
 {
     /**
      * Adds product to wishlist from the product details page.

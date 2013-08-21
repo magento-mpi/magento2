@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CheckoutOnePage
+ * @package     Mage_CheckoutOnePage
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_CheckoutOnePage_Helper extends Core_Magento_CheckoutOnePage_Helper
+class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_Helper
 {
     /**
      * Adding gift message(gift wrapping) for entire order of each item

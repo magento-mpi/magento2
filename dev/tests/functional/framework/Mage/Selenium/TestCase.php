@@ -14,106 +14,106 @@
  * An extended test case implementation that adds useful helper methods
  *
  * @package     selenium
- * @subpackage  Magento_Selenium
+ * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *
- * @method Core_Magento_AdminUser_Helper                                                                  adminUserHelper()
- * @method Core_Magento_AdvancedSearch_Helper                                                             advancedSearchHelper()
- * @method Core_Magento_AttributeSet_Helper                                                               attributeSetHelper()
- * @method Core_Magento_Category_Helper|Enterprise_Magento_Category_Helper                                   categoryHelper()
- * @method Core_Magento_CheckoutMultipleAddresses_Helper|Enterprise_Magento_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
- * @method Core_Magento_CheckoutOnePage_Helper|Enterprise_Magento_CheckoutOnePage_Helper                     checkoutOnePageHelper()
- * @method Core_Magento_CmsPages_Helper                                                                   cmsPagesHelper()
- * @method Core_Magento_CmsPolls_Helper                                                                   cmsPollsHelper()
- * @method Core_Magento_CmsStaticBlocks_Helper                                                            cmsStaticBlocksHelper()
- * @method Core_Magento_CmsWidgets_Helper|Enterprise_Magento_CmsWidgets_Helper                               cmsWidgetsHelper()
- * @method Core_Magento_CompareProducts_Helper                                                            compareProductsHelper()
- * @method Core_Magento_Csv_Helper                                                                        csvHelper()
- * @method Core_Magento_CustomerGroups_Helper                                                             customerGroupsHelper()
- * @method Core_Magento_Customer_Helper|Enterprise_Magento_Customer_Helper                                   customerHelper()
- * @method Core_Magento_DesignEditor_Helper                                                               designEditorHelper()
- * @method Core_Magento_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
- * @method Core_Magento_Grid_Helper                                                                       gridHelper()
- * @method Core_Magento_ImportExport_Helper|Enterprise_Magento_ImportExport_Helper                           importExportHelper()
- * @method Core_Magento_Installation_Helper                                                               installationHelper()
- * @method Core_Magento_LayeredNavigation_Helper                                                          layeredNavigationHelper()
- * @method Core_Magento_Newsletter_Helper                                                                 newsletterHelper()
- * @method Core_Magento_OrderCreditMemo_Helper                                                            orderCreditMemoHelper()
- * @method Core_Magento_OrderInvoice_Helper                                                               orderInvoiceHelper()
- * @method Core_Magento_OrderShipment_Helper                                                              orderShipmentHelper()
- * @method Core_Magento_Order_Helper|Enterprise_Magento_Order_Helper                                         orderHelper()
- * @method Core_Magento_Paypal_Helper                                                                     paypalHelper()
- * @method Core_Magento_PriceRules_Helper|Enterprise_Magento_PriceRules_Helper                               priceRulesHelper()
- * @method Core_Magento_ProductAttribute_Helper                                                           productAttributeHelper()
- * @method Core_Magento_Product_Helper|Enterprise_Magento_Product_Helper                                     productHelper()
- * @method Core_Magento_Rating_Helper                                                                     ratingHelper()
- * @method Core_Magento_Reports_Helper                                                                    reportsHelper()
- * @method Core_Magento_Review_Helper                                                                     reviewHelper()
- * @method Core_Magento_RssFeeds_Helper                                                                   rssFeedsHelper()
- * @method Core_Magento_ShoppingCart_Helper|Enterprise_Magento_ShoppingCart_Helper                           shoppingCartHelper()
- * @method Core_Magento_Store_Helper                                                                      storeHelper()
- * @method Core_Magento_SystemConfiguration_Helper                                                        systemConfigurationHelper()
- * @method Core_Magento_Tags_Helper                                                                       tagsHelper()
- * @method Core_Magento_Tax_Helper                                                                        taxHelper()
- * @method Core_Magento_Tax_TaxRule_Helper                                                                taxRuleHelper()
- * @method Core_Magento_TermsAndConditions_Helper                                                         termsAndConditionsHelper()
- * @method Core_Magento_Theme_Helper                                                                      themeHelper()
- * @method Core_Magento_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
- * @method Core_Magento_Vde_Helper                                                                        vdeHelper()
- * @method Core_Magento_Wishlist_Helper|Enterprise_Magento_Wishlist_Helper                                   wishlistHelper()
- * @method Core_Magento_XmlSitemap_Helper                                                                 xmlSitemapHelper()
- * @method Enterprise_Magento_AddBySku_Helper                                                             addBySkuHelper()
- * @method Enterprise_Magento_Attributes_Helper                                                           attributesHelper()
- * @method Enterprise_Magento_CacheStorageManagement_Helper                                               cacheStorageManagementHelper()
- * @method Enterprise_Magento_CmsBanners_Helper                                                           cmsBannersHelper()
- * @method Enterprise_Magento_CustomerSegment_Helper                                                      customerSegmentHelper()
- * @method Enterprise_Magento_GiftRegistry_Helper                                                         giftRegistryHelper()
- * @method Enterprise_Magento_GiftWrapping_Helper                                                         giftWrappingHelper()
- * @method Enterprise_Magento_ImportExportScheduled_Helper                                                importExportScheduledHelper()
- * @method Enterprise_Magento_Invitation_Helper                                                           invitationHelper()
- * @method Enterprise_Magento_Rma_Helper                                                                  rmaHelper()
- * @method Enterprise_Magento_Rollback_Helper                                                             rollbackHelper()
- * @method Enterprise_Magento_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
+ * @method Core_Mage_AdminUser_Helper                                                                  adminUserHelper()
+ * @method Core_Mage_AdvancedSearch_Helper                                                             advancedSearchHelper()
+ * @method Core_Mage_AttributeSet_Helper                                                               attributeSetHelper()
+ * @method Core_Mage_Category_Helper|Enterprise_Mage_Category_Helper                                   categoryHelper()
+ * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
+ * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper                     checkoutOnePageHelper()
+ * @method Core_Mage_CmsPages_Helper                                                                   cmsPagesHelper()
+ * @method Core_Mage_CmsPolls_Helper                                                                   cmsPollsHelper()
+ * @method Core_Mage_CmsStaticBlocks_Helper                                                            cmsStaticBlocksHelper()
+ * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper                               cmsWidgetsHelper()
+ * @method Core_Mage_CompareProducts_Helper                                                            compareProductsHelper()
+ * @method Core_Mage_Csv_Helper                                                                        csvHelper()
+ * @method Core_Mage_CustomerGroups_Helper                                                             customerGroupsHelper()
+ * @method Core_Mage_Customer_Helper|Enterprise_Mage_Customer_Helper                                   customerHelper()
+ * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Core_Mage_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
+ * @method Core_Mage_Grid_Helper                                                                       gridHelper()
+ * @method Core_Mage_ImportExport_Helper|Enterprise_Mage_ImportExport_Helper                           importExportHelper()
+ * @method Core_Mage_Installation_Helper                                                               installationHelper()
+ * @method Core_Mage_LayeredNavigation_Helper                                                          layeredNavigationHelper()
+ * @method Core_Mage_Newsletter_Helper                                                                 newsletterHelper()
+ * @method Core_Mage_OrderCreditMemo_Helper                                                            orderCreditMemoHelper()
+ * @method Core_Mage_OrderInvoice_Helper                                                               orderInvoiceHelper()
+ * @method Core_Mage_OrderShipment_Helper                                                              orderShipmentHelper()
+ * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
+ * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
+ * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
+ * @method Core_Mage_ProductAttribute_Helper                                                           productAttributeHelper()
+ * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper                                     productHelper()
+ * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
+ * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
+ * @method Core_Mage_Review_Helper                                                                     reviewHelper()
+ * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
+ * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
+ * @method Core_Mage_Store_Helper                                                                      storeHelper()
+ * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
+ * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
+ * @method Core_Mage_Tax_Helper                                                                        taxHelper()
+ * @method Core_Mage_Tax_TaxRule_Helper                                                                taxRuleHelper()
+ * @method Core_Mage_TermsAndConditions_Helper                                                         termsAndConditionsHelper()
+ * @method Core_Mage_Theme_Helper                                                                      themeHelper()
+ * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
+ * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
+ * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
+ * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
+ * @method Enterprise_Mage_AddBySku_Helper                                                             addBySkuHelper()
+ * @method Enterprise_Mage_Attributes_Helper                                                           attributesHelper()
+ * @method Enterprise_Mage_CacheStorageManagement_Helper                                               cacheStorageManagementHelper()
+ * @method Enterprise_Mage_CmsBanners_Helper                                                           cmsBannersHelper()
+ * @method Enterprise_Mage_CustomerSegment_Helper                                                      customerSegmentHelper()
+ * @method Enterprise_Mage_GiftRegistry_Helper                                                         giftRegistryHelper()
+ * @method Enterprise_Mage_GiftWrapping_Helper                                                         giftWrappingHelper()
+ * @method Enterprise_Mage_ImportExportScheduled_Helper                                                importExportScheduledHelper()
+ * @method Enterprise_Mage_Invitation_Helper                                                           invitationHelper()
+ * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
+ * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
+ * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  */
 //@codingStandardsIgnoreEnd
-class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
+class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
     ################################################################################
     #              Framework variables and constant                                #
     ################################################################################
     /**
      * Configuration object instance
-     * @var Magento_Selenium_TestConfiguration
+     * @var Mage_Selenium_TestConfiguration
      */
     private $_testConfig;
 
     /**
      * Config helper instance
-     * @var Magento_Selenium_Helper_Config
+     * @var Mage_Selenium_Helper_Config
      */
     private $_configHelper;
 
     /**
      * UIMap helper instance
-     * @var Magento_Selenium_Helper_Uimap
+     * @var Mage_Selenium_Helper_Uimap
      */
     private $_uimapHelper;
 
     /**
      * Data helper instance
-     * @var Magento_Selenium_Helper_Data
+     * @var Mage_Selenium_Helper_Data
      */
     private $_dataHelper;
 
     /**
      * Params helper instance
-     * @var Magento_Selenium_Helper_Params
+     * @var Mage_Selenium_Helper_Params
      */
     private $_paramsHelper;
 
     /**
      * Data Generator helper instance
-     * @var Magento_Selenium_Helper_DataGenerator
+     * @var Mage_Selenium_Helper_DataGenerator
      */
     private $_dataGeneratorHelper;
 
@@ -227,7 +227,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
-        $this->_testConfig = Magento_Selenium_TestConfiguration::getInstance();
+        $this->_testConfig = Mage_Selenium_TestConfiguration::getInstance();
         $this->_configHelper = $this->_testConfig->getHelper('config');
         $this->_uimapHelper = $this->_testConfig->getHelper('uimap');
         $this->_dataHelper = $this->_testConfig->getHelper('data');
@@ -431,7 +431,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $helperClassName = $helperClassNames[$helperName];
         if (isset(self::$_testHelpers[$helperClassName])) {
-            /** @var $helper Magento_Selenium_AbstractHelper */
+            /** @var $helper Mage_Selenium_AbstractHelper */
             $helper = self::$_testHelpers[$helperClassName];
             $helper->setTestInstance($this);
             return $helper;
@@ -445,7 +445,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param  string $className
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function helper($className)
     {
@@ -454,7 +454,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $className .= '_Helper';
         }
         if (isset(self::$_testHelpers[$className])) {
-            /** @var $helper Magento_Selenium_AbstractHelper */
+            /** @var $helper Mage_Selenium_AbstractHelper */
             $helper = self::$_testHelpers[$className];
             $helper->setTestInstance($this);
             return $helper;
@@ -477,7 +477,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-     * @return Magento_Selenium_Helper_Config
+     * @return Mage_Selenium_Helper_Config
      */
     public function getConfigHelper()
     {
@@ -485,7 +485,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-     * @return Magento_Selenium_Helper_Params
+     * @return Mage_Selenium_Helper_Params
      */
     public function getParamsHelper()
     {
@@ -493,7 +493,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-     * @return Magento_Selenium_Helper_Uimap
+     * @return Mage_Selenium_Helper_Uimap
      */
     public function getUimapHelper()
     {
@@ -541,9 +541,9 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Append parameters decorator object
      *
-     * @param Magento_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
+     * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function appendParamsDecorator($paramsHelperObject)
     {
@@ -558,7 +558,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $name
      * @param string $value
      *
-     * @return Magento_Selenium_Helper_Params
+     * @return Mage_Selenium_Helper_Params
      */
     public function addParameter($name, $value)
     {
@@ -1283,7 +1283,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $page Page identifier
      * @param bool $validatePage
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function goToArea($area = 'frontend', $page = '', $validatePage = true)
     {
@@ -1303,7 +1303,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $page Page identifier
      * @param bool $validatePage
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function navigate($page, $validatePage = true)
     {
@@ -1336,7 +1336,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $page Page identifier (by default = null)
      * @param bool $validatePage
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function admin($page = null, $validatePage = true)
     {
@@ -1352,7 +1352,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $page Page identifier (by default = 'home_page')
      * @param bool $validatePage
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function frontend($page = 'home_page', $validatePage = true)
     {
@@ -1450,7 +1450,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param string $name
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function setArea($name)
     {
@@ -1489,7 +1489,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $area Area identifier
      * @param string $pageKey UIMap page key
      *
-     * @return Magento_Selenium_Uimap_Page
+     * @return Mage_Selenium_Uimap_Page
      */
     public function getUimapPage($area, $pageKey)
     {
@@ -1499,7 +1499,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Retrieves current Page data from UIMap.
      * Gets current page name from an internal variable.
-     * @return Magento_Selenium_Uimap_Page
+     * @return Mage_Selenium_Uimap_Page
      */
     public function getCurrentUimapPage()
     {
@@ -1509,7 +1509,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Retrieves current Page data from UIMap.
      * Gets current page name from the current URL.
-     * @return Magento_Selenium_Uimap_Page
+     * @return Mage_Selenium_Uimap_Page
      */
     public function getCurrentLocationUimapPage()
     {
@@ -1531,7 +1531,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param string $page
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function setCurrentPage($page)
     {
@@ -1727,9 +1727,9 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param string $elementType
      * @param string $elementName
-     * @param Magento_Selenium_Uimap_Page|null $uimap
+     * @param Mage_Selenium_Uimap_Page|null $uimap
      *
-     * @return Magento_Selenium_Uimap_Fieldset|Magento_Selenium_Uimap_Tab
+     * @return Mage_Selenium_Uimap_Fieldset|Mage_Selenium_Uimap_Tab
      * @throws PHPUnit_Framework_AssertionFailedError
      */
     public function _findUimapElement($elementType, $elementName, $uimap = null)
@@ -1784,13 +1784,13 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Get part of UIMap for opened tab
      * @throws RuntimeException
-     * @return Magento_Selenium_Uimap_Tab
+     * @return Mage_Selenium_Uimap_Tab
      */
     public function _getActiveTabUimap()
     {
         $tabsOnPage = false;
         $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
-        /** @var Magento_Selenium_Uimap_Tab $tabUimap */
+        /** @var Mage_Selenium_Uimap_Tab $tabUimap */
         foreach ($tabData as $tabUimap) {
             $tabsOnPage = true;
             $availableElement = $this->elementIsPresent($tabUimap->getXPath());
@@ -1906,7 +1906,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _getMessageXpath($message)
     {
         $messages = $this->getCurrentUimapPage()->getAllElements('messages');
-        /** @var Magento_Selenium_Uimap_ElementsCollection $messages */
+        /** @var Mage_Selenium_Uimap_ElementsCollection $messages */
         $messageLocator = $messages->get($message, $this->_paramsHelper);
         if ($messageLocator === null) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
@@ -1932,7 +1932,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $dataMap = array();
         $fieldsetsElements = array();
         foreach ($fieldsets as $fieldsetName => $fieldsetContent) {
-            /** @var Magento_Selenium_Uimap_Fieldset $fieldsetContent */
+            /** @var Mage_Selenium_Uimap_Fieldset $fieldsetContent */
             $fieldsetsElements[$fieldsetName] = $fieldsetContent->getFieldsetElements();
         }
         foreach ($data as $dataFieldName => $dataFieldValue) {
@@ -2170,7 +2170,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param $path
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function setScreenshotPath($path)
     {
@@ -2183,7 +2183,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param string $path
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function setDefaultScreenshotPath($path)
     {
@@ -2211,7 +2211,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function clickControl($controlType, $controlName, $willChangePage = true)
     {
@@ -2238,7 +2238,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function clickButton($button, $willChangePage = true)
     {
@@ -2870,7 +2870,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $buttonName Name of the button, what intended to save (submit) form (from UIMap)
      * @param bool $validate
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function saveForm($buttonName, $validate = true)
     {
@@ -2884,7 +2884,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $controlName Name of a control from UIMap
      * @param bool $validate
      *
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function clickControlAndWaitMessage($controlType, $controlName, $validate = true)
     {
@@ -3747,7 +3747,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param integer $waitDisappear Timeout in seconds to wait for the loader to disappear (by default = 30)
      *
      * @throws RuntimeException
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function pleaseWait($waitDisappear = null)
     {
@@ -3756,7 +3756,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->waitUntil(
             function ($testCase) {
-                /** @var Magento_Selenium_TestCase $testCase */
+                /** @var Mage_Selenium_TestCase $testCase */
                 /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
                 do {
                     $isLoaderDisplay = false;
@@ -3774,7 +3774,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
     /**
      * Logs in as a default admin user on back-end
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function loginAdminUser()
     {
@@ -3812,7 +3812,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
     /**
      * Logs out from back-end
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function logoutAdminUser()
     {
@@ -3948,7 +3948,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
     /**
      * Performs LogOut customer on front-end
-     * @return Magento_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function logoutCustomer()
     {
@@ -4308,7 +4308,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->waitUntil(
             function ($testCase) use ($pageText) {
-                /** @var Magento_Selenium_TestCase $testCase */
+                /** @var Mage_Selenium_TestCase $testCase */
                 if ($testCase->textIsPresent($pageText)) {
                     return true;
                 }
@@ -4325,7 +4325,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->waitUntil(
             function ($testCase) use ($pageText) {
-                /** @var Magento_Selenium_TestCase $testCase */
+                /** @var Mage_Selenium_TestCase $testCase */
                 if (!$testCase->textIsPresent($pageText)) {
                     return true;
                 }
@@ -4373,7 +4373,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Get suite
      *
      * @param string $className
-     * @param Magento_Test_SkipFilter|null $filter
+     * @param Mage_Test_SkipFilter|null $filter
      * @return PHPUnit_Framework_TestSuite
      */
     public static function suite($className, $filter = null)
@@ -4383,7 +4383,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
         // Create tests from test methods for multiple browsers.
         if (!empty($staticProperties['browsers'])) {
-            $suite = new Magento_Selenium_TestSuite();
+            $suite = new Mage_Selenium_TestSuite();
             if (null !== $filter) {
                 $suite->setTestFilter($filter);
             }
@@ -4398,7 +4398,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $suite->addTest($browserSuite);
             }
         } else {
-            $suite = new Magento_Selenium_TestSuite($class, '', $filter);
+            $suite = new Mage_Selenium_TestSuite($class, '', $filter);
         }
         return $suite;
     }
@@ -4579,7 +4579,7 @@ class Magento_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForWindowToClose($countBeforeClose = 2, $timeout = null)
     {
         $this->waitUntil(function ($testCase) use ($countBeforeClose) {
-            /** @var Magento_Selenium_TestCase $testCase */
+            /** @var Mage_Selenium_TestCase $testCase */
             if (count($testCase->windowHandles()) == $countBeforeClose - 1) {
                 $testCase->window('');
                 return true;

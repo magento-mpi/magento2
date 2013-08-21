@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_ImportExport
+ * @package     Mage_ImportExport
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Magento_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selenium_TestCase
+class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selenium_TestCase
 {
     protected static $_customerData = array();
     protected static $_addressData = array();
