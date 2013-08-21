@@ -14,10 +14,10 @@
             module="Enterprise_Banner" placeholder_image="Enterprise_Banner::widget_banner.gif">
         <label>Banner Rotator</label>
         <description>Displays Specified or Promotion Banners</description>
-        <parameter name="display_mode" translate="label" required="true" visible="true" xsi:type="select">
+        <parameter xsi:type="select" name="display_mode" translate="label" required="true" visible="true" >
             <label>Banners to Display</label>
             <option name="fixed" translate="label" value="fixed" selected="true">
-                <label>Banners to Display</label>
+                <label>Specified Banners</label>
             </option>
             <option name="salesrule" translate="label" value="salesrule">
                 <label>Shopping Cart Promotions Related</label>
@@ -26,11 +26,11 @@
                 <label>Catalog Promotions Related</label>
             </option>
         </parameter>
-        <parameter name="display_mode" translate="label" required="true" visible="true" xsi:type="multiselect"
+        <parameter xsi:type="multiselect" name="types" translate="label" required="true" visible="true"
                    source_model="Enterprise_Banner_Model_Config">
             <label>Restrict by Banner Types</label>
         </parameter>
-        <parameter name="rotate" translate="label" visible="true" xsi:type="select">
+        <parameter xsi:type="select" name="rotate" translate="label" visible="true">
             <label>Rotation Mode</label>
             <option name="none" translate="label" value="" selected="true">
                 <label>Display all instead of rotating.</label>
@@ -45,14 +45,14 @@
                 <label>One at the time, Shuffle</label>
             </option>
         </parameter>
-        <parameter name="banner_ids" translate="label" visible="true" xsi:type="value_renderer">
+        <parameter xsi:type="value_renderer" name="banner_ids" translate="label" visible="true">
             <label>Specify Banners</label>
             <renderer class="Enterprise_Banner_Block_Adminhtml_Widget_Chooser" />
             <depends>
                 <parameter name="display_mode" value="fixed" />
             </depends>
         </parameter>
-        <parameter name="template" required="true" xsi:type="select">
+        <parameter xsi:type="select" name="template" required="true" visible="false">
             <option name="block" translate="label" value="widget/block.phtml" selected="true">
                 <label>Banner Block Template</label>
             </option>
@@ -60,6 +60,6 @@
                 <label>Banner Inline Template</label>
             </option>
         </parameter>
-        <parameter name="unique_id" required="true" xsi:type="text" visible="false" />
+        <parameter xsi:type="text" name="unique_id" required="true" visible="false" />
     </widget>
 </widgets>
