@@ -9,9 +9,12 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
+
     <widget id="sales_widget_guestfrom" class="Mage_Sales_Block_Widget_Guest_Form"
-            translate="name description" module="Mage_Sales" is_email_compatible="true">
+            translate="label description" module="Mage_Sales" is_email_compatible="true">
         <label>Orders and Returns</label>
         <description>Orders and Returns Search Form</description>
         <parameter name="title" xsi:type="text" translate="label" visible="false">
