@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.magentocommerce.com/widget ../../Widget/etc/widget.xsd">
     <widget id="enterprise_banner" class="Enterprise_Banner_Block_Widget_Banner" translate="label description"
             module="Enterprise_Banner" placeholder_image="Enterprise_Banner::widget_banner.gif">
         <label>Banner Rotator</label>
@@ -26,7 +28,7 @@
                 <label>Catalog Promotions Related</label>
             </option>
         </parameter>
-        <parameter xsi:type="multiselect" name="types" translate="label" required="true" visible="true"
+        <parameter xsi:type="multiselect" name="types" translate="label" visible="true"
                    source_model="Enterprise_Banner_Model_Config">
             <label>Restrict by Banner Types</label>
         </parameter>

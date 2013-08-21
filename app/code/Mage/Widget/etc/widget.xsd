@@ -83,7 +83,7 @@
 
     <complexType name="rendererType">
         <sequence>
-            <element name="data" type="tns:dataType"></element>
+            <element name="data"  minOccurs="0" type="tns:dataType"></element>
         </sequence>
         <attribute name="class" type="string" use="required"></attribute>
     </complexType>
