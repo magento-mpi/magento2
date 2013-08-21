@@ -30,40 +30,33 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
     protected $_address = array();
 
     /**
-     * @var Mage_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var Mage_Directory_Block_Data
      */
     protected $_directoryBlock;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Directory_Block_Data $directoryBlock
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Directory_Block_Data $directoryBlock,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_directoryBlock = $directoryBlock;
         parent::__construct($context, $data);
     }
 
     /**
-     * Get store
+     * Get config
      *
-     * @return Mage_Core_Model_Store
+     * @param string $path
+     * @return mixed
      */
-    public function getStore()
+    public function getConfig($path)
     {
-        return $this->_storeManager->getStore();
+        return $this->_storeConfig->getConfig($path);
     }
 
     /**

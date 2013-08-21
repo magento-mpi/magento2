@@ -18,11 +18,6 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     protected $_regionCollection;
 
     /**
-     * @var Mage_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-    
-    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -31,20 +26,16 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config $config,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($context, $configCacheType, $data);
         $this->_config = $config;
-        $this->_storeManager = $storeManager;
     }
 
 
@@ -190,20 +181,22 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     }
 
     /**
-     * @return Mage_Core_Model_Config
+     * @param string $path
+     * @return Mage_Core_Model_Config_Element
      */
-    public function getConfig()
+    public function getConfigNode($path)
     {
-        return $this->_config;
+        return $this->_config->getNode($path);
     }
 
     /**
-     * Get store
+     * Get config
      *
-     * @return Mage_Core_Model_Store
+     * @param string $path
+     * @return mixed
      */
-    public function getStore()
+    public function getConfig($path)
     {
-        return $this->_storeManager->getStore();
+        return $this->_storeConfig->getConfig($path);
     }
 }

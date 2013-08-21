@@ -32,14 +32,19 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
      */
     protected $_config;
 
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Config $config
+     * @param array $data
+     */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_Config $config,
         array $data = array()
     ) {
-        parent::__construct($context, $configCacheType, $storeManager, $data);
+        parent::__construct($context, $configCacheType, $data);
         $this->_config = $config;
     }
 
@@ -191,18 +196,11 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @param string $path
+     * @return Mage_Core_Model_Config_Element
      */
-    public function getStoreManager()
+    public function getConfigNode($path)
     {
-        return $this->_storeManager;
-    }
-
-    /**
-     * @return Mage_Core_Model_Config
-     */
-    public function getConfig()
-    {
-        return $this->_config;
+        return $this->_config->getNode($path);
     }
 }
