@@ -26,12 +26,12 @@ class Mage_Core_Model_Route_Config implements Mage_Core_Model_Route_ConfigInterf
 
     /**
      * @param Mage_Core_Model_Route_Config_Reader $reader
-     * @param Magento_Cache_FrontendInterface $cache
+     * @param Magento_Config_CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         Mage_Core_Model_Route_Config_Reader $reader,
-        Magento_Cache_FrontendInterface $cache,
+        Magento_Config_CacheInterface $cache,
         $cacheId = 'RoutesConfig'
     ) {
         $this->_reader = $reader;

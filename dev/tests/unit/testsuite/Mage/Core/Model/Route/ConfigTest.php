@@ -34,7 +34,7 @@ class Mage_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetIfCacheIsArray()
     {
-        $this->_cacheMock->getRealMock()->expects($this->once())
+        $this->_cacheMock->expects($this->once())
             ->method('get')->with('areaCode', 'RoutesConfig-routerCode')
             ->will($this->returnValue(array('expected')));
         $this->assertEquals(array('expected'), $this->_config->getRoutes('areaCode', 'routerCode'));
@@ -52,7 +52,7 @@ class Mage_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
         $areaConfig['routerCode']['routes'] = 'Expected Value';
         $this->_readerMock->expects($this->once())
             ->method('read')->with('areaCode')->will($this->returnValue($areaConfig));
-        $this->_cacheMock->getRealMock()->expects($this->once())
+        $this->_cacheMock->expects($this->once())
             ->method('put')->with('Expected Value', 'areaCode', 'RoutesConfig-routerCode');
         $this->assertEquals('Expected Value', $this->_config->getRoutes('areaCode', 'routerCode'));
     }
