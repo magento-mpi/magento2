@@ -35,9 +35,9 @@ class Mage_Core_Model_Resource_Config_Value_Collection_Scoped extends Mage_Core_
         $scope,
         $scopeId = null
     ) {
-        parent::__construct($fetchStrategy, $resource);
         $this->_scope = $scope;
         $this->_scopeId = $scopeId;
+        parent::__construct($fetchStrategy, $resource);
     }
 
     /**
