@@ -512,7 +512,7 @@ class Magento_Object implements ArrayAccess
                 return isset($this->_data[$key]);
         }
         throw new Magento_Exception(
-            sprintf('Invalid method %s::%s(%s)', get_class($this), $method, '!!!arguments removed')
+            sprintf('Invalid method %s::%s(%s)', get_class($this), $method, print_r($args, 1))
         );
     }
 
