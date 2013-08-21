@@ -49,6 +49,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * @param string $routerId
      * @param string $defaultRouteId
      * @throws InvalidArgumentException
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
