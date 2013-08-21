@@ -28,8 +28,8 @@ class Mage_Core_Model_Route_Config_SchemaLocator implements Magento_Config_Schem
      */
     public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'route.xsd';
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'route_merged.xsd';
+        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'routes.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Mage_Core') . DIRECTORY_SEPARATOR . 'routes_merged.xsd';
     }
 
     /**

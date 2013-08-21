@@ -37,8 +37,8 @@ class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
     {
         global $magentoBaseDir;
 
-        $this->_schemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/route.xsd';
-        $this->_mergedSchemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/route_merged.xsd';
+        $this->_schemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/routes.xsd';
+        $this->_mergedSchemaFile = $magentoBaseDir . '/app/code/Mage/Core/etc/routes_merged.xsd';
     }
 
     public function testRouteConfigsValidation()
@@ -46,7 +46,7 @@ class Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
         global $magentoBaseDir;
         $invalidFiles = array();
 
-        $mask = $magentoBaseDir . '/app/code/*/*/etc/*/route.xml';
+        $mask = $magentoBaseDir . '/app/code/*/*/etc/*/routes.xml';
         $files = glob($mask);
         $mergedConfig = new Magento_Config_Dom(
             '<config></config>',

@@ -20,10 +20,10 @@ class Mage_Core_Model_Route_Config_ConverterTest extends PHPUnit_Framework_TestC
     public function testConvert()
     {
         $basePath = realpath(__DIR__) . '/_files/';
-        $path = $basePath . 'route.xml';
+        $path = $basePath . 'routes.xml';
         $domDocument = new DOMDocument();
         $domDocument->load($path);
-        $expectedData = include($basePath . 'route.php');
+        $expectedData = include($basePath . 'routes.php');
         $this->assertEquals($expectedData, $this->_model->convert($domDocument));
     }
 }

@@ -27,11 +27,11 @@ class Mage_Core_Model_Router_Config_SchemaLocatorTest extends PHPUnit_Framework_
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'route_merged.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'routes_merged.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'route.xsd', $this->_model->getPerFileSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'routes.xsd', $this->_model->getPerFileSchema());
     }
 }
