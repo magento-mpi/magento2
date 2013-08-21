@@ -1,17 +1,14 @@
 <?php
 
 /**
- * Web API configuration.
+ * Web API Config Model.
  *
- * This class store information about web api. Most of it is needed by REST
+ * This is a parent class for storing information about Web API. Most of it is needed by REST.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
- *
- * TODO: Remove warning suppression after method refactoring
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Webapi_Model_Config
 {
@@ -53,57 +50,18 @@ class Mage_Webapi_Model_Config
     protected $_restServices;
 
     /**
-     * SOAP services should be stored separately as the list of available operations
-     * is collected using reflection, not taken from config as for REST
-     *
-     * @var  array
-     */
-    protected $_soapServices;
-
-    /** @var Magento_Controller_Router_Route_Factory */
-    protected $_routeFactory;
-
-    /**
-     * List of SOAP operations available in the system
-     *
-     * @var array
-     */
-    protected $_soapOperations;
-
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
-    /** @var Magento_Filesystem */
-    protected $_filesystem;
-
-    /** @var Mage_Core_Model_Dir */
-    protected $_dir;
-
-    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Controller_Router_Route_Factory $routeFactory
-     * @param Mage_Webapi_Helper_Data $helper
-     * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Dir $dir
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Webapi_Helper_Data $helper,
-        Magento_Filesystem $filesystem,
-        Mage_Core_Model_Dir $dir
+        Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
-        $this->_routeFactory = $routeFactory;
-        $this->_helper = $helper;
-        $this->_filesystem = $filesystem;
-        $this->_dir = $dir;
     }
 
     /**
@@ -300,279 +258,5 @@ class Mage_Webapi_Model_Config
         unset($result['#text']);
 
         return $result;
-    }
-
-    /**
-     * Collect the list of services with their operations available in SOAP.
-     * The list of services is taken from webapi.xml configuration files.
-     * The list of methods in contrast to REST is taken from PHP Interface using reflection.
-     *
-     * @return array
-     */
-    public function getSoapServices()
-    {
-        /** TODO: Implement caching if this approach is approved */
-        if (is_null($this->_soapServices)) {
-            $this->_soapServices = array();
-            foreach ($this->getRestServices() as $serviceData) {
-                $reflection = new ReflectionClass($serviceData['class']);
-                foreach ($reflection->getMethods() as $method) {
-                    // find if method is secure, look into rest operation definition of each operation
-                    // if operation is not defined, assume operation is not secure
-                    $isOperationSecure = false;
-                    if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()][self::SECURE_ATTR_NAME])) {
-                        $secureFlagValue = $serviceData[self::KEY_OPERATIONS]
-                        [$method->getName()][self::SECURE_ATTR_NAME];
-                        $isOperationSecure = (strtolower($secureFlagValue) === 'true');
-                    }
-
-                    /** TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST */
-                    $this->_soapServices[$serviceData['class']]['operations'][$method->getName()] = array(
-                        'method' => $method->getName(),
-                        'inputRequired' => (bool)$method->getNumberOfParameters(),
-                        self::SECURE_ATTR_NAME => $isOperationSecure
-                    );
-                    $this->_soapServices[$serviceData['class']]['class'] = $serviceData['class'];
-                };
-            };
-        }
-        return $this->_soapServices;
-    }
-
-    /**
-     * Get service base URL
-     *
-     * @param Mage_Webapi_Controller_Request_Rest $request
-     * @return string|null
-     */
-    protected function _getServiceBaseUrl($request)
-    {
-        $baseUrlRegExp = '#^/\w+/\w+#';
-        $serviceBaseUrl = preg_match($baseUrlRegExp, $request->getPathInfo(), $matches) ? $matches[0] : null;
-
-        return $serviceBaseUrl;
-    }
-
-    /**
-     * Generate the list of available REST routes.
-     *
-     * @param Mage_Webapi_Controller_Request_Rest $request
-     * @return array
-     * @throws Mage_Webapi_Exception
-     */
-    public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
-    {
-        $serviceBaseUrl = $this->_getServiceBaseUrl($request);
-        $httpMethod = $request->getHttpMethod();
-        $routes = array();
-        foreach ($this->getRestServices() as $serviceName => $serviceData) {
-            // skip if baseurl is not null and does not match
-            if (!isset($serviceData['baseUrl'])
-                || (isset($serviceBaseUrl) && (strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])))
-            ) {
-                // baseurl does not match, just skip this service
-                continue;
-            }
-            // TODO: skip if version is not null and does not match
-            foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
-                if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
-                    $secure = isset($operationData[self::SECURE_ATTR_NAME])
-                        ? $operationData[self::SECURE_ATTR_NAME]
-                        : false;
-                    $methodRoute = isset($operationData['route']) ? $operationData['route'] : '';
-                    $routes[] = $this->_createRoute(
-                        array(
-                            'routePath' => $serviceData['baseUrl'] . $methodRoute,
-                            'version' => $request->getServiceVersion(), // TODO: Take version from config
-                            'serviceId' => $serviceName,
-                            'serviceMethod' => $operationName,
-                            'httpMethod' => $httpMethod,
-                            self::SECURE_ATTR_NAME => $secure
-                        )
-                    );
-                }
-            }
-        }
-
-        return $routes;
-    }
-
-    /**
-     * Create route object.
-     *
-     * @param array $routeData Expected format:
-     *  <pre>array(
-     *      'routePath' => '/categories/:categoryId',
-     *      'httpMethod' => 'GET',
-     *      'version' => 1,
-     *      'serviceId' => 'Mage_Catalog_Service_CategoryService',
-     *      'serviceMethod' => 'item'
-     *      'secure' => true
-     *  );</pre>
-     * @return Mage_Webapi_Controller_Router_Route_Rest
-     */
-    protected function _createRoute($routeData)
-    {
-        /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
-        $route = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route_Rest',
-            strtolower($routeData['routePath'])
-        );
-
-        $route->setServiceId($routeData['serviceId'])
-            ->setHttpMethod($routeData['httpMethod'])
-            ->setServiceMethod($routeData['serviceMethod'])
-            ->setServiceVersion(self::VERSION_NUMBER_PREFIX . $routeData['version'])
-            ->setSecure($routeData[self::SECURE_ATTR_NAME]);
-        return $route;
-    }
-
-    /**
-     * Retrieve the list of SOAP operations available in the system
-     *
-     * @param array $requestedService The list of requested services with their versions
-     * @return array <pre>
-     * array(
-     *     array(
-     *         'class' => $serviceClass,
-     *         'method' => $serviceMethod
-     *     ),
-     *      ...
-     * )</pre>
-     */
-    protected function _getSoapOperations($requestedService)
-    {
-        if (null == $this->_soapOperations) {
-            $this->_soapOperations = array();
-            foreach ($this->getRequestedSoapServices($requestedService) as $serviceData) {
-                foreach ($serviceData[self::KEY_OPERATIONS] as $method => $methodData) {
-                    $operationName = $this->_helper->getSoapOperation($serviceData['class'], $method);
-                    $this->_soapOperations[$operationName] = array(
-                        'class' => $serviceData['class'],
-                        'method' => $method,
-                        self::SECURE_ATTR_NAME => $methodData[self::SECURE_ATTR_NAME]
-                    );
-                }
-            }
-        }
-        return $this->_soapOperations;
-    }
-
-    /**
-     * Retrieve the list of services corresponding to specified services and their versions.
-     *
-     * @param array $requestedServices <pre>
-     * array(
-     *     'catalogProduct' => 'V1'
-     *     'customer' => 'V2
-     * )<pre/>
-     * @return array Filtered list of services
-     */
-    public function getRequestedSoapServices($requestedServices)
-    {
-        $services = array();
-        foreach ($requestedServices as $serviceName) {
-            foreach ($this->getSoapServices() as $serviceData) {
-                $serviceWithVersion = $this->_helper->getServiceName($serviceData['class']);
-                if ($serviceWithVersion === $serviceName) {
-                    $services[] = $serviceData;
-                }
-            }
-        }
-        return $services;
-    }
-
-    /**
-     * Retrieve service class name corresponding to provided SOAP operation name.
-     *
-     * @param string $soapOperation
-     * @param array $requestedServices The list of requested services with their versions
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function getClassBySoapOperation($soapOperation, $requestedServices)
-    {
-        $soapOperations = $this->_getSoapOperations($requestedServices);
-        if (!isset($soapOperations[$soapOperation])) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Operation "%s" not found.', $soapOperation),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        return $soapOperations[$soapOperation]['class'];
-    }
-
-    /**
-     * Retrieve service method name corresponding to provided SOAP operation name.
-     *
-     * @param string $soapOperation
-     * @param array $requestedServices The list of requested services with their versions
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function getMethodBySoapOperation($soapOperation, $requestedServices)
-    {
-        $soapOperations = $this->_getSoapOperations($requestedServices);
-        if (!isset($soapOperations[$soapOperation])) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Operation "%s" not found.', $soapOperation),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        return $soapOperations[$soapOperation]['method'];
-    }
-
-    /**
-     * Returns true if SOAP operation is defined as secure
-     *
-     * @param string $soapOperation
-     * @param array $requestedServices The list of requested services with their versions
-     * @return bool
-     * @throws Mage_Webapi_Exception
-     */
-    public function isSoapOperationSecure($soapOperation, $requestedServices)
-    {
-        $soapOperations = $this->_getSoapOperations($requestedServices);
-        if (!isset($soapOperations[$soapOperation])) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Operation "%s" not found.', $soapOperation),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        return $soapOperations[$soapOperation][self::SECURE_ATTR_NAME];
-    }
-
-    /**
-     * Load and return Service XSD for the provided Service Class
-     *
-     * @param $serviceClass
-     * @return DOMDocument
-     */
-    public function getServiceSchemaDOM($serviceClass)
-    {
-        /**
-         * TODO: Check if Service specific XSD is already cached
-         */
-        $modulesDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
-        /** TODO: Change pattern to match interface instead of class. Think about sub-services. */
-        if (!preg_match(Mage_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
-            // TODO: Generate exception when error handling strategy is defined
-        }
-        $vendorName = $matches[1];
-        $moduleName = $matches[2];
-        /** Convert "_Catalog_Attribute" into "Catalog/Attribute" */
-        $servicePath = str_replace('_', '/', ltrim($matches[3], '_'));
-        $version = $matches[4];
-        $schemaPath = "{$modulesDir}/{$vendorName}/{$moduleName}/etc/schema/{$servicePath}{$version}.xsd";
-        if ($this->_filesystem->isFile($schemaPath)) {
-            $schema = $this->_filesystem->read($schemaPath);
-        } else {
-            $schema = '';
-        }
-        //TODO: Should happen only once the cache is in place
-        /** TODO: Use object manager instead of direct DOMDocument instantiation */
-        $serviceSchema = new DOMDocument();
-        $serviceSchema->loadXML($schema);
-        return $serviceSchema;
     }
 }
