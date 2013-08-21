@@ -9,8 +9,14 @@
 -->
 <config>
     <module name="Mage_Rule" version="1.6.0.0" active="true">
+        <sequence>
+            <module name="Mage_Core"/>
+        </sequence>
         <depends>
-            <module name="Mage_Core" />
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Eav" type="hard"/>
+            <module name="Mage_Catalog" type="hard"/>
+            <module name="Mage_Adminhtml" type="hard"/>
         </depends>
     </module>
 </config>

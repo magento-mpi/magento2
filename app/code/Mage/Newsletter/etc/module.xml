@@ -9,11 +9,20 @@
 -->
 <config>
     <module name="Mage_Newsletter" version="1.6.0.2" active="true">
+        <sequence>
+            <module name="Mage_Core"/>
+            <module name="Mage_Customer"/>
+            <module name="Mage_Eav"/>
+            <module name="Mage_Widget"/>
+        </sequence>
         <depends>
-            <module name="Mage_Core" />
-            <module name="Mage_Customer" />
-            <module name="Mage_Eav" />
-            <module name="Mage_Widget" />
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Customer" type="hard"/>
+            <module name="Mage_Widget" type="hard"/>
+            <module name="Mage_Catalog" type="hard"/>
+            <module name="Mage_Backend" type="hard"/>
+            <module name="Mage_Adminhtml" type="soft"/>
+            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

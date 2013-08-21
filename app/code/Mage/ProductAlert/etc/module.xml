@@ -9,9 +9,16 @@
 -->
 <config>
     <module name="Mage_ProductAlert" version="1.6.0.0" active="true">
+        <sequence>
+            <module name="Mage_Catalog"/>
+            <module name="Mage_Customer"/>
+        </sequence>
         <depends>
-            <module name="Mage_Catalog" />
-            <module name="Mage_Customer" />
+            <module name="Mage_Catalog" type="hard"/>
+            <module name="Mage_Customer" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Tax" type="hard"/>
+            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

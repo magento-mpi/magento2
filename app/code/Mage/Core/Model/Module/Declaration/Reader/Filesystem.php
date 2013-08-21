@@ -21,7 +21,7 @@ class Mage_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Confi
         '/config/module' => 'name',
         '/config/module/depends/extension' => 'name',
         '/config/module/depends/choice/extension' => 'name',
-        '/config/module/depends/module' => 'name',
+        '/config/module/sequence/module' => 'name',
     );
 
     /**

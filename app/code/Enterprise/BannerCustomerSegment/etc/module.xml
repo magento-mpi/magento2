@@ -9,9 +9,14 @@
 -->
 <config>
     <module name="Enterprise_BannerCustomerSegment" version="1.0.0.0" active="false">
+        <sequence>
+            <module name="Enterprise_Banner"/>
+            <module name="Enterprise_CustomerSegment"/>
+        </sequence>
         <depends>
-            <module name="Enterprise_Banner" />
-            <module name="Enterprise_CustomerSegment" />
+            <module name="Enterprise_Banner" type="hard"/>
+            <module name="Enterprise_CustomerSegment" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
         </depends>
     </module>
 </config>

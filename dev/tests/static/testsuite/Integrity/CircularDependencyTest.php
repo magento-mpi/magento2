@@ -34,16 +34,16 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
         if (!empty($this->_moduleDependencies)) {
             return true;
         }
-        $configFiles = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
+        $configFiles = Utility_Files::init()->getConfigFiles('module.xml', array(), false);
 
         foreach ($configFiles as $configFile) {
-            preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);
+            preg_match('#/([^/]+?/[^/]+?)/etc/module\.xml$#', $configFile, $moduleName);
             $moduleName = str_replace('/', '_', $moduleName[1]);
             $config = simplexml_load_file($configFile);
-            $nodes = $config->xpath("/config/modules/$moduleName/depends/*") ?: array();
-            foreach ($nodes as $node) {
+            $result = $config->xpath("/config/module/depends/module") ?: array();
+            while(list( , $node) = each($result)) {
                 /** @var SimpleXMLElement $node */
-                $this->_moduleDependencies[$moduleName][] = $node->getName();
+                $this->_moduleDependencies[$moduleName][] = (string)$node['name'];
             }
         }
 

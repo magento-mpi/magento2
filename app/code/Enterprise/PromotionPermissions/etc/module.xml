@@ -9,9 +9,15 @@
 -->
 <config>
     <module name="Enterprise_PromotionPermissions" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Mage_CatalogRule"/>
+            <module name="Mage_SalesRule"/>
+        </sequence>
         <depends>
-            <module name="Mage_CatalogRule" />
-            <module name="Mage_SalesRule" />
+            <module name="Enterprise_Banner" type="hard"/>
+            <module name="Enterprise_Reminder" type="hard"/>
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
         </depends>
     </module>
 </config>

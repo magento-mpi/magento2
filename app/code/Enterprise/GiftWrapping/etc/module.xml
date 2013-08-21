@@ -9,9 +9,21 @@
 -->
 <config>
     <module name="Enterprise_GiftWrapping" version="1.11.0.0.2" active="false">
+        <sequence>
+            <module name="Mage_Adminhtml"/>
+            <module name="Mage_GiftMessage"/>
+        </sequence>
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_GiftMessage" />
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Backend" type="hard"/>
+            <module name="Mage_Checkout" type="hard"/>
+            <module name="Mage_Catalog" type="hard"/>
+            <module name="Mage_Sales" type="hard"/>
+            <module name="Mage_Tax" type="hard"/>
+            <module name="Mage_Eav" type="hard"/>
+            <module name="Mage_GiftMessage" type="soft"/>
+            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

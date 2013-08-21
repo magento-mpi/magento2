@@ -9,13 +9,23 @@
 -->
 <config>
     <module name="Enterprise_CatalogPermissions" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Mage_Adminhtml"/>
+            <module name="Mage_Catalog"/>
+            <module name="Mage_CatalogSearch"/>
+            <module name="Mage_Sales"/>
+            <module name="Mage_Checkout"/>
+            <module name="Enterprise_WebsiteRestriction"/>
+        </sequence>
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Catalog" />
-            <module name="Mage_CatalogSearch" />
-            <module name="Mage_Sales" />
-            <module name="Mage_Checkout" />
-            <module name="Enterprise_WebsiteRestriction" />
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_Catalog" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Customer" type="hard"/>
+            <module name="Mage_Index" type="hard"/>
+            <module name="Mage_Eav" type="hard"/>
+            <module name="Mage_CatalogSearch" type="soft"/>
+            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

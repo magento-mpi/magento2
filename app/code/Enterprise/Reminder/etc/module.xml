@@ -9,13 +9,23 @@
 -->
 <config>
     <module name="Enterprise_Reminder" version="1.11.0.2" active="false">
+        <sequence>
+            <module name="Mage_Customer"/>
+            <module name="Mage_Adminhtml"/>
+            <module name="Mage_Checkout"/>
+            <module name="Mage_Wishlist"/>
+            <module name="Mage_SalesRule"/>
+            <module name="Mage_Rule"/>
+        </sequence>
         <depends>
-            <module name="Mage_Customer" />
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Checkout" />
-            <module name="Mage_Wishlist" />
-            <module name="Mage_SalesRule" />
-            <module name="Mage_Rule" />
+            <module name="Mage_Customer" type="hard"/>
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_SalesRule" type="hard"/>
+            <module name="Mage_Rule" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Backend" type="hard"/>
+            <module name="Mage_Eav" type="hard"/>
+            <module name="Enterprise_Enterprise" type="hard"/>
         </depends>
     </module>
 </config>

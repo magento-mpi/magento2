@@ -9,8 +9,14 @@
 -->
 <config>
     <module name="Enterprise_License" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Enterprise_Enterprise"/>
+        </sequence>
         <depends>
-            <module name="Enterprise_Enterprise" />
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_Backend" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_AdminNotification" type="soft"/>
         </depends>
     </module>
 </config>

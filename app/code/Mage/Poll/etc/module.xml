@@ -9,9 +9,14 @@
 -->
 <config>
     <module name="Mage_Poll" version="1.6.0.0" active="false">
+        <sequence>
+            <module name="Mage_Core"/>
+            <module name="Mage_Cms"/>
+        </sequence>
         <depends>
-            <module name="Mage_Core" />
-            <module name="Mage_Cms" />
+            <module name="Mage_Core" type="hard"/>
+            <module name="Mage_Customer" type="hard"/>
+            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

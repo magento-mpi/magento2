@@ -9,11 +9,20 @@
 -->
 <config>
     <module name="Enterprise_PricePermissions" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Mage_Bundle"/>
+            <module name="Mage_Catalog"/>
+            <module name="Mage_Downloadable"/>
+            <module name="Enterprise_GiftCard"/>
+        </sequence>
         <depends>
-            <module name="Mage_Bundle" />
-            <module name="Mage_Catalog" />
-            <module name="Mage_Downloadable" />
-            <module name="Enterprise_GiftCard" />
+            <module name="Mage_Bundle" type="hard"/>
+            <module name="Mage_Catalog" type="hard"/>
+            <module name="Mage_Downloadable" type="hard"/>
+            <module name="Enterprise_GiftCard" type="hard"/>
+            <module name="Mage_Backend" type="hard"/>
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
         </depends>
     </module>
 </config>

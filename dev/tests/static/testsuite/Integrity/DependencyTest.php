@@ -37,17 +37,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_listConfigXml = array();
 
     /**
-     * List of module.xml files as SimpleXMLElement
-     *
-     * Format: array(
-     *  '{Module_Name}' => '{SimpleXMLElement}'
-     * )
-     *
-     * @var array
-     */
-    protected static $_listModulesXml = array();
-
-    /**
      * List of routers
      *
      * Format: array(
@@ -152,7 +141,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         self::$_namespaces = implode('|', Utility_Files::init()->getNamespaces());
 
         self::_prepareListConfigXml();
-//        self::_prepareListModuleXml();
 
         self::_prepareMapRouters();
         self::_prepareMapLayoutBlocks();
@@ -675,8 +663,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
             $module = $config->xpath("/config/module") ?: array();
             $moduleName = (string)$module[0]->attributes()->name;
-
-            $_listModulesXml[$moduleName] = $config;
 
             if (!isset(self::$_mapDependencies[$moduleName])) {
                 self::$_mapDependencies[$moduleName] = array();

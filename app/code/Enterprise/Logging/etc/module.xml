@@ -9,10 +9,17 @@
 -->
 <config>
     <module name="Enterprise_Logging" version="1.11.0.0" active="false">
+        <sequence>
+            <module name="Mage_Adminhtml"/>
+            <module name="Mage_Sales"/>
+            <module name="Mage_Catalog"/>
+        </sequence>
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Sales" />
-            <module name="Mage_Catalog" />
+            <module name="Mage_Adminhtml" type="hard"/>
+            <module name="Mage_Backend" type="hard"/>
+            <module name="Mage_User" type="hard"/>
+            <module name="Mage_Core" type="hard"/>
+            <module name="Enterprise_Pci" type="hard"/>
         </depends>
     </module>
 </config>

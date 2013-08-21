@@ -21,8 +21,10 @@
         </depends>
     </module>
     <module name="Module_Two" version="2.0.0.0" active="false">
-        <depends>
+        <sequence>
             <module name="Module_One" />
+        </sequence>
+        <depends>
             <!-- commented text -->
             <extension name="dom" />
         </depends>
