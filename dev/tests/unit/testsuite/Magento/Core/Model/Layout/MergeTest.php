@@ -205,8 +205,8 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($handles, $this->_model->getHandles());
         $expectedResult = '
             <root>
-                <block type="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
-                <block type="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+                <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
+                <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
             </root>
         ';
         $actualResult = '<root>' . $this->_model->asString() . '</root>';
