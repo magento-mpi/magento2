@@ -11,7 +11,7 @@
 <?php /** @var $this Enterprise_ImportExport_Block_Adminhtml_Form_After */ ?>
 <?php
 /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
-$operation = $this->getRegistry()->registry('current_operation');
+$operation = $this->getOperation();
 $operationType = $operation->getOperationType();
 $entityBehavior = $operation->getBehavior();
 ?>

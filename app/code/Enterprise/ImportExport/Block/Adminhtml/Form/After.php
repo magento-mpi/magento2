@@ -33,10 +33,12 @@ class Enterprise_ImportExport_Block_Adminhtml_Form_After extends Mage_Backend_Bl
     }
 
     /**
-     * @return Mage_Core_Model_Registry
+     * Get current operation
+     *
+     * @return Enterprise_ImportExport_Model_Scheduled_Operation
      */
-    public function getRegistry()
+    public function getOperation()
     {
-        return $this->_registry;
+        return $this->_registry->registry('current_operation');
     }
 }

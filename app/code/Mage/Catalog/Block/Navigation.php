@@ -65,11 +65,13 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     }
 
     /**
-     * @return Mage_Core_Model_Registry
+     * Get current category
+     *
+     * @return Mage_Catalog_Model_Category
      */
-    public function getRegistry()
+    public function getCategory()
     {
-        return $this->_registry;
+        return $this->_registry->registry('current_category');
     }
 
     /**

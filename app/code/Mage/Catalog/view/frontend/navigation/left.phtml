@@ -14,7 +14,7 @@
  * @var $this Mage_Catalog_Block_Navigation
  */
 ?>
-<?php if (!$this->getRegistry()->registry('current_category')) return ?>
+<?php if (!$this->getCategory()) return ?>
 <?php $_categories = $this->getCurrentChildCategories() ?>
 <?php $_count = is_array($_categories)?count($_categories):$_categories->count(); ?>
 <?php if($_count): ?>
