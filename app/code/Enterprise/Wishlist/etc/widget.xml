@@ -9,19 +9,23 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
+
     <widget id="wishlist_search" class="Enterprise_Wishlist_Block_Widget_Search"
-            translate="name description" module="Enterprise_Wishlist" is_email_compatible="false">
+            translate="label description" module="Enterprise_Wishlist" is_email_compatible="false">
         <label>Wishlist Search</label>
         <description>Wish List Search Description</description>
         <parameter name="types" xsi:type="multiselect" translate="label description" required="true"
-                   visible="true" sort_order="10">
+                   visible="true" sort_order="10"
+                   source_model="Enterprise_Wishlist_Model_Config_Source_Search">
             <label>Quick Search Form Types</label>
-            <source_model>Enterprise_Wishlist_Model_Config_Source_Search</source_model>
         </parameter>
         <parameter name="template" xsi:type="select" translate="label" required="true" visible="true">
             <label>Template</label>
-            <option name="default_template" translate="label" value="widget/search.phtml" selected="true">
+            <option name="default_template" translate="label" value="widget/search.phtml"
+                    selected="true">
                 <label>Wish List Search Template</label>
             </option>
         </parameter>
