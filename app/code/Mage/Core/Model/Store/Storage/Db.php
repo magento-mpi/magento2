@@ -523,7 +523,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
                     throw Mage::exception('Mage_Core', 'Invalid website id requested.');
                 }
             } elseif (is_string($websiteId)) {
-                $websiteConfig = $this->_config->getValue('websites/' . $websiteId);
+                $websiteConfig = $this->_config->getValue(null, 'website', $websiteId);
                 if (!$websiteConfig) {
                     throw Mage::exception('Mage_Core', 'Invalid website code requested: ' . $websiteId);
                 }

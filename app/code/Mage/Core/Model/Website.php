@@ -170,7 +170,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
                 }
             }
         } else {
-            $websiteConfig = Mage::getConfig()->getValue('websites/' . $code);
+            $websiteConfig = Mage::getConfig()->getValue(null, 'website',  $code);
         }
         if (!empty($websiteConfig)) {
             $this->setCode($code);
@@ -189,7 +189,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 
-            $config = Mage::getConfig()->getValue('websites/' . $this->getCode() . '/' . $path);
+            $config = Mage::getConfig()->getValue($path, 'website', $this->getCode());
             if (!$config) {
                 return false;
             }
