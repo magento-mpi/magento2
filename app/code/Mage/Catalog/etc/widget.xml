@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://magentocommerce.com/widget"
+<widgets xmlns="http://www.magentocommerce.com/widget"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://magentocommerce.com/widget file:../../Widget/etc/widget.xsd">
+        xsi:schemaLocation="http://www.magentocommerce.com/widget ../../Widget/etc/widget.xsd">
     <widget id="new_products" class="Mage_Catalog_Block_Product_Widget_New" module="Mage_Catalog" is_email_compatible="true"
             placeholder_image="Mage_Catalog::images/product_widget_new.gif" translate="label description">
         <label>Catalog New Products List</label>
