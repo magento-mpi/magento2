@@ -25,13 +25,17 @@
 
     <!-- Update layout (document root) node -->
     <xsl:template match="layout">
-        <xsl:copy>
+        <!--<xsl:copy>-->
+            <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <xsl:apply-templates select="@*|node()"/>
+            </layout>
             <!--<xsl:attribute name="xsi:noNamespaceSchemaLocation">-->
                 <!--<xsl:value-of select="$schemaPath"/>-->
             <!--</xsl:attribute>-->
-            <xsl:apply-templates select="node()" />
-        </xsl:copy>
+        <!--</xsl:copy>-->
     </xsl:template>
+
+    <xsl:template match="layout/@version"></xsl:template>
 
     <!-- Update handle node -->
     <xsl:template match="*[name(..)='layout']">
