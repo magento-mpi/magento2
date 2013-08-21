@@ -80,10 +80,10 @@ class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

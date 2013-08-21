@@ -175,10 +175,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

@@ -164,10 +164,12 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * Get is single store mode
+     *
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

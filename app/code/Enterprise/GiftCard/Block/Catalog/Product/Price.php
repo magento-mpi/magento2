@@ -58,10 +58,11 @@ class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
+     * @return bool|Mage_Core_Model_Website
      */
-    public function getStoreManager()
+    public function getWebsite($storeId)
     {
-        return $this->_storeManager;
+        return $this->_storeManager->getStore($storeId)->getWebsite();
     }
 }

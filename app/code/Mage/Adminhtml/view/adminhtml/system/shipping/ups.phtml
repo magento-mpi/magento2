@@ -8,12 +8,13 @@
  * @license     {license_link}
  */
 
+/** @var $this Mage_Adminhtml_Block_System_Shipping_Ups */
+
 /** @var $upsModel Mage_Usa_Model_Shipping_Carrier_Ups */
 $upsModel = $this->getShippingModel();
 $orShipArr = $upsModel->getCode('originShipment');
 $defShipArr = $upsModel->getCode('method');
 
-/** @var $this Mage_Adminhtml_Block_Template */
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
@@ -26,15 +27,15 @@ if (!$storeCode && $websiteCode) {
     $storedFreeShipment   = $web->getConfig('carriers/ups/free_method');
     $storedUpsType        = $web->getConfig('carriers/ups/type');
 } elseif ($storeCode) {
-    $storedAllowedMethods = explode(',', $this->getStoreManager()->getStore($storeCode)->getConfig('carriers/ups/allowed_methods'));
-    $storedOriginShipment = $this->getStoreManager()->getStore($storeCode)->getConfig('carriers/ups/origin_shipment');
-    $storedFreeShipment   = $this->getStoreManager()->getStore($storeCode)->getConfig('carriers/ups/free_method');
-    $storedUpsType        = $this->getStoreManager()->getStore($storeCode)->getConfig('carriers/ups/type');
+    $storedAllowedMethods = explode(',', $this->getConfig('carriers/ups/allowed_methods', $storeCode));
+    $storedOriginShipment = $this->getConfig('carriers/ups/origin_shipment', $storeCode);
+    $storedFreeShipment   = $this->getConfig('carriers/ups/free_method', $storeCode);
+    $storedUpsType        = $this->getConfig('carriers/ups/type', $storeCode);
 } else {
-    $storedAllowedMethods = explode(',', $this->getStoreManager()->getStore()->getConfig('carriers/ups/allowed_methods'));
-    $storedOriginShipment = $this->getStoreManager()->getStore()->getConfig('carriers/ups/origin_shipment');
-    $storedFreeShipment   = $this->getStoreManager()->getStore()->getConfig('carriers/ups/free_method');
-    $storedUpsType        = $this->getStoreManager()->getStore()->getConfig('carriers/ups/type');
+    $storedAllowedMethods = explode(',', $this->getConfig('carriers/ups/allowed_methods'));
+    $storedOriginShipment = $this->getConfig('carriers/ups/origin_shipment');
+    $storedFreeShipment   = $this->getConfig('carriers/ups/free_method');
+    $storedUpsType        = $this->getConfig('carriers/ups/type');
 }
 ?>
 <script type="text/javascript">

@@ -174,10 +174,12 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * Get is single store mode
+     *
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

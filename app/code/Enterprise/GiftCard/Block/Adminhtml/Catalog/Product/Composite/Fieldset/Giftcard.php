@@ -40,10 +40,13 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Gif
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * Get current currency code
+     *
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId $storeId
+     * @return string
      */
-    public function getStoreManager()
+    public function getCurrentCurrencyCode($storeId)
     {
-        return $this->_storeManager;
+        return $this->_storeManager->getStore($storeId)->getCurrentCurrencyCode();
     }
 }

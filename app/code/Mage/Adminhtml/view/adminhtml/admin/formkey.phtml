@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Mage_Adminhtml_Block_Admin_Formkey */ ?>
+<?php /** @var $this Mage_Backend_Block_Template */ ?>
 <div>
-    <input name="form_key" type="hidden" value="<?php echo $this->getSessionModel()->getFormKey() ?>" />
+    <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
 </div>

@@ -153,10 +153,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

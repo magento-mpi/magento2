@@ -27,7 +27,7 @@
     $_product           = $this->getProduct();
     $_id                = $_product->getId();
     $_storeId           = $_product->getStoreId();
-    $_website           = $this->getStoreManager()->getStore($_storeId)->getWebsite();
+    $_website           = $this->getWebsite($_storeId);
 
     $_weeeSeparator     = '';
     $_simplePricesTax   = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());

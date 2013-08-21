@@ -339,10 +339,19 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
+    }
+
+    /**
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId $storeId
+     * @return string
+     */
+    public function getBaseCurrencyCode($storeId)
+    {
+        return $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
     }
 }

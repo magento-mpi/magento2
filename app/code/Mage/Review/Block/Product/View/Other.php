@@ -33,10 +33,10 @@ class Mage_Review_Block_Product_View_Other extends Mage_Core_Block_Template
     }
 
     /**
-     * @return Mage_Core_Model_Registry
+     * @return Mage_Catalog_Model_Product
      */
-    public function getRegistry()
+    public function getProduct()
     {
-        return $this->_registry;
+        return $this->_registry->registry('product');
     }
 }

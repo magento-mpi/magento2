@@ -90,10 +90,12 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * Get websites
+     *
+     * @return Mage_Core_Model_Website[]
      */
-    public function getStoreManager()
+    public function getWebsites()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->getWebsites();
     }
 }

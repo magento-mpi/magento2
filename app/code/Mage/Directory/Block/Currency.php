@@ -117,10 +117,10 @@ class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * @return string
      */
-    public function getStoreManager()
+    public function getStoreCode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->getStore()->getCode();
     }
 }

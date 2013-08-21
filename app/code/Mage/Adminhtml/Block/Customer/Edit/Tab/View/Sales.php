@@ -129,10 +129,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
     }
 
     /**
-     * @return Mage_Core_Model_StoreManager
+     * Is single store mode
+     *
+     * @return bool
      */
-    public function getStoreManager()
+    public function isSingleStoreMode()
     {
-        return $this->_storeManager;
+        return $this->_storeManager->isSingleStoreMode();
     }
 }
