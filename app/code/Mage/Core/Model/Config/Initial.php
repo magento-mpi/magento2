@@ -40,22 +40,24 @@ class Mage_Core_Model_Config_Initial
     }
 
     /**
-     * Get stores config
+     * Retrieve store initial config by code
      *
+     * @param string $code
      * @return array
      */
-    public function getStores()
+    public function getStore($code)
     {
-        return $this->_data['stores'];
+        return isset($this->_data['stores'][$code]) ? $this->_data['stores'][$code] : array();
     }
 
     /**
-     * Get websites config
+     * Retrieve website initial config by code
      *
+     * @param string $code
      * @return array
      */
-    public function getWebsites()
+    public function getWebsite($code)
     {
-        return $this->_data['websites'];
+        return isset($this->_data['websites'][$code]) ? $this->_data['websites'][$code] : array();
     }
 }
