@@ -76,7 +76,7 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
                 $exception
             );
         }
-        $this->getResponse()->setBody($response);
+        $this->getResponse()->setBody(http_build_query($response));
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
                 $exception
             );
         }
-        $this->getResponse()->setBody($response);
+        $this->getResponse()->setBody(http_build_query($response));
     }
 
 
@@ -255,7 +255,7 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
         }
         $response->setHttpResponseCode($responseCode);
 
-        return 'oauth_problem=' . $errorMsg;
+        return array('oauth_problem' => $errorMsg);
     }
 
 }

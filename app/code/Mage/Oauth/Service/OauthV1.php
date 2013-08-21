@@ -94,6 +94,36 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     /** @var  Zend_Http_Client */
     protected $_httpClient;
 
+    /**#@+
+     * Required parameters for each token operation
+     */
+    protected $_requiredGeneric = array(
+        "oauth_consumer_key",
+        "oauth_signature",
+        "oauth_signature_method",
+        "oauth_nonce",
+        "oauth_timestamp"
+    );
+
+    protected $_requiredAccess = array(
+        "oauth_consumer_key",
+        "oauth_signature",
+        "oauth_signature_method",
+        "oauth_nonce",
+        "oauth_timestamp",
+        "oauth_token",
+        "oauth_verifier"
+    );
+
+    protected $_requiredValidate = array(
+        "oauth_consumer_key",
+        "oauth_signature",
+        "oauth_signature_method",
+        "oauth_nonce",
+        "oauth_timestamp",
+        "oauth_token"
+    );
+
     /**
      * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
@@ -233,20 +263,14 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     public function getAccessToken($request)
     {
         // Make generic validation of request parameters
-        $this->_validateVersionParam($request['oauth_version']);
-
-        // Validate signature method
-        if (!in_array($request['oauth_signature_method'], self::getSupportedSignatureMethods())) {
-            $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
-        }
-
-        $consumer = $this->_getConsumerByKey($request['oauth_consumer_key']);
-        $this->_validateNonce($request['oauth_nonce'], $consumer->getId(), $request['oauth_timestamp']);
+        $this->_validateProtocolParams($request, $this->_requiredAccess);
 
         $oauthToken = $request['oauth_token'];
         $requestUrl = $request['request_url'];
         $httpMethod = $request['http_method'];
+        $consumerKeyParam = $request['oauth_consumer_key'];
 
+        $consumer = $this->_getConsumerByKey($consumerKeyParam);
         $token = $this->_getToken($oauthToken);
 
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
@@ -293,19 +317,12 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         $consumerKey = $request['oauth_consumer_key'];
 
         // make generic validation of request parameters
-        $this->_validateVersionParam($request['oauth_version']);
-
-        // validate signature method
-        if (!in_array($request['oauth_signature_method'], self::getSupportedSignatureMethods())) {
-            $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
-        }
+        $this->_validateProtocolParams($request, $this->_requiredValidate);
 
         $consumer = $this->_getConsumerByKey($consumerKey);
-        $this->_validateNonce($request['oauth_nonce'], $consumer->getId(), $request['oauth_timestamp']);
-
         $token = $this->_getToken($oauthToken);
 
-        // TODO: Verify if we need to check the association in token validation
+        //TODO: Verify if we need to check the association in token validation
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
@@ -446,6 +463,53 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         }
     }
 
+
+    /**
+     * Validate request and header parameters
+     *
+     * @param $protocolParams
+     * @param $requiredParams
+     */
+    protected function _validateProtocolParams($protocolParams, $requiredParams)
+    {
+        // validate version if specified
+        if (isset($protocolParams['oauth_version']) && '1.0' != $protocolParams['oauth_version']) {
+            $this->_throwException('', self::ERR_VERSION_REJECTED);
+        }
+        // required parameters validation. Default to generic params if no provided
+        if (empty($requiredParams)) {
+            $requiredParams = $this->_requiredGeneric;
+        }
+        $this->_checkRequiredParams($protocolParams, $requiredParams);
+
+        if (isset($protocolParams['oauth_token']) && strlen(
+                $protocolParams['oauth_token']
+            ) != Mage_Oauth_Model_Token::LENGTH_TOKEN
+        ) {
+            $this->_throwException('', self::ERR_TOKEN_REJECTED);
+        }
+
+        // validate parameters type
+        //TODO Need to verify if this is required
+        foreach ($protocolParams as $paramName => $paramValue) {
+            if (!is_string($paramValue)) {
+                $this->_throwException($paramName, self::ERR_PARAMETER_REJECTED);
+            }
+        }
+        // validate signature method
+        if (!in_array($protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
+            $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
+        }
+
+        $consumer = $this->_getConsumerByKey($protocolParams['oauth_consumer_key']);
+
+        $this->_validateNonce(
+            $protocolParams['oauth_nonce'],
+            $consumer->getId(),
+            $protocolParams['oauth_timestamp']
+        );
+    }
+
     /**
      * Get consumer by consumer_id
      *
@@ -583,4 +647,21 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
     {
         return $this->_errorsToHttpCode;
     }
+
+    /**
+     * Check if mandatory OAuth parameters are present
+     *
+     * @param $protocolParams
+     * @param $requiredParams
+     * @return mixed
+     */
+    protected function _checkRequiredParams($protocolParams, $requiredParams)
+    {
+        foreach ($requiredParams as $param) {
+            if (!isset($protocolParams[$param])) {
+                $this->_throwException($param, self::ERR_PARAMETER_ABSENT);
+            }
+        }
+    }
+
 }
