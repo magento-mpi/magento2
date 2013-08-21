@@ -4,8 +4,8 @@
  *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Webhook
+ * @category    Magento
+ * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,13 +39,13 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
     private $_mockUser;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject Mage_Core_Model_StoreManagerInterface
+     * @var PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_StoreManagerInterface
      */
     private $_mockStoreManager;
 
     public function setUp()
     {
-        $this->_mockStoreManager = $this->getMockBuilder('Mage_Core_Model_StoreManagerInterface')
+        $this->_mockStoreManager = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new Magento_Outbound_Authentication_Hmac($this->_mockStoreManager);
@@ -64,7 +64,7 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
 
     public function testHeaders()
     {
-        $store = $this->getMockBuilder('Mage_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockStoreManager->expects($this->once())

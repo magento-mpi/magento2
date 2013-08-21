@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -27,10 +27,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
-            'themeModel' => Mage::getModel('Mage_Core_Model_Theme'),
+            'themeModel' => Mage::getModel('Magento_Core_Model_Theme'),
             'module'     => $module
         );
-        $file = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename($template, $params);
+        $file = Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
 
@@ -41,7 +41,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
     {
         $blockClass = '';
         try {
-            /** @var $website Mage_Core_Model_Website */
+            /** @var $website Magento_Core_Model_Website */
             Mage::app()->getStore()->setWebsiteId(0);
 
             $templates = array();
@@ -50,25 +50,25 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Mage_Core_Block_Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('Magento_Core_Block_Template')) {
                     continue;
                 }
 
                 $area = 'frontend';
-                if ($module == 'Mage_Install') {
+                if ($module == 'Magento_Install') {
                     $area = 'install';
-                } elseif ($module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+                } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
                     || strpos($blockClass, '_Backend_')
-                    || $class->isSubclassOf('Mage_Backend_Block_Template'))
+                    || $class->isSubclassOf('Magento_Backend_Block_Template'))
                 {
                     $area = 'adminhtml';
                 }
 
                 Mage::app()->loadAreaPart(
-                    Mage_Core_Model_App_Area::AREA_ADMINHTML,
-                    Mage_Core_Model_App_Area::PART_CONFIG
+                    Magento_Core_Model_App_Area::AREA_ADMINHTML,
+                    Magento_Core_Model_App_Area::PART_CONFIG
                 );
-                Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')->setCurrentScope($area);
+                Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')->setCurrentScope($area);
 
                 $block = Mage::getModel($blockClass);
                 $template = $block->getTemplate();

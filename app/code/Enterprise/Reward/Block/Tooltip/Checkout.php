@@ -26,7 +26,7 @@ class Enterprise_Reward_Block_Tooltip_Checkout extends Enterprise_Reward_Block_T
     {
         parent::initRewardType($action);
         if ($this->_actionInstance) {
-            $this->_actionInstance->setQuote(Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote());
+            $this->_actionInstance->setQuote(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote());
         }
     }
 }

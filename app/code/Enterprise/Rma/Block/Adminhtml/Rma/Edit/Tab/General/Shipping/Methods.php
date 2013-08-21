@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods extends Magento_Core_Block_Template
 {
     public function _construct()
     {
@@ -23,7 +23,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods exten
         return Mage::registry('current_rma')
             ->getStore()
             ->convertPrice(
-                Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
+                Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
                     $price
                 ),
                 true,
@@ -41,6 +41,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Methods exten
         $data['PriceOriginal']  = $method->getPrice();
         $data['Code']           = $method->getCode();
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 }

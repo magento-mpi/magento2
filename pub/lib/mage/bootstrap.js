@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Page
+ * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -41,15 +41,15 @@ class Magento_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framewo
             'php' => array(
                 $this->_testDir . '/additional.php',
                 $this->_testDir . '/app/bootstrap.php',
-                $this->_testDir . '/app/code/Mage/SomeModule/Helper/Test.php',
-                $this->_testDir . '/app/code/Mage/SomeModule/Model/Test.php',
+                $this->_testDir . '/app/code/Magento/SomeModule/Helper/Test.php',
+                $this->_testDir . '/app/code/Magento/SomeModule/Model/Test.php',
             ),
             'config' => array(
-                $this->_testDir . '/app/code/Mage/SomeModule/etc/adminhtml/system.xml',
-                $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml'
+                $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
+                $this->_testDir . '/app/code/Magento/SomeModule/etc/config.xml'
             ),
             'view' => array(
-                $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
+                $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/layout.xml',
             ),
             'design' => array(
                 $this->_testDir . '/app/design/adminhtml/magento_backend/layout.xml',

@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+<div class="add-to-cart">
+    <?php if (!$_product->isGrouped()): ?>
+    <label for="qty"><?php echo __('Qty:') ?></label>
+    <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>"
+            title="<?php echo __('Qty') ?>" class="input-text qty"
+        <?php if ($_product->getStockItem() && $_product->getStockItem()->getIsQtyDecimal()) : ?>
+            data-validate="{required:true, 'validate-greater-than-zero':true}"/>
+        <?php else: ?>
+            data-validate="{required:true, digits:true}"/>
+        <?php endif; ?>
+    <?php endif; ?>
+    <button type="submit" title="<?php echo $buttonTitle ?>" class="button btn-cart" id="product-addtocart-button">
+        <span><span><?php echo $buttonTitle ?></span></span></button>
+    <?php echo $this->getChildHtml('', true) ?>
+</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+    (function ($) {
+        $.mage.extend('validation', 'validation',
+            '<?php echo $this->getViewFileUrl('Magento_Catalog::product/view/validation.js'); ?>');
+        $('#product_addtocart_form').mage('validation');
+    })(jQuery);
+</script>

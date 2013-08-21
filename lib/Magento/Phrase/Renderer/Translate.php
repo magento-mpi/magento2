@@ -12,16 +12,16 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     /**
      * Basic object for translation
      *
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translator;
 
     /**
      * Renderer construct
      *
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      */
-    public function __construct(Mage_Core_Model_Translate $translator)
+    public function __construct(Magento_Core_Model_Translate $translator)
     {
         $this->_translator = $translator;
     }

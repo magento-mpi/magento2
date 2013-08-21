@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection initialization
@@ -115,8 +115,8 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
             ->from($this->getTable('enterprise_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
-        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $helper */
-        $helper = Mage::getResourceHelper('Mage_Core');
+        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
+        $helper = Mage::getResourceHelper('Magento_Core');
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 
         $this->getSelect()->joinLeft(

@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
-    extends Mage_Adminhtml_Block_Template
+    extends Magento_Adminhtml_Block_Template
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_template = 'rate/form/renderer/rate.phtml';

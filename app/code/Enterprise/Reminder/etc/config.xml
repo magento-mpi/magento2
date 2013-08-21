@@ -76,7 +76,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_reminder before="Mage_Adminhtml">Enterprise_Reminder_Adminhtml</enterprise_reminder>
+                        <enterprise_reminder before="Magento_Adminhtml">Enterprise_Reminder_Adminhtml</enterprise_reminder>
                     </modules>
                 </args>
             </adminhtml>

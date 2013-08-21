@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var $this Magento_Core_Block_Template */
+/** @var $helper Magento_CatalogSearch_Helper_Data */
+$helper = $this->helper('Magento_CatalogSearch_Helper_Data');
+?>
+<form data-search-mini-form="search_mini_form" id="search_mini_form" action="<?php echo $helper->getResultUrl() ?>" method="get">
+    <input  data-mage-init = "{catalogSearch:{ formSelector:'[data-search-mini-form=search_mini_form]', placeholder: '<?php echo __('Search entire store here...') ?>', url: '<?php echo $helper->getSuggestUrl() ?>',destinationSelector: '[data-search-autocomplete=search_autocomplete]'}}"
+            type="search" name="<?php echo $helper->getQueryParamName() ?>" id="search" placeholder="Search" maxlength="<?php echo $helper->getMaxQueryLength();?>"/>
+    <div data-search-autocomplete="search_autocomplete" id="search_autocomplete" class="search-autocomplete"></div>
+</form>

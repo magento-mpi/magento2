@@ -138,7 +138,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_giftwrapping before="Mage_Adminhtml">Enterprise_GiftWrapping_Adminhtml</enterprise_giftwrapping>
+                        <enterprise_giftwrapping before="Magento_Adminhtml">Enterprise_GiftWrapping_Adminhtml</enterprise_giftwrapping>
                     </modules>
                 </args>
             </adminhtml>

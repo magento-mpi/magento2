@@ -109,7 +109,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     /**
      * Store manager model
      *
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -124,7 +124,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
      * @param Enterprise_PageCache_Model_Metadata $metadata
      * @param Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
@@ -137,7 +137,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         Enterprise_PageCache_Model_DesignPackage_Info $designInfo,
         Enterprise_PageCache_Model_Metadata $metadata,
         Enterprise_PageCache_Model_Store_Identifier $storeIdentifier,
-        Mage_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
@@ -277,7 +277,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      */
     public function getRecentlyViewedCountCacheId()
     {
-        $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
+        $cookieName = Magento_Core_Model_Store::COOKIE_NAME;
         $additional = $this->_environment->hasCookie($cookieName) ?
             '_' . $this->_environment->getCookie($cookieName) :
             '';
@@ -291,7 +291,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      */
     public function getSessionInfoCacheId()
     {
-        $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
+        $cookieName = Magento_Core_Model_Store::COOKIE_NAME;
         $additional = $this->_environment->hasCookie($cookieName) ?
             '_' . $this->_environment->getCookie($cookieName) :
             '';
@@ -460,8 +460,8 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
-                    /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
-                    $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+                    /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+                    $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
                     $cacheTypeList->invalidate('full_page');
                     return $this;
                 }
@@ -490,7 +490,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $this->_metadata->setMetadata('routing_requested_action', $request->getRequestedActionName());
 
                 $this->_metadata->setMetadata('sid_cookie_name',
-                    Mage::getSingleton('Mage_Core_Model_Session')->getSessionName()
+                    Mage::getSingleton('Magento_Core_Model_Session')->getSessionName()
                 );
 
                 Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
@@ -498,7 +498,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }
 
-            if ($this->_environment->hasQuery(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
+            if ($this->_environment->hasQuery(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
                 Mage::getSingleton('Enterprise_PageCache_Model_Cookie')->updateCustomerCookies();
                 Mage::getModel('Enterprise_PageCache_Model_Observer')->updateCustomerProductIndex();
             }

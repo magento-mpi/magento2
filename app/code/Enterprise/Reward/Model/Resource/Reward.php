@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Reward_Model_Resource_Reward extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Internal constructor

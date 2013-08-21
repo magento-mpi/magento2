@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
     /**
      * Store ACL role model instance
      *
-     * @var Mage_User_Model_Role
+     * @var Magento_User_Model_Role
      */
     protected $_adminRole;
 
@@ -55,7 +55,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param Mage_User_Model_Role $role
+     * @param Magento_User_Model_Role $role
      */
     public function setAdminRole($role)
     {
@@ -265,7 +265,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')
+            $categories = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();
@@ -408,7 +408,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return Mage_Core_Model_Store_Group|null
+     * @return Magento_Core_Model_Store_Group|null
      */
     public function getGroup($findGroupId)
     {

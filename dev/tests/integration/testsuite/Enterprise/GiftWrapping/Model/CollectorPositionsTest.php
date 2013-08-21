@@ -9,7 +9,7 @@
 /**
  * Test positions of the GiftWrapping total collectors as compared to other collectors
  */
-class Enterprise_GiftWrapping_Model_CollectorPositionsTest extends Mage_Sales_Model_CollectorPositionsTestAbstract
+class Enterprise_GiftWrapping_Model_CollectorPositionsTest extends Magento_Sales_Model_CollectorPositionsTestAbstract
 {
     /**
      * @return array

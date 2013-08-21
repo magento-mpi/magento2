@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Magento_DesignEditor_Block_Adminhtml_Theme_Button
+ */
+?>
+<?php echo $this->getBeforeHtml(); ?>
+<a <?php echo $this->getAttributesHtml(), $this->getUiId(); ?>>
+    <span><?php echo $this->getLabel(); ?></span>
+</a>
+<?php echo $this->getAfterHtml(); ?>

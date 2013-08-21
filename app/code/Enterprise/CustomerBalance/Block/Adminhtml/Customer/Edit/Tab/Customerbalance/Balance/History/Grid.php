@@ -12,7 +12,7 @@
  * Customer balance history grid
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * @var Enterprise_CustomerBalance_Model_Resource_Balance_Collection
@@ -66,7 +66,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'header'    => __('Website'),
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
                 'sortable'  => false,
                 'width'     => 200,
             ));

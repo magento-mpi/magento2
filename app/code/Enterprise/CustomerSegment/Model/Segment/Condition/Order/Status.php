@@ -25,10 +25,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status');
@@ -77,7 +77,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     {
         $this->setValueOption(array_merge(
             array(self::VALUE_ANY => __('Any')),
-            Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses())
+            Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses())
         );
         return $this;
     }
@@ -97,11 +97,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     /**
      * Get order status attribute object
      *
-     * @return Mage_Eav_Model_Entity_Attribute
+     * @return Magento_Eav_Model_Entity_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('order', 'status');
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('order', 'status');
     }
 
     /**

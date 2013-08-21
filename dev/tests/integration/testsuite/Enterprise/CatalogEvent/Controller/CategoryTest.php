@@ -12,12 +12,12 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CatalogEvent_Controller_CategoryTest extends Mage_Backend_Utility_Controller
+class Enterprise_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Add Event button
      *
-     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Magento/Catalog/_files/categories.php
      */
     public function testEditCategoryAction()
     {
@@ -31,7 +31,7 @@ class Enterprise_CatalogEvent_Controller_CategoryTest extends Mage_Backend_Utili
     /**
      * Covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Edit Event button
      *
-     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture eventDataFixture
      */
     public function testEditCategoryActionEditEvent()

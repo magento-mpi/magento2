@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <block name="test.block.insert" type="Magento_Core_Block_Text"/>
+
+    <block type="Magento_Core_Block_Template">
+        <action method="insert"><element>test.block.insert</element></action>
+    </block>
+
+    <block name="test.block.append" type="Magento_Core_Block_Text"/>
+    <block type="Magento_Core_Block_Text">
+        <action method="append"><element>test.block.append</element></action>
+    </block>
+</layout>

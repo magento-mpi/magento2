@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Customer
+ * @package     Magento_Customer
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
 /**
  * Verification Manage Shopping Cart Button
  */
-class Enterprise_Mage_Customer_ManageTest extends Mage_Selenium_TestCase
+class Enterprise_Magento_Customer_ManageTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {

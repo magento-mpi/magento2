@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
+class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
 {
     /**
      * Return list of product items
@@ -63,7 +63,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Mage_Sales_Model_Quote_Item */
+        /* @var $item Magento_Sales_Model_Quote_Item */
         foreach ($this->getItems() as $item) {
             if ($item->getProductType() == 'undefined') {
                 continue;
@@ -83,7 +83,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
+            $products = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
@@ -106,20 +106,20 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
     /**
      * Get item row html
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return string
      */
-    public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
+    public function getItemHtml(Magento_Sales_Model_Quote_Item $item)
     {
-        /** @var $renderer Mage_Checkout_Block_Cart_Item_Renderer */
+        /** @var $renderer Magento_Checkout_Block_Cart_Item_Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->helper('Mage_Catalog_Helper_Image')->init($item, 'thumbnail'));
+            $renderer->overrideProductThumbnail($this->helper('Magento_Catalog_Helper_Image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
             $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => Mage::helper('Mage_Core_Helper_Url')->urlEncode($item->getSku())
+                'sku' => Mage::helper('Magento_Core_Helper_Url')->urlEncode($item->getSku())
             ))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));
@@ -132,10 +132,10 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
     /**
      * Check whether item link should be rendered
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
-    public function showItemLink(Mage_Sales_Model_Quote_Item $item)
+    public function showItemLink(Magento_Sales_Model_Quote_Item $item)
     {
         $product = $item->getProduct();
         if ($product->isComposite()) {

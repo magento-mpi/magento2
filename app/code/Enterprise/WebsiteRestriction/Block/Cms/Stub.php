@@ -12,12 +12,12 @@
  * Stub block that outputs a raw CMS-page
  *
  */
-class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Mage_Cms_Block_Page
+class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
 {
     /**
      * Retrieve page from registry if it is not there try to laod it by indetifier
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
 
     public function getPage()
@@ -25,7 +25,7 @@ class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Mage_Cms_Block_Page
         if (!$this->hasData('page')) {
             $page = Mage::registry('restriction_landing_page');
             if (!$page) {
-                $page = Mage::getModel('Mage_Cms_Model_Page')
+                $page = Mage::getModel('Magento_Cms_Model_Page')
                     ->load($this->getPageIdentifier(), 'identifier');
             }
             $this->setData('page', $page);

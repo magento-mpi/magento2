@@ -19,11 +19,11 @@
                 <label>Email Sent from Gift Card Account Management</label>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Gift Card Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Gift Card Template</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
             </group>
             <group id="giftcardaccount_general" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="0" showInStore="0">

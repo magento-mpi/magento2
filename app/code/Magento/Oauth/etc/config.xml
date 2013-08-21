@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Oauth
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <oauth_setup>
+                <setup>
+                    <module>Magento_Oauth</module>
+                    <class>Magento_Oauth_Model_Resource_Setup</class>
+                </setup>
+            </oauth_setup>
+        </resources>
+        <events>
+            <before_login_post_redirect>
+                <observers>
+                    <oauth>
+                        <class>Magento_Oauth_Model_Observer</class>
+                        <method>afterCustomerLogin</method>
+                    </oauth>
+                </observers>
+            </before_login_post_redirect>
+            <admin_session_user_login_success>
+                <observers>
+                    <oauth>
+                        <class>Magento_Oauth_Model_Observer</class>
+                        <method>afterAdminLogin</method>
+                    </oauth>
+                </observers>
+            </admin_session_user_login_success>
+            <admin_session_user_login_failed>
+                <observers>
+                    <oauth>
+                        <class>Magento_Oauth_Model_Observer</class>
+                        <method>afterAdminLoginFailed</method>
+                    </oauth>
+                </observers>
+            </admin_session_user_login_failed>
+        </events>
+        <template>
+            <email>
+                <oauth_email_template translate="label" module="Magento_Oauth">
+                    <label>Token Status Change</label>
+                    <file>email/token.html</file>
+                    <type>html</type>
+                </oauth_email_template>
+            </email>
+        </template>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <oauth before="Magento_Adminhtml">Magento_Oauth_Adminhtml</oauth>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Oauth>
+                    <files>
+                        <default>Magento_Oauth.csv</default>
+                    </files>
+                </Magento_Oauth>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <routers>
+            <oauth>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Oauth</module>
+                    <frontName>oauth</frontName>
+                </args>
+            </oauth>
+        </routers>
+        <translate>
+            <modules>
+                <Magento_Oauth>
+                    <files>
+                        <default>Magento_Oauth.csv</default>
+                    </files>
+                </Magento_Oauth>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <oauth>
+            <cleanup>
+                <cleanup_probability>100</cleanup_probability>
+                <expiration_period>120</expiration_period>
+            </cleanup>
+            <email>
+                <identity>general</identity>
+                <template>oauth_email_template</template>
+            </email>
+        </oauth>
+    </default>
+</config>

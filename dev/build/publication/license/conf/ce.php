@@ -27,6 +27,7 @@ $config = array(
     'app' => array('php' => 'OSL', '_recursive' => false),
     'app/code/Enterprise'   => $magentoOslAfl,
     'app/code/Mage'         => $magentoOslAfl,
+    'app/code/Magento'      => $magentoOslAfl,
     'app/code/Zend'         => $magentoOslAfl,
     'app/design'            => $magentoAfl,
     'app/etc'               => array('xml' => 'AFL'),

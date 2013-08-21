@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Shell
+ * @category    Magento
+ * @package     Magento_Shell
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +14,9 @@ $params = array(
     Mage::PARAM_RUN_TYPE => 'store',
 );
 
-$entryPoint = new Mage_Index_Model_EntryPoint_Shell(
+$entryPoint = new Magento_Index_Model_EntryPoint_Shell(
     basename(__FILE__),
-    new Mage_Index_Model_EntryPoint_Shell_ErrorHandler(),
-    new Mage_Core_Model_Config_Primary(BP, $params)
+    new Magento_Index_Model_EntryPoint_Shell_ErrorHandler(),
+    new Magento_Core_Model_Config_Primary(BP, $params)
 );
 $entryPoint->processRequest();

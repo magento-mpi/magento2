@@ -12,7 +12,7 @@
  * Customerbalance helper
  *
  */
-class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CustomerBalance_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * XML configuration paths

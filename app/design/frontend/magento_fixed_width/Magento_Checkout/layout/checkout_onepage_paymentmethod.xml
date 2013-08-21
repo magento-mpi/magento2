@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_onepage_paymentmethod>
+        <reference name="payment_method">
+            <block type="Magento_Core_Block_Template" name="checkout.onepage.payment.methods.scripts" as="scripts"/>
+            <block type="Magento_Core_Block_Template" name="checkout.onepage.payment.methods.additional" as="additional"/>
+        </reference>
+    </checkout_onepage_paymentmethod>
+</layout>

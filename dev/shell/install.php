@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category   Mage
+ * @category   Magento
  * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
@@ -47,5 +47,5 @@ if (empty($args)) {
 define('BARE_BOOTSTRAP', 1);
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-$entryPoint = new Mage_Install_Model_EntryPoint_Console(BP, $args);
+$entryPoint = new Magento_Install_Model_EntryPoint_Console(BP, $args);
 $entryPoint->processRequest();

@@ -64,17 +64,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Create wishlist item collection
      *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     * @return Magento_Wishlist_Model_Resource_Item_Collection
      */
     protected function _createItemsCollection()
     {
-        return Mage::getModel('Mage_Wishlist_Model_Item')->getCollection();
+        return Mage::getModel('Magento_Wishlist_Model_Item')->getCollection();
     }
 
     /**
      * Return items collection
      *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     * @return Magento_Wishlist_Model_Resource_Item_Collection
      */
     public function getItemsCollection()
     {

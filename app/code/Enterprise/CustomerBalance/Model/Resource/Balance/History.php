@@ -16,7 +16,7 @@
  * @package     Enterprise_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerBalance_Model_Resource_Balance_History extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_CustomerBalance_Model_Resource_Balance_History extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource
@@ -30,10 +30,10 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_History extends Mage_Cor
     /**
      * Set updated_at automatically before saving
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_CustomerBalance_Model_Resource_Balance_History
      */
-    public function _beforeSave(Mage_Core_Model_Abstract $object)
+    public function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $object->setUpdatedAt($this->formatDate(time()));
         return parent::_beforeSave($object);

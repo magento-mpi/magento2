@@ -10,12 +10,12 @@
 <config>
     <module name="Enterprise_Reminder" version="1.11.0.2" active="false">
         <depends>
-            <module name="Mage_Customer" />
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Checkout" />
-            <module name="Mage_Wishlist" />
-            <module name="Mage_SalesRule" />
-            <module name="Mage_Rule" />
+            <module name="Magento_Customer" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Checkout" />
+            <module name="Magento_Wishlist" />
+            <module name="Magento_SalesRule" />
+            <module name="Magento_Rule" />
         </depends>
     </module>
 </config>

@@ -48,7 +48,7 @@
         <textarea name="items[<?php echo $_item->getId() ?>][note]" rows="3" cols="5" style="width:99%; height:10em;"><?php echo $this->escapeHtml($_item->getNote()) ?></textarea>
     </td>
     <td class="a-center">
-        <span class="nobr"><?php echo $this->formatDate($_item->getAddedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM) ?></span>
+        <span class="nobr"><?php echo $this->formatDate($_item->getAddedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM) ?></span>
     </td>
     <td class="a-center">
         <input class="input-text qty" data-validate="{'validate-greater-than-zero':true}" name="items[<?php echo $_item->getId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/>

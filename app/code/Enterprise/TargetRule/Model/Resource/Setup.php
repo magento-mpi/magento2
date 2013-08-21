@@ -16,6 +16,6 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Resource_Setup extends Mage_Catalog_Model_Resource_Setup
+class Enterprise_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Resource_Setup
 {
 }

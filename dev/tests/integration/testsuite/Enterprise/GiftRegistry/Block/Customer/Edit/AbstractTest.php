@@ -28,7 +28,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_AbstractTest
         $block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
 
         $value = null;
-        $formatType = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
+        $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 

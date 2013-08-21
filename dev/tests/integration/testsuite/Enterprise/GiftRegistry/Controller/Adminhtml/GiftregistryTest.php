@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Mage_Backend_Utility_Controller
+class Enterprise_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento_Backend_Utility_Controller
 {
     public function testNewAction()
     {

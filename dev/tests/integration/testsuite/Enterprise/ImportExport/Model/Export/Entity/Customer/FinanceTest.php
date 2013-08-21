@@ -17,7 +17,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
 {
     protected function tearDown()
     {
-        Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')->reinitStores();
+        Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->reinitStores();
     }
 
     /**
@@ -28,7 +28,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
     public function testExport()
     {
         $customerFinance = Mage::getModel('Enterprise_ImportExport_Model_Export_Entity_Customer_Finance');
-        $customerFinance->setWriter(Mage::getModel('Mage_ImportExport_Model_Export_Adapter_Csv'));
+        $customerFinance->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 
@@ -40,7 +40,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
         $correctHeader = $customerFinance->getPermanentAttributes();
         $attributeCollection = $customerFinance->getAttributeCollection();
         foreach ($customerFinance->filterAttributeCollection($attributeCollection) as $attribute) {
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             $correctHeader[] = $attribute->getAttributeCode();
         }
 
@@ -48,7 +48,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCode = $website->getCode();
             // CSV data

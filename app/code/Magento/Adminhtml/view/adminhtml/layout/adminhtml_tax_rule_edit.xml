@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_tax_rule_edit>
+        <reference name="head">
+            <action method="addJs">
+                <file>jquery/editableMultiselect/js/jquery.editable.js</file>
+            </action>
+            <action method="addJs">
+                <file>jquery/editableMultiselect/js/jquery.multiselect.js</file>
+            </action>
+            <action method="addJs">
+                <file>mage/backend/editablemultiselect.js</file>
+            </action>
+            <action method="addCss">
+                <file>jquery/editableMultiselect/css/jquery.multiselect.css</file>
+            </action>
+            <action method="addCss">
+                <file>Magento_Core::prototype/magento.css</file>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Tax_Rule_Edit"/>
+            <block type="Magento_Adminhtml_Block_Tax_Rule_Edit_Form" name="tax-rule-edit" template="Magento_Adminhtml::tax/rule/edit.phtml"/>
+            <block type="Magento_Adminhtml_Block_Tax_Rate_Form" name="tax-rate-form" template="tax/rule/rate/form.phtml"/>
+            <block type="Magento_Adminhtml_Block_Tax_Rate_ImportExport" name="tax-rate-importExport" template="tax/importExport.phtml"/>
+        </reference>
+    </adminhtml_tax_rule_edit>
+</layout>

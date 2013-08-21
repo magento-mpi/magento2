@@ -14,7 +14,7 @@ class Enterprise_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
     public function testControllerImplementsProductViewInterface()
     {
         $this->assertInstanceOf(
-            'Mage_Catalog_Controller_Product_View_Interface',
+            'Magento_Catalog_Controller_Product_View_Interface',
             $this->getMock('Enterprise_Checkout_Controller_Cart', array(), array(), '', false)
         );
     }

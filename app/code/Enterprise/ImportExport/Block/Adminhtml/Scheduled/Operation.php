@@ -15,7 +15,7 @@
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Initialize block

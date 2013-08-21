@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Search_Model_ObjectManager_Configurator implements Mage_Core_Model_ObjectManager_DynamicConfigInterface
+class Enterprise_Search_Model_ObjectManager_Configurator implements Magento_Core_Model_ObjectManager_DynamicConfigInterface
 {
     /**
      * Retrieve runtime environment specific di configuration

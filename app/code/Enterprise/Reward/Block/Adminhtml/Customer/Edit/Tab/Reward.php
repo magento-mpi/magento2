@@ -17,8 +17,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
-    extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Return tab label
@@ -71,7 +71,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Accordion');
+        $accordion = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Accordion');
         $accordion->addItem('reward_points_history', array(
             'title'       => __('Reward Points History'),
             'open'        => false,

@@ -43,7 +43,7 @@ class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_
      */
     protected function _renderBlock()
     {
-        $block = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Header');
+        $block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Header');
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->getWelcome();
     }

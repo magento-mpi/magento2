@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Model_Resource_Item_Collection_Updater
-    implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * Add filtration by customer id
@@ -27,7 +27,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Collection_Updater
     public function update($argument)
     {
         $adapter = $argument->getConnection();
-        $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
         $argument->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

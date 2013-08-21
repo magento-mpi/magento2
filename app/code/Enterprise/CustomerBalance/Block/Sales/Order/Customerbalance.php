@@ -12,12 +12,12 @@
  * Customer balance block for order
  *
  */
-class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Mage_Core_Block_Template
+class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Magento_Core_Block_Template
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {

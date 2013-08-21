@@ -29,7 +29,7 @@
  * @package     Enterprise_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
 {
     const ACTION_CREATED  = 0;
     const ACTION_USED     = 1;
@@ -39,28 +39,28 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     const ACTION_UPDATED  = 5;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_adminSession;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Backend_Model_Auth_Session $adminSession
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Backend_Model_Auth_Session $adminSession
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Backend_Model_Auth_Session $adminSession,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Backend_Model_Auth_Session $adminSession,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
     /**
      * Get admin user
      *
-     * @return null|Mage_User_Model_User
+     * @return null|Magento_User_Model_User
      */
     protected function _getAdminUser()
     {

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_cache_block>
+        <reference name='adminhtml.cache.container'>
+            <block type="Magento_Backend_Block_Widget_Grid" name='adminhtml.cache.grid' as='grid'>
+                <arguments>
+                    <id>cache_grid</id>
+                    <dataSource type="object">Magento_Backend_Model_Cache_Resource_Grid_Collection</dataSource>
+                    <pager_visibility>0</pager_visibility>
+                </arguments>
+                <block type='Magento_Backend_Block_Widget_Grid_Massaction'  name="adminhtml.cache.massaction" as='grid.massaction'>
+                    <arguments>
+                        <massaction_id_field>id</massaction_id_field>
+                        <form_field_name>types</form_field_name>
+                        <use_select_all>1</use_select_all>
+                        <options>
+                            <enable>
+                                <label translate='true' module='Magento_Index'>Enable</label>
+                                <url>*/*/massEnable</url>
+                            </enable>
+                            <disable>
+                                <label translate='true' module='Magento_Index'>Disable</label>
+                                <url>*/*/massDisable</url>
+                            </disable>
+                            <refresh>
+                                <label translate='true' module='Magento_Index'>Refresh</label>
+                                <url>*/*/massRefresh</url>
+                                <selected>1</selected>
+                            </refresh>
+                        </options>
+                    </arguments>
+                </block>
+                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.cache.grid.columnSet' as='grid.columnSet'>
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                    </arguments>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='cache_type'>
+                        <arguments>
+                            <header translate='true' module='Magento_Index'>Cache Type</header>
+                            <index>cache_type</index>
+                            <type>text</type>
+                            <width>180</width>
+                            <align>left</align>
+                            <sortable>0</sortable>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='description'>
+                        <arguments>
+                            <header translate='true' module='Magento_Index'>Description</header>
+                            <index>description</index>
+                            <type>text</type>
+                            <align>left</align>
+                            <sortable>0</sortable>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='tags'>
+                        <arguments>
+                            <header translate='true' module='Magento_Index'>Tags</header>
+                            <index>tags</index>
+                            <type>text</type>
+                            <width>180</width>
+                            <align>left</align>
+                            <sortable>0</sortable>
+                        </arguments>
+                    </block>
+                    <block type='Magento_Backend_Block_Cache_Grid_Column_Statuses' as='status'>
+                        <arguments>
+                            <header translate='true' module='Magento_Index'>Status</header>
+                            <index>status</index>
+                            <type>options</type>
+                            <width>120</width>
+                            <align>left</align>
+                            <options>
+                                <disabled>
+                                    <value>0</value>
+                                    <label translate="true">Disabled</label>
+                                </disabled>
+                                <enabled>
+                                    <value>1</value>
+                                    <label translate="true">Enabled</label>
+                                </enabled>
+                            </options>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_cache_block>
+</layout>

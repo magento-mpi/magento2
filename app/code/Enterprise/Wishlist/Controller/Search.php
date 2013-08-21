@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_Action
+class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Front_Action
 {
     /**
      * Localization filter
@@ -62,11 +62,11 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -75,7 +75,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -118,13 +118,13 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
             $this->_getSession()->setLastWishlistSearchParams($params);
         } catch (InvalidArgumentException $e) {
             $this->_getSession()->addNotice($e->getMessage());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('We could not perform the search.'));
         }
 
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -141,7 +141,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
         if (!$wishlistId) {
             return $this->norouteAction();
         }
-        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
+        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_getSession()->getCustomerId())) {
@@ -154,7 +154,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->_initLayoutMessages(array('Mage_Customer_Model_Session', 'Mage_Checkout_Model_Session', 'Mage_Wishlist_Model_Session'));
+        $this->_initLayoutMessages(array('Magento_Customer_Model_Session', 'Magento_Checkout_Model_Session', 'Magento_Wishlist_Model_Session'));
         $this->renderLayout();
     }
 
@@ -168,15 +168,15 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
         $notSalable = array();
         $hasOptions = array();
 
-        /** @var Mage_Checkout_Model_Cart $cart  */
-        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
+        /** @var Magento_Checkout_Model_Cart $cart  */
+        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
         $qtys = $this->getRequest()->getParam('qty');
         $selected = $this->getRequest()->getParam('selected');
         foreach ($qtys as $itemId => $qty) {
             if ($qty && isset($selected[$itemId])) {
                 try {
-                    /** @var Mage_Wishlist_Model_Item $item*/
-                    $item = Mage::getModel('Mage_Wishlist_Model_Item');
+                    /** @var Magento_Wishlist_Model_Item $item*/
+                    $item = Mage::getModel('Magento_Wishlist_Model_Item');
                     $item->loadWithOptions($itemId);
                     $item->unsProduct();
                     $qty = $this->_processLocalizedQty($qty);
@@ -186,10 +186,10 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
                     if ($item->addToCart($cart, false)) {
                         $addedItems[] = $item->getProduct();
                     }
-                } catch (Mage_Core_Exception $e) {
-                    if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
+                } catch (Magento_Core_Exception $e) {
+                    if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
-                    } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                    } else if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                         $hasOptions[] = $item;
                     } else {
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
@@ -201,8 +201,8 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
             }
         }
 
-        if (Mage::helper('Mage_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-            $redirectUrl = Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl();
+        if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+            $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();
         }
@@ -228,7 +228,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = Mage::getSingleton('Mage_Checkout_Model_Session');
+                $wishlistSession = Mage::getSingleton('Magento_Checkout_Model_Session');
                 foreach ($messages as $message) {
                     $wishlistSession->addError($message);
                 }
@@ -241,7 +241,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
                 __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }

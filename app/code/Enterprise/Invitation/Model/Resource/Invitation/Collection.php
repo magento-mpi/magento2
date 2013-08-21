@@ -16,7 +16,7 @@
  * @package     Enterprise_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Fields mapping 

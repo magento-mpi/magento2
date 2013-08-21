@@ -21,7 +21,7 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
     /**
      * @var int
      */
-    protected $_customerGroupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {
@@ -34,8 +34,8 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     * @magentoDataFixture Mage/CatalogRule/_files/catalog_rule_10_off_not_logged.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/CatalogRule/_files/catalog_rule_10_off_not_logged.php
      * @magentoDataFixture Enterprise/Banner/_files/banner.php
      */
     public function testGetCatalogRuleRelatedBannerIdsNoBannerConnected()
@@ -46,7 +46,7 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoDataFixture Enterprise/Banner/_files/banner_catalog_rule.php
      */
     public function testGetCatalogRuleRelatedBannerIds()
@@ -61,7 +61,7 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoDataFixture Enterprise/Banner/_files/banner_catalog_rule.php
      * @dataProvider getCatalogRuleRelatedBannerIdsWrongDataDataProvider
      */
@@ -89,8 +89,8 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
      */
     public function testGetSalesRuleRelatedBannerIds()
     {
-        /** @var Mage_SalesRule_Model_Rule $rule */
-        $rule = Mage::getModel('Mage_SalesRule_Model_Rule');
+        /** @var Magento_SalesRule_Model_Rule $rule */
+        $rule = Mage::getModel('Magento_SalesRule_Model_Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
         /** @var Enterprise_Banner_Model_Banner $banner */

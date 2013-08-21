@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_product_lowstock_grid>
+        <reference name="adminhtml.report.grid.container">
+            <block type="Magento_Adminhtml_Block_Report_Product_Lowstock_Grid" name="adminhtml.block.report.product.lowstock.grid" as="grid">
+                <arguments>
+                    <id>gridLowstock</id>
+                    <use_ajax>0</use_ajax>
+                    <dataSource type="object">Magento_Reports_Model_Resource_Product_Lowstock_Collection</dataSource>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.product.lowstock.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportLowstockCsv</urlPath>
+                                <label translate="true">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportLowstockExcel</urlPath>
+                                <label translate="true">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.report.product.lowstock.grid.columnSet">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true">Product</header>
+                            <sortable>0</sortable>
+                            <index>name</index>
+                            <header_css_class>col-product</header_css_class>
+                            <column_css_class>col-product</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sku">
+                        <arguments>
+                            <header translate="true">SKU</header>
+                            <sortable>0</sortable>
+                            <index>sku</index>
+                            <header_css_class>col-sku</header_css_class>
+                            <column_css_class>col-sku</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty">
+                        <arguments>
+                            <header translate="true">Stock Quantity</header>
+                            <filter>Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Range</filter>
+                            <sortable>0</sortable>
+                            <index>qty</index>
+                            <type>number</type>
+                            <header_css_class>col-qty</header_css_class>
+                            <column_css_class>col-qty</column_css_class>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_product_lowstock_grid>
+</layout>

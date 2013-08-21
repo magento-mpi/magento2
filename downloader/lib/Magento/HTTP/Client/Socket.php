@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_HTTP
+ * @package     Magento_HTTP
  * @copyright   {copyright}
  * @license     {license_link}
  */

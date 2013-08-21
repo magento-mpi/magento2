@@ -15,7 +15,7 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Order extends Mage_Adminhtml_Controller_Sales_Order
+class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Order extends Magento_Adminhtml_Controller_Sales_Order
 {
     /**
      * Owerwrited for archive permissions validation

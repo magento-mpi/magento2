@@ -12,7 +12,7 @@
 /**
  * HTTP response implementation that is used instead core one for testing
  */
-class Magento_Test_Response extends Mage_Core_Controller_Response_Http
+class Magento_Test_Response extends Magento_Core_Controller_Response_Http
 {
     /**
      * Prevent generating exceptions if headers are already sent

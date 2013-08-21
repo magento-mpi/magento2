@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <sales_email_order_creditmemo_items>
+        <block type="Magento_Sales_Block_Order_Email_Creditmemo_Items" name="items" template="email/creditmemo/items.phtml">
+            <action method="addItemRender">
+                <type>default</type>
+                <block>Magento_Sales_Block_Order_Email_Items_Default</block>
+                <template>email/items/creditmemo/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>Magento_Sales_Block_Order_Email_Items_Order_Grouped</block>
+                <template>email/items/creditmemo/default.phtml</template>
+            </action>
+            <block type="Magento_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
+                <action method="setLabelProperties">
+                    <value>colspan="3" align="right" style="padding:3px 9px"</value>
+                </action>
+                <action method="setValueProperties">
+                    <value>align="right" style="padding:3px 9px"</value>
+                </action>
+                <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+            </block>
+        </block>
+        <container name="additional.product.info" label="Additional Product Info"/>
+    </sales_email_order_creditmemo_items>
+</layout>

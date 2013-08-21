@@ -34,12 +34,12 @@ class Enterprise_Logging_Model_Config
     /**
      * Load config from cache or merged from logging.xml files
      *
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType
     ) {
         $configXml = $configCacheType->load('enterprise_logging_config');
         if ($configXml) {

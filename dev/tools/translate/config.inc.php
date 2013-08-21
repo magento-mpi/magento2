@@ -12,331 +12,331 @@ define("EXTENSION",'csv');
 $CONFIG['allow_extensions'] = array('php','xml','phtml','csv');
 $CONFIG['paths'] = array(
     'locale' => 'app/locale/',
-    'mage' => 'app/code/Mage/'
+    'mage' => 'app/code/Magento/'
 );
 
 $CONFIG['translates'] = array(
-    'Mage_AdminNotification' => array(
-        'app/code/Mage/AdminNotification/',
+    'Magento_AdminNotification' => array(
+        'app/code/Magento/AdminNotification/',
     ),
-    'Mage_Backup' => array(
-        'app/code/Mage/Backup/',
+    'Magento_Backup' => array(
+        'app/code/Magento/Backup/',
     ),
-    'Mage_Bundle' => array(
-        'app/code/Mage/Bundle/',
+    'Magento_Bundle' => array(
+        'app/code/Magento/Bundle/',
         'app/design/frontend/base/default/template/bundle/',
         'app/design/frontend/base/default/layout/bundle.xml',
         'app/design/adminhtml/default/default/template/bundle/',
     ),
-    'Mage_Catalog' => array(
-        'app/code/Mage/Catalog/',
+    'Magento_Catalog' => array(
+        'app/code/Magento/Catalog/',
         'app/design/frontend/base/default/template/catalog/',
         'app/design/frontend/base/default/layout/catalog.xml',
         'app/design/frontend/default/modern/template/catalog/',
         'app/design/frontend/default/modern/layout/catalog.xml',
     ),
-    'Mage_CatalogInventory' => array(
-        'app/code/Mage/CatalogInventory/',
+    'Magento_CatalogInventory' => array(
+        'app/code/Magento/CatalogInventory/',
     ),
-    'Mage_CatalogRule' => array(
-        'app/code/Mage/CatalogRule/',
+    'Magento_CatalogRule' => array(
+        'app/code/Magento/CatalogRule/',
     ),
-    'Mage_CatalogSearch' => array(
-        'app/code/Mage/CatalogSearch/',
+    'Magento_CatalogSearch' => array(
+        'app/code/Magento/CatalogSearch/',
         'app/design/frontend/base/default/template/catalogsearch/',
         'app/design/frontend/base/default/layout/catalogsearch.xml',
         'app/design/frontend/default/modern/template/catalogsearch/',
         'app/design/frontend/default/modern/layout/catalogsearch.xml',
     ),
-    'Mage_Centinel' => array(
-        'app/code/Mage/Centinel/',
+    'Magento_Centinel' => array(
+        'app/code/Magento/Centinel/',
         'app/design/frontend/base/default/template/centinel/',
         'app/design/frontend/base/default/layout/centinel.xml',
         'app/design/adminhtml/default/default/layout/centinel.xml',
         'app/design/adminhtml/default/default/template/centinel/',
     ),
-    'Mage_Checkout' => array(
-        'app/code/Mage/Checkout/',
+    'Magento_Checkout' => array(
+        'app/code/Magento/Checkout/',
         'app/design/frontend/base/default/template/checkout/',
         'app/design/frontend/base/default/layout/checkout.xml',
         'app/design/frontend/default/modern/template/checkout/',
         'app/design/frontend/default/modern/layout/checkout.xml',
     ),
-    'Mage_Chronopay' => array(
-        'app/code/Mage/Chronopay/',
+    'Magento_Chronopay' => array(
+        'app/code/Magento/Chronopay/',
         'app/design/frontend/base/default/template/chronopay/',
         'app/design/frontend/base/default/layout/chronopay.xml',
     ),
-    'Mage_Cms' => array(
-        'app/code/Mage/Cms/',
+    'Magento_Cms' => array(
+        'app/code/Magento/Cms/',
         'app/design/frontend/base/default/template/cms/',
         'app/design/frontend/base/default/layout/cms.xml'
     ),
-    'Mage_Compiler' => array(
-        'app/code/Mage/Compiler/',
+    'Magento_Compiler' => array(
+        'app/code/Magento/Compiler/',
         'app/design/adminhtml/default/default/template/compiler/',
         'app/design/adminhtml/default/default/layout/compiler.xml',
     ),
-    'Mage_Connect' => array(
-        'app/code/Mage/Connect/',
+    'Magento_Connect' => array(
+        'app/code/Magento/Connect/',
         'app/design/adminhtml/default/default/template/connect/',
         'app/design/adminhtml/default/default/layout/connect.xml',
     ),
-    'Mage_Contacts' => array(
-        'app/code/Mage/Contacts/',
+    'Magento_Contacts' => array(
+        'app/code/Magento/Contacts/',
         'app/design/frontend/base/default/template/contacts/',
         'app/design/frontend/base/default/layout/contacts.xml',
         'app/design/frontend/default/modern/layout/contacts.xml',
     ),
-    'Mage_Core' => array(
-        'app/code/Mage/Core/',
-        'app/code/Mage/Core/view/frontend',
-        'app/code/Mage/Core/view/adminhtml',
-        'app/code/Mage/Core/view/frontend/layout.xml',
+    'Magento_Core' => array(
+        'app/code/Magento/Core/',
+        'app/code/Magento/Core/view/frontend',
+        'app/code/Magento/Core/view/adminhtml',
+        'app/code/Magento/Core/view/frontend/layout.xml',
         'lib/Zend/Validate/',
     ),
-    'Mage_Cron' => array(
-        'app/code/Mage/Cron/',
+    'Magento_Cron' => array(
+        'app/code/Magento/Cron/',
     ),
-    'Mage_Customer' => array(
-        'app/code/Mage/Customer/',
+    'Magento_Customer' => array(
+        'app/code/Magento/Customer/',
         'app/design/frontend/base/default/template/customer/',
         'app/design/frontend/base/default/layout/customer.xml',
         'app/design/frontend/default/modern/layout/customer.xml',
     ),
-    'Mage_Cybermut' => array(
-        'app/code/Mage/Cybermut/',
+    'Magento_Cybermut' => array(
+        'app/code/Magento/Cybermut/',
         'app/design/frontend/base/default/template/cybermut/',
         'app/design/frontend/base/default/layout/cybermut.xml',
     ),
-    'Mage_Cybersource' => array(
-        'app/code/Mage/Cybersource/',
+    'Magento_Cybersource' => array(
+        'app/code/Magento/Cybersource/',
         'app/design/frontend/base/default/template/cybersource/',
     ),
-    'Mage_Directory' => array(
-        'app/code/Mage/Directory/',
+    'Magento_Directory' => array(
+        'app/code/Magento/Directory/',
         'app/design/frontend/base/default/template/directory/',
         'app/design/frontend/base/default/layout/directory.xml'
     ),
-    'Mage_Downloadable' => array(
-        'app/code/Mage/Downloadable/',
+    'Magento_Downloadable' => array(
+        'app/code/Magento/Downloadable/',
         'app/design/frontend/base/default/template/downloadable/',
         'app/design/frontend/base/default/layout/downloadable.xml',
         'app/design/adminhtml/default/default/template/downloadable/',
     ),
-    'Mage_Eav' => array(
-        'app/code/Mage/Eav/',
+    'Magento_Eav' => array(
+        'app/code/Magento/Eav/',
     ),
-    'Mage_Eway' => array(
-        'app/code/Mage/Eway/',
+    'Magento_Eway' => array(
+        'app/code/Magento/Eway/',
         'app/design/frontend/base/default/template/eway/',
         'app/design/frontend/base/default/layout/eway.xml',
         'app/design/adminhtml/default/default/template/eway/',
     ),
-    'Mage_Flo2Cash' => array(
-        'app/code/Mage/Flo2Cash/',
+    'Magento_Flo2Cash' => array(
+        'app/code/Magento/Flo2Cash/',
         'app/design/frontend/base/default/template/flo2cash/',
         'app/design/adminhtml/default/default/template/flo2cash/',
     ),
-    'Mage_GiftMessage' => array(
-        'app/code/Mage/GiftMessage/',
+    'Magento_GiftMessage' => array(
+        'app/code/Magento/GiftMessage/',
         'app/design/frontend/base/default/template/giftmessage/'
     ),
-    'Mage_GoogleAnalytics' => array(
-        'app/code/Mage/GoogleAnalytics/',
+    'Magento_GoogleAnalytics' => array(
+        'app/code/Magento/GoogleAnalytics/',
         'app/design/frontend/base/default/layout/googleanalytics.xml'
     ),
-    'Mage_GoogleBase' => array(
-        'app/code/Mage/GoogleBase/',
+    'Magento_GoogleBase' => array(
+        'app/code/Magento/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
     ),
-    'Mage_GoogleCheckout' => array(
-        'app/code/Mage/GoogleCheckout/',
+    'Magento_GoogleCheckout' => array(
+        'app/code/Magento/GoogleCheckout/',
         'app/design/frontend/base/default/layout/googlecheckout.xml'
     ),
-    'Mage_GoogleOptimizer' => array(
-        'app/code/Mage/GoogleOptimizer/',
+    'Magento_GoogleOptimizer' => array(
+        'app/code/Magento/GoogleOptimizer/',
         'app/design/frontend/base/default/layout/googleoptimizer.xml',
         'app/design/adminhtml/default/default/layout/googleoptimizer.xml',
         'app/design/adminhtml/default/default/template/googleoptimizer/',
     ),
-    'Mage_GoogleShopping' => array(
-        'app/code/Mage/GoogleShopping/',
+    'Magento_GoogleShopping' => array(
+        'app/code/Magento/GoogleShopping/',
         'app/design/adminhtml/default/default/template/googleshopping/',
     ),
-    'Mage_Ideal' => array(
-        'app/code/Mage/Ideal/',
+    'Magento_Ideal' => array(
+        'app/code/Magento/Ideal/',
         'app/design/frontend/base/default/template/ideal/',
         'app/design/frontend/base/default/layout/ideal.xml',
         'app/design/adminhtml/default/default/template/ideal/',
     ),
-    'Mage_Index' => array(
-        'app/code/Mage/Index/',
+    'Magento_Index' => array(
+        'app/code/Magento/Index/',
         'app/design/adminhtml/default/default/layout/index.xml',
         'app/design/adminhtml/default/default/template/index/',
     ),
-    'Mage_Install' => array(
-        'app/code/Mage/Install/',
+    'Magento_Install' => array(
+        'app/code/Magento/Install/',
         'app/design/install/default/default/layout/',
         'app/design/install/default/default/template/',
     ),
-    'Mage_Log' => array(
-        'app/code/Mage/Log/',
+    'Magento_Log' => array(
+        'app/code/Magento/Log/',
     ),
-    'Mage_Media' => array(
-        'app/code/Mage/Media/',
+    'Magento_Media' => array(
+        'app/code/Magento/Media/',
     ),
-    'Mage_Newsletter' => array(
-        'app/code/Mage/Newsletter/',
+    'Magento_Newsletter' => array(
+        'app/code/Magento/Newsletter/',
         'app/design/frontend/base/default/template/newsletter/',
         'app/design/frontend/base/default/layout/newsletter.xml',
         'app/design/frontend/default/modern/template/newsletter/',
         'app/design/frontend/default/modern/layout/newsletter.xml',
     ),
-    'Mage_Ogone' => array(
-        'app/code/Mage/Ogone/',
+    'Magento_Ogone' => array(
+        'app/code/Magento/Ogone/',
         'app/design/frontend/base/default/layout/ogone.xml',
         'app/design/frontend/base/default/template/ogone/',
     ),
-    'Mage_Page' => array(
-        'app/code/Mage/Page/',
+    'Magento_Page' => array(
+        'app/code/Magento/Page/',
         'app/design/frontend/base/default/template/page/',
         'app/design/frontend/base/default/layout/page.xml',
         'app/design/frontend/default/modern/template/page/',
         'app/design/frontend/default/modern/layout/page.xml',
     ),
-    'Mage_PageCache' => array(
-        'app/code/Mage/PageCache/',
+    'Magento_PageCache' => array(
+        'app/code/Magento/PageCache/',
         'app/design/frontend/base/default/template/pagecache/',
         'app/design/frontend/base/default/layout/pagecache.xml',
         'app/design/adminhtml/default/default/template/pagecache/',
         'app/design/adminhtml/default/default/layout/pagecache.xml'
     ),
-    'Mage_Captcha' => array(
-        'app/code/Mage/Captcha/',
+    'Magento_Captcha' => array(
+        'app/code/Magento/Captcha/',
         'app/design/frontend/base/default/template/captcha/',
         'app/design/frontend/base/default/layout/captcha.xml',
         'app/design/adminhtml/default/default/template/captcha/',
         'app/design/adminhtml/default/default/layout/captcha.xml'
     ),
-    'Mage_Paybox' => array(
-        'app/code/Mage/Paybox/',
+    'Magento_Paybox' => array(
+        'app/code/Magento/Paybox/',
         'app/design/frontend/base/default/template/paybox/',
         'app/design/frontend/base/default/layout/paybox.xml',
         'app/design/adminhtml/default/default/template/paybox/',
     ),
-    'Mage_Paygate' => array(
-        'app/code/Mage/Paygate/',
+    'Magento_Paygate' => array(
+        'app/code/Magento/Paygate/',
     ),
-    'Mage_Payment' => array(
-        'app/code/Mage/Payment/',
+    'Magento_Payment' => array(
+        'app/code/Magento/Payment/',
         'app/design/frontend/base/default/template/payment/'
     ),
-    'Mage_Paypal' => array(
-        'app/code/Mage/Paypal/',
+    'Magento_Paypal' => array(
+        'app/code/Magento/Paypal/',
         'app/design/frontend/base/default/template/paypal/',
         'app/design/frontend/base/default/layout/paypal.xml',
     ),
-    'Mage_PaypalUk' => array(
-        'app/code/Mage/Paypal/',
+    'Magento_PaypalUk' => array(
+        'app/code/Magento/Paypal/',
         'app/design/frontend/base/default/layout/paypaluk.xml',
     ),
-    'Mage_Persistent' => array(
-        'app/code/Mage/Persistent/',
+    'Magento_Persistent' => array(
+        'app/code/Magento/Persistent/',
         'app/design/frontend/base/default/layout/persistent.xml',
         'app/design/frontend/base/default/template/persistent/'
     ),
-    'Mage_Poll' => array(
-        'app/code/Mage/Poll/',
+    'Magento_Poll' => array(
+        'app/code/Magento/Poll/',
         'app/design/frontend/base/default/template/poll/',
         'app/design/frontend/base/default/layout/poll.xml',
     ),
-    'Mage_ProductAlert' => array(
-        'app/code/Mage/ProductAlert/',
+    'Magento_ProductAlert' => array(
+        'app/code/Magento/ProductAlert/',
         'app/design/frontend/base/default/template/email/productalert/',
         'app/design/frontend/base/default/template/productalert/',
         'app/design/frontend/base/default/layout/productalert.xml',
     ),
-    'Mage_Protx' => array(
-        'app/code/Mage/Protx/',
+    'Magento_Protx' => array(
+        'app/code/Magento/Protx/',
         'app/design/frontend/base/default/template/protx/',
         'app/design/frontend/base/default/layout/protx.xml',
     ),
-    'Mage_Rating' => array(
-        'app/code/Mage/Rating/',
+    'Magento_Rating' => array(
+        'app/code/Magento/Rating/',
         'app/design/frontend/base/default/template/rating/',
     ),
-    'Mage_Reports' => array(
-        'app/code/Mage/Reports/',
+    'Magento_Reports' => array(
+        'app/code/Magento/Reports/',
         'app/design/frontend/base/default/template/reports/',
         'app/design/frontend/base/default/layout/reports.xml',
     ),
-    'Mage_Review' => array(
-        'app/code/Mage/Review/',
+    'Magento_Review' => array(
+        'app/code/Magento/Review/',
         'app/design/frontend/base/default/template/review/',
         'app/design/frontend/base/default/layout/review.xml',
         'app/design/frontend/default/modern/layout/review.xml',
     ),
-    'Mage_Rss' => array(
-        'app/code/Mage/Rss/',
+    'Magento_Rss' => array(
+        'app/code/Magento/Rss/',
         'app/design/frontend/base/default/template/rss/',
         'app/design/frontend/base/default/layout/rss.xml',
         'app/design/frontend/default/modern/layout/rss.xml',
     ),
-    'Mage_Rule' => array(
-        'app/code/Mage/Rule/',
+    'Magento_Rule' => array(
+        'app/code/Magento/Rule/',
     ),
-    'Mage_Sales' => array(
-        'app/code/Mage/Sales/',
+    'Magento_Sales' => array(
+        'app/code/Magento/Sales/',
         'app/design/frontend/base/default/template/email/order/',
         'app/design/frontend/base/default/template/sales/',
         'app/design/frontend/base/default/layout/sales.xml',
         'app/design/frontend/default/modern/layout/sales.xml',
     ),
-    'Mage_SalesRule' => array(
-        'app/code/Mage/SalesRule/',
+    'Magento_SalesRule' => array(
+        'app/code/Magento/SalesRule/',
     ),
-    'Mage_Sendfriend' => array(
-        'app/code/Mage/Sendfriend/',
+    'Magento_Sendfriend' => array(
+        'app/code/Magento/Sendfriend/',
         'app/design/frontend/base/default/template/sendfriend/',
         'app/design/frontend/base/default/layout/sendfriend.xml',
         'app/design/frontend/default/modern/layout/sendfriend.xml',
     ),
-    'Mage_Shipping' => array(
-        'app/code/Mage/Shipping/',
+    'Magento_Shipping' => array(
+        'app/code/Magento/Shipping/',
         'app/design/frontend/base/default/template/shipping/',
         'app/design/frontend/base/default/layout/shipping.xml',
     ),
-    'Mage_Sitemap' => array(
-        'app/code/Mage/Sitemap/',
+    'Magento_Sitemap' => array(
+        'app/code/Magento/Sitemap/',
     ),
-    'Mage_Strikeiron' => array(
-        'app/code/Mage/Strikeiron/',
+    'Magento_Strikeiron' => array(
+        'app/code/Magento/Strikeiron/',
     ),
-    'Mage_Tag' => array(
-        'app/code/Mage/Tag/',
+    'Magento_Tag' => array(
+        'app/code/Magento/Tag/',
         'app/design/frontend/base/default/template/tag/',
         'app/design/frontend/base/default/layout/tag.xml',
         'app/design/frontend/default/modern/layout/tag.xml',
     ),
-    'Mage_Tax' => array(
-        'app/code/Mage/Tax/',
+    'Magento_Tax' => array(
+        'app/code/Magento/Tax/',
     ),
-    'Mage_Usa' => array(
-        'app/code/Mage/Usa/',
+    'Magento_Usa' => array(
+        'app/code/Magento/Usa/',
     ),
-    'Mage_Weee' => array(
-        'app/code/Mage/Weee/',
+    'Magento_Weee' => array(
+        'app/code/Magento/Weee/',
         'app/design/frontend/base/default/layout/weee.xml',
     ),
-    'Mage_Wishlist' => array(
-        'app/code/Mage/Wishlist/',
+    'Magento_Wishlist' => array(
+        'app/code/Magento/Wishlist/',
         'app/design/frontend/base/default/template/wishlist/',
         'app/design/frontend/base/default/layout/wishlist.xml',
         'app/design/frontend/default/modern/layout/wishlist.xml',
     ),
-    'Mage_Widget' => array(
-        'app/code/Mage/Widget/',
+    'Magento_Widget' => array(
+        'app/code/Magento/Widget/',
         'app/design/adminhtml/default/default/layout/widget.xml',
         'app/design/adminhtml/default/default/template/widget/',
     ),
@@ -522,26 +522,26 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/enterprise_wishlist.xml',
         'app/design/frontend/enterprise/default/template/wishlist/'
     ),
-    'Mage_Adminhtml' => array(
-        'app/code/Mage/Admin/',
-        'app/code/Mage/Adminhtml/',
+    'Magento_Adminhtml' => array(
+        'app/code/Magento/Admin/',
+        'app/code/Magento/Adminhtml/',
         'app/design/adminhtml/default/default/layout/',
         'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
-    'Mage_Api' => array(
-        'app/code/Mage/Api/',
+    'Magento_Api' => array(
+        'app/code/Magento/Api/',
         'app/design/adminhtml/default/default/template/api/',
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
-    'Mage_Webapi' => array(
-        'app/code/Mage/Webapi/',
+    'Magento_Webapi' => array(
+        'app/code/Magento/Webapi/',
         'app/design/adminhtml/default/default/template/webapi/',
         'app/design/adminhtml/default/default/layout/webapi.xml',
     ),
-    'Mage_Oauth' => array(
-        'app/code/Mage/Oauth/',
+    'Magento_Oauth' => array(
+        'app/code/Magento/Oauth/',
         'app/design/adminhtml/default/default/template/oauth/',
         'app/design/adminhtml/default/default/layout/oauth.xml',
         'app/design/frontend/base/default/template/oauth/',
@@ -549,8 +549,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/template/oauth/',
         'app/design/frontend/enterprise/default/layout/oauth.xml',
     ),
-    'Mage_ImportExport' => array(
-        'app/code/Mage/Mage_ImportExport/',
+    'Magento_ImportExport' => array(
+        'app/code/Magento/ImportExport/',
         'app/design/adminhtml/default/default/template/importexport',
         'app/design/adminhtml/default/default/layout/importexport.xml',
     ),
@@ -559,78 +559,78 @@ $CONFIG['translates'] = array(
     ),
 );
 
-$CONFIG['helpers'] = array(
-    'adminhtml'         => 'Mage_Adminhtml',
-    'adminnotification' => 'Mage_AdminNotification',
-    'api'               => 'Mage_Api',
-    'webapi'              => 'Mage_Webapi',
-    'oauth'             => 'Mage_Oauth',
-    'importexport'      => 'Mage_ImportExport',
-    'backup'            => 'Mage_Backup',
-    'bundle'            => 'Mage_Bundle',
-    'catalog'           => 'Mage_Catalog',
-    'cataloginventory'  => 'Mage_CatalogInventory',
-    'catalogrule'       => 'Mage_CatalogRule',
-    'catalogsearch'     => 'Mage_CatalogSearch',
-    'centinel'          => 'Mage_Centinel',
-    'checkout'          => 'Mage_Checkout',
-    'chronopay'         => 'Mage_Chronopay',
-    'cms'               => 'Mage_Cms',
-    'compiler'          => 'Mage_Compiler',
-    'connect'           => 'Mage_Connect',
-    'contacts'          => 'Mage_Contacts',
-    'core'              => 'Mage_Core',
-    'cron'              => 'Mage_Cron',
-    'customer'          => 'Mage_Customer',
-    'cybermut'          => 'Mage_Cybermut',
-    'cybersource'       => 'Mage_Cybersource',
-    'directory'         => 'Mage_Directory',
-    'downloadable'      => 'Mage_Downloadable',
-    'eav'               => 'Mage_Eav',
-    'eway'              => 'Mage_Eway',
-    'flo2cash'          => 'Mage_Flo2Cash',
-    'giftmessage'       => 'Mage_GiftMessage',
-    'googleanalytics'   => 'Mage_GoogleAnalytics',
-    'googlebase'        => 'Mage_GoogleBase',
-    'googlecheckout'    => 'Mage_GoogleCheckout',
-    'googleoptimizer'   => 'Mage_GoogleOptimizer',
-    'googleshopping'    => 'Mage_GoogleShopping',
-    'ideal'             => 'Mage_Ideal',
-    'index'             => 'Mage_Index',
-    'install'           => 'Mage_Install',
-    'log'               => 'Mage_Log',
-    'media'             => 'Mage_Media',
-    'newsletter'        => 'Mage_Newsletter',
-    'ogone'             => 'Mage_Ogone',
-    'page'              => 'Mage_Page',
-    'pagecache'         => 'Mage_PageCache',
-    'captcha'           => 'Mage_Captcha',
-    'paybox'            => 'Mage_Paybox',
-    'paygate'           => 'Mage_Paygate',
-    'payment'           => 'Mage_Payment',
-    'paypal'            => 'Mage_Paypal',
-    'paypaluk'          => 'Mage_PaypalUk',
-    'persistent'        => 'Mage_Persistent',
-    'poll'              => 'Mage_Poll',
-    'productalert'      => 'Mage_ProductAlert',
-    'protx'             => 'Mage_Protx',
-    'rating'            => 'Mage_Rating',
-    'reports'           => 'Mage_Reports',
-    'review'            => 'Mage_Review',
-    'rss'               => 'Mage_Rss',
-    'rule'              => 'Mage_Rule',
-    'sales'             => 'Mage_Sales',
-    'salesrule'         => 'Mage_SalesRule',
-    'sendfriend'        => 'Mage_Sendfriend',
-    'shipping'          => 'Mage_Shipping',
-    'sitemap'           => 'Mage_Sitemap',
-    'strikeiron'        => 'Mage_Strikeiron',
-    'tag'               => 'Mage_Tag',
-    'tax'               => 'Mage_Tax',
-    'usa'               => 'Mage_Usa',
-    'weee'              => 'Mage_Weee',
-    'wishlist'          => 'Mage_Wishlist',
-    'widget'            => 'Mage_Widget',
+$CONFIG['helpers']  = array(
+    'adminhtml'         => 'Magento_Adminhtml',
+    'adminnotification' => 'Magento_AdminNotification',
+    'api'               => 'Magento_Api',
+    'webapi'              => 'Magento_Webapi',
+    'oauth'             => 'Magento_Oauth',
+    'importexport'      => 'Magento_ImportExport',
+    'backup'            => 'Magento_Backup',
+    'bundle'            => 'Magento_Bundle',
+    'catalog'           => 'Magento_Catalog',
+    'cataloginventory'  => 'Magento_CatalogInventory',
+    'catalogrule'       => 'Magento_CatalogRule',
+    'catalogsearch'     => 'Magento_CatalogSearch',
+    'centinel'          => 'Magento_Centinel',
+    'checkout'          => 'Magento_Checkout',
+    'chronopay'         => 'Magento_Chronopay',
+    'cms'               => 'Magento_Cms',
+    'compiler'          => 'Magento_Compiler',
+    'connect'           => 'Magento_Connect',
+    'contacts'          => 'Magento_Contacts',
+    'core'              => 'Magento_Core',
+    'cron'              => 'Magento_Cron',
+    'customer'          => 'Magento_Customer',
+    'cybermut'          => 'Magento_Cybermut',
+    'cybersource'       => 'Magento_Cybersource',
+    'directory'         => 'Magento_Directory',
+    'downloadable'      => 'Magento_Downloadable',
+    'eav'               => 'Magento_Eav',
+    'eway'              => 'Magento_Eway',
+    'flo2cash'          => 'Magento_Flo2Cash',
+    'giftmessage'       => 'Magento_GiftMessage',
+    'googleanalytics'   => 'Magento_GoogleAnalytics',
+    'googlebase'        => 'Magento_GoogleBase',
+    'googlecheckout'    => 'Magento_GoogleCheckout',
+    'googleoptimizer'   => 'Magento_GoogleOptimizer',
+    'googleshopping'    => 'Magento_GoogleShopping',
+    'ideal'             => 'Magento_Ideal',
+    'index'             => 'Magento_Index',
+    'install'           => 'Magento_Install',
+    'log'               => 'Magento_Log',
+    'media'             => 'Magento_Media',
+    'newsletter'        => 'Magento_Newsletter',
+    'ogone'             => 'Magento_Ogone',
+    'page'              => 'Magento_Page',
+    'pagecache'         => 'Magento_PageCache',
+    'captcha'           => 'Magento_Captcha',
+    'paybox'            => 'Magento_Paybox',
+    'paygate'           => 'Magento_Paygate',
+    'payment'           => 'Magento_Payment',
+    'paypal'            => 'Magento_Paypal',
+    'paypaluk'          => 'Magento_PaypalUk',
+    'persistent'        => 'Magento_Persistent',
+    'poll'              => 'Magento_Poll',
+    'productalert'      => 'Magento_ProductAlert',
+    'protx'             => 'Magento_Protx',
+    'rating'            => 'Magento_Rating',
+    'reports'           => 'Magento_Reports',
+    'review'            => 'Magento_Review',
+    'rss'               => 'Magento_Rss',
+    'rule'              => 'Magento_Rule',
+    'sales'             => 'Magento_Sales',
+    'salesrule'         => 'Magento_SalesRule',
+    'sendfriend'        => 'Magento_Sendfriend',
+    'shipping'          => 'Magento_Shipping',
+    'sitemap'           => 'Magento_Sitemap',
+    'strikeiron'        => 'Magento_Strikeiron',
+    'tag'               => 'Magento_Tag',
+    'tax'               => 'Magento_Tax',
+    'usa'               => 'Magento_Usa',
+    'weee'              => 'Magento_Weee',
+    'wishlist'          => 'Magento_Wishlist',
+    'widget'            => 'Magento_Widget',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',

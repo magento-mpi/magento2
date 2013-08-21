@@ -59,7 +59,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_customersegment before="Mage_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
+                        <enterprise_customersegment before="Magento_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
                     </modules>
                 </args>
             </adminhtml>

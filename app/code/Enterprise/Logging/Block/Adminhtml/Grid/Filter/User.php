@@ -11,7 +11,7 @@
 /**
  * User column filter for Event Log grid
  */
-class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
     /**
      * Build filter options list

@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Model_Resource_Item_Collection extends Mage_Wishlist_Model_Resource_Item_Collection
+class Enterprise_Wishlist_Model_Resource_Item_Collection extends Magento_Wishlist_Model_Resource_Item_Collection
 {
     /**
      * Add filtration by customer id
@@ -28,7 +28,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Collection extends Mage_Wishlist_M
         parent::addCustomerIdFilter($customerId);
 
         $adapter = $this->getConnection();
-        $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
         $this->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

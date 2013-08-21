@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog_Model_Layer_Filter_Category
+class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Category
 {
     /**
      * Get data array for building category filter items
@@ -25,7 +25,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
      */
     protected function _getItemsData()
     {
-        /** @var $category Mage_Catalog_Model_Categeory */
+        /** @var $category Magento_Catalog_Model_Categeory */
         $category   = $this->getCategory();
         $categories = $category->getChildrenCategories();
 
@@ -43,7 +43,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
 
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('Mage_Core_Helper_Data')->escapeHtml($category->getName()),
+                    'label' => Mage::helper('Magento_Core_Helper_Data')->escapeHtml($category->getName()),
                     'value' => $categoryId,
                     'count' => $category->getProductCount(),
                 );

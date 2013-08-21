@@ -20,7 +20,7 @@
 /**
  * @deprecated since 1.12.0.0
  */
-class Enterprise_Cms_Model_Resource_Hierarchy_Lock extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Cms_Model_Resource_Hierarchy_Lock extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define main table and field

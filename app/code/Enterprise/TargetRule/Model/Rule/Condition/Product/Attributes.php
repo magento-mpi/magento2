@@ -10,7 +10,7 @@
 
 
 class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
-    extends Mage_Rule_Model_Condition_Product_Abstract
+    extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
      * Attribute property that defines whether to use it for target rules
@@ -30,10 +30,10 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     /**
      * Set condition type and value
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes');

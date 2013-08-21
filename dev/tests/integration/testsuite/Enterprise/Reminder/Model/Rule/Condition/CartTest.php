@@ -16,7 +16,7 @@ class Enterprise_Reminder_Model_Rule_Condition_CartTest extends PHPUnit_Framewor
      */
     public function testDaysDiffCondition($operator, $value, $expectedResult, $checkGmtDate = false)
     {
-        $dateModelMock = $this->getMock('Mage_Core_Model_Date', array(), array(), '', false);
+        $dateModelMock = $this->getMock('Magento_Core_Model_Date', array(), array(), '', false);
         if ($checkGmtDate) {
             $dateModelMock->expects($this->at(1))->method('gmtDate')->with();
         }

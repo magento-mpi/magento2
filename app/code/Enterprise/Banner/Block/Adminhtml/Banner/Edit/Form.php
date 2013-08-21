@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Mage_Adminhtml_Block_Widget_Form
+     * @return Magento_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {

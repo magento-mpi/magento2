@@ -16,7 +16,7 @@
  * @package     Enterprise_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Whether category data was added to collection
@@ -33,7 +33,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
     protected $_skipClosed         = false;
 
     /**
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
@@ -41,13 +41,13 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
      * Collection constructor
      *
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_App $application
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_App $application,
-        Mage_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($fetchStrategy, $resource);
         $this->_application = $application;

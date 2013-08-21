@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default
-    extends Mage_Core_Model_Config_Data
+    extends Magento_Core_Model_Config_Data
 {
     /**
      * Check permission to edit product prices before the value is saved

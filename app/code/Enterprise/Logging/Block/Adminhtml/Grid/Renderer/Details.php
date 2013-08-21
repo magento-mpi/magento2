@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render the grid cell value
@@ -40,7 +40,7 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details
                 /**
                  *  [additional] => Array
                  *          (
-                 *               [Mage_Sales_Model_Order] => Array
+                 *               [Magento_Sales_Model_Order] => Array
                  *                  (
                  *                      [68] => Array
                  *                          (
