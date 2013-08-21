@@ -63,7 +63,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
                     return $instance;
                 }
             }
-            Mage::throwException(Mage::helper('Magento_Payment_Helper_Data')->__('The payment method you requested is not available.'));
+            Mage::throwException(__('The payment method you requested is not available.'));
         }
 
         return $this->_getData('method_instance');
@@ -110,7 +110,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     public function setAdditionalInformation($key, $value = null)
     {
         if (is_object($value)) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('The payment disallows storing objects.'));
+            Mage::throwException(__('The payment disallows storing objects.'));
         }
         $this->_initAdditionalInformation();
         if (is_array($key) && is_null($value)) {

@@ -32,31 +32,31 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('None')
+                'label' => __('None')
             ),
             array(
                 'value' => 'validate-number',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('Decimal Number')
+                'label' => __('Decimal Number')
             ),
             array(
                 'value' => 'validate-digits',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('Integer Number')
+                'label' => __('Integer Number')
             ),
             array(
                 'value' => 'validate-email',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('Email')
+                'label' => __('Email')
             ),
             array(
                 'value' => 'validate-url',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('URL')
+                'label' => __('URL')
             ),
             array(
                 'value' => 'validate-alpha',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('Letters')
+                'label' => __('Letters')
             ),
             array(
                 'value' => 'validate-alphanum',
-                'label' => Mage::helper('Magento_Eav_Helper_Data')->__('Letters (a-z, A-Z) or Numbers (0-9)')
+                'label' => __('Letters (a-z, A-Z) or Numbers (0-9)')
             )
         );
     }

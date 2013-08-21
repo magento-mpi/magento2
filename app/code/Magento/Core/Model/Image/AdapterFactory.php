@@ -31,11 +31,6 @@ class Magento_Core_Model_Image_AdapterFactory
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
@@ -48,20 +43,17 @@ class Magento_Core_Model_Image_AdapterFactory
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Magento_Core_Model_Config $configModel
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Helper_Data $helper,
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
         Magento_Core_Model_Config $configModel
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
-        $this->_helper = $helper;
         $this->_configWriter = $configWriter;
         $this->_config = $configModel;
         $this->_adapterClasses = array(
@@ -85,7 +77,7 @@ class Magento_Core_Model_Image_AdapterFactory
         }
         if (!isset($this->_adapterClasses[$adapterType])) {
             throw new InvalidArgumentException(
-                $this->_helper->__('Invalid adapter selected.')
+                __('Invalid adapter selected.')
             );
         }
         $imageAdapter = $this->_objectManager->create($this->_adapterClasses[$adapterType]);

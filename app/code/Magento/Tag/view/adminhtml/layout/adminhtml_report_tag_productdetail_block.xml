@@ -20,11 +20,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportProductDetailCsv</urlPath>
-                                <label translate="true" module="Magento_Tag">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportProductDetailExcel</urlPath>
-                                <label translate="true" module="Magento_Tag">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -35,20 +35,20 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="tag_name">
                         <arguments>
-                            <header translate="true" module="Magento_Tag">Tag</header>
+                            <header translate="true">Tag</header>
                             <index>tag_name</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="taged">
                         <arguments>
-                            <header translate="true" module="Magento_Tag">Tag Use</header>
+                            <header translate="true">Tag Use</header>
                             <index>taged</index>
                             <align>right</align>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
                         <arguments>
-                            <header translate="true" module="Magento_Tag">Visibility</header>
+                            <header translate="true">Visibility</header>
                             <sortable>0</sortable>
                             <index>stores</index>
                             <type>store</type>

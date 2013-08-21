@@ -33,15 +33,13 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
             Mage::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
-        $templateName = Mage::helper('Magento_Backend_Helper_Data')->__('Default Template');
+        $templateName = __('Default Template');
         $nodeName = str_replace('/', '_', $this->getPath());
         $templateLabelNode = Mage::app()->getConfig()->getNode(
             Magento_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
         );
         if ($templateLabelNode) {
-            $module = (string)$templateLabelNode->getParent()->getAttribute('module');
-            $templateName = Mage::helper($module)->__((string)$templateLabelNode);
-            $templateName = Mage::helper('Magento_Backend_Helper_Data')->__('%s (Default)', $templateName);
+            $templateName = __('%1 (Default)', __((string)$templateLabelNode));
         }
         array_unshift(
             $options,

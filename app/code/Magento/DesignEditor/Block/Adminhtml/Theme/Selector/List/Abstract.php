@@ -80,8 +80,8 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         /** @var $assignButton Magento_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Magento_DesignEditor_Block_Adminhtml_Theme_Button');
         $assignButton->setData(array(
-            'title' => $this->__('Duplicate'),
-            'label' => $this->__('Duplicate'),
+            'title' => __('Duplicate'),
+            'label' => __('Duplicate'),
             'class'   => 'action-duplicate',
             'href'   => $this->getUrl('*/*/duplicate', array('theme_id' => $themeId))
         ));
@@ -102,11 +102,11 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     {
         if ($this->getHasThemeAssigned()) {
             // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a new theme for your live store. Click "OK" to replace your current theme.');
+            $message = __('You chose a new theme for your live store. Click "OK" to replace your current theme.');
             // @codingStandardsIgnoreEnd
         } else {
             // @codingStandardsIgnoreStart
-            $message = $this->__('You chose a theme for your new store. Click "OK" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
+            $message = __('You chose a theme for your new store. Click "OK" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."');
             // @codingStandardsIgnoreEnd
         }
         $themeId = $themeBlock->getTheme()->getId();
@@ -114,7 +114,7 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         /** @var $assignButton Magento_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label'   => $this->__('Assign to a Store View'),
+            'label'   => __('Assign to a Store View'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array(
@@ -124,7 +124,7 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                             'theme_id' => $themeId,
                             'confirm'  => array(
                                 'message' =>  $message,
-                                'title'   =>  $this->__('Assign New Theme')
+                                'title'   =>  __('Assign New Theme')
                             )
                         )
                     ),
@@ -148,8 +148,8 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         /** @var $editButton Magento_Backend_Block_Widget_Button */
         $editButton = $this->getLayout()->createBlock('Magento_DesignEditor_Block_Adminhtml_Theme_Button');
         $editButton->setData(array(
-            'title'  => $this->__('Edit'),
-            'label'  => $this->__('Edit'),
+            'title'  => __('Edit'),
+            'label'  => __('Edit'),
             'class'  => 'action-edit',
             'href'   => $this->_getEditUrl($themeBlock->getTheme()->getId()),
             'target' => 'edittheme',

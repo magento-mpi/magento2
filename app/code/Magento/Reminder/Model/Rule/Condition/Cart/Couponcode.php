@@ -33,7 +33,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Magento_Reminder_Helper_Data')->__('Coupon Code'));
+            'label' => __('Coupon Code'));
     }
 
     /**
@@ -44,7 +44,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Magento_Reminder_Helper_Data')->__('Shopping cart %s a coupon applied', $this->getValueElementHtml())
+            . __('Shopping cart %1 a coupon applied', $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -66,8 +66,8 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('Magento_Reminder_Helper_Data')->__('has'),
-            '0' => Mage::helper('Magento_Reminder_Helper_Data')->__('does not have')
+            '1' => __('has'),
+            '0' => __('does not have')
         ));
         return $this;
     }

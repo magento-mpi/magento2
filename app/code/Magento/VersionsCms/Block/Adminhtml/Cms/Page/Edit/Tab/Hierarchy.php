@@ -178,7 +178,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Hierarchy');
+        return __('Hierarchy');
     }
 
     /**
@@ -188,7 +188,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Hierarchy');
+        return __('Hierarchy');
     }
 
     /**

@@ -21,7 +21,7 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
-            $this->getCheckout()->setStepData('login', array('label'=>Mage::helper('Magento_Checkout_Helper_Data')->__('Checkout Method'), 'allow'=>true));
+            $this->getCheckout()->setStepData('login', array('label'=>__('Checkout Method'), 'allow'=>true));
         }
         parent::_construct();
     }

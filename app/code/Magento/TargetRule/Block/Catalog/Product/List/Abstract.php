@@ -68,7 +68,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
 
             default:
                 Mage::throwException(
-                    Mage::helper('Magento_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
+                    __('Undefined Catalog Product List Type')
                 );
         }
         return $prefix;
@@ -173,7 +173,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
 
             default:
                 Mage::throwException(
-                    Mage::helper('Magento_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
+                    __('Undefined Catalog Product List Type')
                 );
         }
 

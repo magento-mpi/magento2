@@ -33,8 +33,8 @@ class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_
      */
     protected function _construct()
     {
-        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('URL Rewrite Management');
-        $this->_addButtonLabel = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Add URL Rewrite');
+        $this->_headerText = __('URL Rewrite Management');
+        $this->_addButtonLabel = __('Add URL Rewrite');
         parent::_construct();
     }
 

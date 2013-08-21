@@ -71,10 +71,10 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function getBackupTypes()
     {
         return array(
-            self::TYPE_DB                     => $this->__('Database'),
-            self::TYPE_MEDIA                  => $this->__('Database and Media'),
-            self::TYPE_SYSTEM_SNAPSHOT        => $this->__('System'),
-            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => $this->__('System (excluding Media)')
+            self::TYPE_DB                     => __('Database'),
+            self::TYPE_MEDIA                  => __('Database and Media'),
+            self::TYPE_SYSTEM_SNAPSHOT        => __('System'),
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => __('System (excluding Media)')
         );
     }
 
@@ -235,10 +235,10 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCreateSuccessMessageByType($type)
     {
         $messagesMap = array(
-            self::TYPE_SYSTEM_SNAPSHOT => $this->__('The system backup has been created.'),
-            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => $this->__('The system backup (excluding media) has been created.'),
-            self::TYPE_MEDIA => $this->__('The database and media backup has been created.'),
-            self::TYPE_DB => $this->__('The database backup has been created.')
+            self::TYPE_SYSTEM_SNAPSHOT => __('The system backup has been created.'),
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA => __('The system backup (excluding media) has been created.'),
+            self::TYPE_MEDIA => __('The database and media backup has been created.'),
+            self::TYPE_DB => __('The database backup has been created.')
         );
 
         if (!isset($messagesMap[$type])) {

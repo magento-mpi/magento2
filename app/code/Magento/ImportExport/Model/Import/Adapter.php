@@ -28,7 +28,7 @@ class Magento_ImportExport_Model_Import_Adapter
     public static function factory($type, $options = null)
     {
         if (!is_string($type) || !$type) {
-            Mage::throwException(Mage::helper('Magento_ImportExport_Helper_Data')->__('The adapter type must be a non empty string.'));
+            Mage::throwException(__('The adapter type must be a non empty string.'));
         }
         $adapterClass = 'Magento_ImportExport_Model_Import_Source_' . ucfirst(strtolower($type));
 
@@ -39,7 +39,7 @@ class Magento_ImportExport_Model_Import_Adapter
 
         if (! $adapter instanceof Magento_ImportExport_Model_Import_SourceAbstract) {
             Mage::throwException(
-                Mage::helper('Magento_ImportExport_Helper_Data')->__('Adapter must be an instance of Magento_ImportExport_Model_Import_SourceAbstract')
+                __('Adapter must be an instance of Magento_ImportExport_Model_Import_SourceAbstract')
             );
         }
         return $adapter;

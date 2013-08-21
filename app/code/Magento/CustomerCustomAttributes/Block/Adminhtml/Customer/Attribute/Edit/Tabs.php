@@ -29,6 +29,6 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
 
         $this->setId('customer_attribute_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Attribute Information'));
+        $this->setTitle(__('Attribute Information'));
     }
 }

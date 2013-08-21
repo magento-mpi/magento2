@@ -26,9 +26,9 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
     protected function _addSpecialAttributes(array &$attributes)
     {
         parent::_addSpecialAttributes($attributes);
-        $attributes['quote_item_qty'] = Mage::helper('Magento_SalesRule_Helper_Data')->__('Quantity in cart');
-        $attributes['quote_item_price'] = Mage::helper('Magento_SalesRule_Helper_Data')->__('Price in cart');
-        $attributes['quote_item_row_total'] = Mage::helper('Magento_SalesRule_Helper_Data')->__('Row total in cart');
+        $attributes['quote_item_qty'] = __('Quantity in cart');
+        $attributes['quote_item_price'] = __('Price in cart');
+        $attributes['quote_item_row_total'] = __('Row total in cart');
     }
 
     /**

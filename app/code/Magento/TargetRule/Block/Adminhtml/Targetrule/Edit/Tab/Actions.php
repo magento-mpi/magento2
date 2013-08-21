@@ -33,7 +33,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('actions_fieldset', array(
-            'legend' => Mage::helper('Magento_TargetRule_Helper_Data')->__('Product Result Conditions (leave blank for matching all products)'))
+            'legend' => __('Product Result Conditions (leave blank for matching all products)'))
         );
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
@@ -65,7 +65,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_TargetRule_Helper_Data')->__('Products to Display');
+        return __('Products to Display');
     }
 
     /**
@@ -75,7 +75,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_TargetRule_Helper_Data')->__('Products to Display');
+        return __('Products to Display');
     }
 
     /**

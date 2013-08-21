@@ -11,7 +11,7 @@
 /**
  * EAV entity attribute form fieldset element renderer
  *
- * @category   Enterprise
+ * @category   Magento
  * @package    Magento_CustomAttribute
  */
 class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
@@ -88,11 +88,11 @@ class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
         }
 
         if ($element->getScope() == 'global' || $element->getScope() === null) {
-            $html = Mage::helper('Magento_Adminhtml_Helper_Data')->__('[GLOBAL]');
+            $html = __('[GLOBAL]');
         } elseif ($element->getScope() == 'website') {
-            $html = Mage::helper('Magento_Adminhtml_Helper_Data')->__('[WEBSITE]');
+            $html = __('[WEBSITE]');
         } elseif ($element->getScope() == 'store') {
-            $html = Mage::helper('Magento_Adminhtml_Helper_Data')->__('[STORE VIEW]');
+            $html = __('[STORE VIEW]');
         }
 
         return $html;

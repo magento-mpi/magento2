@@ -42,7 +42,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
         parent::_construct();
         $this->setErrorText(
             Mage::helper('Magento_Backend_Helper_Data')
-                ->jsQuoteEscape(Mage::helper('Magento_Backend_Helper_Data')->__('Please select items.'))
+                ->jsQuoteEscape(__('Please select items.'))
         );
     }
 
@@ -213,7 +213,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Extended extends Magento_Back
      */
     public function getApplyButtonHtml()
     {
-        return $this->getButtonHtml($this->__('Submit'), $this->getJsObjectName() . ".apply()");
+        return $this->getButtonHtml(__('Submit'), $this->getJsObjectName() . ".apply()");
     }
 
     public function getJavaScript()

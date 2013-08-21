@@ -103,7 +103,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
             }
             if (($this->_data['is_global'] != $this->_origData['is_global'])
                 && $this->_getResource()->isUsedBySuperProducts($this)) {
-                Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Do not change the scope. This attribute is used in configurable products.'));
+                Mage::throwException(__('Do not change the scope. This attribute is used in configurable products.'));
             }
         }
         if ($this->getFrontendInput() == 'price') {
@@ -144,7 +144,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     protected function _beforeDelete()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('This attribute is used in configurable products.'));
+            Mage::throwException(__('This attribute is used in configurable products.'));
         }
         Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
             $this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE

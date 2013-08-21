@@ -25,8 +25,8 @@ class Magento_GoogleShopping_Model_Source_Statuses
     public function getStatuses()
     {
         return array(
-            '0' => Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Yes'),
-            '1' => Mage::helper('Magento_GoogleShopping_Helper_Data')->__('No')
+            '0' => __('Yes'),
+            '1' => __('No')
         );
     }
 }

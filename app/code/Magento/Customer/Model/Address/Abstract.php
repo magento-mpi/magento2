@@ -324,41 +324,41 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
         $errors = array();
         $this->implodeStreetAddress();
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the first name.');
+            $errors[] = __('Please enter the first name.');
         }
 
         if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the last name.');
+            $errors[] = __('Please enter the last name.');
         }
 
         if (!Zend_Validate::is($this->getStreet(1), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the street.');
+            $errors[] = __('Please enter the street.');
         }
 
         if (!Zend_Validate::is($this->getCity(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the city.');
+            $errors[] = __('Please enter the city.');
         }
 
         if (!Zend_Validate::is($this->getTelephone(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the telephone number.');
+            $errors[] = __('Please enter the telephone number.');
         }
 
         $_havingOptionalZip = Mage::helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip)
             && !Zend_Validate::is($this->getPostcode(), 'NotEmpty')
         ) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the zip/postal code.');
+            $errors[] = __('Please enter the zip/postal code.');
         }
 
         if (!Zend_Validate::is($this->getCountryId(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the country.');
+            $errors[] = __('Please enter the country.');
         }
 
         if ($this->getCountryModel()->getRegionCollection()->getSize()
                && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')
                && Mage::helper('Magento_Directory_Helper_Data')->isRegionRequired($this->getCountryId())
         ) {
-            $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the state/province.');
+            $errors[] = __('Please enter the state/province.');
         }
 
         if (empty($errors) || $this->getShouldIgnoreValidation()) {

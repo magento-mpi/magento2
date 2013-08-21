@@ -12,7 +12,7 @@
         <label>Customer Account Edit Form</label>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setHeaderTitle" translate="title" module="Magento_Customer">
+            <action method="setHeaderTitle" translate="title">
                 <title>Edit Account Info</title>
             </action>
         </reference>

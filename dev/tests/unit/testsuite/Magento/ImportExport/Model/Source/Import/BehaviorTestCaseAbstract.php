@@ -21,22 +21,6 @@ abstract class Magento_ImportExport_Model_Source_Import_BehaviorTestCaseAbstract
      */
     protected $_model;
 
-    /**
-     * Helper mocks
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    public function setUp()
-    {
-        $dataHelper = $this->getMock('stdClass', array('__'));
-        $dataHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-        $this->_helpers = array('Magento_ImportExport_Helper_Data' => $dataHelper);
-    }
-
     public function tearDown()
     {
         unset($this->_model);

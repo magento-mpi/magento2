@@ -27,7 +27,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Reward Points');
+        return __('Reward Points');
     }
 
     /**
@@ -37,7 +37,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Reward Points');
+        return __('Reward Points');
     }
 
     /**
@@ -73,7 +73,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
     {
         $accordion = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Accordion');
         $accordion->addItem('reward_points_history', array(
-            'title'       => Mage::helper('Magento_Reward_Helper_Data')->__('Reward Points History'),
+            'title'       => __('Reward Points History'),
             'open'        => false,
             'class'       => '',
             'ajax'        => true,

@@ -41,7 +41,6 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('translate', 'Translate me!', 'Translated string'),
-            array('__', 'Translate me!', 'Translated string')
         );
     }
 

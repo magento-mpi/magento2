@@ -72,8 +72,8 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
     public function getSessionSaveOptions()
     {
         return array(
-            'files' => Mage::helper('Magento_Install_Helper_Data')->__('File System'),
-            'db'    => Mage::helper('Magento_Install_Helper_Data')->__('Database'),
+            'files' => __('File System'),
+            'db'    => __('Database'),
         );
     }
 
@@ -85,7 +85,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
         $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName('config[session_save]')
             ->setId('session_save')
-            ->setTitle(Mage::helper('Magento_Install_Helper_Data')->__('Save Session Files In'))
+            ->setTitle(__('Save Session Files In'))
             ->setClass('required-entry')
             ->setOptions($this->getSessionSaveOptions())
             ->getHtml();

@@ -15,11 +15,6 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_syncFlagMock;
 
     /**
@@ -39,14 +34,12 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
         );
 
         $this->_fileStorage = $this->getMock('Magento_Core_Model_File_Storage', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_fileStorage->expects($this->any())->method('getSyncFlag')
             ->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $this->_model = $objectManagerHelper
             ->getObject('Magento_AdminNotification_Model_System_Message_Media_Synchronization_Success', $arguments);
@@ -55,12 +48,9 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
 
     public function testGetText()
     {
-        $messageText = 'One or more media files failed to be synchronized';
+        $messageText = 'Synchronization of media storages has been completed';
 
-        $dataHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($dataHelperMock));
-        $dataHelperMock->expects($this->atLeastOnce())->method('__')->will($this->returnValue($messageText));
-        $this->assertContains($messageText, $this->_model->getText());
+        $this->assertContains($messageText, (string)$this->_model->getText());
     }
 
 
@@ -75,7 +65,6 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
     {
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
-            'helperFactory' => $this->_helperFactoryMock
         );
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 

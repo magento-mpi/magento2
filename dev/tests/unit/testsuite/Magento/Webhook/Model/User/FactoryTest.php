@@ -23,14 +23,14 @@ class Magento_Webhook_Model_User_FactoryTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $arguments = array('arg_one', 'arg_two');
+        $webapiUserId = 'userId';
 
         $mockObjectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Webhook_Model_User', $arguments)
+            ->with('Magento_Webhook_Model_User', array('webapiUserId' => $webapiUserId))
             ->will($this->returnValue($mockUser));
 
-        $this->assertSame($mockUser, $factory->create($arguments));
+        $this->assertSame($mockUser, $factory->create($webapiUserId));
     }
 
 }

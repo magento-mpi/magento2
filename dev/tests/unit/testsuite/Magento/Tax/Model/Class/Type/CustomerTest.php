@@ -38,7 +38,6 @@ class Magento_Tax_Model_Class_Type_CustomerTest extends PHPUnit_Framework_TestCa
             'Magento_Tax_Model_Class_Type_Customer',
             array(
                 'modelCustomerGroup' => $customerGroupMock,
-                'helper' => $this->getMock('Magento_Tax_Helper_Data', array(), array(), '', false),
                 'data' => array('id' => 5)
             )
         );

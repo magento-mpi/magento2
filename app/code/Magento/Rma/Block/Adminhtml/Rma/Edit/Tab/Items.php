@@ -25,7 +25,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Magento_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->__('Items');
+        return __('Items');
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Magento_Adminhtml_B
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->__('Return Items');
+        return __('Return Items');
     }
 
     /**

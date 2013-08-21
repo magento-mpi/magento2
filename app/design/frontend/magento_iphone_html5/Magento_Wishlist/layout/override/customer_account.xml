@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Magento_Wishlist" ifconfig="wishlist/general/active">
+            <action method="addLink" translate="label" ifconfig="wishlist/general/active">
                 <name>wishlist</name>
                 <path>wishlist/</path>
                 <label>My Wish List</label>

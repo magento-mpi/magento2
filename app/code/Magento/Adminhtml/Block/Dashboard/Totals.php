@@ -51,9 +51,9 @@ class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_D
 
         $totals = $collection->getFirstItem();
 
-        $this->addTotal($this->__('Revenue'), $totals->getRevenue());
-        $this->addTotal($this->__('Tax'), $totals->getTax());
-        $this->addTotal($this->__('Shipping'), $totals->getShipping());
-        $this->addTotal($this->__('Quantity'), $totals->getQuantity()*1, true);
+        $this->addTotal(__('Revenue'), $totals->getRevenue());
+        $this->addTotal(__('Tax'), $totals->getTax());
+        $this->addTotal(__('Shipping'), $totals->getShipping());
+        $this->addTotal(__('Quantity'), $totals->getQuantity()*1, true);
     }
 }

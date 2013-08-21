@@ -18,11 +18,7 @@ class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHP
 
     protected function setUp()
     {
-        $mockHelper = $this->getMock('Magento_Search_Helper_Data', array(), array(), '', false, false);
-        $mockHelper->expects($this->any())->method('__')->will($this->returnValue('Search_Translation'));
-        $this->_model= new Magento_Search_Model_Adminhtml_System_Config_Source_Engine(array(
-            'helper' => $mockHelper,
-        ));
+        $this->_model= new Magento_Search_Model_Adminhtml_System_Config_Source_Engine();
     }
 
     /**
@@ -41,10 +37,11 @@ class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHP
     {
         $options = $this->_model->toOptionArray();
         $this->assertNotEmpty($options);
+        $labels = array('MySql Fulltext', 'Solr');
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
-            $this->assertEquals($option['label'], 'Search_Translation');
+            $this->assertContains((string)$option['label'], $labels);
             $this->assertTrue(class_exists($option['value']));
         }
     }

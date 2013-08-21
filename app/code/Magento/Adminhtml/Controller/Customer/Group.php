@@ -19,7 +19,7 @@ class Magento_Adminhtml_Controller_Customer_Group extends Magento_Adminhtml_Cont
 {
     protected function _initGroup()
     {
-        $this->_title($this->__('Customer Groups'));
+        $this->_title(__('Customer Groups'));
 
         Mage::register('current_group', Mage::getModel('Magento_Customer_Model_Group'));
         $groupId = $this->getRequest()->getParam('id');
@@ -33,12 +33,12 @@ class Magento_Adminhtml_Controller_Customer_Group extends Magento_Adminhtml_Cont
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customer Groups'));
+        $this->_title(__('Customer Groups'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
-        $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Customers'), Mage::helper('Magento_Customer_Helper_Data')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Customer Groups'), Mage::helper('Magento_Customer_Helper_Data')->__('Customer Groups'));
+        $this->_addBreadcrumb(__('Customers'), __('Customers'));
+        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'));
         $this->renderLayout();
     }
 
@@ -50,18 +50,18 @@ class Magento_Adminhtml_Controller_Customer_Group extends Magento_Adminhtml_Cont
         $this->_initGroup();
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
-        $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Customers'), Mage::helper('Magento_Customer_Helper_Data')->__('Customers'));
-        $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Customer Groups'), Mage::helper('Magento_Customer_Helper_Data')->__('Customer Groups'), $this->getUrl('*/customer_group'));
+        $this->_addBreadcrumb(__('Customers'), __('Customers'));
+        $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('*/customer_group'));
 
         $currentGroup = Mage::registry('current_group');
 
         if (!is_null($currentGroup->getId())) {
-            $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('Edit Group'), Mage::helper('Magento_Customer_Helper_Data')->__('Edit Customer Groups'));
+            $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
         } else {
-            $this->_addBreadcrumb(Mage::helper('Magento_Customer_Helper_Data')->__('New Group'), Mage::helper('Magento_Customer_Helper_Data')->__('New Customer Groups'));
+            $this->_addBreadcrumb(__('New Group'), __('New Customer Groups'));
         }
 
-        $this->_title($currentGroup->getId() ? $currentGroup->getCode() : $this->__('New Customer Group'));
+        $this->_title($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
 
         $this->getLayout()->addBlock('Magento_Adminhtml_Block_Customer_Group_Edit', 'group', 'content')
             ->setEditMode((bool)Mage::registry('current_group')->getId());
@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_Customer_Group extends Magento_Adminhtml_Cont
                 }
 
                 $customerGroup->setTaxClassId($taxClass)->save();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Customer_Helper_Data')->__('The customer group has been saved.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {
@@ -121,13 +121,13 @@ class Magento_Adminhtml_Controller_Customer_Group extends Magento_Adminhtml_Cont
         if ($id = $this->getRequest()->getParam('id')) {
             $customerGroup = Mage::getModel('Magento_Customer_Model_Group')->load($id);
             if (!$customerGroup->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Customer_Helper_Data')->__('The customer group no longer exists.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('The customer group no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
             try {
                 $customerGroup->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Customer_Helper_Data')->__('The customer group has been deleted.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (Exception $e) {

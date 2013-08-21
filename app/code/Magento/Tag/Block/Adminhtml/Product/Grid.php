@@ -62,19 +62,19 @@ class Magento_Tag_Block_Adminhtml_Product_Grid extends Magento_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'        => Mage::helper('Magento_Tag_Helper_Data')->__('ID'),
+            'header'        => __('ID'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'index'     => 'name',
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => Mage::helper('Magento_Tag_Helper_Data')->__('Uses'),
+            'header'        => __('Uses'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',
@@ -82,7 +82,7 @@ class Magento_Tag_Block_Adminhtml_Product_Grid extends Magento_Adminhtml_Block_W
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'filter'    => false,
             'sortable'  => false,
             'width'     => 50,

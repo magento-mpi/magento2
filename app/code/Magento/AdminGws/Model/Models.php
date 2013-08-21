@@ -188,7 +188,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
         // force to assign to SV
         $storeIds = $model->getStores();
         if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
-            Mage::throwException(Mage::helper('Magento_AdminGws_Helper_Data')->__('Please assign this entity to a store view.'));
+            Mage::throwException(__('Please assign this entity to a store view.'));
         }
 
         // make sure disallowed store ids won't be modified
@@ -596,7 +596,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
             Mage::throwException(
-                Mage::helper('Magento_AdminGws_Helper_Data')->__('You can create an order in an active store only.')
+                __('You can create an order in an active store only.')
             );
         }
     }
@@ -1090,7 +1090,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            Mage::throwException(Mage::helper('Magento_AdminGws_Helper_Data')->__('Please assign this item to a store view.'));
+            Mage::throwException(__('Please assign this item to a store view.'));
         }
         return $websiteIds;
     }
@@ -1106,7 +1106,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            Mage::throwException(Mage::helper('Magento_AdminGws_Helper_Data')->__('Please assign this item to a store view.'));
+            Mage::throwException(__('Please assign this item to a store view.'));
         }
         return $storeIds;
     }
@@ -1117,7 +1117,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     protected function _throwSave()
     {
         Mage::throwException(
-            Mage::helper('Magento_AdminGws_Helper_Data')->__('You need more permissions to save this item.')
+            __('You need more permissions to save this item.')
         );
     }
 
@@ -1127,7 +1127,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     protected function _throwDelete()
     {
         Mage::throwException(
-            Mage::helper('Magento_AdminGws_Helper_Data')->__('You need more permissions to delete this item.')
+            __('You need more permissions to delete this item.')
         );
     }
 
@@ -1138,7 +1138,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     {
         throw Mage::exception(
             'Magento_AdminGws_Controller',
-            Mage::helper('Magento_AdminGws_Helper_Data')->__('You need more permissions to view this item.')
+            __('You need more permissions to view this item.')
         );
     }
 

@@ -67,7 +67,7 @@ class Magento_Backup_Model_Config_Backend_Cron extends Magento_Core_Model_Config
                 ->save();
         }
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('Magento_Backup_Helper_Data')->__('We can\'t save the Cron expression.'));
+            Mage::throwException(__('We can\'t save the Cron expression.'));
         }
     }
 }

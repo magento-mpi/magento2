@@ -21,6 +21,6 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs extends Magent
         parent::_construct();
         $this->setId('theme_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle($this->__('Theme'));
+        $this->setTitle(__('Theme'));
     }
 }

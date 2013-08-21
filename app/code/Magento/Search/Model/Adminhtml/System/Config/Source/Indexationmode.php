@@ -27,11 +27,11 @@ class Magento_Search_Model_Adminhtml_System_Config_Source_Indexationmode
     {
         $modes = array(
             Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL    =>
-                Mage::helper('Magento_Search_Helper_Data')->__('Final commit'),
+                __('Final commit'),
             Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL  =>
-                Mage::helper('Magento_Search_Helper_Data')->__('Partial commit'),
+                __('Partial commit'),
             Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE   =>
-                Mage::helper('Magento_Search_Helper_Data')->__('Engine autocommit')
+                __('Engine autocommit')
         );
 
         $options = array();

@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
             if (Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
-                    $html.= ' <strong>['.Mage::helper('Magento_Tax_Helper_Data')->__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
+                    $html.= ' <strong>['.__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
                 }
             }
         }

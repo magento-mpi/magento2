@@ -59,21 +59,21 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoice'),
+            'header'    => __('Invoice'),
             'index'     => 'increment_id',
             'header_css_class'  => 'col-invoice-number',
             'column_css_class'  => 'col-invoice-number'
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Magento_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => __('Bill-to Name'),
             'index' => 'billing_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Invoice Date'),
+            'header'    => __('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Magento_Sales_Model_Order_Invoice')->getStates(),
@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header'    => Mage::helper('Magento_Customer_Helper_Data')->__('Amount'),
+            'header'    => __('Amount'),
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',
@@ -132,12 +132,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Invoices');
+        return __('Invoices');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Order Invoices');
+        return __('Order Invoices');
     }
 
     public function canShowTab()

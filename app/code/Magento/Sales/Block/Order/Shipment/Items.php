@@ -47,7 +47,7 @@ class Magento_Sales_Block_Order_Shipment_Items extends Magento_Sales_Block_Items
         $comments = $this->getChildBlock('shipment_comments');
         if ($comments) {
             $comments->setEntity($shipment)
-                ->setTitle(Mage::helper('Magento_Sales_Helper_Data')->__('About Your Shipment'));
+                ->setTitle(__('About Your Shipment'));
             $html = $comments->toHtml();
         }
         return $html;

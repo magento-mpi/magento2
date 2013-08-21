@@ -45,7 +45,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
         parent::_prepareLayout();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle($this->__('My Wish List'));
+            $headBlock->setTitle(__('My Wish List'));
         }
     }
 
@@ -132,7 +132,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
 
         $helper = Mage::helper($cfg['helper']);
         if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException($this->__("Helper for wish list options rendering doesn't implement required interface."));
+            Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
         }
 
         $block = $this->getChildBlock('item_options');

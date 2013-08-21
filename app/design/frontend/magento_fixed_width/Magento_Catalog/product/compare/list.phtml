@@ -9,8 +9,8 @@
  */
 ?>
 <div class="page-title title-buttons">
-    <h1><?php echo $this->__('Compare Products') ?></h1>
-    <a href="#" class="link-print"><?php echo $this->__('Print This Page') ?></a>
+    <h1><?php echo __('Compare Products') ?></h1>
+    <a href="#" class="link-print"><?php echo __('Print This Page') ?></a>
 </div>
 <?php $_total=$this->getItems()->getSize() ?>
 <?php if($_total): ?>
@@ -30,7 +30,7 @@
                 <?php if($_i++%10==0): ?>
                     <th>&nbsp;</th>
                 <?php endif; ?>
-                <td class="a-right"><a href="#" title="<?php echo $this->__('Remove Product') ?>"><img class="btn-remove" data-url='<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' src="<?php echo $this->getViewFileUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a></td>
+                <td class="a-right"><a href="#" title="<?php echo __('Remove Product') ?>"><img class="btn-remove" data-url='<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' src="<?php echo $this->getViewFileUrl('images/list_remove_btn.gif') ?>" alt="<?php echo __('Remove Product') ?>" /></a></td>
             <?php endforeach; ?>
             </tr>
         </thead>
@@ -49,16 +49,16 @@
                     <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <?php if ($_item->getIsSalable()): ?>
-                            <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+                            <p class="availability in-stock"><span><?php echo __('In stock') ?></span></p>
                         <?php else: ?>
-                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                            <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                        <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                        <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
             <?php endforeach; ?>
@@ -70,7 +70,7 @@
                 <?php $_i = 0 ?>
                 <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
-                <th class="label"><span class="nobr"><?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : $this->__($_attribute->getFrontendLabel()) ?></span></th>
+                <th class="label"><span class="nobr"><?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : __($_attribute->getFrontendLabel()) ?></span></th>
                 <?php endif; ?>
                 <td>
                     <?php switch ($_attribute->getAttributeCode()) {
@@ -101,16 +101,16 @@
                 <td class="data">
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-bottom') ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <?php if ($_item->getIsSalable()): ?>
-                            <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+                            <p class="availability in-stock"><span><?php echo __('In stock') ?></span></p>
                         <?php else: ?>
-                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                            <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                        <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                        <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
                 <?php endforeach; ?>
@@ -118,9 +118,9 @@
         </tbody>
     </table>
     <div class="buttons-set">
-        <button id="window-close" type="button" class="button"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
+        <button id="window-close" type="button" class="button"><span><span><?php echo __('Close Window') ?></span></span></button>
         <span class="please-wait" id="compare-list-please-wait" style="display:none;">
-            <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
+            <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo __('Please wait...') ?>" title="<?php echo __('Please wait...') ?>" class="v-middle" /> <?php echo __('Please wait...') ?>
         </span>
     </div>
 <?php endif; ?>

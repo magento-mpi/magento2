@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Magento_Newsletter">
+            <action method="addLink" translate="label">
                 <name>newsletter</name>
                 <path>newsletter/manage/</path>
                 <label>Newsletter Subscriptions</label>

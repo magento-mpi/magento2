@@ -8,6 +8,10 @@
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @method Magento_Webhook_Model_Event setStatus()
+ * @method Magento_Webhook_Model_Event setUpdatedAt()
+ * @method Magento_Webhook_Model_Event setCreatedAt()
  */
 class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements Magento_PubSub_EventInterface
 {
@@ -18,6 +22,7 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     {
         parent::_construct();
         $this->_init('Magento_Webhook_Model_Resource_Event');
+        $this->setStatus(Magento_PubSub_EventInterface::STATUS_READY_TO_SEND);
     }
 
     /**
@@ -29,7 +34,6 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->markAsReadyToSend();
             $this->setCreatedAt($this->_getResource()->formatDate(true));
         } elseif ($this->getId() && !$this->hasData('updated_at')) {
             $this->setUpdatedAt($this->_getResource()->formatDate(true));
@@ -119,22 +123,25 @@ class Magento_Webhook_Model_Event extends Magento_Core_Model_Abstract implements
     }
 
     /**
-     * Mark event as ready to send
+     * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Magento_Webhook_Model_Event
      */
-    public function markAsReadyToSend()
+    public function complete()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_PROCESSED)
+            ->save();
+        return $this;
     }
 
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Magento_Webhook_Model_Event
      */
-    public function markAsProcessed()
+    public function markAsInProgress()
     {
-        $this->setData('status', Magento_PubSub_EventInterface::PROCESSED);
+        $this->setData('status', Magento_PubSub_EventInterface::STATUS_IN_PROGRESS);
+        return $this;
     }
 }

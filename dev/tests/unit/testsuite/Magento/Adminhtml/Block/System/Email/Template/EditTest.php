@@ -42,15 +42,12 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
             'menuConfig' => $menuConfigMock,
             'configStructure' => $this->_configStructureMock,
         );
-        $arguments = $objectManager->getConstructArguments(
-            'Magento_Adminhtml_Block_System_Email_Template_Edit',
-            $params
-        );
+        $arguments = $objectManager->getConstructArguments('Magento_Adminhtml_Block_System_Email_Template_Edit',
+            $params);
 
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($menuMock));
         $menuMock->expects($this->any())->method('get')->will($this->returnValue($menuItemMock));
-        $menuItemMock->expects($this->any())->method('getModuleHelper')->will($this->returnValue($helperMock));
         $menuItemMock->expects($this->any())->method('getTitle')->will($this->returnValue('Title'));
 
         $paths = array(
@@ -79,7 +76,6 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
             ->with('current_email_template')->will($this->returnValue($templateMock));
 
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_block = $objectManager->getObject('Magento_Adminhtml_Block_System_Email_Template_Edit', $arguments);
     }
@@ -124,28 +120,28 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
         $actual = $this->_block->getUsedCurrentlyForPaths(false);
         $expected = array(
             array(
-                array('title' => 'Title',),
-                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => __('Title'),),
+                array('title' => __('Title'), 'url' => 'adminhtml/system_config/',),
                 array('title' => 'Section_1_Label', 'url' => 'adminhtml/system_config/edit',),
                 array('title' => 'Group_1_Label',),
-                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
+                array('title' => 'Field_1_Label', 'scope' => __('GLOBAL'),),
             ),
             array(
-                array('title' => 'Title',),
-                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => __('Title'),),
+                array('title' => __('Title'), 'url' => 'adminhtml/system_config/',),
                 array('title' => 'Section_1_Label', 'url'   => 'adminhtml/system_config/edit',),
                 array('title' => 'Group_1_Label',),
                 array('title' => 'Group_2_Label',),
-                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
+                array('title' => 'Field_1_Label', 'scope' => __('GLOBAL'),),
             ),
             array(
-                array('title' => 'Title',),
-                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => __('Title'),),
+                array('title' => __('Title'), 'url' => 'adminhtml/system_config/',),
                 array('title' => 'Section_1_Label', 'url' => 'adminhtml/system_config/edit',),
                 array('title' => 'Group_1_Label',),
                 array('title' => 'Group_2_Label',),
                 array('title' => 'Group_3_Label',),
-                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
+                array('title' => 'Field_1_Label', 'scope' => __('GLOBAL'),),
             )
         );
         $this->assertEquals($expected, $actual);

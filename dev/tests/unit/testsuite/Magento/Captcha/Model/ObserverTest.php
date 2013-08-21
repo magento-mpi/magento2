@@ -76,7 +76,6 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('isCorrect')
             ->with($captchaValue)
             ->will($this->returnValue(true));
-        $this->_helper->expects($this->never())->method('__');
         $this->_helper->expects($this->any())
             ->method('getCaptcha')
             ->with($formId)
@@ -102,8 +101,8 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $controller = $this->getMock('Magento_Core_Controller_Varien_Action', array(), array(), '', false);
         $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $response = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false);
-        $request->expects($this->any())->method('getPost')
-            ->with(Magento_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE, null)
+        $request->expects($this->any())->method('getPost')->with(Magento_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE,
+            null)
             ->will($this->returnValue(array(
                 $formId => $captchaValue,
             )));
@@ -117,10 +116,6 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('isCorrect')
             ->with($captchaValue)
             ->will($this->returnValue(false));
-        $this->_helper->expects($this->any())
-            ->method('__')
-            ->with($warningMessage)
-            ->will($this->returnValue($warningMessage));
         $this->_helper->expects($this->any())->method('getCaptcha')
             ->with($formId)
             ->will($this->returnValue($this->_captcha));

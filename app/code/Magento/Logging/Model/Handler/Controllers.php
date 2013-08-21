@@ -283,9 +283,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(
-                Mage::helper('Magento_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo())
-            );
+            $eventModel->setInfo(__('%1 & applied', $eventModel->getInfo()));
         }
 
         return $eventModel;
@@ -324,9 +322,7 @@ class Magento_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(
-            Mage::helper('Magento_Logging_Helper_Data')->__('Tax Rates Import')
-        );
+        return $eventModel->setIsSuccess($success)->setInfo(__('Tax Rates Import'));
     }
 
     /**
@@ -377,7 +373,7 @@ class Magento_Logging_Model_Handler_Controllers
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
         }
 
-        return $eventModel->setInfo(Mage::helper('Magento_Logging_Helper_Data')->__('Attributes Updated'));
+        return $eventModel->setInfo(__('Attributes Updated'));
     }
 
     /**
@@ -561,9 +557,7 @@ class Magento_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(
-            Mage::helper('Magento_Logging_Helper_Data')->__('Currency Rates Saved')
-        );
+        return $eventModel->setIsSuccess($success)->setInfo(__('Currency Rates Saved'));
     }
 
     /**
@@ -584,7 +578,7 @@ class Magento_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = Mage::helper('Magento_Logging_Helper_Data')->__('Cache types: %s ', $cacheTypes);
+            $info = __('Cache types: %1 ', $cacheTypes);
         }
 
         $success = true;
@@ -612,9 +606,7 @@ class Magento_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(
-            Mage::helper('Magento_Logging_Helper_Data')->__('Tax Rates Export')
-        );
+        return $eventModel->setIsSuccess($success)->setInfo(__('Tax Rates Export'));
     }
 
     /**

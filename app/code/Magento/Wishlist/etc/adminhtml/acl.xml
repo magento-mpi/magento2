@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Wishlist::config_wishlist" module="Magento_Wishlist" title="Wish List Section" sortOrder="80" />
+                            <resource id="Magento_Wishlist::config_wishlist" title="Wish List Section" sortOrder="80" />
                         </resource>
                     </resource>
                 </resource>

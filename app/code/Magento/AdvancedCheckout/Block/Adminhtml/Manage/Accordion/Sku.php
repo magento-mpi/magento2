@@ -26,7 +26,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku extends Mage
     protected function _construct()
     {
         parent::_construct();
-        $this->setHeaderText(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Add to Shopping Cart by SKU'));
+        $this->setHeaderText(__('Add to Shopping Cart by SKU'));
     }
 
     /**

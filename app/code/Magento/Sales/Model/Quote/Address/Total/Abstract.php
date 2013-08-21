@@ -123,7 +123,7 @@ abstract class Magento_Sales_Model_Quote_Address_Total_Abstract
     {
         if ($this->_address === null) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('The address model is not defined.')
+                __('The address model is not defined.')
             );
         }
         return $this->_address;

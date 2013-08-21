@@ -71,15 +71,15 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            Mage::throwException(Mage::helper('Magento_Cms_Helper_Data')->__('A page URL key for specified store already exists.'));
+            Mage::throwException(__('A page URL key for specified store already exists.'));
         }
 
         if (!$this->isValidPageIdentifier($object)) {
-            Mage::throwException(Mage::helper('Magento_Cms_Helper_Data')->__('The page URL key contains capital letters or disallowed symbols.'));
+            Mage::throwException(__('The page URL key contains capital letters or disallowed symbols.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            Mage::throwException(Mage::helper('Magento_Cms_Helper_Data')->__('The page URL key cannot be made of only numbers.'));
+            Mage::throwException(__('The page URL key cannot be made of only numbers.'));
         }
 
         // modify create / update dates

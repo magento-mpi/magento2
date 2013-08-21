@@ -15,20 +15,20 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_Enterprise::marketing_private_sales">
-                        <resource id="Magento_Invitation::magento_invitation" module="Magento_Invitation" title="Invitations" sortOrder="20" />
+                        <resource id="Magento_Invitation::magento_invitation" title="Invitations" sortOrder="20" />
                     </resource>
                 </resource>
                 <resource id="Magento_Reports::report">
-                    <resource id="Magento_Invitation::report_magento_invitation" module="Magento_Invitation" title="Private Sales" sortOrder="70">
-                        <resource id="Magento_Invitation::general" module="Magento_Invitation" title="Invitations" sortOrder="10" />
-                        <resource id="Magento_Invitation::magento_invitation_customer" module="Magento_Invitation" title="Invited Customers" sortOrder="20" />
-                        <resource id="Magento_Invitation::order" module="Magento_Invitation" title="Conversion" sortOrder="30" />
+                    <resource id="Magento_Invitation::report_magento_invitation" title="Private Sales" sortOrder="70">
+                        <resource id="Magento_Invitation::general" title="Invitations" sortOrder="10" />
+                        <resource id="Magento_Invitation::magento_invitation_customer" title="Invited Customers" sortOrder="20" />
+                        <resource id="Magento_Invitation::order" title="Conversion" sortOrder="30" />
                     </resource>
                 </resource>
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Invitation::config_magento_invitation" module="Magento_Invitation" title="Invitation Section" />
+                            <resource id="Magento_Invitation::config_magento_invitation" title="Invitation Section" />
                         </resource>
                     </resource>
                 </resource>

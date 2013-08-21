@@ -23,15 +23,15 @@ class Magento_Catalog_Model_Category_Attribute_Source_Mode extends Magento_Eav_M
             $this->_options = array(
                 array(
                     'value' => Magento_Catalog_Model_Category::DM_PRODUCT,
-                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Products only'),
+                    'label' => __('Products only'),
                 ),
                 array(
                     'value' => Magento_Catalog_Model_Category::DM_PAGE,
-                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Static block only'),
+                    'label' => __('Static block only'),
                 ),
                 array(
                     'value' => Magento_Catalog_Model_Category::DM_MIXED,
-                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Static block and products'),
+                    'label' => __('Static block and products'),
                 )
             );
         }

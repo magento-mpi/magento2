@@ -21,11 +21,6 @@ class Magento_Tax_Model_Class_Type_Customer
     protected $_modelCustomerGroup;
 
     /**
-     * @var Magento_Tax_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Class Type
      *
      * @var string
@@ -35,18 +30,15 @@ class Magento_Tax_Model_Class_Type_Customer
     /**
      * @param Magento_Tax_Model_Calculation_Rule $calculationRule
      * @param Magento_Customer_Model_Group $modelCustomerGroup
-     * @param Magento_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Magento_Tax_Model_Calculation_Rule $calculationRule,
         Magento_Customer_Model_Group $modelCustomerGroup,
-        Magento_Tax_Helper_Data $helper,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
         $this->_modelCustomerGroup = $modelCustomerGroup;
-        $this->_helper = $helper;
     }
 
     /**
@@ -68,6 +60,6 @@ class Magento_Tax_Model_Class_Type_Customer
      */
     public function getObjectTypeName()
     {
-        return $this->_helper->__('customer group');
+        return __('customer group');
     }
 }

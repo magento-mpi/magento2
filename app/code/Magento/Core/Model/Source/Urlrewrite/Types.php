@@ -34,8 +34,8 @@ class Magento_Core_Model_Source_Urlrewrite_Types
     {
         if (is_null($this->_options)) {
             $this->_options = array(
-                self::SYSTEM => Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'),
-                self::CUSTOM => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Custom')
+                self::SYSTEM => __('System'),
+                self::CUSTOM => __('Custom')
             );
         }
         return $this->_options;

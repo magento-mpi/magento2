@@ -19,7 +19,7 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
      */
     public function getFormHeader()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->__('View Gift Registry %s', $this->getEntity()->getTitle());
+        return __('View Gift Registry %1', $this->getEntity()->getTitle());
     }
 
     /**

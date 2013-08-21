@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
      */
     public function getRootNodeName()
     {
-        return $this->helper('Magento_Cms_Helper_Data')->__('Storage Root');
+        return __('Storage Root');
     }
 
     /**

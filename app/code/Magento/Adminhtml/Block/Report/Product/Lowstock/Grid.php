@@ -17,7 +17,6 @@
  */
 class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backend_Block_Widget_Grid
 {
-
     /**
      * @return Magento_Backend_Block_Widget_Grid
      */

@@ -41,7 +41,7 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     public function test__()
     {
         $uniqueText = uniqid('prefix_');
-        $this->assertEquals($uniqueText, $this->_helper->__($uniqueText));
+        $this->assertEquals($uniqueText, __($uniqueText));
     }
 
     /**

@@ -309,7 +309,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     public function authorize(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid amount for authorization.'));
+            Mage::throwException(__('This is an invalid amount for authorization.'));
         }
 
         $this->_initCardsStorage($payment);
@@ -335,7 +335,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     public function capture(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid amount for capture.'));
+            Mage::throwException(__('This is an invalid amount for capture.'));
         }
         $this->_initCardsStorage($payment);
         if ($this->_isPreauthorizeCapture($payment)) {
@@ -410,7 +410,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $cardsStorage->getCapturedAmount() - $cardsStorage->getRefundedAmount()
             ) < $requestedAmount
         ) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid amount for refund.'));
+            Mage::throwException(__('This is an invalid amount for refund.'));
         }
 
         $messages = array();
@@ -458,7 +458,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     public function cancelPartialAuthorization(Magento_Payment_Model_Info $payment) {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid split tenderId ID.'));
+            Mage::throwException(__('This is an invalid split tenderId ID.'));
         }
 
         $request = $this->_getRequest();
@@ -477,7 +477,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_ALL_CANCELED);
                 return;
             default:
-                Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while canceling the payment.'));
+                Mage::throwException(__('Something went wrong while canceling the payment.'));
         }
 
     }
@@ -501,11 +501,11 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         switch ($requestType) {
             case self::REQUEST_TYPE_AUTH_ONLY:
                 $newTransactionType = Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH;
-                $defaultExceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while authorizing the payment.');
+                $defaultExceptionMessage = __('Something went wrong while authorizing the payment.');
                 break;
             case self::REQUEST_TYPE_AUTH_CAPTURE:
                 $newTransactionType = Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE;
-                $defaultExceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while capturing the payment.');
+                $defaultExceptionMessage = __('Something went wrong while capturing the payment.');
                 break;
         }
 
@@ -599,14 +599,14 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_DATA_CHANGED);
                 $quotePayment->setAdditionalInformation($payment->getAdditionalInformation());
                 throw new Magento_Payment_Model_Info_Exception(
-                    Mage::helper('Magento_Paygate_Helper_Data')->__('The shopping cart contents and/or address has been changed.')
+                    __('The shopping cart contents and/or address has been changed.')
                 );
             }
         }
 
         $amount = $amount - $this->getCardsStorage()->getProcessedAmount();
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid amount for partial authorization.'));
+            Mage::throwException(__('This is an invalid amount for partial authorization.'));
         }
         $payment->setAmount($amount);
         $request = $this->_buildRequest($payment);
@@ -679,7 +679,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $cardsStorage->getProcessedAmount() - $cardsStorage->getCapturedAmount()
             ) < $requestedAmount
         ) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid amount for capture.'));
+            Mage::throwException(__('This is an invalid amount for capture.'));
         }
 
         $messages = array();
@@ -767,7 +767,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $exceptionMessage = $this->_wrapGatewayError($result->getResponseReasonText());
                 break;
             default:
-                $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while capturing the payment.');
+                $exceptionMessage = __('Something went wrong while capturing the payment.');
                 break;
         }
 
@@ -841,8 +841,8 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                         $card,
                         false,
                         false,
-                        Mage::helper('Magento_Paygate_Helper_Data')->__(
-                            'Parent Authorize.Net transaction (ID %s) expired',
+                        __(
+                            'Parent Authorize.Net transaction (ID %1) expired',
                             $realAuthTransactionId
                         )
                     )
@@ -851,7 +851,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $exceptionMessage = $this->_wrapGatewayError($result->getResponseReasonText());
                 break;
             default:
-                $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while voiding the payment.');
+                $exceptionMessage = __('Something went wrong while voiding the payment.');
                 break;
         }
 
@@ -933,7 +933,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $exceptionMessage = $this->_wrapGatewayError($result->getResponseReasonText());
                 break;
             default:
-                $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while refunding the payment.');
+                $exceptionMessage = __('Something went wrong while refunding the payment.');
                 break;
         }
 
@@ -1075,7 +1075,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                         $this->_clearAssignedData($quotePayment);
                         $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED);
                         $quotePayment->setAdditionalInformation($orderPayment->getAdditionalInformation());
-                        $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->__('You have reached the maximum number of credit cards allowed to be used for the payment.');
+                        $exceptionMessage = __('You have reached the maximum number of credit cards allowed to be used for the payment.');
                         break;
                     }
                     $orderPayment->setAdditionalInformation($this->_splitTenderIdKey, $response->getSplitTenderId());
@@ -1095,7 +1095,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                     $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_LAST_DECLINED);
                     $quotePayment->setAdditionalInformation($orderPayment->getAdditionalInformation());
                     $exceptionMessage = $this->_wrapGatewayError(
-                            Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong while authorizing the partial payment.')
+                            __('Something went wrong while authorizing the partial payment.')
                         );
             }
         } catch (Exception $e) {
@@ -1304,7 +1304,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         }
         else {
              Mage::throwException(
-                Mage::helper('Magento_Paygate_Helper_Data')->__('Something went wrong in the payment gateway.')
+                __('Something went wrong in the payment gateway.')
             );
         }
 
@@ -1322,7 +1322,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     protected function _wrapGatewayError($text)
     {
-        return Mage::helper('Magento_Paygate_Helper_Data')->__('Gateway error: %s', $text);
+        return __('Gateway error: %1', $text);
     }
 
     /**
@@ -1460,7 +1460,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     protected function _processFailureMultitransactionAction($payment, $messages, $isSuccessfulTransactions)
     {
         if ($isSuccessfulTransactions) {
-            $messages[] = Mage::helper('Magento_Paygate_Helper_Data')->__('Gateway actions are locked because the gateway cannot complete one or more of the transactions. Please log in to your Authorize.Net account to manually resolve the issue(s).');
+            $messages[] = __('Gateway actions are locked because the gateway cannot complete one or more of the transactions. Please log in to your Authorize.Net account to manually resolve the issue(s).');
             /**
              * If there is successful transactions we can not to cancel order but
              * have to save information about processed transactions in order`s comments and disable
@@ -1534,7 +1534,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
             $responseXmlDocument = new Magento_Simplexml_Element($responseBody);
             libxml_use_internal_errors(false);
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Payment updating error.'));
+            Mage::throwException(__('Payment updating error.'));
         }
 
         $response = new Magento_Object;

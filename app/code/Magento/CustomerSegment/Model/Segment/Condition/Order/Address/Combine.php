@@ -35,7 +35,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Conditions Combination')),
+                'label' => __('Conditions Combination')),
             Mage::getModel($prefix.'Type')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
         ));

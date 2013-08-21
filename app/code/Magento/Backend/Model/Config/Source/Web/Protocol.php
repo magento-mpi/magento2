@@ -14,8 +14,8 @@ class Magento_Backend_Model_Config_Source_Web_Protocol implements Magento_Core_M
     {
         return array(
             array('value'=>'', 'label'=>''),
-            array('value'=>'http', 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('HTTP (unsecure)')),
-            array('value'=>'https', 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('HTTPS (SSL)')),
+            array('value'=>'http', 'label'=>__('HTTP (unsecure)')),
+            array('value'=>'https', 'label'=>__('HTTPS (SSL)')),
         );
     }
 

@@ -53,20 +53,20 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $customerId = $this->getRequest()->getParam('customer');
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
         if (!$customer->getId()) {
-            throw new Magento_AdvancedCheckout_Exception(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Customer not found'));
+            throw new Magento_AdvancedCheckout_Exception(__('Customer not found'));
         }
 
         if (Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             if ($useRedirects) {
                 $this->_getSession()->addError(
-                    Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Shopping cart management disabled for this customer.')
+                    __('Shopping cart management disabled for this customer.')
                 );
                 $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
                 return $this;
             } else {
                 throw new Magento_AdvancedCheckout_Exception(
-                    $this->__('Shopping cart management is disabled for this customer.')
+                    __('Shopping cart management is disabled for this customer.')
                 );
             }
         }
@@ -90,7 +90,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new Magento_AdvancedCheckout_Exception($this->__('We could not find this store.'));
+                throw new Magento_AdvancedCheckout_Exception(__('We could not find this store.'));
             }
         } else {
             // try to find quote for selected store
@@ -130,12 +130,12 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      */
     protected function _initTitle()
     {
-        $this->_title($this->__('Customers'))
-             ->_title($this->__('Customers'));
+        $this->_title(__('Customers'))
+             ->_title(__('Customers'));
         if ($customer = Mage::registry('checkout_current_customer')) {
             $this->_title($customer->getName());
         }
-        $this->_title($this->__('Shopping Cart'));
+        $this->_title(__('Shopping Cart'));
         return $this;
     }
 
@@ -168,7 +168,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('An error has occurred. See error log for details.')
+                __('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -345,7 +345,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     public function createOrderAction()
     {
         if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('You do not have access to this.'));
+            Mage::throwException(__('You do not have access to this.'));
         }
         try {
             $this->_initData();
@@ -371,7 +371,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('An error has occurred. See error log for details.')
+                __('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -475,13 +475,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                Mage::throwException($this->__('The wish list item id is not received.'));
+                Mage::throwException(__('The wish list item id is not received.'));
             }
 
             $item = Mage::getModel('Magento_Wishlist_Model_Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
-                Mage::throwException($this->__('The wish list item is not loaded.'));
+                Mage::throwException(__('The wish list item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -520,13 +520,13 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                Mage::throwException($this->__('Ordered item id is not received.'));
+                Mage::throwException(__('Ordered item id is not received.'));
             }
 
             $item = Mage::getModel('Magento_Sales_Model_Order_Item')
                 ->load($itemId);
             if (!$item->getId()) {
-                Mage::throwException($this->__('Ordered item is not loaded.'));
+                Mage::throwException(__('Ordered item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -558,7 +558,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         } elseif ($e instanceof Exception) {
             Mage::logException($e);
             $result = array(
-                'error' => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('An error has occurred. See error log for details.')
+                'error' => __('An error has occurred. See error log for details.')
             );
         }
         $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
@@ -572,7 +572,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
     protected function _isModificationAllowed()
     {
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')) {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('You do not have access to this.'));
+            Mage::throwException(__('You do not have access to this.'));
         }
     }
 
@@ -602,12 +602,12 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
             if (!$quoteItemId) {
-                Mage::throwException($this->__('Quote item id is not received.'));
+                Mage::throwException(__('Quote item id is not received.'));
             }
 
             $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                Mage::throwException($this->__('Quote item is not loaded.'));
+                Mage::throwException(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
@@ -883,7 +883,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
 
         if (is_array($listTypes) &&  array_intersect($listTypes, $skuListTypes)) {
             $cart = $this->getCartModel();
-            // We need to save products to magento_advancedcheckout/cart instead of checkout/cart
+            // We need to save products to enterprise_checkout/cart instead of checkout/cart
             $cart->saveAffectedProducts($cart, false);
         }
 

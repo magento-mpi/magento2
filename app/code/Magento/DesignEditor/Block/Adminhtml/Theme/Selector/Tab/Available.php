@@ -32,6 +32,6 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available
      */
     public function getTabTitle()
     {
-        return $this->__('Available Themes');
+        return __('Available Themes');
     }
 }

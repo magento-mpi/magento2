@@ -32,7 +32,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Adm
         $this->_updateButton('save', 'onclick', 'hierarchyNodes.save()');
         $this->_removeButton('back');
         $this->_addButton('delete', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Delete Current Hierarchy'),
+            'label'     => __('Delete Current Hierarchy'),
             'class'     => 'delete',
             'onclick'   => 'deleteCurrentHierarchy()',
         ), -1, 1);
@@ -44,7 +44,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Adm
                 'onclick'   => "openHierarchyDialog('delete')",
             ), -1, 7);
             $this->_addButton('copy', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Copy'),
+                'label'     => __('Copy'),
                 'class'     => 'add',
                 'onclick'   => "openHierarchyDialog('copy')",
             ), -1, 14);
@@ -58,6 +58,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Adm
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Pages Hierarchy');
+        return __('Pages Hierarchy');
     }
 }

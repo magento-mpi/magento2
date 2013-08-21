@@ -55,13 +55,6 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
     protected $_storeConfig;
 
     /**
-     * Helper object
-     *
-     * @var Magento_Cardgate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Cardgate Form Block class name
      *
      * @var string
@@ -124,15 +117,13 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
      * @param Magento_Core_Model_Url $urlGenerator
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Cardgate_Model_Base $base
-     * @param Magento_Cardgate_Helper_Data $helper
      */
     public function __construct(
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Url $urlGenerator,
         Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Cardgate_Model_Base $base,
-        Magento_Cardgate_Helper_Data $helper
+        Magento_Cardgate_Model_Base $base
     ) {
         parent::__construct();
 
@@ -141,7 +132,6 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
         $this->_urlGenerator = $urlGenerator;
         $this->_storeConfig = $storeConfig;
         $this->_base = $base;
-        $this->_helper = $helper;
     }
 
     /**
@@ -251,8 +241,8 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
         if (!in_array($currencyCode, $this->_supportedCurrencies)) {
             $this->_base->log('Unacceptable currency code (' . $currencyCode . ').');
             Mage::throwException(
-                $this->_helper->__('Selected currency code ') . $currencyCode .
-                    $this->_helper->__(' is not compatible with CardGatePlus'));
+                __('Selected currency code ') . $currencyCode .
+                    __(' is not compatible with CardGatePlus'));
         }
 
         return $this;
@@ -272,7 +262,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_M
         // Change order status
         $newState = Magento_Sales_Model_Order::STATE_PENDING_PAYMENT;
         $newStatus = $this->getConfigData('initialized_status');
-        $statusMessage = $this->_helper->__('Transaction started, waiting for payment.');
+        $statusMessage = __('Transaction started, waiting for payment.');
         $order->setState($newState, $newStatus, $statusMessage);
         $order->save();
 

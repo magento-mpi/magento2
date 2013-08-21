@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="payment">
-            <group id="cardgate" translate="label comment" module="Magento_Cardgate" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cardgate" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Card Gate Plus Settings</label>
                 <comment><![CDATA[<strong>Note:</strong> Don't forget to set-up in the <a href="https://merchants.cardgateplus.com/" target="_blank">Merchant Backoffice</a> a Control URL to "http://www.yourdomain.com/cardgate/cardgate/control/".]]></comment>
                 <field id="test_mode" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -47,7 +47,7 @@
                 </field>
             </group>
 
-            <group id="cardgate_creditcard" translate="label" module="Magento_Cardgate" type="text" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cardgate_creditcard" translate="label" type="text" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Card Gate Plus - Credit Card</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
@@ -73,7 +73,7 @@
                 </field>
             </group>
 
-            <group id="cardgate_sofortbanking" translate="label" module="Magento_Cardgate" type="text" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cardgate_sofortbanking" translate="label" type="text" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Card Gate Plus - SofortBanking</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
@@ -95,7 +95,7 @@
                 </field>
             </group>
 
-            <group id="cardgate_ideal" translate="label" module="Magento_Cardgate" type="text" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cardgate_ideal" translate="label" type="text" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Card Gate Plus - iDEAL</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
@@ -117,7 +117,7 @@
                 </field>
             </group>
 
-            <group id="cardgate_mistercash" translate="label" module="Magento_Cardgate" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cardgate_mistercash" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Card Gate Plus - MisterCash</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>

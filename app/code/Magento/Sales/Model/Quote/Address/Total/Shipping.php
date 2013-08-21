@@ -164,7 +164,7 @@ class Magento_Sales_Model_Quote_Address_Total_Shipping extends Magento_Sales_Mod
     {
         $amount = $address->getShippingAmount();
         if ($amount != 0 || $address->getShippingDescription()) {
-            $title = Mage::helper('Magento_Sales_Helper_Data')->__('Shipping & Handling');
+            $title = __('Shipping & Handling');
             if ($address->getShippingDescription()) {
                 $title .= ' (' . $address->getShippingDescription() . ')';
             }
@@ -184,6 +184,6 @@ class Magento_Sales_Model_Quote_Address_Total_Shipping extends Magento_Sales_Mod
      */
     public function getLabel()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Shipping');
+        return __('Shipping');
     }
 }

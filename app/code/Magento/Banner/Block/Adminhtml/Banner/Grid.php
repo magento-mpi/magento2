@@ -44,21 +44,21 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
     {
         $this->addColumn('banner_id',
             array(
-                'header'=> Mage::helper('Magento_Banner_Helper_Data')->__('ID'),
+                'header'=> __('ID'),
                 'width' => 1,
                 'type'  => 'number',
                 'index' => 'banner_id',
         ));
 
         $this->addColumn('banner_name', array(
-            'header' => Mage::helper('Magento_Banner_Helper_Data')->__('Banner'),
+            'header' => __('Banner'),
             'type'   => 'text',
             'index'  => 'name',
             'escape' => true
         ));
 
         $this->addColumn('banner_types', array(
-            'header'  => Mage::helper('Magento_Banner_Helper_Data')->__('Banner Types'),
+            'header'  => __('Banner Types'),
             'type'    => 'options',
             'options' => Mage::getSingleton('Magento_Banner_Model_Config')->toOptionArray(true, false),
             'index'   => 'types',
@@ -71,7 +71,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
          */
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'                => Mage::helper('Magento_Banner_Helper_Data')->__('Visibility'),
+                'header'                => __('Visibility'),
                 'type'                  => 'store',
                 'index'                 => 'stores',
                 'sortable'              => false,
@@ -82,16 +82,16 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
 
         $this->addColumn('banner_is_enabled',
             array(
-                'header'    => Mage::helper('Magento_Banner_Helper_Data')->__('Active'),
+                'header'    => __('Active'),
                 'align'     => 'center',
                 'width'     => 1,
                 'index'     => 'is_enabled',
                 'type'      => 'options',
                 'options'   => array(
                     Magento_Banner_Model_Banner::STATUS_ENABLED  =>
-                        Mage::helper('Magento_Banner_Helper_Data')->__('Yes'),
+                        __('Yes'),
                     Magento_Banner_Model_Banner::STATUS_DISABLED =>
-                        Mage::helper('Magento_Banner_Helper_Data')->__('No'),
+                        __('No'),
                 ),
         ));
 
@@ -107,10 +107,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
         $this->getMassactionBlock()->setFormFieldName('banner');
 
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'    => Mage::helper('Magento_Banner_Helper_Data')->__('Delete'),
+            'label'    => __('Delete'),
             'url'      => $this->getUrl('*/*/massDelete'),
             'confirm'  =>
-                Mage::helper('Magento_Banner_Helper_Data')->__('Are you sure you want to delete these banners?')
+                __('Are you sure you want to delete these banners?')
         ));
 
         return $this;

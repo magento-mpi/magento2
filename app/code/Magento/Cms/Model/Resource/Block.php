@@ -53,7 +53,7 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            Mage::throwException(Mage::helper('Magento_Cms_Helper_Data')->__('A block identifier with the same properties already exists in the selected store.'));
+            Mage::throwException(__('A block identifier with the same properties already exists in the selected store.'));
         }
 
         if (! $object->getId()) {

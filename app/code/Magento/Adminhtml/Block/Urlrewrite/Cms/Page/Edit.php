@@ -29,9 +29,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
         $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
 
         if ($this->_getUrlRewrite()->getId()) {
-            $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Edit URL Rewrite for CMS page');
+            $this->_headerText = __('Edit URL Rewrite for CMS page');
         } else {
-            $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Add URL Rewrite for CMS page');
+            $this->_headerText = __('Add URL Rewrite for CMS page');
         }
 
         if ($this->_getCmsPage()->getId()) {
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
         $this->addChild('cms_page_link', 'Magento_Adminhtml_Block_Urlrewrite_Link', array(
             'item_url'  => $helper->getUrl('*/*/*') . 'cms_page',
             'item_name' => $this->getCmsPage()->getTitle(),
-            'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('CMS page:')
+            'label'     => __('CMS page:')
         ));
     }
 

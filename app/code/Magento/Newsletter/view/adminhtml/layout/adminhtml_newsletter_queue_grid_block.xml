@@ -30,7 +30,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="queue_id">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">ID</header>
+                            <header translate="true">ID</header>
                             <index>queue_id</index>
                             <header_css_class>col-id</header_css_class>
                             <column_css_class>col-id</column_css_class>
@@ -38,7 +38,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="start_at">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Queue Start</header>
+                            <header translate="true">Queue Start</header>
                             <type>datetime</type>
                             <index>queue_start_at</index>
                             <gmtoffset>1</gmtoffset>
@@ -49,7 +49,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="finish_at">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Queue End</header>
+                            <header translate="true">Queue End</header>
                             <type>datetime</type>
                             <index>queue_finish_at</index>
                             <gmtoffset>1</gmtoffset>
@@ -60,7 +60,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="newsletter_subject">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Subject</header>
+                            <header translate="true">Subject</header>
                             <index>newsletter_subject</index>
                             <header_css_class>col-subject</header_css_class>
                             <column_css_class>col-subject</column_css_class>
@@ -68,7 +68,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Status</header>
+                            <header translate="true">Status</header>
                             <index>queue_status</index>
                             <type>options</type>
                             <options type="options">Magento_Newsletter_Model_Queue_Options_Status</options>
@@ -78,7 +78,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="subscribers_sent">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Processed</header>
+                            <header translate="true">Processed</header>
                             <type>number</type>
                             <index>subscribers_sent</index>
                             <header_css_class>col-processed</header_css_class>
@@ -87,7 +87,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="subscribers_total">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Recipients</header>
+                            <header translate="true">Recipients</header>
                             <type>number</type>
                             <index>subscribers_total</index>
                             <header_css_class>col-recipients</header_css_class>
@@ -96,7 +96,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true" module="Magento_Newsletter">Action</header>
+                            <header translate="true">Action</header>
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <no_link>1</no_link>

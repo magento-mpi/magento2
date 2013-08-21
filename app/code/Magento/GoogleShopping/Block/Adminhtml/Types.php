@@ -21,8 +21,8 @@ class Magento_GoogleShopping_Block_Adminhtml_Types extends Magento_Backend_Block
     {
         $this->_blockGroup = 'Magento_GoogleShopping';
         $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Manage Attribute Mapping');
+        $this->_addButtonLabel = __('Add Attribute Mapping');
+        $this->_headerText = __('Manage Attribute Mapping');
         parent::_construct();
     }
 }

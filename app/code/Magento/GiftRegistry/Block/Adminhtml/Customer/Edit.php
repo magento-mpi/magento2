@@ -26,8 +26,8 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit
         $this->_removeButton('reset');
         $this->_removeButton('save');
 
-        $confirmMessage = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Are you sure you want to delete this gift registry?');
-        $this->_updateButton('delete', 'label', Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Delete Registry'));
+        $confirmMessage = __('Are you sure you want to delete this gift registry?');
+        $this->_updateButton('delete', 'label', __('Delete Registry'));
         $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
@@ -44,7 +44,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit
         if ($entity->getId()) {
             return $this->escapeHtml($entity->getTitle());
         }
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry Entity');
+        return __('Gift Registry Entity');
     }
 
     /**

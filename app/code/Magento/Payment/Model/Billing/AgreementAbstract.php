@@ -78,10 +78,10 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     {
         $this->_errors = array();
         if (is_null($this->getPaymentMethodInstance()) || !$this->getPaymentMethodInstance()->getCode()) {
-            $this->_errors[] = Mage::helper('Magento_Payment_Helper_Data')->__('The payment method code is not set.');
+            $this->_errors[] = __('The payment method code is not set.');
         }
         if (!$this->getReferenceId()) {
-            $this->_errors[] = Mage::helper('Magento_Payment_Helper_Data')->__('The reference ID is not set.');
+            $this->_errors[] = __('The reference ID is not set.');
         }
         return empty($this->_errors);
     }
@@ -97,7 +97,7 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
         if ($this->isValid()) {
             return parent::_beforeSave();
         }
-        array_unshift($this->_errors, Mage::helper('Magento_Payment_Helper_Data')->__('Unable to save Billing Agreement:'));
+        array_unshift($this->_errors, __('Unable to save Billing Agreement:'));
         throw new Magento_Core_Exception(implode(' ', $this->_errors));
     }
 }

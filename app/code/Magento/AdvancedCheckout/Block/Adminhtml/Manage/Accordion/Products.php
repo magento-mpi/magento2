@@ -28,7 +28,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
-        $this->setHeaderText(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Products'));
+        $this->setHeaderText(__('Products'));
     }
 
     /**
@@ -75,26 +75,26 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'type'      => 'currency',
             'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),

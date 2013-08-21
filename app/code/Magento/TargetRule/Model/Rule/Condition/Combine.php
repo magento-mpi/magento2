@@ -33,7 +33,7 @@ class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model
         $conditions = array(
             array(
                 'value' => $this->getType(),
-                'label' => Mage::helper('Magento_TargetRule_Helper_Data')->__('Conditions Combination')
+                'label' => __('Conditions Combination')
             ),
             Mage::getModel('Magento_TargetRule_Model_Rule_Condition_Product_Attributes')->getNewChildSelectOptions(),
         );

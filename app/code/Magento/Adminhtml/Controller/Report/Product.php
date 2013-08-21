@@ -27,8 +27,8 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         parent::_initAction();
         $this->_addBreadcrumb(
-            Mage::helper('Magento_Reports_Helper_Data')->__('Products'),
-            Mage::helper('Magento_Reports_Helper_Data')->__('Products')
+            __('Products'),
+            __('Products')
         );
         return $this;
     }
@@ -39,12 +39,12 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
      */
     public function soldAction()
     {
-        $this->_title($this->__('Ordered Products Report'));
+        $this->_title(__('Ordered Products Report'));
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_sold')
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Products Ordered'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Products Ordered')
+                __('Products Ordered'),
+                __('Products Ordered')
             )
             ->renderLayout();
     }
@@ -81,15 +81,15 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
      */
     public function viewedAction()
     {
-        $this->_title($this->__('Product Views Report'));
+        $this->_title(__('Product Views Report'));
 
         $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_viewed')
             ->_addBreadcrumb(
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Most Viewed Report'),
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Most Viewed Report')
+                __('Products Most Viewed Report'),
+                __('Products Most Viewed Report')
             );
 
         $gridBlock = $this->getLayout()->getBlock('report_product_viewed.grid');
@@ -133,13 +133,13 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
      */
     public function lowstockAction()
     {
-        $this->_title($this->__('Low Stock Report'));
+        $this->_title(__('Low Stock Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_lowstock')
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Low Stock'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Low Stock')
+                __('Low Stock'),
+                __('Low Stock')
             );
             $this->renderLayout();
     }
@@ -174,13 +174,13 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
      */
     public function downloadsAction()
     {
-        $this->_title($this->__('Downloads Report'));
+        $this->_title(__('Downloads Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Downloadable::report_products_downloads')
             ->_addBreadcrumb(
-                Mage::helper('Magento_Reports_Helper_Data')->__('Downloads'),
-                Mage::helper('Magento_Reports_Helper_Data')->__('Downloads')
+                __('Downloads'),
+                __('Downloads')
             )
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Downloads'))
             ->renderLayout();

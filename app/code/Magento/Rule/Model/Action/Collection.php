@@ -113,7 +113,7 @@ class Magento_Rule_Model_Action_Collection extends Magento_Rule_Model_Action_Abs
      */
     public function asString($format = '')
     {
-        $str = Mage::helper('Magento_Rule_Helper_Data')->__("Perform following actions");
+        $str = __("Perform following actions");
         return $str;
     }
 

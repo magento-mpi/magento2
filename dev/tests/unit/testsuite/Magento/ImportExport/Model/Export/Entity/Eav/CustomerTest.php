@@ -94,10 +94,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             ->method('getStores')
             ->will($this->returnCallback(array($this, 'getStores')));
 
-        $translator = $this->getMock('stdClass', array('__'));
-        $translator->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $translator = $this->getMock('stdClass');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $attributeCollection = new Magento_Data_Collection();

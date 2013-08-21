@@ -25,7 +25,7 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
      */
     public function getFormHeader()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry Search');
+        return __('Gift Registry Search');
     }
 
     /**

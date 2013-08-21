@@ -22,8 +22,8 @@ class Magento_Adminhtml_Block_Promo_Quote extends Magento_Adminhtml_Block_Widget
     protected function _construct()
     {
         $this->_controller = 'promo_quote';
-        $this->_headerText = Mage::helper('Magento_SalesRule_Helper_Data')->__('Shopping Cart Price Rules');
-        $this->_addButtonLabel = Mage::helper('Magento_SalesRule_Helper_Data')->__('Add New Rule');
+        $this->_headerText = __('Shopping Cart Price Rules');
+        $this->_addButtonLabel = __('Add New Rule');
         parent::_construct();
         
     }

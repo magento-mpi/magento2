@@ -227,7 +227,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         if (($amount!=0) || (Mage::helper('Magento_Tax_Helper_Data')->displayZeroTax($store))) {
             $address->addTotal(array(
                 'code'=>$this->getCode(),
-                'title'=>Mage::helper('Magento_Sales_Helper_Data')->__('Tax'),
+                'title'=>__('Tax'),
                 'full_info'=>$applied ? $applied : array(),
                 'value'=>$amount
             ));

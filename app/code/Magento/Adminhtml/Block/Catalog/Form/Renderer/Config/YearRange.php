@@ -31,8 +31,8 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Config_YearRange extends Mag
 
         $from = $element->setValue(isset($values[0]) ? $values[0] : null)->getElementHtml();
         $to = $element->setValue(isset($values[1]) ? $values[1] : null)->getElementHtml();
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->__('from') . ' ' . $from
+        return __('from') . ' ' . $from
             . ' '
-            . Mage::helper('Magento_Adminhtml_Helper_Data')->__('to') . ' ' . $to;
+            . __('to') . ' ' . $to;
     }
 }

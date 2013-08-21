@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Rss::rss" module="Magento_Rss" title="RSS Feeds Section" sortOrder="135" />
+                            <resource id="Magento_Rss::rss" title="RSS Feeds Section" sortOrder="135" />
                         </resource>
                     </resource>
                 </resource>

@@ -61,6 +61,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
      */
     public function getAddButtonTitle()
     {
-        return $this->__('Add to Shopping Cart');
+        return __('Add to Shopping Cart');
     }
 }

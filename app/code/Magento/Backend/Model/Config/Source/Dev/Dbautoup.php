@@ -14,15 +14,15 @@ class Magento_Backend_Model_Config_Source_Dev_Dbautoup implements Magento_Core_M
         return array(
             array(
                 'value'=>Magento_Core_Model_Resource::AUTO_UPDATE_ALWAYS,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Always (during development)')
+                'label' => __('Always (during development)')
             ),
             array(
                 'value'=>Magento_Core_Model_Resource::AUTO_UPDATE_ONCE,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Only Once (version upgrade)')
+                'label' => __('Only Once (version upgrade)')
             ),
             array(
                 'value'=>Magento_Core_Model_Resource::AUTO_UPDATE_NEVER,
-                'label' => Mage::helper('Magento_Backend_Helper_Data')->__('Never (production)')
+                'label' => __('Never (production)')
             ),
         );
     }

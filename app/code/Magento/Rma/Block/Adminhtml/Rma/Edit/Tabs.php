@@ -19,6 +19,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs extends Magento_Adminhtml_Block_
         parent::_construct();
         $this->setId('rma_info_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_Rma_Helper_Data')->__('Return Information'));
+        $this->setTitle(__('Return Information'));
     }
 }

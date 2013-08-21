@@ -59,7 +59,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
      *
      * @var string
      */
-    protected $_eventPrefix = 'magento_versionscms_revision';
+    protected $_eventPrefix = 'enterprise_cms_revision';
 
     /**
      * Parameter name in event.
@@ -199,7 +199,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
         /* @var $resource Magento_VersionsCms_Model_Resource_Page_Revision */
         if ($resource->isRevisionPublished($this)) {
             Mage::throwException(
-                Mage::helper('Magento_VersionsCms_Helper_Data')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
+                __('Revision #%1 could not be removed because it is published.', $this->getRevisionNumber())
             );
         }
     }

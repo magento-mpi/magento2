@@ -74,7 +74,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
                 ));
 
                 Mage::throwException(
-                    Mage::helper('Magento_Pbridge_Helper_Data')->__('Unable to communicate with Payment Bridge service.')
+                    __('Unable to communicate with Payment Bridge service.')
                 );
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
@@ -84,7 +84,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
         } else {
             $response = array(
                 'status' => 'Fail',
-                'error' => Mage::helper('Magento_Pbridge_Helper_Data')->__('Empty response received from Payment Bridge.')
+                'error' => __('Empty response received from Payment Bridge.')
             );
         }
 
@@ -105,7 +105,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
             Mage::throwException($response['error']);
         }
-        Mage::throwException(Mage::helper('Magento_Pbridge_Helper_Data')->__('There was a payment gateway internal error.'));
+        Mage::throwException(__('There was a payment gateway internal error.'));
     }
 
     /**

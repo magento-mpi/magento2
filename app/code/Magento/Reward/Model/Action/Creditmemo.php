@@ -36,7 +36,7 @@ class Magento_Reward_Model_Action_Creditmemo extends Magento_Reward_Model_Action
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Refunded from order #%s', $incrementId);
+        return __('Refunded from order #%1', $incrementId);
     }
 
     /**

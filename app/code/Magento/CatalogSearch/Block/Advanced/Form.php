@@ -22,11 +22,11 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
         // add Home breadcrumb
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Home'),
-                'title'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Go to Home Page'),
+                'label'=>__('Home'),
+                'title'=>__('Go to Home Page'),
                 'link'=>Mage::getBaseUrl()
             ))->addCrumb('search', array(
-                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Catalog Advanced Search')
+                'label'=>__('Catalog Advanced Search')
             ));
         }
         return parent::_prepareLayout();
@@ -192,7 +192,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
             $name.= '[]';
         }
         else {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('All')));
+            array_unshift($options, array('value'=>'', 'label'=>__('All')));
         }
 
         return $this->_getSelectBlock()
@@ -215,9 +215,9 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
     public function getAttributeYesNoElement($attribute)
     {
         $options = array(
-            array('value' => '',  'label' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('All')),
-            array('value' => '1', 'label' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Yes')),
-            array('value' => '0', 'label' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('No'))
+            array('value' => '',  'label' => __('All')),
+            array('value' => '1', 'label' => __('Yes')),
+            array('value' => '0', 'label' => __('No'))
         );
 
         $name = $attribute->getAttributeCode();

@@ -19,8 +19,8 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule extends Magento_Adminhtml_Bl
     {
         $this->_controller = 'adminhtml_targetrule';
         $this->_blockGroup = 'Magento_TargetRule';
-        $this->_headerText = Mage::helper('Magento_TargetRule_Helper_Data')->__('Related Products Rule');
-        $this->_addButtonLabel = Mage::helper('Magento_TargetRule_Helper_Data')->__('Add Rule');
+        $this->_headerText = __('Related Products Rule');
+        $this->_addButtonLabel = __('Add Rule');
         parent::_construct();
     }
 

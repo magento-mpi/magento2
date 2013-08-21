@@ -41,13 +41,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
             array(
                 // Subconditions combo
                 'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Combine',
-                'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Conditions Combination'),
+                'label' => __('Conditions Combination'),
                 'available_in_guest_mode' => true
             ),
             array(
                 // Customer address combo
                 'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Customer_Address',
-                'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Customer Address')
+                'label' => __('Customer Address')
             ),
             // Customer attribute group
             Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Customer')
@@ -62,17 +62,17 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
                     array(
                         // Product list combo
                         'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List',
-                        'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Product List'),
+                        'label' => __('Product List'),
                         'available_in_guest_mode' => true
                     ),
                     array(
                         // Product history combo
                         'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History',
-                        'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Product History'),
+                        'label' => __('Product History'),
                         'available_in_guest_mode' => true
                     )
                 ),
-                'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Products'),
+                'label' => __('Products'),
                 'available_in_guest_mode' => true
             ),
 
@@ -121,7 +121,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
 
             default:
                 Mage::throwException(
-                    Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Wrong "ApplyTo" type')
+                    __('Wrong "ApplyTo" type')
                 );
                 break;
         }

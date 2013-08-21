@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         return $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Create Shipping Label...'),
+                'label'   => __('Create Shipping Label...'),
                 'onclick' => 'packaging.showWindow();',
             ))
             ->toHtml();
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         return $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Print Shipping Label'),
+                'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         return $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Show Packages'),
+                'label'   => __('Show Packages'),
                 'onclick' => 'showPackedWindow();'
             ))
             ->toHtml();

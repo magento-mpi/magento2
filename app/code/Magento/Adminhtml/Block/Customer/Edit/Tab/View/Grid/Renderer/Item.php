@@ -51,7 +51,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
 
         $helper = Mage::helper($helperName);
         if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException($this->__("Helper for options rendering doesn't implement required interface."));
+            Mage::throwException(__("Helper for options rendering doesn't implement required interface."));
         }
 
         return $helper;

@@ -108,14 +108,14 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
     protected function _prepareColumns()
     {
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'renderer'  => 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Product',
             'index'     => 'name',
             'sortable'  => false
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'renderer'  => $this->_getPriceRenderer(),
             'align'     => 'right',
             'type'      => 'currency',
@@ -150,7 +150,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
 
         $this->addColumn('qty', array(
             'sortable'  => false,
-            'header'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Quantity'),
+            'header'    => __('Quantity'),
             'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',

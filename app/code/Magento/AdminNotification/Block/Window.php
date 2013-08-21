@@ -38,7 +38,7 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     protected $_criticalCollection;
 
     /**
-     * @var Magento_AdminNotification_Model_Inbox
+     * @var Magento_Adminnotification_Model_Inbox
      */
     protected $_latestItem;
 
@@ -67,9 +67,9 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     protected function _toHtml()
     {
         if ($this->canShow()) {
-            $this->setHeaderText($this->escapeHtml($this->__('Incoming Message')));
-            $this->setCloseText($this->escapeHtml($this->__('close')));
-            $this->setReadDetailsText($this->escapeHtml($this->__('Read details')));
+            $this->setHeaderText($this->escapeHtml(__('Incoming Message')));
+            $this->setCloseText($this->escapeHtml(__('close')));
+            $this->setReadDetailsText($this->escapeHtml(__('Read details')));
             $this->setNoticeMessageText($this->escapeHtml($this->_getLatestItem()->getTitle()));
             $this->setNoticeMessageUrl($this->escapeUrl($this->_getLatestItem()->getUrl()));
             $this->setSeverityText('critical');
@@ -81,7 +81,7 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     /**
      * Retrieve latest critical item
      *
-     * @return bool|Magento_AdminNotification_Model_Inbox
+     * @return bool|Magento_Adminnotification_Model_Inbox
      */
     protected function _getLatestItem()
     {

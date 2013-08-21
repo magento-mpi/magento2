@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Pbridge
+ * @package     Magento_Search
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -18,9 +18,7 @@ class Magento_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHPUni
 
     protected function setUp()
     {
-        $mockHelper = $this->getMock('Magento_Pbridge_Helper_Data', array(), array(), '', false, false);
-        $mockHelper->expects($this->any())->method('__')->will($this->returnValue('Test Label'));
-        $this->_model= new Magento_Pbridge_Model_Authorizenet_Source_PaymentAction($mockHelper);
+        $this->_model= new Magento_Pbridge_Model_Authorizenet_Source_PaymentAction();
     }
 
     /**
@@ -41,11 +39,11 @@ class Magento_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHPUni
         $expected = array(
             array(
                 'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => 'Test Label'
+                'label' => __('Authorize Only')
             ),
             array(
                 'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => 'Test Label'
+                'label' => __('Authorize and Capture')
             ),
         );
         $this->assertEquals($options, $expected);

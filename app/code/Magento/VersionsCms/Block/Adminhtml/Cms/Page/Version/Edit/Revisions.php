@@ -75,7 +75,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     {
 /*
         $this->addColumn('version_number', array(
-            'header' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Version #'),
+            'header' => __('Version #'),
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
@@ -83,7 +83,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         ));
 
         $this->addColumn('label', array(
-            'header' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Version Label'),
+            'header' => __('Version Label'),
             'index' => 'label',
             'type' => 'options',
             'options' => Mage::helper('Magento_VersionsCms_Helper_Data')
@@ -91,7 +91,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         ));
 
         $this->addColumn('access_level', array(
-            'header' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Access Level'),
+            'header' => __('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
@@ -99,14 +99,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         ));
 */
         $this->addColumn('revision_number', array(
-            'header' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Revision'),
+            'header' => __('Revision'),
             'width' => 200,
             'type' => 'number',
             'index' => 'revision_number'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Created'),
+            'header' => __('Created'),
             'index' => 'created_at',
             'type' => 'datetime',
             'filter_time' => true,
@@ -114,7 +114,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         ));
 
         $this->addColumn('author', array(
-            'header' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Author'),
+            'header' => __('Author'),
             'index' => 'user',
             'type' => 'options',
             'options' => $this->getCollection()->getUsersArray()
@@ -176,9 +176,9 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             $this->getMassactionBlock()->setFormFieldName('revision');
 
             $this->getMassactionBlock()->addItem('delete', array(
-                 'label'=> Mage::helper('Magento_VersionsCms_Helper_Data')->__('Delete'),
+                 'label'=> __('Delete'),
                  'url'  => $this->getUrl('*/*/massDeleteRevisions', array('_current' => true)),
-                 'confirm' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Are you sure?')
+                 'confirm' => __('Are you sure?')
             ));
         }
         return $this;

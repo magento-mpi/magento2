@@ -22,7 +22,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magent
     {
         parent::_construct();
         $this->setId('magento_giftregistry_form');
-        $this->setTitle(Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry'));
+        $this->setTitle(__('Gift Registry'));
     }
 
     /**

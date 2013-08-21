@@ -192,66 +192,16 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array('', ''),
             array(
                 'Text with different translation on different modules',
-                'Text with different translation on different modules'
+                'Text translation that was last loaded'
             ),
             array(
-                Mage::getModel('Magento_Core_Model_Translate_Expr', array(
-                    'text'   => 'Text with different translation on different modules',
-                    'module' => 'Magento_Core'
-                )),
-                'Text translation by Magento_Core module'
-            ),
-            array(
-                Mage::getModel('Magento_Core_Model_Translate_Expr', array(
-                    'text'   => 'Text with different translation on different modules',
-                    'module' => 'Magento_Catalog'
-                )),
-                'Text translation by Magento_Catalog module'
-            ),
-            array(
-                Mage::getModel('Magento_Core_Model_Translate_Expr', array('text' => 'text_with_no_translation')),
+                'text_with_no_translation',
                 'text_with_no_translation'
             ),
             array(
                 'Design value to translate',
                 'Design translated value'
             )
-        );
-    }
-
-    /**
-     * @magentoConfigFixture global/locale/inheritance/en_AU en_UK
-     * @magentoConfigFixture global/locale/inheritance/en_UK en_US
-     * @dataProvider translateWithLocaleInheritanceDataProvider
-     */
-    public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
-    {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_model->setLocale('en_AU');
-        $this->_model->init(Magento_Core_Model_App_Area::AREA_FRONTEND);
-        $this->assertEquals($expectedTranslation, $this->_model->translate(array($inputText)));
-    }
-
-    /**
-     * @return array
-     */
-    public function translateWithLocaleInheritanceDataProvider()
-    {
-        return array(
-            array(
-                Mage::getModel('Magento_Core_Model_Translate_Expr', array(
-                    'text'   => 'Text with different translation on different modules',
-                    'module' => 'Magento_Core'
-                )),
-                'Text translation by Magento_Core module in en_UK'
-            ),
-            array(
-                Mage::getModel('Magento_Core_Model_Translate_Expr', array(
-                    'text'   => 'Original value for Magento_Core module',
-                    'module' => 'Magento_Core'
-                )),
-                'Translated value for Magento_Core module in en_AU'
-            ),
         );
     }
 

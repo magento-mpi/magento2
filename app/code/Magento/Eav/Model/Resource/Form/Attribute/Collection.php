@@ -54,10 +54,10 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            Mage::throwException(Mage::helper('Magento_Eav_Helper_Data')->__('Current module pathname is undefined'));
+            Mage::throwException(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            Mage::throwException(Mage::helper('Magento_Eav_Helper_Data')->__('Current module EAV entity is undefined'));
+            Mage::throwException(__('Current module EAV entity is undefined'));
         }
     }
 

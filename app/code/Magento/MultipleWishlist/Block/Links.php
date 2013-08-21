@@ -37,11 +37,11 @@ class Magento_MultipleWishlist_Block_Links extends Magento_Wishlist_Block_Links
     {
         if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()) {
             if ($count > 1) {
-                return $this->__('My Wish Lists (%d items)', $count);
+                return __('My Wish Lists (%1 items)', $count);
             } else if ($count == 1) {
-                return $this->__('My Wish Lists (%d item)', $count);
+                return __('My Wish Lists (%1 item)', $count);
             } else {
-                return $this->__('My Wish Lists');
+                return __('My Wish Lists');
             }
         } else {
             return parent::_createLabel($count);

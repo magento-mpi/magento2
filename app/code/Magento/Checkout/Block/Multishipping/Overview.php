@@ -44,7 +44,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(
-                $this->__('Review Order - %s', $headBlock->getDefaultTitle())
+                __('Review Order - %1', $headBlock->getDefaultTitle())
             );
         }
         return parent::_prepareLayout();
@@ -125,10 +125,10 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
                 if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_BILLING) {
-                    $total->setTitle($this->__('Total'));
+                    $total->setTitle(__('Total'));
                 }
                 else {
-                    $total->setTitle($this->__('Total for this address'));
+                    $total->setTitle(__('Total for this address'));
                 }
             }
         }

@@ -20,7 +20,7 @@ $isField = $element->getFieldsetType() == 'field';
 $advancedAfter = $element->getAdvancedPosition() == 'after'; // To place advanced options inside or after fieldset
 $advancedLabel = $element->getAdvancedLabel();
 if (!isset($advancedLabel)) {
-    $advancedLabel = Mage::helper('Magento_Backend_Helper_Data')->__('Additional Settings');
+    $advancedLabel = __('Additional Settings');
 }
 
 $cssClass = ($isField) ? 'field ' . $element->getClass() : 'fieldset ' . $element->getClass();

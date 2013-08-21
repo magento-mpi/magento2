@@ -45,7 +45,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_Tab
             /** @var $tabs Magento_Adminhtml_Block_Catalog_Category_Tabs */
             $tabs = $observer->getEvent()->getTabs();
             $tabs->addTab('google-experiment-tab', array(
-                'label' => $this->_helper->__('Category View Optimization'),
+                'label' => __('Category View Optimization'),
                 'content' => $block->toHtml(),
             ));
         }

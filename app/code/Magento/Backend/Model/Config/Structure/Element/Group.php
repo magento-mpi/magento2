@@ -25,20 +25,18 @@ class Magento_Backend_Model_Config_Structure_Element_Group
     protected $_dependencyMapper;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_App $application
      * @param Magento_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator
      * @param Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory
      * @param Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_App $application,
         Magento_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator,
         Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory,
         Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
     ) {
-        parent::__construct($helperFactory, $application, $childrenIterator);
+        parent::__construct($application, $childrenIterator);
         $this->_cloneModelFactory = $cloneModelFactory;
         $this->_dependencyMapper = $dependencyMapper;
     }

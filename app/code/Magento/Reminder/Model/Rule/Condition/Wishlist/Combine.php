@@ -42,7 +42,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Combine
                     ->getNewChildSelectOptions(),
                 array( // subselection combo
                     'value' => 'Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection',
-                    'label' => Mage::helper('Magento_Reminder_Helper_Data')->__('Items Subselection')
+                    'label' => __('Items Subselection')
                 )
             )
         );

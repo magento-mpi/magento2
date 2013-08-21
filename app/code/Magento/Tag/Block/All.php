@@ -68,6 +68,6 @@ class Magento_Tag_Block_All extends Magento_Core_Block_Template
 
     protected function _getHeadText()
     {
-        return Mage::helper('Magento_Tag_Helper_Data')->__('All Tags');
+        return __('All Tags');
     }
 }

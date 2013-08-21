@@ -25,8 +25,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
     {
         parent::_construct();
 
-        $this->setId('magento_customercustomattributes_formtype_edit_tabs');
+        $this->setId('enterprise_customer_formtype_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Form Type Information'));
+        $this->setTitle(__('Form Type Information'));
     }
 }

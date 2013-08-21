@@ -130,10 +130,7 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
             if (!empty($messages)) {
                 foreach ($messages as $message) {
                     $messageText = (string)$message;
-                    $module = $message->getParent()->getAttribute("module");
-                    $this->_translateData[$messageText] = Mage::helper(
-                        empty($module) ? 'Magento_Core' : $module
-                    )->__($messageText);
+                    $this->_translateData[$messageText] = __($messageText);
                 }
             }
 

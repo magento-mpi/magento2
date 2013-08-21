@@ -218,17 +218,12 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      */
     protected function _getModelDependencies()
     {
-        $mageHelper = $this->getMock('Magento_ImportExport_Helper_Data', array('__'), array(), '', false, false);
-        $mageHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $data = array(
             'data_source_model'            => 'not_used',
             'customer_data_source_model'   => 'not_used',
             'address_data_source_model'    => 'not_used',
             'connection'                   => 'not_used',
-            'helpers'                      => array('Magento_ImportExport_Helper_Data' => $mageHelper),
+            'helpers'                      => array(),
             'json_helper'                  => 'not_used',
             'string_helper'                => new Magento_Core_Helper_String(
                 $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)

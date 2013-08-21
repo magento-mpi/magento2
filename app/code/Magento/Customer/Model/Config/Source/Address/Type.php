@@ -25,8 +25,8 @@ class Magento_Customer_Model_Config_Source_Address_Type implements Magento_Core_
     public function toOptionArray()
     {
         return array(
-            Magento_Customer_Model_Address_Abstract::TYPE_BILLING => Mage::helper('Magento_Customer_Helper_Data')->__('Billing Address'),
-            Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING => Mage::helper('Magento_Customer_Helper_Data')->__('Shipping Address')
+            Magento_Customer_Model_Address_Abstract::TYPE_BILLING => __('Billing Address'),
+            Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING => __('Shipping Address')
         );
     }
 }

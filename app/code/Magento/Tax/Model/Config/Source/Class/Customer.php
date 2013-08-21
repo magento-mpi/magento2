@@ -18,7 +18,7 @@ class Magento_Tax_Model_Config_Source_Class_Customer implements Magento_Core_Mod
     public function toOptionArray()
     {
         $taxClasses = Mage::getModel('Magento_Tax_Model_Class_Source_Customer')->toOptionArray();
-        array_unshift($taxClasses, array('value' => '0', 'label' => Mage::helper('Magento_Tax_Helper_Data')->__('None')));
+        array_unshift($taxClasses, array('value' => '0', 'label' => __('None')));
         return $taxClasses;
     }
 }

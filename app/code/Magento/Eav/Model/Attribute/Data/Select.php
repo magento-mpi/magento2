@@ -40,7 +40,7 @@ class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribut
     {
         $errors     = array();
         $attribute  = $this->getAttribute();
-        $label      = Mage::helper('Magento_Eav_Helper_Data')->__($attribute->getStoreLabel());
+        $label      = __($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it
@@ -48,7 +48,7 @@ class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribut
         }
 
         if ($attribute->getIsRequired() && empty($value) && $value != '0') {
-            $errors[] = Mage::helper('Magento_Eav_Helper_Data')->__('"%s" is a required value.', $label);
+            $errors[] = __('"%1" is a required value.', $label);
         }
 
         if (!$errors && !$attribute->getIsRequired() && empty($value)) {

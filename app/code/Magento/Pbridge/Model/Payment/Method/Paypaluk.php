@@ -248,7 +248,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
             ->setIsTransactionPending($api->getIsPaymentPending());
         $payflowTrxid = $api->getData(Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro::TRANSPORT_PAYFLOW_TXN_ID);
         $payment->setPreparedMessage(
-            Mage::helper('Magento_Pbridge_Helper_Data')->__('Payflow PNREF: #%s.', $payflowTrxid)
+            __('Payflow PNREF: #%1.', $payflowTrxid)
         );
 
         $this->_pro->importPaymentInfo($api, $payment);

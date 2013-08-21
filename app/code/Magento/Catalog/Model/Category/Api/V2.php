@@ -85,7 +85,7 @@ class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Catego
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute "%s" is required.', $code));
+                        Mage::throwException(__('Attribute "%1" is required.', $code));
                     }
                     else {
                         Mage::throwException($error);
@@ -130,7 +130,7 @@ class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Catego
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute "%s" is required.', $code));
+                        Mage::throwException(__('Attribute "%1" is required.', $code));
                     }
                     else {
                         Mage::throwException($error);

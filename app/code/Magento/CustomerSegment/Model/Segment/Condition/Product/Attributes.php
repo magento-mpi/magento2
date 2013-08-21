@@ -87,7 +87,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Product Attributes')
+            'label' => __('Product Attributes')
         );
     }
 
@@ -98,7 +98,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Product %s', parent::asHtml());
+        return __('Product %1', parent::asHtml());
     }
 
     /**

@@ -19,7 +19,7 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
 {
     public function indexAction()
     {
-        $this->_title($this->__('Newsletter Problems Report'));
+        $this->_title(__('Newsletter Problems Report'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -33,7 +33,7 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_problem');
 
-        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Problem Reports'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Problem Reports'));
+        $this->_addBreadcrumb(__('Newsletter Problem Reports'), __('Newsletter Problem Reports'));
 
         $this->renderLayout();
     }
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
             }
 
             Mage::getSingleton('Magento_Adminhtml_Model_Session')
-                ->addSuccess(Mage::helper('Magento_Newsletter_Helper_Data')->__('We unsubscribed the people you identified.'));
+                ->addSuccess(__('We unsubscribed the people you identified.'));
         }
 
         if($this->getRequest()->getParam('_delete')) {
@@ -69,7 +69,7 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
             }
 
             Mage::getSingleton('Magento_Adminhtml_Model_Session')
-                ->addSuccess(Mage::helper('Magento_Newsletter_Helper_Data')->__('The problems you identified have been deleted.'));
+                ->addSuccess(__('The problems you identified have been deleted.'));
         }
                 $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages(true));
 

@@ -53,7 +53,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     {
         return array(array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Has State/Province')
+            'label' => __('Has State/Province')
         ));
     }
 
@@ -65,8 +65,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function asHtml()
     {
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml() . Mage::helper('Magento_CustomerSegment_Helper_Data')
-            ->__('If Customer Address %s State/Province specified', $element) . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __('If Customer Address %1 State/Province specified', $element)
+            . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -87,8 +87,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('has'),
-            '0' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('does not have'),
+            '1' => __('has'),
+            '0' => __('does not have'),
         ));
         return $this;
     }

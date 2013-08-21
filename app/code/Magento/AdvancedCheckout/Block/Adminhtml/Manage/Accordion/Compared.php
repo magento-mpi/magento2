@@ -29,7 +29,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
         $this->setId('source_compared');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Products in the Comparison List (%s)', $this->getItemsCount())
+                __('Products in the Comparison List (%1)', $this->getItemsCount())
             );
         }
     }

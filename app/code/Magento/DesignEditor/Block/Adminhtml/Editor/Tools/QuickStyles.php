@@ -35,31 +35,31 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles
             array(
                 'is_active'     => true,
                 'id'          => 'vde-tab-header',
-                'title'         => strtoupper($this->__('Header')),
+                'title'         => strtoupper(__('Header')),
                 'content_block' => 'design_editor_tools_quick-styles_header'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-bgs',
-                'title'         => strtoupper($this->__('Backgrounds')),
+                'title'         => strtoupper(__('Backgrounds')),
                 'content_block' => 'design_editor_tools_quick-styles_backgrounds'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-buttons',
-                'title'         => strtoupper($this->__('Buttons & Icons')),
+                'title'         => strtoupper(__('Buttons & Icons')),
                 'content_block' => 'design_editor_tools_quick-styles_buttons'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-tips',
-                'title'         => strtoupper($this->__('Tips & Messages')),
+                'title'         => strtoupper(__('Tips & Messages')),
                 'content_block' => 'design_editor_tools_quick-styles_tips'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-fonts',
-                'title'         => strtoupper($this->__('Fonts')),
+                'title'         => strtoupper(__('Fonts')),
                 'content_block' => 'design_editor_tools_quick-styles_fonts'
             ),
 

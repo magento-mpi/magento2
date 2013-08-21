@@ -14,8 +14,8 @@ class Magento_Backend_Model_Config_Source_Enabledisable implements Magento_Core_
     public function toOptionArray()
     {
         return array(
-            array('value'=>1, 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('Enable')),
-            array('value'=>0, 'label'=>Mage::helper('Magento_Backend_Helper_Data')->__('Disable')),
+            array('value'=>1, 'label'=>__('Enable')),
+            array('value'=>0, 'label'=>__('Disable')),
         );
     }
 }

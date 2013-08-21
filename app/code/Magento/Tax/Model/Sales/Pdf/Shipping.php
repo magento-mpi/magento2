@@ -37,25 +37,25 @@ class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf
             $totals = array(
                 array(
                     'amount'    => $this->getAmountPrefix().$amount,
-                    'label'     => Mage::helper('Magento_Tax_Helper_Data')->__('Shipping (Excl. Tax)') . ':',
+                    'label'     => __('Shipping (Excl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
                 array(
                     'amount'    => $this->getAmountPrefix().$amountInclTax,
-                    'label'     => Mage::helper('Magento_Tax_Helper_Data')->__('Shipping (Incl. Tax)') . ':',
+                    'label'     => __('Shipping (Incl. Tax)') . ':',
                     'font_size' => $fontSize
                 ),
             );
         } elseif ($config->displaySalesShippingInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
-                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__($this->getTitle()) . ':',
+                'label'     => __($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         } else {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amount,
-                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__($this->getTitle()) . ':',
+                'label'     => __($this->getTitle()) . ':',
                 'font_size' => $fontSize
             ));
         }

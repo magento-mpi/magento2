@@ -18,13 +18,6 @@
 class Magento_Tax_Model_Rate_CsvImportHandler
 {
     /**
-     * Helper factory
-     *
-     * @var Magento_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * Collection of publicly available stores
      *
      * @var Magento_Core_Model_Resource_Store_Collection
@@ -55,20 +48,17 @@ class Magento_Tax_Model_Rate_CsvImportHandler
     protected $_taxRateFactory;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Resource_Store_Collection $storeCollection
      * @param Magento_Directory_Model_Resource_Region_Collection $regionCollection
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Tax_Model_Calculation_RateFactory $taxRateFactory
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Resource_Store_Collection $storeCollection,
         Magento_Directory_Model_Resource_Region_Collection $regionCollection,
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Tax_Model_Calculation_RateFactory $taxRateFactory
     ) {
-        $this->_helperFactory = $helperFactory;
         // prevent admin store from loading
         $this->_publicStores = $storeCollection->setLoadDefault(false);
         $this->_regionCollection = $regionCollection;
@@ -85,14 +75,14 @@ class Magento_Tax_Model_Rate_CsvImportHandler
     {
         // indexes are specified for clarity, they are used during import
         return array(
-            0 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Code'),
-            1 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Country'),
-            2 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('State'),
-            3 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Zip/Post Code'),
-            4 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Rate'),
-            5 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Zip/Post is Range'),
-            6 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Range From'),
-            7 => $this->_helperFactory->get('Magento_Tax_Helper_Data')->__('Range To'),
+            0 => __('Code'),
+            1 => __('Country'),
+            2 => __('State'),
+            3 => __('Zip/Post Code'),
+            4 => __('Rate'),
+            5 => __('Zip/Post is Range'),
+            6 => __('Range From'),
+            7 => __('Range To'),
         );
 
     }

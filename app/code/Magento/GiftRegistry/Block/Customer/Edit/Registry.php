@@ -40,7 +40,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registry extends  Magento_GiftReg
      */
     public function getIsPublicHtml()
     {
-        $options[''] = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please Select');
+        $options[''] = __('Please Select');
         $options += $this->getEntity()->getOptionsIsPublic();
         $value = $this->getEntity()->getIsPublic();
         return $this->getSelectHtml($options, 'is_public', 'is_public', $value, 'required-entry');

@@ -38,7 +38,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
     }
 
     /**
-     * @magentoDataFixture Magento/CustomerSegment/_files/segment.php
+     * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testMatchActionLogging()
@@ -54,7 +54,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
 
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertNotEmpty($result->getId());
-        $expected = serialize(array('general' => 'Matched 1 Customers of Segment '. $segment->getId()));
-        $this->assertSame($expected, $result->getInfo());
+        $expected = serialize(array('general' => __('Matched %1 Customers of Segment %2', 1, $segment->getId())));
+        $this->assertEquals($expected, $result->getInfo());
     }
 }

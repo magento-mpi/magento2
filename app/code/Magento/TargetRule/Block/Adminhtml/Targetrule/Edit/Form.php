@@ -15,7 +15,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Form extends Magento_Ad
     {
         parent::_construct();
         $this->setId('magento_targetrule_form');
-        $this->setTitle(Mage::helper('Magento_TargetRule_Helper_Data')->__('Rule Information'));
+        $this->setTitle(__('Rule Information'));
     }
 
     protected function _prepareForm()

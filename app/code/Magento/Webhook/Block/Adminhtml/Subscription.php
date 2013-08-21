@@ -28,7 +28,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription extends Magento_Backend_Block
     {
         parent::_construct();
 
-        $this->_headerText      = $this->__('Subscriptions');
-        $this->_addButtonLabel  = $this->__('Add Subscription');
+        $this->_headerText      = __('Subscriptions');
+        $this->_addButtonLabel  = __('Add Subscription');
     }
 }

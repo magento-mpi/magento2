@@ -242,7 +242,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot get the order instance.'));
+        Mage::throwException(__('We cannot get the order instance.'));
     }
 
     /**

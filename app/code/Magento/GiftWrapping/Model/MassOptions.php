@@ -18,21 +18,6 @@
 class Magento_GiftWrapping_Model_MassOptions implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * Backend Helper
-     *
-     * @var Magento_GiftWrapping_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Magento_GiftWrapping_Helper_Data $helper
-     */
-    public function __construct(Magento_GiftWrapping_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
-    /**
      * Return statuses array
      * @return array
      */
@@ -40,8 +25,8 @@ class Magento_GiftWrapping_Model_MassOptions implements Magento_Core_Model_Optio
     {
         return array(
             array('label' => '', 'value' => ''),
-            array('label' => $this->_helper->__('Enabled'), 'value' => '1'),
-            array('label' => $this->_helper->__('Disabled'), 'value' => '0')
+            array('label' => __('Enabled'), 'value' => '1'),
+            array('label' => __('Disabled'), 'value' => '0')
         );
     }
 }

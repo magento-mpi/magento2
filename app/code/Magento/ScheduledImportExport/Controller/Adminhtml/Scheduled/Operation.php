@@ -18,17 +18,6 @@
 class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * Custom constructor.
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Magento_ScheduledImportExport');
-    }
-
-    /**
      * Initialize layout.
      *
      * @return Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation
@@ -36,7 +25,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
     protected function _initAction()
     {
         try {
-            $this->_title($this->__('Scheduled Imports/Exports'))
+            $this->_title(__('Scheduled Imports/Exports'))
                 ->loadLayout()
                 ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_enterprise_scheduled_operation');
         } catch (Magento_Core_Exception $e) {
@@ -121,7 +110,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                 || !is_array($data['start_time'])
             ) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
-                    ->addError($this->__("We couldn't save the scheduled operation."));
+                    ->addError(__("We couldn't save the scheduled operation."));
                 $this->_redirect('*/*/*', array('_current' => true));
 
                 return;
@@ -146,7 +135,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    $this->__("We couldn't save the scheduled operation.")
+                    __("We couldn't save the scheduled operation.")
                 );
             }
         }
@@ -175,7 +164,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    $this->__('Something sent wrong deleting the scheduled operation.')
+                    __('Something sent wrong deleting the scheduled operation.')
                 );
             }
         }
@@ -213,13 +202,13 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                     $operation->delete();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('We deleted a total of %s record(s).', count($operations))
+                    __('We deleted a total of %1 record(s).', count($operations))
                 );
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__('We cannot delete all items.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We cannot delete all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -250,14 +239,14 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                         ->save();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('A total of %s record(s) have been updated.', count($operations))
+                    __('A total of %1 record(s) have been updated.', count($operations))
                 );
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
-                    ->addError($this->__('We cannot change status for all items.'));
+                    ->addError(__('We cannot change status for all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -293,7 +282,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                 $this->_getSession()->addError($e->getMessage());
             }
         } else {
-            $this->_getSession()->addError($this->__('No valid data sent'));
+            $this->_getSession()->addError(__('No valid data sent'));
         }
         $this->_redirect('*/*/index');
     }
@@ -340,12 +329,12 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
-                    Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('The operation ran.')
+                    __('The operation ran.')
                 );
         } else {
             $this->_getSession()
                 ->addError(
-                    Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Unable to run operation')
+                    __('Unable to run operation')
                 );
         }
 
@@ -364,11 +353,11 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
-                    Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('We deleted the history files.')
+                    __('We deleted the history files.')
                 );
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Something went wrong deleting the history files.'));
+                ->addError(__('Something went wrong deleting the history files.'));
         }
         $this->_redirect('*/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
     }

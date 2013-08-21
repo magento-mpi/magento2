@@ -16,15 +16,6 @@
 class Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Magento_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Magento_Adminhtml_Controller_Sales_Shipment
@@ -33,8 +24,8 @@ class Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract extends Magen
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_Sales::sales_shipment')
-            ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
-            ->_addBreadcrumb($this->__('Shipments'),$this->__('Shipments'));
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Shipments'), __('Shipments'));
         return $this;
     }
 
@@ -43,7 +34,7 @@ class Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract extends Magen
      */
     public function indexAction()
     {
-        $this->_title($this->__('Shipments'));
+        $this->_title(__('Shipments'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Shipment'))

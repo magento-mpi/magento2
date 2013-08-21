@@ -33,7 +33,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
     {
         $addButtonData = array(
             'id'        => 'add_node_button',
-            'label'     => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('New Fieldset'),
+            'label'     => __('New Fieldset'),
             'onclick'   => 'formType.newFieldset()',
             'class'     => 'add',
         );
@@ -46,19 +46,19 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
-            'label'     => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Save'),
+            'label'     => __('Save'),
             'onclick'   => 'formType.saveFieldset()',
             'class'     => 'save',
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Remove'),
+            'label'     => __('Remove'),
             'onclick'   => 'formType.deleteFieldset()',
             'class'     => 'delete',
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
-            'label'     => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Cancel'),
+            'label'     => __('Cancel'),
             'onclick'   => 'formType.cancelFieldset()',
             'class'     => 'cancel',
         ))->toHtml();
@@ -148,7 +148,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Attributes');
+        return __('Attributes');
     }
 
     /**
@@ -158,7 +158,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Attributes');
+        return __('Attributes');
     }
 
     /**

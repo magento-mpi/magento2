@@ -33,7 +33,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
 
         $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
-            ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
             ->setSourceUrl($sourceUrl)
@@ -86,7 +85,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
                 });
 
                 var treeRoot'.$this->getId().' = new Ext.tree.AsyncTreeNode({
-                    text: "'. $this->__("Root") .'",
+                    text: "'. __("Root") .'",
                     id: "root",
                     allowDrop: true,
                     allowDrag: false,
@@ -123,7 +122,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
                 treeRoot'.$this->getId().'.expand();
             }
             else {
-                $("tree'.$this->getId().'").innerHTML = "'.$this->__('No nodes are available.').'";
+                $("tree'.$this->getId().'").innerHTML = "'.__('No nodes are available.').'";
             }
             </script>
         ';

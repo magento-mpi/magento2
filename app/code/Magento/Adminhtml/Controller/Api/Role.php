@@ -22,15 +22,15 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Api::system_legacy_api_roles');
-        $this->_addBreadcrumb($this->__('Web services'), $this->__('Web services'));
-        $this->_addBreadcrumb($this->__('Permissions'), $this->__('Permissions'));
-        $this->_addBreadcrumb($this->__('Roles'), $this->__('Roles'));
+        $this->_addBreadcrumb(__('Web services'), __('Web services'));
+        $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
+        $this->_addBreadcrumb(__('Roles'), __('Roles'));
         return $this;
     }
 
     public function indexAction()
     {
-        $this->_title($this->__('Roles'));
+        $this->_title(__('Roles'));
 
         $this->_initAction();
 
@@ -50,19 +50,19 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
 
     public function editRoleAction()
     {
-        $this->_title($this->__('Roles'));
+        $this->_title(__('Roles'));
 
         $this->_initAction();
 
         $roleId = $this->getRequest()->getParam('rid');
         if( intval($roleId) > 0 ) {
-            $breadCrumb = $this->__('Edit Role');
-            $breadCrumbTitle = $this->__('Edit Role');
-            $this->_title($this->__('Edit Role'));
+            $breadCrumb = __('Edit Role');
+            $breadCrumbTitle = __('Edit Role');
+            $this->_title(__('Edit Role'));
         } else {
-            $breadCrumb = $this->__('Add New Role');
-            $breadCrumbTitle = $this->__('Add New Role');
-            $this->_title($this->__('New Role'));
+            $breadCrumb = __('Add New Role');
+            $breadCrumbTitle = __('Add New Role');
+            $this->_title(__('New Role'));
         }
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
@@ -92,9 +92,9 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
 
         try {
             Mage::getModel('Magento_Api_Model_Roles')->load($rid)->delete();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('The role has been deleted.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The role has been deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('An error occurred while deleting this role.'));
         }
 
         $this->_redirect("*/*/");
@@ -106,7 +106,7 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
         $rid        = $this->getRequest()->getParam('role_id', false);
         $role = Mage::getModel('Magento_Api_Model_Roles')->load($rid);
         if (!$role->getId() && $rid) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__('This role no longer exists.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -146,9 +146,9 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You saved the role.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the role.'));
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__('An error occurred while saving this role.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('An error occurred while saving this role.'));
         }
 
         //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));

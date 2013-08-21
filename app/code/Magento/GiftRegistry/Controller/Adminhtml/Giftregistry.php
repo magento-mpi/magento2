@@ -20,11 +20,11 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
         $this->loadLayout()
             ->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
             ->_addBreadcrumb(
-                Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry'),
-                Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry')
+                __('Gift Registry'),
+                __('Gift Registry')
             );
 
-        $this->_title($this->__('Gift Registry Types'));
+        $this->_title(__('Gift Registry Types'));
         return $this;
     }
 
@@ -42,7 +42,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
         if ($typeId = $this->getRequest()->getParam($requestParam)) {
             $type->load($typeId);
             if (!$type->getId()) {
-                Mage::throwException($this->__('Please correct the  gift registry ID.'));
+                Mage::throwException(__('Please correct the  gift registry ID.'));
             }
         }
         Mage::register('current_giftregistry_type', $type);
@@ -72,12 +72,12 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
         }
 
         $this->_initAction();
-        $this->_title($this->__('New Gift Registry Type'));
+        $this->_title(__('New Gift Registry Type'));
 
         $block = $this->getLayout()->createBlock('Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
-        $this->_addBreadcrumb($this->__('New Type'), $this->__('New Type'))
+        $this->_addBreadcrumb(__('New Type'), __('New Type'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock(
                 'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs')
@@ -100,12 +100,12 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
         }
 
         $this->_initAction();
-        $this->_title($this->__('%s', $model->getLabel()));
+        $this->_title(__('%1', $model->getLabel()));
 
         $block = $this->getLayout()->createBlock('Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
-        $this->_addBreadcrumb($this->__('Edit Type'), $this->__('Edit Type'))
+        $this->_addBreadcrumb(__('Edit Type'), __('Edit Type'))
             ->_addContent($block)
             ->_addLeft(
                 $this->getLayout()->createBlock('Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs')
@@ -153,7 +153,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
                 $model->loadPost($data);
                 $model->save();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
-                        ->addSuccess($this->__('You saved the gift registry type.'));
+                        ->addSuccess(__('You saved the gift registry type.'));
 
                 if ($redirectBack = $this->getRequest()->getParam('back', false)) {
                     $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
@@ -164,7 +164,7 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__("We couldn't save this gift registry type."));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save this gift registry type."));
                 Mage::logException($e);
             }
         }
@@ -179,14 +179,14 @@ class Magento_GiftRegistry_Controller_Adminhtml_Giftregistry extends Magento_Adm
         try {
             $model = $this->_initType();
             $model->delete();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the gift registry type.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the gift registry type.'));
         }
         catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__("We couldn't delete this gift registry type."));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't delete this gift registry type."));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');

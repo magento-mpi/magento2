@@ -90,7 +90,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploade
         }
 
         throw new Magento_Core_Exception(
-            $this->_helper->__('Element "%s" is not found in "%s".', $checkboxId, $this->getData('name'))
+            __('Element "%1" is not found in "%2".', $checkboxId, $this->getData('name'))
         );
     }
 
@@ -110,7 +110,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploade
             }
         }
         throw new Magento_Core_Exception(
-            $this->_helper->__('Element "%s" is not found in "%s".', $imageUploaderId, $this->getData('name'))
+            __('Element "%1" is not found in "%2".', $imageUploaderId, $this->getData('name'))
         );
     }
 

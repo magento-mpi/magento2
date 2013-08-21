@@ -24,14 +24,8 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
     protected $_imageFactory;
 
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
-     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -39,14 +33,12 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
-        Magento_Core_Helper_Data $helper,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_imageFactory = $imageFactory;
-        $this->_helper = $helper;
     }
 
     /**
@@ -60,7 +52,7 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
         try {
             $this->_imageFactory->create($this->getValue());
         } catch (Exception $e) {
-            $message = $this->_helper->__('The specified image adapter cannot be used because of: ' . $e->getMessage());
+            $message = __('The specified image adapter cannot be used because of: ' . $e->getMessage());
             throw new Magento_Core_Exception($message);
         }
 

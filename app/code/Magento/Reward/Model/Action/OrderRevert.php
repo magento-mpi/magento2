@@ -37,7 +37,7 @@ class Magento_Reward_Model_Action_OrderRevert extends Magento_Reward_Model_Actio
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
 
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Reverted from order #%s', $incrementId);
+        return __('Reverted from order #%1', $incrementId);
     }
 
     /**

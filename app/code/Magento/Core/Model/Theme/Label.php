@@ -26,19 +26,10 @@ class Magento_Core_Model_Theme_Label
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
-     * @param Magento_Core_Helper_Data $helper
      */
-    public function __construct(
-        Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory,
-        Magento_Core_Helper_Data $helper
-    ) {
-        $this->_helper = $helper;
+    public function __construct(Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory)
+    {
         $this->_collectionFactory = $collectionFactory;
     }
 
@@ -70,6 +61,6 @@ class Magento_Core_Model_Theme_Label
      */
     public function getLabelsCollectionForSystemConfiguration()
     {
-        return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
+        return $this->getLabelsCollection(__('-- No Theme --'));
     }
 }

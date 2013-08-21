@@ -44,7 +44,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
                     Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
                     Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
                 ),
-                'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Date Ranges')
+                'label' => __('Date Ranges')
             ),
         ));
     }
@@ -57,8 +57,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'total'   => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Total'),
-            'average' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Average'),
+            'total'   => __('Total'),
+            'average' => __('Average'),
         ));
         return $this;
     }

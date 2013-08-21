@@ -22,7 +22,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Magento_Backend_
         $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->__('Account Information'))
+            'legend' => __('Account Information'))
         );
 
         $user = $this->getApiUser();
@@ -37,8 +37,8 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Magento_Backend_
             'name' => 'company_name',
             'id' => 'company_name',
             'required' => false,
-            'label' => $this->__('Company Name'),
-            'title' => $this->__('Company Name'),
+            'label' => __('Company Name'),
+            'title' => __('Company Name'),
         ));
 
         $fieldset->addField('contact_email', 'text', array(
@@ -46,24 +46,24 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Magento_Backend_
             'id' => 'contact_email',
             'class' => 'validate-email',
             'required' => true,
-            'label' => $this->__('Contact Email'),
-            'title' => $this->__('Contact Email'),
+            'label' => __('Contact Email'),
+            'title' => __('Contact Email'),
         ));
 
         $fieldset->addField('api_key', 'text', array(
             'name' => 'api_key',
             'id' => 'api_key',
             'required' => true,
-            'label' => $this->__('API Key'),
-            'title' => $this->__('API Key'),
+            'label' => __('API Key'),
+            'title' => __('API Key'),
         ));
 
         $fieldset->addField('secret', 'text', array(
             'name' => 'secret',
             'id' => 'secret',
             'required' => true,
-            'label' => $this->__('API Secret'),
-            'title' => $this->__('API Secret'),
+            'label' => __('API Secret'),
+            'title' => __('API Secret'),
         ));
 
         if ($user) {

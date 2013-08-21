@@ -227,7 +227,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     {
         parent::validate();
         if (!$this->getPbridgeResponse('token')) {
-            Mage::throwException(Mage::helper('Magento_Pbridge_Helper_Data')->__("We can't find the Payment Bridge authentication data."));
+            Mage::throwException(__("We can't find the Payment Bridge authentication data."));
         }
         return $this;
     }
@@ -278,7 +278,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
         $this->_importResultToPayment($payment, $apiResponse);
 
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
-            $message = Mage::helper('Magento_Pbridge_Helper_Data')->__('Merchant review is required for further processing.');
+            $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
                   Magento_Sales_Model_Order::STATE_PROCESSING,
                   Magento_Sales_Model_Order::STATUS_FRAUD,
@@ -331,7 +331,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
         $apiResponse = $api->getResponse();
 
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
-            $message = Mage::helper('Magento_Pbridge_Helper_Data')->__('Merchant review is required for further processing.');
+            $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
                   Magento_Sales_Model_Order::STATE_PROCESSING,
                   Magento_Sales_Model_Order::STATUS_FRAUD,
@@ -382,7 +382,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
             return $api->getResponse();
 
         } else {
-            Mage::throwException(Mage::helper('Magento_Pbridge_Helper_Data')->__("We can't issue a refund transaction because the capture transaction does not exist. "));
+            Mage::throwException(__("We can't issue a refund transaction because the capture transaction does not exist. "));
         }
     }
 
@@ -404,7 +404,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
             $this->_getApi()->doVoid($request);
 
         } else {
-            Mage::throwException(Mage::helper('Magento_Pbridge_Helper_Data')->__('You need an authorization transaction to void.'));
+            Mage::throwException(__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
     }
@@ -482,7 +482,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model
     {
         if (!empty($apiResponse['gateway_transaction_id'])) {
             $payment->setPreparedMessage(
-                Mage::helper('Magento_Pbridge_Helper_Data')->__('Original gateway transaction id: #%s.', $apiResponse['gateway_transaction_id'])
+                __('Original gateway transaction id: #%1.', $apiResponse['gateway_transaction_id'])
             );
         }
 

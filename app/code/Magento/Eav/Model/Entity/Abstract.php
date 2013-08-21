@@ -286,7 +286,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     public function getEntityType()
     {
         if (empty($this->_type)) {
-            throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Entity is not initialized'));
+            throw Mage::exception('Magento_Eav', __('Entity is not initialized'));
         }
         return $this->_type;
     }
@@ -335,7 +335,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         }
 
         if (!is_array($attributes)) {
-            throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('Unknown parameter'));
+            throw Mage::exception('Magento_Eav', __('Unknown parameter'));
         }
 
         foreach ($attributes as $attrCode) {

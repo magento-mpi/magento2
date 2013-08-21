@@ -36,11 +36,11 @@ class Magento_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resourc
     public function addSubscribersToQueue(Magento_Newsletter_Model_Queue $queue, array $subscriberIds)
     {
         if (count($subscriberIds)==0) {
-            Mage::throwException(Mage::helper('Magento_Newsletter_Helper_Data')->__('There are no subscribers selected.'));
+            Mage::throwException(__('There are no subscribers selected.'));
         }
 
         if (!$queue->getId() && $queue->getQueueStatus()!=Magento_Newsletter_Model_Queue::STATUS_NEVER) {
-            Mage::throwException(Mage::helper('Magento_Newsletter_Helper_Data')->__('You selected an invalid queue.'));
+            Mage::throwException(__('You selected an invalid queue.'));
         }
 
         $adapter = $this->_getWriteAdapter();

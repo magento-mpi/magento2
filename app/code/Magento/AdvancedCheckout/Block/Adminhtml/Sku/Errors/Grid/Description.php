@@ -40,7 +40,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid_Description exten
             'class'    => $canConfigure ? 'action-configure' : 'action-configure action-disabled',
             'onclick'  => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
             'disabled' => !$canConfigure,
-            'label'    => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Configure'),
+            'label'    => __('Configure'),
             'type'     => 'button',
         )));
 

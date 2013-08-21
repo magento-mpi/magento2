@@ -24,7 +24,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="severity">
                         <arguments>
-                            <header translate="true" module="Magento_AdminNotification">Severity</header>
+                            <header translate="true">Severity</header>
                             <width>60px</width>
                             <index>severity</index>
                             <renderer>Magento_AdminNotification_Block_Grid_Renderer_Severity</renderer>
@@ -32,7 +32,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_added">
                         <arguments>
-                            <header translate="true" module="Magento_AdminNotification">Date Added</header>
+                            <header translate="true">Date Added</header>
                             <id>date_added</id>
                             <index>date_added</index>
                             <width>150px</width>
@@ -41,14 +41,14 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="title">
                         <arguments>
-                            <header translate="true" module="Magento_AdminNotification">Message</header>
+                            <header translate="true">Message</header>
                             <index>title</index>
                             <renderer>Magento_AdminNotification_Block_Grid_Renderer_Notice</renderer>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="actions">
                         <arguments>
-                            <header translate="true" module="Magento_AdminNotification">Actions</header>
+                            <header translate="true">Actions</header>
                             <width>250px</width>
                             <sortable>0</sortable>
                             <renderer>Magento_AdminNotification_Block_Grid_Renderer_Actions</renderer>
@@ -62,13 +62,13 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <mark_as_read>
-                                <label translate="true" module="Magento_AdminNotification">Mark as Read</label>
+                                <label translate="true">Mark as Read</label>
                                 <url>*/*/massMarkAsRead</url>
                             </mark_as_read>
                             <remove>
-                                <label translate="true" module="Magento_AdminNotification">Remove</label>
+                                <label translate="true">Remove</label>
                                 <url>*/*/massRemove</url>
-                                <confirm translate="true" module="Magento_AdminNotification">Are you sure?</confirm>
+                                <confirm translate="true">Are you sure?</confirm>
                             </remove>
                         </options>
                     </arguments>

@@ -316,7 +316,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
+                    __('Failed to add a product to cart by id "%1".', $productId)
                 );
             }
         }
@@ -359,7 +359,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     public function reorderItem(Magento_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Something went wrong reordering this product.'));
+            Mage::throwException(__('Something went wrong reordering this product.'));
         }
 
         $product = Mage::getModel('Magento_Catalog_Model_Product')
@@ -395,7 +395,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             return $item;
 
         } else {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Something went wrong reordering this product.'));
+            Mage::throwException(__('Something went wrong reordering this product.'));
         }
     }
 
@@ -544,7 +544,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(Mage::helper('Magento_Wishlist_Helper_Data')->__("We couldn't find this wish list."));
+                    $this->_addResultError(__("We couldn't find this wish list."));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())
@@ -763,7 +763,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
                 return isset($config['bundle_option']);
             case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
                 return isset($config['super_group']);
-            case Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
+            case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
                 return isset($config['giftcard_amount']);
             case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return isset($config['links']);
@@ -1153,7 +1153,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         }
 
         switch ($product->getTypeId()) {
-            case Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
+            case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
             case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return true;
         }
@@ -1278,7 +1278,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         } catch (Exception $e) {
             $success = false;
             $item['code'] = Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
-            $error = Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('The product cannot be added to cart.');
+            $error = __('The product cannot be added to cart.');
             if ($this->_isFrontend()) {
                 $item['item']['error'] = $error;
             } else {
@@ -1396,14 +1396,14 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         $messages = array();
         if ($addedItemsCount) {
             $message = ($addedItemsCount == 1)
-                    ? Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('You added %s product to your shopping cart.', $addedItemsCount)
-                    : Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('You added %s products to your shopping cart.', $addedItemsCount);
+                    ? __('You added %1 product to your shopping cart.', $addedItemsCount)
+                    : __('You added %1 products to your shopping cart.', $addedItemsCount);
             $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
-                    ? Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('%s product requires your attention.', $failedItemsCount)
-                    : Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('%s products require your attention.', $failedItemsCount);
+                    ? __('%1 product requires your attention.', $failedItemsCount)
+                    : __('%1 products require your attention.', $failedItemsCount);
             $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->error($warning);
         }
         return $messages;

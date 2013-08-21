@@ -32,7 +32,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
         }
         $html .= '</ul>';
         $html .= $this->_getAddRowButtonHtml('merchant_allowed_methods_container',
-            'merchant_allowed_methods_template', $this->__('Add Shipping Method'));
+            'merchant_allowed_methods_template', __('Add Shipping Method'));
 
         return $html;
     }
@@ -47,7 +47,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     {
         $html = '<li>';
         $html .= '<select name="' . $this->getElement()->getName() . '[method][]" ' . $this->_getDisabled() . '>';
-        $html .= '<option value="">' . $this->__('* Select shipping method') . '</option>';
+        $html .= '<option value="">' . __('* Select shipping method') . '</option>';
 
         foreach ($this->getShippingMethods() as $carrierCode => $carrier) {
             $html .= '<optgroup label="' . $this->escapeHtml($carrier['title'])
@@ -64,7 +64,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
         $html .= '</select>';
 
         $html .= '<div style="margin:5px 0 10px;">';
-        $html .= '<label>' . $this->__('Default price:') . '</label> ';
+        $html .= '<label>' . __('Default price:') . '</label> ';
         $html .= '<input class="input-text" style="width:70px;" name="'
             . $this->getElement()->getName() . '[price][]" value="'
             . $this->_getValue('price/' . $rowIndex) . '" ' . $this->_getDisabled() . '/> ';
@@ -141,7 +141,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
             $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('add ' . $this->_getDisabled())
-                    ->setLabel($this->__($title))
+                    ->setLabel(__($title))
                     ->setOnClick("Element.insert($('" . $container . "'), {bottom: $('" . $template . "').innerHTML})")
                     ->setDisabled($this->_getDisabled())
                     ->toHtml();
@@ -155,7 +155,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
             $this->_removeRowButtonHtml = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                     ->setType('button')
                     ->setClass('delete v-middle ' . $this->_getDisabled())
-                    ->setLabel($this->__($title))
+                    ->setLabel(__($title))
                     ->setOnClick("Element.remove($(this).up('" . $selector . "'))")
                     ->setDisabled($this->_getDisabled())
                     ->toHtml();

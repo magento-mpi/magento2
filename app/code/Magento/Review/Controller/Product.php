@@ -175,11 +175,11 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                     }
 
                     $review->aggregate();
-                    $session->addSuccess($this->__('Your review has been accepted for moderation.'));
+                    $session->addSuccess(__('Your review has been accepted for moderation.'));
                 }
                 catch (Exception $e) {
                     $session->setFormData($data);
-                    $session->addError($this->__('We cannot post the review.'));
+                    $session->addError(__('We cannot post the review.'));
                 }
             }
             else {
@@ -190,7 +190,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                     }
                 }
                 else {
-                    $session->addError($this->__('We cannot post the review.'));
+                    $session->addError(__('We cannot post the review.'));
                 }
             }
         }
@@ -225,7 +225,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                     'link'     => $product->getProductUrl(),
                     'readonly' => true,
                 ));
-                $breadcrumbsBlock->addCrumb('reviews', array('label' => Mage::helper('Magento_Review_Helper_Data')->__('Product Reviews')));
+                $breadcrumbsBlock->addCrumb('reviews', array('label' => __('Product Reviews')));
             }
 
             $this->renderLayout();

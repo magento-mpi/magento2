@@ -25,29 +25,29 @@
     <p class="amount">
 
         <?php if($this->getLastPageNum()>1): ?>
-            <?php echo $this->__('Items %s to %s of %s total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php echo __('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
         <?php else: ?>
-            <strong><?php echo $this->__('%s Item(s)', $this->getTotalNum()) ?></strong>
+            <strong><?php echo __('%1 Item(s)', $this->getTotalNum()) ?></strong>
         <?php endif; ?>
     </p>
     <?php endif ?>
 
     <?php if($this->getShowPerPage()): ?>
     <div class="limiter">
-        <label><?php echo $this->__('Show') ?></label>
+        <label><?php echo __('Show') ?></label>
         <select onchange="setLocation(this.value)">
         <?php foreach ($this->getAvailableLimit() as  $_key=>$_limit): ?>
             <option value="<?php echo $this->getLimitUrl($_key) ?>"<?php if($this->isLimitCurrent($_key)): ?> selected="selected"<?php endif ?>>
                 <?php echo $_limit ?>
             </option>
         <?php endforeach; ?>
-        </select> <?php echo $this->__('per page') ?>
+        </select> <?php echo __('per page') ?>
     </div>
     <?php endif ?>
 
     <?php if($this->getLastPageNum()>1): ?>
     <div class="pages">
-        <strong><?php echo $this->__('Page') ?></strong>
+        <strong><?php echo __('Page') ?></strong>
         <select onchange="setLocation(this.value)">
             <?php if ($this->canShowFirst()): ?>
                 <option value="<?php echo $this->getFirstPageUrl() ?>">1</option>
@@ -76,13 +76,13 @@
         </select>
 
         <?php if (!$this->isFirstPage()): ?>
-            <a class="prev-page" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous') ?>"></a>
+            <a class="prev-page" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo __('Previous') ?>"></a>
         <?php else: ?>
             <span class="prev-page disabled">&nbsp;</span>
         <?php endif;?>
 
         <?php if (!$this->isLastPage()): ?>
-                <a class="next-page" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next') ?>">&nbsp;</a>
+                <a class="next-page" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo __('Next') ?>">&nbsp;</a>
         <?php else: ?>
                 <span class="next-page disabled">&nbsp;</span>
         <?php endif;?>

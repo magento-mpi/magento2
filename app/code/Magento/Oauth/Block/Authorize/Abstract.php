@@ -28,27 +28,11 @@
 abstract class Magento_Oauth_Block_Authorize_Abstract extends Magento_Core_Block_Template
 {
     /**
-     * Helper
-     *
-     * @var Magento_Oauth_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Consumer model
      *
      * @var Magento_Oauth_Model_Consumer
      */
     protected $_consumer;
-
-    /**
-     * Constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_helper = Mage::helper('Magento_Oauth_Helper_Data');
-    }
 
     /**
      * Get consumer instance by token value

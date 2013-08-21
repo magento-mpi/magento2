@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_CatalogRule_Helper_Data')->__('Actions');
+        return __('Actions');
     }
 
     /**
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_CatalogRule_Helper_Data')->__('Actions');
+        return __('Actions');
     }
 
     /**
@@ -68,18 +68,18 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('action_fieldset', array(
-                'legend' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Update Prices Using the Following Information')
+                'legend' => __('Update Prices Using the Following Information')
             )
         );
 
         $fieldset->addField('simple_action', 'select', array(
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Apply'),
+            'label'     => __('Apply'),
             'name'      => 'simple_action',
             'options'   => array(
-                'by_percent'    => Mage::helper('Magento_CatalogRule_Helper_Data')->__('By Percentage of the Original Price'),
-                'by_fixed'      => Mage::helper('Magento_CatalogRule_Helper_Data')->__('By Fixed Amount'),
-                'to_percent'    => Mage::helper('Magento_CatalogRule_Helper_Data')->__('To Percentage of the Original Price'),
-                'to_fixed'      => Mage::helper('Magento_CatalogRule_Helper_Data')->__('To Fixed Amount'),
+                'by_percent'    => __('By Percentage of the Original Price'),
+                'by_fixed'      => __('By Fixed Amount'),
+                'to_percent'    => __('To Percentage of the Original Price'),
+                'to_fixed'      => __('To Fixed Amount'),
             ),
         ));
 
@@ -87,28 +87,28 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
             'name'      => 'discount_amount',
             'required'  => true,
             'class'     => 'validate-not-negative-number',
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Discount Amount'),
+            'label'     => __('Discount Amount'),
         ));
 
         $fieldset->addField('sub_is_enable', 'select', array(
             'name'      => 'sub_is_enable',
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Enable Discount to Subproducts'),
-            'title'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Enable Discount to Subproducts'),
+            'label'     => __('Enable Discount to Subproducts'),
+            'title'     => __('Enable Discount to Subproducts'),
             'onchange'  => 'hideShowSubproductOptions(this);',
             'values'    => array(
-                0 => Mage::helper('Magento_CatalogRule_Helper_Data')->__('No'),
-                1 => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Yes')
+                0 => __('No'),
+                1 => __('Yes')
             )
         ));
 
         $fieldset->addField('sub_simple_action', 'select', array(
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Apply'),
+            'label'     => __('Apply'),
             'name'      => 'sub_simple_action',
             'options'   => array(
-                'by_percent'    => Mage::helper('Magento_CatalogRule_Helper_Data')->__('By Percentage of the Original Price'),
-                'by_fixed'      => Mage::helper('Magento_CatalogRule_Helper_Data')->__('By Fixed Amount'),
-                'to_percent'    => Mage::helper('Magento_CatalogRule_Helper_Data')->__('To Percentage of the Original Price'),
-                'to_fixed'      => Mage::helper('Magento_CatalogRule_Helper_Data')->__('To Fixed Amount'),
+                'by_percent'    => __('By Percentage of the Original Price'),
+                'by_fixed'      => __('By Fixed Amount'),
+                'to_percent'    => __('To Percentage of the Original Price'),
+                'to_fixed'      => __('To Fixed Amount'),
             ),
         ));
 
@@ -116,16 +116,16 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
             'name'      => 'sub_discount_amount',
             'required'  => true,
             'class'     => 'validate-not-negative-number',
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Discount Amount'),
+            'label'     => __('Discount Amount'),
         ));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Stop Further Rules Processing'),
-            'title'     => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Stop Further Rules Processing'),
+            'label'     => __('Stop Further Rules Processing'),
+            'title'     => __('Stop Further Rules Processing'),
             'name'      => 'stop_rules_processing',
             'options'   => array(
-                '1' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
         ));
 

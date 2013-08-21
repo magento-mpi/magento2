@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock extends Mage
         $this->setDefaultSort('DESC');
         $this->setUseAjax(true);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(Mage::helper('Magento_Catalog_Helper_Data')->__('There are no customers for this alert.'));
+        $this->setEmptyText(__('There are no customers for this alert.'));
     }
 
     protected function _prepareCollection()
@@ -49,34 +49,34 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock extends Mage
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('First Name'),
+            'header'    => __('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Last Name'),
+            'header'    => __('Last Name'),
             'index'     => 'lastname',
         ));
 
         $this->addColumn('email', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Email'),
+            'header'    => __('Email'),
             'index'     => 'email',
         ));
 
         $this->addColumn('add_date', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Subscribe Date'),
+            'header'    => __('Subscribe Date'),
             'index'     => 'add_date',
             'type'      => 'date'
         ));
 
         $this->addColumn('send_date', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Last Notified'),
+            'header'    => __('Last Notified'),
             'index'     => 'send_date',
             'type'      => 'date'
         ));
 
         $this->addColumn('send_count', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Send Count'),
+            'header'    => __('Send Count'),
             'index'     => 'send_count',
         ));
 

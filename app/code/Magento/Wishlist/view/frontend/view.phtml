@@ -13,7 +13,7 @@
     <div class="my-wishlist">
         <div class="page-title title-buttons">
             <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
-                <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+                <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
             <?php endif; ?>
             <h1><?php echo $this->getTitle(); ?></h1>
         </div>
@@ -27,7 +27,7 @@
                         <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
                         <?php echo $this->getChildHtml('items');?>
                 <?php else: ?>
-                    <p class="wishlist-empty"><?php echo $this->__('You have no items in your wish list.') ?></p>
+                    <p class="wishlist-empty"><?php echo __('You have no items in your wish list.') ?></p>
                 <?php endif ?>
                 <div class="buttons-set buttons-set2">
                     <?php echo $this->getChildHtml('control_buttons');?>
@@ -53,7 +53,7 @@
                     "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>", function() {
                         $('#wishlist-view-form').wishlist({
                             addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
-                            confirmRemoveMessage: '<?php echo $this->__('Are you sure you want to remove this product from your wish list?') ?>',
+                            confirmRemoveMessage: '<?php echo __('Are you sure you want to remove this product from your wish list?') ?>',
                             addAllToCartUrl : '<?php echo $this->getUrl('*/*/allcart', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>',
                             commentString : '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString()?>'
                         });
@@ -64,6 +64,6 @@
     </div>
     <?php echo $this->getChildHtml('bottom'); ?>
     <div class="buttons-set">
-        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
     </div>
 <?php endif ?>

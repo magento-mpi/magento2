@@ -201,7 +201,7 @@ class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment
      */
     public function refund(Magento_Object $payment, $amount)
     {
-        Mage::throwException(Mage::helper('Magento_Payment_Helper_Data')->__('Refund action is not available.'));
+        Mage::throwException(__('Refund action is not available.'));
     }
 
     /**

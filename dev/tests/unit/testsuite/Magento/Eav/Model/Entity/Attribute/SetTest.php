@@ -23,14 +23,8 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
     {
         $resource = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Set', array(), array(), '', false);
 
-        $helper = $this->getMock('Magento_Eav_Helper_Data', array('__'), array(), '', false, false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $arguments = array(
             'resource'  => $resource,
-            'data'      => array('helper' => $helper)
         );
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Eav_Model_Entity_Attribute_Set', $arguments);
@@ -79,7 +73,7 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
     {
         return array(
             array('', 'Attribute set name is empty.'),
-            array('existing_name', 'An attribute set with the "%s" name already exists.')
+            array('existing_name', 'An attribute set with the "existing_name" name already exists.')
         );
     }
 }

@@ -156,10 +156,10 @@ class Magento_Catalog_Model_Layer extends Magento_Object
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($category);
         }
         if (!$category instanceof Magento_Catalog_Model_Category) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('The category must be an instance of Magento_Catalog_Model_Category.'));
+            Mage::throwException(__('The category must be an instance of Magento_Catalog_Model_Category.'));
         }
         if (!$category->getId()) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Please correct the category.'));
+            Mage::throwException(__('Please correct the category.'));
         }
 
         if ($category->getId() != $this->getCurrentCategory()->getId()) {

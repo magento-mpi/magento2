@@ -14,8 +14,6 @@
  * @method Magento_Webhook_Model_Endpoint setEndpointUrl(string $value)
  * @method string getUpdatedAt()
  * @method Magento_Webhook_Model_Endpoint setUpdatedAt(string $value)
- * @method string getAlias()
- * @method Magento_Webhook_Model_Endpoint setAlias(string $value)
  * @method Magento_Webhook_Model_Endpoint setFormat(string $value)
  * @method string getApiUserId()
  * @method Magento_Webhook_Model_Endpoint setApiUserId(string $value)
@@ -119,7 +117,7 @@ class Magento_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract impleme
         if ($this->getApiUserId() === null) {
             return null;
         }
-        return $this->_userFactory->create(array('webapiUserId' => $this->getApiUserId()));
+        return $this->_userFactory->create($this->getApiUserId());
     }
 
     /**

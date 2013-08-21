@@ -159,7 +159,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('select', array(
-            'header'   => Mage::helper('Magento_Rma_Helper_Data')->__('Select'),
+            'header'   => __('Select'),
             'type'     => 'checkbox',
             'align'    => 'center',
             'sortable' => false,
@@ -171,7 +171,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('product_name', array(
-            'header'   => Mage::helper('Magento_Rma_Helper_Data')->__('Product'),
+            'header'   => __('Product'),
             'renderer' => 'Magento_Rma_Block_Adminhtml_Product_Bundle_Product',
             'index'    => 'name',
             'escape'   => true,
@@ -180,7 +180,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('Magento_Rma_Helper_Data')->__('SKU'),
+            'header' => __('SKU'),
             'type'   => 'text',
             'index'  => 'sku',
             'escape' => true,
@@ -189,7 +189,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('price', array(
-            'header'=> Mage::helper('Magento_Rma_Helper_Data')->__('Price'),
+            'header'=> __('Price'),
             'type'  => 'currency',
             'index' => 'price',
             'header_css_class'  => 'col-price',
@@ -197,7 +197,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('available_qty', array(
-            'header'=> Mage::helper('Magento_Rma_Helper_Data')->__('Remaining'),
+            'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
             'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',

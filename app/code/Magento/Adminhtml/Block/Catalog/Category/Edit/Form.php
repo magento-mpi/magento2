@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         // Save button
         if (!$category->isReadonly()) {
             $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Save Category'),
+                'label'     => __('Save Category'),
                 'onclick'   => "categorySubmit('" . $this->getSaveUrl() . "', true)",
                 'class' => 'save'
             ));
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         // Delete button
         if (!in_array($categoryId, $this->getRootIds()) && $category->isDeleteable()) {
             $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete Category'),
+                'label'     => __('Delete Category'),
                 'onclick'   => "categoryDelete('" . $this->getUrl('*/*/delete', array('_current' => true)) . "', true, {$categoryId})",
                 'class' => 'delete'
             ));
@@ -64,7 +64,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         if (!$category->isReadonly()) {
             $resetPath = $categoryId ? '*/*/edit' : '*/*/add';
             $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Reset'),
+                'label'     => __('Reset'),
                 'onclick'   => "categoryReset('".$this->getUrl($resetPath, array('_current'=>true))."',true)"
             ));
         }
@@ -167,13 +167,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
             } else {
                 $parentId = (int) $this->getRequest()->getParam('parent');
                 if ($parentId && ($parentId != Magento_Catalog_Model_Category::TREE_ROOT_ID)) {
-                    return Mage::helper('Magento_Catalog_Helper_Data')->__('New Subcategory');
+                    return __('New Subcategory');
                 } else {
-                    return Mage::helper('Magento_Catalog_Helper_Data')->__('New Root Category');
+                    return __('New Root Category');
                 }
             }
         }
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Set Root Category for Store');
+        return __('Set Root Category for Store');
     }
 
     public function getDeleteUrl(array $args = array())

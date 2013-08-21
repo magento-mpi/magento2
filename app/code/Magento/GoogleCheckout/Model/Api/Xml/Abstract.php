@@ -36,14 +36,6 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
         return $this;
     }
 
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), 'Magento_GoogleCheckout');
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
-    }
-
     public function getMerchantId()
     {
         if (!$this->hasData('merchant_id')) {
@@ -124,7 +116,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
         $merchantId = $this->getMerchantId();
         $merchantKey = $this->getMerchantKey();
         if (empty($merchantId) || empty($merchantKey)) {
-            Mage::throwException(Mage::helper('Magento_GoogleCheckout_Helper_Data')->__('GoogleCheckout is not configured'));
+            Mage::throwException(__('GoogleCheckout is not configured'));
         }
         if (!$this->hasData('g_response')) {
             $this->setData('g_response', new GoogleResponse(
@@ -194,7 +186,7 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
             );
         }
         if ($result->getName() == 'error') {
-            $this->setError($this->__('Google Checkout: %s', (string)$result->{'error-message'}));
+            $this->setError(__('Google Checkout: %1', (string)$result->{'error-message'}));
             $this->setWarnings((array)$result->{'warning-messages'});
         } else {
             $this->unsError()->unsWarnings();

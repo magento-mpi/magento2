@@ -16,10 +16,10 @@
                 <resource id="Magento_Catalog::catalog">
                     <resource id="Magento_Catalog::catalog_inventory">
                         <resource id="Magento_Catalog::products">
-                            <resource id="Magento_PricePermissions::read_product_price" module="Magento_PricePermissions" title="Read Product Price">
-                                <resource id="Magento_PricePermissions::edit_product_price" module="Magento_PricePermissions" title="Edit Product Price" />
+                            <resource id="Magento_PricePermissions::read_product_price" title="Read Product Price">
+                                <resource id="Magento_PricePermissions::edit_product_price" title="Edit Product Price" />
                             </resource>
-                            <resource id="Magento_PricePermissions::edit_product_status" module="Magento_PricePermissions" title="Edit Product Status" />
+                            <resource id="Magento_PricePermissions::edit_product_status" title="Edit Product Status" />
                         </resource>
                     </resource>
                 </resource>

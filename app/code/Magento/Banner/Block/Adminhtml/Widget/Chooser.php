@@ -250,7 +250,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
         ));
 
         $this->addColumn('position', array(
-            'header'         => Mage::helper('Magento_Banner_Helper_Data')->__('Position'),
+            'header'         => __('Position'),
             'name'           => 'position',
             'type'           => 'number',
             'validate_class' => 'validate-number',

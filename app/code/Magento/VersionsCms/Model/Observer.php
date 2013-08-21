@@ -68,8 +68,8 @@ class Magento_VersionsCms_Model_Observer
         if ($page) {
 
             $baseFieldset->addField('under_version_control', 'select', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Under Version Control'),
-                'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Under Version Control'),
+                'label'     => __('Under Version Control'),
+                'title'     => __('Under Version Control'),
                 'name'      => 'under_version_control',
                 'values'    => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray()
             ));
@@ -87,10 +87,10 @@ class Magento_VersionsCms_Model_Observer
                     $versionLabel = $revision->getLabel();
 
                     $page->setPublishedRevisionLink(
-                        Mage::helper('Magento_VersionsCms_Helper_Data')->__('%s; rev #%s', $versionLabel, $revisionNumber));
+                        __('%1; rev #%2', $versionLabel, $revisionNumber));
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
-                            'label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Currently Published Revision'),
+                            'label' => __('Currently Published Revision'),
                             'href' => Mage::getSingleton('Magento_Backend_Model_Url')
                                 ->getUrl('*/cms_page_revision/edit', array(
                                     'page_id' => $page->getId(),
@@ -114,7 +114,7 @@ class Magento_VersionsCms_Model_Observer
          */
         if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
             $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
-            $page->setPublishedRevisionStatus(Mage::helper('Magento_VersionsCms_Helper_Data')->__('The published revision is unavailable.'));
+            $page->setPublishedRevisionStatus(__('The published revision is unavailable.'));
         }
 
         return $this;
@@ -436,7 +436,7 @@ class Magento_VersionsCms_Model_Observer
     public function modifyPageStatuses(Magento_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Magento_Cms_Model_Page::STATUS_ENABLED, Mage::helper('Magento_VersionsCms_Helper_Data')->__('Published'));
+        $statuses->setData(Magento_Cms_Model_Page::STATUS_ENABLED, __('Published'));
 
         return $this;
     }
@@ -464,20 +464,20 @@ class Magento_VersionsCms_Model_Observer
      * Handler for cms hierarchy view
      *
      * @param Magento_Simplexml_Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event|false
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::helper('Magento_VersionsCms_Helper_Data')->__('Tree Viewed'));
+        return $eventModel->setInfo(__('Tree Viewed'));
     }
 
     /**
      * Handler for cms revision preview
      *
      * @param Magento_Simplexml_Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event|false
      */
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
@@ -488,8 +488,8 @@ class Magento_VersionsCms_Model_Observer
      * Handler for cms revision publish
      *
      * @param Magento_Simplexml_Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|false
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event|false
      */
     public function postDispatchCmsRevisionPublish($config, $eventModel)
     {

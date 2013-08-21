@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
         } catch (Exception $e) {
             $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Magento_Tax_Helper_Data') ->__('Something went wrong saving this tax class.'),
+                'error_message' => __('Something went wrong saving this tax class.'),
                 'class_id' => '',
                 'class_name' => ''
             ));
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
         } catch (Exception $e) {
             $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Magento_Tax_Helper_Data')->__('Something went wrong deleting this tax class.')
+                'error_message' => __('Something went wrong deleting this tax class.')
             ));
         }
         $this->getResponse()->setBody($responseContent);
@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
             Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
         );
         if (!in_array($classType, $validClassTypes)) {
-            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data') ->__('Invalid type of tax class specified.'));
+            Mage::throwException(__('Invalid type of tax class specified.'));
         }
         return $classType;
     }
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
     {
         $className = trim(Mage::helper('Magento_Tax_Helper_Data')->escapeHtml($className));
         if ($className == '') {
-            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data') ->__('Invalid name of tax class specified.'));
+            Mage::throwException(__('Invalid name of tax class specified.'));
         }
         return $className;
     }

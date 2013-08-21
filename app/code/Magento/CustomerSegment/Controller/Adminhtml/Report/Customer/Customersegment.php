@@ -35,12 +35,12 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         $this->loadLayout()
             ->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
             ->_addBreadcrumb(
-                Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Reports'),
-                Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Customers'),
-                Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Customers')
+                __('Customers'),
+                __('Customers')
             );
         return $this;
     }
@@ -75,7 +75,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    $this->__('You requested the wrong customer segment.')
+                    __('You requested the wrong customer segment.')
                 );
             }
             return false;
@@ -109,7 +109,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      */
     public function segmentAction()
     {
-        $this->_title($this->__('Customer Segment Report'));
+        $this->_title(__('Customer Segment Report'));
 
         $this->_initAction()
             ->_addContent(
@@ -124,7 +124,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      */
     public function detailAction()
     {
-        $this->_title($this->__('Customer Segment Report'));
+        $this->_title(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
 
@@ -140,18 +140,18 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                 foreach ($collection as $item) {
                     $segments[] = $item->getName();
                 }
-                /* @translation $this->__('Viewing combined "%s" report from segments: %s') */
+                /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
                     $viewModeLabel = Mage::helper('Magento_CustomerSegment_Helper_Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()
                     );
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
-                        $this->__('Viewing combined "%s" report from segments: %s.', $viewModeLabel, implode(', ', $segments))
+                        __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
             }
 
-            $this->_title($this->__('Details'));
+            $this->_title(__('Details'));
 
             $this->_initAction()->renderLayout();
         } else {
@@ -172,7 +172,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                     $segment->matchCustomers();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('Customer Segment data has been refreshed.')
+                    __('Customer Segment data has been refreshed.')
                 );
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;

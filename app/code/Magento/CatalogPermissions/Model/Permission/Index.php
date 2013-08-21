@@ -221,7 +221,7 @@ class Magento_CatalogPermissions_Model_Permission_Index extends Magento_Index_Mo
      */
     public function getName()
     {
-        return Mage::helper('Magento_CatalogPermissions_Helper_Data')->__('Catalog Permissions');
+        return __('Catalog Permissions');
     }
 
     /**

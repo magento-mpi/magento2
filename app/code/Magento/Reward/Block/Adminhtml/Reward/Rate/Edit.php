@@ -38,9 +38,9 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit extends Magento_Adminhtml_
     public function getHeaderText()
     {
         if (Mage::registry('current_reward_rate')->getId()) {
-            return Mage::helper('Magento_Reward_Helper_Data')->__('Edit Reward Exchange Rate');
+            return __('Edit Reward Exchange Rate');
         } else {
-            return Mage::helper('Magento_Reward_Helper_Data')->__('New Reward Exchange Rate');
+            return __('New Reward Exchange Rate');
         }
     }
 

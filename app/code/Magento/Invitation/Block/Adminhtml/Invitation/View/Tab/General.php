@@ -26,7 +26,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Invitation_Helper_Data')->__('General');
+        return __('General');
     }
 
     /**
@@ -183,9 +183,9 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
             return $group->getCustomerGroupCode();
         } else {
             if ($configUsed) {
-                return $this->helper('Magento_Invitation_Helper_Data')->__('Default from System Configuration');
+                return __('Default from System Configuration');
             } else {
-                return $this->helper('Magento_Invitation_Helper_Data')->__('N/A');
+                return __('N/A');
             }
         }
     }

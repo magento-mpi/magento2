@@ -11,10 +11,10 @@
 -->
 <logging>
     <actions>
-        <massAdd translate="label" module="Magento_SalesArchive">
+        <massAdd translate="label">
             <label>Mass Add</label>
         </massAdd>
-        <add translate="label" module="Magento_SalesArchive">
+        <add translate="label">
             <label>Add</label>
         </add>
     </actions>

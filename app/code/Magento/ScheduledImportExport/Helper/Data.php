@@ -30,16 +30,16 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         switch ($type) {
             case 'import':
                 if ($action == 'edit') {
-                    $title = $this->__('Scheduled Import');
+                    $title = __('Scheduled Import');
                 } else {
-                    $title = $this->__('New Scheduled Import');
+                    $title = __('New Scheduled Import');
                 }
                 break;
             case 'export':
                 if ($action == 'edit') {
-                    $title = $this->__('Scheduled Export');
+                    $title = __('Scheduled Export');
                 } else {
-                    $title = $this->__('New Scheduled Export');
+                    $title = __('New Scheduled Export');
                 }
                 break;
         }
@@ -58,10 +58,10 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         $message = '';
         switch ($type) {
             case 'import':
-                $message = $this->__('We saved the scheduled import.');
+                $message = __('We saved the scheduled import.');
                 break;
             case 'export':
-                $message = $this->__('We saved the scheduled report.');
+                $message = __('We saved the scheduled report.');
                 break;
         }
 
@@ -79,10 +79,10 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         $message = '';
         switch ($type) {
             case 'import':
-                $message = $this->__('We deleted the scheduled import.');
+                $message = __('We deleted the scheduled import.');
                 break;
             case 'export':
-                $message = $this->__('We deleted the scheduled export.');
+                $message = __('We deleted the scheduled export.');
                 break;
         }
 
@@ -100,10 +100,10 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         $message = '';
         switch ($type) {
             case 'import':
-                $message = $this->__('Are you sure you want to delete this scheduled import?');
+                $message = __('Are you sure you want to delete this scheduled import?');
                 break;
             case 'export':
-                $message = $this->__('Are you sure you want to delete this scheduled export?');
+                $message = __('Are you sure you want to delete this scheduled export?');
                 break;
         }
 
@@ -132,9 +132,9 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      */
     public function isRewardPointsEnabled()
     {
-        if ($this->isModuleEnabled('Magento_Reward')) {
-            /** @var $rewardPointsHelper Magento_Reward_Helper_Data */
-            $rewardPointsHelper = Mage::helper('Magento_Reward_Helper_Data');
+        if ($this->isModuleEnabled('Enterprise_Reward')) {
+            /** @var $rewardPointsHelper Enterprise_Reward_Helper_Data */
+            $rewardPointsHelper = Mage::helper('Enterprise_Reward_Helper_Data');
             return $rewardPointsHelper->isEnabled();
         }
         return false;
@@ -147,9 +147,9 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      */
     public function isCustomerBalanceEnabled()
     {
-        if ($this->isModuleEnabled('Magento_CustomerBalance')) {
-            /** @var $customerBalanceHelper Magento_CustomerBalance_Helper_Data */
-            $customerBalanceHelper = Mage::helper('Magento_CustomerBalance_Helper_Data');
+        if ($this->isModuleEnabled('Magento_CustomerCustomAttributesBalance')) {
+            /** @var $customerBalanceHelper Magento_CustomerCustomAttributesBalance_Helper_Data */
+            $customerBalanceHelper = Mage::helper('Magento_CustomerCustomAttributesBalance_Helper_Data');
             return $customerBalanceHelper->isEnabled();
         }
         return false;

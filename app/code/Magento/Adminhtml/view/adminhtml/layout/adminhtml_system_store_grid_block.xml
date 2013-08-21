@@ -22,7 +22,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="website_title">
                         <arguments>
-                            <header translate="true" module="Magento_Core">Web Site</header>
+                            <header translate="true">Web Site</header>
                             <align>left</align>
                             <index>name</index>
                             <filter_index>main_table.name</filter_index>
@@ -31,7 +31,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="group_title">
                         <arguments>
-                            <header translate="true" module="Magento_Core">Store</header>
+                            <header translate="true">Store</header>
                             <align>left</align>
                             <index>group_title</index>
                             <filter_index>group_table.name</filter_index>
@@ -40,7 +40,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="store_title">
                         <arguments>
-                            <header translate="true" module="Magento_Core">Store View</header>
+                            <header translate="true">Store View</header>
                             <align>left</align>
                             <index>store_title</index>
                             <filter_index>store_table.name</filter_index>

@@ -118,7 +118,7 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
 
             if ($setError) {
                 $this->_getInstaller()->getDataModel()->addError(
-                    Mage::helper('Magento_Install_Helper_Data')->__('Path "%s" must be writable.', $pathToCheck)
+                    __('Path "%1" must be writable.', $pathToCheck)
                 );
                 $result = false;
             }

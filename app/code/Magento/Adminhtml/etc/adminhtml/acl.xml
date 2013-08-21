@@ -13,28 +13,28 @@
     <acl>
         <resources>
             <resource id="Magento_Adminhtml::all" title="Allow everything" sortOrder="10" />
-            <resource id="Magento_Adminhtml::admin" module="Magento_Adminhtml" title="Magento Admin" sortOrder="20">
+            <resource id="Magento_Adminhtml::admin" title="Magento Admin" sortOrder="20">
                 <resource id="Magento_Adminhtml::dashboard" title="Dashboard" sortOrder="0" />
                 <resource id="Magento_Adminhtml::global_search" title="Global Search" sortOrder="100" />
                 <resource id="Magento_Adminhtml::myaccount" title="My Account" sortOrder="50" />
-                <resource id="Magento_Adminhtml::marketing" module="Magento_Adminhtml" title="Marketing" sortOrder="50">
-                    <resource id="Magento_Adminhtml::marketing_communications" module="Magento_Adminhtml" title="Communications" sortOrder="30">
-                        <resource id="Magento_Adminhtml::email_template" module="Magento_Adminhtml" title="Email Templates" sortOrder="10" />
+                <resource id="Magento_Adminhtml::marketing" title="Marketing" sortOrder="50">
+                    <resource id="Magento_Adminhtml::marketing_communications" title="Communications" sortOrder="30">
+                        <resource id="Magento_Adminhtml::email_template" title="Email Templates" sortOrder="10" />
                     </resource>
-                    <resource id="Magento_Adminhtml::marketing_seo" title="SEO &amp; Search" module="Magento_Adminhtml" sortOrder="40" />
-                    <resource id="Magento_Adminhtml::marketing_user_content" title="User Content" module="Magento_Adminhtml" sortOrder="50" />
+                    <resource id="Magento_Adminhtml::marketing_seo" title="SEO &amp; Search" sortOrder="40" />
+                    <resource id="Magento_Adminhtml::marketing_user_content" title="User Content" sortOrder="50" />
                 </resource>
-                <resource id="Magento_Adminhtml::content" module="Magento_Adminhtml" title="Content" sortOrder="60">
-                    <resource id="Magento_Adminhtml::content_elements" module="Magento_Adminhtml" title="Elements" sortOrder="10" />
-                    <resource id="Magento_Adminhtml::design"  module="Magento_Adminhtml" title="Design" sortOrder="20">
-                        <resource id="Magento_Adminhtml::schedule" module="Magento_Adminhtml" title="Schedule" sortOrder="30" />
+                <resource id="Magento_Adminhtml::content" title="Content" sortOrder="60">
+                    <resource id="Magento_Adminhtml::content_elements" title="Elements" sortOrder="10" />
+                    <resource id="Magento_Adminhtml::design"  title="Design" sortOrder="20">
+                        <resource id="Magento_Adminhtml::schedule" title="Schedule" sortOrder="30" />
                     </resource>
                 </resource>
-                <resource id="Magento_Adminhtml::stores" module="Magento_Adminhtml" title="Stores" sortOrder="80">
-                    <resource id="Magento_Adminhtml::stores_settings" title="Settings" module="Magento_Adminhtml" sortOrder="10">
-                        <resource id="Magento_Adminhtml::store" title="All Stores" module="Magento_Adminhtml" sortOrder="10"/>
-                        <resource id="Magento_Adminhtml::config" title="Configuration" module="Magento_Adminhtml" sortOrder="20">
-                            <resource id="Magento_Adminhtml::advanced" module="Magento_Adminhtml" title="Advanced Section" sortOrder="90" />
+                <resource id="Magento_Adminhtml::stores" title="Stores" sortOrder="80">
+                    <resource id="Magento_Adminhtml::stores_settings" title="Settings" sortOrder="10">
+                        <resource id="Magento_Adminhtml::store" title="All Stores" sortOrder="10"/>
+                        <resource id="Magento_Adminhtml::config" title="Configuration" sortOrder="20">
+                            <resource id="Magento_Adminhtml::advanced" title="Advanced Section" sortOrder="90" />
                             <resource id="Magento_Adminhtml::config_admin" title="Advanced Admin Section" sortOrder="100" />
                             <resource id="Magento_Adminhtml::config_design" title="Design Section" sortOrder="40" />
                             <resource id="Magento_Adminhtml::config_general" title="General Section" sortOrder="20" />
@@ -46,20 +46,20 @@
                             <resource id="Magento_Adminhtml::sendfriend" title="Email to a Friend" sortOrder="140" />
                         </resource>
                     </resource>
-                    <resource id="Magento_Adminhtml::stores_attributes" module="Magento_Adminhtml" title="Attributes" sortOrder="40" />
-                    <resource id="Magento_Adminhtml::stores_other_settings" module="Magento_Adminhtml" title="Other Settings" sortOrder="50" />
+                    <resource id="Magento_Adminhtml::stores_attributes" title="Attributes" sortOrder="40" />
+                    <resource id="Magento_Adminhtml::stores_other_settings" title="Other Settings" sortOrder="50" />
                 </resource>
-                <resource id="Magento_Adminhtml::system" title="System" module="Magento_Adminhtml" sortOrder="90">
-                    <resource id="Magento_Adminhtml::convert" module="Magento_Adminhtml" title="Data Transfer" sortOrder="10" />
-                    <resource id="Magento_Adminhtml::extensions" title="Magento Connect" module="Magento_Adminhtml" sortOrder="20">
-                        <resource id="Magento_Adminhtml::local" module="Magento_Adminhtml" title="Connect Manager" sortOrder="10" />
-                        <resource id="Magento_Adminhtml::custom" module="Magento_Adminhtml" title="Package Extensions" sortOrder="20" />
+                <resource id="Magento_Adminhtml::system" title="System" sortOrder="90">
+                    <resource id="Magento_Adminhtml::convert" title="Data Transfer" sortOrder="10" />
+                    <resource id="Magento_Adminhtml::extensions" title="Magento Connect" sortOrder="20">
+                        <resource id="Magento_Adminhtml::local" title="Connect Manager" sortOrder="10" />
+                        <resource id="Magento_Adminhtml::custom" title="Package Extensions" sortOrder="20" />
                     </resource>
-                    <resource id="Magento_Adminhtml::tools" module="Magento_Adminhtml" title="Tools" sortOrder="50">
-                        <resource id="Magento_Adminhtml::cache" title="Cache Management"  module="Magento_Adminhtml" sortOrder="10" />
+                    <resource id="Magento_Adminhtml::tools" title="Tools" sortOrder="50">
+                        <resource id="Magento_Adminhtml::cache" title="Cache Management"  sortOrder="10" />
                     </resource>
-                    <resource id="Magento_Adminhtml::system_other_settings" title="Other Settings"  module="Magento_Adminhtml" sortOrder="80">
-                        <resource id="Magento_Adminhtml::variable" title="Custom Variables"  module="Magento_Adminhtml" sortOrder="20" />
+                    <resource id="Magento_Adminhtml::system_other_settings" title="Other Settings"  sortOrder="80">
+                        <resource id="Magento_Adminhtml::variable" title="Custom Variables"  sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

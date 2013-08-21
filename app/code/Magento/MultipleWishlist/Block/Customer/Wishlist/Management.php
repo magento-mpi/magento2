@@ -110,9 +110,9 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     {
         $count = Mage::helper('Magento_MultipleWishlist_Helper_Data')->getWishlistItemCount($wishlist);
         if ($count == 1) {
-            return Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('1 item');
+            return __('1 item');
         } else {
-            return Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('%d items', $count);
+            return __('%1 items', $count);
         }
     }
 

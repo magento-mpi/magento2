@@ -65,23 +65,23 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if ($amount) {
-            $amount = $this->__('amount %s', $this->_formatPrice($payment, $amount));
+            $amount = __('amount %1', $this->_formatPrice($payment, $amount));
         }
 
         if ($exception) {
-            $result = $this->__('failed');
+            $result = __('failed');
         } else {
-            $result = $this->__('successful');
+            $result = __('successful');
         }
 
-        $card = $this->__('Credit Card: xxxx-%s', $card->getCcLast4());
+        $card = __('Credit Card: xxxx-%1', $card->getCcLast4());
 
         $pattern = '%s %s %s - %s.';
         $texts = array($card, $amount, $operation, $result);
 
         if (!is_null($lastTransactionId)) {
             $pattern .= ' %s.';
-            $texts[] = $this->__('Authorize.Net Transaction ID %s', $lastTransactionId);
+            $texts[] = __('Authorize.Net Transaction ID %1', $lastTransactionId);
         }
 
         if ($additionalMessage) {
@@ -91,7 +91,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
         $pattern .= ' %s';
         $texts[] = $exception;
 
-        return call_user_func_array(array($this, '__'), array_merge(array($pattern), $texts));
+        return call_user_func_array('__', array_merge(array($pattern), $texts));
     }
 
     /**
@@ -104,15 +104,15 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
     {
         switch ($requestType) {
             case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_ONLY:
-                return $this->__('authorize');
+                return __('authorize');
             case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_CAPTURE:
-                return $this->__('authorize and capture');
+                return __('authorize and capture');
             case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
-                return $this->__('capture');
+                return __('capture');
             case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_CREDIT:
-                return $this->__('refund');
+                return __('refund');
             case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_VOID:
-                return $this->__('void');
+                return __('void');
             default:
                 return false;
         }

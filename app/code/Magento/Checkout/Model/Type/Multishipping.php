@@ -206,7 +206,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
 
             $maxQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
             if ($allQty > $maxQty) {
-                Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Maximum qty allowed for Shipping to multiple addresses is %s', $maxQty));
+                Mage::throwException(__('Maximum qty allowed for Shipping to multiple addresses is %1', $maxQty));
             }
             $quote = $this->getQuote();
             $addresses  = $quote->getAllShippingAddresses();
@@ -357,7 +357,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
             if (isset($methods[$address->getId()])) {
                 $address->setShippingMethod($methods[$address->getId()]);
             } elseif (!$address->getShippingMethod()) {
-                Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Please select shipping methods for all addresses.'));
+                Mage::throwException(__('Please select shipping methods for all addresses.'));
             }
         }
         $this->save();
@@ -373,7 +373,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     public function setPaymentMethod($payment)
     {
         if (!isset($payment['method'])) {
-            Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Payment method is not defined'));
+            Mage::throwException(__('Payment method is not defined'));
         }
         $quote = $this->getQuote();
         $quote->getPayment()->importData($payment);
@@ -421,7 +421,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
         foreach ($address->getAllItems() as $item) {
             $_quoteItem = $item->getQuoteItem();
             if (!$_quoteItem) {
-                throw new Magento_Checkout_Exception(Mage::helper('Magento_Checkout_Helper_Data')->__('Item not found or already ordered'));
+                throw new Magento_Checkout_Exception(__('Item not found or already ordered'));
             }
             $item->setProductType($_quoteItem->getProductType())
                 ->setProductOptions(
@@ -446,30 +446,30 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     {
         $quote = $this->getQuote();
         if (!$quote->getIsMultiShipping()) {
-            Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Invalid checkout type'));
+            Mage::throwException(__('Invalid checkout type'));
         }
 
         /** @var $paymentMethod Magento_Payment_Model_Method_Abstract */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
         if (!empty($paymentMethod) && !$paymentMethod->isAvailable($quote)) {
-            Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Please specify a payment method.'));
+            Mage::throwException(__('Please specify a payment method.'));
         }
 
         $addresses = $quote->getAllShippingAddresses();
         foreach ($addresses as $address) {
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Please check shipping addresses information.'));
+                Mage::throwException(__('Please check shipping addresses information.'));
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$method || !$rate) {
-                Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Please specify shipping methods for all addresses.'));
+                Mage::throwException(__('Please specify shipping methods for all addresses.'));
             }
         }
         $addressValidation = $quote->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Please check billing address information.'));
+            Mage::throwException(__('Please check billing address information.'));
         }
         return $this;
     }

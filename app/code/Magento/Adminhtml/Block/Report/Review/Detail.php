@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Report_Review_Detail extends Magento_Adminhtml_Blo
         $this->_controller = 'report_review_detail';
 
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getRequest()->getParam('id'));
-        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Reviews for %s', $product->getName());
+        $this->_headerText = __('Reviews for %1', $product->getName());
 
         parent::_construct();
         $this->_removeButton('add');

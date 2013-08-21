@@ -19,11 +19,11 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
 {
     public function indexAction()
     {
-        $this->_title($this->__('Dashboard'));
+        $this->_title(__('Dashboard'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::dashboard');
-        $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Dashboard'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Dashboard'));
+        $this->_addBreadcrumb(__('Dashboard'), __('Dashboard'));
         $this->renderLayout();
     }
 
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
      */
     public function tunnelAction()
     {
-        $error = $this->__('invalid request');
+        $error = __('invalid request');
         $httpCode = 400;
         $gaData = $this->_request->getParam('ga');
         $gaHash = $this->_request->getParam('h');
@@ -103,13 +103,13 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
                         return;
                     } catch (Exception $e) {
                         $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                        $error = $this->__('see error log for details');
+                        $error = __('see error log for details');
                         $httpCode = 503;
                     }
                 }
             }
         }
-        $this->_response->setBody($this->__('Service unavailable: %s', $error))
+        $this->_response->setBody(__('Service unavailable: %1', $error))
             ->setHeader('Content-Type', 'text/plain; charset=UTF-8')
             ->setHttpResponseCode($httpCode);
     }

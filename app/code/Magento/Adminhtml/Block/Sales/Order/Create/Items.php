@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items extends Magento_Adminhtml
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Items Ordered');
+        return __('Items Ordered');
     }
 
     /**

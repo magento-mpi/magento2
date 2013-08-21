@@ -31,7 +31,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
-                            <header translate="true" module="Magento_Catalog">ID</header>
+                            <header translate="true">ID</header>
                             <type>skip-list</type>
                             <renderer>Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox</renderer>
                             <index>entity_id</index>
@@ -39,7 +39,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Magento_Catalog">Name</header>
+                            <header translate="true">Name</header>
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
@@ -48,7 +48,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
-                            <header translate="true" module="Magento_Catalog">SKU</header>
+                            <header translate="true">SKU</header>
                             <type>text</type>
                             <index>sku</index>
                             <escape>1</escape>
@@ -56,7 +56,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate="true" module="Magento_Catalog">Price</header>
+                            <header translate="true">Price</header>
                             <type>currency</type>
                             <index>price</index>
                         </arguments>

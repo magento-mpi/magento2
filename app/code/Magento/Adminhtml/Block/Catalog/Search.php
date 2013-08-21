@@ -22,8 +22,8 @@ class Magento_Adminhtml_Block_Catalog_Search extends Magento_Adminhtml_Block_Wid
     protected function _construct()
     {
         $this->_controller = 'catalog_search';
-        $this->_headerText = Mage::helper('Magento_Catalog_Helper_Data')->__('Search');
-        $this->_addButtonLabel = Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Search Term');
+        $this->_headerText = __('Search');
+        $this->_addButtonLabel = __('Add New Search Term');
         parent::_construct();
 
     }

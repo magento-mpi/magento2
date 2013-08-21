@@ -79,7 +79,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Magento_Reminder_Helper_Data')->__('Product Attributes')
+            'label' => __('Product Attributes')
         );
     }
 
@@ -90,7 +90,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Magento_Reminder_Helper_Data')->__('Product %s', strtolower(parent::asHtml()));
+        return __('Product %1', strtolower(parent::asHtml()));
     }
 
     /**

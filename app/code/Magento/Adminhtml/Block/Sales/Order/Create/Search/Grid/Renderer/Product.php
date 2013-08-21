@@ -30,6 +30,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product ex
         $style          = $isConfigurable ? '' : 'disabled';
         $prodAttributes = $isConfigurable ? sprintf('list_type = "product_to_add" product_id = %s', $row->getId()) : 'disabled="disabled"';
         return sprintf('<a href="javascript:void(0)" class="action-configure %s" %s>%s</a>',
-            $style, $prodAttributes, Mage::helper('Magento_Sales_Helper_Data')->__('Configure')) . $rendered;
+            $style, $prodAttributes, __('Configure')) . $rendered;
     }
 }

@@ -40,13 +40,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
      */
     public function getVersion()
     {
-        $version = '';
         if ($this->_page->getLabel()) {
             $version = $this->_page->getLabel();
         } else {
             $version = $this->_page->getVersionId();
         }
-        return $version ? $version : Mage::helper('Magento_VersionsCms_Helper_Data')->__('N/A');
+        return $version ? $version : __('N/A');
     }
 
     /**
@@ -57,7 +56,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     public function getVersionNumber()
     {
         return $this->_page->getVersionNumber() ? $this->_page->getVersionNumber()
-            : Mage::helper('Magento_VersionsCms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -68,7 +67,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     public function getVersionLabel()
     {
         return $this->_page->getLabel() ? $this->_page->getLabel()
-            : Mage::helper('Magento_VersionsCms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -79,7 +78,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     public function getRevisionId()
     {
         return $this->_page->getRevisionId() ? $this->_page->getRevisionId()
-            : Mage::helper('Magento_VersionsCms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -110,7 +109,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
         if ($user->getId()) {
             return $user->getUsername();
         }
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('N/A');
+        return __('N/A');
     }
 
     /**
@@ -127,7 +126,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
         try {
             $data = Mage::app()->getLocale()->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
         } catch (Exception $e) {
-            $data = Mage::helper('Magento_VersionsCms_Helper_Data')->__('N/A');
+            $data = __('N/A');
         }
         return  $data;
     }

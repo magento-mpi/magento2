@@ -19,12 +19,12 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Webapi::system_api_webapi_roles');
         $this->_addBreadcrumb(
-            $this->__('Web Api'),
-            $this->__('Web Api')
+            __('Web Api'),
+            __('Web Api')
         );
         $this->_addBreadcrumb(
-            $this->__('API Roles'),
-            $this->__('API Roles')
+            __('API Roles'),
+            __('API Roles')
         );
         return $this;
     }
@@ -34,7 +34,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
      */
     public function indexAction()
     {
-        $this->_title($this->__('API Roles'));
+        $this->_title(__('API Roles'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -63,7 +63,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
     public function editAction()
     {
         $this->_initAction();
-        $this->_title($this->__('API Roles'));
+        $this->_title(__('API Roles'));
 
         $roleId = $this->getRequest()->getParam('role_id');
 
@@ -73,22 +73,22 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
             $role->load($roleId);
             if (!$role->getId()) {
                 $this->_getSession()->addError(
-                    $this->__('This API role no longer exists.')
+                    __('This API role no longer exists.')
                 );
                 $this->_redirect('*/*/');
                 return;
             }
             $this->_addBreadcrumb(
-                $this->__('Edit API Role'),
-                $this->__('Edit API Role')
+                __('Edit API Role'),
+                __('Edit API Role')
             );
-            $this->_title($this->__('Edit API Role'));
+            $this->_title(__('Edit API Role'));
         } else {
             $this->_addBreadcrumb(
-                $this->__('Add New API Role'),
-                $this->__('Add New API Role')
+                __('Add New API Role'),
+                __('Add New API Role')
             );
-            $this->_title($this->__('New API Role'));
+            $this->_title(__('New API Role'));
         }
 
         // Restore previously entered form data from session
@@ -122,11 +122,11 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
         try {
             $this->_objectManager->create('Magento_Webapi_Model_Acl_Role')->load($roleId)->delete();
             $this->_getSession()->addSuccess(
-                $this->__('The API role has been deleted.')
+                __('The API role has been deleted.')
             );
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                $this->__('An error occurred while deleting this role.')
+                __('An error occurred while deleting this role.')
             );
         }
 
@@ -145,7 +145,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
             $role = $this->_objectManager->create('Magento_Webapi_Model_Acl_Role')->load($roleId);
             if (!$role->getId() && $roleId) {
                 $this->_getSession()->addError(
-                    $this->__('This role no longer exists.')
+                    __('This role no longer exists.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -161,7 +161,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_
                 $this->_saveUsers($role->getId());
 
                 $this->_getSession()->addSuccess(
-                    $this->__('The API role has been saved.')
+                    __('The API role has been saved.')
                 );
                 $this->_getSession()->setWebapiRoleData(false);
 

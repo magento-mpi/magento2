@@ -43,7 +43,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
 
         if ($helper->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('SKU length should be %s characters maximum.', self::SKU_MAX_LENGTH)
+                __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
             );
         }
         return true;

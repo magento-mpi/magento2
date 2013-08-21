@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Sales_Creditmemo extends Magento_Adminhtml_Block_W
     protected function _construct()
     {
         $this->_controller = 'sales_creditmemo';
-        $this->_headerText = Mage::helper('Magento_Sales_Helper_Data')->__('Credit Memos');
+        $this->_headerText = __('Credit Memos');
         parent::_construct();
         $this->_removeButton('add');
     }

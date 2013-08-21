@@ -169,7 +169,6 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             array(
                 Mage::getModel('Magento_Core_Model_Context'),
                 Mage::getModel('Magento_Tax_Model_Class_Factory'),
-                Mage::helper('Magento_Tax_Helper_Data')
             ),
             '',
             true

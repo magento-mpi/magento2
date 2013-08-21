@@ -19,7 +19,7 @@
                 <action method="setImgSrc">
                     <src>Magento_Catalog::images/media/col_left_callout.jpg</src>
                 </action>
-                <action method="setImgAlt" translate="alt" module="Magento_Catalog">
+                <action method="setImgAlt" translate="alt">
                     <alt>Our customer service is available 24/7.</alt>
                 </action>
                 <action method="setLinkUrl">
@@ -33,7 +33,7 @@
                 <action method="setImgSrc">
                     <src>Magento_Catalog::images/media/col_right_callout.jpg</src>
                 </action>
-                <action method="setImgAlt" translate="alt" module="Magento_Catalog">
+                <action method="setImgAlt" translate="alt">
                     <alt>Look for our special back-to-school items and save bunches!</alt>
                 </action>
             </block>

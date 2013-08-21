@@ -85,13 +85,13 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
                 );
                 $item->addData(array(
                     'min_points_balance' => (int)$minBalance,
-                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('Magento_Adminhtml_Helper_Data')->__('Unlimited'):$maxBalance)
+                    'max_points_balance' => (!((int)$maxBalance)?__('Unlimited'):$maxBalance)
                 ));
             } else {
                 $this->_customerHasOrphanPoints = true;
                 $item->addData(array(
-                    'min_points_balance' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('No Data'),
-                    'max_points_balance' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('No Data')
+                    'min_points_balance' => __('No Data'),
+                    'max_points_balance' => __('No Data')
                 ));
             }
             $item->setCustomer($this->getCustomer());
@@ -108,7 +108,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     {
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
-                'header'   => Mage::helper('Magento_Reward_Helper_Data')->__('Website'),
+                'header'   => __('Website'),
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
@@ -117,28 +117,28 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
         }
 
         $this->addColumn('points_balance', array(
-            'header'   => Mage::helper('Magento_Reward_Helper_Data')->__('Balance'),
+            'header'   => __('Balance'),
             'index'    => 'points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('currency_amount', array(
-            'header'   => Mage::helper('Magento_Reward_Helper_Data')->__('Currency Amount'),
+            'header'   => __('Currency Amount'),
             'getter'   => 'getFormatedCurrencyAmount',
             'align'    => 'right',
             'sortable' => false
         ));
 
         $this->addColumn('min_balance', array(
-            'header'   => Mage::helper('Magento_Reward_Helper_Data')->__('Reward Points Threshold'),
+            'header'   => __('Reward Points Threshold'),
             'index'    => 'min_points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('max_balance', array(
-            'header'   => Mage::helper('Magento_Reward_Helper_Data')->__('Reward Points Cap'),
+            'header'   => __('Reward Points Cap'),
             'index'    => 'max_points_balance',
             'sortable' => false,
             'align'    => 'center'
@@ -170,7 +170,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
         if ($this->_customerHasOrphanPoints) {
             $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Magento_Reward_Helper_Data')->__('Delete Orphan Points'),
+                    'label'     => __('Delete Orphan Points'),
                     'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
                     'class'     => 'scalable delete',
                 ));

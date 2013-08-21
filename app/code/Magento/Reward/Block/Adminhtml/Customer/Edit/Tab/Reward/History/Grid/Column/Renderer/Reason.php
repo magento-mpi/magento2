@@ -25,7 +25,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Colum
     {
         $expired = '';
         if ($row->getData('is_duplicate_of') !== null) {
-             $expired = '<em>' . Mage::helper('Magento_Reward_Helper_Data')->__('Expired reward') . '</em> ';
+             $expired = '<em>' . __('Expired reward') . '</em> ';
         }
         return $expired . (parent::_getValue($row));
     }

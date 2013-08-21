@@ -199,14 +199,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
         $fieldset->addField('sender', 'text',
             array(
                 'name'     => $this->_getFieldName('sender'),
-                'label'    => Mage::helper('Magento_Sales_Helper_Data')->__('From'),
+                'label'    => __('From'),
                 'required' => $this->getMessage()->getMessage() ? true : false
             )
         );
         $fieldset->addField('recipient', 'text',
             array(
                 'name'     => $this->_getFieldName('recipient'),
-                'label'    => Mage::helper('Magento_Sales_Helper_Data')->__('To'),
+                'label'    => __('To'),
                 'required' => $this->getMessage()->getMessage() ? true : false
             )
         );
@@ -214,7 +214,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
         $fieldset->addField('message', 'textarea',
             array(
                 'name'      => $this->_getFieldName('message'),
-                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Message'),
+                'label'     => __('Message'),
                 'rows'      => '5',
                 'cols'      => '20',
             )

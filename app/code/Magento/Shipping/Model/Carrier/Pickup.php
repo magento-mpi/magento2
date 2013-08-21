@@ -38,7 +38,7 @@ class Magento_Shipping_Model_Carrier_Pickup
             $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('store');
-            $method->setMethodTitle(Mage::helper('Magento_Shipping_Helper_Data')->__('Store Pickup'));
+            $method->setMethodTitle(__('Store Pickup'));
 
             $method->setPrice(0);
             $method->setCost(0);
@@ -56,7 +56,7 @@ class Magento_Shipping_Model_Carrier_Pickup
      */
     public function getAllowedMethods()
     {
-        return array('pickup'=>Mage::helper('Magento_Shipping_Helper_Data')->__('Store Pickup'));
+        return array('pickup'=>__('Store Pickup'));
     }
 
 }

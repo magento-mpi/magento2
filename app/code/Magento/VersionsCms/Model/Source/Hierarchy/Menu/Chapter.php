@@ -25,10 +25,10 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Chapter
     public function toOptionArray()
     {
         $options = array(
-            array('label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('No'), 'value' => ''),
-            array('label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Chapter'), 'value' => 'chapter'),
-            array('label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Section'), 'value' => 'section'),
-            array('label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Both'), 'value' => 'both'),
+            array('label' => __('No'), 'value' => ''),
+            array('label' => __('Chapter'), 'value' => 'chapter'),
+            array('label' => __('Section'), 'value' => 'section'),
+            array('label' => __('Both'), 'value' => 'both'),
         );
 
         return $options;

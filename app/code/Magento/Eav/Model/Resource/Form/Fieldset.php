@@ -26,7 +26,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resour
         $this->_init('eav_form_fieldset', 'fieldset_id');
         $this->addUniqueField(array(
             'field' => array('type_id', 'code'),
-            'title' => Mage::helper('Magento_Eav_Helper_Data')->__('Form Fieldset with the same code')
+            'title' => __('Form Fieldset with the same code')
         ));
     }
 

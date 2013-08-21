@@ -66,7 +66,7 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
             } else {
                 $baseAllowedAmount = $order->getBaseCurrency()->format($baseAllowedAmount,null,false);
                 Mage::throwException(
-                    Mage::helper('Magento_Sales_Helper_Data')->__('Maximum shipping amount allowed to refund is: %s', $baseAllowedAmount)
+                    __('Maximum shipping amount allowed to refund is: %1', $baseAllowedAmount)
                 );
             }
         } else {

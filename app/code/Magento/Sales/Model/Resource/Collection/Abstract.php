@@ -33,7 +33,7 @@ abstract class Magento_Sales_Model_Resource_Collection_Abstract extends Magento_
             $field = $attribute->getAttributeCode();
         }
         if (!$field) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot determine the field name.'));
+            Mage::throwException(__('We cannot determine the field name.'));
         }
         return $field;
     }

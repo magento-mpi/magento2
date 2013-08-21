@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="sales">
-            <group id="magento_salesarchive" translate="label" module="Magento_SalesArchive" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="magento_salesarchive" translate="label" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Orders, Invoices, Shipments, Credit Memos Archiving</label>
                 <field id="active" translate="label" sortOrder="5" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Archiving</label>

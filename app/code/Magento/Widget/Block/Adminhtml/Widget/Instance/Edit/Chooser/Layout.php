@@ -24,7 +24,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends
     protected function _beforeToHtml()
     {
         if (!$this->getOptions()) {
-            $this->addOption('', Mage::helper('Magento_Widget_Helper_Data')->__('-- Please Select --'));
+            $this->addOption('', __('-- Please Select --'));
             $layoutMergeParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );

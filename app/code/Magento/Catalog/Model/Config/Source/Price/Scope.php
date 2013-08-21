@@ -14,8 +14,8 @@ class Magento_Catalog_Model_Config_Source_Price_Scope implements Magento_Core_Mo
     public function toOptionArray()
     {
         return array(
-            array('value'=>'0', 'label'=>Mage::helper('Magento_Core_Helper_Data')->__('Global')),
-            array('value'=>'1', 'label'=>Mage::helper('Magento_Core_Helper_Data')->__('Website')),
+            array('value'=>'0', 'label'=>__('Global')),
+            array('value'=>'1', 'label'=>__('Website')),
         );
     }
 }

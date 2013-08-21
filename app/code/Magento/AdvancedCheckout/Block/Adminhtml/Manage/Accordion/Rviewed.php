@@ -32,7 +32,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
         $this->setId('source_rviewed');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Recently Viewed Products (%s)', $this->getItemsCount())
+                __('Recently Viewed Products (%1)', $this->getItemsCount())
             );
         }
     }

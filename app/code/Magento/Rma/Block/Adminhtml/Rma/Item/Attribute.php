@@ -26,8 +26,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute extends Magento_Adminhtml_B
     {
         $this->_controller = 'adminhtml_rma_item_attribute';
         $this->_blockGroup = 'Magento_Rma';
-        $this->_headerText = Mage::helper('Magento_Rma_Helper_Data')->__('Return Item Attribute');
-        $this->_addButtonLabel = Mage::helper('Magento_Rma_Helper_Data')->__('Add New Attribute');
+        $this->_headerText = __('Return Item Attribute');
+        $this->_addButtonLabel = __('Add New Attribute');
         parent::_construct();
     }
 }

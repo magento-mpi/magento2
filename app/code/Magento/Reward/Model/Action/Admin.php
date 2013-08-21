@@ -35,6 +35,6 @@ class Magento_Reward_Model_Action_Admin extends Magento_Reward_Model_Action_Abst
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Updated by moderator');
+        return __('Updated by moderator');
     }
 }

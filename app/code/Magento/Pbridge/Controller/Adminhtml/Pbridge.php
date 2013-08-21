@@ -65,7 +65,7 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('Magento_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
+            Mage::throwException(__('Payment Method Code is not passed.'));
         }
     }
 

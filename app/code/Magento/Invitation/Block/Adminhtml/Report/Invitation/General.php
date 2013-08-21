@@ -21,7 +21,7 @@ class Magento_Invitation_Block_Adminhtml_Report_Invitation_General
     {
         $this->_controller = 'adminhtml_report_invitation_general';
         $this->_blockGroup = 'Magento_Invitation';
-        $this->_headerText = Mage::helper('Magento_Invitation_Helper_Data')->__('General');
+        $this->_headerText = __('General');
         parent::_construct();
         $this->_removeButton('add');
     }

@@ -24,10 +24,10 @@ class Magento_Invitation_Model_Source_Invitation_Status
     public function getOptions()
     {
         return array(
-            Magento_Invitation_Model_Invitation::STATUS_NEW  => Mage::helper('Magento_Invitation_Helper_Data')->__('Not Sent'),
-            Magento_Invitation_Model_Invitation::STATUS_SENT => Mage::helper('Magento_Invitation_Helper_Data')->__('Sent'),
-            Magento_Invitation_Model_Invitation::STATUS_ACCEPTED => Mage::helper('Magento_Invitation_Helper_Data')->__('Accepted'),
-            Magento_Invitation_Model_Invitation::STATUS_CANCELED => Mage::helper('Magento_Invitation_Helper_Data')->__('Discarded')
+            Magento_Invitation_Model_Invitation::STATUS_NEW  => __('Not Sent'),
+            Magento_Invitation_Model_Invitation::STATUS_SENT => __('Sent'),
+            Magento_Invitation_Model_Invitation::STATUS_ACCEPTED => __('Accepted'),
+            Magento_Invitation_Model_Invitation::STATUS_CANCELED => __('Discarded')
         );
     }
 

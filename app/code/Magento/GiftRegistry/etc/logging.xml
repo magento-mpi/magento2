@@ -11,7 +11,7 @@
 -->
 <logging>
     <actions>
-        <share translate="label" module="Magento_GiftRegistry">
+        <share translate="label">
             <label>Share</label>
         </share>
     </actions>

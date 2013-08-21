@@ -32,18 +32,18 @@
             <img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" />
         </a>
 
-        <a class="link-edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
+        <a class="link-edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><?php echo __('Edit') ?></a>
     </td>
 
     <td>
-        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item')?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item') ?></a>
+        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo __('Remove Item')?>" class="btn-remove btn-remove2"><?php echo __('Remove Item') ?></a>
 
         <h2 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a></h2>
 
         <div class="price-box">
 
             <div class="qty-wrap">
-                <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+                <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" />
                 <span<?php if ($this->getQty() == 1) echo ' style="display:none;"' ?>>×</span>
             </div>
 
@@ -51,9 +51,9 @@
 
                 <?php if ($canApplyMsrp): ?>
                     <span class="cart-price">
-                        <span class="cart-msrp-unit"><?php echo $this->__('See price before order confirmation.'); ?></span>
+                        <span class="cart-msrp-unit"><?php echo __('See price before order confirmation.'); ?></span>
                         <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
-                        <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo $this->__("What's this?"); ?></a>
+                        <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo __("What's this?"); ?></a>
                         <?php $_product = $_item->getProduct(); ?>
                         <script type="text/javascript">
                             (function ($) {
@@ -108,7 +108,7 @@
 
                             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                                 <div class="cart-tax-total" onclick="taxToggle('eunit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
-                                    <span class="weee"><?php echo Mage::helper('Magento_Weee_Helper_Data')->__('Total'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
+                                    <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
@@ -150,7 +150,7 @@
 
                             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                                 <div class="cart-tax-total" onclick="taxToggle('unit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
-                                    <span class="weee"><?php echo Mage::helper('Magento_Weee_Helper_Data')->__('Total incl. tax'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                                    <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
@@ -201,7 +201,7 @@
 
                         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                             <div class="cart-tax-total" onclick="taxToggle('esubtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
-                                <span class="weee"><?php echo Mage::helper('Magento_Weee_Helper_Data')->__('Total'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
+                                <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -250,7 +250,7 @@
 
                         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                             <div class="cart-tax-total" onclick="taxToggle('subtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
-                                <span class="weee"><?php echo Mage::helper('Magento_Weee_Helper_Data')->__('Total incl. tax'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                                <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>

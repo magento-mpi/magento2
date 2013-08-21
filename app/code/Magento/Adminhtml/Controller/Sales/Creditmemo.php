@@ -40,7 +40,7 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo extends Magento_Adminhtml_Co
      */
     public function indexAction()
     {
-        $this->_title($this->__('Credit Memos'));
+        $this->_title(__('Credit Memos'));
         parent::indexAction();
     }
 }

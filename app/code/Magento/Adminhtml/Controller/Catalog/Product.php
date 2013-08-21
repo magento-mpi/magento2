@@ -29,12 +29,6 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      */
     protected $_publicActions = array('edit');
 
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Magento_Catalog');
-    }
-
     /**
      * Initialize product from request parameters
      *
@@ -42,7 +36,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      */
     protected function _initProduct()
     {
-        $this->_title($this->__('Products'));
+        $this->_title(__('Products'));
 
         $productId  = (int)$this->getRequest()->getParam('id');
         /** @var $product Magento_Catalog_Model_Product */
@@ -160,7 +154,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      */
     public function indexAction()
     {
-        $this->_title($this->__('Products'));
+        $this->_title(__('Products'));
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
         $this->renderLayout();
@@ -184,7 +178,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $product->addData($productData);
         }
 
-        $this->_title($this->__('New Product'));
+        $this->_title(__('New Product'));
 
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
@@ -225,7 +219,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         if ($productId && !$product->getId()) {
             $this->_getSession()->addError(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('This product no longer exists.')
+                __('This product no longer exists.')
             );
             $this->_redirect('*/*/');
             return;
@@ -251,7 +245,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
 
         if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
-            $switchBlock->setDefaultStoreName($this->__('Default Values'))
+            $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
                 ->setSwitchUrl(
                     $this->getUrl('*/*/*', array(
@@ -582,8 +576,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 $validationResult = $this->_validateProductVariations($product, $variationProducts);
                 if (!empty($validationResult)) {
                     $response->setError(true)
-                        ->setMessage(Mage::helper('Magento_Catalog_Helper_Data')
-                            ->__('Some product variations fields are not valid.'))
+                        ->setMessage(__('Some product variations fields are not valid.'))
                         ->setAttributes($validationResult);
                 }
             }
@@ -595,7 +588,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                        Mage::throwException(__('Attribute "%1" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
 //                        Mage::throwException($error);
@@ -833,7 +826,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
             try {
                 if (isset($data['product'][$product->getIdFieldName()])) {
-                    throw new Magento_Core_Exception($this->__('Unable to save product'));
+                    throw new Magento_Core_Exception(__('Unable to save product'));
                 }
 
                 $originalSku = $product->getSku();
@@ -855,10 +848,10 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
                 Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
 
-                $this->_getSession()->addSuccess($this->__('You saved the product.'));
+                $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
-                        $this->__('SKU for product %s has been changed to %s.', Mage::helper('Magento_Core_Helper_Data')
+                        __('SKU for product %1 has been changed to %2.', Mage::helper('Magento_Core_Helper_Data')
                             ->escapeHtml($product->getName()),
                             Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
@@ -871,7 +864,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
-                    $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
+                    $this->_getSession()->addSuccess(__('You duplicated the product.'));
                 }
 
             } catch (Magento_Core_Exception $e) {
@@ -923,7 +916,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
         $product = $this->_initProduct();
         try {
             $newProduct = $product->duplicate();
-            $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
+            $this->_getSession()->addSuccess(__('You duplicated the product.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (Exception $e) {
             Mage::logException($e);
@@ -973,7 +966,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     {
         $productIds = $this->getRequest()->getParam('product');
         if (!is_array($productIds)) {
-            $this->_getSession()->addError($this->__('Please select product(s).'));
+            $this->_getSession()->addError(__('Please select product(s).'));
         } else {
             if (!empty($productIds)) {
                 try {
@@ -982,7 +975,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                         $product->delete();
                     }
                     $this->_getSession()->addSuccess(
-                        $this->__('A total of %d record(s) have been deleted.', count($productIds))
+                        __('A total of %1 record(s) have been deleted.', count($productIds))
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
@@ -1008,7 +1001,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
-                $this->__('A total of %d record(s) have been updated.', count($productIds))
+                __('A total of %1 record(s) have been updated.', count($productIds))
             );
         }
         catch (Magento_Core_Model_Exception $e) {
@@ -1017,7 +1010,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()
-                ->addException($e, $this->__('Something went wrong while updating the product(s) status.'));
+                ->addException($e, __('Something went wrong while updating the product(s) status.'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
@@ -1036,7 +1029,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
         if ($status == Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
             if (!Mage::getModel('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
                 throw new Magento_Core_Exception(
-                    $this->__('Please make sure to define SKU values for all processed products.')
+                    __('Please make sure to define SKU values for all processed products.')
                 );
             }
         }

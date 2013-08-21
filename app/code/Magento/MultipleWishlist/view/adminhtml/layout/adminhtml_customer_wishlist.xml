@@ -18,7 +18,7 @@
             <reference name="customer.wishlist.edit.tab.columnSet">
                 <block type="Magento_Backend_Block_Widget_Grid_Column" as="wishlist_name" before="-">
                     <arguments>
-                        <header translate="true" module="Magento_MultipleWishlist">Wishlist</header>
+                        <header translate="true">Wishlist</header>
                         <index>wishlist_name</index>
                     </arguments>
                 </block>

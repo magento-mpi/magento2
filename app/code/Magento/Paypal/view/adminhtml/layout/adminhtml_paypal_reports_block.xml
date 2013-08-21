@@ -33,7 +33,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="report_date">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Report Date</header>
+                            <header translate="true">Report Date</header>
                             <index>report_date</index>
                             <type>date</type>
                             <header_css_class>col-date</header_css_class>
@@ -42,7 +42,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="account_id">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Merchant Account</header>
+                            <header translate="true">Merchant Account</header>
                             <index>account_id</index>
                             <header_css_class>col-merchant</header_css_class>
                             <column_css_class>col-merchant</column_css_class>
@@ -50,7 +50,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="transaction_id">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Transaction ID</header>
+                            <header translate="true">Transaction ID</header>
                             <index>transaction_id</index>
                             <header_css_class>col-transaction</header_css_class>
                             <column_css_class>col-transaction</column_css_class>
@@ -58,7 +58,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="invoice_id">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Invoice ID</header>
+                            <header translate="true">Invoice ID</header>
                             <index>invoice_id</index>
                             <header_css_class>col-invoice</header_css_class>
                             <column_css_class>col-invoice</column_css_class>
@@ -66,7 +66,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="paypal_reference_id">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">PayPal Reference ID</header>
+                            <header translate="true">PayPal Reference ID</header>
                             <index>paypal_reference_id</index>
                             <header_css_class>col-reference</header_css_class>
                             <column_css_class>col-reference</column_css_class>
@@ -74,7 +74,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="transaction_event_code">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Event</header>
+                            <header translate="true">Event</header>
                             <index>transaction_event_code</index>
                             <type>options</type>
                             <options type="options">Magento_Paypal_Model_Resource_Report_Settlement_Options_TransactionEvents</options>
@@ -84,7 +84,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="transaction_initiation_date">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Start Date</header>
+                            <header translate="true">Start Date</header>
                             <index>transaction_initiation_date</index>
                             <type>datetime</type>
                             <header_css_class>col-initiation</header_css_class>
@@ -93,7 +93,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="transaction_completion_date">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Finish Date</header>
+                            <header translate="true">Finish Date</header>
                             <index>transaction_completion_date</index>
                             <type>datetime</type>
                             <header_css_class>col-completion</header_css_class>
@@ -102,7 +102,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="gross_transaction_amount">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Gross Amount</header>
+                            <header translate="true">Gross Amount</header>
                             <index>gross_transaction_amount</index>
                             <type>currency</type>
                             <currency>gross_transaction_currency</currency>
@@ -112,7 +112,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="fee_amount">
                         <arguments>
-                            <header translate="true" module="Magento_Paypal">Fee Amount</header>
+                            <header translate="true">Fee Amount</header>
                             <index>fee_amount</index>
                             <type>currency</type>
                             <currency>gross_transaction_currency</currency>

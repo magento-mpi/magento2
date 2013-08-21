@@ -43,7 +43,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_System_Config_Clean extends 
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'id'        => 'clean_now',
-                'label'     => $this->helper('Magento_ScheduledImportExport_Helper_Data')->__('Clean Now'),
+                'label'     => __('Clean Now'),
                 'onclick'   => 'setLocation(\'' . $url . '\')'
             ));
 

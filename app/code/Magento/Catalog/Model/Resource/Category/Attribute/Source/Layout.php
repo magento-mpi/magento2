@@ -34,7 +34,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Source_Layout
                    'label'=>(string)$layoutConfig->label
                 );
             }
-            array_unshift($this->_options, array('value'=>'', 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('No layout updates')));
+            array_unshift($this->_options, array('value'=>'', 'label' => __('No layout updates')));
         }
         return $this->_options;
     }

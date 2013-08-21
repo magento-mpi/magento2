@@ -28,9 +28,6 @@ class Magento_Webapi_Controller_Front implements Magento_Core_Controller_FrontIn
     /** @var Magento_Core_Model_App */
     protected $_application;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var string */
     protected $_apiType;
 
@@ -46,20 +43,17 @@ class Magento_Webapi_Controller_Front implements Magento_Core_Controller_FrontIn
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Webapi_Controller_Dispatcher_Factory $dispatcherFactory
      * @param Magento_Core_Model_App $application
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      * @param Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Webapi_Controller_Dispatcher_Factory $dispatcherFactory,
         Magento_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory,
         Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
-        $this->_helper = $helperFactory->get('Magento_Webapi_Helper_Data');
         $this->_dispatcherFactory = $dispatcherFactory;
         $this->_application = $application;
         $this->_routeFactory = $routeFactory;
@@ -139,13 +133,13 @@ class Magento_Webapi_Controller_Front implements Magento_Core_Controller_FrontIn
                 $apiRoutePath
             );
             if (!($apiTypeMatch = $apiRoute->match($request, true))) {
-                throw new Magento_Webapi_Exception($this->_helper->__('Request does not match any API type route.'),
+                throw new Magento_Webapi_Exception(__('Request does not match any API type route.'),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST);
             }
 
             $apiType = $apiTypeMatch[Magento_Webapi_Controller_Request::PARAM_API_TYPE];
             if (!in_array($apiType, $this->getListOfAvailableApiTypes())) {
-                throw new Magento_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.', $apiType),
+                throw new Magento_Webapi_Exception(__('The "%1" API type is not defined.', $apiType),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST);
             }
             $this->_apiType = $apiType;

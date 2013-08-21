@@ -60,6 +60,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
      */
     public function getAddButtonTitle()
     {
-        return $this->__('Add Products to Order');
+        return __('Add Products to Order');
     }
 }

@@ -21,9 +21,6 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessor
     const DATA_FORMAT_XML = 'xml';
     /**#@-*/
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_apiHelper;
-
     /** @var Magento_Core_Helper_Data */
     protected $_coreHelper;
 
@@ -45,7 +42,6 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessor
         Magento_Core_Model_App $app,
         Magento_Core_Model_Logger $logger
     ) {
-        $this->_apiHelper = $helperFactory->get('Magento_Webapi_Helper_Data');
         $this->_coreHelper = $helperFactory->get('Magento_Core_Helper_Data');
         $this->_app = $app;
         $this->_logger = $logger;
@@ -65,8 +61,7 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessor
             $reportId = $this->_logException($exception);
             /** Create exception with masked message. */
             return new Magento_Webapi_Exception(
-                $this->_apiHelper
-                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                __('Internal Error. Details are available in Magento log file. Report ID: "%1"', $reportId),
                 Magento_Webapi_Exception::HTTP_INTERNAL_ERROR
             );
         } else {
@@ -90,8 +85,7 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessor
         } else {
             $reportId = $this->_logException($exception);
             $this->render(
-                $this->_apiHelper
-                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                __('Internal Error. Details are available in Magento log file. Report ID: "%1"', $reportId),
                 'Trace is not available.',
                 $httpCode
             );

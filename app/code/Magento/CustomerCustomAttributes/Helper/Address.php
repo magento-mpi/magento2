@@ -36,11 +36,11 @@ class Magento_CustomerCustomAttributes_Helper_Address extends Magento_CustomAttr
     {
         return array(
             array(
-                'label' => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Customer Address Registration'),
+                'label' => __('Customer Address Registration'),
                 'value' => 'customer_register_address'
             ),
             array(
-                'label' => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Customer Account Address'),
+                'label' => __('Customer Account Address'),
                 'value' => 'customer_address_edit'
             ),
         );

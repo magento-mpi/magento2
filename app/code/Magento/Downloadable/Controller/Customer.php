@@ -45,7 +45,7 @@ class Magento_Downloadable_Controller_Customer extends Magento_Core_Controller_F
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Magento_Downloadable_Helper_Data')->__('My Downloadable Products'));
+            $headBlock->setTitle(__('My Downloadable Products'));
         }
         $this->renderLayout();
     }

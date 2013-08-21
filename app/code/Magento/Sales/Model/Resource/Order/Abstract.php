@@ -89,7 +89,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
 
         if (!in_array($alias, $this->getGridColumns())) {
             Mage::throwException(
-                Mage::helper('Magento_Sales_Helper_Data')->__('Please specify a valid grid column alias name that exists in the grid table.')
+                __('Please specify a valid grid column alias name that exists in the grid table.')
             );
         }
 

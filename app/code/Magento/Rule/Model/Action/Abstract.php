@@ -119,8 +119,8 @@ abstract class Magento_Rule_Model_Action_Abstract extends Magento_Object impleme
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=' => Mage::helper('Magento_Rule_Helper_Data')->__('to'),
-            '+=' => Mage::helper('Magento_Rule_Helper_Data')->__('by'),
+            '=' => __('to'),
+            '+=' => __('by'),
         ));
         return $this;
     }
@@ -180,7 +180,7 @@ abstract class Magento_Rule_Model_Action_Abstract extends Magento_Object impleme
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Magento_Rule_Helper_Data')->__('Please choose an action to add.')
+                'label' => __('Please choose an action to add.')
             ),
         );
     }

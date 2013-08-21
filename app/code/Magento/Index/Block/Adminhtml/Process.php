@@ -14,7 +14,7 @@ class Magento_Index_Block_Adminhtml_Process extends Magento_Adminhtml_Block_Widg
     {
         $this->_blockGroup = 'Magento_Index';
         $this->_controller = 'adminhtml_process';
-        $this->_headerText = Mage::helper('Magento_Index_Helper_Data')->__('Index Management');
+        $this->_headerText = __('Index Management');
         parent::_construct();
         $this->_removeButton('add');
     }

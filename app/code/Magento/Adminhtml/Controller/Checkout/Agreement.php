@@ -19,7 +19,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
 {
     public function indexAction()
     {
-        $this->_title($this->__('Terms and Conditions'));
+        $this->_title(__('Terms and Conditions'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Checkout_Agreement'))
@@ -34,7 +34,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
 
     public function editAction()
     {
-        $this->_title($this->__('Terms and Conditions'));
+        $this->_title(__('Terms and Conditions'));
 
         $id  = $this->getRequest()->getParam('id');
         $agreementModel  = Mage::getModel('Magento_Checkout_Model_Agreement');
@@ -43,14 +43,14 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
             $agreementModel->load($id);
             if (!$agreementModel->getId()) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    Mage::helper('Magento_Checkout_Helper_Data')->__('This condition no longer exists.')
+                    __('This condition no longer exists.')
                 );
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $this->_title($agreementModel->getId() ? $agreementModel->getName() : $this->__('New Condition'));
+        $this->_title($agreementModel->getId() ? $agreementModel->getName() : __('New Condition'));
 
         $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getAgreementData(true);
         if (!empty($data)) {
@@ -61,10 +61,10 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
 
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? Mage::helper('Magento_Checkout_Helper_Data')->__('Edit Condition')
-                    :  Mage::helper('Magento_Checkout_Helper_Data')->__('New Condition'),
-                $id ?  Mage::helper('Magento_Checkout_Helper_Data')->__('Edit Condition')
-                    :  Mage::helper('Magento_Checkout_Helper_Data')->__('New Condition')
+                $id ? __('Edit Condition')
+                    :  __('New Condition'),
+                $id ?  __('Edit Condition')
+                    :  __('New Condition')
             )
             ->_addContent(
                 $this->getLayout()
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
             try {
                 $model->save();
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Checkout_Helper_Data')->__('The condition has been saved.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The condition has been saved.'));
                 $this->_redirect('*/*/');
 
                 return;
@@ -92,7 +92,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }
             catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Checkout_Helper_Data')->__('Something went wrong while saving this condition.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong while saving this condition.'));
             }
 
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->setAgreementData($postData);
@@ -106,7 +106,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
         $model = Mage::getSingleton('Magento_Checkout_Model_Agreement')
             ->load($id);
         if (!$model->getId()) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Checkout_Helper_Data')->__('This condition no longer exists.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This condition no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -114,7 +114,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
         try {
             $model->delete();
 
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Checkout_Helper_Data')->__('The condition has been deleted.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The condition has been deleted.'));
             $this->_redirect('*/*/');
 
             return;
@@ -123,7 +123,7 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Checkout_Helper_Data')->__('Something went wrong  while deleting this condition.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong  while deleting this condition.'));
         }
 
         $this->_redirectReferer();
@@ -138,8 +138,8 @@ class Magento_Adminhtml_Controller_Checkout_Agreement extends Magento_Adminhtml_
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_Checkout::sales_checkoutagreement')
-            ->_addBreadcrumb(Mage::helper('Magento_Checkout_Helper_Data')->__('Sales'), Mage::helper('Magento_Checkout_Helper_Data')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('Magento_Checkout_Helper_Data')->__('Checkout Conditions'), Mage::helper('Magento_Checkout_Helper_Data')->__('Checkout Terms and Conditions'))
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Checkout Conditions'), __('Checkout Terms and Conditions'))
         ;
         return $this;
     }

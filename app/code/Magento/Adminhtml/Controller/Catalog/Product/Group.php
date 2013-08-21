@@ -18,12 +18,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Group extends Magento_Adminht
               ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'));
 
         if( $model->itemExists() ) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('A group with the same name already exists.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('A group with the same name already exists.'));
         } else {
             try {
                 $model->save();
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong while saving this group.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong while saving this group.'));
             }
         }
     }

@@ -133,7 +133,7 @@ class Magento_GiftRegistry_Model_Observer
             if (!$type->getPrevFormat()) {
                 $type->setPrevFormat($type->getDefaultFormat());
             }
-            $type->setDefaultFormat(Mage::helper('Magento_GiftRegistry_Helper_Data')->__("Ship to the recipient's address."));
+            $type->setDefaultFormat(__("Ship to the recipient's address."));
         } elseif ($type->getPrevFormat()) {
             $type->setDefaultFormat($type->getPrevFormat());
         }
@@ -233,7 +233,7 @@ class Magento_GiftRegistry_Model_Observer
      * Clean up gift registry items that belongs to the product.
      *
      * @param Magento_Event_Observer $observer
-     * @return Magento_VersionsCms_Model_Observer
+     * @return Magento_Cms_Model_Observer
      */
     public function deleteProduct(Magento_Event_Observer $observer)
     {

@@ -16,8 +16,6 @@
  * @method string getUpdatedAt()
  * @method Magento_Webhook_Model_Subscription setUpdatedAt(string $value)
  * @method Magento_Webhook_Model_Subscription setStatus(int $value)
- * @method string getVersion()
- * @method Magento_Webhook_Model_Subscription setVersion(string $value)
  * @method string getAlias()
  * @method Magento_Webhook_Model_Subscription setAlias(string $value)
  * @method Magento_Webhook_Model_Subscription setTopics(array $value)
@@ -31,16 +29,17 @@ class Magento_Webhook_Model_Subscription
     extends Magento_Core_Model_Abstract
     implements Magento_PubSub_SubscriptionInterface
 {
+    /** subscription fields */
     const FIELD_ENDPOINT_URL = 'endpoint_url';
     const FIELD_FORMAT = 'format';
     const FIELD_AUTHENTICATION_TYPE = 'authentication_type';
     const FIELD_API_USER_ID = 'api_user_id';
     const FIELD_TIMEOUT_IN_SECS = 'timeout_in_secs';
+
     /**
      * Registration mechanism
      */
     const REGISTRATION_MECHANISM_MANUAL = 'manual';
-
 
     /**
      * @var Magento_Webhook_Model_Endpoint
@@ -68,6 +67,10 @@ class Magento_Webhook_Model_Subscription
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        /** set default status */
+        if (!isset($data['status'])) {
+            $data['status'] = Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE;
+        }
         parent::__construct($context, $resource, $resourceCollection, $data);
 
         $this->_endpoint = $endpoint;
@@ -89,10 +92,6 @@ class Magento_Webhook_Model_Subscription
      */
     protected function _beforeSave()
     {
-        if (!$this->hasStatus()) {
-            $this->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE);
-        }
-
         // TODO: Can this ever be set to anything else, is it being used?
         if (!$this->hasRegistrationMechanism()) {
             $this->setRegistrationMechanism(self::REGISTRATION_MECHANISM_MANUAL);
@@ -121,7 +120,7 @@ class Magento_Webhook_Model_Subscription
      */
     protected function _afterDelete()
     {
-        $this->_getEndpoint()->delete();
+        $this->getEndpoint()->delete();
 
         return parent::_afterDelete();
     }
@@ -188,7 +187,7 @@ class Magento_Webhook_Model_Subscription
      *
      * @return Magento_Webhook_Model_Endpoint
      */
-    private function _getEndpoint()
+    public function getEndpoint()
     {
         if (!$this->_endpointLoaded && $this->getEndpointId() !== null) {
             $this->_endpoint->load($this->getEndpointId());
@@ -245,7 +244,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function setEndpointUrl($url)
     {
-        $this->_getEndpoint()->setEndpointUrl($url);
+        $this->getEndpoint()->setEndpointUrl($url);
         $this->setDataChanges(true);
         return $this;
     }
@@ -258,7 +257,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function setTimeoutInSecs($timeout)
     {
-        $this->_getEndpoint()->setTimeoutInSecs($timeout);
+        $this->getEndpoint()->setTimeoutInSecs($timeout);
         $this->setDataChanges(true);
         return $this;
     }
@@ -271,7 +270,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function setFormat($format)
     {
-        $this->_getEndpoint()->setFormat($format);
+        $this->getEndpoint()->setFormat($format);
         $this->setDataChanges(true);
         return $this;
     }
@@ -284,7 +283,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function setApiUserId($userId)
     {
-        $this->_getEndpoint()->setApiUserId($userId);
+        $this->getEndpoint()->setApiUserId($userId);
         $this->setDataChanges(true);
         return $this;
     }
@@ -297,7 +296,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function setAuthenticationType($authType)
     {
-        $this->_getEndpoint()->setAuthenticationType($authType);
+        $this->getEndpoint()->setAuthenticationType($authType);
         $this->setDataChanges(true);
         return $this;
     }
@@ -309,7 +308,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function getUser()
     {
-        return $this->_getEndpoint()->getUser();
+        return $this->getEndpoint()->getUser();
     }
 
     /**
@@ -319,7 +318,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function getAuthenticationType()
     {
-        return $this->_getEndpoint()->getAuthenticationType();
+        return $this->getEndpoint()->getAuthenticationType();
     }
 
     /**
@@ -329,7 +328,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function getFormat()
     {
-        return $this->_getEndpoint()->getFormat();
+        return $this->getEndpoint()->getFormat();
     }
 
     /**
@@ -339,7 +338,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function getApiUserId()
     {
-        return $this->_getEndpoint()->getApiUserId();
+        return $this->getEndpoint()->getApiUserId();
     }
 
     /**
@@ -349,7 +348,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function getEndpointUrl()
     {
-        return $this->_getEndpoint()->getEndpointUrl();
+        return $this->getEndpoint()->getEndpointUrl();
     }
 
     /**
@@ -359,7 +358,7 @@ class Magento_Webhook_Model_Subscription
      */
     public function getTimeoutInSecs()
     {
-        return $this->_getEndpoint()->getTimeoutInSecs();
+        return $this->getEndpoint()->getTimeoutInSecs();
     }
 
     /**
@@ -372,6 +371,9 @@ class Magento_Webhook_Model_Subscription
         if (!isset($this->_data['topics'])) {
             $this->_getResource()->loadTopics($this);
         }
+        /** if subscription doesn't have topics, $this->_data['topics'] can still be null.
+         *  Therefore it is better to call _getData() to avoid exception
+         */
         return $this->_getData('topics');
     }
 
@@ -426,10 +428,6 @@ class Magento_Webhook_Model_Subscription
                 return $data;
         }
     }
-
-
-
-
 
     /**
      * Set data by calling setter functions

@@ -99,11 +99,11 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                 } else if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $hasOptions[] = $item;
                 } else {
-                    $messages[] = $this->__('%s for "%s".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
+                    $messages[] = __('%1 for "%2".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                 }
             } catch (Exception $e) {
                 Mage::logException($e);
-                $messages[] = Mage::helper('Magento_Wishlist_Helper_Data')->__('We cannot add this item to your shopping cart.');
+                $messages[] = __('We cannot add this item to your shopping cart.');
             }
         }
 
@@ -125,7 +125,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Magento_Wishlist_Helper_Data')->__('We couldn\'t add the following product(s) to the shopping cart: %s.', join(', ', $products));
+            $messages[] = __('We couldn\'t add the following product(s) to the shopping cart: %1.', join(', ', $products));
         }
 
         if ($hasOptions) {
@@ -133,7 +133,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Magento_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = __('Product(s) %1 have required options. Each product can only be added individually.', join(', ', $products));
         }
 
         if ($messages) {
@@ -159,7 +159,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                 $wishlist->save();
             }
             catch (Exception $e) {
-                Mage::getSingleton('Magento_Wishlist_Model_Session')->addError($this->__('We can\'t update wish list.'));
+                Mage::getSingleton('Magento_Wishlist_Model_Session')->addError(__('We can\'t update wish list.'));
                 $redirectUrl = $indexUrl;
             }
 
@@ -169,7 +169,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
             }
 
             Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
-                Mage::helper('Magento_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
+                __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }
         // save cart and collect totals

@@ -17,11 +17,6 @@
  */
 class Magento_Bundle_Controller_Adminhtml_Bundle_Product_Edit extends Magento_Adminhtml_Controller_Catalog_Product
 {
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Magento_Bundle');
-    }
-
     public function formAction()
     {
         $product = $this->_initProduct();

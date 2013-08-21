@@ -23,8 +23,8 @@ class Magento_Tag_Block_Adminhtml_Tag extends Magento_Adminhtml_Block_Widget_Gri
     {
         $this->_blockGroup = 'Magento_Tag';
         $this->_controller = 'adminhtml_tag';
-        $this->_headerText = Mage::helper('Magento_Tag_Helper_Data')->__('Manage Tags');
-        $this->_addButtonLabel = Mage::helper('Magento_Tag_Helper_Data')->__('Add New Tag');
+        $this->_headerText = __('Manage Tags');
+        $this->_addButtonLabel = __('Add New Tag');
         parent::_construct();
     }
 

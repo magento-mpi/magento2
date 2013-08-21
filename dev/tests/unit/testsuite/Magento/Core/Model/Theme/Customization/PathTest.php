@@ -67,7 +67,10 @@ class Magento_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_
         $this->_theme->setArea('area51');
         $this->_dir->expects($this->once())->method('getDir')->with(Magento_Core_Model_Dir::THEMES)
             ->will($this->returnValue('/themes_dir'));
-        $expectedPath = implode('/', array('/themes_dir', 'area51', 'path'));
+        $expectedPath = implode(
+            DIRECTORY_SEPARATOR,
+            array('/themes_dir', 'area51', 'path')
+        );
         $this->assertEquals($expectedPath, $this->_model->getThemeFilesPath($this->_theme->setThemePath('path')));
         $this->assertNull($this->_model->getCustomizationPath($this->_theme->setThemePath(null)));
     }

@@ -33,17 +33,17 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
         }
 
         if ($this->_authorization->isAllowed('Magento_Sales::emails')) {
-            $this->_updateButton('save', 'label', Mage::helper('Magento_Sales_Helper_Data')->__('Send Tracking Information'));
+            $this->_updateButton('save', 'label', __('Send Tracking Information'));
             $this->_updateButton('save',
                 'onclick', "deleteConfirm('"
-                . Mage::helper('Magento_Sales_Helper_Data')->__('Are you sure you want to send a Shipment email to customer?')
+                . __('Are you sure you want to send a Shipment email to customer?')
                 . "', '" . $this->getEmailUrl() . "')"
             );
         }
 
         if ($this->getShipment()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('Magento_Sales_Helper_Data')->__('Print'),
+                'label'     => __('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -64,12 +64,12 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View extends Magento_Adminhtm
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
-            $emailSent = Mage::helper('Magento_Sales_Helper_Data')->__('the shipment email was sent');
+            $emailSent = __('the shipment email was sent');
         }
         else {
-            $emailSent = Mage::helper('Magento_Sales_Helper_Data')->__('the shipment email is not sent');
+            $emailSent = __('the shipment email is not sent');
         }
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
+        return __('Shipment #%1 | %3 (%2)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getBackUrl()

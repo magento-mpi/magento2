@@ -284,9 +284,7 @@ class Magento_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_
             $adapter->insertOnDuplicate($this->getMainTable(), $rewriteData);
         } catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong saving the URL rewite.')
-            );
+            Mage::throwException(__('Something went wrong saving the URL rewite.'));
         }
 
         if ($rewrite && $rewrite->getId()) {

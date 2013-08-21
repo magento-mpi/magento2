@@ -258,7 +258,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
                     Mage::throwException(
-                        Mage::helper('Magento_VersionsCms_Helper_Data')->__('Please correct the node data.')
+                        __('Please correct the node data.')
                     );
                 }
             }

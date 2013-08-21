@@ -258,7 +258,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
                 ->setPath($modelPath)
                 ->save();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Magento_Cron_Helper_Data')->__('We were unable to save the cron expression.'));
+            Mage::throwException(__('We were unable to save the cron expression.'));
             Mage::logException($e);
         }
         return $this;
@@ -280,7 +280,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Magento_Cron_Helper_Data')->__('Unable to delete the cron task.'));
+            Mage::throwException(__('Unable to delete the cron task.'));
             Mage::logException($e);
         }
         return $this;
@@ -321,7 +321,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
             $operationId = (int)substr($jobCode, $idPos + 1);
         }
         if (!isset($operationId) || !$operationId) {
-            Mage::throwException(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Please correct the cron job task'));
+            Mage::throwException(__('Please correct the cron job task'));
         }
 
         return $this->load($operationId);
@@ -351,12 +351,12 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
 
         $filePath = $this->getHistoryFilePath();
         if (!file_exists($filePath)) {
-            $filePath = Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('File has been not created');
+            $filePath = __('File has been not created');
         }
 
         if (!$result || isset($e) && is_object($e)) {
             $operation->addLogComment(
-                Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Something went wrong and the operation failed.')
+                __('Something went wrong and the operation failed.')
             );
             $this->sendEmailNotification(array(
                 'operationName'  => $this->getName(),
@@ -384,20 +384,20 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
-            Mage::throwException(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__("We couldn't read the file source because the file name is empty."));
+            Mage::throwException(__("We couldn't read the file source because the file name is empty."));
         }
-        $operation->addLogComment(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Connecting to server'));
+        $operation->addLogComment(__('Connecting to server'));
         $fs = $this->getServerIoDriver();
-        $operation->addLogComment(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Reading import file'));
+        $operation->addLogComment(__('Reading import file'));
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath  = $fileInfo['file_name'];
         $tmpFilePath = sys_get_temp_dir() . DS . uniqid(time(), true) . '.' . $extension;
         if (!$fs->read($filePath, $tmpFilePath)) {
-            Mage::throwException(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__("We couldn't read the import file."));
+            Mage::throwException(__("We couldn't read the import file."));
         }
         $fs->close();
-        $operation->addLogComment(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
+        $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
         return $tmpFilePath;
     }
@@ -414,7 +414,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     {
         $result = false;
 
-        $operation->addLogComment(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Save history file content "%s"', $this->getHistoryFilePath()));
+        $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($fileContent);
 
         $fileInfo = $this->getFileInfo();
@@ -423,10 +423,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $result   = $fs->write($fileName, $fileContent);
         if (!$result) {
             Mage::throwException(
-                Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('We couldn\'t write file "%s" to "%s" with the "%s" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
+                __('We couldn\'t write file "%1" to "%2" with the "%3" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
             );
         }
-        $operation->addLogComment(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Save file content'));
+        $operation->addLogComment(__('Save file content'));
 
         $fs->close();
 
@@ -445,7 +445,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $operation = Mage::getModel('Magento_ScheduledImportExport_Model_' . uc_words($this->getOperationType()));
         if (!$operation || !($operation instanceof Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface)) {
             Mage::throwException(
-                Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Please correct the scheduled operation.')
+                __('Please correct the scheduled operation.')
             );
         }
 
@@ -468,14 +468,13 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
             || !$fileInfo['server_type']
             || !isset($availableTypes[$fileInfo['server_type']])
         ) {
-            Mage::throwException(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Please correct the server type.'));
+            Mage::throwException(__('Please correct the server type.'));
         }
 
         $class = 'Magento_Io_' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
             Mage::throwException(
-                Mage::helper('Magento_ScheduledImportExport_Helper_Data')
-                    ->__('Please correct the server communication class "%s".', $class)
+                __('Please correct the server communication class "%1".', $class)
             );
         }
         $driver = new $class;
@@ -526,7 +525,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
             'path' => dirname($filePath)
         ));
         if (!$fs->write(basename($filePath), $source)) {
-            Mage::throwException(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__("We couldn't save the file history file."));
+            Mage::throwException(__("We couldn't save the file history file."));
         }
         return $this;
     }
@@ -570,7 +569,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         } elseif (isset($fileInfo['file_name'])) {
             $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         } else {
-            Mage::throwException(Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Unknown file format'));
+            Mage::throwException(__('Unknown file format'));
         }
 
         return $dirPath . $fileName . '.' . $extension;

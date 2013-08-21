@@ -43,7 +43,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                 ));
             if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options['.$_option->getid().']')
-                    ->addOption('', $this->__('-- Please Select --'));
+                    ->addOption('', __('-- Please Select --'));
             } else {
                 $select->setName('options['.$_option->getid().'][]');
                 $select->setClass('multiselect'.$require.' product-custom-option');
@@ -95,7 +95,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                             . $class . ' product-custom-option" name="options[' . $_option->getId() . ']"'
                             . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"')
                             . ' value="" checked="checked" /><label class="label" for="options_'
-                            . $_option->getId() . '"><span>' . $this->__('None') . '</span></label></div>';
+                            . $_option->getId() . '"><span>' . __('None') . '</span></label></div>';
                     }
                     break;
                 case Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:

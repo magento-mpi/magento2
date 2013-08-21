@@ -33,7 +33,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
         $this->setId('source_rcompared');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Recently Compared Products (%s)', $this->getItemsCount())
+                __('Recently Compared Products (%1)', $this->getItemsCount())
             );
         }
     }

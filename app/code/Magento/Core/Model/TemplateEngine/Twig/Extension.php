@@ -7,8 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_Extension
-    extends Twig_Extension
+class Magento_Core_Model_TemplateEngine_Twig_Extension extends Twig_Extension
 {
     const MAGENTO = 'Magento';
 
@@ -23,11 +22,6 @@ class Magento_Core_Model_TemplateEngine_Twig_Extension
     protected $_commonFunctions;
 
     /**
-     * @var Magento_Core_Model_Translate
-     */
-    protected $_translator;
-
-    /**
      * @var Magento_Core_Model_TemplateEngine_BlockTrackerInterface
      */
     private $_blockTracker;
@@ -37,16 +31,13 @@ class Magento_Core_Model_TemplateEngine_Twig_Extension
      *
      * @param Magento_Core_Model_TemplateEngine_Twig_CommonFunctions $commonFunctions
      * @param Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
-     * @param Magento_Core_Model_Translate $translate
      */
     public function __construct(
         Magento_Core_Model_TemplateEngine_Twig_CommonFunctions $commonFunctions,
-        Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions,
-        Magento_Core_Model_Translate $translate
+        Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions $layoutFunctions
     ) {
         $this->_commonFunctions = $commonFunctions;
         $this->_layoutFunctions = $layoutFunctions;
-        $this->_translator = $translate;
     }
 
     /**
@@ -92,13 +83,7 @@ class Magento_Core_Model_TemplateEngine_Twig_Extension
      */
     public function translate()
     {
-        $currentModuleName =  Magento_Core_Block_Abstract::extractModuleName(
-            get_class($this->_blockTracker->getCurrentBlock())
-        );
-        $args = func_get_args();
-        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), $currentModuleName);
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
+        return call_user_func_array('__', func_get_args());
     }
 
     /**
@@ -112,5 +97,4 @@ class Magento_Core_Model_TemplateEngine_Twig_Extension
         // Need to inject this dependency at runtime to avoid cyclical dependency
         $this->_layoutFunctions->setBlockTracker($blockTracker);
     }
-
 }

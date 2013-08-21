@@ -41,7 +41,7 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
     {
         $wishlistItemId = (int) $this->getRequest()->getParam('id');
         if (!$wishlistItemId) {
-            Mage::throwException($this->__('No wishlist item ID is defined.'));
+            Mage::throwException(__('No wishlist item ID is defined.'));
         }
 
         /* @var $wishlistItem Magento_Wishlist_Model_Item */
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
-            Mage::throwException($this->__('Please load the wish list item.'));
+            Mage::throwException(__('Please load the wish list item.'));
         }
 
         $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')

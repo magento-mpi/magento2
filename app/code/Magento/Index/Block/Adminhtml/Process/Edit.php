@@ -19,10 +19,10 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Magento_Cms_Helper_Data')->__('Save Process'));
+        $this->_updateButton('save', 'label', __('Save Process'));
         if (Mage::registry('current_index_process')) {
             $this->_addButton('reindex', array(
-                'label'     => Mage::helper('Magento_Index_Helper_Data')->__('Reindex Data'),
+                'label'     => __('Reindex Data'),
                 'onclick'   => "setLocation('{$this->getRunUrl()}')"
             ));
         }
@@ -61,7 +61,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
     {
         $process = Mage::registry('current_index_process');
         if ($process && $process->getId()) {
-            return Mage::helper('Magento_Index_Helper_Data')->__("'%s' Index Process Information", $process->getIndexer()->getName());
+            return __("'%1' Index Process Information", $process->getIndexer()->getName());
         }
     }
 }

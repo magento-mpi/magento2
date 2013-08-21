@@ -211,17 +211,16 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
             : Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection');
 
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('Customer address id column is not specified')
+            __('Customer address id column is not specified')
         );
         $this->addMessageTemplate(self::ERROR_ADDRESS_NOT_FOUND,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__("Customer address for such customer doesn't exist")
+            __("Customer address for such customer doesn't exist")
         );
         $this->addMessageTemplate(self::ERROR_INVALID_REGION,
-            $this->_helper('Magento_ImportExport_Helper_Data')->__('Region is invalid')
+            __('Region is invalid')
         );
         $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
-            $this->_helper('Magento_ImportExport_Helper_Data')
-                ->__('Row with such email, website and address id combination was already found.')
+            __('Row with such email, website and address id combination was already found.')
         );
 
         $this->_initAttributes();

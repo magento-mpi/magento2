@@ -12,7 +12,7 @@
  * Email to a Friend Product Controller
  *
  * @category    Magento
- * @package     Magento_Sendfriend
+ * @package     Magento_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Front_Action
@@ -105,7 +105,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
 
         if ($model->getMaxSendsToFriend() && $model->isExceedLimit()) {
             Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice(
-                $this->__('You can\'t send messages more than %d times an hour.', $model->getMaxSendsToFriend())
+                __('You can\'t send messages more than %1 times an hour.', $model->getMaxSendsToFriend())
             );
         }
 
@@ -160,7 +160,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
             $validate = $model->validate();
             if ($validate === true) {
                 $model->send();
-                Mage::getSingleton('Magento_Catalog_Model_Session')->addSuccess($this->__('The link to a friend was sent.'));
+                Mage::getSingleton('Magento_Catalog_Model_Session')->addSuccess(__('The link to a friend was sent.'));
                 $this->_redirectSuccess($product->getProductUrl());
                 return;
             }
@@ -171,7 +171,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
                     }
                 }
                 else {
-                    Mage::getSingleton('Magento_Catalog_Model_Session')->addError($this->__('We found some problems with the data.'));
+                    Mage::getSingleton('Magento_Catalog_Model_Session')->addError(__('We found some problems with the data.'));
                 }
             }
         }
@@ -180,7 +180,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         }
         catch (Exception $e) {
             Mage::getSingleton('Magento_Catalog_Model_Session')
-                ->addException($e, $this->__('Some emails were not sent.'));
+                ->addException($e, __('Some emails were not sent.'));
         }
 
         // save form data

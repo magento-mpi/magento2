@@ -110,7 +110,7 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
      */
     protected function _getDeleteCheckboxLabel()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->__('Delete File');
+        return __('Delete File');
     }
 
     /**
@@ -123,15 +123,15 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
         $html = '';
         if ($this->getValue() && !is_array($this->getValue())) {
             $image = array(
-                'alt'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Download'),
-                'title' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Download'),
+                'alt'   => __('Download'),
+                'title' => __('Download'),
                 'src'   => $this->_viewUrl->getViewFileUrl('images/fam_bullet_disk.gif'),
                 'class' => 'v-middle'
             );
             $url = $this->_getPreviewUrl();
             $html .= '<span>';
             $html .= '<a href="' . $url . '">' . $this->_drawElementHtml('img', $image) . '</a> ';
-            $html .= '<a href="' . $url . '">' . Mage::helper('Magento_Adminhtml_Helper_Data')->__('Download') . '</a>';
+            $html .= '<a href="' . $url . '">' . __('Download') . '</a>';
             $html .= '</span>';
         }
         return $html;

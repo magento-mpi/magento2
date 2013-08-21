@@ -966,7 +966,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
         if ($shouldProtectState) {
             if ($this->isStateProtected($state)) {
                 Mage::throwException(
-                    Mage::helper('Magento_Sales_Helper_Data')->__('The Order State "%s" must not be set manually.', $state)
+                    __('The Order State "%1" must not be set manually.', $state)
                 );
             }
         }
@@ -1075,7 +1075,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     public function hold()
     {
         if (!$this->canHold()) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('A hold action is not available.'));
+            Mage::throwException(__('A hold action is not available.'));
         }
         $this->setHoldBeforeState($this->getState());
         $this->setHoldBeforeStatus($this->getStatus());
@@ -1092,7 +1092,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     public function unhold()
     {
         if (!$this->canUnhold()) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('You cannot remove the hold.'));
+            Mage::throwException(__('You cannot remove the hold.'));
         }
         $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
         $this->setHoldBeforeState(null);
@@ -1156,7 +1156,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
 
             $this->_setState($cancelState, true, $comment);
         } elseif (!$graceful) {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We cannot cancel this order.'));
+            Mage::throwException(__('We cannot cancel this order.'));
         }
         return $this;
     }
@@ -1946,7 +1946,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
             $customerName = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
         }
         else {
-            $customerName = Mage::helper('Magento_Sales_Helper_Data')->__('Guest');
+            $customerName = __('Guest');
         }
         return $customerName;
     }

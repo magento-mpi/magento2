@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::content">
                     <resource id="Magento_Adminhtml::content_elements">
-                        <resource id="Magento_Poll::poll" module="Magento_Poll" title="Polls" sortOrder="60" />
+                        <resource id="Magento_Poll::poll" title="Polls" sortOrder="60" />
                     </resource>
                 </resource>
             </resource>

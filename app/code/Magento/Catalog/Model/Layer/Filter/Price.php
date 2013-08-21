@@ -174,7 +174,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
         $fromPrice  = $store->formatPrice(($value - 1) * $range);
         $toPrice    = $store->formatPrice($value*$range);
 
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('%s - %s', $fromPrice, $toPrice);
+        return __('%1 - %2', $fromPrice, $toPrice);
     }
 
     /**
@@ -189,14 +189,14 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
         $store      = Mage::app()->getStore();
         $formattedFromPrice  = $store->formatPrice($fromPrice);
         if ($toPrice === '') {
-            return Mage::helper('Magento_Catalog_Helper_Data')->__('%s and above', $formattedFromPrice);
+            return __('%1 and above', $formattedFromPrice);
         } elseif ($fromPrice == $toPrice && Mage::app()->getStore()->getConfig(self::XML_PATH_ONE_PRICE_INTERVAL)) {
             return $formattedFromPrice;
         } else {
             if ($fromPrice != $toPrice) {
                 $toPrice -= .01;
             }
-            return Mage::helper('Magento_Catalog_Helper_Data')->__('%s - %s', $formattedFromPrice, $store->formatPrice($toPrice));
+            return __('%1 - %2', $formattedFromPrice, $store->formatPrice($toPrice));
         }
     }
 
@@ -499,7 +499,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
         if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED
             && $this->getPriorIntervals()
         ) {
-            return Mage::helper('Magento_Catalog_Helper_Data')->__('Clear Price');
+            return __('Clear Price');
         }
 
         return parent::getClearLinkText();

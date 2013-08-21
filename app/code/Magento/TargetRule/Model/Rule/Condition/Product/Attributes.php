@@ -60,7 +60,7 @@ class Magento_TargetRule_Model_Rule_Condition_Product_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Magento_TargetRule_Helper_Data')->__('Product Attributes')
+            'label' => __('Product Attributes')
         );
     }
 }

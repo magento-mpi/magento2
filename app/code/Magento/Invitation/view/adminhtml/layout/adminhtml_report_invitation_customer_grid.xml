@@ -31,7 +31,7 @@
         <reference name="adminhtml.report.grid.columnSet">
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="id">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">ID</header>
+                    <header translate="true">ID</header>
                     <type>number</type>
                     <index>entity_id</index>
                     <id>id</id>
@@ -41,7 +41,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Name</header>
+                    <header translate="true">Name</header>
                     <type>text</type>
                     <index>name</index>
                     <id>name</id>
@@ -51,7 +51,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="email">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Email</header>
+                    <header translate="true">Email</header>
                     <index>email</index>
                     <id>email</id>
                     <header_css_class>col-email</header_css_class>
@@ -60,7 +60,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="group">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Group</header>
+                    <header translate="true">Group</header>
                     <index>group_name</index>
                     <id>group</id>
                     <header_css_class>col-group</header_css_class>
@@ -69,7 +69,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Invitations Sent</header>
+                    <header translate="true">Invitations Sent</header>
                     <index>sent</index>
                     <type>number</type>
                     <id>sent</id>
@@ -79,7 +79,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Invitations Accepted</header>
+                    <header translate="true">Invitations Accepted</header>
                     <index>accepted</index>
                     <type>number</type>
                     <id>accepted</id>

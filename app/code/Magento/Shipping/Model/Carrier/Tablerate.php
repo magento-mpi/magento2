@@ -136,21 +136,21 @@ class Magento_Shipping_Model_Carrier_Tablerate
         $codes = array(
 
             'condition_name'=>array(
-                'package_weight' => Mage::helper('Magento_Shipping_Helper_Data')->__('Weight vs. Destination'),
-                'package_value'  => Mage::helper('Magento_Shipping_Helper_Data')->__('Price vs. Destination'),
-                'package_qty'    => Mage::helper('Magento_Shipping_Helper_Data')->__('# of Items vs. Destination'),
+                'package_weight' => __('Weight vs. Destination'),
+                'package_value'  => __('Price vs. Destination'),
+                'package_qty'    => __('# of Items vs. Destination'),
             ),
 
             'condition_name_short'=>array(
-                'package_weight' => Mage::helper('Magento_Shipping_Helper_Data')->__('Weight (and above)'),
-                'package_value'  => Mage::helper('Magento_Shipping_Helper_Data')->__('Order Subtotal (and above)'),
-                'package_qty'    => Mage::helper('Magento_Shipping_Helper_Data')->__('# of Items (and above)'),
+                'package_weight' => __('Weight (and above)'),
+                'package_value'  => __('Order Subtotal (and above)'),
+                'package_qty'    => __('# of Items (and above)'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-            throw Mage::exception('Magento_Shipping', Mage::helper('Magento_Shipping_Helper_Data')->__('Please correct Table Rate code type: %s.', $type));
+            throw Mage::exception('Magento_Shipping', __('Please correct Table Rate code type: %1.', $type));
         }
 
         if (''===$code) {
@@ -158,7 +158,7 @@ class Magento_Shipping_Model_Carrier_Tablerate
         }
 
         if (!isset($codes[$type][$code])) {
-            throw Mage::exception('Magento_Shipping', Mage::helper('Magento_Shipping_Helper_Data')->__('Please correct Table Rate code for type %s: %s.', $type, $code));
+            throw Mage::exception('Magento_Shipping', __('Please correct Table Rate code for type %1: %2.', $type, $code));
         }
 
         return $codes[$type][$code];

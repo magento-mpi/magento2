@@ -28,10 +28,10 @@ class Magento_Eav_Model_Attribute_Data_Boolean extends Magento_Eav_Model_Attribu
     {
         switch ($value) {
             case '0':
-                $text = Mage::helper('Magento_Eav_Helper_Data')->__('No');
+                $text = __('No');
                 break;
             case '1':
-                $text = Mage::helper('Magento_Eav_Helper_Data')->__('Yes');
+                $text = __('Yes');
                 break;
             default:
                 $text = '';

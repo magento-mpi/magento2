@@ -63,7 +63,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         ;
 
         $newurl = Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
-        $title = Mage::helper('Magento_Rss_Helper_Data')->__('%s - Special Products', Mage::app()->getStore()->getFrontendName());
+        $title = __('%1 - Special Products', Mage::app()->getStore()->getFrontendName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
         $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
@@ -106,15 +106,15 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
                 if ($product->getAllowedPriceInRss()) {
                     if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
                         $html .= '<br/><a href="' . $product->getProductUrl() . '">'
-                            . $this->__('Click for price') . '</a>';
+                            . __('Click for price') . '</a>';
                     } else {
                         $special = '';
                         if ($result['use_special']) {
-                            $special = '<br />' . Mage::helper('Magento_Catalog_Helper_Data')->__('Special Expires On: %s', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
+                            $special = '<br />' . __('Special Expires On: %1', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
-                            Mage::helper('Magento_Catalog_Helper_Data')->__('Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
-                            Mage::helper('Magento_Catalog_Helper_Data')->__('Special Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
+                            __('Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
+                            __('Special Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
                             $special
                         );
                     }

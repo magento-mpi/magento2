@@ -54,7 +54,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
                 'is_hidden'     => false,
                 'is_disabled'   => false,
                 'id'            => 'vde-tab-quick-styles',
-                'label'         => $this->__('Quick Styles'),
+                'label'         => __('Quick Styles'),
                 'content_block' => 'design_editor_tools_quick-styles',
                 'class'         => 'item-design'
             ),
@@ -62,7 +62,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
                 'is_hidden'     => true,
                 'is_disabled'   => false,
                 'id'            => 'vde-tab-block',
-                'label'         => $this->__('Block'),
+                'label'         => __('Block'),
                 'content_block' => 'design_editor_tools_block',
                 'class'         => 'item-block'
             ),
@@ -70,7 +70,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
                 'is_hidden'     => true,
                 'is_disabled'   => false,
                 'id'            => 'vde-tab-settings',
-                'label'         => $this->__('Settings'),
+                'label'         => __('Settings'),
                 'content_block' => 'design_editor_tools_settings',
                 'class'         => 'item-settings'
             ),
@@ -78,7 +78,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
                 'is_hidden'     => false,
                 'is_disabled'   => false,
                 'id'            => 'vde-tab-code',
-                'label'         => $this->__('Advanced'),
+                'label'         => __('Advanced'),
                 'content_block' => 'design_editor_tools_code',
                 'class'         => 'item-code'
             ),

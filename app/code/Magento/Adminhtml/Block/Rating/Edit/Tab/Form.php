@@ -51,12 +51,12 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(
-            'legend'=>Mage::helper('Magento_Rating_Helper_Data')->__('Rating Title')
+            'legend'=>__('Rating Title')
         ));
 
         $fieldset->addField('rating_code', 'text', array(
             'name' => 'rating_code',
-            'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Default Value'),
+            'label' => __('Default Value'),
             'class' => 'required-entry',
             'required' => true,
         ));
@@ -109,11 +109,11 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
         }
 
         $fieldset = $form->addFieldset('visibility_form', array(
-            'legend' => Mage::helper('Magento_Rating_Helper_Data')->__('Rating Visibility')
+            'legend' => __('Rating Visibility')
         ));
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('stores', 'multiselect', array(
-                'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Visible In'),
+                'label' => __('Visible In'),
                 'name' => 'stores[]',
                 'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
@@ -126,13 +126,13 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
         }
 
         $fieldset->addField('is_active', 'checkbox', array(
-            'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Is Active'),
+            'label' => __('Is Active'),
             'name' => 'is_active',
             'value' => 1,
         ));
 
         $fieldset->addField('position', 'text', array(
-            'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Sort Order'),
+            'label' => __('Sort Order'),
             'name' => 'position',
         ));
 
@@ -163,7 +163,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.Mage::helper('Magento_Rating_Helper_Data')->__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
+            <li>'.__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
         </ul>
     </li>
 </ul>

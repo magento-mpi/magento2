@@ -43,7 +43,7 @@ class Magento_CustomerBalance_Controller_Info extends Magento_Core_Controller_Fr
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Store Credit'));
+            $headBlock->setTitle(__('Store Credit'));
         }
         $this->renderLayout();
     }

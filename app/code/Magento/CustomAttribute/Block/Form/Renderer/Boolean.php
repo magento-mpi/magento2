@@ -32,11 +32,11 @@ class Magento_CustomAttribute_Block_Form_Renderer_Boolean extends Magento_Custom
             ),
             array(
                 'value' => '0',
-                'label' => Mage::helper('Magento_CustomAttribute_Helper_Data')->__('No')
+                'label' => __('No')
             ),
             array(
                 'value' => '1',
-                'label' => Mage::helper('Magento_CustomAttribute_Helper_Data')->__('Yes')
+                'label' => __('Yes')
             ),
         );
     }

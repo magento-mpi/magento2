@@ -20,7 +20,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form extends 
     {
         parent::_construct();
         $this->setId('magento_customersegment_segment_form');
-        $this->setTitle(Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Segment Information'));
+        $this->setTitle(__('Segment Information'));
     }
 
     /**

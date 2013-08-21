@@ -9,27 +9,18 @@
  */
 class Magento_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
-
     /** @var Magento_Webapi_Controller_Request_Soap */
     protected $_soapRequest;
 
     protected function setUp()
     {
-        /** Prepare mocks for SUT constructor. */
-        $this->_helperMock = $this->getMockBuilder('Magento_Webapi_Helper_Data')
-            ->setMethods(array('__'))
-            ->disableOriginalConstructor()
-            ->getMock();
         /** Initialize SUT. */
-        $this->_soapRequest = new Magento_Webapi_Controller_Request_Soap($this->_helperMock);
+        $this->_soapRequest = new Magento_Webapi_Controller_Request_Soap();
         parent::setUp();
     }
 
     protected function tearDown()
     {
-        unset($this->_helperMock);
         unset($this->_soapRequest);
         parent::tearDown();
     }
@@ -48,14 +39,6 @@ class Magento_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestC
             $resourcesParam => true
         );
         $this->_soapRequest->setParams($requestParams);
-        $this->_helperMock->expects($this->at(0))
-            ->method('__')
-            ->with('Not allowed parameters: %s. ', 'param_1, param_2')
-            ->will($this->returnValue('Not allowed parameters: param_1, param_2. '));
-        $this->_helperMock->expects($this->at(1))
-            ->method('__')
-            ->with('Please use only "%s" and "%s".', $wsdlParam, $resourcesParam)
-            ->will($this->returnValue('Please use only "' . $wsdlParam . '" and "' . $resourcesParam . '".'));
         $this->setExpectedException(
             'Magento_Webapi_Exception',
             'Not allowed parameters: param_1, param_2. Please use only "'
@@ -71,9 +54,6 @@ class Magento_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestC
         /** Prepare mocks for SUT constructor. */
         $requestParams = array(Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => null);
         $this->_soapRequest->setParams($requestParams);
-        $this->_helperMock->expects($this->once())
-            ->method('__')
-            ->will($this->returnArgument(0));
         $this->setExpectedException(
             'Magento_Webapi_Exception',
             'Requested resources are missing.',

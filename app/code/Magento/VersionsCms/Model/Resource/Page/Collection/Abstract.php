@@ -143,7 +143,7 @@ abstract class Magento_VersionsCms_Model_Resource_Page_Collection_Abstract
                         $this->_usersHash[$username] = $username;
                     }
                 } else {
-                    $this->_usersHash['-1'] = Mage::helper('Magento_VersionsCms_Helper_Data')->__('[No Owner]');
+                    $this->_usersHash['-1'] = __('[No Owner]');
                 }
             }
 

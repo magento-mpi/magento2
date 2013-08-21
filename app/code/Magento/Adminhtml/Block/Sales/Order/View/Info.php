@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please correct the parent block for this block.'));
+            Mage::throwException(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
         if ($this->getOrder()) {
             $storeId = $this->getOrder()->getStoreId();
             if (is_null($storeId)) {
-                $deleted = Mage::helper('Magento_Adminhtml_Helper_Data')->__(' [deleted]');
+                $deleted = __(' [deleted]');
                 return nl2br($this->getOrder()->getStoreName()) . $deleted;
             }
             $store = Mage::app()->getStore($storeId);
@@ -140,7 +140,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     public function getAddressEditLink($address, $label='')
     {
         if (empty($label)) {
-            $label = $this->__('Edit');
+            $label = __('Edit');
         }
         $url = $this->getUrl('*/sales_order/address', array('address_id'=>$address->getId()));
         return '<a href="'.$url.'">' . $label . '</a>';

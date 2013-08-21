@@ -41,13 +41,13 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Special
         $conditions = array(
             array(
                 'value' => 'Magento_TargetRule_Model_Actions_Condition_Product_Special_Price',
-                'label' => Mage::helper('Magento_TargetRule_Helper_Data')->__('Price (percentage)')
+                'label' => __('Price (percentage)')
             )
         );
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Magento_TargetRule_Helper_Data')->__('Product Special')
+            'label' => __('Product Special')
         );
     }
 }

@@ -21,9 +21,9 @@ class Magento_Ogone_Model_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => '', 'label' => Mage::helper('Magento_Ogone_Helper_Data')->__('Ogone Default Operation')),
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => Mage::helper('Magento_Ogone_Helper_Data')->__('Authorization')),
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => Mage::helper('Magento_Ogone_Helper_Data')->__('Direct Sale')),
+            array('value' => '', 'label' => __('Ogone Default Operation')),
+            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => __('Authorization')),
+            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Direct Sale')),
         );
     }
 }

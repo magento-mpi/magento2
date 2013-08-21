@@ -22,14 +22,7 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             'theme_title' => 'Test Theme'
         ));
 
-        $copyService = $this->getMock(
-            'Magento_Core_Model_Theme_CopyService',
-            array('copy'),
-            array(),
-            '',
-            false,
-            false
-        );
+        $copyService = $this->getMock('Magento_Core_Model_Theme_CopyService', array('copy'), array(), '', false, false);
         $copyService->expects($this->once())
             ->method('copy')
             ->will($this->returnValue($copyService));
@@ -80,7 +73,6 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
         $domainModel = new Magento_Core_Model_Theme_Domain_Physical(
             $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false),
             $themeFactory,
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
             $copyService,
             $themeCollection
         );

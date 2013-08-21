@@ -17,11 +17,11 @@ class Magento_Tax_Model_System_Config_Source_PriceType
         $this->_options = array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('Magento_Tax_Helper_Data')->__('Excluding Tax')
+                'label' => __('Excluding Tax')
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('Magento_Tax_Helper_Data')->__('Including Tax')
+                'label' => __('Including Tax')
             ),
         );
     }

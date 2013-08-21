@@ -51,7 +51,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends Magento_Data
 
         $url = $this->_helperFactory->get('Magento_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
-            'label'     =>  $this->_helperFactory->get('Magento_Backend_Helper_Data')->__('Export CSV'),
+            'label'     =>  __('Export CSV'),
             'onclick'   => "setLocation('" . $url
                 . "conditionName/' + $('carriers_tablerate_condition_name').value + '/tablerates.csv' )",
             'class'     => '',

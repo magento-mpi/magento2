@@ -59,7 +59,7 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Ind
      */
     public function getName()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Product Flat Data');
+        return __('Product Flat Data');
     }
 
     /**
@@ -69,7 +69,7 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Ind
      */
     public function getDescription()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Reorganize EAV product structure to flat structure');
+        return __('Reorganize EAV product structure to flat structure');
     }
 
     /**

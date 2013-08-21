@@ -20,11 +20,11 @@ class Magento_Payment_Model_Source_Invoice
         return array(
             array(
                 'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('Magento_Core_Helper_Data')->__('Yes')
+                'label' => __('Yes')
             ),
             array(
                 'value' => '',
-                'label' => Mage::helper('Magento_Core_Helper_Data')->__('No')
+                'label' => __('No')
             ),
         );
     }

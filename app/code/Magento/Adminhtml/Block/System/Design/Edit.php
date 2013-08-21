@@ -23,13 +23,13 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
     protected function _prepareLayout()
     {
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Back'),
+            'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class' => 'back'
         ));
 
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Save'),
+            'label'     => __('Save'),
             'class' => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -39,8 +39,8 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
         ));
 
         $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Delete'),
-            'onclick'   => 'confirmSetLocation(\''.Mage::helper('Magento_Core_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+            'label'     => __('Delete'),
+            'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
             'class'  => 'delete'
         ));
         return parent::_prepareLayout();
@@ -70,9 +70,9 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
     {
         $header = '';
         if (Mage::registry('design')->getId()) {
-            $header = Mage::helper('Magento_Core_Helper_Data')->__('Edit Design Change');
+            $header = __('Edit Design Change');
         } else {
-            $header = Mage::helper('Magento_Core_Helper_Data')->__('New Store Design Change');
+            $header = __('New Store Design Change');
         }
         return $header;
     }

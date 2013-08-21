@@ -27,7 +27,7 @@ class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('The filter must be an object. Please set correct filter.')
+                __('The filter must be an object. Please set correct filter.')
             );
         }
         return $filter;

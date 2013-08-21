@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
     {
         parent::_construct();
         $this->setId('sitemap_form');
-        $this->setTitle(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Sitemap Information'));
+        $this->setTitle(__('Sitemap Information'));
     }
 
 
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
             'method'    => 'post'
         ));
 
-        $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => Mage::helper('Magento_Sitemap_Helper_Data')->__('Sitemap')));
+        $fieldset = $form->addFieldset('add_sitemap_form', array('legend' => __('Sitemap')));
 
         if ($model->getId()) {
             $fieldset->addField('sitemap_id', 'hidden', array(
@@ -49,25 +49,25 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
         }
 
         $fieldset->addField('sitemap_filename', 'text', array(
-            'label' => Mage::helper('Magento_Sitemap_Helper_Data')->__('Filename'),
+            'label' => __('Filename'),
             'name'  => 'sitemap_filename',
             'required' => true,
-            'note'  => Mage::helper('Magento_Adminhtml_Helper_Data')->__('example: sitemap.xml'),
+            'note'  => __('example: sitemap.xml'),
             'value' => $model->getSitemapFilename()
         ));
 
         $fieldset->addField('sitemap_path', 'text', array(
-            'label' => Mage::helper('Magento_Sitemap_Helper_Data')->__('Path'),
+            'label' => __('Path'),
             'name'  => 'sitemap_path',
             'required' => true,
-            'note'  => Mage::helper('Magento_Adminhtml_Helper_Data')->__('example: "sitemap/" or "/" for base path (path must be writeable)'),
+            'note'  => __('example: "sitemap/" or "/" for base path (path must be writeable)'),
             'value' => $model->getSitemapPath()
         ));
 
         if (!Mage::app()->hasSingleStore()) {
             $field = $fieldset->addField('store_id', 'select', array(
-                'label'    => Mage::helper('Magento_Sitemap_Helper_Data')->__('Store View'),
-                'title'    => Mage::helper('Magento_Sitemap_Helper_Data')->__('Store View'),
+                'label'    => __('Store View'),
+                'title'    => __('Store View'),
                 'name'     => 'store_id',
                 'required' => true,
                 'value'    => $model->getStoreId(),

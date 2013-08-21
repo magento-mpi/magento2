@@ -25,9 +25,6 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
         $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event_Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockCollection->expects($this->once())
-            ->method('addFieldToFilter')
-            ->with($this->equalTo('status'), $this->equalTo(Magento_PubSub_EventInterface::READY_TO_SEND));
         $this->_mockIterator = $this->getMockBuilder('Iterator')
             ->disableOriginalConstructor()
             ->getMock();
@@ -50,9 +47,6 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
         $this->_mockIterator->expects($this->once())
             ->method('current')
             ->will($this->returnValue($event));
-
-        $event->expects($this->once())
-            ->method('markAsProcessed');
 
         $this->_mockIterator->expects($this->once())
             ->method('next');

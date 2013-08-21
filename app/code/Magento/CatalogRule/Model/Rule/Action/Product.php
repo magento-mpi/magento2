@@ -14,7 +14,7 @@ class Magento_CatalogRule_Model_Rule_Action_Product extends Magento_Rule_Model_A
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'rule_price'=>Mage::helper('Magento_CatalogInventory_Helper_Data')->__('Rule price'),
+            'rule_price'=>__('Rule price'),
         ));
         return $this;
     }
@@ -22,17 +22,17 @@ class Magento_CatalogRule_Model_Rule_Action_Product extends Magento_Rule_Model_A
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            'to_fixed'=>Mage::helper('Magento_CatalogInventory_Helper_Data')->__('To Fixed Value'),
-            'to_percent'=>Mage::helper('Magento_CatalogInventory_Helper_Data')->__('To Percentage'),
-            'by_fixed'=>Mage::helper('Magento_CatalogInventory_Helper_Data')->__('By Fixed value'),
-            'by_percent'=>Mage::helper('Magento_CatalogInventory_Helper_Data')->__('By Percentage'),
+            'to_fixed'=>__('To Fixed Value'),
+            'to_percent'=>__('To Percentage'),
+            'by_fixed'=>__('By Fixed value'),
+            'by_percent'=>__('By Percentage'),
         ));
         return $this;
     }
 
     public function asHtml()
     {
-        $html = $this->getTypeElement()->getHtml().Mage::helper('Magento_CatalogRule_Helper_Data')->__("Update product's %s %s: %s", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml());
+        $html = $this->getTypeElement()->getHtml().__("Update product's %1 %2: %3", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml());
         $html.= $this->getRemoveLinkHtml();
         return $html;
     }

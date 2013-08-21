@@ -54,9 +54,9 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
     public function getVersionAccessLevels()
     {
         return array(
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => $this->__('Private'),
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => $this->__('Protected'),
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => $this->__('Public')
+            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => __('Private'),
+            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
+            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => __('Public')
         );
     }
 
@@ -98,6 +98,6 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDeleteMultipleHierarchiesText()
     {
-        return $this->__('Delete Multiple Hierarchies');
+        return __('Delete Multiple Hierarchies');
     }
 }

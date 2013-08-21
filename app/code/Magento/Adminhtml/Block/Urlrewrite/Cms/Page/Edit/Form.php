@@ -86,8 +86,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
 
             if (!$entityStores) {
                 throw new Magento_Core_Model_Store_Exception(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')
-                        ->__('Chosen cms page does not associated with any website.')
+                    __('Chosen cms page does not associated with any website.')
                 );
             }
         }

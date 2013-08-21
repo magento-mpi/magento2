@@ -41,29 +41,21 @@ class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
     protected $_classFactory;
 
     /**
-     * @var Magento_Tax_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param Magento_Tax_Model_Class_Factory $classFactory
-     * @param Magento_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Tax_Model_Class_Factory $classFactory,
-        Magento_Tax_Helper_Data $helper,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_classFactory = $classFactory;
-        $this->_helper = $helper;
     }
 
     public function _construct()
@@ -80,18 +72,18 @@ class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
     public function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            Mage::throwException($this->_helper->__('This class no longer exists.'));
+            Mage::throwException(__('This class no longer exists.'));
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            Mage::throwException($this->_helper->__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            Mage::throwException(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
         }
 
         $objectCount = $typeModel->getAssignedToObjects()->getSize();
         if ($objectCount > 0) {
-            Mage::throwException($this->_helper->__('You cannot delete this tax class because it is used for %d %s(s).', $objectCount, $typeModel->getObjectTypeName()));
+            Mage::throwException(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
         }
 
         return true;

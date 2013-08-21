@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
     protected function _prepareLayout()
     {
         $this->addChild('close_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'   => Mage::helper('Magento_Catalog_Helper_Data')->__('Close Window'),
+            'label'   => __('Close Window'),
             'onclick' => 'addProduct(true)'
         ));
     }

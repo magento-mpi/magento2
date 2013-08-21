@@ -19,12 +19,12 @@ class Magento_Adminhtml_Block_Api_Tab_Roleinfo extends Magento_Adminhtml_Block_W
 
         $form = new Magento_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Role Information')));
 
         $fieldset->addField('role_name', 'text',
             array(
                 'name'  => 'rolename',
-                'label' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Name'),
+                'label' => __('Role Name'),
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,

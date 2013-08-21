@@ -27,12 +27,12 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
         $this->loadLayout()
             ->_setActiveMenu('Magento_MultipleWishlist::report_customers_wishlist')
             ->_addBreadcrumb(
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Reports'),
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Customers'),
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Customers')
+                __('Customers'),
+                __('Customers')
             );
         return $this;
     }
@@ -51,7 +51,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
      */
     public function wishlistAction()
     {
-        $this->_title($this->__("Customer Wish List Report"));
+        $this->_title(__("Customer Wish List Report"));
 
         $this->_initAction();
         $this->renderLayout();

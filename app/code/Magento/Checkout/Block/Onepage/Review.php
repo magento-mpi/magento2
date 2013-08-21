@@ -21,7 +21,7 @@ class Magento_Checkout_Block_Onepage_Review extends Magento_Checkout_Block_Onepa
     protected function _construct()
     {
         $this->getCheckout()->setStepData('review', array(
-            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Order Review'),
+            'label'     => __('Order Review'),
             'is_show'   => $this->isShow()
         ));
         parent::_construct();

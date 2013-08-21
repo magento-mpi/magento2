@@ -32,7 +32,7 @@
         <catalog>
             <product>
                 <type>
-                    <downloadable translate="label" module="Magento_Downloadable">
+                    <downloadable translate="label">
                         <label>Downloadable Product</label>
                         <model>Magento_Downloadable_Model_Product_Type</model>
                         <is_qty>1</is_qty>

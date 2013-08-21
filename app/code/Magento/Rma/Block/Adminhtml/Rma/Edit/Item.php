@@ -42,20 +42,20 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_
             ->initDefaultValues();
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('Magento_Rma_Helper_Data')->__('RMA Item Details'))
+            array('legend'=>__('RMA Item Details'))
         );
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
         $okButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Magento_Rma_Helper_Data')->__('OK'),
+                'label'   => __('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
         $cancelButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Magento_Rma_Helper_Data')->__('Cancel'),
+                'label'   => __('Cancel'),
                 'class'   => 'cancel_button',
             ));
         $fieldset->setCancelButton($cancelButton->toHtml());

@@ -28,8 +28,8 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
-            'legend'  => Mage::helper('Magento_Reminder_Helper_Data')->__('Conditions'),
-            'comment' => Mage::helper('Magento_Reminder_Helper_Data')->__('You need to set at least one condition for this rule to work.'),
+            'legend'  => __('Conditions'),
+            'comment' => __('You need to set at least one condition for this rule to work.'),
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(

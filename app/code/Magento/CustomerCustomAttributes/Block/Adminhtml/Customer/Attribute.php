@@ -25,8 +25,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute extend
     {
         $this->_blockGroup = 'Magento_CustomerCustomAttributes';
         $this->_controller = 'adminhtml_customer_attribute';
-        $this->_headerText = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Customer Attributes');
-        $this->_addButtonLabel = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Add New Attribute');
+        $this->_headerText = __('Customer Attributes');
+        $this->_addButtonLabel = __('Add New Attribute');
         parent::_construct();
     }
 }

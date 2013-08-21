@@ -42,14 +42,14 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Admin
         ));
         $form->setFieldNameSuffix('rate');
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Magento_Reward_Helper_Data')->__('Reward Exchange Rate Information')
+            'legend' => __('Reward Exchange Rate Information')
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('website_id', 'select', array(
                 'name'   => 'website_id',
-                'title'  => Mage::helper('Magento_Reward_Helper_Data')->__('Website'),
-                'label'  => Mage::helper('Magento_Reward_Helper_Data')->__('Website'),
+                'title'  => __('Website'),
+                'label'  => __('Website'),
                 'values' => Mage::getModel('Magento_Reward_Model_Source_Website')->toOptionArray(),
             ));
             $renderer = $this->getLayout()
@@ -59,15 +59,15 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Admin
 
         $fieldset->addField('customer_group_id', 'select', array(
             'name'   => 'customer_group_id',
-            'title'  => Mage::helper('Magento_Reward_Helper_Data')->__('Customer Group'),
-            'label'  => Mage::helper('Magento_Reward_Helper_Data')->__('Customer Group'),
+            'title'  => __('Customer Group'),
+            'label'  => __('Customer Group'),
             'values' => Mage::getModel('Magento_Reward_Model_Source_Customer_Groups')->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(
             'name'   => 'direction',
-            'title'  => Mage::helper('Magento_Reward_Helper_Data')->__('Direction'),
-            'label'  => Mage::helper('Magento_Reward_Helper_Data')->__('Direction'),
+            'title'  => __('Direction'),
+            'label'  => __('Direction'),
             'values' => $this->getRate()->getDirectionsOptionArray()
         ));
 
@@ -83,8 +83,8 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Admin
             $toIndex = 'points';
         }
         $fieldset->addField('rate_to_currency', 'note', array(
-            'title'             => Mage::helper('Magento_Reward_Helper_Data')->__('Rate'),
-            'label'             => Mage::helper('Magento_Reward_Helper_Data')->__('Rate'),
+            'title'             => __('Rate'),
+            'label'             => __('Rate'),
             'value_index'       => $fromIndex,
             'equal_value_index' => $toIndex
         ))->setRenderer($rateRenderer);

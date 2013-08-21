@@ -21,7 +21,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
         parent::_construct();
         $this->setId('magento_customersegment_segment_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Segment Information'));
+        $this->setTitle(__('Segment Information'));
     }
 
     /**
@@ -36,8 +36,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
             ->toHtml();
 
         $this->addTab('general_section', array(
-            'label'   => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('General Properties'),
-            'title'   => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('General Properties'),
+            'label'   => __('General Properties'),
+            'title'   => __('General Properties'),
             'content' => $generalSectionContent,
             'active'  => true
         ));
@@ -50,8 +50,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
                 ->toHtml();
 
             $this->addTab('conditions_section', array(
-                'label'   => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Conditions'),
-                'title'   => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Conditions'),
+                'label'   => __('Conditions'),
+                'title'   => __('Conditions'),
                 'content' => $conditionsSectionContent,
             ));
 
@@ -59,7 +59,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
                 $customersQty = Mage::getModel('Magento_CustomerSegment_Model_Segment')->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
-                    'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Matched Customers (%d)', $customersQty),
+                    'label' => __('Matched Customers (%1)', $customersQty),
                     'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
                         array('segment_id' => $segment->getId())),
                     'class' => 'ajax',

@@ -16,13 +16,13 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends 
         parent::_construct();
         $this->setId('giftcardaccount_info_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Gift Card Account'));
+        $this->setTitle(__('Gift Card Account'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('info', array(
-            'label'     => Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Information'),
+            'label'     => __('Information'),
             'content'   => $this->getLayout()->createBlock(
                 'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info'
             )->initForm()->toHtml(),
@@ -30,7 +30,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends 
         ));
 
         $this->addTab('send', array(
-            'label'     => Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Send Gift Card'),
+            'label'     => __('Send Gift Card'),
             'content'   => $this->getLayout()->createBlock(
                 'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send'
             )->initForm()->toHtml(),
@@ -39,7 +39,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends 
         $model = Mage::registry('current_giftcardaccount');
         if ($model->getId()) {
             $this->addTab('history', array(
-                'label'     => Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('History'),
+                'label'     => __('History'),
                 'content'   => $this->getLayout()->createBlock(
                     'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History'
                 )->toHtml(),

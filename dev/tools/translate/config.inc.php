@@ -63,7 +63,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/layout/checkout.xml',
     ),
     'Magento_Chronopay' => array(
-        'app/code/Mage/Chronopay/',
+        'app/code/Magento/Chronopay/',
         'app/design/frontend/base/default/template/chronopay/',
         'app/design/frontend/base/default/layout/chronopay.xml',
     ),
@@ -73,7 +73,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/cms.xml'
     ),
     'Magento_Compiler' => array(
-        'app/code/Mage/Compiler/',
+        'app/code/Magento/Compiler/',
         'app/design/adminhtml/default/default/template/compiler/',
         'app/design/adminhtml/default/default/layout/compiler.xml',
     ),
@@ -105,12 +105,12 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/layout/customer.xml',
     ),
     'Magento_Cybermut' => array(
-        'app/code/Mage/Cybermut/',
+        'app/code/Magento/Cybermut/',
         'app/design/frontend/base/default/template/cybermut/',
         'app/design/frontend/base/default/layout/cybermut.xml',
     ),
     'Magento_Cybersource' => array(
-        'app/code/Mage/Cybersource/',
+        'app/code/Magento/Cybersource/',
         'app/design/frontend/base/default/template/cybersource/',
     ),
     'Magento_Directory' => array(
@@ -128,13 +128,13 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Eav/',
     ),
     'Magento_Eway' => array(
-        'app/code/Mage/Eway/',
+        'app/code/Magento/Eway/',
         'app/design/frontend/base/default/template/eway/',
         'app/design/frontend/base/default/layout/eway.xml',
         'app/design/adminhtml/default/default/template/eway/',
     ),
     'Magento_Flo2Cash' => array(
-        'app/code/Mage/Flo2Cash/',
+        'app/code/Magento/Flo2Cash/',
         'app/design/frontend/base/default/template/flo2cash/',
         'app/design/adminhtml/default/default/template/flo2cash/',
     ),
@@ -147,7 +147,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/googleanalytics.xml'
     ),
     'Magento_GoogleBase' => array(
-        'app/code/Mage/GoogleBase/',
+        'app/code/Magento/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
     ),
     'Magento_GoogleCheckout' => array(
@@ -165,7 +165,7 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/googleshopping/',
     ),
     'Magento_Ideal' => array(
-        'app/code/Mage/Ideal/',
+        'app/code/Magento/Ideal/',
         'app/design/frontend/base/default/template/ideal/',
         'app/design/frontend/base/default/layout/ideal.xml',
         'app/design/adminhtml/default/default/template/ideal/',
@@ -220,7 +220,7 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/captcha.xml'
     ),
     'Magento_Paybox' => array(
-        'app/code/Mage/Paybox/',
+        'app/code/Magento/Paybox/',
         'app/design/frontend/base/default/template/paybox/',
         'app/design/frontend/base/default/layout/paybox.xml',
         'app/design/adminhtml/default/default/template/paybox/',
@@ -242,7 +242,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/paypaluk.xml',
     ),
     'Magento_Persistent' => array(
-        'app/code/Mage/Persistent/',
+        'app/code/Magento/Persistent/',
         'app/design/frontend/base/default/layout/persistent.xml',
         'app/design/frontend/base/default/template/persistent/'
     ),
@@ -258,7 +258,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/productalert.xml',
     ),
     'Magento_Protx' => array(
-        'app/code/Mage/Protx/',
+        'app/code/Magento/Protx/',
         'app/design/frontend/base/default/template/protx/',
         'app/design/frontend/base/default/layout/protx.xml',
     ),
@@ -311,7 +311,7 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Sitemap/',
     ),
     'Magento_Strikeiron' => array(
-        'app/code/Mage/Strikeiron/',
+        'app/code/Magento/Strikeiron/',
     ),
     'Magento_Tag' => array(
         'app/code/Magento/Tag/',
@@ -523,7 +523,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/template/wishlist/'
     ),
     'Magento_Adminhtml' => array(
-        'app/code/Mage/Admin/',
+        'app/code/Magento/Admin/',
         'app/code/Magento/Adminhtml/',
         'app/design/adminhtml/default/default/layout/',
         'app/design/adminhtml/default/default/template/',
@@ -550,7 +550,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/oauth.xml',
     ),
     'Magento_ImportExport' => array(
-        'app/code/Mage/Magento_ImportExport/',
+        'app/code/Magento/ImportExport/',
         'app/design/adminhtml/default/default/template/importexport',
         'app/design/adminhtml/default/default/layout/importexport.xml',
     ),

@@ -8,11 +8,6 @@
 class Magento_Reward_Model_Reward_Balance_Validator
 {
     /**
-     * @var Magento_Reward_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Reward_Model_RewardFactory
      */
     protected $_modelFactory;
@@ -29,18 +24,15 @@ class Magento_Reward_Model_Reward_Balance_Validator
 
     /**
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Reward_Helper_Data $helper
      * @param Magento_Reward_Model_RewardFactory $modelFactory
      * @param Magento_Checkout_Model_Session $session
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Reward_Helper_Data $helper,
         Magento_Reward_Model_RewardFactory $modelFactory,
         Magento_Checkout_Model_Session $session
     ) {
         $this->_storeManager = $storeManager;
-        $this->_helper = $helper;
         $this->_modelFactory = $modelFactory;
         $this->_session = $session;
     }
@@ -65,7 +57,7 @@ class Magento_Reward_Model_Reward_Balance_Validator
                 $this->_session->setUpdateSection('payment-method');
                 $this->_session->setGotoSection('payment');
                 throw new Magento_Reward_Model_Reward_Balance_Exception(
-                    $this->_helper->__('You don\'t have enough reward points to pay for this purchase.')
+                    __('You don\'t have enough reward points to pay for this purchase.')
                 );
             }
         }

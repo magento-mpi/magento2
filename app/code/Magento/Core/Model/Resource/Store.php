@@ -54,7 +54,7 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
     {
         $this->_uniqueFields = array(array(
             'field' => 'code',
-            'title' => Mage::helper('Magento_Core_Helper_Data')->__('Store with the same code')
+            'title' => __('Store with the same code')
         ));
         return $this;
     }

@@ -13,7 +13,7 @@
         <update handle="adminhtml_logging_block"/>
         <reference name="content">
             <block type="Magento_Logging_Block_Adminhtml_Container" name="adminhtml.logging.grid.container" template="Magento_Backend::widget/grid/container.phtml">
-                <arguments translate="header_text" module="Magento_Logging">
+                <arguments translate="header_text">
                     <header_text>Admin Actions Log</header_text>
                 </arguments>
             </block>

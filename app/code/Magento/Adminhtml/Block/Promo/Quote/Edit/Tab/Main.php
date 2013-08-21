@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_SalesRule_Helper_Data')->__('Rule Information');
+        return __('Rule Information');
     }
 
     /**
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_SalesRule_Helper_Data')->__('Rule Information');
+        return __('Rule Information');
     }
 
     /**
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend' => Mage::helper('Magento_SalesRule_Helper_Data')->__('General Information'))
+            array('legend' => __('General Information'))
         );
 
         if ($model->getId()) {
@@ -82,26 +82,26 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Rule Name'),
-            'title' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Rule Name'),
+            'label' => __('Rule Name'),
+            'title' => __('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Description'),
-            'title' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Description'),
+            'label' => __('Description'),
+            'title' => __('Description'),
             'style' => 'height: 100px;',
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
+            'title'     => __('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
-                '1' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Active'),
-                '0' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Inactive'),
+                '1' => __('Active'),
+                '0' => __('Inactive'),
             ),
         ));
 
@@ -119,8 +119,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         } else {
             $field = $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids[]',
-                'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Websites'),
-                'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Websites'),
+                'label'     => __('Websites'),
+                'title'     => __('Websites'),
                 'required' => true,
                 'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
             ));
@@ -139,35 +139,35 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         if (!$found) {
             array_unshift($customerGroups, array(
                 'value' => 0,
-                'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('NOT LOGGED IN'))
+                'label' => __('NOT LOGGED IN'))
             );
         }
 
         $fieldset->addField('customer_group_ids', 'multiselect', array(
             'name'      => 'customer_group_ids[]',
-            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Customer Groups'),
-            'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Customer Groups'),
+            'label'     => __('Customer Groups'),
+            'title'     => __('Customer Groups'),
             'required'  => true,
             'values'    => Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->toOptionArray(),
         ));
 
         $couponTypeFiled = $fieldset->addField('coupon_type', 'select', array(
             'name'       => 'coupon_type',
-            'label'      => Mage::helper('Magento_SalesRule_Helper_Data')->__('Coupon'),
+            'label'      => __('Coupon'),
             'required'   => true,
             'options'    => Mage::getModel('Magento_SalesRule_Model_Rule')->getCouponTypes(),
         ));
 
         $couponCodeFiled = $fieldset->addField('coupon_code', 'text', array(
             'name' => 'coupon_code',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Coupon Code'),
+            'label' => __('Coupon Code'),
             'required' => true,
         ));
 
         $autoGenerationCheckbox = $fieldset->addField('use_auto_generation', 'checkbox', array(
             'name'  => 'use_auto_generation',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Use Auto Generation'),
-            'note'  => Mage::helper('Magento_SalesRule_Helper_Data')->__('If you select and save the rule you will be able to generate multiple coupon codes.'),
+            'label' => __('Use Auto Generation'),
+            'note'  => __('If you select and save the rule you will be able to generate multiple coupon codes.'),
             'onclick' => 'handleCouponsTabContentActivity()',
             'checked' => (int)$model->getUseAutoGeneration() > 0 ? 'checked' : ''
         ));
@@ -178,27 +178,27 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         $usesPerCouponFiled = $fieldset->addField('uses_per_coupon', 'text', array(
             'name' => 'uses_per_coupon',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Uses per Coupon'),
+            'label' => __('Uses per Coupon'),
         ));
 
         $fieldset->addField('uses_per_customer', 'text', array(
             'name' => 'uses_per_customer',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Uses per Customer'),
+            'label' => __('Uses per Customer'),
         ));
 
         $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
-            'label'  => Mage::helper('Magento_SalesRule_Helper_Data')->__('From Date'),
-            'title'  => Mage::helper('Magento_SalesRule_Helper_Data')->__('From Date'),
+            'label'  => __('From Date'),
+            'title'  => __('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'   => 'to_date',
-            'label'  => Mage::helper('Magento_SalesRule_Helper_Data')->__('To Date'),
-            'title'  => Mage::helper('Magento_SalesRule_Helper_Data')->__('To Date'),
+            'label'  => __('To Date'),
+            'title'  => __('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
@@ -206,16 +206,16 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
-            'label' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Priority'),
+            'label' => __('Priority'),
         ));
 
         $fieldset->addField('is_rss', 'select', array(
-            'label'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Public In RSS Feed'),
-            'title'     => Mage::helper('Magento_SalesRule_Helper_Data')->__('Public In RSS Feed'),
+            'label'     => __('Public In RSS Feed'),
+            'title'     => __('Public In RSS Feed'),
             'name'      => 'is_rss',
             'options'   => array(
-                '1' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_SalesRule_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
         ));
 

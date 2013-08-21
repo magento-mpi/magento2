@@ -25,10 +25,10 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype extends
     {
         $this->_blockGroup = 'Magento_CustomerCustomAttributes';
         $this->_controller = 'adminhtml_customer_formtype';
-        $this->_headerText = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Manage Form Types');
+        $this->_headerText = __('Manage Form Types');
 
         parent::_construct();
 
-        $this->_updateButton('add', 'label', Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('New Form Type'));
+        $this->_updateButton('add', 'label', __('New Form Type'));
     }
 }

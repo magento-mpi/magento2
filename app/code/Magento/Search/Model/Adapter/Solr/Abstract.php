@@ -92,7 +92,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         } catch (Exception $e) {
             $this->_log->logException($e);
             Mage::throwException(
-                $this->_clientHelper->__('We were unable to perform the search because a search engine misconfiguration.')
+                __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }
     }

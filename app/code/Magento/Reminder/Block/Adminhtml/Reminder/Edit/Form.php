@@ -24,7 +24,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
     {
         parent::_construct();
         $this->setId('magento_reminder_rule_form');
-        $this->setTitle(Mage::helper('Magento_Reminder_Helper_Data')->__('Email Reminder Rule'));
+        $this->setTitle(__('Email Reminder Rule'));
     }
 
     /**

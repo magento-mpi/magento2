@@ -28,11 +28,11 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('Magento_Eav_Helper_Data')->__('Yes'),
+                    'label' => __('Yes'),
                     'value' => self::VALUE_YES
                 ),
                 array(
-                    'label' => Mage::helper('Magento_Eav_Helper_Data')->__('No'),
+                    'label' => __('No'),
                     'value' => self::VALUE_NO
                 ),
             );

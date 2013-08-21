@@ -24,18 +24,18 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation extends 
      */
     protected function _construct()
     {
-        $this->_addButtonLabel = Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Add Scheduled Export');
+        $this->_addButtonLabel = __('Add Scheduled Export');
         parent::_construct();
 
         $this->_addButton('add_new_import', array(
-            'label'   => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Add Scheduled Import'),
+            'label'   => __('Add Scheduled Import'),
             'onclick' => "setLocation('" . $this->getUrl('*/*/new', array('type' => 'import')) . "')",
             'class'   => 'add'
         ));
 
         $this->_blockGroup = 'Magento_ScheduledImportExport';
         $this->_controller = 'adminhtml_scheduled_operation';
-        $this->_headerText = Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Scheduled Import/Export');
+        $this->_headerText = __('Scheduled Import/Export');
     }
 
     /**

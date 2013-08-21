@@ -11,8 +11,8 @@
 <?php if( $this->getCollection() && $this->count()): ?>
 <div class="box-account box-reviews">
     <div class="box-head">
-        <h2><?php echo $this->__('My Recent Reviews') ?></h2>
-        <a href="<?php echo $this->getAllReviewsUrl() ?>"><?php echo $this->__('View All Reviews') ?></a>
+        <h2><?php echo __('My Recent Reviews') ?></h2>
+        <a href="<?php echo $this->getAllReviewsUrl() ?>"><?php echo __('View All Reviews') ?></a>
     </div>
     <ol id="my_recent_reviews">
     <?php $iterator = 0 ?>
@@ -23,7 +23,7 @@
                 <h3 class="product-name"><a href="<?php echo $this->getReviewUrl($_review->getReviewId()) ?>"><?php echo $this->escapeHtml($_review->getName()) ?></a></h3>
                 <?php if($_review->getSum()): ?>
                     <div class="ratings">
-                        <strong><?php echo $this->__('Rating:') ?></strong>
+                        <strong><?php echo __('Rating:') ?></strong>
                         <div class="rating-box">
                             <div class="rating" style="width:<?php echo ( $_review->getSum() / $_review->getCount() ) ?>%;"></div>
                         </div>

@@ -3,7 +3,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Backend
  * @subpackage  Config
  * @copyright   {copyright}
@@ -52,7 +52,6 @@
 
     <xs:attributeGroup name="tabAttributeGroup">
         <xs:attribute name="id" type="typeId" use="required" />
-        <xs:attribute name="module" type="typeModule" use="optional" />
         <xs:attribute name="translate" type="xs:string" use="optional" />
         <xs:attribute name="sortOrder" type="xs:int" use="optional" />
         <xs:attribute name="class" type="xs:string" use="optional" />
@@ -60,7 +59,6 @@
 
     <xs:attributeGroup name="elementsAttributeGroup">
         <xs:attribute name="id" type="typeId" use="required" />
-        <xs:attribute name="module" type="typeModule" use="optional" />
         <xs:attribute name="translate" type="xs:string" use="optional" />
         <xs:attribute name="type" type="xs:string" use="optional" />
         <xs:attribute name="sortOrder" type="xs:int" use="optional" />

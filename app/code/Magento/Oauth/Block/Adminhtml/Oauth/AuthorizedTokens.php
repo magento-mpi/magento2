@@ -26,7 +26,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens extends Magento_Admin
 
         $this->_blockGroup = 'Magento_Oauth';
         $this->_controller = 'adminhtml_oauth_authorizedTokens';
-        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Authorized OAuth Tokens');
+        $this->_headerText = __('Authorized OAuth Tokens');
 
         $this->_removeButton('add');
     }

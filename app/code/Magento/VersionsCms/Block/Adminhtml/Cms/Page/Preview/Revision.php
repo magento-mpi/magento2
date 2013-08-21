@@ -54,7 +54,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage
             } else {
                 $revisions[$item->getVersionId()] = array(
                     'revisions' => array($item),
-                    'label' => ($item->getLabel() ? $item->getLabel() : $this->__('N/A'))
+                    'label' => ($item->getLabel() ? $item->getLabel() : __('N/A'))
                 );
             }
         }

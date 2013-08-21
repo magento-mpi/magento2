@@ -19,7 +19,7 @@ class Magento_Customer_Model_Config_Source_Group implements Magento_Core_Model_O
             $this->_options = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
                 ->setRealGroupsFilter()
                 ->loadData()->toOptionArray();
-            array_unshift($this->_options, array('value'=> '', 'label'=> Mage::helper('Magento_Customer_Helper_Data')->__('-- Please Select --')));
+            array_unshift($this->_options, array('value'=> '', 'label'=> __('-- Please Select --')));
         }
         return $this->_options;
     }

@@ -17,8 +17,8 @@ class Magento_Reward_Model_Source_Points_InvitationOrder
     public function toOptionArray()
     {
         return array(
-            array('value' => '*', 'label' => Mage::helper('Magento_Reward_Helper_Data')->__('Each')),
-            array('value' => '1', 'label' => Mage::helper('Magento_Reward_Helper_Data')->__('First')),
+            array('value' => '*', 'label' => __('Each')),
+            array('value' => '1', 'label' => __('First')),
         );
     }
 }

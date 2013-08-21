@@ -35,7 +35,7 @@ class Magento_Tag_Block_Catalog_Product_Rss extends Magento_Rss_Block_Catalog_Ab
         $storeId = $this->_getStoreId();
         $tagModel = Mage::registry('tag_model');
         $newurl = Mage::getUrl('rss/catalog/tag/tagName/' . $tagModel->getName());
-        $title = Mage::helper('Magento_Tag_Helper_Data')->__('Products tagged with %s', $tagModel->getName());
+        $title = __('Products tagged with %1', $tagModel->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
         $rssObj = Mage::getModel('Magento_Rss_Model_Rss');

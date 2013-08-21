@@ -15,8 +15,8 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount extends Magento_Ad
     {
         $this->_controller = 'adminhtml_giftcardaccount';
         $this->_blockGroup = 'Magento_GiftCardAccount';
-        $this->_headerText = Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Gift Card Accounts');
-        $this->_addButtonLabel = Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Add Gift Card Account');
+        $this->_headerText = __('Gift Card Accounts');
+        $this->_addButtonLabel = __('Add Gift Card Account');
         parent::_construct();
     }
 }

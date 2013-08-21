@@ -24,15 +24,11 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Fr
     protected function setUp()
     {
         /** Set up mocks for SUT. */
-        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
         $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')->getMock();
-        $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
+        $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
         $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')
-            ->disableOriginalConstructor()
+        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
         $this->_errorProcessor = new Magento_Webapi_Controller_Dispatcher_ErrorProcessor(
@@ -201,8 +197,8 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Fr
             'Masked exception code is invalid.'
         );
         /** Assert masked exception message. */
-        $this->assertEquals(
-            'Internal Error. Details are available in Magento log file. Report ID: "%s"',
+        $this->assertContains(
+            'Internal Error. Details are available in Magento log file. Report ID: "webapi-',
             $maskedException->getMessage(),
             'Masked exception message is invalid.'
         );

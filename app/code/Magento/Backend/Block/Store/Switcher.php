@@ -114,7 +114,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
 
         $this->setUseConfirm(true);
         $this->setUseAjax(true);
-        $this->setDefaultStoreName($this->__('All Store Views'));
+        $this->setDefaultStoreName(__('All Store Views'));
     }
 
     /**
@@ -338,9 +338,9 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
                 . '<span class="help"><a'
                 . ' href="'. $this->escapeUrl($url) . '"'
                 . ' onclick="this.target=\'_blank\'"'
-                . ' title="' . $this->__('What is this?') . '"'
+                . ' title="' . __('What is this?') . '"'
                 . ' class="link-store-scope">'
-                . $this->__('What is this?')
+                . __('What is this?')
                 . '</a></span>'
                 .' </div>';
         }

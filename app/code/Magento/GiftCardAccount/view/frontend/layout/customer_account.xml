@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Magento_GiftCardAccount">
+            <action method="addLink" translate="label">
                 <name>magento_giftcardaccount</name>
                 <path>magento_giftcardaccount/customer/</path>
                 <label>Gift Card</label>

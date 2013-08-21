@@ -56,16 +56,6 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     }
 
     /**
-     * Hack real module name in order to make translations working correctly
-     *
-     * @return string
-     */
-    protected function _getRealModuleName()
-    {
-        return 'Magento_Customer';
-    }
-
-    /**
      * Initialize invitation from request
      *
      * @return Magento_Invitation_Model_Invitation
@@ -141,13 +131,13 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
             } else {
                 if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
-                        Mage::helper('Magento_Invitation_Helper_Data')->__('Your invitation is not valid. Please create an account.')
+                        __('Your invitation is not valid. Please create an account.')
                     );
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
                     $this->_getSession()->addError(
-                        Mage::helper('Magento_Invitation_Helper_Data')->__('Your invitation is not valid. Please contact us at %s.', Mage::getStoreConfig('trans_email/ident_support/email'))
+                        __('Your invitation is not valid. Please contact us at %1.', Mage::getStoreConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;
@@ -156,7 +146,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
         }
         catch (Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                ->addException($e, Mage::helper('Magento_Customer_Helper_Data')->__('Unable to save the customer.'));
+                ->addException($e, __('Unable to save the customer.'));
         }
 
         $this->_redirectError('');

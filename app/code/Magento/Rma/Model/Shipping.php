@@ -89,7 +89,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            Mage::throwException(Mage::helper('Magento_Rma_Helper_Data')->__('Invalid carrier: %s', $carrierCode));
+            Mage::throwException(__('Invalid carrier: %1', $carrierCode));
         }
 
         $shipperRegionCode  = Mage::getModel('Magento_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
@@ -109,7 +109,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
             || !$recipientAddress->getCountryId()
         ) {
             Mage::throwException(
-                Mage::helper('Magento_Rma_Helper_Data')->__('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
+                __('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
             );
         }
 
@@ -181,7 +181,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         }
 
         if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber())) {
-            return Mage::helper('Magento_Rma_Helper_Data')->__('No detail for number "%s"', $this->getTrackNumber());
+            return __('No detail for number "%1"', $this->getTrackNumber());
         }
 
         return $trackingInfo;

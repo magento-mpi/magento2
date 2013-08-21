@@ -68,7 +68,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
          * Define general properties for each node
          */
         $fieldset   = $form->addFieldset('node_properties_fieldset', array(
-            'legend'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Page Properties')
+            'legend'    => __('Page Properties')
         ));
 
         $fieldset->addField('nodes_data', 'hidden', array(
@@ -108,7 +108,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
 
         $fieldset->addField('node_label', 'text', array(
             'name'      => 'label',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Title'),
+            'label'     => __('Title'),
             'required'  => true,
             'onchange'   => 'hierarchyNodes.nodeChanged()',
             'tabindex'   => '10'
@@ -116,7 +116,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
 
         $fieldset->addField('node_identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('URL Key'),
+            'label'     => __('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
             'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -124,17 +124,17 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
 
         $fieldset->addField('node_label_text', 'note', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Title')
+            'label'     => __('Title')
         ));
 
         $fieldset->addField('node_identifier_text', 'note', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('URL Key')
+            'label'     => __('URL Key')
         ));
 
         $fieldset->addField('node_preview', 'link', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Preview'),
+            'label'     => __('Preview'),
             'href'      => '#',
-            'value'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Preview is not available.'),
+            'value'     => __('Preview is not available.'),
         ));
 
         $yesNoOptions = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
@@ -144,13 +144,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
          */
         if (Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()) {
             $fieldset   = $form->addFieldset('metadata_fieldset', array(
-                'legend'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Render Metadata in HTML Head.')
+                'legend'    => __('Render Metadata in HTML Head.')
             ));
 
 
             $fieldset->addField('meta_first_last', 'select', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('First'),
-                'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('First'),
+                'label'     => __('First'),
+                'title'     => __('First'),
                 'name'      => 'meta_first_last',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -159,8 +159,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             ));
 
             $fieldset->addField('meta_next_previous', 'select', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Next/Previous'),
-                'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Next/Previous'),
+                'label'     => __('Next/Previous'),
+                'title'     => __('Next/Previous'),
                 'name'      => 'meta_next_previous',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
@@ -169,24 +169,24 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             ));
 
             $fieldset->addField('meta_cs_enabled', 'select', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Enable Chapter/Section'),
-                'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Enable Chapter/Section'),
+                'label'     => __('Enable Chapter/Section'),
+                'title'     => __('Enable Chapter/Section'),
                 'name'      => 'meta_cs_enabled',
                 'values'    => $yesNoOptions,
                 'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_cs_enabled',
-                'note'      => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Enables Chapter/Section functionality for this node, its sub-nodes and pages'),
+                'note'      => __('Enables Chapter/Section functionality for this node, its sub-nodes and pages'),
                 'tabindex'  => '45'
             ));
 
             $fieldset->addField('meta_chapter_section', 'select', array(
-                'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Chapter/Section'),
-                'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Chapter/Section'),
+                'label'     => __('Chapter/Section'),
+                'title'     => __('Chapter/Section'),
                 'name'      => 'meta_chapter_section',
                 'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Chapter')->toOptionArray(),
                 'onchange'  => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_meta_chapter_section',
-                'note'      => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Defines this node as Chapter/Section'),
+                'note'      => __('Defines this node as Chapter/Section'),
                 'tabindex'  => '50'
             ));
         }
@@ -195,11 +195,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
          * Pagination options
          */
         $pagerFieldset   = $form->addFieldset('pager_fieldset', array(
-            'legend'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Pagination Options for Nested Pages')
+            'legend'    => __('Pagination Options for Nested Pages')
         ));
 
         $pagerFieldset->addField('pager_visibility', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Enable Pagination'),
+            'label'     => __('Enable Pagination'),
             'name'      => 'pager_visibility',
             'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Visibility')->toOptionArray(),
             'value'     => Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
@@ -208,20 +208,20 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
         $pagerFieldset->addField('pager_frame', 'text', array(
             'name'      => 'pager_frame',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Frame'),
+            'label'     => __('Frame'),
             'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
-            'note'      => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Set the number of links to display at one time.'),
+            'note'      => __('Set the number of links to display at one time.'),
             'tabindex'  => '80'
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Frame Skip'),
+            'label'     => __('Frame Skip'),
             'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_jump',
-            'note'      => Mage::helper('Magento_VersionsCms_Helper_Data')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
+            'note'      => __('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
             'tabindex'  => '90'
         ));
 
@@ -229,11 +229,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
          * Context menu options
          */
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
-            'legend'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Page Navigation Menu Options')
+            'legend'    => __('Page Navigation Menu Options')
         ));
 
         $menuFieldset->addField('menu_excluded', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Exclude from Navigation Menu'),
+            'label'     => __('Exclude from Navigation Menu'),
             'name'      => 'menu_excluded',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -242,7 +242,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
 
         $menuFieldset->addField('menu_visibility', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Show in navigation menu.'),
+            'label'     => __('Show in navigation menu.'),
             'name'      => 'menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
@@ -251,7 +251,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
 
         $menuFieldset->addField('menu_layout', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Menu Layout'),
+            'label'     => __('Menu Layout'),
             'name'      => 'menu_layout',
             'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout')->toOptionArray(true),
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -260,11 +260,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
 
         $menuBriefOptions = array(
-            array('value' => 1, 'label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Only Children')),
-            array('value' => 0, 'label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Neighbours and Children')),
+            array('value' => 1, 'label' => __('Only Children')),
+            array('value' => 0, 'label' => __('Neighbours and Children')),
         );
         $menuFieldset->addField('menu_brief', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Menu Detalization'),
+            'label'     => __('Menu Detalization'),
             'name'      => 'menu_brief',
             'values'    => $menuBriefOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -273,16 +273,16 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Maximal Depth'),
+            'label'     => __('Maximal Depth'),
             'class'     => 'validate-digits',
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
-            'note'      => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Node Levels to Include'),
+            'note'      => __('Node Levels to Include'),
             'tabindex'  => '130'
         ));
         $menuFieldset->addField('menu_ordered', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('List Type'),
-            'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('List Type'),
+            'label'     => __('List Type'),
+            'title'     => __('List Type'),
             'name'      => 'menu_ordered',
             'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listtype')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.menuListTypeChanged()',
@@ -290,8 +290,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
             'tabindex'  => '140'
         ));
         $menuFieldset->addField('menu_list_type', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('List Style'),
-            'title'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('List Style'),
+            'label'     => __('List Style'),
+            'title'     => __('List Style'),
             'name'      => 'menu_list_type',
             'values'    => Mage::getSingleton('Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listmode')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
@@ -303,11 +303,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
          * Top menu options
          */
         $menuFieldset   = $form->addFieldset('top_menu_fieldset', array(
-            'legend'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Main Navigation Menu Options')
+            'legend'    => __('Main Navigation Menu Options')
         ));
 
         $menuFieldset->addField('top_menu_excluded', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Exclude from Navigation Menu'),
+            'label'     => __('Exclude from Navigation Menu'),
             'name'      => 'top_menu_excluded',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
@@ -316,7 +316,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         ));
 
         $menuFieldset->addField('top_menu_visibility', 'select', array(
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Show in navigation menu.'),
+            'label'     => __('Show in navigation menu.'),
             'name'      => 'top_menu_visibility',
             'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",
@@ -339,7 +339,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     {
         $addButtonData = array(
             'id'        => 'add_cms_pages',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Add selected page(s) to the tree.'),
+            'label'     => __('Add selected page(s) to the tree.'),
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
             'class'     => 'add'
         );
@@ -357,19 +357,19 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Remove from tree.'),
+            'label'     => __('Remove from tree.'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete'
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Cancel'),
+            'label'     => __('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'cancel'
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Save'),
+            'label'     => __('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
             'class'     => 'save'
         ))->toHtml();
@@ -386,7 +386,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     {
         return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'new_node_button',
-            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Add Node...'),
+            'label'     => __('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
             'class'     => 'add'
         ))->toHtml();
@@ -481,7 +481,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getButtonSaveLabel()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Add to tree.');
+        return __('Add to tree.');
     }
 
     /**
@@ -491,7 +491,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getButtonUpdateLabel()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Update');
+        return __('Update');
     }
 
     /**
@@ -501,7 +501,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getNodeFieldsetLegend()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Node Properties');
+        return __('Node Properties');
     }
 
     /**
@@ -511,7 +511,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getPageFieldsetLegend()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('Page Properties');
+        return __('Page Properties');
     }
 
     /**
@@ -663,7 +663,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
      */
     public function getLockAlertMessage()
     {
-        return Mage::helper('Magento_VersionsCms_Helper_Data')->__('The page lock expires in 60 seconds. Save now to avoid data loss.');
+        return __('The page lock expires in 60 seconds. Save now to avoid data loss.');
     }
 
     /**

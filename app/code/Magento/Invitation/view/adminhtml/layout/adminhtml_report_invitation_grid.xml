@@ -19,7 +19,7 @@
         <reference name="adminhtml.report.grid.columnSet">
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Sent</header>
+                    <header translate="true">Sent</header>
                     <type>number</type>
                     <index>sent</index>
                     <id>sent</id>
@@ -29,7 +29,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Accepted</header>
+                    <header translate="true">Accepted</header>
                     <type>number</type>
                     <index>accepted</index>
                     <id>accepted</id>
@@ -39,7 +39,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Discarded</header>
+                    <header translate="true">Discarded</header>
                     <type>number</type>
                     <index>canceled</index>
                     <id>canceled</id>
@@ -49,7 +49,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted_rate">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Accept Rate</header>
+                    <header translate="true">Accept Rate</header>
                     <type>string</type>
                     <index>accepted_rate</index>
                     <id>accepted_rated</id>
@@ -61,7 +61,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled_rate">
                 <arguments>
-                    <header translate="true" module="Magento_Invitation">Discard Rate</header>
+                    <header translate="true">Discard Rate</header>
                     <type>number</type>
                     <index>canceled_rate</index>
                     <id>canceled_rate</id>

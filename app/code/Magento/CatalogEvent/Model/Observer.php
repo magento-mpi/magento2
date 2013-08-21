@@ -179,11 +179,11 @@ class Magento_CatalogEvent_Model_Observer
                 if ($event->getStatus() !== Magento_CatalogEvent_Model_Event::STATUS_OPEN) {
                     $item->setHasError(true)
                         ->setMessage(
-                            Mage::helper('Magento_CatalogEvent_Helper_Data')->__('The sale for this product is closed.')
+                            __('The sale for this product is closed.')
                         );
                     $item->getQuote()->setHasError(true)
                         ->addMessage(
-                            Mage::helper('Magento_CatalogEvent_Helper_Data')->__('Some of these products can no longer be sold.')
+                            __('Some of these products can no longer be sold.')
                         );
                 }
             } else {

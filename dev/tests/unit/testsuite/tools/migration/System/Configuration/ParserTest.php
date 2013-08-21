@@ -62,7 +62,7 @@ XML;
 -->
 <config>
     <sections>
-        <some_section translate="label" module="Magento_Some">
+        <some_section translate="label">
             <label>Section Name</label>
             <tab>test</tab>
             <frontend_type>text</frontend_type>
@@ -95,7 +95,7 @@ XMLCOMMENT;
                     'show_in_website' => array('#text' => '1'),
                     'show_in_store' => array('#text' => '1'),
                     'resource' => array('#text' => 'Magento_Some::resource'),
-                    '@attributes' => array('translate' => 'label', 'module' => 'Magento_Some')
+                    '@attributes' => array('translate' => 'label')
                 )
             )
         );

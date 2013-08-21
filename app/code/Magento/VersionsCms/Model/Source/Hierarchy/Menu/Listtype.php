@@ -25,8 +25,8 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listtype
     public function toOptionArray()
     {
         return array(
-            '0'  => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Unordered'),
-            '1' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Ordered'),
+            '0'  => __('Unordered'),
+            '1' => __('Ordered'),
         );
     }
 }

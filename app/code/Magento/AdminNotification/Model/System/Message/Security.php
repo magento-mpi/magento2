@@ -47,29 +47,21 @@ class Magento_AdminNotification_Model_System_Message_Security
     protected $_curlFactory;
 
     /**
-     * @var Magento_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_HTTP_Adapter_CurlFactory $curlFactory
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Core_Model_Config $config,
-        Magento_HTTP_Adapter_CurlFactory $curlFactory,
-        Magento_Core_Model_Factory_Helper $helperFactory
+        Magento_HTTP_Adapter_CurlFactory $curlFactory
     ) {
         $this->_cache = $cache;
         $this->_storeConfig = $storeConfig;
         $this->_config = $config;
         $this->_curlFactory = $curlFactory;
-        $this->_helperFactory = $helperFactory;
     }
 
     /**
@@ -141,7 +133,7 @@ class Magento_AdminNotification_Model_System_Message_Security
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Magento_AdminNotification_Helper_Data')->__('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
+        return __('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
     }
 
     /**

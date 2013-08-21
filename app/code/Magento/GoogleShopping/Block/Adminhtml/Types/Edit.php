@@ -26,9 +26,9 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtm
         $this->_mode = 'edit';
         $model = Mage::registry('current_item_type');
         $this->_removeButton('reset');
-        $this->_updateButton('save', 'label', $this->__('Save Mapping'));
+        $this->_updateButton('save', 'label', __('Save Mapping'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', $this->__('Delete Mapping'));
+        $this->_updateButton('delete', 'label', __('Delete Mapping'));
         if ($model && !$model->getId()) {
             $this->_removeButton('delete');
         }
@@ -54,9 +54,9 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtm
     public function getHeaderText()
     {
         if(!is_null(Mage::registry('current_item_type')->getId())) {
-            return $this->__('Edit attribute set mapping');
+            return __('Edit attribute set mapping');
         } else {
-            return $this->__('New attribute set mapping');
+            return __('New attribute set mapping');
         }
     }
 

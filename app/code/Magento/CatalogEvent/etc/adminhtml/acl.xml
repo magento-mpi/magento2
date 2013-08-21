@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_Enterprise::marketing_private_sales">
-                        <resource id="Magento_CatalogEvent::events" module="Magento_CatalogEvent" title="Events" sortOrder="10" />
+                        <resource id="Magento_CatalogEvent::events" title="Events" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

@@ -49,7 +49,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_AbstractTest
         /** @var $listAbstractBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract */
         $listAbstractBlock = $this->getMockForAbstractClass(
             'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract', array(), '', false, false, true,
-            array('getChildBlock', 'getLayout', '__')
+            array('getChildBlock', 'getLayout')
         );
         /** @var $themeMock Magento_Core_Model_Theme */
         $themeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);

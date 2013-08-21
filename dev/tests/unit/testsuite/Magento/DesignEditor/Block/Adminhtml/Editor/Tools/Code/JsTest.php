@@ -40,8 +40,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
     {
         $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
         $this->_themeContext = $this->getMock('Magento_DesignEditor_Model_Theme_Context', array(), array(), '', false);
-        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCustomization'), array(),
-            '', false);
+        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCustomization'), array(), '',
+            false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::TEST_THEME_ID));
         $this->_themeContext->expects($this->any())->method('getEditableTheme')
             ->will($this->returnValue($this->_theme));
@@ -57,7 +57,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
         ));
         $this->_model = $this->getMock(
             'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js',
-            array('__', 'helper'),
+            array('helper'),
             $constructArguments
         );
     }
@@ -103,9 +103,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
      */
     public function testGetTitle()
     {
-        $this->_model->expects($this->atLeastOnce())
-            ->method('__')
-            ->will($this->returnArgument(0));
         $this->assertEquals('Custom javascript files', $this->_model->getTitle());
     }
 

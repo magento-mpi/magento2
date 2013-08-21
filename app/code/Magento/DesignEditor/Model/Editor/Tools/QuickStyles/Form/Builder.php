@@ -19,11 +19,6 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected $_formFactory;
 
     /**
-     * @var Magento_Core_Model_Translate
-     */
-    protected $_translator;
-
-    /**
      * @var Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
     protected $_rendererFactory;
@@ -50,20 +45,17 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
-     * @param Magento_Core_Model_Translate $translator
      */
     public function __construct(
         Magento_Data_Form_Factory $formFactory,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
-        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
-        Magento_Core_Model_Translate $translator
+        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
     ) {
         $this->_formFactory     = $formFactory;
         $this->_configFactory   = $configFactory;
         $this->_rendererFactory = $rendererFactory;
         $this->_elementsFactory = $elementsFactory;
-        $this->_translator      = $translator;
     }
 
     /**
@@ -103,7 +95,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         }
 
         if ($this->_isFormEmpty($form)) {
-            $hintMessage = $this->__('Sorry, but you cannot edit these theme styles.');
+            $hintMessage = __('Sorry, but you cannot edit these theme styles.');
             $form->addField($data['tab'] . '-tab-error', 'note', array(
                 'after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'
             ), '^');
@@ -198,7 +190,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected function _buildElementConfig($htmlId, $positionData, $control)
     {
-        $label = $this->__($positionData['title']);
+        $label = __($positionData['title']);
 
         $config = array(
             'name'  => $htmlId,
@@ -230,19 +222,5 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected function _addElementTypes($form)
     {
         $form->addType('column', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column');
-    }
-
-    /**
-     * Translate sentence
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    protected function __()
-    {
-        $args = func_get_args();
-        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), 'Magento_DesignEditor');
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
     }
 }

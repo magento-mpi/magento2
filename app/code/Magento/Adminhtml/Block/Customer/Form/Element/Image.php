@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Customer_Form_Element_Image extends Magento_Adminh
      */
     protected function _getDeleteCheckboxLabel()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->__('Delete Image');
+        return __('Delete Image');
     }
 
     /**
@@ -50,8 +50,8 @@ class Magento_Adminhtml_Block_Customer_Form_Element_Image extends Magento_Adminh
             $url = $this->_getPreviewUrl();
             $imageId = sprintf('%s_image', $this->getHtmlId());
             $image   = array(
-                'alt'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('View Full Size'),
-                'title'  => Mage::helper('Magento_Adminhtml_Helper_Data')->__('View Full Size'),
+                'alt'    => __('View Full Size'),
+                'title'  => __('View Full Size'),
                 'src'    => $url,
                 'class'  => 'small-image-preview v-middle',
                 'height' => 22,

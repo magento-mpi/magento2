@@ -31,7 +31,7 @@ abstract class Magento_CustomerCustomAttributes_Block_Form_Renderer_Abstract ext
             $this->getEntity()->getId() &&
             $this->getEntity()->validate() === true &&
             $this->validateValue($this->getValue()) !== true) {
-                $result = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Edit this attribute here to use in an address template.');
+                $result = __('Edit this attribute here to use in an address template.');
             }
 
         return $result;

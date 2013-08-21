@@ -25,15 +25,15 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listmode
     public function toOptionArray()
     {
         return array(
-            ''          => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Default'),
-            '1'         => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Numbers (1, 2, 3, ...)'),
-            'a'         => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Lower Alpha (a, b, c, ...)'),
-            'A'         => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Upper Alpha (A, B, C, ...)'),
-            'i'         => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Lower Roman (i, ii, iii, ...)'),
-            'I'         => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Upper Roman (I, II, III, ...)'),
-            'circle'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Circle'),
-            'disc'      => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Disc'),
-            'square'    => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Square'),
+            ''          => __('Default'),
+            '1'         => __('Numbers (1, 2, 3, ...)'),
+            'a'         => __('Lower Alpha (a, b, c, ...)'),
+            'A'         => __('Upper Alpha (A, B, C, ...)'),
+            'i'         => __('Lower Roman (i, ii, iii, ...)'),
+            'I'         => __('Upper Roman (I, II, III, ...)'),
+            'circle'    => __('Circle'),
+            'disc'      => __('Disc'),
+            'square'    => __('Square'),
         );
     }
 }

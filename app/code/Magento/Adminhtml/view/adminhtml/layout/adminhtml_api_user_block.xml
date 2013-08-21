@@ -73,11 +73,11 @@
                             <options>
                                 <active>
                                     <value>1</value>
-                                    <label translate="true" module="Magento_Backend">Active</label>
+                                    <label translate="true">Active</label>
                                 </active>
                                 <inactive>
                                     <value>0</value>
-                                    <label translate="true" module="Magento_Backend">Inactive</label>
+                                    <label translate="true">Inactive</label>
                                 </inactive>
                             </options>
                         </arguments>

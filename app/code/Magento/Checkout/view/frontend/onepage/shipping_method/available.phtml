@@ -11,7 +11,7 @@
 <?php /** @var $this Magento_Checkout_Block_Onepage_Shipping_Method_Available */ ?>
 <?php $_shippingRateGroups = $this->getShippingRates(); ?>
 <?php if (!$_shippingRateGroups): ?>
-    <p><?php echo $this->__('Sorry, no quotes are available for this order.') ?></p>
+    <p><?php echo __('Sorry, no quotes are available for this order.') ?></p>
 <?php else: ?>
     <dl class="sp-methods">
     <?php $shippingCodePrice = array(); ?>
@@ -35,7 +35,7 @@
                         <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                         <?php echo $_excl; ?>
                         <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                            (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                         <?php endif; ?>
                         </label>
                    <?php endif ?>

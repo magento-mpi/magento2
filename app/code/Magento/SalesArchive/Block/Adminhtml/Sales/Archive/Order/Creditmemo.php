@@ -19,6 +19,6 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo
     protected function _construct()
     {
         $this->_controller = 'sales_creditmemo';
-        $this->_headerText = Mage::helper('Magento_SalesArchive_Helper_Data')->__('Credit Memos Archive');
+        $this->_headerText = __('Credit Memos Archive');
     }
 }

@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="catalog">
-            <group id="magento_catalogpermissions" translate="label" module="Magento_CatalogPermissions" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="magento_catalogpermissions" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category Permissions</label>
                 <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable</label>

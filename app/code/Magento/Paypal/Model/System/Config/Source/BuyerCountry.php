@@ -19,7 +19,7 @@ class Magento_Paypal_Model_System_Config_Source_BuyerCountry
         $options = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')
             ->addCountryCodeFilter($supported, 'iso2')
             ->loadData()
-            ->toOptionArray($isMultiselect ? false : Mage::helper('Magento_Adminhtml_Helper_Data')->__('--Please Select--'));
+            ->toOptionArray($isMultiselect ? false : __('--Please Select--'));
 
         return $options;
     }

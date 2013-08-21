@@ -44,10 +44,10 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
             $session->addError($e->getMessage());
         } catch (Magento_Oauth_Exception $e) {
             $isException = true;
-            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
+            $session->addException($e, __('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
             $isException = true;
-            $session->addException($e, $this->__('An error occurred.'));
+            $session->addException($e, __('An error occurred.'));
         }
 
         $this->loadLayout();
@@ -90,7 +90,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
         /** @var $session Magento_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
         if (!$session->getCustomerId()) {
-            $session->addError($this->__('Please login to proceed authorization.'));
+            $session->addError(__('Please login to proceed authorization.'));
             $url = $helper->getAuthorizeUrl(Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER);
             $this->_redirectUrl($url);
             return $this;
@@ -114,14 +114,14 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
                 return $this;
             } else {
                 $block->setVerifier($token->getVerifier());
-                $session->addSuccess($this->__('Authorization confirmed.'));
+                $session->addSuccess(__('Authorization confirmed.'));
             }
         } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Magento_Oauth_Exception $e) {
-            $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
+            $session->addException($e, __('An error occurred. Your authorization request is invalid.'));
         } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred on confirm authorize.'));
+            $session->addException($e, __('An error occurred on confirm authorize.'));
         }
 
         $this->_initLayoutMessages($this->_sessionName);
@@ -159,12 +159,12 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;
             } else {
-                $session->addNotice($this->__('The application access request is rejected.'));
+                $session->addNotice(__('The application access request is rejected.'));
             }
         } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
-            $session->addException($e, $this->__('An error occurred on reject authorize.'));
+            $session->addException($e, __('An error occurred on reject authorize.'));
         }
 
         $this->_initLayoutMessages($this->_sessionName);

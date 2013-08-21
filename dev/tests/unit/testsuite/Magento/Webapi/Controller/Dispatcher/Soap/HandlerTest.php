@@ -52,7 +52,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
             )->disableOriginalConstructor()
             ->getMock();
         $this->_helperMock = $this->getMockBuilder('Magento_Webapi_Helper_Data')
-            ->setMethods(array('__', 'prepareMethodParams'))
+            ->setMethods(array('prepareMethodParams'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Soap_Authentication')
@@ -105,7 +105,6 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
     {
         /** Prepare mocks for SUT constructor. */
         $this->_handler->setRequestHeaders(array('invalidHeader'));
-        $this->_helperMock->expects($this->once())->method('__')->will($this->returnArgument(0));
         $this->setExpectedException(
             'Magento_Webapi_Model_Soap_Fault',
             'WS-Security UsernameToken is not found in SOAP-request.'
@@ -158,10 +157,6 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
         $this->_apiConfigMock->expects($this->once())
             ->method('validateVersionNumber')
             ->with(1, 'resourceName');
-        $this->_helperMock->expects($this->once())
-            ->method('__')
-            ->with('Method "%s" is not found.', 'operation')
-            ->will($this->returnValue('Method "operation" is not found.'));
         $this->setExpectedException(
             'Magento_Webapi_Model_Soap_Fault',
             'Method "operation" is not found.'
@@ -181,10 +176,6 @@ class Magento_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Fram
         $this->_apiConfigMock->expects($this->once())
             ->method('getResourceNameByOperation')
             ->will($this->returnValue(false));
-        $this->_helperMock->expects($this->once())
-            ->method('__')
-            ->with('The version of "%s" operation cannot be identified.', 'operationName')
-            ->will($this->returnValue('The version of "operationName" operation cannot be identified.'));
         $this->setExpectedException(
             'Magento_Webapi_Model_Soap_Fault',
             'The version of "operationName" operation cannot be identified.'

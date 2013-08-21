@@ -36,7 +36,7 @@ class Magento_Directory_Model_Resource_Country_Format extends Magento_Core_Model
     {
         $this->_uniqueFields = array(array(
             'field' => array('country_id', 'type'),
-            'title' => Mage::helper('Magento_Directory_Helper_Data')->__('Country and Format Type combination should be unique')
+            'title' => __('Country and Format Type combination should be unique')
         ));
         return $this;
     }

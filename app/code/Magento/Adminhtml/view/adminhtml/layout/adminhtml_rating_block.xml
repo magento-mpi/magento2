@@ -29,7 +29,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="rating_id">
                         <arguments>
-                            <header translate="true" module="Magento_Rating">ID</header>
+                            <header translate="true">ID</header>
                             <align>right</align>
                             <width>50px</width>
                             <index>rating_id</index>
@@ -37,13 +37,13 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="rating_code">
                         <arguments>
-                            <header translate="true" module="Magento_Rating">Rating</header>
+                            <header translate="true">Rating</header>
                             <index>rating_code</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="position">
                         <arguments>
-                            <header translate="true" module="Magento_Rating">Sort Order</header>
+                            <header translate="true">Sort Order</header>
                             <align>left</align>
                             <width>100px</width>
                             <index>position</index>
@@ -51,18 +51,18 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true" module="Magento_Rating">Is Active</header>
+                            <header translate="true">Is Active</header>
                             <align>left</align>
                             <index>is_active</index>
                             <type>options</type>
                             <options>
                                 <active>
                                     <value>1</value>
-                                    <label translate="true" module="Magento_Rating">Active</label>
+                                    <label translate="true">Active</label>
                                 </active>
                                 <inative>
                                     <value>0</value>
-                                    <label translate="true" module="Magento_Rating">Inactive</label>
+                                    <label translate="true">Inactive</label>
                                 </inative>
                             </options>
                         </arguments>

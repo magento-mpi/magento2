@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected function _prepareLayout()
     {
         $this->addChild('create_empty', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Create Empty'),
+            'label' => __('Create Empty'),
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
@@ -109,7 +109,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
 //            );
 //
 //            $this->addChild('create_from_configurable', 'Magento_Adminhtml_Block_Widget_Button', array(
-//                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Copy From Configurable'),
+//                'label' => __('Copy From Configurable'),
 //                'class' => 'add',
 //                'onclick' => 'superProduct.createNewProduct()'
 //            ));
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             'generate',
             'Magento_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Generate Variations'),
+                'label' => __('Generate Variations'),
                 'class' => 'generate',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -139,7 +139,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             'add_attribute',
             'Magento_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Create New Variation Set'),
+                'label' => __('Create New Variation Set'),
                 'class' => 'new-variation-set',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -168,7 +168,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             'add_option',
             'Magento_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Option'),
+                'label' => __('Add Option'),
                 'class' => 'action- scalable add',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -354,7 +354,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Associated Products');
+        return __('Associated Products');
     }
 
     /**
@@ -364,7 +364,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Associated Products');
+        return __('Associated Products');
     }
 
     /**

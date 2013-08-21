@@ -36,7 +36,7 @@ abstract class Magento_TargetRule_Model_Resource_Index_Abstract extends Magento_
     {
         if (is_null($this->_listType)) {
             Mage::throwException(
-                Mage::helper('Magento_TargetRule_Helper_Data')->__('The product list type identifier is not defined.')
+                __('The product list type identifier is not defined.')
             );
         }
         return $this->_listType;

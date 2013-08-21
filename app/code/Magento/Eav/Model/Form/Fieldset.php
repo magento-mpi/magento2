@@ -72,7 +72,7 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            Mage::throwException(Mage::helper('Magento_Eav_Helper_Data')->__('Invalid form type.'));
+            Mage::throwException(__('Invalid form type.'));
         }
         if (!$this->getStoreId() && $this->getLabel()) {
             $this->setStoreLabel($this->getStoreId(), $this->getLabel());

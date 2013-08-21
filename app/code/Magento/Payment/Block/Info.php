@@ -32,7 +32,7 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     {
         $info = $this->getData('info');
         if (!($info instanceof Magento_Payment_Model_Info)) {
-            Mage::throwException($this->__('We cannot retrieve the payment info model object.'));
+            Mage::throwException(__('We cannot retrieve the payment info model object.'));
         }
         return $info;
     }

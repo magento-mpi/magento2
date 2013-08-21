@@ -45,7 +45,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
 
         $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
-            ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
             ->setSourceUrl($sourceUrl)
@@ -213,21 +212,21 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'index'     => 'entity_id',
             'header_css_class'  => 'col-id',
             'column_css_class'  => 'col-id'
         ));
         $this->addColumn('chooser_sku', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'name'      => 'chooser_sku',
             'index'     => 'sku',
             'header_css_class'  => 'col-sku',
             'column_css_class'  => 'col-sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'name'      => 'chooser_name',
             'index'     => 'name',
             'header_css_class'  => 'col-product',

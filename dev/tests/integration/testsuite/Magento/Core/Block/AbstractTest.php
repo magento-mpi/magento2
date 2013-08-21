@@ -533,7 +533,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function test__()
     {
         $str = uniqid();
-        $this->assertEquals($str, $this->_block->__($str));
+        $this->assertEquals($str, __($str));
     }
 
     /**

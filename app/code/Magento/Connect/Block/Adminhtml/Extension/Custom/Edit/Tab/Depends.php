@@ -32,19 +32,19 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
         $form->setHtmlIdPrefix('_depends');
 
         $fieldset = $form->addFieldset('depends_php_fieldset', array(
-            'legend'    => Mage::helper('Magento_Connect_Helper_Data')->__('PHP Version')
+            'legend'    => __('PHP Version')
         ));
 
         $fieldset->addField('depends_php_min', 'text', array(
             'name'      => 'depends_php_min',
-            'label'     => Mage::helper('Magento_Connect_Helper_Data')->__('Minimum'),
+            'label'     => __('Minimum'),
             'required'  => true,
             'value'     => '5.2.0',
         ));
 
         $fieldset->addField('depends_php_max', 'text', array(
             'name'      => 'depends_php_max',
-            'label'     => Mage::helper('Magento_Connect_Helper_Data')->__('Maximum'),
+            'label'     => __('Maximum'),
             'required'  => true,
             'value'     => '5.2.20',
         ));
@@ -77,7 +77,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Connect_Helper_Data')->__('Dependencies');
+        return __('Dependencies');
     }
 
     /**
@@ -87,6 +87,6 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Connect_Helper_Data')->__('Dependencies');
+        return __('Dependencies');
     }
 }

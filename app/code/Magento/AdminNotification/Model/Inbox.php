@@ -52,10 +52,10 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
     public function getSeverities($severity = null)
     {
         $severities = array(
-            self::SEVERITY_CRITICAL => Mage::helper('Magento_AdminNotification_Helper_Data')->__('critical'),
-            self::SEVERITY_MAJOR    => Mage::helper('Magento_AdminNotification_Helper_Data')->__('major'),
-            self::SEVERITY_MINOR    => Mage::helper('Magento_AdminNotification_Helper_Data')->__('minor'),
-            self::SEVERITY_NOTICE   => Mage::helper('Magento_AdminNotification_Helper_Data')->__('notice'),
+            self::SEVERITY_CRITICAL => __('critical'),
+            self::SEVERITY_MAJOR    => __('major'),
+            self::SEVERITY_MINOR    => __('minor'),
+            self::SEVERITY_NOTICE   => __('notice'),
         );
 
         if (!is_null($severity)) {
@@ -114,7 +114,7 @@ class Magento_AdminNotification_Model_Inbox extends Magento_Core_Model_Abstract
     public function add($severity, $title, $description, $url = '', $isInternal = true)
     {
         if (!$this->getSeverities($severity)) {
-            Mage::throwException($this->__('Wrong message type'));
+            Mage::throwException(__('Wrong message type'));
         }
         if (is_array($description)) {
             $description = '<ul><li>' . implode('</li><li>', $description) . '</li></ul>';

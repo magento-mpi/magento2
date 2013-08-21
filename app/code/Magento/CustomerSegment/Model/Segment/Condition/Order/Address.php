@@ -58,7 +58,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Magento_CustomerSegment_Helper_Data')->__('If Order Addresses match %s of these Conditions:', $this->getAggregatorElement()->getHtml())
+            . __('If Order Addresses match %1 of these Conditions:', $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

@@ -11,10 +11,10 @@
 -->
 <config>
     <system>
-        <tab id="sales" translate="label" module="Magento_Sales" sortOrder="400">
+        <tab id="sales" translate="label" sortOrder="400">
             <label>Sales</label>
         </tab>
-        <section id="sales" translate="label" module="Magento_Sales" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="sales" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Sales</label>
             <tab>sales</tab>
@@ -115,7 +115,7 @@
                 </field>
             </group>
         </section>
-        <section id="sales_email" translate="label" module="Magento_Sales" type="text" sortOrder="301" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="sales_email" translate="label" type="text" sortOrder="301" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Sales Emails</label>
             <tab>sales</tab>
             <resource>Magento_Sales::sales_email</resource>
@@ -336,7 +336,7 @@
                 </field>
             </group>
         </section>
-        <section id="sales_pdf" translate="label" module="Magento_Sales" type="text" sortOrder="302" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="sales_pdf" translate="label" type="text" sortOrder="302" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>PDF Print-outs</label>
             <tab>sales</tab>
             <resource>Magento_Sales::sales_pdf</resource>

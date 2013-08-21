@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Account Information');
+        return __('Account Information');
     }
 
     /**

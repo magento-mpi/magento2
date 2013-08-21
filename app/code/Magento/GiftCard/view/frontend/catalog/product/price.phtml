@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,12 +27,12 @@
             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_max, true, false) ?>
         </span>
     <?php */ elseif (($_min = $this->getMinAmount()) && $_min != 0): ?>
-        <span class="label"><?php echo Mage::helper('Magento_GiftCard_Helper_Data')->__('From') ?></span>
+        <span class="label"><?php echo __('From') ?></span>
         <span class="price" id="min-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_min,true,false) ?>
         </span>
     <?php /*elseif ($_max = $this->getMaxAmount()): ?>
-        <span class="label"><?php echo Mage::helper('Magento_GiftCard_Helper_Data')->__('Up To') ?></span>
+        <span class="label"><?php echo __('Up To') ?></span>
         <span class="price" id="max-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_max,true,false) ?>
         </span>

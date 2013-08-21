@@ -33,7 +33,7 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_Mu
     {
         if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
             throw new InvalidArgumentException(
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Please input a valid email address.')
+                __('Please input a valid email address.')
             );
         }
         $this->_email = $params['email'];

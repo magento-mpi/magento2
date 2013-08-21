@@ -25,6 +25,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order extends Magento_Rma_Block_Adm
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->__('Please Select Order');
+        return __('Please Select Order');
     }
 }

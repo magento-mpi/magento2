@@ -57,7 +57,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Ba
     {
         try {
             if (false == $this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception($this->_getHelper()->__('This section is not allowed.'));
+                throw new Exception(__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -77,7 +77,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Ba
             $configModel->save();
 
             $this->_session->addSuccess(
-                $this->_getHelper()->__('You saved the configuration.')
+                __('You saved the configuration.')
             );
         } catch (Magento_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
@@ -87,7 +87,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Ba
         } catch (Exception $e) {
             $this->_session->addException(
                 $e,
-                $this->_getHelper()->__('An error occurred while saving this configuration:') . ' ' . $e->getMessage()
+                __('An error occurred while saving this configuration:') . ' ' . $e->getMessage()
             );
         }
 

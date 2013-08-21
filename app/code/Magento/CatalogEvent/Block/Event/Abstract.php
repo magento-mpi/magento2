@@ -29,9 +29,9 @@ abstract class Magento_CatalogEvent_Block_Event_Abstract extends Magento_Core_Bl
     {
         parent::_construct();
         $this->_statuses = array(
-            Magento_CatalogEvent_Model_Event::STATUS_UPCOMING => $this->helper('Magento_CatalogEvent_Helper_Data')->__('Coming Soon'),
-            Magento_CatalogEvent_Model_Event::STATUS_OPEN     => $this->helper('Magento_CatalogEvent_Helper_Data')->__('Sale Ends In'),
-            Magento_CatalogEvent_Model_Event::STATUS_CLOSED   => $this->helper('Magento_CatalogEvent_Helper_Data')->__('Closed'),
+            Magento_CatalogEvent_Model_Event::STATUS_UPCOMING => __('Coming Soon'),
+            Magento_CatalogEvent_Model_Event::STATUS_OPEN     => __('Sale Ends In'),
+            Magento_CatalogEvent_Model_Event::STATUS_CLOSED   => __('Closed'),
         );
     }
 

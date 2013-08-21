@@ -77,7 +77,7 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Earned promotion extra points from order #%s', $incrementId);
+        return __('Earned promotion extra points from order #%1', $incrementId);
     }
 
     /**

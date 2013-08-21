@@ -39,7 +39,7 @@ class Magento_CustomerSegment_Model_Observer
         }
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Customer Segment'),
+            'label' => __('Customer Segment'),
             'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Segment'
         )));
     }
@@ -119,8 +119,8 @@ class Magento_CustomerSegment_Model_Observer
         $fieldset   = $form->getElement('base_fieldset');
         $fieldset->addField('is_used_for_customer_segment', 'select', array(
             'name'      => 'is_used_for_customer_segment',
-            'label'     => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
-            'title'     => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
+            'label'     => __('Use in Customer Segment'),
+            'title'     => __('Use in Customer Segment'),
             'values'    => Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
         ));
     }

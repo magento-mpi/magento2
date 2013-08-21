@@ -16,11 +16,11 @@
                 <resource id="Magento_Adminhtml::content">
                     <resource id="Magento_Adminhtml::content_elements">
                         <resource id="Magento_Cms::page">
-                            <resource id="Magento_VersionsCms::save_revision" module="Magento_VersionsCms" title="Save revision and version." sortOrder="17" />
-                            <resource id="Magento_VersionsCms::delete_revision" module="Magento_VersionsCms" title="Delete Revision and Version" sortOrder="25" />
-                            <resource id="Magento_VersionsCms::publish_revision" module="Magento_VersionsCms" title="Publish Revision" sortOrder="30" />
+                            <resource id="Magento_VersionsCms::save_revision" title="Save revision and version." sortOrder="17" />
+                            <resource id="Magento_VersionsCms::delete_revision" title="Delete Revision and Version" sortOrder="25" />
+                            <resource id="Magento_VersionsCms::publish_revision" title="Publish Revision" sortOrder="30" />
                         </resource>
-                        <resource id="Magento_VersionsCms::hierarchy" module="Magento_VersionsCms" title="Hierarchy" sortOrder="20" />
+                        <resource id="Magento_VersionsCms::hierarchy" title="Hierarchy" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

@@ -57,7 +57,7 @@ abstract class Magento_FullPageCache_Model_Container_Advanced_Abstract
     {
         $additionalCacheId = $this->_getAdditionalCacheId();
         if (!$additionalCacheId) {
-            Mage::throwException(Mage::helper('Magento_FullPageCache_Helper_Data')->__('Please enter an additional ID.'));
+            Mage::throwException(__('Please enter an additional ID.'));
         }
 
         $tags[] = Magento_FullPageCache_Model_Processor::CACHE_TAG;

@@ -180,6 +180,6 @@ class Magento_Customer_Block_Widget_Name extends Magento_Customer_Block_Widget_A
     public function getStoreLabel($attributeCode)
     {
         $attribute = $this->_getAttribute($attributeCode);
-        return $attribute ? $this->__($attribute->getStoreLabel()) : '';
+        return $attribute ? __($attribute->getStoreLabel()) : '';
     }
 }

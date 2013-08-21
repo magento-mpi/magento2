@@ -29,7 +29,7 @@ class Magento_Reward_Block_Customer_Account extends Magento_Core_Block_Abstract
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock && Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
             $navigationBlock->addLink('magento_reward', 'magento_reward/customer/info/',
-                Mage::helper('Magento_Reward_Helper_Data')->__('Reward Points')
+                __('Reward Points')
             );
         }
         return $this;

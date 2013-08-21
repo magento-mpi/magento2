@@ -48,7 +48,7 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry Info'));
+            $headBlock->setTitle(__('Gift Registry Info'));
         }
         $this->renderLayout();
     }
@@ -86,12 +86,12 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
             $success = true;
             if (!$count) {
                 $success = false;
-                $session->addError(Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please enter the quantity of items to add to cart.'));
+                $session->addError(__('Please enter the quantity of items to add to cart.'));
             }
         } catch (Magento_Core_Exception $e) {
-            $session->addError(Mage::helper('Magento_GiftRegistry_Helper_Data')->__($e->getMessage()));
+            $session->addError(__($e->getMessage()));
         } catch (Exception $e) {
-            $session->addException($e, Mage::helper('Magento_GiftRegistry_Helper_Data')->__('We cannot add this item to your shopping cart.'));
+            $session->addException($e, __('We cannot add this item to your shopping cart.'));
             Mage::logException($e);
         }
         if (!$success) {

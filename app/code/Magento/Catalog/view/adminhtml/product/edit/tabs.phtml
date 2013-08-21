@@ -32,8 +32,8 @@
         data-mage-init="{accordion: {active: <?php echo $this->isAdvancedTabGroupActive() ? '0' : 'false' ?>, collapsible: true}}"
         <?php endif;?>>
         <h3 <?php echo $this->getUiId('title') ?>>
-            <?php echo $isBasic ? Mage::helper('Magento_Catalog_Helper_Data')->__('Basic Settings')
-            : Mage::helper('Magento_Catalog_Helper_Data')->__('Advanced Settings') ?>
+            <?php echo $isBasic ? __('Basic Settings')
+            : __('Advanced Settings') ?>
         </h3>
         <ul <?php echo $this->getUiId('tab', $tabGroupId) ?> class="tabs">
             <?php foreach ($tabs as $_tab): ?>
@@ -49,9 +49,9 @@
                    class="<?php echo $_tabClass;?>"
                    data-tab-type="<?php echo $_tabType;?>" <?php echo $this->getUiId('tab', 'link', $_tab->getId()) ?>>
                     <span>
-                        <span class="changed" title="<?php echo $this->__('The information in this tab has been changed.') ?>"></span>
-                        <span class="error" title="<?php echo $this->__('This tab contains invalid data. Please solve the problem before saving.') ?>"></span>
-                        <span class="loader" title="<?php echo $this->__('Loading...') ?>"></span>
+                        <span class="changed" title="<?php echo __('The information in this tab has been changed.') ?>"></span>
+                        <span class="error" title="<?php echo __('This tab contains invalid data. Please solve the problem before saving.') ?>"></span>
+                        <span class="loader" title="<?php echo __('Loading...') ?>"></span>
                         <?php echo $this->escapeHtml($this->getTabLabel($_tab)); ?>
                     </span>
                 </a>

@@ -55,10 +55,10 @@ trackingControl = {
 <table cellspacing="0" class="data-table" id="tracking_numbers_table">
     <thead>
         <tr class="headings">
-            <th class="col-carrier"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Carrier') ?></th>
-            <th class="col-title"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Title') ?></th>
-            <th class="col-number"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Number') ?> <span class="required">*</span></th>
-            <th class="col-delete last"><?php echo Mage::helper('Magento_Sales_Helper_Data')->__('Action') ?></th>
+            <th class="col-carrier"><?php echo __('Carrier') ?></th>
+            <th class="col-title"><?php echo __('Title') ?></th>
+            <th class="col-number"><?php echo __('Number') ?> <span class="required">*</span></th>
+            <th class="col-delete last"><?php echo __('Action') ?></th>
         </tr>
     </thead>
     <tfoot>
@@ -77,7 +77,7 @@ trackingControl = {
             </td>
             <td class="col-title"><input class="input-text number-title" type="text" name="tracking[__index__][title]" id="trackingT__index__" value="" disabled="disabled" /></td>
             <td class="col-number"><input class="input-text required-entry" type="text" name="tracking[__index__][number]" id="trackingN__index__" value="" disabled="disabled" /></td>
-            <td class="col-delete last"><a href="#" class="action- delete" onclick="trackingControl.deleteRow(event);return false"><span><?php echo $this->__('Delete') ?></span></a></td>
+            <td class="col-delete last"><a href="#" class="action- delete" onclick="trackingControl.deleteRow(event);return false"><span><?php echo __('Delete') ?></span></a></td>
         </tr>
     </tbody>
 </table>

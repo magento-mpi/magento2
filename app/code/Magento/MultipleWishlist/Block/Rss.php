@@ -52,9 +52,9 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
         if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isWishlistDefault($this->_getWishlist())
             && $this->_getWishlist()->getName() == Mage::helper('Magento_MultipleWishlist_Helper_Data')->getDefaultWishlistName()
         ) {
-            return Mage::helper('Magento_MultipleWishlist_Helper_Data')->__("%s's Wish List", $customer->getName());
+            return __("%1's Wish List", $customer->getName());
         } else {
-            return Mage::helper('Magento_MultipleWishlist_Helper_Data')->__("%s's Wish List (%s)", $customer->getName(), $this->_getWishlist()->getName());
+            return __("%1's Wish List (%2)", $customer->getName(), $this->_getWishlist()->getName());
         }
     }
 }

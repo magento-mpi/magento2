@@ -15,11 +15,6 @@ class Magento_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_T
     protected $_helper;
 
     /**
-     * @var Magento_Webapi_Helper_Data
-     */
-    protected $_helperData;
-
-    /**
      * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
@@ -37,12 +32,6 @@ class Magento_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_helper = new Magento_Test_Helper_ObjectManager($this);
-
-        $this->_helperData = $this->getMockBuilder('Magento_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $this->_helperData->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()

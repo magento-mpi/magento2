@@ -53,7 +53,7 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('Magento_Cron_Helper_Data')->__('We were unable to save the cron expression.'));
+            throw new Exception(__('We were unable to save the cron expression.'));
         }
     }
 

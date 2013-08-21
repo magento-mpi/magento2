@@ -19,11 +19,11 @@ class Magento_GiftCardAccount_Model_Source_Format extends Magento_Core_Model_Abs
     {
         return array(
             Magento_GiftCardAccount_Model_Pool::CODE_FORMAT_ALPHANUM
-                => Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Alphanumeric'),
+                => __('Alphanumeric'),
             Magento_GiftCardAccount_Model_Pool::CODE_FORMAT_ALPHA
-                => Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Alphabetical'),
+                => __('Alphabetical'),
             Magento_GiftCardAccount_Model_Pool::CODE_FORMAT_NUM
-                => Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Numeric'),
+                => __('Numeric'),
         );
     }
 

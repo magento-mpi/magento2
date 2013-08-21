@@ -57,7 +57,7 @@ class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_C
         }
 
         if ($len > 255) {
-            Mage::throwException(Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Maximum generated code length is 255. Please correct your settings.'));
+            Mage::throwException(__('Maximum generated code length is 255. Please correct your settings.'));
         }
     }
 }

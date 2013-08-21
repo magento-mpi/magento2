@@ -27,17 +27,12 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
             ->setMethods(array('interpret', 'get'))
             ->disableOriginalConstructor()
             ->getMock();
-        $helper = $this->getMockBuilder('Magento_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock(
             'Magento_Webapi_Controller_Request_Rest',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
-            array($this->_interpreterFactory, $helper)
+            array($this->_interpreterFactory)
         );
     }
 

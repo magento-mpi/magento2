@@ -71,11 +71,11 @@ class Magento_Wishlist_Block_Links extends Magento_Page_Block_Template_Links_Blo
     protected function _createLabel($count)
     {
         if ($count > 1) {
-            return $this->__('My Wish List (%d items)', $count);
+            return __('My Wish List (%1 items)', $count);
         } else if ($count == 1) {
-            return $this->__('My Wish List (%d item)', $count);
+            return __('My Wish List (%1 item)', $count);
         } else {
-            return $this->__('My Wish List');
+            return __('My Wish List');
         }
     }
 }

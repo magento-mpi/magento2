@@ -32,7 +32,7 @@ class Magento_Rma_Model_Observer
         if (Mage::helper('Magento_Rma_Helper_Data')->canCreateRma($row, true)) {
             $reorderAction = array(
                     '@' =>  array('href' => $renderer->getUrl('*/rma/new', array('order_id'=>$row->getId()))),
-                    '#' =>  Mage::helper('Magento_Rma_Helper_Data')->__('Return')
+                    '#' =>  __('Return')
             );
             $renderer->addToActions($reorderAction);
         }

@@ -21,7 +21,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Bloc
 
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle($this->__('Role Information'));
+        $this->setTitle(__('Role Information'));
     }
 
     /**
@@ -35,8 +35,8 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Bloc
         $mainBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.main');
         $mainBlock->setApiRole($this->getApiRole());
         $this->addTab('main_section', array(
-            'label' => $this->__('Role Info'),
-            'title' => $this->__('Role Info'),
+            'label' => __('Role Info'),
+            'title' => __('Role Info'),
             'content' => $mainBlock->toHtml(),
             'active' => true
         ));
@@ -45,16 +45,16 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Bloc
         $resourceBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.resource');
         $resourceBlock->setApiRole($this->getApiRole());
         $this->addTab('resource_section', array(
-            'label' => $this->__('Resources'),
-            'title' => $this->__('Resources'),
+            'label' => __('Resources'),
+            'title' => __('Resources'),
             'content' => $resourceBlock->toHtml()
         ));
 
         if ($this->getApiRole() && $this->getApiRole()->getRoleId() > 0) {
             $usersGrid = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid');
             $this->addTab('user_section', array(
-                'label' => $this->__('Users'),
-                'title' => $this->__('Users'),
+                'label' => __('Users'),
+                'title' => __('Users'),
                 'content' => $usersGrid->toHtml()
             ));
         }

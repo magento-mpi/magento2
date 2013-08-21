@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Form extends Magento_Adminhtml_Bl
     {
         parent::_construct();
         $this->setId('promo_quote_form');
-        $this->setTitle(Mage::helper('Magento_SalesRule_Helper_Data')->__('Rule Information'));
+        $this->setTitle(__('Rule Information'));
     }
     
     protected function _prepareForm()

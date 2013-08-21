@@ -46,7 +46,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->__('Credit Cards');
+        return __('Credit Cards');
     }
 
     /**
@@ -55,7 +55,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->__('Credit Cards');
+        return __('Credit Cards');
     }
 
     /**

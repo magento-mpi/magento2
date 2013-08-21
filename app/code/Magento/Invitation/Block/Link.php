@@ -31,9 +31,9 @@ class Magento_Invitation_Block_Link extends Magento_Core_Block_Template
             $blockInstance = $this->getLayout()->getBlock('account.links');
             if ($blockInstance) {
                 $blockInstance->addLink(
-                    $this->__('Send Invitations'),
+                    __('Send Invitations'),
                     Mage::helper('Magento_Invitation_Helper_Data')->getCustomerInvitationFormUrl(),
-                    $this->__('Send Invitations'),
+                    __('Send Invitations'),
                     true,
                     array(),
                     1,

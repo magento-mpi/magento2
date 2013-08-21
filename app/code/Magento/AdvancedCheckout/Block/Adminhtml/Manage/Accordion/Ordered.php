@@ -44,7 +44,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
         $this->setId('source_ordered');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Last ordered items (%s)', $this->getItemsCount())
+                __('Last ordered items (%1)', $this->getItemsCount())
             );
         }
     }

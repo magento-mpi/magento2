@@ -146,7 +146,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Invalid method: %s', $name));
+            Mage::throwException(__('Invalid method: %1', $name));
         }
         return $block->toHtml();
     }

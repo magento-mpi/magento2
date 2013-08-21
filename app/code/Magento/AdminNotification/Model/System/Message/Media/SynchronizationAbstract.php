@@ -14,11 +14,6 @@ abstract class Magento_AdminNotification_Model_System_Message_Media_Synchronizat
     protected $_syncFlag;
 
     /**
-     * @var Magento_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * Message identity
      *
      * @var string
@@ -34,14 +29,10 @@ abstract class Magento_AdminNotification_Model_System_Message_Media_Synchronizat
 
     /**
      * @param Magento_Core_Model_File_Storage $fileStorage
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
-    public function __construct(
-        Magento_Core_Model_File_Storage $fileStorage,
-        Magento_Core_Model_Factory_Helper $helperFactory
-    ) {
+    public function __construct(Magento_Core_Model_File_Storage $fileStorage)
+    {
         $this->_syncFlag = $fileStorage->getSyncFlag();
-        $this->_helperFactory = $helperFactory;
     }
 
     /**

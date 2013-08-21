@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::content">
                     <resource id="Magento_Adminhtml::content_elements">
-                        <resource id="Magento_Banner::magento_banner" module="Magento_Banner" title="Banners" sortOrder="40" />
+                        <resource id="Magento_Banner::magento_banner" title="Banners" sortOrder="40" />
                     </resource>
                 </resource>
             </resource>

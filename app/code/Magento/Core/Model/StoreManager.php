@@ -117,8 +117,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
             }
 
             Mage::throwException(
-                $this->_helperFactory->get('Magento_Core_Helper_Data')
-                    ->__('Requested invalid store "%s"', $storeId)
+                __('Requested invalid store "%1"', $storeId)
             );
         }
     }

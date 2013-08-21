@@ -21,7 +21,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
         $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
             return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
-                'label'     => Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Delete Orphan Balances'),
+                'label'     => __('Delete Orphan Balances'),
                 'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() .'\')',
                 'class'     => 'scalable delete',
             ))->toHtml();

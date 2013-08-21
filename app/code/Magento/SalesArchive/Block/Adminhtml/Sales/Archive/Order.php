@@ -18,6 +18,6 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order extends Magento_S
     protected function _construct()
     {
         $this->_controller = 'sales_order';
-        $this->_headerText = Mage::helper('Magento_SalesArchive_Helper_Data')->__('Orders Archive');
+        $this->_headerText = __('Orders Archive');
     }
 }

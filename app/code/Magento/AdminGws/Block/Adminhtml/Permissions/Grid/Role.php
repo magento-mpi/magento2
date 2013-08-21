@@ -24,7 +24,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Magento_Bac
         parent::_prepareColumns();
 
         $this->addColumn('gws', array(
-            'header'   => $this->__('Allowed Scopes'),
+            'header'   => __('Allowed Scopes'),
             'width'    => '200',
             'sortable' => false,
             'filter'   => false,

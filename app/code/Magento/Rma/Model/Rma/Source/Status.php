@@ -43,18 +43,18 @@ class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_A
     public function getItemLabel($state)
     {
         switch ($state) {
-            case self::STATE_PENDING:            return Mage::helper('Magento_Rma_Helper_Data')->__('Pending');
-            case self::STATE_AUTHORIZED:         return Mage::helper('Magento_Rma_Helper_Data')->__('Authorized');
-            case self::STATE_PARTIAL_AUTHORIZED: return Mage::helper('Magento_Rma_Helper_Data')->__('Partially Authorized');
-            case self::STATE_RECEIVED:           return Mage::helper('Magento_Rma_Helper_Data')->__('Return Received');
-            case self::STATE_RECEIVED_ON_ITEM:   return Mage::helper('Magento_Rma_Helper_Data')->__('Return Partially Received');
-            case self::STATE_APPROVED:           return Mage::helper('Magento_Rma_Helper_Data')->__('Approved');
-            case self::STATE_APPROVED_ON_ITEM:   return Mage::helper('Magento_Rma_Helper_Data')->__('Partially Approved');
-            case self::STATE_REJECTED:           return Mage::helper('Magento_Rma_Helper_Data')->__('Rejected');
-            case self::STATE_REJECTED_ON_ITEM:   return Mage::helper('Magento_Rma_Helper_Data')->__('Partially Rejected');
-            case self::STATE_DENIED:             return Mage::helper('Magento_Rma_Helper_Data')->__('Denied');
-            case self::STATE_CLOSED:             return Mage::helper('Magento_Rma_Helper_Data')->__('Closed');
-            case self::STATE_PROCESSED_CLOSED:   return Mage::helper('Magento_Rma_Helper_Data')->__('Processed and Closed');
+            case self::STATE_PENDING:            return __('Pending');
+            case self::STATE_AUTHORIZED:         return __('Authorized');
+            case self::STATE_PARTIAL_AUTHORIZED: return __('Partially Authorized');
+            case self::STATE_RECEIVED:           return __('Return Received');
+            case self::STATE_RECEIVED_ON_ITEM:   return __('Return Partially Received');
+            case self::STATE_APPROVED:           return __('Approved');
+            case self::STATE_APPROVED_ON_ITEM:   return __('Partially Approved');
+            case self::STATE_REJECTED:           return __('Rejected');
+            case self::STATE_REJECTED_ON_ITEM:   return __('Partially Rejected');
+            case self::STATE_DENIED:             return __('Denied');
+            case self::STATE_CLOSED:             return __('Closed');
+            case self::STATE_PROCESSED_CLOSED:   return __('Processed and Closed');
             default: return $state;
         }
     }
@@ -78,7 +78,7 @@ class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_A
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            Mage::throwException(Mage::helper('Magento_Rma_Helper_Data')->__('This is the wrong RMA item status.'));
+            Mage::throwException(__('This is the wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
@@ -87,7 +87,7 @@ class Magento_Rma_Model_Rma_Source_Status extends Magento_Rma_Model_Rma_Source_A
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                Mage::throwException(Mage::helper('Magento_Rma_Helper_Data')->__('This is the wrong RMA item status.'));
+                Mage::throwException(__('This is the wrong RMA item status.'));
             }
         }
 

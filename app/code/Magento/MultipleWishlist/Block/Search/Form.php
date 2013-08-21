@@ -31,7 +31,7 @@ class Magento_MultipleWishlist_Block_Search_Form extends Magento_Core_Block_Temp
      */
     public function getFormHeader()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Wish List Search');
+        return __('Wish List Search');
     }
 
     /**

@@ -47,53 +47,53 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Event'),
+            'header' => __('Event'),
             'index'  => 'title'
         ));
 
         $this->addColumn('registrants', array(
-            'header' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Recipients'),
+            'header' => __('Recipients'),
             'index'  => 'registrants'
         ));
 
         $this->addColumn('event_date', array(
-            'header'  => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Event Date'),
+            'header'  => __('Event Date'),
             'index'   => 'event_date',
             'type'    => 'date',
             'default' => '--'
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Total Items'),
+            'header' => __('Total Items'),
             'index'  => 'qty',
             'type'   => 'number'
         ));
 
         $this->addColumn('qty_fulfilled', array(
-            'header' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Fulfilled'),
+            'header' => __('Fulfilled'),
             'index'  => 'qty_fulfilled',
             'type'   => 'number',
         ));
 
         $this->addColumn('qty_remaining', array(
-            'header' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Remaining'),
+            'header' => __('Remaining'),
             'index'  => 'qty_remaining',
             'type'   => 'number'
         ));
 
         $this->addColumn('is_public', array(
-            'header'  => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Public'),
+            'header'  => __('Public'),
             'index'   => 'is_public',
             'type'    => 'options',
             'options' => array(
-                '0' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('No'),
-                '1' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Yes'),
+                '0' => __('No'),
+                '1' => __('Yes'),
             )
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
-                'header' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Website'),
+                'header' => __('Website'),
                 'index'  => 'website_id',
                 'type'   => 'options',
                 'options' => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()

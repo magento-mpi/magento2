@@ -56,7 +56,7 @@ class Magento_Catalog_Model_Product_Website extends Magento_Core_Model_Abstract
         }
         catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong removing products from the websites.')
+                __('Something went wrong removing products from the websites.')
             );
         }
         return $this;
@@ -76,7 +76,7 @@ class Magento_Catalog_Model_Product_Website extends Magento_Core_Model_Abstract
         }
         catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong adding products to websites.')
+                __('Something went wrong adding products to websites.')
             );
         }
         return $this;

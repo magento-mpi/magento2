@@ -299,7 +299,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
             . '<input value="1" type="checkbox" class="use-default-control"'
             . 'name="' . $this->getFieldName() . '[' . $id . ']' . $selectNameHtml . '[scope][' . $name . ']"'
             . 'id="' . $this->getFieldId() . '_' . $id . '_' . $selectIdHtml . $name . '_use_default"' . $checkedHtml
-            .' /><span class="use-default-label">' . Mage::helper('Magento_Catalog_Helper_Data')->__('Use Default')
+            .' /><span class="use-default-label">' . __('Use Default')
             . '</span></label></div>';
 
         return $useDefault;

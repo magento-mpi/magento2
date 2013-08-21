@@ -24,14 +24,14 @@ class Magento_Banner_Model_Config
     public function getTypes($sorted = true, $withEmpty = false)
     {
         $result = array();
-        foreach (Mage::getConfig()->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
-            $result[$type] = Mage::helper('Magento_Banner_Helper_Data')->__($label);
+        foreach (Mage::getConfig()->getNode('global/enterprise/banner/types')->asCanonicalArray() as $type => $label) {
+            $result[$type] = __($label);
         }
         if ($sorted) {
             asort($result);
         }
         if ($withEmpty) {
-            return array_merge(array('' => Mage::helper('Magento_Banner_Helper_Data')->__('-- None --')), $result);
+            return array_merge(array('' => __('-- None --')), $result);
         }
         return $result;
     }

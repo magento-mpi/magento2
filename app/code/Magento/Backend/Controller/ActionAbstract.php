@@ -235,12 +235,10 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
-                $_keyErrorMsg = Mage::helper('Magento_Backend_Helper_Data')
-                    ->__('Invalid Form Key. Please refresh the page.');
+                $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
             } elseif (Mage::getSingleton('Magento_Backend_Model_Url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
-                $_keyErrorMsg = Mage::helper('Magento_Backend_Helper_Data')
-                    ->__('You entered an invalid Secret Key. Please refresh the page.');
+                $_keyErrorMsg = __('You entered an invalid Secret Key. Please refresh the page.');
             }
         }
         if (!$_isValidFormKey || !$_isValidSecretKey) {
@@ -520,20 +518,6 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
             return false;
         }
         return true;
-    }
-
-    /**
-     * Translate a phrase
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
     }
 
     /**

@@ -19,16 +19,14 @@ abstract class Magento_Backend_Model_Config_Structure_Element_CompositeAbstract
     protected $_childrenIterator;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_App $application
      * @param Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_App $application,
         Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
     ) {
-        parent::__construct($helperFactory, $application);
+        parent::__construct($application);
         $this->_childrenIterator = $childrenIterator;
     }
 

@@ -57,7 +57,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
                 $message = $this->_getHelper()->getMessage(
                     Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
                 );
-                $message .= '<br/>' . $this->__("Only %s%g%s left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
+                $message .= '<br/>' . __("Only %1%2%3 left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
                 return $message;
             case Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
@@ -66,9 +66,9 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
                 );
                 $message .= '<br/>';
                 if ($item->getQtyMaxAllowed()) {
-                    $message .= Mage::helper('Magento_CatalogInventory_Helper_Data')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
+                    $message .= __('The maximum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
                 } else if ($item->getQtyMinAllowed()) {
-                    $message .= Mage::helper('Magento_CatalogInventory_Helper_Data')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
+                    $message .= __('The minimum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
             default:
@@ -114,7 +114,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
                     'sku' => $item->getSku()
                 ));
                 return '<a href="' . $link . '" class="configure-popup">'
-                        . $this->__("Specify the product's options")
+                        . __("Specify the product's options")
                         . '</a>';
             case Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Magento_ProductAlert_Helper_Data */
@@ -125,7 +125,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
                 }
 
                 $helper->setProduct($this->getItem()->getProduct());
-                $signUpLabel = $this->escapeHtml($this->__('Receive notice when item is restocked.'));
+                $signUpLabel = $this->escapeHtml(__('Receive notice when item is restocked.'));
                 return '<a href="'
                     . $this->escapeHtml($helper->getSaveUrl('stock'))
                     . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';

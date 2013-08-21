@@ -41,7 +41,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adm
                     ),
                     'custom_field' => array('label' => $settlement->getFieldLabel('custom_field')),
                 ),
-                'legend' => Mage::helper('Magento_Paypal_Helper_Data')->__('Reference Information')
+                'legend' => __('Reference Information')
             ),
 
             'transaction_fieldset' => array(
@@ -80,7 +80,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adm
                                        ->toCurrency($model->getData('gross_transaction_amount'))
                     ),
                 ),
-                'legend' => Mage::helper('Magento_Paypal_Helper_Data')->__('Transaction Information')
+                'legend' => __('Transaction Information')
             ),
 
             'fee_fieldset' => array(
@@ -96,7 +96,7 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adm
                                        ->toCurrency($model->getData('fee_amount'))
                     ),
                 ),
-                'legend' => Mage::helper('Magento_Paypal_Helper_Data')->__('PayPal Fee Information')
+                'legend' => __('PayPal Fee Information')
             ),
         );
 

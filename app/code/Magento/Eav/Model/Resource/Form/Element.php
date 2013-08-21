@@ -26,7 +26,7 @@ class Magento_Eav_Model_Resource_Form_Element extends Magento_Core_Model_Resourc
         $this->_init('eav_form_element', 'element_id');
         $this->addUniqueField(array(
             'field' => array('type_id', 'attribute_id'),
-            'title' => Mage::helper('Magento_Eav_Helper_Data')->__('Form Element with the same attribute')
+            'title' => __('Form Element with the same attribute')
         ));
     }
 

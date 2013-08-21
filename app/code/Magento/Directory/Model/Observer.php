@@ -32,7 +32,7 @@ class Magento_Directory_Model_Observer
 
         $service = Mage::getStoreConfig(self::IMPORT_SERVICE);
         if( !$service ) {
-            $importWarnings[] = Mage::helper('Magento_Directory_Helper_Data')->__('FATAL ERROR:') . ' ' . Mage::helper('Magento_Directory_Helper_Data')->__('Please specify the correct Import Service.');
+            $importWarnings[] = __('FATAL ERROR:') . ' ' . __('Please specify the correct Import Service.');
         }
 
         try {
@@ -40,7 +40,7 @@ class Magento_Directory_Model_Observer
                 Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
             );
         } catch (Exception $e) {
-            $importWarnings[] = Mage::helper('Magento_Directory_Helper_Data')->__('FATAL ERROR:') . ' ' . Mage::throwException(Mage::helper('Magento_Directory_Helper_Data')->__("We can't initialize the import model."));
+            $importWarnings[] = __('FATAL ERROR:') . ' ' . Mage::throwException(__("We can't initialize the import model."));
         }
 
         $rates = $importModel->fetchRates();
@@ -48,7 +48,7 @@ class Magento_Directory_Model_Observer
 
         if( sizeof($errors) > 0 ) {
             foreach ($errors as $error) {
-                $importWarnings[] = Mage::helper('Magento_Directory_Helper_Data')->__('WARNING:') . ' ' . $error;
+                $importWarnings[] = __('WARNING:') . ' ' . $error;
             }
         }
 

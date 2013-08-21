@@ -49,14 +49,14 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $singleFile->update($editableTheme, $cssFileData['content']);
             $response = array(
                 'success' => true,
-                'message' => $this->__('You updated the custom.css file.'),
+                'message' => __('You updated the custom.css file.'),
                 'content' => $cssFileData['content']
             );
         } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $this->__('We cannot upload the CSS file.'));
+            $response = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
@@ -80,13 +80,13 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array(
                 'success'  => true,
                 'filename' => $customCss->getFileName(),
-                'message'  => $this->__('You updated the %s file.', $customCss->getFileName())
+                'message'  => __('You updated the %1 file.', $customCss->getFileName())
             );
         } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $this->__('We can\'t save the custom css file.'));
+            $response = array('error' => true, 'message' => __('We can\'t save the custom css file.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
@@ -133,7 +133,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $this->__('We cannot upload the JS file.'));
+            $response = array('error' => true, 'message' => __('We cannot upload the JS file.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
@@ -173,7 +173,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('We cannot upload the CSS file.'));
+            $result = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
@@ -200,12 +200,12 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             );
             $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
-            $result = array('success' => true, 'message' => $this->__('We saved the image sizes.'));
+            $result = array('success' => true, 'message' => __('We saved the image sizes.'));
         } catch (Magento_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('We can\'t save image sizes.'));
+            $result = array('error' => true, 'message' => __('We can\'t save image sizes.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
@@ -241,7 +241,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image.' .
+            $errorMessage = __('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
@@ -280,7 +280,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image.' .
+            $errorMessage = __('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
@@ -302,7 +302,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $theme = $this->_objectManager->create('Magento_Core_Model_Theme');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
                 throw new Magento_Core_Exception(
-                    $this->__('The file can\'t be found or edited.')
+                    __('The file can\'t be found or edited.')
                 );
             }
 
@@ -311,12 +311,11 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $store = $this->_objectManager->get('Magento_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new Magento_Core_Exception($this->__('This theme is not assigned to a store view.',
+                throw new Magento_Core_Exception(__('This theme is not assigned to a store view #%1.',
                     $theme->getId()));
             }
             /** @var $storeLogo Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
-            $storeLogo = $this->_objectManager
-                ->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
+            $storeLogo = $this->_objectManager->get('Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
             $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
 
             $this->_reinitSystemConfiguration();
@@ -326,7 +325,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image.' .
+            $errorMessage = __('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
@@ -348,7 +347,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $theme = $this->_objectManager->create('Magento_Core_Model_Theme');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
                 throw new Magento_Core_Exception(
-                    $this->__('The file can\'t be found or edited.')
+                    __('The file can\'t be found or edited.')
                 );
             }
 
@@ -357,7 +356,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $store = $this->_objectManager->get('Magento_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new Magento_Core_Exception($this->__('This theme is not assigned to a store view.',
+                throw new Magento_Core_Exception(__('This theme is not assigned to a store view #%1.',
                     $theme->getId()));
             }
 
@@ -371,7 +370,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image.' .
+            $errorMessage = __('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
@@ -401,7 +400,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
-            $errorMessage = $this->__('Something went wrong uploading the image.' .
+            $errorMessage = __('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);

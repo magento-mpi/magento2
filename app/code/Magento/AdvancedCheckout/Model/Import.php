@@ -134,7 +134,7 @@ class Magento_AdvancedCheckout_Model_Import extends Magento_Object
                 fclose($fileHandler);
             }
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('The file is corrupt.'));
+            Mage::throwException(__('The file is corrupt.'));
         }
         return $csvData;
     }
@@ -174,6 +174,6 @@ class Magento_AdvancedCheckout_Model_Import extends Magento_Object
      */
     protected function _getFileTypeMessageText()
     {
-        return Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('This file needs to be in .csv format.');
+        return __('This file needs to be in .csv format.');
     }
 }

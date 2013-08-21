@@ -48,7 +48,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon extends Magent
             ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'id'        => 'apply_coupon',
-                    'label'     => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Apply'),
+                    'label'     => __('Apply'),
                     'onclick'   => "checkoutObj.applyCoupon($('coupon_code').value)",
                 ))
             ->toHtml();

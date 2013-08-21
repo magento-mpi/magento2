@@ -43,7 +43,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Magento_Backend_B
      */
     public function getRootNodeName()
     {
-        return $this->__('Storage Root');
+        return __('Storage Root');
     }
 
     /**

@@ -28,7 +28,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add extends Magento_Adminhtm
      */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Invitation_Helper_Data')->__('New Invitations');
+        return __('New Invitations');
     }
 
 }

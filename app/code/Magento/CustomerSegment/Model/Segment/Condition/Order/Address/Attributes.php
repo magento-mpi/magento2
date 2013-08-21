@@ -60,7 +60,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Order Address Attributes')
+            'label' => __('Order Address Attributes')
         );
     }
 
@@ -171,7 +171,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Order Address %s', parent::asHtml());
+        return __('Order Address %1', parent::asHtml());
     }
 
     /**

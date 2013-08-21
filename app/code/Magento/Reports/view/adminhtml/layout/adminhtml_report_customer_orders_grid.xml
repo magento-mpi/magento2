@@ -34,7 +34,7 @@
             </arguments>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                 <arguments>
-                    <header translate="true" module="Magento_Reports">Customer</header>
+                    <header translate="true">Customer</header>
                     <sortable>0</sortable>
                     <type>text</type>
                     <index>name</index>
@@ -45,7 +45,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="orders_count">
                 <arguments>
-                    <header translate="true" module="Magento_Reports">Orders</header>
+                    <header translate="true">Orders</header>
                     <sortable>0</sortable>
                     <type>number</type>
                     <index>orders_count</index>
@@ -57,7 +57,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="orders_avg_amount">
                 <arguments>
-                    <header translate="true" module="Magento_Reports">Average</header>
+                    <header translate="true">Average</header>
                     <sortable>0</sortable>
                     <type>currency</type>
                     <total>orders_sum_amount/orders_count</total>
@@ -69,7 +69,7 @@
             </block>
             <block type="Magento_Backend_Block_Widget_Grid_Column" as="orders_sum_amount">
                 <arguments>
-                    <header translate="true" module="Magento_Reports">Total</header>
+                    <header translate="true">Total</header>
                     <sortable>0</sortable>
                     <type>currency</type>
                     <total>sum</total>

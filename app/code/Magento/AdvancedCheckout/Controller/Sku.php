@@ -56,7 +56,7 @@ class Magento_AdvancedCheckout_Controller_Sku extends Magento_Core_Controller_Fr
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Order by SKU'));
+            $headBlock->setTitle(__('Order by SKU'));
         }
         $this->renderLayout();
     }

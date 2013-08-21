@@ -41,8 +41,8 @@ class Magento_User_Block_User extends Magento_Backend_Block_Widget_Grid_Containe
         $this->addData(array(
             Magento_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'user',
             Magento_Backend_Block_Widget_Grid_Container::PARAM_BLOCK_GROUP => 'Magento_User',
-            Magento_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => $this->__('Add New User'),
-            Magento_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => $this->__('Users'),
+            Magento_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => __('Add New User'),
+            Magento_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => __('Users'),
         ));
         parent::_construct();
         $this->_addNewButton();

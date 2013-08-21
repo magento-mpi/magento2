@@ -83,11 +83,11 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
             if ($isDate) {
                 $fromDate = $isDate . '_from';
                 $attributes[$fromDate] = $attributes[$isDate];
-                $attributes[$fromDate]['label'] .= ' ' . $this->__('From');
+                $attributes[$fromDate]['label'] .= ' ' . __('From');
 
                 $toDate = $isDate . '_to';
                 $attributes[$toDate] = $attributes[$isDate];
-                $attributes[$toDate]['label'] .= ' ' . $this->__('To');
+                $attributes[$toDate]['label'] .= ' ' . __('To');
 
                 unset($attributes[$isDate]);
             }
@@ -102,7 +102,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
                     ->setElementRegion($region)
                     ->setElementRegionText($region . '_text');
 
-                $regionAttribute['label'] = $this->__('State/Province');
+                $regionAttribute['label'] = __('State/Province');
                 $regionAttribute['code'] = $region;
                 $regionAttribute['type'] = 'region';
 

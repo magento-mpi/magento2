@@ -50,8 +50,8 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
     protected function _getValues()
     {
         return array(
-            Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => Mage::helper('Magento_GiftCard_Helper_Data')->__('No'),
-            Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => Mage::helper('Magento_GiftCard_Helper_Data')->__('Yes'),
+            Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => __('No'),
+            Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => __('Yes'),
         );
     }
 

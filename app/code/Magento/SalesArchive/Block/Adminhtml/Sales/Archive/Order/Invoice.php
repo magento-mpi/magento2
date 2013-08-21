@@ -18,6 +18,6 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice extends M
     protected function _construct()
     {
         $this->_controller = 'sales_invoice';
-        $this->_headerText = Mage::helper('Magento_SalesArchive_Helper_Data')->__('Invoices Archive');
+        $this->_headerText = __('Invoices Archive');
     }
 }

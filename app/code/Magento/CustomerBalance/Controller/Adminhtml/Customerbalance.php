@@ -77,7 +77,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
     {
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            Mage::throwException(Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Failed to initialize customer'));
+            Mage::throwException(__('Failed to initialize customer'));
         }
         Mage::register('current_customer', $customer);
     }

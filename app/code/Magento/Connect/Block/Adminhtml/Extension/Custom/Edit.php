@@ -34,7 +34,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit extends Magento_Admi
         $this->_updateButton('reset', 'onclick', "resetPackage()");
 
         $this->_addButton('create', array(
-            'label'     => Mage::helper('Magento_Connect_Helper_Data')->__('Save Data and Create Package'),
+            'label'     => __('Save Data and Create Package'),
             'class'     => 'save',
             'onclick'   => "createPackage()",
             'data_attribute'  => array(
@@ -44,8 +44,8 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit extends Magento_Admi
             ),
         ));
         $this->_addButton('save_as', array(
-            'label'     => Mage::helper('Magento_Connect_Helper_Data')->__('Save As...'),
-            'title'     => Mage::helper('Magento_Connect_Helper_Data')->__('Save package with custom package file name'),
+            'label'     => __('Save As...'),
+            'title'     => __('Save package with custom package file name'),
             'onclick'   => 'saveAsPackage(event)',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -62,7 +62,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit extends Magento_Admi
     */
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Connect_Helper_Data')->__('New Extension');
+        return __('New Extension');
     }
 
     /*

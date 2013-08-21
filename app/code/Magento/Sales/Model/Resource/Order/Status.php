@@ -157,7 +157,7 @@ class Magento_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resou
 
         if ($this->_getWriteAdapter()->fetchOne($select) == 1) {
             throw new Magento_Core_Exception(
-                Mage::helper('Magento_Sales_Helper_Data')->__('The last status can\'t be unassigned from its current state.')
+                __('The last status can\'t be unassigned from its current state.')
             );
         }
         $select = $this->_getWriteAdapter()->select()

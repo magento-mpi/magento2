@@ -40,13 +40,13 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Name implements Magento_Mul
     {
         if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
             throw new InvalidArgumentException(
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Please enter at least 2 letters of the first name.')
+                __('Please enter at least 2 letters of the first name.')
             );
         }
         $this->_firstname = $params['firstname'];
         if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
             throw new InvalidArgumentException(
-                Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Please enter at least 2 letters of the last name.')
+                __('Please enter at least 2 letters of the last name.')
             );
         }
         $this->_lastname = $params['lastname'];

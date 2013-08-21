@@ -47,7 +47,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      */
     public function indexAction()
     {
-        $this->_title($this->__('URL Redirects'));
+        $this->_title(__('URL Redirects'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
@@ -59,8 +59,8 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      */
     public function editAction()
     {
-        $this->_title($this->__('URL Redirects'))
-            ->_title($this->__('[New/Edit] URL Redirect'));
+        $this->_title(__('URL Redirects'))
+            ->_title(__('[New/Edit] URL Redirect'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
@@ -79,10 +79,9 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
                 break;
             case self::CATEGORY_MODE:
                 $editBlock = $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '',
-                        array('data' => array(
-                           'category' => $this->_getCategory(),
-                           'url_rewrite' => $this->_getUrlRewrite()
+                    ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array('data' => array(
+                        'category' => $this->_getCategory(),
+                        'url_rewrite' => $this->_getUrlRewrite()
                     )));
                 break;
             case self::CMS_PAGE_MODE:
@@ -147,9 +146,9 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     public function categoriesJsonAction()
     {
         $categoryId = $this->getRequest()->getParam('id', null);
-        $this->getResponse()
-            ->setBody(Mage::getBlockSingleton('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree')
-            ->getTreeArray($categoryId, true, 1)
+        $this->getResponse()->setBody(
+            Mage::getBlockSingleton('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree')
+                ->getTreeArray($categoryId, true, 1)
         );
     }
 
@@ -201,9 +200,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
 
                 $this->_onUrlRewriteSaveAfter($model);
 
-                $session->addSuccess(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__('The URL Rewrite has been saved.')
-                );
+                $session->addSuccess(__('The URL Rewrite has been saved.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Magento_Core_Exception $e) {
@@ -211,7 +208,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
                     ->setUrlrewriteData($data);
             } catch (Exception $e) {
                 $session->addException($e,
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while saving URL Rewrite.'))
+                    __('An error occurred while saving URL Rewrite.'))
                     ->setUrlrewriteData($data);
             }
         }
@@ -264,11 +261,10 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
                 $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
                 if (!$rewrite) {
                     if ($product) {
-                        Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')
-                            ->__('Chosen product does not associated with the chosen store or category.'));
+                        Mage::throwException(
+                            __('Chosen product does not associated with the chosen store or category.'));
                     } else {
-                        Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')
-                            ->__('Chosen category does not associated with the chosen store.'));
+                        Mage::throwException(__('Chosen category does not associated with the chosen store.'));
                     }
                 } elseif ($rewrite->getId() && $rewrite->getId() != $model->getId()) {
                     $model->setTargetPath($rewrite->getRequestPath());
@@ -344,8 +340,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
             /** @var $rewrite Magento_Core_Model_Url_Rewrite */
             $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
             if (!$rewrite) {
-                Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')
-                    ->__('Chosen cms page does not associated with the chosen store.'));
+                Mage::throwException(__('Chosen cms page does not associated with the chosen store.'));
             } elseif ($rewrite->getId() && $rewrite->getId() != $model->getId()) {
                 $model->setTargetPath($rewrite->getRequestPath());
                 $generateTarget = false;
@@ -389,11 +384,11 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
             try {
                 $this->_getUrlRewrite()->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__('The URL Rewrite has been deleted.')
+                    __('The URL Rewrite has been deleted.')
                 );
             } catch (Exception $e) {
                 $errorMessage =
-                    Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while deleting URL Rewrite.');
+                    __('An error occurred while deleting URL Rewrite.');
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addException($e, $errorMessage);
                 $this->_redirect('*/*/edit/', array('id' => $this->_getUrlRewrite()->getId()));

@@ -48,7 +48,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquant
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Products Quantity'),
+            'label' => __('Products Quantity'),
             'available_in_guest_mode' => true);
     }
 
@@ -60,7 +60,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquant
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Shopping Cart Products Qty %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Shopping Cart Products Qty %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

@@ -21,18 +21,18 @@ class Magento_Adminhtml_Controller_Report_Shopcart extends Magento_Adminhtml_Con
     {
         $act = $this->getRequest()->getActionName();
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Reports'), Mage::helper('Magento_Reports_Helper_Data')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Shopping Cart'), Mage::helper('Magento_Reports_Helper_Data')->__('Shopping Cart'));
+            ->_addBreadcrumb(__('Reports'), __('Reports'))
+            ->_addBreadcrumb(__('Shopping Cart'), __('Shopping Cart'));
         return $this;
     }
 
     public function customerAction()
     {
-        $this->_title($this->__('Customer Shopping Carts'));
+        $this->_title(__('Customer Shopping Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_customer')
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report'), Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report'))
+            ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Shopcart_Customer'))
             ->renderLayout();
     }
@@ -63,11 +63,11 @@ class Magento_Adminhtml_Controller_Report_Shopcart extends Magento_Adminhtml_Con
 
     public function productAction()
     {
-        $this->_title($this->__('Products in Carts'));
+        $this->_title(__('Products in Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_product')
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'), Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'))
+            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Shopcart_Product'))
             ->renderLayout();
     }
@@ -98,11 +98,11 @@ class Magento_Adminhtml_Controller_Report_Shopcart extends Magento_Adminhtml_Con
 
     public function abandonedAction()
     {
-        $this->_title($this->__('Abandoned Carts'));
+        $this->_title(__('Abandoned Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_abandoned')
-            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Abandoned Carts'), Mage::helper('Magento_Reports_Helper_Data')->__('Abandoned Carts'))
+            ->_addBreadcrumb(__('Abandoned Carts'), __('Abandoned Carts'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Shopcart_Abandoned'))
             ->renderLayout();
     }

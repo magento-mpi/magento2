@@ -148,9 +148,9 @@ class Magento_Backend_Block_System_Config_Form_Field
      */
     protected function _getInheritCheckboxLabel(Magento_Data_Form_Element_Abstract $element)
     {
-        $checkboxLabel = $this->helper('Magento_Backend_Helper_Data')->__('Use Default');
+        $checkboxLabel = __('Use Default');
         if ($element->getCanUseWebsiteValue()) {
-            $checkboxLabel =  $this->helper('Magento_Backend_Helper_Data')->__('Use Website');
+            $checkboxLabel =  __('Use Website');
         }
         return $checkboxLabel;
     }

@@ -93,8 +93,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
         $file = Mage::getBaseDir('etc') . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
-            throw new Exception(Mage::helper('Magento_Pci_Helper_Data')
-                ->__('File %s is not writeable.', $file));
+            throw new Exception(__('File %1 is not writeable.', $file));
         }
 
         $contents = $this->_filesystem->read($file);

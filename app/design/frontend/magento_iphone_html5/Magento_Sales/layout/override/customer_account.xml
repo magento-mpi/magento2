@@ -17,7 +17,7 @@
             </action>
         </reference>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>orders</name>
                 <path>sales/order/history/</path>
                 <label>My Orders</label>

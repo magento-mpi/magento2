@@ -39,8 +39,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $context Magento_Core_Helper_Context */
         $context = $this->getMock('Magento_Core_Helper_Context', null, array(), '', false);
 
-        $fileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')
-            ->disableOriginalConstructor()
+        $fileSystem = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')->disableOriginalConstructor()
             ->getMock();
 
         $helper = new Magento_Core_Helper_Theme(
@@ -611,15 +610,12 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         /** @var $helper Magento_Core_Helper_Theme|PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Magento_Core_Helper_Theme', array('getCssFiles', '__'), array(
+        $helper = $this->getMock('Magento_Core_Helper_Theme', array('getCssFiles'), array(
             $context, $dirs, $layoutMergeFactory, $themeCollection, $fileSystem
         ));
         $helper->expects($this->once())
             ->method('getCssFiles')
             ->will($this->returnValue($files));
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback('sprintf'));
 
         return $helper;
     }

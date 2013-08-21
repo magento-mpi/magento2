@@ -31,12 +31,9 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
      */
     protected function _prepareForm()
     {
-        /** @var $helper Magento_ScheduledImportExport_Helper_Data */
-        $helper = Mage::helper('Magento_ScheduledImportExport_Helper_Data');
-
-        $this->setGeneralSettingsLabel($helper->__('Export Settings'));
-        $this->setFileSettingsLabel($helper->__('Export File Information'));
-        $this->setEmailSettingsLabel($helper->__('Export Failed Emails'));
+        $this->setGeneralSettingsLabel(__('Export Settings'));
+        $this->setFileSettingsLabel(__('Export File Information'));
+        $this->setEmailSettingsLabel(__('Export Failed Emails'));
 
         parent::_prepareForm();
         $form = $this->getForm();
@@ -49,15 +46,15 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
             'name'      => 'file_info[file_format]',
-            'title'     => $helper->__('File Format'),
-            'label'     => $helper->__('File Format'),
+            'title'     => __('File Format'),
+            'label'     => __('File Format'),
             'required'  => true,
             'values'    => $fileFormatModel->toOptionArray()
         ));
 
         $form->getElement('email_template')
             ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
-                ->setPath('magento_scheduledimportexport_export_failed')
+                ->setPath('enterprise_importexport_export_failed')
                 ->toOptionArray()
             );
 
@@ -66,7 +63,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $element->setData('onchange', 'varienImportExportScheduled.getFilter();');
 
         $fieldset = $form->addFieldset('export_filter_grid_container', array(
-            'legend' => $helper->__('Entity Attributes'),
+            'legend' => __('Entity Attributes'),
             'fieldset_container_id' => 'export_filter_container'
         ));
 

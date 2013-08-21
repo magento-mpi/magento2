@@ -28,7 +28,7 @@
             <span class="old-price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo $_msrpPrice ?></span>
         <?php endif; ?>
         <?php $helpLinkId = 'msrp-click-' . $_product->getId() . $this->helper('Magento_Core_Helper_Data')->getRandomString(20); ?>
-        <a href="#" id="<?php echo($helpLinkId);?>"><?php echo $this->__('Click for price') ?></a>
+        <a href="#" id="<?php echo($helpLinkId);?>"><?php echo __('Click for price') ?></a>
     </div>
 
     <script type="text/javascript">

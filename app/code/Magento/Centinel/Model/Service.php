@@ -269,12 +269,12 @@ class Magento_Centinel_Model_Service extends Magento_Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                Mage::throwException(Mage::helper('Magento_Centinel_Helper_Data')->__('Payment information error. Please start over.'));
+                Mage::throwException(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            Mage::throwException(Mage::helper('Magento_Centinel_Helper_Data')->__('Please verify the card with the issuer bank before placing the order.'));
+            Mage::throwException(__('Please verify the card with the issuer bank before placing the order.'));
         } else {
             if ($validationState->getChecksum() != $newChecksum || !$validationState->isLookupSuccessful()) {
                 $this->lookup($data);
@@ -283,7 +283,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            Mage::throwException(Mage::helper('Magento_Centinel_Helper_Data')->__('This card has failed validation and cannot be used.'));
+            Mage::throwException(__('This card has failed validation and cannot be used.'));
         }
     }
 

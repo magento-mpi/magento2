@@ -30,7 +30,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtml_B
             $parentBlock = $this->getParentBlock();
             $buttonUrl = $this->_urlBuilder->getUrl('*/rma/new', array('order_id' => $parentBlock->getOrderId()));
             $parentBlock->addButton('create_rma', array(
-                'label' => Mage::helper('Magento_Rma_Helper_Data')->__('Create Returns'),
+                'label' => __('Create Returns'),
                 'onclick' => 'setLocation(\'' . $buttonUrl . '\')',
             ), 0, $this->_getCreateRmaButtonSortOrder());
         }

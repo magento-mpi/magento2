@@ -19,11 +19,6 @@ class Magento_Backend_Model_Config_Structure_Element_CompositeAbstractTest exten
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -50,12 +45,11 @@ class Magento_Backend_Model_Config_Structure_Element_CompositeAbstractTest exten
         $this->_iteratorMock = $this->getMock(
             'Magento_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Backend_Model_Config_Structure_Element_CompositeAbstract',
-            array($this->_factoryHelperMock, $this->_applicationMock, $this->_iteratorMock)
+            array($this->_applicationMock, $this->_iteratorMock)
         );
     }
 
@@ -63,7 +57,6 @@ class Magento_Backend_Model_Config_Structure_Element_CompositeAbstractTest exten
     {
         unset($this->_iteratorMock);
         unset($this->_applicationMock);
-        unset($this->_factoryHelperMock);
         unset($this->_model);
     }
 

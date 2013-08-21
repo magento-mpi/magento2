@@ -64,7 +64,7 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
                 } elseif (!$paramData['required']) {
                     $methodArguments[$paramName] = $paramData['default'];
                 } else {
-                    throw new Magento_Webapi_Exception($this->__('Required parameter "%s" is missing.', $paramName),
+                    throw new Magento_Webapi_Exception(__('Required parameter "%1" is missing.', $paramName),
                         Magento_Webapi_Exception::HTTP_BAD_REQUEST);
                 }
             }
@@ -111,7 +111,7 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
         $formattedData = array();
         if (!is_array($data)) {
             throw new Magento_Webapi_Exception(
-                $this->__('Data corresponding to "%s" type is expected to be an array.', $dataType),
+                __('Data corresponding to "%1" type is expected to be an array.', $dataType),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -146,7 +146,7 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
         $complexDataObject = new $complexTypeClass();
         if (!is_array($data)) {
             throw new Magento_Webapi_Exception(
-                $this->__('Data corresponding to "%s" type is expected to be an array.', $dataType),
+                __('Data corresponding to "%1" type is expected to be an array.', $dataType),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -156,7 +156,7 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
             } elseif (($fieldMetadata['required'] == false)) {
                 $fieldValue = $fieldMetadata['default'];
             } else {
-                throw new Magento_Webapi_Exception($this->__('Value of "%s" attribute is required.', $fieldName),
+                throw new Magento_Webapi_Exception(__('Value of "%1" attribute is required.', $fieldName),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST);
             }
             $complexDataObject->$fieldName = $this->_formatParamData(

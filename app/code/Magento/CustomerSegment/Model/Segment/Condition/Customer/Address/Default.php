@@ -53,7 +53,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Default Address')
+            'label' => __('Default Address')
         );
     }
 
@@ -65,8 +65,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'default_billing'  => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Billing'),
-            'default_shipping' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Shipping'),
+            'default_billing'  => __('Billing'),
+            'default_shipping' => __('Shipping'),
         ));
         return $this;
     }
@@ -89,7 +89,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Customer Address %s Default %s Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
+            . __('Customer Address %1 Default %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

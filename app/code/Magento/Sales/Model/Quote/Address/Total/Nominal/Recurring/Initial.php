@@ -29,6 +29,6 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Initial
      */
     public function getLabel()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Initial Fee');
+        return __('Initial Fee');
     }
 }

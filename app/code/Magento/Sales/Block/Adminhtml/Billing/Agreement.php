@@ -23,7 +23,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement extends Magento_Adminhtml_
     {
         $this->_controller = 'adminhtml_billing_agreement';
         $this->_blockGroup = 'Magento_Sales';
-        $this->_headerText = Mage::helper('Magento_Sales_Helper_Data')->__('Billing Agreements');
+        $this->_headerText = __('Billing Agreements');
         parent::_construct();
         $this->_removeButton('add');
     }

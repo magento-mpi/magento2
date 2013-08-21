@@ -69,7 +69,7 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Signed up for newsletter with email %s', $email);
+        return __('Signed up for newsletter with email %1', $email);
     }
 
     /**

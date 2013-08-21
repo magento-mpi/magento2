@@ -21,7 +21,7 @@ class Magento_Tag_Block_Adminhtml_Report_Customer extends Magento_Backend_Block_
     {
         $this->_blockGroup = 'Magento_Tag';
         $this->_controller = 'adminhtml_report_customer';
-        $this->_headerText = Mage::helper('Magento_Tag_Helper_Data')->__('Customers Tags');
+        $this->_headerText = __('Customers Tags');
         parent::_construct();
         $this->_removeButton('add');
     }

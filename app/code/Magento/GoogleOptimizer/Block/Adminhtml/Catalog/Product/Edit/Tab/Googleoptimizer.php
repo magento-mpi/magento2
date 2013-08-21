@@ -32,7 +32,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleopt
      */
     public function getTabLabel()
     {
-        return $this->__('Product View Optimization');
+        return __('Product View Optimization');
     }
 
     /**
@@ -42,6 +42,6 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleopt
      */
     public function getTabTitle()
     {
-        return $this->__('Product View Optimization');
+        return __('Product View Optimization');
     }
 }

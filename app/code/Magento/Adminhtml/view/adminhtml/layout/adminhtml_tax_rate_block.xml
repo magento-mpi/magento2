@@ -23,11 +23,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Magento_Tax">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportXml</urlPath>
-                                <label translate="true" module="Magento_Tax">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -44,8 +44,8 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true" module="Magento_Tax">Tax Identifier</header>
-                            <header_export translate="true" module="Magento_Tax">Code</header_export>
+                            <header translate="true">Tax Identifier</header>
+                            <header_export translate="true">Code</header_export>
                             <align>left</align>
                             <filter_index>main_table.code</filter_index>
                             <index>code</index>
@@ -53,7 +53,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="tax_country_id">
                         <arguments>
-                            <header translate="true" module="Magento_Tax">Country</header>
+                            <header translate="true">Country</header>
                             <type>country</type>
                             <align>left</align>
                             <filter_index>main_table.tax_country_id</filter_index>
@@ -64,8 +64,8 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="region_name">
                         <arguments>
-                            <header translate="true" module="Magento_Tax">State/Region</header>
-                            <header_export translate="true" module="Magento_Tax">State</header_export>
+                            <header translate="true">State/Region</header>
+                            <header_export translate="true">State</header_export>
                             <align>left</align>
                             <filter_index>region_table.code</filter_index>
                             <index>region_name</index>
@@ -74,7 +74,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="tax_postcode">
                         <arguments>
-                            <header translate="true" module="Magento_Tax">Zip/Post Code</header>
+                            <header translate="true">Zip/Post Code</header>
                             <align>left</align>
                             <index>tax_postcode</index>
                             <default>*</default>
@@ -82,7 +82,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="rate">
                         <arguments>
-                            <header translate="true" module="Magento_Tax">Rate</header>
+                            <header translate="true">Rate</header>
                             <align>right</align>
                             <index>rate</index>
                             <type>number</type>

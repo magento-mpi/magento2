@@ -9,11 +9,6 @@ class Magento_AdminNotification_Model_System_Message_Survey
     implements Magento_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Magento_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * @var Magento_Backend_Model_Auth_Session
      */
     protected $_authSession;
@@ -29,18 +24,15 @@ class Magento_AdminNotification_Model_System_Message_Survey
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Backend_Model_Auth_Session $authSession,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_UrlInterface $urlBuilder
     ) {
-        $this->_helperFactory = $helperFactory;
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;
         $this->_urlBuilder = $urlBuilder;
@@ -101,7 +93,7 @@ class Magento_AdminNotification_Model_System_Message_Survey
                 ),
             ),
         );
-        return $this->_helperFactory->get('Magento_AdminNotification_Helper_Data')->__('We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%s>take our survey</a> and tell us about features you\'d like to see in Magento.', json_encode($params, JSON_FORCE_OBJECT));
+        return __('We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%1>take our survey</a> and tell us about features you\'d like to see in Magento.', json_encode($params, JSON_FORCE_OBJECT));
     }
 
     /**

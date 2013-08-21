@@ -95,10 +95,10 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_VersionsCms::cms_enterprise_page_hierarchy')
-            ->_addBreadcrumb(Mage::helper('Magento_VersionsCms_Helper_Data')->__('CMS'),
-                Mage::helper('Magento_VersionsCms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Magento_VersionsCms_Helper_Data')->__('CMS Page Trees'),
-                Mage::helper('Magento_VersionsCms_Helper_Data')->__('CMS Page Trees'));
+            ->_addBreadcrumb(__('CMS'),
+                __('CMS'))
+            ->_addBreadcrumb(__('CMS Page Trees'),
+                __('CMS Page Trees'));
         return $this;
     }
 
@@ -133,7 +133,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Hierarchy'));
+        $this->_title(__('Hierarchy'));
 
         $this->_initScope();
 
@@ -165,7 +165,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
         if (empty($scopes) || ($this->getRequest()->isPost() && !is_array($scopes))
             || $this->getRequest()->isGet() && !is_string($scopes)
         ) {
-            $this->_getSession()->addError($this->__('Please correct the scope.'));
+            $this->_getSession()->addError(__('Please correct the scope.'));
         } else {
             if (!is_array($scopes)) {
                 $scopes = array($scopes);
@@ -180,12 +180,12 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
                     $nodeModel->deleteByScope($scope, $scopeId);
                     $nodeModel->collectTree(array(), array());
                 }
-                $this->_getSession()->addSuccess($this->__('You deleted the pages hierarchy from the selected scopes.'));
+                $this->_getSession()->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Magento_VersionsCms_Helper_Data')->__('Something went wrong while deleting the hierarchy.')
+                    __('Something went wrong while deleting the hierarchy.')
                 );
             }
         }
@@ -215,12 +215,12 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
-                $this->_getSession()->addSuccess($this->__('You copied the pages hierarchy to the selected scopes.'));
+                $this->_getSession()->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Magento_VersionsCms_Helper_Data')->__('Something went wrong while copying the hierarchy.')
+                    __('Something went wrong while copying the hierarchy.')
                 );
             }
         }
@@ -294,13 +294,13 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adm
 
                 $hasError = false;
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_VersionsCms_Helper_Data')->__('You have saved the hierarchy.')
+                    __('You have saved the hierarchy.')
                 );
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Magento_VersionsCms_Helper_Data')->__('Something went wrong while saving the hierarchy.')
+                    __('Something went wrong while saving the hierarchy.')
                 );
             }
 

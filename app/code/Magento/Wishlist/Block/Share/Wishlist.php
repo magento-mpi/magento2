@@ -64,6 +64,6 @@ class Magento_Wishlist_Block_Share_Wishlist extends Magento_Wishlist_Block_Abstr
      */
     public function getHeader()
     {
-        return Mage::helper('Magento_Wishlist_Helper_Data')->__("%s's Wish List", $this->escapeHtml($this->getWishlistCustomer()->getFirstname()));
+        return __("%1's Wish List", $this->escapeHtml($this->getWishlistCustomer()->getFirstname()));
     }
 }

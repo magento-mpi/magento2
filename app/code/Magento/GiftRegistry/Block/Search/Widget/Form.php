@@ -108,7 +108,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Select Search Type'))
+                'label' => __('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );

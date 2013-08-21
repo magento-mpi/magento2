@@ -61,7 +61,7 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('We found an unknown EAV indexer type "%s".', $type));
+            Mage::throwException(__('We found an unknown EAV indexer type "%1".', $type));
         }
         return $indexers[$type];
     }

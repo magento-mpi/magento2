@@ -20,6 +20,6 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Magento_Ad
         parent::_construct();
         $this->setId('targetrule_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Magento_TargetRule_Helper_Data')->__('Product Rule Information'));
+        $this->setTitle(__('Product Rule Information'));
     }
 }

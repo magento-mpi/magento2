@@ -29,7 +29,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Subtotal
     {
         $address->addTotal(array(
             'code'  => 'subtotal',
-            'title' => Mage::helper('Magento_Sales_Helper_Data')->__('Subtotal'),
+            'title' => __('Subtotal'),
             'value' => $address->getSubtotal()
         ));
 

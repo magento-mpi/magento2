@@ -54,7 +54,6 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
 
         return $this->_helper->getObject('Magento_Webapi_Model_Resource_Acl_User', array(
             'resource' => $this->_resource,
-            'helper' => $this->_helperData
         ));
     }
 

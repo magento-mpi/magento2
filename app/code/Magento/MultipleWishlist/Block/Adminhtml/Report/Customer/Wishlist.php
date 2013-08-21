@@ -25,7 +25,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Report_Customer_Wishlist
     {
         $this->_blockGroup = 'Magento_MultipleWishlist';
         $this->_controller = 'adminhtml_report_customer_wishlist';
-        $this->_headerText = Mage::helper('Magento_MultipleWishlist_Helper_Data')->__("Customer's Wish List Report");
+        $this->_headerText = __("Customer's Wish List Report");
         parent::_construct();
         $this->_removeButton('add');
     }

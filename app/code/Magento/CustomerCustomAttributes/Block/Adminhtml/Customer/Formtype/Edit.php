@@ -44,7 +44,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit ex
             $this->_updateButton('save', 'onclick', 'formType.save(false)');
             $this->_updateButton('save', 'data_attribute', null);
             $this->_addButton('save_and_edit_button', array(
-                'label'     => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Save and Continue Edit'),
+                'label'     => __('Save and Continue Edit'),
                 'onclick'   => 'formType.save(true)',
                 'class'     => 'save'
             ));
@@ -53,9 +53,9 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit ex
                 $this->_removeButton('delete');
             }
 
-            $this->_headerText = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Edit Form Type "%s"', $this->_getFormType()->getCode());
+            $this->_headerText = __('Edit Form Type "%1"', $this->_getFormType()->getCode());
         } else {
-            $this->_headerText = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('New Form Type');
+            $this->_headerText = __('New Form Type');
         }
     }
 }

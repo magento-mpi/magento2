@@ -36,7 +36,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons extends Mag
                 'customer' => $container->getCustomerId()
             ));
             $container->addButton('manage_quote', array(
-                'label' => Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('Manage Shopping Cart'),
+                'label' => __('Manage Shopping Cart'),
                 'onclick' => "setLocation('" . $url . "')",
             ), 0);
         }

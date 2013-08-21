@@ -27,8 +27,8 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_items')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Google Content'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Google Content'));
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
+            ->_addBreadcrumb(__('Google Content'), __('Google Content'));
         return $this;
     }
 
@@ -37,7 +37,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
      */
     public function indexAction()
     {
-        $this->_title($this->__('Google Content Items'));
+        $this->_title(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
@@ -61,11 +61,11 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
         if (!$this->_getConfig()->isValidDefaultCurrencyCode($this->_getStore()->getId())) {
             $_countryInfo = $this->_getConfig()->getTargetCountryInfo($this->_getStore()->getId());
             $this->_getSession()->addNotice(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__("The store's currency should be set to %s for %s in system configuration. Otherwise item prices won't be correct in Google Content.", $_countryInfo['currency_name'], $_countryInfo['name'])
+                __("The store's currency should be set to %1 for %2 in system configuration. Otherwise item prices won't be correct in Google Content.", $_countryInfo['currency_name'], $_countryInfo['name'])
             );
         }
 
-        $this->_addBreadcrumb(Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Items'), Mage::helper('Magento_GoogleShopping_Helper_Data')->__('Items'))
+        $this->_addBreadcrumb(__('Items'), __('Items'))
             ->_addContent($contentBlock)
             ->renderLayout();
     }
@@ -119,14 +119,14 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 ->addProducts($productIds, $storeId);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             // Google requires CAPTCHA for login
-            $this->_getSession()->addError(Mage::helper('Magento_GoogleShopping_Helper_Data')->__($e->getMessage()));
+            $this->_getSession()->addError(__($e->getMessage()));
             $flag->unlock();
             $this->_redirectToCaptcha($e);
             return;
         } catch (Exception $e) {
             $flag->unlock();
             $notifier->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('An error has occurred while adding products to google shopping account.'),
+                __('An error has occurred while adding products to google shopping account.'),
                 $e->getMessage()
             );
             Mage::logException($e);
@@ -159,15 +159,15 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 ->deleteItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             // Google requires CAPTCHA for login
-            $this->_getSession()->addError(Mage::helper('Magento_GoogleShopping_Helper_Data')->__($e->getMessage()));
+            $this->_getSession()->addError(__($e->getMessage()));
             $flag->unlock();
             $this->_redirectToCaptcha($e);
             return;
         } catch (Exception $e) {
             $flag->unlock();
             Mage::getModel('Magento_AdminNotification_Model_Inbox')->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('An error has occurred while deleting products from google shopping account.'),
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
+                __('An error has occurred while deleting products from google shopping account.'),
+                __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
             Mage::logException($e);
             return;
@@ -199,15 +199,15 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 ->synchronizeItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             // Google requires CAPTCHA for login
-            $this->_getSession()->addError(Mage::helper('Magento_GoogleShopping_Helper_Data')->__($e->getMessage()));
+            $this->_getSession()->addError(__($e->getMessage()));
             $flag->unlock();
             $this->_redirectToCaptcha($e);
             return;
         } catch (Exception $e) {
             $flag->unlock();
             Mage::getModel('Magento_AdminNotification_Model_Inbox')->addMajor(
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('An error has occurred while deleting products from google shopping account.'),
-                Mage::helper('Magento_GoogleShopping_Helper_Data')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
+                __('An error has occurred while deleting products from google shopping account.'),
+                __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
             Mage::logException($e);
             return;
@@ -229,10 +229,10 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
-            $this->_getSession()->addSuccess($this->__('Captcha has been confirmed.'));
+            $this->_getSession()->addSuccess(__('Captcha has been confirmed.'));
 
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            $this->_getSession()->addError($this->__('There was a Captcha confirmation error: %s', $e->getMessage()));
+            $this->_getSession()->addError(__('There was a Captcha confirmation error: %1', $e->getMessage()));
             $this->_redirectToCaptcha($e);
             return;
         } catch (Zend_Gdata_App_Exception $e) {
@@ -241,7 +241,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             );
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError($this->__('Something went wrong during Captcha confirmation.'));
+            $this->_getSession()->addError(__('Something went wrong during Captcha confirmation.'));
         }
 
         $this->_redirect('*/*/index', array('store'=>$storeId));
@@ -296,7 +296,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
     {
         $store = Mage::app()->getStore((int)$this->getRequest()->getParam('store', 0));
         if ((!$store) || 0 == $store->getId()) {
-            Mage::throwException($this->__('Unable to select a Store View'));
+            Mage::throwException(__('Unable to select a Store View'));
         }
         return $store;
     }

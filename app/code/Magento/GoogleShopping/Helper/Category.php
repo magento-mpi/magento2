@@ -51,7 +51,7 @@ class Magento_GoogleShopping_Helper_Category
     public function getMessage()
     {
         return sprintf(
-            Mage::helper('Magento_GoogleShopping_Helper_Data')->__("For information on Google's required attributes for different product categories, please see this link: %s"),
+            __("For information on Google's required attributes for different product categories, please see this link: %s"),
             '<a href="http://www.google.com/support/merchants/bin/answer.py?answer=1344057" target="_blank">'
                 . 'http://www.google.com/support/merchants/bin/answer.py?answer=1344057'
                 . '</a>'

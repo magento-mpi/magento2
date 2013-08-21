@@ -46,15 +46,15 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
         $errors = array();
 
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please enter the first name.');
+            $errors[] = __('Please enter the first name.');
         }
 
         if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
-            $errors[] = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please enter the last name.');
+            $errors[] = __('Please enter the last name.');
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please enter a valid email address(for example, daniel@x.com).');
+            $errors[] = __('Please enter a valid email address(for example, daniel@x.com).');
         }
 
         $customValues = $this->getCustom();

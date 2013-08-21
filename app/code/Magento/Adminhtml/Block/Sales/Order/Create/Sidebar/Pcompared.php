@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Recently Compared Products');
+        return __('Recently Compared Products');
     }
 
     /**

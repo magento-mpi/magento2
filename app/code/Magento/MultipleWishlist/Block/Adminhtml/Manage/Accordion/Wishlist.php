@@ -36,7 +36,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Manage_Accordion_Wishlist
     protected function _prepareColumns()
     {
         $this->addColumn('wishlist_name', array(
-            'header'    => Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Wishlist'),
+            'header'    => __('Wishlist'),
             'index'     => 'wishlist_name',
             'sortable'  => false
         ));

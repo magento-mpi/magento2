@@ -47,8 +47,8 @@ class Magento_CustomerSegment_Model_Condition_Abstract extends Magento_Rule_Mode
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = parent::getDefaultOperatorOptions();
 
-            $this->_defaultOperatorOptions['[]'] = Mage::helper('Magento_Rule_Helper_Data')->__('contains');
-            $this->_defaultOperatorOptions['![]'] = Mage::helper('Magento_Rule_Helper_Data')->__('does not contains');
+            $this->_defaultOperatorOptions['[]'] = __('contains');
+            $this->_defaultOperatorOptions['![]'] = __('does not contains');
         }
         return $this->_defaultOperatorOptions;
     }

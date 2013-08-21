@@ -44,7 +44,7 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product Magento_Catalog_Model_Product */
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError($this->__('We can\'t find the product.'));
+            Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('We can\'t find the product.'));
             $this->_redirect('customer/account/');
             return ;
         }
@@ -59,10 +59,10 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
                 $model->delete();
             }
 
-            $session->addSuccess($this->__('You deleted the alert subscription.'));
+            $session->addSuccess(__('You deleted the alert subscription.'));
         }
         catch (Exception $e) {
-            $session->addException($e, $this->__('Unable to update the alert subscription.'));
+            $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirectUrl($product->getProductUrl());
     }
@@ -77,10 +77,10 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
                 $session->getCustomerId(),
                 Mage::app()->getStore()->getWebsiteId()
             );
-            $session->addSuccess($this->__('You will no longer receive price alerts for this product.'));
+            $session->addSuccess(__('You will no longer receive price alerts for this product.'));
         }
         catch (Exception $e) {
-            $session->addException($e, $this->__('Unable to update the alert subscription.'));
+            $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirect('customer/account/');
     }
@@ -99,7 +99,7 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         /* @var $product Magento_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError($this->__('The product was not found.'));
+            Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('The product was not found.'));
             $this->_redirect('customer/account/');
             return ;
         }
@@ -113,10 +113,10 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
             if ($model->getId()) {
                 $model->delete();
             }
-            $session->addSuccess($this->__('You will no longer receive stock alerts for this product.'));
+            $session->addSuccess(__('You will no longer receive stock alerts for this product.'));
         }
         catch (Exception $e) {
-            $session->addException($e, $this->__('Unable to update the alert subscription.'));
+            $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirectUrl($product->getProductUrl());
     }
@@ -131,10 +131,10 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
                 $session->getCustomerId(),
                 Mage::app()->getStore()->getWebsiteId()
             );
-            $session->addSuccess($this->__('You will no longer receive stock alerts.'));
+            $session->addSuccess(__('You will no longer receive stock alerts.'));
         }
         catch (Exception $e) {
-            $session->addException($e, $this->__('Unable to update the alert subscription.'));
+            $session->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirect('customer/account/');
     }

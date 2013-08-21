@@ -1,0 +1,31 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $entityValues = $this->getEntityValues() ?>
+
+<?php if ($this->getEnabled() && count($entityValues)): ?>
+<div class="btn-gift-registry">
+    <form action="<?php echo $this->getAddUrl();?>" method="post" id="form-validate">
+        <div class="input-box">
+            <select id="giftregistry_entity" name="entity" title="<?php echo __('Gift Registry') ?>" class="required-entry">
+                <?php foreach ($entityValues as $_entity):?>
+                    <option value="<?php echo $_entity->getValue()?>" title="<?php echo $_entity->getTitle()?>"><?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+        <button type="submit" class="button"><?php echo __('Add To Gift Registry ');?></button>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('form-validate');
+    //]]>
+    </script>
+</div>
+<?php endif; ?>

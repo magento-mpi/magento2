@@ -45,7 +45,7 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
             $ordersCount = Mage::getResourceSingleton('Magento_SalesArchive_Model_Resource_Order_Collection')
                 ->getSize();
             if ($ordersCount) {
-                return Mage::helper('Magento_SalesArchive_Helper_Data')->__('There are %s orders in this archive. All of them will be moved to the regular table after the archive is disabled.', $ordersCount);
+                return __('There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.', $ordersCount);
             }
         }
         return '';

@@ -27,7 +27,7 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
     {
         $options = array();
         if ($withDefault) {
-           $options[] = array('label' => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Use default'), 'value' => '');
+           $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
         foreach (Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayouts() as $code => $info) {

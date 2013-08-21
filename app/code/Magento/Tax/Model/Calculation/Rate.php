@@ -60,11 +60,11 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
             || $this->getTaxPostcode() === '';
 
         if ($isEmptyValues || $isWrongRange) {
-            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data')->__('Please fill all required fields with valid information.'));
+            Mage::throwException(__('Please fill all required fields with valid information.'));
         }
 
         if (!is_numeric($this->getRate()) || $this->getRate() <= 0) {
-            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data')->__('Rate Percent should be a positive number.'));
+            Mage::throwException(__('Rate Percent should be a positive number.'));
         }
 
         if ($this->getZipIsRange()) {
@@ -72,15 +72,15 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
             $zipTo = $this->getZipTo();
 
             if (strlen($zipFrom) > 9 || strlen($zipTo) > 9) {
-                Mage::throwException(Mage::helper('Magento_Tax_Helper_Data')->__('Maximum zip code length is 9.'));
+                Mage::throwException(__('Maximum zip code length is 9.'));
             }
 
             if (!is_numeric($zipFrom) || !is_numeric($zipTo) || $zipFrom < 0 || $zipTo < 0) {
-                Mage::throwException(Mage::helper('Magento_Tax_Helper_Data')->__('Zip code should not contain characters other than digits.'));
+                Mage::throwException(__('Zip code should not contain characters other than digits.'));
             }
 
             if ($zipFrom > $zipTo) {
-                Mage::throwException(Mage::helper('Magento_Tax_Helper_Data')->__('Range To should be equal or greater than Range From.'));
+                Mage::throwException(__('Range To should be equal or greater than Range From.'));
             }
 
             $this->setTaxPostcode($zipFrom . '-' . $zipTo);
@@ -129,7 +129,7 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if ($this->_isInRule()) {
-            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data')->__('The tax rate cannot be removed. It exists in a tax rule.'));
+            Mage::throwException(__('The tax rate cannot be removed. It exists in a tax rule.'));
         }
         return parent::_beforeDelete();
     }

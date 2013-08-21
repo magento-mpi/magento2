@@ -15,9 +15,9 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_attributes">
-                        <resource id="Magento_CustomerCustomAttributes::attributes" module="Magento_CustomerCustomAttributes" title="Customer Attributes" sortOrder="10">
-                            <resource id="Magento_CustomerCustomAttributes::customer_attributes" module="Magento_CustomerCustomAttributes" title="Customer" sortOrder="10" />
-                            <resource id="Magento_CustomerCustomAttributes::customer_address_attributes" module="Magento_CustomerCustomAttributes" title="Customer Address" sortOrder="20" />
+                        <resource id="Magento_CustomerCustomAttributes::attributes" title="Customer Attributes" sortOrder="10">
+                            <resource id="Magento_CustomerCustomAttributes::customer_attributes" title="Customer" sortOrder="10" />
+                            <resource id="Magento_CustomerCustomAttributes::customer_address_attributes" title="Customer Address" sortOrder="20" />
                         </resource>
                     </resource>
                 </resource>

@@ -77,10 +77,6 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             )
         );
 
-        foreach ($helpers as $helper) {
-            $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        }
-
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $locale = $this->getMock('Magento_Core_Model_Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
@@ -188,7 +184,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
 
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Gift Card max amount is %s');
+        $this->_runValidationWithExpectedException('Gift Card max amount is ');
     }
 
     public function testValidateMinAmount()
@@ -207,7 +203,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
 
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_setStrictProcessMode(true);
-        $this->_runValidationWithExpectedException('Gift Card min amount is %s');
+        $this->_runValidationWithExpectedException('Gift Card min amount is ');
     }
 
     public function testValidateNoAllowedAmount()

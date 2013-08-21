@@ -195,7 +195,7 @@ class Magento_CustomerCustomAttributes_Model_Observer
             ));
             if (!$validate) {
                 throw Mage::exception('Magento_Eav',
-                    Mage::helper('Magento_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
+                    __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
                 );
             }
         }

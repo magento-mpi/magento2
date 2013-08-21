@@ -14,7 +14,7 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
         parent::_construct();
         $this->setId('role_info_tabs');
         $this->setDestElementId('role-edit-form');
-        $this->setTitle(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Information'));
+        $this->setTitle(__('Role Information'));
     }
 
     protected function _beforeToHtml()
@@ -24,8 +24,8 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
            ->load($roleId);
 
         $this->addTab('info', array(
-            'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Info'),
-            'title'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Info'),
+            'label'     => __('Role Info'),
+            'title'     => __('Role Info'),
             'content'   => $this->getLayout()->createBlock(
                 'Magento_Adminhtml_Block_Api_Tab_Roleinfo'
             )->setRole($role)->toHtml(),
@@ -33,15 +33,15 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
         ));
 
         $this->addTab('account', array(
-            'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Resources'),
-            'title'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Resources'),
+            'label'     => __('Role Resources'),
+            'title'     => __('Role Resources'),
             'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Tab_Rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Users'),
-                'title'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Role Users'),
+                'label'     => __('Role Users'),
+                'title'     => __('Role Users'),
                 'content'   => $this->getLayout()->createBlock(
                     'Magento_Adminhtml_Block_Api_Tab_Rolesusers',
                     'role.users.grid'

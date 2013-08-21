@@ -349,21 +349,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
                 ->will($this->returnValue(2));
         }
 
-        $dataHelper = $this->getMock('stdClass', array('__'));
-        if ($addExpectations) {
-            $dataHelper->expects($this->any())
-                ->method('__')
-                ->will($this->returnArgument(0));
-        }
-        $helpers = array(
-            'Magento_ImportExport_Helper_Data' => $dataHelper
-        );
-
         $data = array(
             'connection'        => $connection,
             'tables'            => $this->_tables,
             'resource_helper'   => $resourceHelper,
-            'helpers'           => $helpers,
             'is_price_global'   => true,
             'stores'            => $this->_testStores,
         );
@@ -766,7 +755,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'main_incorrect_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_incorrect_type.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_TYPE => array(array(1, null))
+                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_TYPE
+                    => array(array(1, null))
                 )
             ),
             'main_no_title' => array(

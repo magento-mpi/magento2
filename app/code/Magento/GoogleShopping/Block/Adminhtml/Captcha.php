@@ -30,7 +30,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Captcha extends Magento_Adminhtml_B
     {
         $confirmButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'     => $this->__('Confirm'),
+                'label'     => __('Confirm'),
                 'onclick'   => "if($('user_confirm').value != '')
                                 {
                                     setLocation('".$this->getUrl('*/*/confirmCaptcha', array('_current'=>true))."' + 'user_confirm/' + $('user_confirm').value + '/');

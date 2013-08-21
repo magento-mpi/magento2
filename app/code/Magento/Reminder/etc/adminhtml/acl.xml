@@ -15,13 +15,13 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_Adminhtml::marketing_communications">
-                        <resource id="Magento_Reminder::magento_reminder" module="Magento_Reminder" title="Email Reminders" sortOrder="50" />
+                        <resource id="Magento_Reminder::magento_reminder" title="Email Reminders" sortOrder="50" />
                     </resource>
                 </resource>
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_SalesRule::config_promo" module="Magento_Reminder" title="Promo Section" sortOrder="10" />
+                            <resource id="Magento_SalesRule::config_promo" title="Promo Section" sortOrder="10" />
                         </resource>
                     </resource>
                 </resource>

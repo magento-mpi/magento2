@@ -7,9 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method
- *  Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole() setApiRole(Magento_Webapi_Model_Acl_Role $role)
- * @method Magento_Webapi_Model_Acl_Role getApiRole() getApiRole()
+ * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole(Magento_Webapi_Model_Acl_Role $role)
+ * @method Magento_Webapi_Model_Acl_Role getApiRole()
  */
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
 {
@@ -23,7 +22,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_
         $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->__('Role Information'))
+            'legend' => __('Role Information'))
         );
 
         $role = $this->getApiRole();
@@ -39,8 +38,8 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_
             'id' => 'role_name',
             'class' => 'required-entry',
             'required' => true,
-            'label' => $this->__('Role Name'),
-            'title' => $this->__('Role Name'),
+            'label' => __('Role Name'),
+            'title' => __('Role Name'),
         ));
 
         $fieldset->addField('in_role_user', 'hidden',

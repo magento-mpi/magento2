@@ -200,7 +200,7 @@ class Magento_AdvancedCheckout_Model_Observer
         $failedItemsCount = count(Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')->getFailedItems());
         if ($failedItemsCount > 0) {
             $block->setAllowCartLink(true);
-            $block->setCartEmptyMessage(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->__('%d item(s) need your attention.', $failedItemsCount));
+            $block->setCartEmptyMessage(__('%1 item(s) need your attention.', $failedItemsCount));
         }
     }
 }

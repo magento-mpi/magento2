@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <order_by_sku type="Magento_AdvancedCheckout_Block_Widget_Sku" translate="name description" module="Magento_AdvancedCheckout">
+    <order_by_sku type="Magento_AdvancedCheckout_Block_Widget_Sku" translate="name description">
         <name>Order by SKU</name>
         <description>Order by SKU Description</description>
         <is_email_compatible>0</is_email_compatible>

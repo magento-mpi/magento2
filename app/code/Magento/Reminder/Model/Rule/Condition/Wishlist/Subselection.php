@@ -54,8 +54,8 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Magento_Reminder_Helper_Data')->__('found'),
-            '!=' => Mage::helper('Magento_Reminder_Helper_Data')->__('not found')
+            '==' => __('found'),
+            '!=' => __('not found')
         ));
         return $this;
     }
@@ -68,7 +68,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Magento_Reminder_Helper_Data')->__('If an item is %s in the wish list with %s of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('If an item is %1 in the wish list with %2 of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

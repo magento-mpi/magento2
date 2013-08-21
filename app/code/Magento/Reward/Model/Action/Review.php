@@ -49,6 +49,6 @@ class Magento_Reward_Model_Action_Review extends Magento_Reward_Model_Action_Abs
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->__('For submitting a product review');
+        return __('For submitting a product review');
     }
 }

@@ -47,7 +47,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Number of Cart Line Items'),
+            'label' => __('Number of Cart Line Items'),
             'available_in_guest_mode' => true
         );
     }
@@ -60,7 +60,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Magento_CustomerSegment_Helper_Data')->__('Number of Shopping Cart Line Items %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Number of Shopping Cart Line Items %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -69,7 +69,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
     {

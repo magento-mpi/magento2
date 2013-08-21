@@ -42,7 +42,6 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
 
         $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
-            ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
             ->setSourceUrl($sourceUrl)
@@ -102,32 +101,32 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('chooser_id', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'align'     => 'right',
             'index'     => 'block_id',
             'width'     => 50
         ));
 
         $this->addColumn('chooser_title', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Title'),
+            'header'    => __('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('chooser_identifier', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Identifier'),
+            'header'    => __('Identifier'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('Magento_Cms_Helper_Data')->__('Disabled'),
-                1 => Mage::helper('Magento_Cms_Helper_Data')->__('Enabled')
+                0 => __('Disabled'),
+                1 => __('Enabled')
             ),
         ));
 

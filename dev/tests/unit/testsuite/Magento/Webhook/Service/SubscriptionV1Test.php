@@ -19,13 +19,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     private $_subscriptionMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_userFactory;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionSet;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_translator;
 
     /** @var Magento_Webhook_Service_SubscriptionV1 */
     private $_service;
@@ -62,28 +56,13 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
             ->method('load')
             ->will($this->returnValue($this->_subscriptionMock));
 
-        $this->_userFactory = $this->getMockBuilder('Magento_Webhook_Model_User_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_subscriptionSet = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_translator = $this->getMockBuilder('Magento_Core_Model_Translate')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_translator->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(
-                function ($arr) {
-                    return $arr[0];
-                }
-            ));
 
         $this->_service = new Magento_Webhook_Service_SubscriptionV1(
             $this->_subscriptionFactory,
-            $this->_userFactory,
-            $this->_subscriptionSet,
-            $this->_translator
+            $this->_subscriptionSet
         );
     }
 
@@ -466,41 +445,6 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
 
         $this->_service->revoke(self::VALUE_SUBSCRIPTION_ID);
     }
-
-    public function testValidateOwnership()
-    {
-        $this->_subscriptionMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnSelf());
-
-        $apiUserId = 42;
-        $this->_subscriptionMock->expects($this->once())
-            ->method('getApiUserId')
-            ->will($this->returnValue($apiUserId));
-
-        $this->_service->validateOwnership($apiUserId, self::VALUE_SUBSCRIPTION_ID);
-
-        // validate no exception is thrown
-    }
-
-    /**
-     * @expectedException Magento_Webhook_Exception
-     * @expectedExceptionMessage permission
-     */
-    public function testValidateOwnershipFailed()
-    {
-        $this->_subscriptionMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnSelf());
-
-        $apiUserId = 42;
-        $this->_subscriptionMock->expects($this->once())
-            ->method('getApiUserId')
-            ->will($this->returnValue(0));
-
-        $this->_service->validateOwnership($apiUserId, self::VALUE_SUBSCRIPTION_ID);
-    }
-
 
     /**
      * Mocks subscription not finding any restricted topics

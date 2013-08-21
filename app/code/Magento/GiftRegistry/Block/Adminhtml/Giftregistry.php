@@ -22,8 +22,8 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry extends Magento_Adminhtm
     {
         $this->_controller = 'adminhtml_giftregistry';
         $this->_blockGroup = 'Magento_GiftRegistry';
-        $this->_headerText = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry Types');
-        $this->_addButtonLabel = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Add Gift Registry Type');
+        $this->_headerText = __('Gift Registry Types');
+        $this->_addButtonLabel = __('Add Gift Registry Type');
         parent::_construct();
     }
 }

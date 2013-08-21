@@ -34,7 +34,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      */
     protected function _setTitle()
     {
-        return $this->_title($this->__('Newsletter Templates'));
+        return $this->_title(__('Newsletter Templates'));
     }
 
     /**
@@ -51,7 +51,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         }
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
-        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Templates'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Templates'));
+        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Newsletter_Template', 'template'));
         $this->renderLayout();
     }
@@ -96,15 +96,15 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
 
         if ($model->getId()) {
-            $breadcrumbTitle = Mage::helper('Magento_Newsletter_Helper_Data')->__('Edit Template');
+            $breadcrumbTitle = __('Edit Template');
             $breadcrumbLabel = $breadcrumbTitle;
         }
         else {
-            $breadcrumbTitle = Mage::helper('Magento_Newsletter_Helper_Data')->__('New Template');
-            $breadcrumbLabel = Mage::helper('Magento_Newsletter_Helper_Data')->__('Create Newsletter Template');
+            $breadcrumbTitle = __('New Template');
+            $breadcrumbLabel = __('Create Newsletter Template');
         }
 
-        $this->_title($model->getId() ? $model->getTemplateCode() : $this->__('New Template'));
+        $this->_title($model->getId() ? $model->getTemplateCode() : __('New Template'));
 
         $this->_addBreadcrumb($breadcrumbLabel, $breadcrumbTitle);
 
@@ -169,7 +169,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
 
             $template->save();
 
-            $this->_getSession()->addSuccess($this->_getHelper()->__('The newsletter template has been saved.'));
+            $this->_getSession()->addSuccess(__('The newsletter template has been saved.'));
             $this->_getSession()->setFormData(false);
 
             $this->_redirect('*/*');
@@ -180,7 +180,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
                 $this->getRequest()->getParams());
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                $this->_getHelper()->__('An error occurred while saving this template.')
+                __('An error occurred while saving this template.')
             );
             $this->_getSession()->setData('newsletter_template_form_data', $this->getRequest()->getParams());
         }
@@ -199,13 +199,13 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         if ($template->getId()) {
             try {
                 $template->delete();
-                $this->_getSession()->addSuccess($this->_getHelper()->__('The newsletter template has been deleted.'));
+                $this->_getSession()->addSuccess(__('The newsletter template has been deleted.'));
                 $this->_getSession()->setFormData(false);
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    $this->_getHelper()->__('An error occurred while deleting this template.')
+                    __('An error occurred while deleting this template.')
                 );
             }
         }

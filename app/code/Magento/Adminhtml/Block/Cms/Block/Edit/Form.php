@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
     {
         parent::_construct();
         $this->setId('block_form');
-        $this->setTitle(Mage::helper('Magento_Cms_Helper_Data')->__('Block Information'));
+        $this->setTitle(__('Block Information'));
     }
 
     /**
@@ -50,7 +50,7 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
 
         $form->setHtmlIdPrefix('block_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Magento_Cms_Helper_Data')->__('General Information'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information'), 'class' => 'fieldset-wide'));
 
         if ($model->getBlockId()) {
             $fieldset->addField('block_id', 'hidden', array(
@@ -60,15 +60,15 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Block Title'),
-            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Block Title'),
+            'label'     => __('Block Title'),
+            'title'     => __('Block Title'),
             'required'  => true,
         ));
 
         $fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Identifier'),
-            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Identifier'),
+            'label'     => __('Identifier'),
+            'title'     => __('Identifier'),
             'required'  => true,
             'class'     => 'validate-xml-identifier',
         ));
@@ -79,8 +79,8 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
         if (!Mage::app()->isSingleStoreMode()) {
             $field =$fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Store View'),
-                'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Store View'),
+                'label'     => __('Store View'),
+                'title'     => __('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
@@ -96,13 +96,13 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Status'),
+            'label'     => __('Status'),
+            'title'     => __('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('Magento_Cms_Helper_Data')->__('Enabled'),
-                '0' => Mage::helper('Magento_Cms_Helper_Data')->__('Disabled'),
+                '1' => __('Enabled'),
+                '0' => __('Disabled'),
             ),
         ));
         if (!$model->getId()) {
@@ -111,8 +111,8 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
 
         $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Content'),
-            'title'     => Mage::helper('Magento_Cms_Helper_Data')->__('Content'),
+            'label'     => __('Content'),
+            'title'     => __('Content'),
             'style'     => 'height:36em',
             'required'  => true,
             'config'    => Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getConfig()

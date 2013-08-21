@@ -34,24 +34,13 @@ class Magento_CatalogRule_Model_Rule_Job extends Magento_Object
     protected $_eventManager;
 
     /**
-     * Instance of helper
-     *
-     * @var Magento_Core_Helper_Abstract
-     */
-    protected $_helper;
-
-    /**
      * Basic object initialization
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Abstract $helper
      */
-    public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Abstract $helper
-    ) {
+    public function __construct(Magento_Core_Model_Event_Manager $eventManager)
+    {
         $this->_eventManager = $eventManager;
-        $this->_helper = $helper;
     }
 
     /**
@@ -63,7 +52,7 @@ class Magento_CatalogRule_Model_Rule_Job extends Magento_Object
     {
         try {
             $this->_eventManager->dispatch('catalogrule_apply_all');
-            $this->setSuccess($this->_helper->__('The rules have been applied.'));
+            $this->setSuccess(__('The rules have been applied.'));
         } catch (Magento_Core_Exception $e) {
             $this->setError($e->getMessage());
         }

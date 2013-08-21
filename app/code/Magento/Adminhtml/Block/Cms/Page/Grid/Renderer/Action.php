@@ -20,6 +20,6 @@ class Magento_Adminhtml_Block_Cms_Page_Grid_Renderer_Action
                 '_query' => '___store='.$row->getStoreCode()
            )
         );
-        return '<a href="'.$href.'" target="_blank">'.$this->__('Preview').'</a>';
+        return '<a href="'.$href.'" target="_blank">'.__('Preview').'</a>';
     }
 }

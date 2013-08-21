@@ -24,11 +24,11 @@ class Magento_Pci_Model_System_Config_Source_Password extends Magento_Object
         return array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('Magento_Pci_Helper_Data')->__('Recommended'),
+                'label' => __('Recommended'),
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('Magento_Pci_Helper_Data')->__('Forced'),
+                'label' => __('Forced'),
             ),
         );
     }

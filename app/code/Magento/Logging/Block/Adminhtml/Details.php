@@ -35,7 +35,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
     {
         parent::_construct();
         $this->_addButton('back', array(
-            'label'   => Mage::helper('Magento_Logging_Helper_Data')->__('Back'),
+            'label'   => __('Back'),
             'onclick' => "setLocation('" . Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/'). "')",
             'class'   => 'back'
         ));
@@ -49,9 +49,9 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
     public function getHeaderText()
     {
         if ($this->getCurrentEvent()) {
-            return Mage::helper('Magento_Logging_Helper_Data')->__('Log Entry #%d', $this->getCurrentEvent()->getId());
+            return __('Log Entry #%1', $this->getCurrentEvent()->getId());
         }
-        return Mage::helper('Magento_Logging_Helper_Data')->__('Log Entry Details');
+        return __('Log Entry Details');
     }
 
     /**

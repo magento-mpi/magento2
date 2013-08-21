@@ -25,8 +25,8 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate extends Magento_Backend_Block_W
     {
         $this->_blockGroup = 'Magento_Reward';
         $this->_controller = 'adminhtml_reward_rate';
-        $this->_headerText = Mage::helper('Magento_Reward_Helper_Data')->__('Reward Exchange Rates');
+        $this->_headerText = __('Reward Exchange Rates');
         parent::_construct();
-        $this->_updateButton('add', 'label', Mage::helper('Magento_Reward_Helper_Data')->__('Add New Rate'));
+        $this->_updateButton('add', 'label', __('Add New Rate'));
     }
 }

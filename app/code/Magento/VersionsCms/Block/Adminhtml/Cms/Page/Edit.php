@@ -38,7 +38,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit
                 if ($page) {
                     if ($page->getId()) {
                         $editBlock->addButton('preview', array(
-                            'label'     => Mage::helper('Magento_VersionsCms_Helper_Data')->__('Preview'),
+                            'label'     => __('Preview'),
                             'class'     => 'preview',
                             'data_attribute'  => array(
                                 'mage-init' => array(

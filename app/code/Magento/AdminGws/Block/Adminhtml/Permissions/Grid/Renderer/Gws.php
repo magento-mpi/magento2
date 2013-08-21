@@ -33,7 +33,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Mag
     public function render(Magento_Object $row)
     {
         if ($row->getData('gws_is_all')) {
-            return $this->__('All');
+            return __('All');
         }
 
         // lookup websites and store groups in system
@@ -79,7 +79,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Mag
                 }
             }
         }
-        return $output ? implode('<br />', $output) : $this->__('None');
+        return $output ? implode('<br />', $output) : __('None');
     }
 
     /**

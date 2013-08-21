@@ -36,11 +36,11 @@ class Magento_Reminder_Model_Rule_Condition_Combine
         $conditions = array(
             array( // customer wishlist combo
                 'value' => 'Magento_Reminder_Model_Rule_Condition_Wishlist',
-                'label' => Mage::helper('Magento_Reminder_Helper_Data')->__('Wish List')),
+                'label' => __('Wish List')),
 
             array( // customer shopping cart combo
                 'value' => 'Magento_Reminder_Model_Rule_Condition_Cart',
-                'label' => Mage::helper('Magento_Reminder_Helper_Data')->__('Shopping Cart')),
+                'label' => __('Shopping Cart')),
 
         );
 

@@ -31,16 +31,14 @@ class Magento_Backend_Model_Config_Backend_Currency_Allow extends Magento_Backen
         $exceptions = array();
         foreach ($this->_getAllowedCurrencies() as $currencyCode) {
             if (!in_array($currencyCode, $this->_getInstalledCurrencies())) {
-                $exceptions[] = Mage::helper('Magento_Backend_Helper_Data')
-                    ->__('Selected allowed currency "%s" is not available in installed currencies.',
+                $exceptions[] = __('Selected allowed currency "%1" is not available in installed currencies.',
                     Mage::app()->getLocale()->currency($currencyCode)->getName()
                 );
             }
         }
 
         if (!in_array($this->_getCurrencyDefault(), $this->_getAllowedCurrencies())) {
-            $exceptions[] = Mage::helper('Magento_Backend_Helper_Data')
-                ->__('Default display currency "%s" is not available in allowed currencies.',
+            $exceptions[] = __('Default display currency "%1" is not available in allowed currencies.',
                 Mage::app()->getLocale()->currency($this->_getCurrencyDefault())->getName()
             );
         }

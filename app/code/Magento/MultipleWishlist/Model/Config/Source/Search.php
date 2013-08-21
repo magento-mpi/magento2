@@ -46,9 +46,9 @@ class Magento_MultipleWishlist_Model_Config_Source_Search
     public function getTypes()
     {
         return array(
-            self::WISHLIST_SEARCH_DISPLAY_ALL_FORMS => Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('All Forms'),
-            self::WISHLIST_SEARCH_DISPLAY_NAME_FORM => Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Wish List Owner Name Search'),
-            self::WISHLIST_SEARCH_DISPLAY_EMAIL_FORM => Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Wish List Owner Email Search')
+            self::WISHLIST_SEARCH_DISPLAY_ALL_FORMS => __('All Forms'),
+            self::WISHLIST_SEARCH_DISPLAY_NAME_FORM => __('Wish List Owner Name Search'),
+            self::WISHLIST_SEARCH_DISPLAY_EMAIL_FORM => __('Wish List Owner Email Search')
         );
     }
 }

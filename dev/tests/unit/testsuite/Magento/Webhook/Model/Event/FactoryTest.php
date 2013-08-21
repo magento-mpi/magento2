@@ -51,8 +51,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
                     array(
                          'data' => array(
                              'topic'     => $topic,
-                             'body_data' => serialize($array),
-                             'status'    => Magento_PubSub_EventInterface::READY_TO_SEND
+                             'body_data' => serialize($array)
                          )
                     )
                 )

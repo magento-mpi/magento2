@@ -45,7 +45,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General extends Magento_Adminhtml
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->__('General Information');
+        return __('General Information');
     }
 
     /**

@@ -60,7 +60,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
      */
     protected function _getDuplicateErrorMessage()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('We found a duplicate website, tier price, customer group and quantity.');
+        return __('We found a duplicate website, tier price, customer group and quantity.');
     }
 
     /**

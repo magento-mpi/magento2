@@ -103,23 +103,23 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'column_css_class' => 'price',
             'align'     => 'center',
             'type'      => 'currency',
@@ -130,7 +130,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
         ));
 
         $this->addColumn('in_products', array(
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Select'),
+            'header'    => __('Select'),
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
             'name'      => 'in_products',
@@ -143,7 +143,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
-            'header'    => Mage::helper('Magento_Sales_Helper_Data')->__('Quantity'),
+            'header'    => __('Quantity'),
             'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',

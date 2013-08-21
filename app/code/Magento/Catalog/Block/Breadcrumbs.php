@@ -38,8 +38,8 @@ class Magento_Catalog_Block_Breadcrumbs extends Magento_Core_Block_Template
     {
         if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbsBlock->addCrumb('home', array(
-                'label'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Home'),
-                'title'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Go to Home Page'),
+                'label'=>__('Home'),
+                'title'=>__('Go to Home Page'),
                 'link'=>Mage::getBaseUrl()
             ));
 

@@ -10,8 +10,8 @@
 ?>
 <?php if ($this->checkProductType($this->getItem()->getProduct())): ?>
     <div class="split-button giftregisty-add light">
-        <strong><?php echo $this->__('Add to Gift Registry');?></strong>
-        <a href="#" class="change"><?php echo $this->__('Add To:') ?></a>
+        <strong><?php echo __('Add to Gift Registry');?></strong>
+        <a href="#" class="change"><?php echo __('Add To:') ?></a>
         <div class="list-container">
             <ul>
                 <?php foreach ($this->getGiftRegistryList() as $_entity):?>

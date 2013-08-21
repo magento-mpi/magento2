@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_other_settings">
-                        <resource id="Magento_GiftWrapping::magento_giftwrapping" module="Magento_GiftWrapping" title="Gift Wrapping" sortOrder="30" />
+                        <resource id="Magento_GiftWrapping::magento_giftwrapping" title="Gift Wrapping" sortOrder="30" />
                     </resource>
                 </resource>
             </resource>

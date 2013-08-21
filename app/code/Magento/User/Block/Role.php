@@ -31,8 +31,8 @@ class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Containe
 
     protected function _construct()
     {
-        $this->_headerText = Mage::helper('Magento_User_Helper_Data')->__('Roles');
-        $this->_addButtonLabel = Mage::helper('Magento_User_Helper_Data')->__('Add New Role');
+        $this->_headerText = __('Roles');
+        $this->_addButtonLabel = __('Add New Role');
         parent::_construct();
     }
 

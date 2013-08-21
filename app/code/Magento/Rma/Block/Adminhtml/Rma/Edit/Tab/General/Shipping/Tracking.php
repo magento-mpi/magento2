@@ -12,7 +12,7 @@
  * Shipment tracking
  *
  * @category    Magento
- * @package     Magento_Rma
+ * @package     Magento_RMA
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -64,7 +64,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('Magento_Sales_Helper_Data')->__('Add'),
+                        'label'   => __('Add'),
                         'class'   => 'save',
                         'onclick' => $onclick
                     )
@@ -125,6 +125,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     public function getCarrierTitle($code)
     {
         $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code);
-        return $carrier ? $carrier->getConfigData('title') : Mage::helper('Magento_Sales_Helper_Data')->__('Custom Value');
+        return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

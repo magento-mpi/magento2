@@ -261,7 +261,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             $attribute = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute')
                 ->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
-                Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Invalid attribute %s', $attributeCode));
+                Mage::throwException(__('Invalid attribute %1', $attributeCode));
             }
             $entity = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
@@ -543,7 +543,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
         $maxIndex = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
         if (count($indexesNeed) > $maxIndex) {
-            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $maxIndex));
+            Mage::throwException(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $maxIndex));
         }
 
         // Process indexes to create names for them in MMDB-style and reformat to common index definition

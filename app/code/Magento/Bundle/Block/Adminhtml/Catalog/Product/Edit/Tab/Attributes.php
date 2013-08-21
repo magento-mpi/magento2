@@ -101,7 +101,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         if ($tier_price) {
             $tier_price->setRenderer(
                 $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
-                    ->setPriceColumnHeader(Mage::helper('Magento_Bundle_Helper_Data')->__('Percent Discount'))
+                    ->setPriceColumnHeader(__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-number-range number-range-0.00-100.00')
             );
         }
@@ -110,7 +110,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         if ($groupPrice) {
             $groupPrice->setRenderer(
                 $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group')
-                    ->setPriceColumnHeader(Mage::helper('Magento_Bundle_Helper_Data')->__('Percent Discount'))
+                    ->setPriceColumnHeader(__('Percent Discount'))
                     ->setPriceValidation('validate-greater-than-zero validate-number-range number-range-0.00-100.00')
             );
         }

@@ -12,9 +12,9 @@ class Magento_Tax_Model_Config_Source_Catalog implements Magento_Core_Model_Opti
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('Magento_Tax_Helper_Data')->__('No (price without tax)')),
-            array('value'=>1, 'label'=>Mage::helper('Magento_Tax_Helper_Data')->__('Yes (only price with tax)')),
-            array('value'=>2, 'label'=>Mage::helper('Magento_Tax_Helper_Data')->__("Both (without and with tax)")),
+            array('value'=>0, 'label'=>__('No (price without tax)')),
+            array('value'=>1, 'label'=>__('Yes (only price with tax)')),
+            array('value'=>2, 'label'=>__("Both (without and with tax)")),
         );
     }
 

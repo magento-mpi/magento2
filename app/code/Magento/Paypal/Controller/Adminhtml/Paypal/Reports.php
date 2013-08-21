@@ -48,7 +48,7 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
         }
         Mage::register('current_transaction', $row);
         $this->_initAction()
-            ->_title($this->__('View Transaction'))
+            ->_title(__('View Transaction'))
             ->_addContent($this->getLayout()
                 ->createBlock('Magento_Paypal_Block_Adminhtml_Settlement_Details', 'settlementDetails'))
             ->renderLayout();
@@ -64,17 +64,17 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
             /* @var $reports Magento_Paypal_Model_Report_Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {
-                Mage::throwException(Mage::helper('Magento_Paypal_Helper_Data')->__('We found nothing to fetch because of an empty configuration.'));
+                Mage::throwException(__('We found nothing to fetch because of an empty configuration.'));
             }
             foreach ($credentials as $config) {
                 try {
                     $fetched = $reports->fetchAndSave(Magento_Paypal_Model_Report_Settlement::createConnection($config));
                     $this->_getSession()->addSuccess(
-                        Mage::helper('Magento_Paypal_Helper_Data')->__("We fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
+                        __("We fetched %1 report rows from '%2@%3'.", $fetched, $config['username'], $config['hostname'])
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError(
-                        Mage::helper('Magento_Paypal_Helper_Data')->__("We couldn't fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
+                        __("We couldn't fetch reports from '%1@%2'.", $config['username'], $config['hostname'])
                     );
                     Mage::logException($e);
                 }
@@ -93,12 +93,12 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
      */
     protected function _initAction()
     {
-        $this->_title($this->__('PayPal Settlement Reports'));
+        $this->_title(__('PayPal Settlement Reports'));
         $this->loadLayout()
             ->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
-            ->_addBreadcrumb(Mage::helper('Magento_Paypal_Helper_Data')->__('Reports'), Mage::helper('Magento_Paypal_Helper_Data')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('Magento_Paypal_Helper_Data')->__('Sales'), Mage::helper('Magento_Paypal_Helper_Data')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('Magento_Paypal_Helper_Data')->__('PayPal Settlement Reports'), Mage::helper('Magento_Paypal_Helper_Data')->__('PayPal Settlement Reports'));
+            ->_addBreadcrumb(__('Reports'), __('Reports'))
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('PayPal Settlement Reports'), __('PayPal Settlement Reports'));
         return $this;
     }
 

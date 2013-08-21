@@ -28,21 +28,21 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="instance_id">
                         <arguments>
-                            <header translate="true" module="Magento_Widget">Widget ID</header>
+                            <header translate="true">Widget ID</header>
                             <align>left</align>
                             <index>instance_id</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="title">
                         <arguments>
-                            <header translate="true" module="Magento_Widget">Widget Instance</header>
+                            <header translate="true">Widget Instance</header>
                             <align>left</align>
                             <index>title</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <header translate="true" module="Magento_Widget">Type</header>
+                            <header translate="true">Type</header>
                             <align>left</align>
                             <index>instance_type</index>
                             <type>options</type>
@@ -51,7 +51,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="theme_id">
                         <arguments>
-                            <header translate="true" module="Magento_Widget">Design Theme</header>
+                            <header translate="true">Design Theme</header>
                             <align>left</align>
                             <index>theme_id</index>
                             <type>options</type>
@@ -61,7 +61,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
-                            <header translate="true" module="Magento_Widget">Sort Order</header>
+                            <header translate="true">Sort Order</header>
                             <align>center</align>
                             <index>sort_order</index>
                             <width>100</width>

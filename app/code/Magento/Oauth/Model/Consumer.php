@@ -84,10 +84,10 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
             $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
 
             if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
-                Mage::throwException(Mage::helper('Magento_Oauth_Helper_Data')->__('Invalid Callback URL'));
+                Mage::throwException(__('Invalid Callback URL'));
             }
             if ($this->getRejectedCallbackUrl() && !$validatorUrl->isValid($this->getRejectedCallbackUrl())) {
-                Mage::throwException(Mage::helper('Magento_Oauth_Helper_Data')->__('Invalid Rejected Callback URL'));
+                Mage::throwException(__('Invalid Rejected Callback URL'));
             }
         }
 

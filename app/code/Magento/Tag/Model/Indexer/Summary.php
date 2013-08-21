@@ -70,7 +70,7 @@ class Magento_Tag_Model_Indexer_Summary extends Magento_Index_Model_Indexer_Abst
      */
     public function getName()
     {
-        return Mage::helper('Magento_Tag_Helper_Data')->__('Tag Aggregation Data');
+        return __('Tag Aggregation Data');
     }
 
     /**
@@ -80,7 +80,7 @@ class Magento_Tag_Model_Indexer_Summary extends Magento_Index_Model_Indexer_Abst
      */
     public function getDescription()
     {
-        return Mage::helper('Magento_Tag_Helper_Data')->__('Rebuild Tag aggregation data');
+        return __('Rebuild Tag aggregation data');
     }
 
     /**

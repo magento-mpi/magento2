@@ -23,13 +23,13 @@ class Magento_Adminhtml_Block_System_Account_Edit extends Magento_Adminhtml_Bloc
         parent::_construct();
 
         $this->_controller = 'system_account';
-        $this->_updateButton('save', 'label', Mage::helper('Magento_Adminhtml_Helper_Data')->__('Save Account'));
+        $this->_updateButton('save', 'label', __('Save Account'));
         $this->_removeButton('delete');
         $this->_removeButton('back');
     }
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->__('My Account');
+        return __('My Account');
     }
 }

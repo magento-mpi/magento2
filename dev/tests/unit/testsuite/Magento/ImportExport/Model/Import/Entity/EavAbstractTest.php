@@ -45,15 +45,9 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected function _getModelDependencies()
     {
-        $translator = $this->getMock('stdClass', array('__'));
-        $translator->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $data = array(
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
-            'translator'                   => $translator,
             'json_helper'                  => 'not_used',
             'string_helper'                => new Magento_Core_Helper_String(
                 $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)

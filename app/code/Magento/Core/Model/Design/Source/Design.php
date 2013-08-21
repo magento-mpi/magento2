@@ -14,22 +14,15 @@
 class Magento_Core_Model_Design_Source_Design extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
-     * @var Magento_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Core_Model_Theme_Label
      */
     protected $_themeLabel;
 
     /**
-     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Theme_Label $themeLabel
      */
-    public function __construct(Magento_Core_Helper_Data $helper, Magento_Core_Model_Theme_Label $themeLabel)
+    public function __construct(Magento_Core_Model_Theme_Label $themeLabel)
     {
-        $this->_helper = $helper;
         $this->_themeLabel = $themeLabel;
     }
 
@@ -41,7 +34,7 @@ class Magento_Core_Model_Design_Source_Design extends Magento_Eav_Model_Entity_A
      */
     public function getAllOptions($withEmpty = true)
     {
-        $label = $withEmpty ? $this->_helper->__('-- Please Select --') : $withEmpty;
+        $label = $withEmpty ? __('-- Please Select --') : $withEmpty;
         return $this->_options = $this->_themeLabel->getLabelsCollection($label);
     }
 }

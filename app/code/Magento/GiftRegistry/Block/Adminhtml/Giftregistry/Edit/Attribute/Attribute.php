@@ -26,13 +26,13 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     protected function _prepareLayout()
     {
         $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Add Attribute'),
+            'label' => __('Add Attribute'),
             'class' => 'action-add',
             'id'    => $this->getFieldPrefix() . '_add_new_attribute'
         ));
 
         $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Delete Attribute'),
+            'label' => __('Delete Attribute'),
             'class' => 'action-delete delete-attribute-option'
         ));
         return parent::_prepareLayout();
@@ -294,7 +294,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
         $selectNameHtml = '';
         $selectIdHtml = '';
         $checkedHtml = ($checked) ? ' checked="checked"' : '';
-        $elementLabel = Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Use Default Value');
+        $elementLabel = __('Use Default Value');
 
         if (!is_null($selectId)) {
             $selectNameHtml = '[options]['.$selectId.']';

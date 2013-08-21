@@ -32,7 +32,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
      */
     public function editAction()
     {
-        $this->_title($this->__('Configuration'));
+        $this->_title(__('Configuration'));
 
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
@@ -52,8 +52,8 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
-            Mage::helper('Magento_Backend_Helper_Data')->__('System'),
-            Mage::helper('Magento_Backend_Helper_Data')->__('System'),
+            __('System'),
+            __('System'),
             $this->getUrl('*\/system')
         );
 

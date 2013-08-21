@@ -81,7 +81,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
     {
         if ($stateNode = $this->_getState($state)) {
             $state = (string) $stateNode->label;
-            return Mage::helper('Magento_Sales_Helper_Data')->__($state);
+            return __($state);
         }
         return $state;
     }
@@ -109,7 +109,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
         $states = array();
         foreach ($this->getNode('states')->children() as $state) {
             $label = (string) $state->label;
-            $states[$state->getName()] = Mage::helper('Magento_Sales_Helper_Data')->__($label);
+            $states[$state->getName()] = __($label);
         }
         return $states;
     }

@@ -74,7 +74,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
             foreach (explode("\n", $row->getStoreName()) as $k => $label) {
                 $scopes[] = str_repeat('&nbsp;', $k * 3) . $label;
             }
-            $out .= implode('<br/>', $scopes) . $this->__(' [deleted]');
+            $out .= implode('<br/>', $scopes) . __(' [deleted]');
             return $out;
         }
 
@@ -88,7 +88,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
         if (empty($origStores)) {
             return '';
         } elseif (in_array(0, $origStores) && count($origStores) == 1 && !$skipAllStoresLabel) {
-            return Mage::helper('Magento_Backend_Helper_Data')->__('All Store Views');
+            return __('All Store Views');
         }
 
         $data = $this->_getStoreModel()->getStoresStructure(false, $origStores);
@@ -123,7 +123,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
             foreach (explode("\n", $row->getStoreName()) as $k => $label) {
                 $scopes[] = str_repeat(' ', $k * 3) . $label;
             }
-            $out .= implode("\r\n", $scopes) . $this->__(' [deleted]');
+            $out .= implode("\r\n", $scopes) . __(' [deleted]');
             return $out;
         }
 
@@ -132,7 +132,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
         }
 
         if (in_array(0, $origStores) && !$skipAllStoresLabel) {
-            return Mage::helper('Magento_Backend_Helper_Data')->__('All Store Views');
+            return __('All Store Views');
         }
 
         $data = $this->_getStoreModel()->getStoresStructure(false, $origStores);

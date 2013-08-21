@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
-  extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
+    extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
     /**
      * Prepare group specific fieldset
@@ -31,14 +31,14 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
         }
 
         $fieldset = $form->addFieldset('group_fieldset', array(
-            'legend' => Mage::helper('Magento_Core_Helper_Data')->__('Store Information')
+            'legend' => __('Store Information')
         ));
 
         if (Mage::registry('store_action') == 'edit' || Mage::registry('store_action') == 'add') {
             $websites = Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionArray();
             $fieldset->addField('group_website_id', 'select', array(
                 'name'      => 'group[website_id]',
-                'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Web Site'),
+                'label'     => __('Web Site'),
                 'value'     => $groupModel->getWebsiteId(),
                 'values'    => $websites,
                 'required'  => true,
@@ -66,7 +66,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
 
         $fieldset->addField('group_name', 'text', array(
             'name'      => 'group[name]',
-            'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Name'),
+            'label'     => __('Name'),
             'value'     => $groupModel->getName(),
             'required'  => true,
             'disabled'  => $groupModel->isReadOnly(),
@@ -76,7 +76,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
 
         $fieldset->addField('group_root_category_id', 'select', array(
             'name'      => 'group[root_category_id]',
-            'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Root Category'),
+            'label'     => __('Root Category'),
             'value'     => $groupModel->getRootCategoryId(),
             'values'    => $categories,
             'required'  => true,
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
                 ->addGroupFilter($groupModel->getId())->toOptionArray();
             $fieldset->addField('group_default_store_id', 'select', array(
                 'name'      => 'group[default_store_id]',
-                'label'     => Mage::helper('Magento_Core_Helper_Data')->__('Default Store View'),
+                'label'     => __('Default Store View'),
                 'value'     => $groupModel->getDefaultStoreId(),
                 'values'    => $stores,
                 'required'  => false,

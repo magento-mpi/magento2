@@ -83,11 +83,11 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
                 self::PROTECTED_PATH =>
-                    Mage::helper('Magento_Core_Helper_Data')->__('Path "%value%" is protected and cannot be used.'),
+                    __('Path "%value%" is protected and cannot be used.'),
                 self::NOT_AVAILABLE_PATH =>
-                    Mage::helper('Magento_Core_Helper_Data')->__('Path "%value%" is not available and cannot be used.'),
+                    __('Path "%value%" is not available and cannot be used.'),
                 self::PROTECTED_LFI =>
-                    Mage::helper('Magento_Core_Helper_Data')->__('Path "%value%" may not include parent directory traversal ("../", "..\\").'),
+                    __('Path "%value%" may not include parent directory traversal ("../", "..\\").'),
             );
         }
         return $this;
@@ -205,7 +205,7 @@ class Magento_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abst
         $this->_setValue($value);
 
         if (!$this->_availablePaths && !$this->_protectedPaths) {
-            throw new Exception(Mage::helper('Magento_Core_Helper_Data')->__('Please set available and/or protected paths list(s) before validation.'));
+            throw new Exception(__('Please set available and/or protected paths list(s) before validation.'));
         }
 
         if (preg_match('#\.\.[\\\/]#', $this->_value)) {

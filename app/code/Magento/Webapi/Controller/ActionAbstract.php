@@ -35,26 +35,16 @@ abstract class Magento_Webapi_Controller_ActionAbstract
     /** @var Magento_Webapi_Controller_Response */
     protected $_response;
 
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_translationHelper;
-
-    /** @var Magento_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /**
      * Initialize dependencies.
      *
      * @param Magento_Webapi_Controller_Request_Factory $requestFactory
      * @param Magento_Webapi_Controller_Response_Factory $responseFactory
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_Webapi_Controller_Request_Factory $requestFactory,
-        Magento_Webapi_Controller_Response_Factory $responseFactory,
-        Magento_Core_Model_Factory_Helper $helperFactory
+        Magento_Webapi_Controller_Response_Factory $responseFactory
     ) {
-        $this->_helperFactory = $helperFactory;
-        $this->_translationHelper = $this->_helperFactory->get('Magento_Webapi_Helper_Data');
         $this->_request = $requestFactory->get();
         $this->_response = $responseFactory->get();
     }
@@ -92,7 +82,7 @@ abstract class Magento_Webapi_Controller_ActionAbstract
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
             throw new Magento_Webapi_Exception(
-                $this->_translationHelper->__("Page number is invalid."),
+                __("Page number is invalid."),
                 Magento_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -102,7 +92,7 @@ abstract class Magento_Webapi_Controller_ActionAbstract
         } else {
             if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
                 throw new Magento_Webapi_Exception(
-                    $this->_translationHelper->__('The paging limit exceeds the allowed number.'),
+                    __('The paging limit exceeds the allowed number.'),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }
@@ -113,7 +103,7 @@ abstract class Magento_Webapi_Controller_ActionAbstract
                 // TODO: Check if order field is allowed for specified entity
             ) {
                 throw new Magento_Webapi_Exception(
-                    $this->_translationHelper->__('Collection "order" value is invalid.'),
+                    __('Collection "order" value is invalid.'),
                     Magento_Webapi_Exception::HTTP_BAD_REQUEST
                 );
             }

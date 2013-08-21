@@ -470,7 +470,7 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         if (isset(self::$_statuses[$statusId])) {
             return self::$_statuses[$statusId];
         }
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Unknown Status');
+        return __('Unknown Status');
     }
 
     /**
@@ -498,16 +498,16 @@ class Magento_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                //self::STATUS_PENDING        => Mage::helper('Magento_Sales_Helper_Data')->__('Pending'),
-                self::STATUS_PENDING        => Mage::helper('Magento_Sales_Helper_Data')->__('Ordered'),
-                self::STATUS_SHIPPED        => Mage::helper('Magento_Sales_Helper_Data')->__('Shipped'),
-                self::STATUS_INVOICED       => Mage::helper('Magento_Sales_Helper_Data')->__('Invoiced'),
-                self::STATUS_BACKORDERED    => Mage::helper('Magento_Sales_Helper_Data')->__('Backordered'),
-                self::STATUS_RETURNED       => Mage::helper('Magento_Sales_Helper_Data')->__('Returned'),
-                self::STATUS_REFUNDED       => Mage::helper('Magento_Sales_Helper_Data')->__('Refunded'),
-                self::STATUS_CANCELED       => Mage::helper('Magento_Sales_Helper_Data')->__('Canceled'),
-                self::STATUS_PARTIAL        => Mage::helper('Magento_Sales_Helper_Data')->__('Partial'),
-                self::STATUS_MIXED          => Mage::helper('Magento_Sales_Helper_Data')->__('Mixed'),
+                //self::STATUS_PENDING        => __('Pending'),
+                self::STATUS_PENDING        => __('Ordered'),
+                self::STATUS_SHIPPED        => __('Shipped'),
+                self::STATUS_INVOICED       => __('Invoiced'),
+                self::STATUS_BACKORDERED    => __('Backordered'),
+                self::STATUS_RETURNED       => __('Returned'),
+                self::STATUS_REFUNDED       => __('Refunded'),
+                self::STATUS_CANCELED       => __('Canceled'),
+                self::STATUS_PARTIAL        => __('Partial'),
+                self::STATUS_MIXED          => __('Mixed'),
             );
         }
         return self::$_statuses;

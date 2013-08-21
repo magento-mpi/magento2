@@ -56,7 +56,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
             $customUrl = $this->getData('groups/url/fields/custom/value');
             if (empty($customUrl)) {
                 Mage::throwException(
-                    Mage::helper('Magento_Backend_Helper_Data')->__('Please specify the admin custom URL.')
+                    __('Please specify the admin custom URL.')
                 );
             }
         }

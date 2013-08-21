@@ -57,8 +57,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getStatusesOptionArray()
     {
         return array(
-            1 => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Enabled'),
-            0 => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Disabled'),
+            1 => __('Enabled'),
+            0 => __('Disabled'),
         );
     }
 
@@ -70,8 +70,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getOperationsOptionArray()
     {
         return array(
-            'import' => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Import'),
-            'export' => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Export')
+            'import' => __('Import'),
+            'export' => __('Export')
         );
     }
 
@@ -84,11 +84,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     {
         return array(
             Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY
-                => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Daily'),
+                => __('Daily'),
             Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
-                => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Weekly'),
+                => __('Weekly'),
             Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
-                => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Monthly'),
+                => __('Monthly'),
         );
     }
 
@@ -100,8 +100,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getServerTypesOptionArray()
     {
         return array(
-            'file'  => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Local Server'),
-            'ftp'   => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Remote FTP')
+            'file'  => __('Local Server'),
+            'ftp'   => __('Remote FTP')
         );
     }
 
@@ -113,8 +113,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getFileModesOptionArray()
     {
         return array(
-            FTP_BINARY  => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Binary'),
-            FTP_ASCII   => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('ASCII'),
+            FTP_BINARY  => __('Binary'),
+            FTP_ASCII   => __('ASCII'),
         );
     }
 
@@ -126,8 +126,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getForcedImportOptionArray()
     {
         return array(
-            0 => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Stop Import'),
-            1 => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Continue Processing'),
+            0 => __('Stop Import'),
+            1 => __('Continue Processing'),
         );
     }
 
@@ -139,9 +139,9 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getResultOptionArray()
     {
         return array(
-            0  => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Failed'),
-            1  => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Successful'),
-            self::STATUS_PENDING  => Mage::helper('Magento_ScheduledImportExport_Helper_Data')->__('Pending')
+            0  => __('Failed'),
+            1  => __('Successful'),
+            self::STATUS_PENDING  => __('Pending')
         );
     }
 

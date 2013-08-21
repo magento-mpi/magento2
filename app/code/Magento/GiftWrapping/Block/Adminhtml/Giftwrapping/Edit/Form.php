@@ -20,7 +20,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
     {
         parent::_construct();
         $this->setId('magento_giftwrapping_form');
-        $this->setTitle(Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Gift Wrapping Information'));
+        $this->setTitle(__('Gift Wrapping Information'));
     }
 
     /**
@@ -62,11 +62,11 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         ));
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'=>Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Gift Wrapping Information')));
+            'legend'=>__('Gift Wrapping Information')));
         $this->_addElementTypes($fieldset);
 
         $fieldset->addField('design', 'text', array(
-            'label'    => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Gift Wrapping Design'),
+            'label'    => __('Gift Wrapping Design'),
             'name'     => 'design',
             'required' => true,
             'value'    => $model->getDesign(),
@@ -77,7 +77,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
             $field = $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids',
                 'required' => true,
-                'label'    => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Websites'),
+                'label'    => __('Websites'),
                 'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds(),
             ));
@@ -88,18 +88,18 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         }
 
         $fieldset->addField('status', 'select', array(
-            'label'    => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Status'),
+            'label'    => __('Status'),
             'name'     => 'status',
             'required' => true,
             'options'  => array(
-                '1' => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Enabled'),
-                '0' => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Disabled'),
+                '1' => __('Enabled'),
+                '0' => __('Disabled'),
             )
         ));
 
         $fieldset->addType('price', 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
         $fieldset->addField('base_price', 'price', array(
-            'label'    => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Price'),
+            'label'    => __('Price'),
             'name'     => 'base_price',
             'required' => true,
             'class'    => 'validate-not-negative-number',
@@ -108,13 +108,13 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
 
         $uploadButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label' => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Upload File'),
+                'label' => __('Upload File'),
                 'id' => 'upload_image_button',
                 'onclick' => 'uploadImagesForPreview()'
             ));
 
         $fieldset->addField('image', 'image', array(
-                'label' => Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Image'),
+                'label' => __('Image'),
                 'name'  => 'image_name',
                 'after_element_html' => $uploadButton->toHtml()
              )

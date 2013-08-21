@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
         $fieldset = $form->addFieldset(
             'advanced_fieldset',
             array(
-                'legend' => $this->__('Advanced Attribute Properties'),
+                'legend' => __('Advanced Attribute Properties'),
                 'collapsable' => true
             )
         );
@@ -52,10 +52,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'text',
             array(
                 'name' => 'attribute_code',
-                'label' => $this->__('Attribute Code'),
-                'title' => $this->__('Attribute Code'),
-                'note' => $this->__(
-                    'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols',
+                'label' => __('Attribute Code'),
+                'title' => __('Attribute Code'),
+                'note' => __(
+                    'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols',
                     Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
                 ),
                 'class' => $validateClass,
@@ -67,8 +67,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'text',
             array(
                 'name' => 'default_value_text',
-                'label' => $this->__('Default Value'),
-                'title' => $this->__('Default Value'),
+                'label' => __('Default Value'),
+                'title' => __('Default Value'),
                 'value' => $attributeObject->getDefaultValue(),
             )
         );
@@ -78,8 +78,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'select',
             array(
                 'name' => 'default_value_yesno',
-                'label' => $this->__('Default Value'),
-                'title' => $this->__('Default Value'),
+                'label' => __('Default Value'),
+                'title' => __('Default Value'),
                 'values' => $yesno,
                 'value' => $attributeObject->getDefaultValue(),
             )
@@ -91,8 +91,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'date',
             array(
                 'name' => 'default_value_date',
-                'label' => $this->__('Default Value'),
-                'title' => $this->__('Default Value'),
+                'label' => __('Default Value'),
+                'title' => __('Default Value'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'value' => $attributeObject->getDefaultValue(),
                 'date_format' => $dateFormat
@@ -104,8 +104,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'textarea',
             array(
                 'name' => 'default_value_textarea',
-                'label' => $this->__('Default Value'),
-                'title' => $this->__('Default Value'),
+                'label' => __('Default Value'),
+                'title' => __('Default Value'),
                 'value' => $attributeObject->getDefaultValue(),
             )
         );
@@ -115,9 +115,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'select',
             array(
                 'name' => 'is_unique',
-                'label' => $this->__('Unique Value'),
-                'title' => $this->__('Unique Value (not shared with other products)'),
-                'note' => $this->__('Not shared with other products'),
+                'label' => __('Unique Value'),
+                'title' => __('Unique Value (not shared with other products)'),
+                'note' => __('Not shared with other products'),
                 'values' => $yesno,
             )
         );
@@ -127,8 +127,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             'select',
             array(
                 'name' => 'frontend_class',
-                'label' => $this->__('Input Validation for Store Owner'),
-                'title' => $this->__('Input Validation for Store Owner'),
+                'label' => __('Input Validation for Store Owner'),
+                'title' => __('Input Validation for Store Owner'),
                 'values' => Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
@@ -145,9 +145,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
         $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $scopes = array(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Store View'),
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Website'),
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('Magento_Catalog_Helper_Data')->__('Global'),
+            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>__('Store View'),
+            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>__('Website'),
+            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>__('Global'),
         );
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id') {
@@ -156,16 +156,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
 
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Scope'),
-            'title' => Mage::helper('Magento_Catalog_Helper_Data')->__('Scope'),
-            'note'  => Mage::helper('Magento_Catalog_Helper_Data')->__('Declare attribute value saving scope'),
+            'label' => __('Scope'),
+            'title' => __('Scope'),
+            'note'  => __('Declare attribute value saving scope'),
             'values'=> $scopes
         ), 'attribute_code');
 
 
         $fieldset->addField('is_configurable', 'select', array(
             'name' => 'is_configurable',
-            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Use To Create Configurable Product'),
+            'label' => __('Use To Create Configurable Product'),
             'values' => $yesnoSource,
         ));
         $this->setForm($form);

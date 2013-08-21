@@ -354,7 +354,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
         $typeData = Mage::app()->getRequest()->getParam('type');
-        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : Mage::helper('Magento_Logging_Helper_Data')->__('New');
+        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : __('New');
         return $eventModel->setInfo($typeId);
     }
 

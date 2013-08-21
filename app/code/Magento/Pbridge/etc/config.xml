@@ -79,7 +79,7 @@
     </admin>
     <default>
         <payment>
-            <pbridge translate="title" module="Magento_Pbridge">
+            <pbridge translate="title">
                 <model>Magento_Pbridge_Model_Payment_Method_Pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>

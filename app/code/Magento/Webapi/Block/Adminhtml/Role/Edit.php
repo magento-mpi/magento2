@@ -38,13 +38,13 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit extends Magento_Backend_Block_Wid
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
 
         $this->_addButton('save_and_continue', array(
-            'label' => $this->__('Save and Continue Edit'),
+            'label' => __('Save and Continue Edit'),
             'onclick' => "saveAndContinueEdit('" . $this->getSaveAndContinueUrl() . "')",
             'class' => 'save'
         ), 100);
 
-        $this->_updateButton('save', 'label', $this->__('Save API Role'));
-        $this->_updateButton('delete', 'label', $this->__('Delete API Role'));
+        $this->_updateButton('save', 'label', __('Save API Role'));
+        $this->_updateButton('delete', 'label', __('Delete API Role'));
     }
 
     /**
@@ -65,9 +65,9 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit extends Magento_Backend_Block_Wid
     public function getHeaderText()
     {
         if ($this->getApiRole()->getId()) {
-            return $this->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
+            return __("Edit API Role '%1'", $this->escapeHtml($this->getApiRole()->getRoleName()));
         } else {
-            return $this->__('New API Role');
+            return __('New API Role');
         }
     }
 }

@@ -57,7 +57,7 @@ class Magento_Downloadable_Model_Link_Purchased extends Magento_Core_Model_Abstr
     {
         if (null == $this->getOrderId()) {
             throw new Exception(
-                Mage::helper('Magento_Downloadable_Helper_Data')->__('Order id cannot be null'));
+                __('Order id cannot be null'));
         }
         return parent::_beforeSave();
     }

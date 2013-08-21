@@ -64,7 +64,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(Mage::helper('Magento_Invitation_Helper_Data')->__('You sent the invitation for %s.', $email));
+                        Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     }
                     else {
@@ -81,12 +81,12 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
                     }
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('Magento_Customer_Model_Session')->addError(Mage::helper('Magento_Invitation_Helper_Data')->__('Something went wrong sending an email to %s.', $email));
+                    Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('Something went wrong sending an email to %1.', $email));
                 }
             }
             if ($customerExists) {
                 Mage::getSingleton('Magento_Customer_Model_Session')->addNotice(
-                    Mage::helper('Magento_Invitation_Helper_Data')->__('We did not send %d invitation(s) addressed to current customers.', $customerExists)
+                    __('We did not send %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
             $this->_redirect('*/*/');
@@ -98,7 +98,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Magento_Invitation_Helper_Data')->__('Send Invitations'));
+            $headBlock->setTitle(__('Send Invitations'));
         }
         $this->renderLayout();
     }
@@ -117,7 +117,7 @@ class Magento_Invitation_Controller_Index extends Magento_Core_Controller_Front_
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Magento_Invitation_Helper_Data')->__('My Invitations'));
+            $headBlock->setTitle(__('My Invitations'));
         }
         $this->renderLayout();
     }

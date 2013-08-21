@@ -18,11 +18,8 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $helper = $this->getMock('Magento_Core_Helper_String', array('__'), array(), '', false, false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0))
-        ;
+        $helper = $this->getMock('Magento_Core_Helper_String', null, array(), '', false, false);
+
         $attributeData = array(
             'store_label' => 'Test',
             'attribute_code' => 'test',
@@ -41,7 +38,6 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
         /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
         $this->_model = new Magento_Eav_Model_Attribute_Data_Text(array(
-            'translationHelper' => $helper,
             'stringHelper' => $helper,
         ));
         $this->_model->setAttribute($attribute);
@@ -52,21 +48,18 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
         $this->_model = null;
     }
 
-    /**
-     * @dataProvider validateValueDataProvider
-     * @param mixed $inputValue
-     * @param mixed $expectedResult
-     */
-    public function testValidateValue($inputValue, $expectedResult)
+    public function testValidateValueString()
     {
+        $inputValue = '0';
+        $expectedResult = true;
         $this->assertEquals($expectedResult, $this->_model->validateValue($inputValue));
     }
 
-    public static function validateValueDataProvider()
+    public function testValidateValueInteger()
     {
-        return array(
-            'zero string'  => array('0', true),
-            'zero integer' => array(0, array('"%s" is a required value.'))
-        );
+        $inputValue = 0;
+        $expectedResult = array('"Test" is a required value.');
+        $result = $this->_model->validateValue($inputValue);
+        $this->assertEquals($expectedResult, array((string)$result[0]));
     }
 }

@@ -144,7 +144,7 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
         }
         $address->addTotal(array(
             'code'=>$this->getCode(),
-            'title'=>Mage::helper('Magento_GiftCardAccount_Helper_Data')->__('Gift Cards'),
+            'title'=>__('Gift Cards'),
             'value'=>-$address->getGiftCardsAmount(),
             'gift_cards'=>$giftCards,
         ));

@@ -16,8 +16,8 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Payment::payment" module="Magento_Payment" title="Payment Methods Section" />
-                            <resource id="Magento_Payment::payment_services" module="Magento_Payment" title="Payment Services" />
+                            <resource id="Magento_Payment::payment" title="Payment Methods Section" />
+                            <resource id="Magento_Payment::payment_services" title="Payment Services" />
                         </resource>
                     </resource>
                 </resource>

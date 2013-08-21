@@ -609,7 +609,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             $option->setItem($this);
         }
         else {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('We found an invalid item option format.'));
+            Mage::throwException(__('We found an invalid item option format.'));
         }
 
         if ($exOption = $this->getOptionByCode($option->getCode())) {
@@ -673,7 +673,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('Magento_Sales_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }

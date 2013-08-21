@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
 
     public function getHeaderText()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->__('Last Ordered Items');
+        return __('Last Ordered Items');
     }
 
     /**

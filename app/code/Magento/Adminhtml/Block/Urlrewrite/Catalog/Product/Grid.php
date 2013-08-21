@@ -36,26 +36,26 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
     {
         $this->addColumn('entity_id',
             array(
-                'header'=> Mage::helper('Magento_Adminhtml_Helper_Data')->__('ID'),
+                'header'=> __('ID'),
                 'width' => 50,
                 'index' => 'entity_id',
         ));
 
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('Magento_Adminhtml_Helper_Data')->__('Name'),
+                'header'=> __('Name'),
                 'index' => 'name',
         ));
 
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('Magento_Adminhtml_Helper_Data')->__('SKU'),
+                'header'=> __('SKU'),
                 'width' => 80,
                 'index' => 'sku',
         ));
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('Magento_Adminhtml_Helper_Data')->__('Status'),
+                'header'=> __('Status'),
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',

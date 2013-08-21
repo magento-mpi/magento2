@@ -36,7 +36,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Magen
         parent::_prepareColumns();
 
         $this->addColumn('attribute_code', array(
-            'header'=>Mage::helper('Magento_Eav_Helper_Data')->__('Attribute Code'),
+            'header'=>__('Attribute Code'),
             'sortable'=>true,
             'index'=>'attribute_code',
             'header_css_class'  => 'col-attr-code',
@@ -44,7 +44,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Magen
         ));
 
         $this->addColumn('frontend_label', array(
-            'header'=>Mage::helper('Magento_Eav_Helper_Data')->__('Attribute Label'),
+            'header'=>__('Attribute Label'),
             'sortable'=>true,
             'index'=>'frontend_label',
             'header_css_class'  => 'col-label',
@@ -52,26 +52,26 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Magen
         ));
 
         $this->addColumn('is_required', array(
-            'header'=>Mage::helper('Magento_Eav_Helper_Data')->__('Required'),
+            'header'=>__('Required'),
             'sortable'=>true,
             'index'=>'is_required',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('Magento_Eav_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Magento_Eav_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
             'header_css_class'  => 'col-required',
             'column_css_class'  => 'col-required'
         ));
 
         $this->addColumn('is_user_defined', array(
-            'header'=>Mage::helper('Magento_Eav_Helper_Data')->__('System'),
+            'header'=>__('System'),
             'sortable'=>true,
             'index'=>'is_user_defined',
             'type' => 'options',
             'options' => array(
-                '0' => Mage::helper('Magento_Eav_Helper_Data')->__('Yes'),   // intended reverted use
-                '1' => Mage::helper('Magento_Eav_Helper_Data')->__('No'),    // intended reverted use
+                '0' => __('Yes'),   // intended reverted use
+                '1' => __('No'),    // intended reverted use
             ),
             'header_css_class'  => 'col-system',
             'column_css_class'  => 'col-system'

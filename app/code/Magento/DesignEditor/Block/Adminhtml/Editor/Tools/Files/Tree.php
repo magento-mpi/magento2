@@ -21,7 +21,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree
      */
     public function getRootNodeName()
     {
-        return $this->__('CSS Editor ') .
-            $this->__($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
+        return __('CSS Editor ') . __($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
     }
 }

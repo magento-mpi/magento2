@@ -68,7 +68,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends 
     {
         if (!$this->getOptions()) {
             if ($this->_addGroupAllOption) {
-                $this->addOption(Magento_Customer_Model_Group::CUST_GROUP_ALL, Mage::helper('Magento_Customer_Helper_Data')->__('ALL GROUPS'));
+                $this->addOption(Magento_Customer_Model_Group::CUST_GROUP_ALL, __('ALL GROUPS'));
             }
             foreach ($this->_getCustomerGroups() as $groupId => $groupLabel) {
                 $this->addOption($groupId, addslashes($groupLabel));

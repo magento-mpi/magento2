@@ -19,15 +19,15 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
     {
         if ($this->getOrder()->getIsArchived()) {
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'enterprise_order_shipments',
+                'magento_order_shipments',
                 'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'enterprise_order_invoices',
+                'magento_order_invoices',
                 'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'enterprise_order_creditmemos',
+                'magento_order_creditmemos',
                 'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos'
             );
 
@@ -37,7 +37,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
                 $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                    'label' => Mage::helper('Magento_SalesArchive_Helper_Data')->__('Move to Order Managment'),
+                    'label' => __('Move to Order Managment'),
                     'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
                     'class' => 'cancel'
                 ));
@@ -51,7 +51,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {
                     $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                        'label' => Mage::helper('Magento_SalesArchive_Helper_Data')->__('Move to Archive'),
+                        'label' => __('Move to Archive'),
                         'onclick' => 'setLocation(\'' . $archiveUrl . '\')',
                     ));
                 }

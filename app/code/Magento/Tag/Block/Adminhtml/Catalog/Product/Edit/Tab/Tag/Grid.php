@@ -46,12 +46,12 @@ class Magento_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Grid extends Mage
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Tag'),
+            'header'    => __('Tag'),
             'index'     => 'name',
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => Mage::helper('Magento_Tag_Helper_Data')->__('Uses'),
+            'header'        => __('Uses'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',
@@ -59,14 +59,14 @@ class Magento_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Grid extends Mage
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Magento_Tag_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'options'   => array(
-                Magento_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Magento_Tag_Helper_Data')->__('Disabled'),
-                Magento_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Magento_Tag_Helper_Data')->__('Pending'),
-                Magento_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Magento_Tag_Helper_Data')->__('Approved'),
+                Magento_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
+                Magento_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
+                Magento_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
             ),
         ));
 

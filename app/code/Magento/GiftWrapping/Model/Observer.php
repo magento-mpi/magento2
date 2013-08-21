@@ -182,10 +182,10 @@ class Magento_GiftWrapping_Model_Observer
                 }
             }
             if ($totalWrapping) {
-                $paypalCart->addItem(Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Gift Wrapping'),1,$totalWrapping);
+                $paypalCart->addItem(__('Gift Wrapping'),1,$totalWrapping);
             }
             if ($totalCard) {
-                $paypalCart->addItem(Mage::helper('Magento_GiftWrapping_Helper_Data')->__('Printed Card'),1,$totalCard);
+                $paypalCart->addItem(__('Printed Card'),1,$totalCard);
             }
         }
     }

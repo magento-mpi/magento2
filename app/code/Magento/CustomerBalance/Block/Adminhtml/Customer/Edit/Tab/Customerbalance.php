@@ -23,7 +23,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
     {
         parent::_construct();
         $this->setId('customerbalance');
-        $this->setTitle(Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Store Credit'));
+        $this->setTitle(__('Store Credit'));
     }
 
     /**

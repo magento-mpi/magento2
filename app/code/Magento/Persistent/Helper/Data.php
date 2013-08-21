@@ -115,7 +115,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getPersistentName()
     {
-        return $this->__('(Not %s?)', $this->escapeHtml(Mage::helper('Magento_Persistent_Helper_Session')->getCustomer()->getName()));
+        return __('(Not %1?)', $this->escapeHtml(Mage::helper('Magento_Persistent_Helper_Session')->getCustomer()->getName()));
     }
 
     /**

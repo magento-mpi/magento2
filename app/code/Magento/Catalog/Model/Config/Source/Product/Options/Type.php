@@ -22,10 +22,8 @@ class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magent
     public function toOptionArray()
     {
         $groups = array(
-            array('value' => '', 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('-- Please select --'))
+            array('value' => '', 'label' => __('-- Please select --'))
         );
-
-        $helper = Mage::helper('Magento_Catalog_Helper_Data');
 
         foreach (Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
             $types = array();
@@ -37,7 +35,7 @@ class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magent
                 $labelPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/types/' . $type->getName()
                     . '/label';
                 $types[] = array(
-                    'label' => $helper->__((string) Mage::getConfig()->getNode($labelPath)),
+                    'label' => __((string) Mage::getConfig()->getNode($labelPath)),
                     'value' => $type->getName()
                 );
             }
@@ -46,7 +44,7 @@ class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magent
 
             if (count($types)) {
                 $groups[] = array(
-                    'label' => $helper->__((string) Mage::getConfig()->getNode($labelPath)),
+                    'label' => __((string) Mage::getConfig()->getNode($labelPath)),
                     'value' => $types
                 );
             }

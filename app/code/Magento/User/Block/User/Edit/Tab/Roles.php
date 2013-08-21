@@ -17,7 +17,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
         //$this->setDefaultFilter(array('assigned_user_role'=>1));
-        $this->setTitle(Mage::helper('Magento_User_Helper_Data')->__('User Roles Information'));
+        $this->setTitle(__('User Roles Information'));
         $this->setUseAjax(true);
     }
 
@@ -54,7 +54,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
 
         $this->addColumn('assigned_user_role', array(
             'header_css_class' => 'a-center',
-            'header'    => Mage::helper('Magento_User_Helper_Data')->__('Assigned'),
+            'header'    => __('Assigned'),
             'type'      => 'radio',
             'html_name' => 'roles[]',
             'values'    => $this->getSelectedRoles(),
@@ -63,14 +63,14 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
         ));
 
         /*$this->addColumn('role_id', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('Role ID'),
+            'header'    =>__('Role ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));*/
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('Role'),
+            'header'    =>__('Role'),
             'index'     =>'role_name'
         ));
 

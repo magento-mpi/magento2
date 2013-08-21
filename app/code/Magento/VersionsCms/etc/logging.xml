@@ -11,15 +11,15 @@
 -->
 <logging>
     <actions>
-        <preview translate="label" module="Magento_VersionsCms">
+        <preview translate="label">
             <label>Preview</label>
         </preview>
-        <publish translate="label" module="Magento_VersionsCms">
+        <publish translate="label">
             <label>Publish</label>
         </publish>
     </actions>
 
-    <magento_versionscms_hierarchy translate="label">
+    <enterprise_cms_hierarchy translate="label">
         <label>CMS Hierarchy</label>
         <expected_models>
             <Magento_VersionsCms_Model_Hierarchy_Node/>
@@ -37,9 +37,9 @@
                 </skip_on_back>
             </adminhtml_cms_hierarchy_save>
         </actions>
-    </magento_versionscms_hierarchy>
+    </enterprise_cms_hierarchy>
 
-    <magento_versionscms_page_versioning translate="label">
+    <enterprise_cms_page_versioning translate="label">
         <label>CMS Versioning</label>
         <actions>
 <!--
@@ -133,5 +133,5 @@
                 </skip_on_back>
             </adminhtml_cms_page_revision_publish>
         </actions>
-    </magento_versionscms_page_versioning>
+    </enterprise_cms_page_versioning>
 </logging>

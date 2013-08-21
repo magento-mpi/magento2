@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Bloc
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Invalid parent block for this block'));
+            Mage::throwException(__('Invalid parent block for this block'));
         }
         $this->setPayment($this->getParentBlock()->getOrder()->getPayment());
         parent::_beforeToHtml();

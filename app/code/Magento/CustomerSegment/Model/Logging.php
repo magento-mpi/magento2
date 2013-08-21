@@ -26,23 +26,15 @@ class Magento_CustomerSegment_Model_Logging
     protected $_request = null;
 
     /**
-     * @var Magento_CustomerSegment_Helper_Data|null
-     */
-    protected $_helper = null;
-
-    /**
      * @param Magento_CustomerSegment_Model_Resource_Segment $resourceModel
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_CustomerSegment_Helper_Data $helper
      */
     public function __construct(
         Magento_CustomerSegment_Model_Resource_Segment $resourceModel,
-        Magento_Core_Controller_Request_Http $request,
-        Magento_CustomerSegment_Helper_Data $helper
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_resourceModel = $resourceModel;
         $this->_request = $request;
-        $this->_helper = $helper;
     }
 
     /**
@@ -59,7 +51,7 @@ class Magento_CustomerSegment_Model_Logging
         $segmentId = $this->_request->getParam('id');
         $customersQty = $this->_resourceModel->getSegmentCustomersQty($segmentId);
         return $eventModel->setInfo($segmentId ?
-            $this->_helper->__('Matched %d Customers of Segment %s', $customersQty, $segmentId)
+            __('Matched %1 Customers of Segment %2', $customersQty, $segmentId)
             : '-'
         );
     }

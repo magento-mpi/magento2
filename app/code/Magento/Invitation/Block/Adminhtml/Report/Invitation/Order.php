@@ -20,7 +20,7 @@ class Magento_Invitation_Block_Adminhtml_Report_Invitation_Order extends Magento
     {
         $this->_controller = 'adminhtml_report_invitation_order';
         $this->_blockGroup = 'Magento_Invitation';
-        $this->_headerText = Mage::helper('Magento_Invitation_Helper_Data')->__('Order Conversion Rate');
+        $this->_headerText = __('Order Conversion Rate');
         parent::_construct();
         $this->_removeButton('add');
     }

@@ -79,13 +79,6 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     protected $_messageTemplates = array();
 
     /**
-     * Helper to translate error messages
-     *
-     * @var Magento_ImportExport_Helper_Data
-     */
-    protected $_translator;
-
-    /**
      * Parameters
      *
      * @var array
@@ -171,8 +164,6 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     {
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
-        $this->_translator     = isset($data['translator']) ? $data['translator']
-            : Mage::helper('Magento_ImportExport_Helper_Data');
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
             : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
@@ -221,6 +212,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      */
     public function addRowError($errorCode, $errorRowNum)
     {
+        $errorCode = (string)$errorCode;
         $this->_errors[$errorCode][] = $errorRowNum + 1; // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
         $this->_errorsCount++;
@@ -326,8 +318,9 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
         $messages = array();
         foreach ($this->_errors as $errorCode => $errorRows) {
             $message = isset($this->_messageTemplates[$errorCode])
-                ? $this->_translator->__($this->_messageTemplates[$errorCode])
-                : $this->_translator->__("Please correct the value for '%s' column", $errorCode);
+                ? __($this->_messageTemplates[$errorCode])
+                : __("Please correct the value for '%1' column", $errorCode);
+            $message = (string)$message;
             $messages[$message] = $errorRows;
         }
 
@@ -383,7 +376,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(Mage::helper('Magento_ImportExport_Helper_Data')->__('Please specify writer.'));
+            Mage::throwException(__('Please specify writer.'));
         }
 
         return $this->_writer;

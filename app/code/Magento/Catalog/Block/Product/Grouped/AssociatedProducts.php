@@ -24,7 +24,7 @@ class Magento_Catalog_Block_Product_Grouped_AssociatedProducts
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data')->__('Grouped Products');
+        return __('Grouped Products');
     }
 
     /**

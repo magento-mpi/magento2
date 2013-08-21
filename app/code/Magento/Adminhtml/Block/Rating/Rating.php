@@ -20,8 +20,8 @@ class Magento_Adminhtml_Block_Rating_Rating extends Magento_Backend_Block_Widget
     protected function _construct()
     {
         $this->_controller = 'rating';
-        $this->_headerText = Mage::helper('Magento_Rating_Helper_Data')->__('Manage Ratings');
-        $this->_addButtonLabel = Mage::helper('Magento_Rating_Helper_Data')->__('Add New Rating');
+        $this->_headerText = __('Manage Ratings');
+        $this->_addButtonLabel = __('Add New Rating');
         parent::_construct();
     }
 }

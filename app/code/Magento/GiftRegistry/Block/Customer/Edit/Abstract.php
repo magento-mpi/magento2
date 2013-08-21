@@ -199,7 +199,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
 
                     if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
                         $regionCode = $field . '_region';
-                        $regionAttribute['label'] = $this->__('State/Province');
+                        $regionAttribute['label'] = __('State/Province');
                         $regionAttribute['group'] = $fdata['group'];
                         $regionAttribute['type'] = 'region';
                         $regionAttribute['id'] = $this->_getElementId($regionCode);
@@ -267,7 +267,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
     {
         $data = array();
         if (is_array($selectOptions)) {
-            $data[] = array('label' => $this->__('Please Select'), 'value' => '');
+            $data[] = array('label' => __('Please Select'), 'value' => '');
             foreach ($selectOptions as $option) {
                 $data[] = array('label' => $option['label'], 'value' => $option['code']);
             }

@@ -105,7 +105,7 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
     public function expressCheckoutAction()
     {
         Mage::getSingleton('Magento_Core_Model_Session')->addNotice(
-            Mage::helper('Magento_Persistent_Helper_Data')->__('Your shopping cart has been updated with new prices.')
+            __('Your shopping cart has been updated with new prices.')
         );
         $this->_redirect('checkout/cart');
     }

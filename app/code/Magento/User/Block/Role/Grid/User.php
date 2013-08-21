@@ -69,7 +69,7 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
         ));
 
         $this->addColumn('role_user_id', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('User ID'),
+            'header'    =>__('User ID'),
             'width'     =>5,
             'align'     =>'left',
             'sortable'  =>true,
@@ -77,52 +77,52 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
         ));
 
         $this->addColumn('role_user_username', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('User Name'),
+            'header'    =>__('User Name'),
             'align'     =>'left',
             'index'     =>'username'
         ));
 
         $this->addColumn('role_user_firstname', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('First Name'),
+            'header'    =>__('First Name'),
             'align'     =>'left',
             'index'     =>'firstname'
         ));
 
         $this->addColumn('role_user_lastname', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('Last Name'),
+            'header'    =>__('Last Name'),
             'align'     =>'left',
             'index'     =>'lastname'
         ));
 
         $this->addColumn('role_user_email', array(
-            'header'    =>Mage::helper('Magento_User_Helper_Data')->__('Email'),
+            'header'    =>__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'
         ));
 
         $this->addColumn('role_user_is_active', array(
-            'header'    => Mage::helper('Magento_User_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',
             'options'   => array(
-                '1' => Mage::helper('Magento_User_Helper_Data')->__('Active'),
-                '0' => Mage::helper('Magento_User_Helper_Data')->__('Inactive')
+                '1' => __('Active'),
+                '0' => __('Inactive')
             ),
         ));
 
         /*
         $this->addColumn('grid_actions',
             array(
-                'header'=>Mage::helper('Magento_User_Helper_Data')->__('Actions'),
+                'header'=>__('Actions'),
                 'width'=>5,
                 'sortable'=>false,
                 'filter'    =>false,
                 'type' => 'action',
                 'actions'   => array(
                                     array(
-                                        'caption' => Mage::helper('Magento_User_Helper_Data')->__('Remove'),
+                                        'caption' => __('Remove'),
                                         'onClick' => 'role.deleteFromRole($role_id);'
                                     )
                                 )

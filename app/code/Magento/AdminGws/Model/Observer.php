@@ -14,8 +14,8 @@
  */
 class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Abstract
 {
-    const XML_PATH_ACL_DENY_RULES = 'adminhtml/magento/admingws/acl_deny';
-    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/magento/admingws/';
+    const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl_deny';
+    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/enterprise/admingws/';
 
     const ACL_WEBSITE_LEVEL = 'website_level';
     const ACL_STORE_LEVEL = 'store_level';
@@ -126,13 +126,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // validate specified data
         if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
             Mage::throwException(
-                Mage::helper('Magento_AdminGws_Helper_Data')->__('Please specify at least one website or one store group.')
+                __('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
                 Mage::throwException(
-                    Mage::helper('Magento_AdminGws_Helper_Data')->__('You need more permissions to set All Scopes to a Role.')
+                    __('You need more permissions to set All Scopes to a Role.')
                 );
             }
         }
@@ -147,13 +147,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             $allWebsiteIds = array_keys(Mage::app()->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    Mage::throwException(Mage::helper('Magento_AdminGws_Helper_Data')->__('Incorrect website ID: %d', $websiteId));
+                    Mage::throwException(__('Incorrect website ID: %1', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
                         Mage::throwException(
-                            Mage::helper('Magento_AdminGws_Helper_Data')->__('You need more permissions to access website "%s".', Mage::app()->getWebsite($websiteId)->getName())
+                            __('You need more permissions to access website "%1".', Mage::app()->getWebsite($websiteId)->getName())
                         );
                     }
                 }
@@ -172,12 +172,12 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    Mage::throwException(Mage::helper('Magento_AdminGws_Helper_Data')->__('Incorrect store ID: %d', $storeGroupId));
+                    Mage::throwException(__('Incorrect store ID: %1', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
                     Mage::throwException(
-                        Mage::helper('Magento_AdminGws_Helper_Data')->__('You need more permissions to save this setting.')
+                        __('You need more permissions to save this setting.')
                     );
                 }
             }

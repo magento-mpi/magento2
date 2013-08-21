@@ -28,5 +28,4 @@ class Magento_Cardgate_Model_Gateway_Dummy extends Magento_Cardgate_Model_Gatewa
     {
         return false;
     }
-
 }

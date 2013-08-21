@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Magento_Review">
+            <action method="addLink" translate="label">
                 <name>reviews</name>
                 <path>review/customer</path>
                 <label>My Product Reviews</label>

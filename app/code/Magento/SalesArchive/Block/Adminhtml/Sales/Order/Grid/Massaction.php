@@ -24,7 +24,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction extends M
         $isActive = Mage::getSingleton('Magento_SalesArchive_Model_Config')->isArchiveActive();
         if ($isActive && $this->_authorization->isAllowed('Magento_SalesArchive::add')) {
             $this->addItem('add_order_to_archive', array(
-                 'label'=> Mage::helper('Magento_SalesArchive_Helper_Data')->__('Move to Archive'),
+                 'label'=> __('Move to Archive'),
                  'url'  => $this->getUrl('*/sales_archive/massAdd'),
             ));
         }

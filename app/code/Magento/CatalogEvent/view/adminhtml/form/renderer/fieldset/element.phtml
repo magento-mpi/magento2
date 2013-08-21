@@ -11,7 +11,7 @@
 ?>
 <?php
 /**
- * @see Magento_CustomerCustomAttributes_Block_Adminhtml_Form_Renderer_Fieldset_Element
+ * @see Magento_Customer_Block_Adminhtml_Form_Renderer_Fieldset_Element
  */
 ?>
 
@@ -63,7 +63,7 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode()
                     <?php if($this->usedDefault()): ?> checked="checked"<?php endif; ?>
                                                             onclick="<?php echo $elementToggleCode; ?>"
                                                             value="<?php echo $this->getAttributeCode() ?>"/>
-                <span class="use-default-label"><?php echo $this->__('Use Default Value') ?></span>
+                <span class="use-default-label"><?php echo __('Use Default Value') ?></span>
             </label>
             <?php endif; ?>
         </div>

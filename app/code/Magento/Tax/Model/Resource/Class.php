@@ -36,7 +36,7 @@ class Magento_Tax_Model_Resource_Class extends Magento_Core_Model_Resource_Db_Ab
     {
         $this->_uniqueFields = array(array(
             'field' => array('class_type', 'class_name'),
-            'title' => Mage::helper('Magento_Tax_Helper_Data')->__('Something went wrong saving this tax class because a class with the same name already exists.'),
+            'title' => __('Something went wrong saving this tax class because a class with the same name already exists.'),
         ));
         return $this;
     }

@@ -23,7 +23,7 @@ class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Cre
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle($this->__('Order # %s', $this->getOrder()->getRealOrderId()));
+            $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
             'payment_info',
@@ -67,9 +67,9 @@ class Magento_Sales_Block_Order_Creditmemo extends Magento_Sales_Block_Order_Cre
     public function getBackTitle()
     {
         if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::helper('Magento_Sales_Helper_Data')->__('Back to My Orders');
+            return __('Back to My Orders');
         }
-        return Mage::helper('Magento_Sales_Helper_Data')->__('View Another Order');
+        return __('View Another Order');
     }
 
     public function getInvoiceUrl($order)

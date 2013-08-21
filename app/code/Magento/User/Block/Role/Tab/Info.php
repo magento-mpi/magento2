@@ -18,7 +18,7 @@ class Magento_User_Block_Role_Tab_Info
 {
     public function getTabLabel()
     {
-        return Mage::helper('Magento_User_Helper_Data')->__('Role Info');
+        return __('Role Info');
     }
 
     public function getTabTitle()
@@ -49,13 +49,13 @@ class Magento_User_Block_Role_Tab_Info
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend'=>Mage::helper('Magento_User_Helper_Data')->__('Role Information'))
+            array('legend'=>__('Role Information'))
         );
 
         $fieldset->addField('role_name', 'text',
             array(
                 'name'  => 'rolename',
-                'label' => Mage::helper('Magento_User_Helper_Data')->__('Role Name'),
+                'label' => __('Role Name'),
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,

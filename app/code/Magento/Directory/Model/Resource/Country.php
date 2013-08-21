@@ -49,7 +49,7 @@ class Magento_Directory_Model_Resource_Country extends Magento_Core_Model_Resour
                 break;
 
             default:
-                Mage::throwException(Mage::helper('Magento_Directory_Helper_Data')->__('Please correct the country code: %s.', $code));
+                Mage::throwException(__('Please correct the country code: %1.', $code));
         }
 
         return $this->load($country, $code, $field);

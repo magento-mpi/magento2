@@ -36,6 +36,6 @@ class Magento_Reward_Model_Action_Register extends Magento_Reward_Model_Action_A
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->__('Registered as customer');
+        return __('Registered as customer');
     }
 }

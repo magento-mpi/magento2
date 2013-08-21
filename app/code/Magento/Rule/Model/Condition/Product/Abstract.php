@@ -86,8 +86,8 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
-        $attributes['attribute_set_id'] = Mage::helper('Magento_CatalogRule_Helper_Data')->__('Attribute Set');
-        $attributes['category_ids'] = Mage::helper('Magento_CatalogRule_Helper_Data')->__('Category');
+        $attributes['attribute_set_id'] = __('Attribute Set');
+        $attributes['category_ids'] = __('Category');
     }
 
     /**
@@ -221,7 +221,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
         if (!empty($image)) {
             $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image
                 . '" alt="" class="v-middle rule-chooser-trigger" title="'
-                . Mage::helper('Magento_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
+                . __('Open Chooser') . '" /></a>';
         }
         return $html;
     }

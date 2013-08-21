@@ -99,7 +99,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
         $options = array_merge(array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Magento_MultipleWishlist_Helper_Data')->__('Select Search Type'))
+                'label' => __('Select Search Type'))
             ),
             $this->getSearchFormOptions()
         );

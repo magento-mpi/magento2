@@ -14,9 +14,9 @@ class Magento_Shipping_Model_Config_Source_Flatrate implements Magento_Core_Mode
     public function toOptionArray()
     {
         return array(
-            array('value'=>'', 'label'=> Mage::helper('Magento_Shipping_Helper_Data')->__('None')),
-            array('value'=>'O', 'label'=>Mage::helper('Magento_Shipping_Helper_Data')->__('Per Order')),
-            array('value'=>'I', 'label'=>Mage::helper('Magento_Shipping_Helper_Data')->__('Per Item')),
+            array('value'=>'', 'label'=> __('None')),
+            array('value'=>'O', 'label'=>__('Per Order')),
+            array('value'=>'I', 'label'=>__('Per Item')),
         );
     }
 }

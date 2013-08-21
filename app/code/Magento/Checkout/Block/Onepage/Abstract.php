@@ -141,7 +141,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
                 ->setValue($addressId)
                 ->setOptions($options);
 
-            $select->addOption('', Mage::helper('Magento_Checkout_Helper_Data')->__('New Address'));
+            $select->addOption('', __('New Address'));
 
             return $select->getHtml();
         }
@@ -157,7 +157,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
         $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(Mage::helper('Magento_Checkout_Helper_Data')->__('Country'))
+            ->setTitle(__('Country'))
             ->setClass('validate-select')
             ->setValue($countryId)
             ->setOptions($this->getCountryOptions());
@@ -170,7 +170,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
         $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(Mage::helper('Magento_Checkout_Helper_Data')->__('State/Province'))
+            ->setTitle(__('State/Province'))
             ->setClass('required-entry validate-state')
             ->setValue($this->getAddress()->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());

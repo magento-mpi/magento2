@@ -29,7 +29,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
     {
         $amount = $address->getDiscountAmount();
         if ($amount != 0) {
-            $title = Mage::helper('Magento_Sales_Helper_Data')->__('Discount');
+            $title = __('Discount');
             $couponCode = $address->getQuote()->getCouponCode();
             if (strlen($couponCode)) {
                 $title .= sprintf(' (%s)', $couponCode);

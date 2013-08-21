@@ -28,11 +28,11 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_E
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('Magento_Bundle_Helper_Data')->__('As Low as'),
+                    'label' => __('As Low as'),
                     'value' =>  1
                 ),
                 array(
-                    'label' => Mage::helper('Magento_Bundle_Helper_Data')->__('Price Range'),
+                    'label' => __('Price Range'),
                     'value' =>  0
                 ),
             );

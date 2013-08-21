@@ -22,10 +22,10 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
     {
         $this->loadLayout()
             ->_setActiveMenu('Magento_Widget::cms_widget_instance')
-            ->_addBreadcrumb(Mage::helper('Magento_Widget_Helper_Data')->__('CMS'),
-                Mage::helper('Magento_Widget_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Magento_Widget_Helper_Data')->__('Manage Widget Instances'),
-                Mage::helper('Magento_Widget_Helper_Data')->__('Manage Widget Instances'));
+            ->_addBreadcrumb(__('CMS'),
+                __('CMS'))
+            ->_addBreadcrumb(__('Manage Widget Instances'),
+                __('Manage Widget Instances'));
         return $this;
     }
 
@@ -36,7 +36,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
      */
     protected function _initWidgetInstance()
     {
-        $this->_title($this->__('Frontend Apps'));
+        $this->_title(__('Frontend Apps'));
 
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
@@ -49,7 +49,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
             $widgetInstance->load($instanceId);
             if (!$widgetInstance->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Magento_Widget_Helper_Data')->__('Please specify a correct widget.')
+                    __('Please specify a correct widget.')
                 );
                 return false;
             }
@@ -66,7 +66,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
      */
     public function indexAction()
     {
-        $this->_title($this->__('Frontend Apps'));
+        $this->_title(__('Frontend Apps'));
 
         $this->_initAction()
             ->renderLayout();
@@ -93,7 +93,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
             return;
         }
 
-        $this->_title($widgetInstance->getId() ? $widgetInstance->getTitle() : $this->__('New Frontend App Instance'));
+        $this->_title($widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -149,7 +149,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         try {
             $widgetInstance->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('Magento_Widget_Helper_Data')->__('The widget instance has been saved.')
+                __('The widget instance has been saved.')
             );
             if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect('*/*/edit', array(
@@ -181,7 +181,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
             try {
                 $widgetInstance->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_Widget_Helper_Data')->__('The widget instance has been deleted.')
+                    __('The widget instance has been deleted.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

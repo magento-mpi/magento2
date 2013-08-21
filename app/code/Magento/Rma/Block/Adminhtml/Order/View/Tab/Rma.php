@@ -102,7 +102,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->__('Returns');
+        return __('Returns');
     }
 
     /**
@@ -112,7 +112,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->__('Returns');
+        return __('Returns');
     }
 
     /**

@@ -27,15 +27,15 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('Magento_Adminhtml::system_store')
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'))
-            ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Manage Stores'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Manage Stores'))
+            ->_addBreadcrumb(__('System'), __('System'))
+            ->_addBreadcrumb(__('Manage Stores'), __('Manage Stores'))
         ;
         return $this;
     }
 
     public function indexAction()
     {
-        $this->_title($this->__('Stores'));
+        $this->_title(__('Stores'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
     public function editStoreAction()
     {
-        $this->_title($this->__('Stores'));
+        $this->_title(__('Stores'));
 
         $session = $this->_getSession();
         if ($session->getPostData()) {
@@ -92,23 +92,23 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             case 'website':
                 $itemId     = $this->getRequest()->getParam('website_id', null);
                 $model      = Mage::getModel('Magento_Core_Model_Website');
-                $title      = Mage::helper('Magento_Core_Helper_Data')->__("Web Site");
-                $notExists  = Mage::helper('Magento_Core_Helper_Data')->__("The website does not exist.");
-                $codeBase   = Mage::helper('Magento_Core_Helper_Data')->__('Before modifying the website code please make sure that it is not used in index.php.');
+                $title      = __("Web Site");
+                $notExists  = __("The website does not exist.");
+                $codeBase   = __('Before modifying the website code please make sure that it is not used in index.php.');
                 break;
             case 'group':
                 $itemId     = $this->getRequest()->getParam('group_id', null);
                 $model      = Mage::getModel('Magento_Core_Model_Store_Group');
-                $title      = Mage::helper('Magento_Core_Helper_Data')->__("Store");
-                $notExists  = Mage::helper('Magento_Core_Helper_Data')->__("The store does not exist");
+                $title      = __("Store");
+                $notExists  = __("The store does not exist");
                 $codeBase   = false;
                 break;
             case 'store':
                 $itemId     = $this->getRequest()->getParam('store_id', null);
                 $model      = Mage::getModel('Magento_Core_Model_Store');
-                $title      = Mage::helper('Magento_Core_Helper_Data')->__("Store View");
-                $notExists  = Mage::helper('Magento_Core_Helper_Data')->__("Store view doesn't exist");
-                $codeBase   = Mage::helper('Magento_Core_Helper_Data')->__('Before modifying the store view code please make sure that it is not used in index.php.');
+                $title      = __("Store View");
+                $notExists  = __("Store view doesn't exist");
+                $codeBase   = __('Before modifying the store view code please make sure that it is not used in index.php.');
                 break;
         }
         if (null !== $itemId) {
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             Mage::register('store_data', $model);
 
             if (Mage::registry('store_action') == 'add') {
-                $this->_title($this->__('New ') . $title);
+                $this->_title(__('New ') . $title);
             }
             else {
                 $this->_title($model->getName());
@@ -162,7 +162,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
                         }
 
                         $websiteModel->save();
-                        $session->addSuccess(Mage::helper('Magento_Core_Helper_Data')->__('The website has been saved.'));
+                        $session->addSuccess(__('The website has been saved.'));
                         break;
 
                     case 'group':
@@ -180,7 +180,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
                         $this->_eventManager->dispatch('store_group_save', array('group' => $groupModel));
 
-                        $session->addSuccess(Mage::helper('Magento_Core_Helper_Data')->__('The store has been saved.'));
+                        $session->addSuccess(__('The store has been saved.'));
                         break;
 
                     case 'store':
@@ -203,7 +203,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
                         $this->_eventManager->dispatch($eventName, array('store'=>$storeModel));
 
-                        $session->addSuccess(Mage::helper('Magento_Core_Helper_Data')->__('The store view has been saved'));
+                        $session->addSuccess(__('The store view has been saved'));
                         break;
                     default:
                         $this->_redirect('*/*/');
@@ -217,7 +217,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
                 $session->setPostData($postData);
             }
             catch (Exception $e) {
-                $session->addException($e, Mage::helper('Magento_Core_Helper_Data')->__('An error occurred while saving. Please review the error log.'));
+                $session->addException($e, __('An error occurred while saving. Please review the error log.'));
                 $session->setPostData($postData);
             }
             $this->_redirectReferer();
@@ -228,17 +228,17 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
     public function deleteWebsiteAction()
     {
-        $this->_title($this->__('Delete Web Site'));
+        $this->_title(__('Delete Web Site'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
         if (!$model = Mage::getModel('Magento_Core_Model_Website')->load($itemId)) {
-            $session->addError(Mage::helper('Magento_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
+            $session->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('Magento_Core_Helper_Data')->__('This website cannot be deleted.'));
+            $session->addError(__('This website cannot be deleted.'));
             $this->_redirect('*/*/editWebsite', array('website_id' => $itemId));
             return ;
         }
@@ -246,11 +246,11 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         $this->_addDeletionNotice('website');
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Magento_Core_Helper_Data')->__('Delete Web Site'), Mage::helper('Magento_Core_Helper_Data')->__('Delete Web Site'))
+            ->_addBreadcrumb(__('Delete Web Site'), __('Delete Web Site'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteWebsitePost'))
                 ->setBackUrl($this->getUrl('*/*/editWebsite', array('website_id' => $itemId)))
-                ->setStoreTypeTitle(Mage::helper('Magento_Core_Helper_Data')->__('Web Site'))
+                ->setStoreTypeTitle(__('Web Site'))
                 ->setDataObject($model)
             )
             ->renderLayout();
@@ -258,17 +258,17 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
     public function deleteGroupAction()
     {
-        $this->_title($this->__('Delete Store'));
+        $this->_title(__('Delete Store'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
         if (!$model = Mage::getModel('Magento_Core_Model_Store_Group')->load($itemId)) {
-            $session->addError(Mage::helper('Magento_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
+            $session->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('Magento_Core_Helper_Data')->__('This store cannot be deleted.'));
+            $session->addError(__('This store cannot be deleted.'));
             $this->_redirect('*/*/editGroup', array('group_id' => $itemId));
             return ;
         }
@@ -276,11 +276,11 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         $this->_addDeletionNotice('store');
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Magento_Core_Helper_Data')->__('Delete Store'), Mage::helper('Magento_Core_Helper_Data')->__('Delete Store'))
+            ->_addBreadcrumb(__('Delete Store'), __('Delete Store'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteGroupPost'))
                 ->setBackUrl($this->getUrl('*/*/editGroup', array('group_id' => $itemId)))
-                ->setStoreTypeTitle(Mage::helper('Magento_Core_Helper_Data')->__('Store'))
+                ->setStoreTypeTitle(__('Store'))
                 ->setDataObject($model)
             )
             ->renderLayout();
@@ -288,17 +288,17 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
     public function deleteStoreAction()
     {
-        $this->_title($this->__('Delete Store View'));
+        $this->_title(__('Delete Store View'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
         if (!$model = Mage::getModel('Magento_Core_Model_Store')->load($itemId)) {
-            $session->addError(Mage::helper('Magento_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
+            $session->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
         }
         if (!$model->isCanDelete()) {
-            $session->addError(Mage::helper('Magento_Core_Helper_Data')->__('This store view cannot be deleted.'));
+            $session->addError(__('This store view cannot be deleted.'));
             $this->_redirect('*/*/editStore', array('store_id' => $itemId));
             return ;
         }
@@ -306,11 +306,11 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         $this->_addDeletionNotice('store view');;
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Magento_Core_Helper_Data')->__('Delete Store View'), Mage::helper('Magento_Core_Helper_Data')->__('Delete Store View'))
+            ->_addBreadcrumb(__('Delete Store View'), __('Delete Store View'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Store_Delete')
                 ->setFormActionUrl($this->getUrl('*/*/deleteStorePost'))
                 ->setBackUrl($this->getUrl('*/*/editStore', array('store_id' => $itemId)))
-                ->setStoreTypeTitle(Mage::helper('Magento_Core_Helper_Data')->__('Store View'))
+                ->setStoreTypeTitle(__('Store View'))
                 ->setDataObject($model)
             )
             ->renderLayout();
@@ -321,12 +321,12 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         $itemId = $this->getRequest()->getParam('item_id');
 
         if (!$model = Mage::getModel('Magento_Core_Model_Website')->load($itemId)) {
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->__('Unable to proceed. Please, try again'));
+            $this->_getSession()->addError(__('Unable to proceed. Please, try again'));
             $this->_redirect('*/*/');
             return ;
         }
         if (!$model->isCanDelete()) {
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->__('This website cannot be deleted.'));
+            $this->_getSession()->addError(__('This website cannot be deleted.'));
             $this->_redirect('*/*/editWebsite', array('website_id' => $model->getId()));
             return ;
         }
@@ -335,7 +335,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
         try {
             $model->delete();
-            $this->_getSession()->addSuccess(Mage::helper('Magento_Core_Helper_Data')->__('The website has been deleted.'));
+            $this->_getSession()->addSuccess(__('The website has been deleted.'));
             $this->_redirect('*/*/');
             return ;
         }
@@ -343,7 +343,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Magento_Core_Helper_Data')->__('Unable to delete website. Please, try again later.'));
+            $this->_getSession()->addException($e, __('Unable to delete website. Please, try again later.'));
         }
         $this->_redirect('*/*/editWebsite', array('website_id' => $itemId));
     }
@@ -353,12 +353,12 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         $itemId = $this->getRequest()->getParam('item_id');
 
         if (!$model = Mage::getModel('Magento_Core_Model_Store_Group')->load($itemId)) {
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->__('Unable to proceed. Please, try again.'));
+            $this->_getSession()->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
         }
         if (!$model->isCanDelete()) {
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->__('This store cannot be deleted.'));
+            $this->_getSession()->addError(__('This store cannot be deleted.'));
             $this->_redirect('*/*/editGroup', array('group_id' => $model->getId()));
             return ;
         }
@@ -367,7 +367,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
         try {
             $model->delete();
-            $this->_getSession()->addSuccess(Mage::helper('Magento_Core_Helper_Data')->__('The store has been deleted.'));
+            $this->_getSession()->addSuccess(__('The store has been deleted.'));
             $this->_redirect('*/*/');
             return ;
         }
@@ -375,7 +375,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Magento_Core_Helper_Data')->__('Unable to delete store. Please, try again later.'));
+            $this->_getSession()->addException($e, __('Unable to delete store. Please, try again later.'));
         }
         $this->_redirect('*/*/editGroup', array('group_id' => $itemId));
     }
@@ -389,12 +389,12 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
         $itemId = $this->getRequest()->getParam('item_id');
 
         if (!$model = Mage::getModel('Magento_Core_Model_Store')->load($itemId)) {
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->__('Unable to proceed. Please, try again'));
+            $this->_getSession()->addError(__('Unable to proceed. Please, try again'));
             $this->_redirect('*/*/');
             return ;
         }
         if (!$model->isCanDelete()) {
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->__('This store view cannot be deleted.'));
+            $this->_getSession()->addError(__('This store view cannot be deleted.'));
             $this->_redirect('*/*/editStore', array('store_id' => $model->getId()));
             return ;
         }
@@ -406,7 +406,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
 
             $this->_eventManager->dispatch('store_delete', array('store' => $model));
 
-            $this->_getSession()->addSuccess(Mage::helper('Magento_Core_Helper_Data')->__('The store view has been deleted.'));
+            $this->_getSession()->addSuccess(__('The store view has been deleted.'));
             $this->_redirect('*/*/');
             return ;
         }
@@ -414,7 +414,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Magento_Core_Helper_Data')->__('Unable to delete store view. Please, try again later.'));
+            $this->_getSession()->addException($e, __('Unable to delete store view. Please, try again later.'));
         }
         $this->_redirect('*/*/editStore', array('store_id' => $itemId));
     }
@@ -444,7 +444,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
                 ->setPath(Mage::getBaseDir('var') . DS . 'backups');
 
             $backupDb->createBackup($backup);
-            $this->_getSession()->addSuccess(Mage::helper('Magento_Backup_Helper_Data')->__('The database was backed up.'));
+            $this->_getSession()->addSuccess(__('The database was backed up.'));
         }
         catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -452,7 +452,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             return ;
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Magento_Backup_Helper_Data')->__('We couldn\'t create a backup right now. Please try again later.'));
+            $this->_getSession()->addException($e, __('We couldn\'t create a backup right now. Please try again later.'));
             $this->_redirect($failPath, $arguments);
             return ;
         }
@@ -468,7 +468,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
     protected function _addDeletionNotice($typeTitle)
     {
         $this->_getSession()->addNotice(
-            Mage::helper('Magento_Core_Helper_Data')->__('Deleting a %1$s will not delete the information associated with the %1$s (e.g. categories, products, etc.), but the %1$s will not be able to be restored. It is suggested that you create a database backup before deleting the %1$s.', $typeTitle)
+            __('Deleting a %1 will not delete the information associated with the %1 (e.g. categories, products, etc.), but the %1 will not be able to be restored. It is suggested that you create a database backup before deleting the %1.', $typeTitle)
         );
         return $this;
     }

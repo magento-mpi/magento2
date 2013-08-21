@@ -23,7 +23,7 @@
         </li>
         {{/each}}
     {{else}}
-        <li><span class="mage-suggest-no-records"><?php echo $this->__('No records found.') ?></span></li>
+        <li><span class="mage-suggest-no-records"><?php echo __('No records found.') ?></span></li>
     {{/if}}
     </ul>
 </script>
@@ -34,6 +34,6 @@
             echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getWidgetInitOptions()))
             ?>">
         </label>
-        <button type="submit" title="<?php echo $this->__('Search') ?>"><?php echo $this->__('Search') ?></button>
+        <button type="submit" title="<?php echo __('Search') ?>"><?php echo __('Search') ?></button>
     </form>
 </div>

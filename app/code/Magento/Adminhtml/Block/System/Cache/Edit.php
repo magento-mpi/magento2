@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_System_Cache_Edit extends Magento_Adminhtml_Block_
     protected function _prepareLayout()
     {
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Save Cache Settings'),
+            'label'     => __('Save Cache Settings'),
             'class' => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -69,65 +69,65 @@ class Magento_Adminhtml_Block_System_Cache_Edit extends Magento_Adminhtml_Block_
     {
         return array(
             'refresh_catalog_rewrites'   => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Catalog Rewrites'),
+                'label'     => __('Catalog Rewrites'),
                 'buttons'   => array(
                     array(
                         'name'      => 'refresh_catalog_rewrites',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Refresh'),
+                        'action'    => __('Refresh'),
                         )
                 ),
             ),
             'clear_images_cache'         => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Images Cache'),
+                'label'     => __('Images Cache'),
                 'buttons'   => array(
                     array(
                         'name'      => 'clear_images_cache',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Clear'),
+                        'action'    => __('Clear'),
                         )
                 ),
             ),
             'rebuild_search_index'      => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Search Index'),
+                'label'     => __('Search Index'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_search_index',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild'),
+                        'action'    => __('Rebuild'),
                     )
                 ),
             ),
             'rebuild_inventory_stock_status' => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Inventory Stock Status'),
+                'label'     => __('Inventory Stock Status'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_inventory_stock_status',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Refresh'),
+                        'action'    => __('Refresh'),
                     )
                 ),
             ),
             'rebuild_catalog_index'         => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild Catalog Index'),
+                'label'     => __('Rebuild Catalog Index'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_catalog_index',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild'),
+                        'action'    => __('Rebuild'),
                     )
                 ),
             ),
             'rebuild_flat_catalog_category' => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild Flat Catalog Category'),
+                'label'     => __('Rebuild Flat Catalog Category'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_flat_catalog_category',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild'),
+                        'action'    => __('Rebuild'),
                     )
                 ),
             ),
             'rebuild_flat_catalog_product' => array(
-                'label'     => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild Flat Catalog Product'),
+                'label'     => __('Rebuild Flat Catalog Product'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_flat_catalog_product',
-                        'action'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Rebuild'),
+                        'action'    => __('Rebuild'),
                     )
                 ),
             ),

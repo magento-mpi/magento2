@@ -55,19 +55,19 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
         parent::_prepareColumns();
 
         $this->addColumn('is_visible', array(
-            'header'    => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Visible to Customer'),
+            'header'    => __('Visible to Customer'),
             'sortable'  => true,
             'index'     => 'is_visible',
             'type'      => 'options',
             'options'   => array(
-                '0' => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('No'),
-                '1' => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Yes'),
+                '0' => __('No'),
+                '1' => __('Yes'),
             ),
             'align'     => 'center',
         ));
 
         $this->addColumn('sort_order', array(
-            'header'    => Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Sort Order'),
+            'header'    => __('Sort Order'),
             'sortable'  => true,
             'align'     => 'center',
             'index'     => 'sort_order'

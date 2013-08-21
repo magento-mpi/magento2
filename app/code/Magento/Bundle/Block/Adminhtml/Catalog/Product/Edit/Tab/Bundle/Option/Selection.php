@@ -57,7 +57,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     protected function _prepareLayout()
     {
         $this->addChild('selection_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete'),
+            'label' => __('Delete'),
             'class' => 'delete icon-btn',
             'on_click' => 'bSelection.remove(event)'
         ));
@@ -144,7 +144,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
             $id = $this->getFieldId() . '_{{index}}_price_scope';
             $name = $this->getFieldName() . '[{{parentIndex}}][{{index}}][default_price_scope]';
             $class = 'bundle-option-price-scope-checkbox';
-            $label = Mage::helper('Magento_Bundle_Helper_Data')->__('Use Default Value');
+            $label = __('Use Default Value');
             $disabled = ($this->getCanEditPrice() === false) ? ' disabled="disabled"' : '';
             $checkboxHtml = '<input type="checkbox" id="' . $id . '" class="' . $class . '" name="' . $name
                 . '"' . $disabled . ' value="1" />';

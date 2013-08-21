@@ -42,12 +42,12 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     {
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'),
-                Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog')
+                __('Catalog'),
+                __('Catalog')
             )
             ->_addBreadcrumb(
-                Mage::helper('Magento_CatalogEvent_Helper_Data')->__('Events'),
-                Mage::helper('Magento_CatalogEvent_Helper_Data')->__('Events')
+                __('Events'),
+                __('Events')
             )
             ->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
         return $this;
@@ -60,7 +60,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     public function indexAction()
     {
-        $this->_title($this->__('Events'));
+        $this->_title(__('Events'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -81,7 +81,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     public function editAction()
     {
-        $this->_title($this->__('Events'));
+        $this->_title(__('Events'));
 
         $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
@@ -91,7 +91,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : $this->__('New Event'));
+        $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
         $sessionData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getEventData(true);
         if (!empty($sessionData)) {
@@ -107,7 +107,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
-                $switchBlock->setDefaultStoreName($this->__('Default Values'))
+                $switchBlock->setDefaultStoreName(__('Default Values'))
                     ->setSwitchUrl($this->getUrl('*/*/*', array('_current' => true, 'store' => null)));
             }
         }
@@ -135,7 +135,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
         if (!isset($postData['catalogevent'])) {
             $this->_getSession()->addError(
-                Mage::helper('Magento_CatalogEvent_Helper_Data')->__('Something went wrong while saving this event.')
+                __('Something went wrong while saving this event.')
             );
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
@@ -179,14 +179,14 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
                     $event->setImage($uploader);
                 } catch (Exception $e) {
                     Mage::throwException(
-                        Mage::helper('Magento_CatalogEvent_Helper_Data')->__('We did not upload your image.')
+                        __('We did not upload your image.')
                     );
                 }
             }
             $event->save();
 
             $this->_getSession()->addSuccess(
-                Mage::helper('Magento_CatalogEvent_Helper_Data')->__('You saved the event.')
+                __('You saved the event.')
             );
             if ($this->getRequest()->getParam('back') == 'edit') {
                 $this->_redirect('*/*/edit', array('_current' => true, 'id' => $event->getId()));
@@ -215,7 +215,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             try {
                 $event->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_CatalogEvent_Helper_Data')->__('You deleted the event.')
+                    __('You deleted the event.')
                 );
                 if ($this->getRequest()->getParam('category')) {
                     $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));

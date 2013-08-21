@@ -125,7 +125,7 @@ class Magento_Backend_Block_Widget_Grid_Export
         $this->setChild('export_button',
             $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
                 ->setData(array(
-                'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Export'),
+                'label'     => __('Export'),
                 'onclick'   => $this->getParentBlock()->getJsObjectName().'.doExport()',
                 'class'   => 'task'
             ))

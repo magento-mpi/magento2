@@ -115,7 +115,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
 
         if (!$product->isSalable()) {
             Mage::throwException(
-                Mage::helper('Magento_GiftRegistry_Helper_Data')->__('This product(s) is out of stock.'));
+                __('This product(s) is out of stock.'));
         }
 
         $product->setGiftregistryItemId($this->getId());
@@ -216,7 +216,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
             $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please correct the product for adding the item to the quote.'));
+                    __('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
         }
@@ -372,7 +372,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
         } elseif($option instanceof Magento_GiftRegistry_Model_Item_Option) {
             $option->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Please correct the item option format.'));
+            Mage::throwException(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -397,7 +397,7 @@ class Magento_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            Mage::throwException(Mage::helper('Magento_GiftRegistry_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }

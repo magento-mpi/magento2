@@ -25,13 +25,13 @@ $canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_prod
 <?php if ($_product->getCanShowPrice() !== false):?>
 <div class="price-box">
     <p class="price-as-configured">
-        <span class="price-label"><?php echo $this->helper('Magento_Bundle_Helper_Data')->__('Price as configured') ?>:</span>
+        <span class="price-label"><?php echo __('Price as configured') ?>:</span>
         <?php if (!$this->getWithoutPrice()): ?>
         <span<?php if (!$isMAPTypeOnGesture && $canApplyMAP): ?> style="display:none"<?php endif ?> class="full-product-price">
         <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
         <span class="price-tax">
             <span class="price-excluding-tax">
-                <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                <span class="label"><?php echo __('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
                 <?php if (!$canApplyMAP): ?>
                     <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
@@ -54,7 +54,7 @@ $canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_prod
                 </small>)</span>
             <?php endif; ?>
             <span class="price-including-tax">
-                <span class="label"><?php echo Mage::helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo __('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
                 <?php if (!$canApplyMAP): ?>
                     <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPriceInclTax,true,false) ?>

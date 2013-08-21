@@ -22,7 +22,7 @@ class Magento_Customer_Service_Customer
     /**
      * @var Magento_Customer_Helper_Data
      */
-    protected $_translateHelper = null;
+    protected $_dataHelper = null;
 
     /**
      * @var Magento_Customer_Model_CustomerFactory
@@ -59,7 +59,7 @@ class Magento_Customer_Service_Customer
         Magento_Customer_Model_AddressFactory $addressFactory,
         $isAdminStore = true
     ) {
-        $this->_translateHelper = $helper;
+        $this->_dataHelper = $helper;
         $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
         $this->_isAdminStore = $isAdminStore;
@@ -317,7 +317,7 @@ class Magento_Customer_Service_Customer
             $storeId = $customer->getSendemailStoreId();
 
             if ($isNewCustomer) {
-                $newLinkToken = $this->_translateHelper->generateResetPasswordLinkToken();
+                $newLinkToken = $this->_dataHelper->generateResetPasswordLinkToken();
                 $customer->changeResetPasswordLinkToken($newLinkToken);
                 $customer->sendNewAccountEmail('registered', '', $storeId);
             } elseif (!$customer->getConfirmation()) {
@@ -340,7 +340,7 @@ class Magento_Customer_Service_Customer
         $customer = $this->_customerFactory->create();
         $customer->load($customerId);
         if (!$customer->getId()) {
-            throw new Magento_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
+            throw new Magento_Core_Exception(__("The customer with the specified ID not found."));
         }
 
         return $customer;
@@ -368,7 +368,7 @@ class Magento_Customer_Service_Customer
                 $address = $customer->getAddressItemById($addressId);
                 if (!$address || !$address->getId()) {
                     throw new Magento_Core_Exception(
-                        $this->_translateHelper->__('The address with the specified ID not found.'));
+                        __('The address with the specified ID not found.'));
                 }
             } else {
                 $address = $this->_addressFactory->create();

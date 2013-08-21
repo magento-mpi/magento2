@@ -15,11 +15,11 @@
  * @method bool hasSubscription()
  * @method Magento_Webhook_Model_Job setSubscriptionId()
  * @method int getSubscriptionId()
- * @method Magento_Webhook_Model_Job setStatus()
  * @method int getRetryCount()
  * @method Magento_Webhook_Model_Job setRetryCount()
  * @method Magento_Webhook_Model_Job setRetryAt()
  * @method Magento_Webhook_Model_Job setUpdatedAt()
+ * @method Magento_Webhook_Model_Job setCreatedAt()
  */
 class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements Magento_PubSub_JobInterface
 {
@@ -77,6 +77,23 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
         if ($this->hasSubscription()) {
             $this->setSubscriptionId($this->getSubscription()->getId());
         }
+        $this->setStatus(Magento_PubSub_JobInterface::STATUS_READY_TO_SEND);
+    }
+
+    /**
+     * Prepare data to be saved to database
+     *
+     * @return Magento_Webhook_Model_Job
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if ($this->isObjectNew()) {
+            $this->setCreatedAt($this->_getResource()->formatDate(true));
+        } elseif ($this->getId() && !$this->hasData('updated_at')) {
+            $this->setUpdatedAt($this->_getResource()->formatDate(true));
+        }
+        return $this;
     }
 
     /**
@@ -123,22 +140,21 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
     }
 
     /**
-     * Handles HTTP response
+     * Update the Job status to indicate it has completed successfully
      *
-     * @param Magento_Outbound_Transport_Http_Response $response
+     * @return Magento_Webhook_Model_Job
      */
-    public function handleResponse($response)
+    public function complete()
     {
-        if ($response->isSuccessful()) {
-            $this->setStatus(Magento_PubSub_JobInterface::SUCCESS);
-        } else {
-            $this->handleFailure();
-        }
-        $this->save();
+        $this->setStatus(Magento_PubSub_JobInterface::STATUS_SUCCEEDED)
+            ->save();
+        return $this;
     }
 
     /**
      * Handles failed HTTP response
+     *
+     * @return Magento_Webhook_Model_Job
      */
     public function handleFailure()
     {
@@ -148,9 +164,32 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements M
             $this->setRetryCount($retryCount + 1);
             $this->setRetryAt(Magento_Date::formatDate($addedTimeInMinutes));
             $this->setUpdatedAt(Magento_Date::formatDate(time(), true));
-            $this->setStatus(Magento_PubSub_JobInterface::RETRY);
+            $this->setStatus(Magento_PubSub_JobInterface::STATUS_RETRY);
         } else {
-            $this->setStatus(Magento_PubSub_JobInterface::FAILED);
+            $this->setStatus(Magento_PubSub_JobInterface::STATUS_FAILED);
         }
+        return $this;
+    }
+
+    /**
+     * Retrieve the status of the Job
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->getData('status');
+    }
+
+    /**
+     * Set the status of the Job
+     *
+     * @param int $status
+     * @return Magento_Webhook_Model_Job
+     */
+    public function setStatus($status)
+    {
+        $this->setData('status', $status);
+        return $this;
     }
 }

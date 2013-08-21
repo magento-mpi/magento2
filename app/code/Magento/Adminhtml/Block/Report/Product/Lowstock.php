@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock extends Magento_Adminhtml_
     protected function _construct()
     {
         $this->_controller = 'report_product_lowstock';
-        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Low stock');
+        $this->_headerText = __('Low stock');
         parent::_construct();
         $this->_removeButton('add');
     }

@@ -27,7 +27,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
         );
 
         if (!$txn->getId()) {
-            $this->_getSession()->addError($this->__('Please correct the transaction ID and try again.'));
+            $this->_getSession()->addError(__('Please correct the transaction ID and try again.'));
             $this->_redirect('*/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
 
     public function indexAction()
     {
-        $this->_title($this->__('Transactions'));
+        $this->_title(__('Transactions'));
 
         $this->loadLayout()
             ->_setActiveMenu('Magento_Sales::sales_transactions')
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
         if (!$txn) {
             return;
         }
-        $this->_title($this->__('Transactions'))
+        $this->_title(__('Transactions'))
              ->_title(sprintf("#%s", $txn->getTxnId()));
 
         $this->loadLayout()
@@ -93,13 +93,13 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
                 ->importTransactionInfo($txn);
             $txn->save();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('The transaction details have been updated.')
+                __('The transaction details have been updated.')
             );
         } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t update the transaction details.')
+                __('We can\'t update the transaction details.')
             );
             Mage::logException($e);
         }

@@ -20,24 +20,24 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 {
     public function indexAction()
     {
-        $this->_title($this->__('Product Templates'));
+        $this->_title(__('Product Templates'));
 
         $this->_setTypeId();
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
-        $this->_addBreadcrumb(Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'));
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
         $this->_addBreadcrumb(
-            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Attribute Sets'),
-            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Attribute Sets'));
+            __('Manage Attribute Sets'),
+            __('Manage Attribute Sets'));
 
         $this->renderLayout();
     }
 
     public function editAction()
     {
-        $this->_title($this->__('Product Templates'));
+        $this->_title(__('Product Templates'));
 
         $this->_setTypeId();
         $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
             return;
         }
 
-        $this->_title($attributeSet->getId() ? $attributeSet->getAttributeSetName() : $this->__('New Set'));
+        $this->_title($attributeSet->getId() ? $attributeSet->getAttributeSetName() : __('New Set'));
 
         Mage::register('current_attribute_set', $attributeSet);
 
@@ -56,10 +56,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $this->_addBreadcrumb(Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'));
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
         $this->_addBreadcrumb(
-            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Product Sets'),
-            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Product Sets'));
+            __('Manage Product Sets'),
+            __('Manage Product Sets'));
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main'));
 
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('This attribute set no longer exists.'));
+                    Mage::throwException(__('This attribute set no longer exists.'));
                 }
                 $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('data'));
 
@@ -121,13 +121,13 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 $model->initFromSkeleton($this->getRequest()->getParam('skeleton_set'));
             }
             $model->save();
-            $this->_getSession()->addSuccess(Mage::helper('Magento_Catalog_Helper_Data')->__('You saved the attribute set.'));
+            $this->_getSession()->addSuccess(__('You saved the attribute set.'));
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                Mage::helper('Magento_Catalog_Helper_Data')->__('An error occurred while saving the attribute set.'));
+                __('An error occurred while saving the attribute set.'));
             $hasError = true;
         }
 
@@ -165,7 +165,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 
     public function addAction()
     {
-        $this->_title($this->__('New Product Template'));
+        $this->_title(__('New Product Template'));
 
         $this->_setTypeId();
 
@@ -188,10 +188,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 ->setId($setId)
                 ->delete();
 
-            $this->_getSession()->addSuccess($this->__('The attribute set has been removed.'));
+            $this->_getSession()->addSuccess(__('The attribute set has been removed.'));
             $this->getResponse()->setRedirect($this->getUrl('*/*/'));
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('An error occurred while deleting this set.'));
+            $this->_getSession()->addError(__('An error occurred while deleting this set.'));
             $this->_redirectReferer();
         }
     }

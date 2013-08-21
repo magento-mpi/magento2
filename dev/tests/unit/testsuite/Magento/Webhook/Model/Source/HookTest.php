@@ -14,12 +14,12 @@ class Magento_Webhook_Model_Source_HookTest extends Magento_Webhook_Model_Source
 {
     public function testGetTopicsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Hook($this->_mockTranslate, $this->_mockConfig);
+        $unitUnderTest = new Magento_Webhook_Model_Source_Hook($this->_mockConfig);
         $elements = $unitUnderTest->getTopicsForForm();
         $this->_assertElements($elements);
 
         // Verify that we return cached results
         $secondResult = $unitUnderTest->getTopicsForForm();
-        $this->assertSame($elements, $secondResult);
+        $this->assertEquals($elements, $secondResult);
     }
 }

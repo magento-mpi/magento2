@@ -24,8 +24,8 @@ class Magento_Adminhtml_Block_System_Variable extends Magento_Adminhtml_Block_Wi
     protected function _construct()
     {
         $this->_controller = 'system_variable';
-        $this->_headerText = Mage::helper('Magento_Adminhtml_Helper_Data')->__('Custom Variables');
+        $this->_headerText = __('Custom Variables');
         parent::_construct();
-        $this->_updateButton('add', 'label', Mage::helper('Magento_Adminhtml_Helper_Data')->__('Add New Variable'));
+        $this->_updateButton('add', 'label', __('Add New Variable'));
     }
 }

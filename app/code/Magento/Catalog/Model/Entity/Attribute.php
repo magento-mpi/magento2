@@ -68,7 +68,7 @@ class Magento_Catalog_Model_Entity_Attribute extends Magento_Eav_Model_Entity_At
     protected function _beforeSave()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('This attribute is used in configurable products'));
+            throw Mage::exception('Magento_Eav', __('This attribute is used in configurable products'));
         }
         $this->setData('modulePrefix', self::MODULE_NAME);
         return parent::_beforeSave();

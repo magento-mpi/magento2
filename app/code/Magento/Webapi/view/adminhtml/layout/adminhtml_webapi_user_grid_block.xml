@@ -32,11 +32,11 @@
                                 <user_id>getId</user_id>
                             </extraParamsTemplate>
                         </rowUrl>
-                        <empty_text translate="true" module="Magento_Webapi">No Users Found</empty_text>
+                        <empty_text translate="true">No Users Found</empty_text>
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
-                            <header translate="true" module="Magento_Webapi">ID</header>
+                            <header translate="true">ID</header>
                             <width>80px</width>
                             <type>text</type>
                             <index>user_id</index>
@@ -44,19 +44,19 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="contact_email">
                         <arguments>
-                            <header translate="true" module="Magento_Webapi">Contact Email</header>
+                            <header translate="true">Contact Email</header>
                             <index>contact_email</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="api_key">
                         <arguments>
-                            <header translate="true" module="Magento_Webapi">API Key</header>
+                            <header translate="true">API Key</header>
                             <index>api_key</index>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_name">
                         <arguments>
-                            <header translate="true" module="Magento_Webapi">Role Name</header>
+                            <header translate="true">Role Name</header>
                             <index>role_id</index>
                             <width>200px</width>
                             <type>options</type>

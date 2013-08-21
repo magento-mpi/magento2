@@ -58,8 +58,8 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Data
     public function toOptionArray()
     {
         return array(
-            self::SHARE_GLOBAL  => Mage::helper('Magento_Customer_Helper_Data')->__('Global'),
-            self::SHARE_WEBSITE => Mage::helper('Magento_Customer_Helper_Data')->__('Per Website'),
+            self::SHARE_GLOBAL  => __('Global'),
+            self::SHARE_WEBSITE => __('Per Website'),
         );
     }
 
@@ -75,7 +75,7 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Data
         if ($value == self::SHARE_GLOBAL) {
             if (Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')->findEmailDuplicates()) {
                 Mage::throwException(
-                    Mage::helper('Magento_Customer_Helper_Data')->__('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
+                    __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
                 );
             }
         }

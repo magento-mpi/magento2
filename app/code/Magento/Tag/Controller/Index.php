@@ -37,7 +37,7 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
             $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->load($productId);
             if (!$product->getId()) {
-                $session->addError($this->__('We couldn\'t save the tag(s).'));
+                $session->addError(__('We couldn\'t save the tag(s).'));
             } else {
                 try {
                     $customerId = $customerSession->getCustomerId();
@@ -73,7 +73,7 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
                     $this->_fillMessageBox($counter);
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $session->addError($this->__('We couldn\'t save the tag(s).'));
+                    $session->addError(__('We couldn\'t save the tag(s).'));
                 }
             }
         }
@@ -123,13 +123,13 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
 
         if (count($counter[Magento_Tag_Model_Tag::ADD_STATUS_NEW])) {
             $tagsCount = count($counter[Magento_Tag_Model_Tag::ADD_STATUS_NEW]);
-            $session->addSuccess($this->__('%s tag(s) have been accepted for moderation.', $tagsCount));
+            $session->addSuccess(__('%1 tag(s) have been accepted for moderation.', $tagsCount));
         }
 
         if (count($counter[Magento_Tag_Model_Tag::ADD_STATUS_EXIST])) {
             foreach ($counter[Magento_Tag_Model_Tag::ADD_STATUS_EXIST] as $tagName) {
                 $session->addNotice(
-                    $this->__('Tag "%s" has already been added to the product.', $helper->escapeHtml($tagName))
+                    __('Tag "%1" has already been added to the product.', $helper->escapeHtml($tagName))
                 );
             }
         }
@@ -137,7 +137,7 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
         if (count($counter[Magento_Tag_Model_Tag::ADD_STATUS_SUCCESS])) {
             foreach ($counter[Magento_Tag_Model_Tag::ADD_STATUS_SUCCESS] as $tagName) {
                 $session->addSuccess(
-                    $this->__('Tag "%s" has been added to the product.', $helper->escapeHtml($tagName))
+                    __('Tag "%1" has been added to the product.', $helper->escapeHtml($tagName))
                 );
             }
         }
@@ -145,7 +145,7 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
         if (count($counter[Magento_Tag_Model_Tag::ADD_STATUS_REJECTED])) {
             foreach ($counter[Magento_Tag_Model_Tag::ADD_STATUS_REJECTED] as $tagName) {
                 $session->addNotice(
-                    $this->__('Tag "%s" has been rejected by the administrator.', $helper->escapeHtml($tagName))
+                    __('Tag "%1" has been rejected by the administrator.', $helper->escapeHtml($tagName))
                 );
             }
         }

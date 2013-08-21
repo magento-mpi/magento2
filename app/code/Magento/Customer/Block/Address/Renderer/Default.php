@@ -93,7 +93,7 @@ class Magento_Customer_Block_Address_Renderer_Default
             if ($attribute->getAttributeCode() == 'country_id') {
                 $data['country'] = $address->getCountryModel()->getName();
             } else if ($attribute->getAttributeCode() == 'region') {
-                $data['region'] = Mage::helper('Magento_Directory_Helper_Data')->__($address->getRegion());
+                $data['region'] = __($address->getRegion());
             } else {
                 $dataModel = Magento_Customer_Model_Attribute_Data::factory($attribute, $address);
                 $value     = $dataModel->outputValue($dataFormat);

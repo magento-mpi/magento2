@@ -77,7 +77,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getTabLabel()
     {
-        return Mage::helper('Magento_Downloadable_Helper_Data')->__('Downloadable Information');
+        return __('Downloadable Information');
     }
 
     /**
@@ -87,7 +87,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getTabTitle()
     {
-        return Mage::helper('Magento_Downloadable_Helper_Data')->__('Downloadable Information');
+        return __('Downloadable Information');
     }
 
     /**
@@ -129,7 +129,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             ->setId('downloadableInfo');
 
         $accordion->addItem('samples', array(
-            'title'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Samples'),
+            'title'   => __('Samples'),
             'content' => $this->getLayout()
                 ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples')
                 ->toHtml(),
@@ -137,7 +137,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         ));
 
         $accordion->addItem('links', array(
-            'title'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Links'),
+            'title'   => __('Links'),
             'content' => $this->getLayout()->createBlock(
                 'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
                 'catalog.product.edit.tab.downloadable.links')->toHtml(),

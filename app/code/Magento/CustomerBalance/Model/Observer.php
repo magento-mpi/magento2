@@ -107,7 +107,7 @@ class Magento_CustomerBalance_Model_Observer
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('Magento_CustomerBalance_Helper_Data')->__('You do not have enough store credit to complete this order.'));
+                Mage::throwException(__('You do not have enough store credit to complete this order.'));
             }
         }
 
@@ -382,7 +382,7 @@ class Magento_CustomerBalance_Model_Observer
             $creditmemo->getCustomerBalanceReturnMax();
 
         if ((float)(string)$creditmemo->getCustomerBalTotalRefunded() > (float)(string)$customerBalanceReturnMax) {
-            Mage::throwException(Mage::helper('Magento_CustomerBalance_Helper_Data')->__('The store credit used cannot exceed order amount.'));
+            Mage::throwException(__('The store credit used cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
@@ -540,13 +540,13 @@ class Magento_CustomerBalance_Model_Observer
         $request = Mage::app()->getRequest();
         $data = $request->getParam('customerbalance');
         if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
-            $actions = Mage::registry('enterprise_logged_actions');
+            $actions = Mage::registry('magento_logged_actions');
             if (!is_array($actions)) {
                 $actions = array($actions);
             }
             $actions[] = 'adminhtml_customerbalance_save';
-            Mage::unregister('enterprise_logged_actions');
-            Mage::register('enterprise_logged_actions', $actions);
+            Mage::unregister('magento_logged_actions');
+            Mage::register('magento_logged_actions', $actions);
         }
     }
 
@@ -586,7 +586,7 @@ class Magento_CustomerBalance_Model_Observer
             $value = abs($salesEntity->getDataUsingMethod($balanceField));
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Magento_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
-                    Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    __('Store Credit (%1)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }

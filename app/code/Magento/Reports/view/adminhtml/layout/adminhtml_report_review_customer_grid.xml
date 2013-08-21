@@ -22,11 +22,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCustomerCsv</urlPath>
-                                <label translate="true" module="Magento_Reports">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportCustomerExcel</urlPath>
-                                <label translate="true" module="Magento_Reports">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -44,18 +44,18 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="customer_name">
                         <arguments>
-                            <header translate="true" module="Magento_Reports">Customer</header>
+                            <header translate="true">Customer</header>
                             <index>customer_name</index>
                             <type>text</type>
                             <id>customer_name</id>
-                            <default translate="true" module="Magento_Reports">Guest</default>
+                            <default translate="true">Guest</default>
                             <column_css_class>col-name</column_css_class>
                             <header_css_class>col-name</header_css_class>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="review_cnt">
                         <arguments>
-                            <header translate="true" module="Magento_Reports">Reviews</header>
+                            <header translate="true">Reviews</header>
                             <type>text</type>
                             <index>review_cnt</index>
                             <column_css_class>col-qty</column_css_class>
@@ -64,7 +64,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true" module="Magento_Reports">Action</header>
+                            <header translate="true">Action</header>
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <is_system>1</is_system>

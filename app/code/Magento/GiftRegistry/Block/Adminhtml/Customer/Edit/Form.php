@@ -25,7 +25,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $this->addChild('cart_items', 'Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart');
         $this->addChild('sharing_form', 'Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing');
         $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => $this->helper('Magento_GiftRegistry_Helper_Data')->__('Update Items and Qty\'s'),
+            'label' => __('Update Items and Qty\'s'),
             'type'  => 'submit'
         ));
 

@@ -36,7 +36,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
             $this->_addButton(
                 'save_and_continue',
                 array(
-                    'label' => $this->helper('Magento_CatalogEvent_Helper_Data')->__('Save and Continue Edit'),
+                    'label' => __('Save and Continue Edit'),
                     'class' => 'save',
                     'data_attribute'  => array(
                         'mage-init' => array(
@@ -63,7 +63,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
         }
 
         if ($this->getRequest()->getParam('category')) {
-            $this->_updateButton('back', 'label', $this->helper('Magento_CatalogEvent_Helper_Data')->__('Back to Category'));
+            $this->_updateButton('back', 'label', __('Back to Category'));
         }
 
         if ($this->getEvent()->isReadonly() && $this->getEvent()->getImageReadonly()) {
@@ -111,10 +111,10 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     public function getHeaderText()
     {
         if ($this->getEvent()->getId()) {
-            return Mage::helper('Magento_CatalogEvent_Helper_Data')->__('Edit Catalog Event');
+            return __('Edit Catalog Event');
         }
         else {
-            return Mage::helper('Magento_CatalogEvent_Helper_Data')->__('Add Catalog Event');
+            return __('Add Catalog Event');
         }
     }
 

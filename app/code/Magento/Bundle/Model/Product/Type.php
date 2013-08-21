@@ -532,7 +532,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
             $optionIds = array_keys($options);
 
             if (empty($optionIds) && $isStrictProcessMode) {
-                return Mage::helper('Magento_Bundle_Helper_Data')->__('Please select options for the product.');
+                return __('Please select options for the product.');
             }
 
             $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
@@ -540,7 +540,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
             if (!$product->getSkipCheckRequiredOption() && $isStrictProcessMode) {
                 foreach ($optionsCollection->getItems() as $option) {
                     if ($option->getRequired() && !isset($options[$option->getId()])) {
-                        return Mage::helper('Magento_Bundle_Helper_Data')->__('Please select all required options.');
+                        return __('Please select all required options.');
                     }
                 }
             }
@@ -575,7 +575,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                         if ($_option->getRequired()
                             && (!$_option->isMultiSelection() || ($_option->isMultiSelection() && !$moreSelections))
                         ) {
-                            return Mage::helper('Magento_Bundle_Helper_Data')->__('The required options you selected are not available.');
+                            return __('The required options you selected are not available.');
                         }
                     }
                 }
@@ -655,7 +655,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                 }
 
                 if (!isset($_result[0])) {
-                    return Mage::helper('Magento_Checkout_Helper_Data')->__('We cannot add this item to your shopping cart.');
+                    return __('We cannot add this item to your shopping cart.');
                 }
 
                 $result[] = $_result[0]->setParentProductId($product->getId())
@@ -692,7 +692,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('Magento_Bundle_Helper_Data')->__('Please specify product option(s).');
+        return __('Please specify product option(s).');
     }
 
     /**
@@ -926,7 +926,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || (!$selection->isSalable() && !$skipSaleableCheck)) {
                 Mage::throwException(
-                    Mage::helper('Magento_Bundle_Helper_Data')->__('The required options you selected are not available.')
+                    __('The required options you selected are not available.')
                 );
             }
         }
@@ -936,7 +936,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         foreach ($optionsCollection->getItems() as $option) {
             if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
                 Mage::throwException(
-                    Mage::helper('Magento_Bundle_Helper_Data')->__('Please select all required options.')
+                    __('Please select all required options.')
                 );
             }
         }

@@ -38,20 +38,19 @@ class Magento_Webhook_Model_Observer
     /**
      * Triggered after webapi user deleted. It updates status of the activated subscriptions
      * associated with this webapi user to inactive
-     *
-     * @return Magento_Webhook_Model_Observer
      */
     public function afterWebapiUserDelete()
     {
         try {
             $subscriptions = $this->_subscriptionSet->getActivatedSubscriptionsWithoutApiUser();
-            if (count($subscriptions)) {
-                $this->_resetActivation($subscriptions);
+            /** @var Magento_Webhook_Model_Subscription $subscription */
+            foreach ($subscriptions as $subscription) {
+                $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
+                    ->save();
             }
         } catch (Exception $exception) {
             $this->_logger->logException($exception);
         }
-        return $this;
     }
 
     /**
@@ -74,7 +73,6 @@ class Magento_Webhook_Model_Observer
      * Triggered after webapi role change
      *
      * @param Magento_Event_Observer $observer
-     * @return Magento_Webhook_Model_Observer
      */
     public function afterWebapiRoleChange(Magento_Event_Observer $observer)
     {
@@ -84,20 +82,6 @@ class Magento_Webhook_Model_Observer
             $this->_webapiEventHandler->roleChanged($model);
         } catch (Exception $exception) {
             $this->_logger->logException($exception);
-        }
-    }
-
-    /**
-     * Reset the subscriptions to the INACTIVE status.
-     *
-     * @param $subscriptions
-     */
-    protected function _resetActivation($subscriptions)
-    {
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        foreach ($subscriptions as $subscription) {
-            $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
-                ->save();
         }
     }
 }

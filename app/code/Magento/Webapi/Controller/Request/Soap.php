@@ -9,19 +9,14 @@
  */
 class Magento_Webapi_Controller_Request_Soap extends Magento_Webapi_Controller_Request
 {
-    /** @var Magento_Webapi_Helper_Data */
-    protected $_helper;
-
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
-    public function __construct(Magento_Webapi_Helper_Data $helper, $uri = null)
+    public function __construct($uri = null)
     {
         parent::__construct(Magento_Webapi_Controller_Front::API_TYPE_SOAP, $uri);
-        $this->_helper = $helper;
     }
 
     /**
@@ -38,14 +33,14 @@ class Magento_Webapi_Controller_Request_Soap extends Magento_Webapi_Controller_R
         $allowedParams = array(Magento_Webapi_Controller_Request::PARAM_API_TYPE, $wsdlParam, $resourcesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
-            $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . $this->_helper->__('Please use only "%s" and "%s".', $wsdlParam, $resourcesParam);
+            $message = __('Not allowed parameters: %1. ', implode(', ', $notAllowedParameters))
+                . __('Please use only "%1" and "%2".', $wsdlParam, $resourcesParam);
             throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $requestedResources = $this->getParam($resourcesParam);
         if (empty($requestedResources) || !is_array($requestedResources)) {
-            $message = $this->_helper->__('Requested resources are missing.');
+            $message = __('Requested resources are missing.');
             throw new Magento_Webapi_Exception($message, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedResources;

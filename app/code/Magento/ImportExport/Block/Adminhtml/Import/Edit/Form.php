@@ -34,11 +34,11 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
         // base fieldset
         /** @var $importEntity Magento_ImportExport_Model_Source_Import_Entity */
         $importEntity = Mage::getModel('Magento_ImportExport_Model_Source_Import_Entity');
-        $fieldsets['base'] = $form->addFieldset('base_fieldset', array('legend' => $this->__('Import Settings')));
+        $fieldsets['base'] = $form->addFieldset('base_fieldset', array('legend' => __('Import Settings')));
         $fieldsets['base']->addField('entity', 'select', array(
             'name'     => 'entity',
-            'title'    => $this->__('Entity Type'),
-            'label'    => $this->__('Entity Type'),
+            'title'    => __('Entity Type'),
+            'label'    => __('Entity Type'),
             'required' => true,
             'onchange' => 'varienImport.handleEntityTypeSelector();',
             'values'   => $importEntity->toOptionArray(),
@@ -50,7 +50,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
             $fieldsets[$behaviorCode] = $form->addFieldset(
                 $behaviorCode . '_fieldset',
                 array(
-                    'legend' => $this->__('Import Behavior'),
+                    'legend' => __('Import Behavior'),
                     'class'  => 'no-display',
                 )
             );
@@ -58,8 +58,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
             $behaviorSource = Mage::getModel($behaviorClass);
             $fieldsets[$behaviorCode]->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
-                'title'    => $this->__('Import Behavior'),
-                'label'    => $this->__('Import Behavior'),
+                'title'    => __('Import Behavior'),
+                'label'    => __('Import Behavior'),
                 'required' => true,
                 'disabled' => true,
                 'values'   => $behaviorSource->toOptionArray(),
@@ -69,14 +69,14 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
         // fieldset for file uploading
         $fieldsets['upload'] = $form->addFieldset('upload_file_fieldset',
             array(
-                'legend' => $this->__('File to Import'),
+                'legend' => __('File to Import'),
                 'class'  => 'no-display',
             )
         );
         $fieldsets['upload']->addField(Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
             'name'     => Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,
-            'label'    => $this->__('Select File to Import'),
-            'title'    => $this->__('Select File to Import'),
+            'label'    => __('Select File to Import'),
+            'title'    => __('Select File to Import'),
             'required' => true,
         ));
 

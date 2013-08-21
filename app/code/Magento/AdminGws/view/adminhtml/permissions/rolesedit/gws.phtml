@@ -17,17 +17,17 @@
 <div class="entry-edit form-inline">
     <fieldset class="fieldset">
         <legend class="legend">
-            <span><?php echo $this->__('Role Scopes') ?></span>
+            <span><?php echo __('Role Scopes') ?></span>
         </legend><br />
 
         <div class="field">
-            <label class="label" for="gws_is_all"><span><?php echo $this->__('Role Scopes') ?></span></label>
+            <label class="label" for="gws_is_all"><span><?php echo __('Role Scopes') ?></span></label>
 
             <div class="control">
                 <select id="gws_is_all" name="gws_is_all" onchange="$('gws_container').toggle()" class="select">
-                    <option value="0"><?php echo $this->__('Custom') ?></option>
+                    <option value="0"><?php echo __('Custom') ?></option>
                     <?php if ($this->canAssignGwsAll()): ?>
-                    <option value="1" <?php echo ($this->getGwsIsAll() ? 'selected="selected"' : '') ?>><?php echo $this->__('All') ?></option>
+                    <option value="1" <?php echo ($this->getGwsIsAll() ? 'selected="selected"' : '') ?>><?php echo __('All') ?></option>
                     <?php endif; ?>
                 </select>
             </div>

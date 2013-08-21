@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends
         $this->setId('create_attribute_' . $this->getConfig()->getGroupId())
             ->setType('button')
             ->setClass('action-add')
-            ->setLabel(Mage::helper('Magento_Adminhtml_Helper_Data')->__('New Attribute'))
+            ->setLabel(__('New Attribute'))
             ->setDataAttribute(array('mage-init' =>
                 array('productAttributes' =>
                     array(

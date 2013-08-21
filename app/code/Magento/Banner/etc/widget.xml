@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <magento_banner type="Magento_Banner_Block_Widget_Banner" translate="name description" module="Magento_Banner">
+    <magento_banner type="Magento_Banner_Block_Widget_Banner" translate="name description">
         <name>Banner Rotator</name>
         <description>Displays Specified or Promotion Banners</description>
         <placeholder_image>Magento_Banner::widget_banner.gif</placeholder_image>

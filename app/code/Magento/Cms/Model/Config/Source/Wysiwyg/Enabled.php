@@ -22,15 +22,15 @@ class Magento_Cms_Model_Config_Source_Wysiwyg_Enabled implements Magento_Core_Mo
         return array(
             array(
                 'value' => Magento_Cms_Model_Wysiwyg_Config::WYSIWYG_ENABLED,
-                'label' => Mage::helper('Magento_Cms_Helper_Data')->__('Enabled by Default')
+                'label' => __('Enabled by Default')
             ),
             array(
                 'value' => Magento_Cms_Model_Wysiwyg_Config::WYSIWYG_HIDDEN,
-                'label' => Mage::helper('Magento_Cms_Helper_Data')->__('Disabled by Default')
+                'label' => __('Disabled by Default')
             ),
             array(
                 'value' => Magento_Cms_Model_Wysiwyg_Config::WYSIWYG_DISABLED,
-                'label' => Mage::helper('Magento_Cms_Helper_Data')->__('Disabled Completely')
+                'label' => __('Disabled Completely')
             )
         );
     }

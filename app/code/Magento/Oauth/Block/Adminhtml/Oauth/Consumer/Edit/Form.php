@@ -51,7 +51,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
         ));
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Magento_Oauth_Helper_Data')->__('Consumer Information'), 'class' => 'fieldset-wide'
+            'legend' => __('Consumer Information'), 'class' => 'fieldset-wide'
         ));
 
         if ($model->getId()) {
@@ -59,16 +59,16 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
         }
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Name'),
-            'title'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Name'),
+            'label'     => __('Name'),
+            'title'     => __('Name'),
             'required'  => true,
             'value'     => $model->getName(),
         ));
 
         $fieldset->addField('key', 'text', array(
             'name'      => 'key',
-            'label'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Key'),
-            'title'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Key'),
+            'label'     => __('Key'),
+            'title'     => __('Key'),
             'disabled'  => true,
             'required'  => true,
             'value'     => $model->getKey(),
@@ -76,8 +76,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
 
         $fieldset->addField('secret', 'text', array(
             'name'      => 'secret',
-            'label'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Secret'),
-            'title'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Secret'),
+            'label'     => __('Secret'),
+            'title'     => __('Secret'),
             'disabled'  => true,
             'required'  => true,
             'value'     => $model->getSecret(),
@@ -85,8 +85,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
 
         $fieldset->addField('callback_url', 'text', array(
             'name'      => 'callback_url',
-            'label'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Callback URL'),
-            'title'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Callback URL'),
+            'label'     => __('Callback URL'),
+            'title'     => __('Callback URL'),
             'required'  => false,
             'value'     => $model->getCallbackUrl(),
             'class'     => 'validate-url',
@@ -94,8 +94,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Adm
 
         $fieldset->addField('rejected_callback_url', 'text', array(
             'name'      => 'rejected_callback_url',
-            'label'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Rejected Callback URL'),
-            'title'     => Mage::helper('Magento_Oauth_Helper_Data')->__('Rejected Callback URL'),
+            'label'     => __('Rejected Callback URL'),
+            'title'     => __('Rejected Callback URL'),
             'required'  => false,
             'value'     => $model->getRejectedCallbackUrl(),
             'class'     => 'validate-url',

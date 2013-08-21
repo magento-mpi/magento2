@@ -44,11 +44,11 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
         $this->loadLayout()
             ->_setActiveMenu('Magento_Adminhtml::stores_attributes')
             ->_addBreadcrumb(
-                Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Customer'),
-                Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Customer'))
+                __('Customer'),
+                __('Customer'))
             ->_addBreadcrumb(
-                Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Manage Customer Attributes'),
-                Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Manage Customer Attributes'));
+                __('Manage Customer Attributes'),
+                __('Manage Customer Attributes'));
         return $this;
     }
 
@@ -73,7 +73,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customer Attributes'));
+        $this->_title(__('Customer Attributes'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -99,26 +99,26 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title($this->__('Customer Attributes'));
+        $this->_title(__('Customer Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
                 $this->_getSession()
-                    ->addError(Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('The attribute no longer exists.'));
+                    ->addError(__('The attribute no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('You cannot edit this attribute.'));
+                    __('You cannot edit this attribute.'));
                 $this->_redirect('*/*/');
                 return;
             }
 
             $this->_title($attributeObject->getFrontendLabel());
         } else {
-            $this->_title($this->__('New Customer Address Attribute'));
+            $this->_title(__('New Customer Address Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);
@@ -128,8 +128,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
         Mage::register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
-            ? Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Edit Customer Attribute')
-            : Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('New Customer Attribute');
+            ? __('Edit Customer Attribute')
+            : __('New Customer Attribute');
 
         $this->_initAction()
             ->_addBreadcrumb($label, $label)
@@ -151,7 +151,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('An attribute with this code already exists.')
+                    __('An attribute with this code already exists.')
                 );
 
                 $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
@@ -204,7 +204,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                 $attributeObject->load($attributeId);
                 if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
                     $this->_getSession()->addError(
-                        Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('You cannot edit this attribute.')
+                        __('You cannot edit this attribute.')
                     );
                     $this->_getSession()->addAttributeData($data);
                     $this->_redirect('*/*/');
@@ -264,16 +264,16 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
             }
 
             try {
-                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_before_save', array(
+                $this->_eventManager->dispatch('enterprise_customer_attribute_before_save', array(
                     'attribute' => $attributeObject
                 ));
                 $attributeObject->save();
-                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_save', array(
+                $this->_eventManager->dispatch('enterprise_customer_attribute_save', array(
                     'attribute' => $attributeObject
                 ));
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('You saved the customer attribute.')
+                    __('You saved the customer attribute.')
                 );
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
@@ -292,7 +292,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Something went wrong saving the customer attribute.')
+                    __('Something went wrong saving the customer attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -316,19 +316,19 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                 || !$attributeObject->getIsUserDefined())
             {
                 $this->_getSession()->addError(
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('You cannot delete this attribute.')
+                    __('You cannot delete this attribute.')
                 );
                 $this->_redirect('*/*/');
                 return;
             }
             try {
                 $attributeObject->delete();
-                $this->_eventManager->dispatch('magento_customercustomattributes_attribute_delete', array(
+                $this->_eventManager->dispatch('enterprise_customer_attribute_delete', array(
                     'attribute' => $attributeObject
                 ));
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('You deleted the customer attribute.')
+                    __('You deleted the customer attribute.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -338,7 +338,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->__('Something went wrong deleting the customer attribute.')
+                    __('Something went wrong deleting the customer attribute.')
                 );
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

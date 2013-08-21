@@ -52,7 +52,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Magento_Tag_Helper_Data')->__('My Tags'));
+        $this->getLayout()->getBlock('head')->setTitle(__('My Tags'));
         $this->renderLayout();
     }
 
@@ -75,7 +75,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
             }
 
             $this->_initLayoutMessages('Magento_Checkout_Model_Session');
-            $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Magento_Tag_Helper_Data')->__('My Tags'));
+            $this->getLayout()->getBlock('head')->setTitle(__('My Tags'));
             $this->renderLayout();
         }
         else {
@@ -97,7 +97,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
                 $model->deactivate();
 
                 Mage::getSingleton('Magento_Tag_Model_Session')->addSuccess(
-                    Mage::helper('Magento_Tag_Helper_Data')->__('You deleted the tag.')
+                    __('You deleted the tag.')
                 );
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
                     self::PARAM_NAME_URL_ENCODED => Mage::helper('Magento_Core_Helper_Data')->urlEncode(
@@ -106,7 +106,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
                 )));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Tag_Model_Session')->addError(Mage::helper('Magento_Tag_Helper_Data')->__('We can\'t remove the tag. Please try again later.'));
+                Mage::getSingleton('Magento_Tag_Model_Session')->addError(__('We can\'t remove the tag. Please try again later.'));
             }
         }
         else {

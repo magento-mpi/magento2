@@ -67,7 +67,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
 
             default:
                 Mage::throwException(
-                    Mage::helper('Magento_TargetRule_Helper_Data')->__('Undefined Catalog Product List Type')
+                    __('Undefined Catalog Product List Type')
                 );
         }
 

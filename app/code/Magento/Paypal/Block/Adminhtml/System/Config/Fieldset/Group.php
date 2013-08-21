@@ -30,7 +30,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
 
         $html = '<div class="comment">' . $element->getComment()
             . ' <a target="_blank" href="' . $groupConfig['help_url'] . '">'
-            . Mage::helper('Magento_Paypal_Helper_Data')->__('Help') . '</a></div>';
+            . __('Help') . '</a></div>';
 
         return $html;
     }
