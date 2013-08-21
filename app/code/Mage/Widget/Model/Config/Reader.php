@@ -8,6 +8,19 @@
 class Mage_Widget_Model_Config_Reader extends Magento_Config_Reader_Filesystem
 {
     /**
+     * List of identifier attributes for merging
+     *
+     * @var array
+     */
+    protected $_idAttributes = array(
+        '/widgets/widget' => 'id',
+        '/widgets/widget/parameter' => 'name',
+        '/widgets/widget/parameter/option' => 'name',
+        '/widgets/widget/container' => 'name',
+        '/widgets/widget/container/template' => 'name',
+    );
+
+    /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Mage_Widget_Model_Config_Converter $converter

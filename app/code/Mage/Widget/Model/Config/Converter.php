@@ -32,7 +32,43 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
         /** @var Magento_Simplexml_Config $nodeListData */
         $nodeListData = $this->_factory->create();
         $nodeListData->loadDom($source);
+        $node = $nodeListData->getNode();
+        $nodeArray = $this->_toArray($node);
+        return is_array($nodeArray) ? $nodeArray : array($nodeArray);
+    }
 
-        return $nodeListData->getNode()->asArray();
+    /**
+     * Returns the node and children as an array
+     *
+     * @param Magento_Simplexml_Element $node
+     * @return array|string
+     */
+    protected function _toArray($node)
+    {
+        $result = array();
+
+        // add attributes
+        foreach ($node->attributes() as $attributeName => $attribute) {
+            if ($attribute) {
+                $result['@'][$attributeName] = (string)$attribute;
+            }
+        }
+
+        // add children values
+        if ($node->hasChildren()) {
+            /** @var Magento_Simplexml_Element $child */
+            foreach ($node->children() as $childName => $child) {
+                $result[$childName][] = $this->_toArray($child);
+            }
+        } else {
+            if (empty($result)) {
+                // return as string, if nothing was found
+                $result = (string) $node;
+            } else {
+                // value has zero key element
+                $result[0] = (string) $node;
+            }
+        }
+        return $result;
     }
 }

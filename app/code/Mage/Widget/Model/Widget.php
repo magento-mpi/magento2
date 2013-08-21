@@ -34,6 +34,7 @@ class Mage_Widget_Model_Widget
 
     /** @var  array */
     protected $_widgetsArray = array();
+
     /**
      * @param Mage_Widget_Model_Config_Data $dataStorage
      * @param Mage_Core_Model_View_Url $viewUrl
@@ -52,41 +53,30 @@ class Mage_Widget_Model_Widget
     }
 
     /**
-     * Load Widgets XML config from widget.xml files and cache it
+     * Get all widgets configuration
      *
      * @return array
      */
-    public function getXmlConfig()
+    public function getWidgets()
     {
-        return $this->_dataStorage->get();
-
-//        $cacheId = 'widget_config';
-//        $cachedXml = $this->_configCacheType->load($cacheId);
-//        if ($cachedXml) {
-//            $xmlConfig = new Magento_Simplexml_Config($cachedXml);
-//        } else {
-//            $xmlConfig = new Magento_Simplexml_Config();
-/*            $xmlConfig->loadString('<?xml version="1.0"?><widgets></widgets>');
-//            $this->_configReader->loadModulesConfiguration('widget.xml', $xmlConfig);
-//            $this->_configCacheType->save($xmlConfig->getXmlString(), $cacheId);
-//        }
-//        return $xmlConfig;*/
+        $config = $this->_dataStorage->get();
+        return isset($config['widget']) ? $config['widget'] : array();
     }
 
     /**
-     * Return widget XML config element based on its type
+     * Return widget config based on its class type
      *
      * @param string $type Widget type
      * @return null|array
      */
-    public function getXmlElementByType($type)
+    public function getWidgetByClassType($type)
     {
-        $widgets = $this->getXmlConfig();
+        $widgets = $this->getWidgets();
         /** @var array $widget */
         foreach ($widgets as $widget) {
             if (isset($widget['@'])) {
-                if (isset($widget['@']['type'])) {
-                    if ($type === $widget['@']['type'])
+                if (isset($widget['@']['class'])) {
+                    if ($type === $widget['@']['class'])
                         return $widget;
                 }
             }
@@ -102,12 +92,15 @@ class Mage_Widget_Model_Widget
      */
     public function getConfigAsObject($type)
     {
-        $xml = $this->getXmlElementByType($type);
+        $widget = $this->getWidgetByClassType($type);
 
         $object = new Magento_Object();
-        if ($xml === null) {
+        if ($widget === null) {
             return $object;
         }
+
+        // @TODO: map $widget to $xml
+        $xml = $this->_map($widget);
 
         // Save all nodes to object data
         $object->setType($type);
@@ -164,14 +157,14 @@ class Mage_Widget_Model_Widget
     }
 
     /**
-     * Return filtered list of widgets as SimpleXml object
+     * Return filtered list of widgets
      *
      * @param array $filters Key-value array of filters for widget node properties
      * @return array
      */
-    public function getWidgetsXml($filters = array())
+    public function getWidgetsByFilters($filters = array())
     {
-        $widgets = $this->getXmlConfig();
+        $widgets = $this->getWidgets();
         $result = $widgets;
 
         // filter widgets by params
@@ -179,7 +172,7 @@ class Mage_Widget_Model_Widget
             foreach ($widgets as $code => $widget) {
                 try {
                     foreach ($filters as $field => $value) {
-                        if (!isset($widget[$field]) || (string)$widget[$field] != $value) {
+                        if (!isset($widget[$field]) || (string)$widget[$field][0] != $value) {
                             throw new Exception();
                         }
                     }
@@ -203,19 +196,21 @@ class Mage_Widget_Model_Widget
     {
         if (empty($this->_widgetsArray)) {
             $result = array();
-            foreach ($this->getWidgetsXml($filters) as $code => $widget) {
-                if (isset($widget['@']) && isset($widget['@']['module'])) {
-                    $helper = $widget['@']['module'];
-                } else {
-                    $helper = 'Mage_Widget_Helper_Data';
+            foreach ($this->getWidgetsByFilters($filters) as $code => $widget) {
+                if (isset($widget['@'])) {
+                    if (isset($widget['@']['module'])) {
+                        $helper = $widget['@']['module'];
+                    } else {
+                        $helper = 'Mage_Widget_Helper_Data';
+                    }
+                    $helper = Mage::helper($helper);
+                    $result[$widget['label'][0]] = array(
+                        'name'          => $helper->__((string)$widget['label'][0]),
+                        'code'          => $widget['@']['id'],
+                        'type'          => $widget['@']['class'],
+                        'description'   => $helper->__((string)$widget['description'])
+                    );
                 }
-                $helper = Mage::helper($helper);
-                $result[$widget['name']] = array(
-                    'name'          => $helper->__((string)$widget['name']),
-                    'code'          => $code,
-                    'type'          => $widget['@']['type'],
-                    'description'   => $helper->__((string)$widget['description'])
-                );
             }
             usort($result, array($this, "_sortWidgets"));
             $this->_widgetsArray = $result;
@@ -273,9 +268,9 @@ class Mage_Widget_Model_Widget
     public function getPlaceholderImageUrl($type)
     {
         $placeholder = false;
-        $widgetXml = $this->getXmlElementByType($type);
-        if (is_array($widgetXml) && isset($widgetXml['placeholder_image'])) {
-            $placeholder = (string)$widgetXml['placeholder_image'];
+        $widgetXml = $this->getWidgetByClassType($type);
+        if (is_array($widgetXml) && isset($widgetXml['@'])&& isset($widgetXml['@']['placeholder_image'])) {
+            $placeholder = (string)$widgetXml['@']['placeholder_image'];
         }
         if (!$placeholder || !$this->_viewFileSystem->getViewFile($placeholder)) {
             $placeholder = 'Mage_Widget::placeholder.gif';
@@ -293,31 +288,13 @@ class Mage_Widget_Model_Widget
     public function getPlaceholderImageUrls()
     {
         $result = array();
-        $widgets = $this->getXmlConfig();
+        $widgets = $this->getWidgets();
         /** @var array $widget */
         foreach ($widgets as $widget) {
             if (isset($widget['@'])) {
-                if (isset($widget['@']['type'])) {
-                    $type = $widget['@']['type'];
+                if (isset($widget['@']['class'])) {
+                    $type = $widget['@']['class'];
                     $result[$type] = $this->getPlaceholderImageUrl($type);
-                }
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Return list of required JS files to be included on the top of the page before insertion plugin loaded
-     *
-     * @return array
-     */
-    public function getWidgetsRequiredJsFiles()
-    {
-        $result = array();
-        foreach ($this->getWidgetsXml() as $widget) {
-            if ($widget['js']) {
-                foreach (explode(',', (string)$widget['js']) as $js) {
-                    $result[] = $js;
                 }
             }
         }
