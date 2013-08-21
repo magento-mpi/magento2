@@ -9,6 +9,7 @@
 -->
 <layout version="0.1.0">
     <adminhtml_customer_edit>
+        <update handle="adminhtml_customer_balance_grid"/>
         <reference name="customer_edit_tabs">
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance" name="customerbalance"/>
             <action method="addTab">
@@ -17,9 +18,7 @@
             </action>
         </reference>
         <reference name="customer_edit_tab_view">
-            <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml" before="-">
-                <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid"/>
-            </block>
+            <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml" before="-"/>
         </reference>
     </adminhtml_customer_edit>
 </layout>

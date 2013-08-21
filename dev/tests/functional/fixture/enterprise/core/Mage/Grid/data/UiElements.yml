@@ -584,3 +584,13 @@ customer_segment_report_detail:
         6: Country
         7: State/Province
         8: Customer Since
+
+#dataset for ui elements Customer Store Balance grid
+edit_customer:
+    fieldset:
+        current_store_balance: tablename
+    pageelement:
+        store_credit_balance_head: ~
+    headers:
+        0: Balance
+        1: Website
