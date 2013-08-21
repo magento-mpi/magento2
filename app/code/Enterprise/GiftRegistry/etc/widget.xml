@@ -9,14 +9,17 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
+
     <widget id="enterprise_giftregistry_search" class="Enterprise_GiftRegistry_Block_Search_Widget_Form"
-            translate="name description" module="Enterprise_GiftRegistry" is_email_compatible="false">
+            translate="label description" module="Enterprise_GiftRegistry" is_email_compatible="false">
         <label>Gift Registry Search</label>
         <description>Gift Registry Quick Search Form</description>
-        <parameter name="type" translate="label" xsi:type="multiselect" visible="true" required="true">
+        <parameter name="types" translate="label" xsi:type="multiselect" visible="true" required="true"
+                   source_model="Enterprise_GiftRegistry_Model_Source_Search">
             <label>Quick Search Form Types</label>
-            <source_model>Enterprise_GiftRegistry_Model_Source_Search</source_model>
         </parameter>
         <parameter name="template" xsi:type="select" visible="false">
             <option name="default_template" translate="label" value="search/widget/form.phtml">
@@ -26,9 +29,6 @@
         <container section="left_column" name="left">
             <template name="default" value="default_template" />
         </container>
-        <!--<container section="main_content" name="content">
-            <template name="default" value="default_template" />
-        </container>-->
         <container section="right_column" name="right">
             <template name="default" value="default_template" />
         </container>
