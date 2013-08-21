@@ -64,8 +64,8 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsXml();
-            $filtered = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsXml($config->getData('widget_filters'));
+            $all = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsByFilters();
+            $filtered = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsByFilters($config->getData('widget_filters'));
             $reflection = new ReflectionObject($filtered);
             foreach ($all as $code => $widget) {
                 if (!$reflection->hasProperty($code)) {

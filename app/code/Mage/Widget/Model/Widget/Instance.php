@@ -284,7 +284,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         if ($this->_widgetConfigXml === null) {
             $this->_widgetConfigXml = Mage::getSingleton('Mage_Widget_Model_Widget')
-                ->getXmlElementByType($this->getType());
+                ->getWidgetByClassType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
