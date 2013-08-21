@@ -21,7 +21,7 @@ class Mage_User_Helper_Data extends Mage_Core_Helper_Abstract
      * Configuration path to expiration period of reset password link
      */
     const XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD
-        = 'default/admin/emails/password_reset_link_expiration_period';
+        = 'admin/emails/password_reset_link_expiration_period';
 
     /**
      * Generate unique token for reset password confirmation link
@@ -40,6 +40,6 @@ class Mage_User_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) Mage::getConfig()->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD);
+        return (int) Mage::getConfig()->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
     }
 }

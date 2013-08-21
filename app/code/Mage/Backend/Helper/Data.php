@@ -154,9 +154,10 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $this->_areaFrontName = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
-                (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH) :
-                (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
+            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
+            $this->_areaFrontName = $isCustomPathUsed
+                ? (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
+                : (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
         }
         return $this->_areaFrontName;
     }

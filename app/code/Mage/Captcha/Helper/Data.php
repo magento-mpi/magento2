@@ -35,7 +35,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Captcha fonts path
      */
-    const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
+    const XML_PATH_CAPTCHA_FONTS = 'captcha/fonts';
 
     /**
      * Default captcha type
@@ -136,7 +136,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFonts()
     {
-        $fontsConfig = $this->_config->getValue(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS);
+        $fontsConfig = $this->_config->getValue(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS, 'default');
         $fonts = array();
         if ($fontsConfig) {
             $libDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LIB);

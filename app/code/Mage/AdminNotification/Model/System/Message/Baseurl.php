@@ -63,11 +63,13 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     {
         $output = '';
         $defaultUnsecure = $this->_config->getValue(
-            'default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            'default'
         );
 
         $defaultSecure = $this->_config->getValue(
-            'default/' . Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            'default'
         );
 
         if ($defaultSecure == Mage_Core_Model_Store::BASE_URL_PLACEHOLDER

@@ -30,7 +30,7 @@ abstract class Mage_Captcha_Model_Config_Form_Abstract extends Mage_Core_Model_C
     public function toOptionArray()
     {
         $optionArray = array();
-        $backendConfig = Mage::getConfig()->getValue($this->_configPath);
+        $backendConfig = Mage::getConfig()->getValue($this->_configPath, 'default');
         if ($backendConfig) {
             foreach ($backendConfig as $formName => $formConfig) {
                 /* @var $formConfig Mage_Core_Model_Config_Element */

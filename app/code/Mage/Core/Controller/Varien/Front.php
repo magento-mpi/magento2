@@ -16,7 +16,7 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     /**
      * Prevent redirect to baseUrl for some areas (use for VDE into Magento Go)
      */
-    const XML_FORBIDDEN_FOR_REDIRECT_AREAS = 'default/web/forbiddenForRedirectAreas';
+    const XML_FORBIDDEN_FOR_REDIRECT_AREAS = 'web/forbiddenForRedirectAreas';
 
     /**
      * @var Mage_Core_Controller_Varien_Router_Factory

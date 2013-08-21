@@ -32,7 +32,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomNotSet()
     {
         $this->_configMock->expects($this->at(0))->method('getNode')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
+            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
         $this->_configMock->expects($this->at(1))->method('getNode')
@@ -45,11 +45,11 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomIsSet()
     {
         $this->_configMock->expects($this->at(0))->method('getNode')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
+            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(true));
 
         $this->_configMock->expects($this->at(1))->method('getNode')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH)
+            ->with(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue('control'));
 
         $this->assertEquals('control', $this->_helper->getAreaFrontName());
@@ -58,7 +58,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAreaFrontNameReturnsEmptyStringIfAreaFrontNameDoesntExist()
     {
         $this->_configMock->expects($this->at(0))->method('getNode')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
+            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
         $this->_configMock->expects($this->at(1))->method('getNode')

@@ -44,7 +44,7 @@ class Mage_Cron_Model_Observer
         $scheduleLifetime = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
         $jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
-        $defaultJobsRoot = Mage::getConfig()->getValue('default/crontab/jobs');
+        $defaultJobsRoot = Mage::getConfig()->getValue('crontab/jobs', 'default');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
@@ -157,7 +157,7 @@ class Mage_Cron_Model_Observer
         /**
          * generate configurable crontab jobs
          */
-        $config = Mage::getConfig()->getValue('default/crontab/jobs');
+        $config = Mage::getConfig()->getValue('crontab/jobs', 'default');
         if ($config) {
             $this->_generateJobs($config, $exists);
         }

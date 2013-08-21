@@ -33,7 +33,7 @@ class Mage_Core_Helper_Hint extends Mage_Core_Helper_Abstract
     {
         if (null === $this->_availableHints) {
             $hints = array();
-            $config = Mage::getConfig()->getValue('default/hints');
+            $config = Mage::getConfig()->getValue('hints', 'default');
             if ($config) {
                 foreach ($config as $type => $configValue) {
                     if (isset($configValue['enabled']) && $configValue['enabled']) {

@@ -17,8 +17,7 @@
  */
 class Mage_Page_Helper_Robots extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS =
-        'default/design/search_engine_robots/default_custom_instructions';
+    const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
 
     /**
      * Get default value of custom instruction in robots.txt from config
@@ -27,6 +26,6 @@ class Mage_Page_Helper_Robots extends Mage_Core_Helper_Abstract
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return trim((string)Mage::getConfig()->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS));
+        return trim((string)Mage::getConfig()->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS, 'default'));
     }
 }

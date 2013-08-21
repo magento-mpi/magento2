@@ -86,7 +86,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $languages = array('en', 'ru', 'uk');
         $this->_configMock->expects($this->once())->method('getNode')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGES)
+            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGES, 'default')
             ->will($this->returnValue($this->_configNodeMock));
         $this->_configNodeMock->expects($this->once())->method('asArray')
             ->will($this->returnValue($languages));
@@ -113,7 +113,7 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $convertArray = array('zh_TW' => 'zh_Hant', 'iw' => 'he', 'zh_CN' => 'zh_Hans');
         $this->_configMock->expects($this->once())->method('getNode')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGE_CONVERT)
+            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_LANGUAGE_CONVERT, 'default')
             ->will($this->returnValue($this->_configNodeMock));
         $this->_configNodeMock->expects($this->once())->method('asArray')
             ->will($this->returnValue($convertArray));
@@ -128,7 +128,8 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
         $imgSrc = sprintf('https://www.googleadservices.com/pagead/conversion/%s/?label=%s&amp;guid=ON&amp;script=0',
             $conversionId, $label);
         $this->_configMock->expects($this->once())->method('getNode')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_IMG_SRC)->will($this->returnValue($imgSrc));
+            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_IMG_SRC, 'default')
+            ->will($this->returnValue($imgSrc));
         $this->assertEquals($imgSrc, $this->_helper->getConversionImgSrc());
     }
 
@@ -136,7 +137,8 @@ class Mage_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $jsSrc = 'some-js-src';
         $this->_configMock->expects($this->once())->method('getNode')
-            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_JS_SRC)->will($this->returnValue($jsSrc));
+            ->with(Mage_GoogleAdwords_Helper_Data::XML_PATH_CONVERSION_JS_SRC, 'default')
+            ->will($this->returnValue($jsSrc));
         $this->assertEquals($jsSrc, $this->_helper->getConversionJsSrc());
     }
 

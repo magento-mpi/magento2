@@ -20,5 +20,5 @@ class Mage_Captcha_Model_Config_Form_Frontend extends Mage_Captcha_Model_Config_
     /**
      * @var string
      */
-    protected $_configPath = 'default/captcha/frontend/areas';
+    protected $_configPath = 'captcha/frontend/areas';
 }

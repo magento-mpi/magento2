@@ -91,7 +91,7 @@ class Mage_Core_Model_Config_Value extends Mage_Core_Model_Abstract
         if ($websiteCode) {
             return Mage::app()->getWebsite($websiteCode)->getConfig($path);
         }
-        return (string) Mage::getConfig()->getValue('default/' . $path);
+        return (string) Mage::getConfig()->getValue($path, 'default');
     }
 
 

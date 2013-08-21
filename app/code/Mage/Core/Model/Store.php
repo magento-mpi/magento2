@@ -703,7 +703,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         if ($this->_isAdminSecure === null) {
             $this->_isAdminSecure = (boolean) (int) (string) Mage::getConfig()
-                ->getValue(Mage_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN);
+                ->getValue(Mage_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN, 'default');
         }
         return $this->_isAdminSecure;
     }
