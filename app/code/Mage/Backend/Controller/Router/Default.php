@@ -43,6 +43,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config_Scope $configScope
      * @param Mage_Core_Model_Route_Config $routeConfig
+     * @param Mage_Backend_Helper_Data $dataHelper
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -55,6 +56,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config_Scope $configScope,
         Mage_Core_Model_Route_Config $routeConfig,
+        Mage_Backend_Helper_Data $dataHelper,
         $areaCode,
         $baseController,
         $routerId,
@@ -63,7 +65,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
             $baseController, $routerId);
 
-        $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+        $this->_areaFrontName = $dataHelper->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
 
         if (empty($this->_areaFrontName)) {
