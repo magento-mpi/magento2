@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'default/admin/url/use_custom';
@@ -24,7 +27,6 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @var string
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     protected $_defaultAreaFrontName;
 
@@ -40,7 +42,6 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_RouterList $routerList
      * @param string $defaultAreaFrontName
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         Mage_Core_Model_Config $applicationConfig,
@@ -169,7 +170,6 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      * Return Backend area front name
      *
      * @return string
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function getAreaFrontName()
     {
