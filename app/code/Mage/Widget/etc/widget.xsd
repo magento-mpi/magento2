@@ -102,7 +102,7 @@
     <complexType name="select">
         <complexContent>
             <extension base="tns:parameterType">
-                <sequence>
+                <sequence maxOccurs="unbounded" minOccurs="0">
                     <element name="option" type="tns:optionType"></element>
                 </sequence>
             </extension>
