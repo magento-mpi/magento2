@@ -99,23 +99,6 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Default', $this->_model->getRouterByRoute('test'));
     }
 
-    public function testGetRouterByFrontName()
-    {
-        $this->_model->init();
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByFrontName('')
-        );
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByFrontName('checkout')
-        );
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Default',
-            $this->_model->getRouterByFrontName('test')
-        );
-    }
-
     /**
      * @param string $sourcePath
      * @param string $resultPath
