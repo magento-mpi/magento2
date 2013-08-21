@@ -56,9 +56,8 @@ class Mage_Core_Model_RouterList
 
     protected function _loadRouters()
     {
-        foreach ($this->_getSortedRouterList() as $routerCode => $routerData)
-        {
-            if (!$routerData['disable'] && $routerData['class']) {
+        foreach ($this->_getSortedRouterList() as $routerCode => $routerData) {
+            if ((!isset($routerData['disable']) || !$routerData['disable']) && $routerData['class']) {
                 $this->_activeRouters[$routerCode] = $this->_objectManager->create($routerData['class']);
             }
         }
