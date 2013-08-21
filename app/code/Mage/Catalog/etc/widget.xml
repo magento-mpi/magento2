@@ -14,11 +14,10 @@
             placeholder_image="Mage_Catalog::images/product_widget_new.gif" translate="label description">
         <label>Catalog New Products List</label>
         <description>List of Products that are set as New</description>
-        <parameter name="display_type" xsi:type="select" required="true" visible="true" value="all_products"
-                   translate="label description">
+        <parameter name="display_type" xsi:type="select" required="true" visible="true" translate="label description">
             <label>Display Type</label>
             <description>All products - recently added products, New products - products marked as new</description>
-            <option name="default" value="all_products" translate="label">
+            <option name="default" value="all_products" selected="true" translate="label">
                 <label>All products</label>
             </option>
             <option name="item" value="new_products" translate="label">
@@ -38,10 +37,9 @@
         <parameter name="products_count" xsi:type="text" required="true" visible="true" value="10" translate="label">
             <label>Number of Products to Display</label>
         </parameter>
-        <parameter name="template" xsi:type="select" required="true" visible="true" value="product/widget/new/content/new_grid.phtml"
-                   translate="label">
+        <parameter name="template" xsi:type="select" required="true" visible="true" translate="label">
             <label>Template</label>
-            <option name="default" value="product/widget/new/content/new_grid.phtml" translate="label">
+            <option name="default" value="product/widget/new/content/new_grid.phtml" selected="true" translate="label">
                 <label>New Products Grid Template</label>
             </option>
             <option name="list" value="product/widget/new/content/new_list.phtml" translate="label">
@@ -99,9 +97,9 @@
         <parameter name="title" xsi:type="text" visible="true" translate="label">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" xsi:type="select" visible="true" value="product/widget/link/link_block.phtml" translate="label" >
+        <parameter name="template" xsi:type="select" visible="true" translate="label" >
             <label>Template</label>
-            <option name="default" value="product/widget/link/link_block.phtml" translate="label">
+            <option name="default" value="product/widget/link/link_block.phtml" selected="true" translate="label">
                 <label>Product Link Block Template</label>
             </option>
             <option name="link_inline" value="product/widget/link/link_inline.phtml" translate="label">
@@ -131,9 +129,9 @@
         <parameter name="title" xsi:type="text" visible="true" translate="label">
             <label>Anchor Custom Title</label>
         </parameter>
-        <parameter name="template" xsi:type="select" visible="true" value="category/widget/link/link_block.phtml" translate="label">
+        <parameter name="template" xsi:type="select" visible="true" translate="label">
             <label>Template</label>
-            <option name="default" value="category/widget/link/link_block.phtml" translate="label">
+            <option name="default" value="category/widget/link/link_block.phtml" selected="true" translate="label">
                 <label>Category Link Block Template</label>
             </option>
             <option name="link_inline" value="category/widget/link/link_inline.phtml" translate="label">
