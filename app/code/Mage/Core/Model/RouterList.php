@@ -73,7 +73,7 @@ class Mage_Core_Model_RouterList
      */
     protected function _getSortedRouterList()
     {
-        usort($this->_routerList, array($this, '_compareItemsSortOrder'));
+        uasort($this->_routerList, array($this, '_compareRoutersSortOrder'));
         return $this->_routerList;
     }
 
@@ -86,8 +86,8 @@ class Mage_Core_Model_RouterList
      */
     protected function _compareRoutersSortOrder($routerData1, $routerData2)
     {
-        if ($routerData1['sortOrder'] == $routerData1['sortOrder']) return 0;
-        return ($routerData1['sortOrder'] < $routerData2['sortOrder']) ? 1 : -1;
+        if ((int)$routerData1['sortOrder'] == (int)$routerData2['sortOrder']) return 0;
+        return ((int)$routerData1['sortOrder'] < (int)$routerData2['sortOrder']) ? -1 : 1;
     }
 
     /**
@@ -98,7 +98,7 @@ class Mage_Core_Model_RouterList
      */
     public function getRouterByRoute($routeId)
     {
-        $activeRouters = $this->_loadRouters();
+        $activeRouters = $this->getRouters();
         // empty route supplied - return base url
         if (empty($routeId)) {
             return $activeRouters['standard'];
@@ -137,8 +137,7 @@ class Mage_Core_Model_RouterList
      */
     public function getRouterByFrontName($frontName)
     {
-        $activeRouters = $this->_loadRouters();
-
+        $activeRouters = $this->getRouters();
         // empty route supplied - return base url
         if (empty($frontName)) {
             return $activeRouters['standard'];
