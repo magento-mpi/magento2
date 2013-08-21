@@ -12,11 +12,11 @@
 <config>
     <global>
         <resources>
-            <enterprise_importexport_setup>
+            <scheduledimportexport_setup>
                 <setup>
                     <module>Magento_ScheduledImportExport</module>
                 </setup>
-            </enterprise_importexport_setup>
+            </scheduledimportexport_setup>
         </resources>
         <template>
             <email>
