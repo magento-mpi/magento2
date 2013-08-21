@@ -14,8 +14,8 @@
  */
 class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Abstract
 {
-    const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl_deny';
-    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/enterprise/admingws/';
+    const XML_PATH_ACL_DENY_RULES = 'adminhtml/magento/admingws/acl_deny';
+    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/magento/admingws/';
 
     const ACL_WEBSITE_LEVEL = 'website_level';
     const ACL_STORE_LEVEL = 'store_level';
