@@ -83,7 +83,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
 
         $this->getFront()->setDefault(array(
             'area'       => $this->_getParamWithDefaultValue($pathParts, 0, ''),
-            'module'     => $this->_getParamWithDefaultValue($pathParts, 1,$moduleFrontName),
+            'module'     => $this->_getParamWithDefaultValue($pathParts, 1, $moduleFrontName),
             'controller' => $this->_getParamWithDefaultValue($pathParts, 2, 'index'),
             'action'     => $this->_getParamWithDefaultValue($pathParts, 3, 'index'),
         ));
