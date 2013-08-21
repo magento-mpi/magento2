@@ -26,7 +26,9 @@ class Mage_Core_Model_Config_Section_ReaderPool
     ) {
         $this->_readers = array(
             'default' => $default,
+            'website' => $website,
             'websites' => $website,
+            'store' => $store,
             'stores' => $store
         );
     }

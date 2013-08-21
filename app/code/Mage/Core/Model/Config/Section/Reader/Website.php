@@ -69,13 +69,11 @@ class Mage_Core_Model_Config_Section_Reader_Website
             $dbWebsiteConfig[$configValue->getPath()] = $configValue->getValue();
         }
         $dbWebsiteConfig = $this->_converter->convert($dbWebsiteConfig);
-
-        $this->_initialConfig->getWebsite($code);
         $merged = array_replace_recursive(
             $this->_sectionPool->getSection('default')->getValue(), $this->_initialConfig->getWebsite($code)
         );
-        if (isset($dbWebsiteConfig)) {
-            $merged = array_replace_recursive($this->_initialConfig->getWebsite($code), $dbWebsiteConfig);
+        if (count($dbWebsiteConfig)) {
+            $merged = array_replace_recursive($merged, $dbWebsiteConfig);
         }
         return $merged;
     }
