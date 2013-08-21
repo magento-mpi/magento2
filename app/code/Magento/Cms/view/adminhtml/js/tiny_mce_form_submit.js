@@ -14,6 +14,6 @@
     $(document).ready(function() {
         $(document).on("beforeSubmit", function(event) {
             return event.target.submit();
-        })
+        });
     });
 })( jQuery );
