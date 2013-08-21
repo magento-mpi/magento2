@@ -28,7 +28,7 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }

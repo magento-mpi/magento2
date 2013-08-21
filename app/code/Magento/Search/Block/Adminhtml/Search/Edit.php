@@ -25,8 +25,8 @@ class Magento_Search_Block_Adminhtml_Search_Edit extends Magento_Adminhtml_Block
     {
         $this->_blockGroup = 'Magento_Search';
         $this->_controller = 'adminhtml_search';
-        $this->_headerText = Mage::helper('Magento_Search_Helper_Data')->__('Related Search Terms');
-        $this->_addButtonLabel = Mage::helper('Magento_Search_Helper_Data')->__('Add New Search Term');
+        $this->_headerText = __('Related Search Terms');
+        $this->_addButtonLabel = __('Add New Search Term');
         parent::_construct();
         $this->_removeButton('add');
     }
