@@ -40,7 +40,7 @@
         <xs:sequence>
             <xs:element ref="argument" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="translate"/>
+        <xs:attribute name="translate" use="optional" fixed="true" type="xs:boolean"/>
     </xs:complexType>
 
     <xs:complexType name="updaterType">
@@ -118,16 +118,15 @@
             <xs:element ref="reference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="label" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="id" use="required"/>
-        <xs:attribute type="xs:string" name="translate"/>
         <xs:attribute type="xs:string" name="type"/>
         <xs:attribute type="xs:string" name="parent"/>
         <xs:attribute type="xs:string" name="owner"/>
+        <xs:attribute type="xs:string" name="label"/>
     </xs:complexType>
 
     <xs:complexType name="referenceType">
@@ -197,7 +196,6 @@
         <xs:attribute type="xs:string" name="output" use="optional"/>
         <xs:attribute type="xs:string" name="acl" use="optional"/>
         <xs:attribute type="xs:string" name="label" use="optional"/>
-        <xs:attribute type="xs:string" name="translate" use="optional"/>
         <xs:attribute type="xs:string" name="alias" use="optional"/>
         <xs:attribute type="xs:string" name="ifconfig" use="optional"/>
     </xs:complexType>
@@ -222,7 +220,6 @@
             <xs:element ref="argument" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="method" use="required"/>
-        <xs:attribute type="xs:string" name="translate" use="optional"/>
         <xs:attribute type="xs:string" name="enabled" use="optional"/>
         <xs:attribute type="xs:string" name="ifconfig" use="optional"/>
     </xs:complexType>
