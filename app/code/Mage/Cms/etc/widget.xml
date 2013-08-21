@@ -9,8 +9,11 @@
  * @license     {license_link}
  */
 -->
-<widgets>
-    <widget id="cms_page_link" class="Mage_Cms_Block_Widget_Page_Link" translate="name description"
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
+
+    <widget id="cms_page_link" class="Mage_Cms_Block_Widget_Page_Link" translate="label description"
             module="Mage_Cms" is_email_compatible="true"
             placeholder_image="Mage_Cms::images/widget_page_link.gif">
         <label>CMS Page Link</label>
@@ -44,14 +47,14 @@
             </option>
         </parameter>
     </widget>
-    <widget id="cms_static_block" type="Mage_Cms_Block_Widget_Block" translate="name description"
+    <widget id="cms_static_block" class="Mage_Cms_Block_Widget_Block" translate="label description"
             module="Mage_Cms" placeholder_image="Mage_Cms::images/widget_block.gif">
         <label>CMS Static Block</label>
         <description>Contents of a Static Block</description>
         <parameter name="block_id" xsi:type="value_renderer" translate="label" visible="true"
-                   required="true">
+                   required="true" sort_order="20">
             <label>Block</label>
-            <renderer class="Mage_Adminhtml_Block_Cms_Block_Widget_Choose">
+            <renderer class="Mage_Adminhtml_Block_Cms_Block_Widget_Chooser">
                 <data>
                     <button translate="open">
                         <open>Select Block...</open>
@@ -62,7 +65,7 @@
         <parameter name="template" xsi:type="select" translate="label" visible="true" required="true"
                    sort_order="10">
             <label>Template</label>
-            <option id="default" translate="label" value="widget/static_block/default.phtml"
+            <option name="default" translate="label" value="widget/static_block/default.phtml"
                     selected="true">
                 <label>CMS Static Block Default Template</label>
             </option>
