@@ -8,23 +8,34 @@
 class Mage_Core_Model_Config_Section_ReaderPool
 {
     /**
+     * List of readers
+     *
      * @var array
      */
     protected $_readers = array();
 
+    /**
+     * @param Mage_Core_Model_Config_Section_Reader_DefaultReader $default
+     * @param Mage_Core_Model_Config_Section_Reader_Website $website
+     * @param Mage_Core_Model_Config_Section_Reader_Store $store
+     */
     public function __construct(
         Mage_Core_Model_Config_Section_Reader_DefaultReader $default,
-        Mage_Core_Model_Config_Section_Reader_Website $website
+        Mage_Core_Model_Config_Section_Reader_Website $website,
+        Mage_Core_Model_Config_Section_Reader_Store $store
     ) {
         $this->_readers = array(
             'default' => $default,
-            'website' => $website
+            'websites' => $website,
+            'stores' => $store
         );
     }
 
     /**
+     * Retrieve reader by scope
+     *
      * @param string $scope
-     * @return
+     * @return mixed
      */
     public function getReader($scope)
     {

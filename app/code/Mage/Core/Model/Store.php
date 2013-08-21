@@ -355,9 +355,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         /** @var $config Mage_Core_Model_Config */
         $config = Mage::getSingleton('Mage_Core_Model_Config');
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
-        $data = $config->getValue($fullPath);
+        $data = $config->getValue($path, 'stores', $this->getCode());
         if (!$data && !$this->_appState->isInstalled()) {
-            $data = $config->getValue('default/' . $path);
+            $data = $config->getValue($path, 'default');
         }
         if (!$data) {
             return null;
