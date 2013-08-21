@@ -9,9 +9,12 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
+
     <widget id="cms_hierarchy_node" class="Enterprise_Cms_Block_Widget_Node" is_email_compatible="true"
-            translate="name description" module="Enterprise_Cms"
+            translate="label description" module="Enterprise_Cms"
             placeholder_image="Enterprise_Cms::widget_node.gif">
         <label>CMS Hierarchy Node Link</label>
         <description>Link to Specified CMS Hierarchy Node</description>
