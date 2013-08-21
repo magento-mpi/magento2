@@ -201,31 +201,6 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     }
 
     /**
-     * @param string $frontName
-     * @return Mage_Core_Controller_Varien_Router_Abstract
-     */
-    public function getRouterByFrontName($frontName)
-    {
-        // empty route supplied - return base url
-        if (empty($frontName)) {
-            $router = $this->getRouter('standard');
-        } elseif ($this->getRouter('admin')->getRouteByFrontName($frontName)) {
-            // try standard router url assembly
-            $router = $this->getRouter('admin');
-        } elseif ($this->getRouter('standard')->getRouteByFrontName($frontName)) {
-            // try standard router url assembly
-            $router = $this->getRouter('standard');
-        } elseif ($router = $this->getRouter($frontName)) {
-            // try custom router url assembly
-        } else {
-            // get default router url
-            $router = $this->getRouter('default');
-        }
-
-        return $router;
-    }
-
-    /**
      * Apply configuration rewrites to current url
      *
      * @param Mage_Core_Controller_Request_Http $request

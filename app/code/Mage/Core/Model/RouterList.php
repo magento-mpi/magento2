@@ -33,10 +33,17 @@ class Mage_Core_Model_RouterList
      * @param Magento_ObjectManager $objectManager
      * @param array $routerList
      */
-    public function __construct(Magento_ObjectManager $objectManager,array $routerList)
+    public function __construct(Magento_ObjectManager $objectManager, array $routerList)
     {
         $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;
+
+        foreach ($this->_getSortedRouterList() as $routerCode => $routerData)
+        {
+            if (!$routerData['disable'] && $routerData['class']) {
+                $this->_activeRouters[$routerCode] = $this->_objectManager->create($routerData['class']);
+            }
+        }
     }
 
     /**
@@ -47,17 +54,6 @@ class Mage_Core_Model_RouterList
      */
     public function getRouters()
     {
-        if (!empty($this->_activeRouters)) {
-            return $this->_activeRouters;
-        }
-
-        foreach ($this->_getSortedList() as $routerCode => $routerData)
-        {
-            if (!$routerData['disable'] && $routerData['class']) {
-                $this->_activeRouters[$routerCode] = $this->_objectManager->create($routerData['class']);
-            }
-        }
-
         return $this->_activeRouters;
     }
 
@@ -66,7 +62,7 @@ class Mage_Core_Model_RouterList
      *
      * @return array
      */
-    protected function _getSortedList()
+    protected function _getSortedRouterList()
     {
         usort($this->_routerList, '_compareItemsSortOrder');
         return $this->_routerList;
@@ -93,8 +89,6 @@ class Mage_Core_Model_RouterList
      */
     public function getRouterByRoute($routeId)
     {
-        $this->getRouters();
-
         // empty route supplied - return base url
         if (empty($routeId)) {
             return $this->_activeRouters['standard'];
@@ -117,6 +111,37 @@ class Mage_Core_Model_RouterList
         if (isset($this->_activeRouters[$routeId])) {
             $router = $this->_activeRouters[$routeId];
             if ($router->getFrontNameByRoute($routeId)) {
+                return $router;
+            }
+        }
+
+        $router = $this->_activeRouters['default'];;
+        return $router;
+    }
+
+    /**
+     * Get router by frontName
+     *
+     * @param string $frontName
+     * @return Mage_Core_Controller_Varien_Router_Abstract
+     */
+    public function getRouterByFrontName($frontName)
+    {
+        // empty route supplied - return base url
+        if (empty($frontName)) {
+            return $this->_activeRouters['standard'];
+        }
+
+        if (isset($this->_activeRouters['admin'])) {
+            $router = $this->_activeRouters['admin'];
+            if ($router->getRouteByFrontname($frontName)) {
+                return $router;
+            }
+        }
+
+        if (isset($this->_activeRouters['standard'])) {
+            $router = $this->_activeRouters['standard'];
+            if ($router->getRouteByFrontname($frontName)) {
                 return $router;
             }
         }
