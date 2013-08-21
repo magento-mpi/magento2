@@ -15,7 +15,7 @@
  * @package    Enterpise_CatalogEvent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogEvent_Model_Resource_Event_Grid_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_CatalogEvent_Model_Resource_Event_Grid_Statuses implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Return statuses option array

@@ -8,20 +8,20 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Url $urlModel
-     * @param Mage_SalesRule_Model_Resource_Rule_Collection $ruleCollection
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_SalesRule_Model_Resource_Rule_Collection $ruleCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Url $urlModel,
-        Mage_SalesRule_Model_Resource_Rule_Collection $ruleCollection,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_SalesRule_Model_Resource_Rule_Collection $ruleCollection,
         array $data = array()
     ) {
         parent::__construct($context, $storeManager, $urlModel, $data);
@@ -75,7 +75,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
     /**
      * Create grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

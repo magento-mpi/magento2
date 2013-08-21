@@ -34,7 +34,7 @@ class Enterprise_CatalogEvent_Block_Catalog_Product_Event extends Enterprise_Cat
     /**
      * Return current category
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     public function getProduct()
     {

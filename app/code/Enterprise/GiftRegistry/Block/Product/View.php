@@ -11,7 +11,7 @@
 /**
  * Front end helper block to show GiftRegistry mark
  */
-class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Product_View
+class Enterprise_GiftRegistry_Block_Product_View extends Magento_Catalog_Block_Product_View
 {
     /**
      * GiftRegistry param flag value in url option params

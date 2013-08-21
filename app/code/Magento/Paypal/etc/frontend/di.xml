@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <virtualType name="Magento_Paypal_Model_Session" type="Magento_Core_Model_Session_Generic">
+        <param name="sessionNamespace">
+            <value>paypal</value>
+        </param>
+        <param name="sessionName">
+            <value>frontend</value>
+        </param>
+    </virtualType>
+</config>

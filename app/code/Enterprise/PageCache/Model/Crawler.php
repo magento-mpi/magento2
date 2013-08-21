@@ -34,7 +34,7 @@
  * @package     Enterprise_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
+class Enterprise_PageCache_Model_Crawler extends Magento_Core_Model_Abstract
 {
     /**
      * Crawler settings
@@ -122,8 +122,8 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
      */
     public function crawl()
     {
-        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         if (!$cacheState->isEnabled('full_page')) {
             return $this;
         }

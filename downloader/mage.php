@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@ define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
 define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
 
-class __cli_Mage_Connect
+class __cli_Magento_Connect
 {
     private static $_instance;
     protected $argv;
@@ -136,5 +136,5 @@ class __cli_Mage_Connect
 }
 
 if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) {
-    __cli_Mage_Connect::instance()->init($argv)->run();
+    __cli_Magento_Connect::instance()->init($argv)->run();
 }

@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='search.edit.grid.columnSet' as='grid.columnSet'>
+                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='search.edit.grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -34,7 +34,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='query_id_selected'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='query_id_selected'>
                         <arguments>
                             <index>query_id</index>
                             <id>query_id_selected</id>
@@ -45,20 +45,20 @@
                             <align>center</align>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='query_id'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='query_id'>
                         <arguments>
                             <header translate='true'>ID</header>
                             <index>query_id</index>
                             <width>50px</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='search_query'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='search_query'>
                         <arguments>
                             <header translate='true'>Search Query</header>
                             <index>query_text</index>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='store_id'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='store_id'>
                         <arguments>
                             <header translate='true'>Store</header>
                             <index>store_id</index>
@@ -67,21 +67,21 @@
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='num_results'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='num_results'>
                         <arguments>
                             <header translate='true'>Results</header>
                             <index>num_results</index>
                             <type>number</type>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='popularity'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='popularity'>
                         <arguments>
                             <header translate='true'>Uses</header>
                             <index>popularity</index>
                             <type>number</type>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='synonym_for'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='synonym_for'>
                         <arguments>
                             <header translate='true'>Synonym</header>
                             <index>synonym_for</index>
@@ -89,7 +89,7 @@
                             <width>160px</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='redirect'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='redirect'>
                         <arguments>
                             <header translate='true'>Redirect URL</header>
                             <index>redirect</index>
@@ -97,7 +97,7 @@
                             <width>200px</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='display_in_terms'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='display_in_terms'>
                         <arguments>
                             <header translate='true'>Suggested Term</header>
                             <sortable>1</sortable>
@@ -117,7 +117,7 @@
                             </options>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='action'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='action'>
                         <arguments>
                             <header translate='true'>Action</header>
                             <index>catalog</index>

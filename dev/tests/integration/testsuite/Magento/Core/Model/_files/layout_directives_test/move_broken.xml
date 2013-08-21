@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <container name="container1" label="Container 1"/>
+    <move element="no_name3"/>
+    <block type="Magento_Core_Block_Text" name="no_name3"/>
+</layout>

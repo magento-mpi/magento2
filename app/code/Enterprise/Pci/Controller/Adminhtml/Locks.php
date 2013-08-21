@@ -12,7 +12,7 @@
  * Locked administrators controller
  *
  */
-class Enterprise_Pci_Controller_Adminhtml_Locks extends Mage_Adminhtml_Controller_Action
+class Enterprise_Pci_Controller_Adminhtml_Locks extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Render page with grid
@@ -49,12 +49,12 @@ class Enterprise_Pci_Controller_Adminhtml_Locks extends Mage_Adminhtml_Controlle
             if ($userIds && is_array($userIds)) {
                 $affectedUsers = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User')
                     ->unlock($userIds);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
                         ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
         catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }

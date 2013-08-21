@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_Backend_Block_Template */?>
+
+<div class="themes-assigned"><?php echo $this->getChildHtml('assigned.theme.list') ?></div>
+<div class="themes-unassigned"><?php echo $this->getChildHtml('unassigned.theme.list') ?></div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function() {
+            $('body').themeDelete();
+        });
+    })(jQuery);
+</script>

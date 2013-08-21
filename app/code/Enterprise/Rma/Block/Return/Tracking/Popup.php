@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Return_Tracking_Popup extends Mage_Shipping_Block_Tracking_Popup
+class Enterprise_Rma_Block_Return_Tracking_Popup extends Magento_Shipping_Block_Tracking_Popup
 {
     /**
      * Retrieve array of tracking info

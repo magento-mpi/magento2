@@ -17,7 +17,7 @@
         <section id="section_1" sortOrder="10" type="text">
             <class>css class</class>
             <label>section label</label>
-            <resource>Mage_Adminhtml::acl</resource>
+            <resource>Magento_Adminhtml::acl</resource>
             <header_css>some css class</header_css>
             <tab>tab_1</tab>
             <group id="group_1" sortOrder="10" type="text">
@@ -25,7 +25,7 @@
                 <comment><![CDATA[group comment]]></comment>
                 <fieldset_css>some css class</fieldset_css>
                 <clone_fields>1</clone_fields>
-                <clone_model>Mage_Some_Model_Name</clone_model>
+                <clone_model>Magento_Some_Model_Name</clone_model>
                 <help_url>some_url</help_url>
                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 <expanded>1</expanded>
@@ -35,10 +35,10 @@
                     <frontend_class>frontend_class_test</frontend_class>
                     <validate>validate_test</validate>
                     <can_be_empty>1</can_be_empty>
-                    <if_module_enabled>Mage_Backend</if_module_enabled>
-                    <frontend_model>Mage_Some_Model_Name</frontend_model>
-                    <backend_model>Mage_Some_Model_Name</backend_model>
-                    <source_model>Mage_Some_Model_Name</source_model>
+                    <if_module_enabled>Magento_Backend</if_module_enabled>
+                    <frontend_model>Magento_Some_Model_Name</frontend_model>
+                    <backend_model>Magento_Some_Model_Name</backend_model>
+                    <source_model>Magento_Some_Model_Name</source_model>
                     <config_path>config/path/test</config_path>
                     <base_url>some_url</base_url>
                     <upload_dir>some_directory</upload_dir>

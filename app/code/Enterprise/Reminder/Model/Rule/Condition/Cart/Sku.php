@@ -15,10 +15,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Sku');
@@ -55,7 +55,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreOptionHash());
+        $this->setValueOption(Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreOptionHash());
         return $this;
     }
 

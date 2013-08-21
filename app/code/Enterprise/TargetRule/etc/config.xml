@@ -69,7 +69,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
+                        <Enterprise_TargetRule before="Magento_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
                     </modules>
                 </args>
             </adminhtml>

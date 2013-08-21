@@ -11,7 +11,7 @@
 /**
  * Reminder rules data helper
  */
-class Enterprise_Reminder_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Reminder_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'promo/enterprise_reminder/enabled';
     const XML_PATH_SEND_LIMIT = 'promo/enterprise_reminder/limit';

@@ -11,7 +11,7 @@
 /**
  * Reminder grid and edit controller
  */
-class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_Controller_Action
+class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Init active menu and set breadcrumb
@@ -80,8 +80,8 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
 
         try {
             $model = $this->_initRule();
-        } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+        } catch (Magento_Core_Exception $e) {
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -89,7 +89,7 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
         $this->_title($model->getId() ? $model->getName() : __('New Reminder Rule'));
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -127,7 +127,7 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -165,11 +165,11 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
 
 
                 $model->loadPost($data);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($model->getData());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($model->getData());
                 $model->save();
 
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You saved the reminder rule.'));
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData(false);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the reminder rule.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData(false);
 
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array(
@@ -179,13 +179,13 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
                     return;
                 }
 
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
+            } catch (Magento_Core_Exception $e) {
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We could not save the reminder rule.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We could not save the reminder rule.'));
                 Mage::logException($e);
             }
         }
@@ -200,14 +200,14 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
         try {
             $model = $this->_initRule();
             $model->delete();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You deleted the reminder rule.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the reminder rule.'));
         }
-        catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+        catch (Magento_Core_Exception $e) {
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We could not delete the reminder rule.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We could not delete the reminder rule.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');
@@ -221,11 +221,11 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Mage_Adminhtml_C
         try {
             $model = $this->_initRule();
             $model->sendReminderEmails();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You matched the reminder rule.'));
-        } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You matched the reminder rule.'));
+        } catch (Magento_Core_Exception $e) {
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addException($e, __('Reminder rule matching error.'));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, __('Reminder rule matching error.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));

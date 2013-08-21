@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     protected $_objectId = 'invitation_id';
     protected $_blockGroup = 'Enterprise_Invitation';

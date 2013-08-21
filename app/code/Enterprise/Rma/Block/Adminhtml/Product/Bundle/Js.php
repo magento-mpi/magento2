@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Js extends Mage_Adminhtml_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Js extends Magento_Adminhtml_Block_Template
 {
     /**
      * Get url for Bundle AJAX Action

@@ -16,8 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners
-extends Mage_Adminhtml_Block_Text_List
-implements Mage_Adminhtml_Block_Widget_Tab_Interface
+extends Magento_Adminhtml_Block_Text_List
+implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare label for tab

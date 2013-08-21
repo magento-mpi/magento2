@@ -16,7 +16,7 @@
  * @package     Enterprise_AdminGws
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_AdminGws_Model_Resource_Collections extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_AdminGws_Model_Resource_Collections extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Class construction & resource initialization

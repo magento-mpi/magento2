@@ -112,7 +112,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_catalogevent before="Mage_Adminhtml">Enterprise_CatalogEvent_Adminhtml</enterprise_catalogevent>
+                        <enterprise_catalogevent before="Magento_Adminhtml">Enterprise_CatalogEvent_Adminhtml</enterprise_catalogevent>
                     </modules>
                 </args>
             </adminhtml>

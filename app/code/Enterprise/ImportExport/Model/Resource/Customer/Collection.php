@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Customer
+ * @category    Magento
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_ImportExport_Model_Resource_Customer_Collection
-    extends Mage_Customer_Model_Resource_Customer_Collection
+    extends Magento_Customer_Model_Resource_Customer_Collection
 {
     /**
      * Additional filters to use
@@ -38,7 +38,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
 
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website Mage_Core_Model_Website */
+            /** @var $website Magento_Core_Model_Website */
             foreach (Mage::app()->getWebsites() as $website) {
                 $tableName  = $rewardResourceModel->getMainTable();
                 $tableAlias = $tableName . $website->getId();
@@ -75,7 +75,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
 
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website Mage_Core_Model_Website */
+            /** @var $website Magento_Core_Model_Website */
             foreach (Mage::app()->getWebsites() as $website) {
                 $tableName  = $customerBalanceResourceModel->getMainTable();
                 $tableAlias = $tableName . $website->getId();

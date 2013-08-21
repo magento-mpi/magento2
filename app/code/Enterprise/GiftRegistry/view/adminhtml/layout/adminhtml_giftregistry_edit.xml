@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_giftregistry_edit>
         <reference name="left">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
         </reference>
     </adminhtml_giftregistry_edit>
 </layout>

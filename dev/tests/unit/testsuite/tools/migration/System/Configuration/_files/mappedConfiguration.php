@@ -43,7 +43,7 @@ return array(
                 ),
                 array(
                     'name' => 'resource',
-                    '#text' => 'Mage_Adminhtml::acl'
+                    '#text' => 'Magento_Adminhtml::acl'
                 ),
                 array(
                     'name' => 'header_css',
@@ -67,7 +67,7 @@ return array(
                         array('name' => 'comment','#cdata-section' => 'group comment'),
                         array('name' => 'fieldset_css', '#text' => 'some css class'),
                         array('name' => 'clone_fields', '#text' => '1'),
-                        array('name' => 'clone_model', '#text' => 'Mage_Some_Model_Name'),
+                        array('name' => 'clone_model', '#text' => 'Magento_Some_Model_Name'),
                         array('name' => 'help_url', '#text' => 'some_url'),
                         array('name' => 'hide_in_single_store_mode', '#text' => '1'),
                         array('name' => 'expanded', '#text' => '1'),
@@ -82,10 +82,10 @@ return array(
                                 array('name' => 'frontend_class', '#text' => 'frontend_class_test'),
                                 array('name' => 'validate', '#text' => 'validate_test'),
                                 array('name' => 'can_be_empty', '#text' => '1'),
-                                array('name' => 'if_module_enabled', '#text' => 'Mage_Backend'),
-                                array('name' => 'frontend_model', '#text' => 'Mage_Some_Model_Name'),
-                                array('name' => 'backend_model', '#text' => 'Mage_Some_Model_Name'),
-                                array('name' => 'source_model', '#text' => 'Mage_Some_Model_Name'),
+                                array('name' => 'if_module_enabled', '#text' => 'Magento_Backend'),
+                                array('name' => 'frontend_model', '#text' => 'Magento_Some_Model_Name'),
+                                array('name' => 'backend_model', '#text' => 'Magento_Some_Model_Name'),
+                                array('name' => 'source_model', '#text' => 'Magento_Some_Model_Name'),
                                 array('name' => 'config_path', '#text' => 'config/path/test'),
                                 array('name' => 'base_url', '#text' => 'some_url'),
                                 array('name' => 'upload_dir','#text' => 'some_directory'),

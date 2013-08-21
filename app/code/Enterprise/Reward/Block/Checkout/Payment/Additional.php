@@ -16,26 +16,26 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Block_Template
 {
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
     }
 
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**

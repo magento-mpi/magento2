@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * Authorize confirm simple template
+ *
+ * @var $this Magento_Oauth_Block_Authorize
+ */
+?>
+<div class="account-login login-only">
+        <div class="page-title">
+            <h1><?php echo __('Confirmation Of Authorization') ?></h1>
+        </div>
+    <?php echo $this->getLayout()->renderElement('messages') ?>
+    <?php if ($this->getVerifier()): ?>
+        <p><?php echo __('Give the verifier code to application administrator') ?></p>
+        <p style="font-size: 14px;"><?php echo __('Verifier code: %1', $this->getVerifier()) ?></p>
+    <?php endif; ?>
+</div>

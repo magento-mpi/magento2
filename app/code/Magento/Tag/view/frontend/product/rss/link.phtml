@@ -1,0 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Magento_Tag_Block_Catalog_Product_Rss_Link */
+?>
+<?php if ($this->getLinkUrl()): ?>
+    <a href="<?php echo $this->getLinkUrl(); ?>" class="nobr link-rss"><?php echo __('Subscribe to Feed') ?></a>
+<?php endif; ?>

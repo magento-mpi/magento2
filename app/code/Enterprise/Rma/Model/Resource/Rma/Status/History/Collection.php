@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Model_Resource_Rma_Status_History_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Model initialization

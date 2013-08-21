@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstract
+class Enterprise_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Attributes, allowed for update
@@ -40,14 +40,14 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
     {
         /** @var $collection Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection */
         $collection = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
-        /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+        /** @var $apiHelper Magento_Api_Helper_Data */
+        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {
                 $collection->addFieldToFilter($field, $value);
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         $result = array();
@@ -218,7 +218,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
      * Checks giftcard account data
      *
      * @param  array $giftcardAccountData
-     * @throws Mage_Api_Exception
+     * @throws Magento_Api_Exception
      * @return array
      */
     protected function _prepareCreateGiftcardAccountData($giftcardAccountData)
@@ -237,7 +237,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
      * Checks email notification data
      *
      * @param  null|array $notificationData
-     * @throws Mage_Api_Exception
+     * @throws Magento_Api_Exception
      * @return array
      */
     protected function _prepareCreateNotificationData($notificationData = null)

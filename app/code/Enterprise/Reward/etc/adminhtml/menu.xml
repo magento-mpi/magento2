@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Reward::customer_reward" title="Reward Exchange Rates" module="Enterprise_Reward" sortOrder="20" parent="Mage_Adminhtml::other_settings" action="adminhtml/reward_rate" resource="Enterprise_Reward::rates" dependsOnModule="Enterprise_Reward" dependsOnConfig="enterprise_reward/general/is_enabled"/>
+        <add id="Enterprise_Reward::customer_reward" title="Reward Exchange Rates" module="Enterprise_Reward" sortOrder="20" parent="Magento_Adminhtml::other_settings" action="adminhtml/reward_rate" resource="Enterprise_Reward::rates" dependsOnModule="Enterprise_Reward" dependsOnConfig="enterprise_reward/general/is_enabled"/>
     </menu>
 </config>

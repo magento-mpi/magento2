@@ -37,7 +37,7 @@
  * @package     Enterprise_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
+class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
 {
     const STATUS_NEW      = 'new';
     const STATUS_SENT     = 'sent';
@@ -82,7 +82,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      *
      * @param string $code
      * @return Enterprise_Invitation_Model_Invitation
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function loadByInvitationCode($code)
     {
@@ -108,7 +108,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => Mage::helper('Mage_Core_Helper_Data')->uniqHash(),
+                'protection_code' => Mage::helper('Magento_Core_Helper_Data')->uniqHash(),
                 'status'          => self::STATUS_NEW,
                 'invitation_date' => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),
@@ -122,7 +122,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                     $this->setGroupId($inviter->getGroupId());
                 }
                 if (!$this->hasGroupId()) {
-                    throw new Mage_Core_Exception(__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
+                    throw new Magento_Core_Exception(__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
                 }
             }
             else {
@@ -130,13 +130,13 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             }
 
             if (!(int)$this->getStoreId()) {
-                throw new Mage_Core_Exception(__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
+                throw new Magento_Core_Exception(__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
             }
             $this->makeSureCustomerNotExists();
         }
         else {
             if ($this->dataHasChangedFor('message') && !$this->canMessageBeUpdated()) {
-                throw new Mage_Core_Exception(__("You can't update this message."), self::ERROR_STATUS);
+                throw new Magento_Core_Exception(__("You can't update this message."), self::ERROR_STATUS);
             }
         }
         return parent::_beforeSave();
@@ -168,8 +168,8 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     {
         $this->makeSureCanBeSent();
         $store = Mage::app()->getStore($this->getStoreId());
-        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
-        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $this->getStoreId()))
+        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $this->getStoreId()))
             ->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
@@ -204,7 +204,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     /**
      * Check and get customer if it was set
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getInviter()
     {
@@ -218,20 +218,20 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     /**
      * Check whether invitation can be sent
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function makeSureCanBeSent()
     {
         if (!$this->getId()) {
-            throw new Mage_Core_Exception(__("We couldn't find an ID for this invitation."), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__("We couldn't find an ID for this invitation."), self::ERROR_INVALID_DATA);
         }
         if ($this->getStatus() !== self::STATUS_NEW) {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 __('We cannot send an invitation with status "%1".', $this->getStatus()), self::ERROR_STATUS
             );
         }
         if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            throw new Mage_Core_Exception(__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
         }
         $this->makeSureCustomerNotExists();
     }
@@ -241,7 +241,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      *
      * @param string $email
      * @param string $websiteId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function makeSureCustomerNotExists($email = null, $websiteId = null)
     {
@@ -249,24 +249,24 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             $websiteId = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
         }
         if (!$websiteId) {
-            throw new Mage_Core_Exception(__("We can't identify the proper website."), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__("We can't identify the proper website."), self::ERROR_INVALID_DATA);
         }
         if (null === $email) {
             $email = $this->getEmail();
         }
         if (!$email) {
-            throw new Mage_Core_Exception(__('Please specify an email.'), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__('Please specify an email.'), self::ERROR_INVALID_DATA);
         }
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {
             return;
         }
-        throw new Mage_Core_Exception(
+        throw new Magento_Core_Exception(
             __('This invitation is addressed to a current customer: "%1".', $email), self::ERROR_CUSTOMER_EXISTS
         );
     }
@@ -275,22 +275,22 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      * Check whether this invitation can be accepted
      *
      * @param int|string $websiteId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function makeSureCanBeAccepted($websiteId = null)
     {
         $messageInvalid = __('This invitation is not valid.');
         if (!$this->getId()) {
-            throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
+            throw new Magento_Core_Exception($messageInvalid, self::ERROR_STATUS);
         }
         if (!in_array($this->getStatus(), array(self::STATUS_NEW, self::STATUS_SENT))) {
-            throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
+            throw new Magento_Core_Exception($messageInvalid, self::ERROR_STATUS);
         }
         if (null === $websiteId) {
             $websiteId = Mage::app()->getWebsite()->getId();
         }
         if ($websiteId != Mage::app()->getStore($this->getStoreId())->getWebsiteId()) {
-            throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
+            throw new Magento_Core_Exception($messageInvalid, self::ERROR_STATUS);
         }
     }
 
@@ -319,7 +319,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      * Check whether invitation can be sent. Will throw exception on invalid data.
      *
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function canBeSent()
     {
@@ -327,7 +327,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             $this->makeSureCanBeSent();
             return true;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             if ($e->getCode() && $e->getCode() === self::ERROR_INVALID_DATA) {
                 throw $e;
             }
@@ -380,7 +380,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             $this->makeSureCanBeAccepted($websiteId);
             return true;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             // intentionally jammed
         }
         return false;

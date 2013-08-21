@@ -32,7 +32,7 @@
  * @package     Enterprise_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_Abstract
 {
     const STATUS_DISABLED = 0;
     const STATUS_ENABLED  = 1;
@@ -209,7 +209,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      * Remove gift card from quote gift card storage
      *
      * @param bool $saveQuote
-     * @param Mage_Sales_Model_Quote|null $quote
+     * @param Magento_Sales_Model_Quote|null $quote
      * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
      */
     public function removeFromCart($saveQuote = true, $quote = null)
@@ -242,11 +242,11 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     /**
      * Return checkout/session model singleton
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -260,7 +260,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             return false;
         }
 
-        $currentDate = strtotime(Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
+        $currentDate = strtotime(Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
 
         if (strtotime($this->getDateExpires()) < $currentDate) {
             return true;
@@ -441,7 +441,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 $this->_throwException(sprintf('Gift card account %s is not redeemable.', $this->getId()));
             }
             if (is_null($customerId)) {
-                $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+                $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
             }
             if (!$customerId) {
                 Mage::throwException(__('You supplied an invalid customer ID.'));
@@ -485,7 +485,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
         $balance = Mage::app()->getLocale()->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
-        $email = Mage::getModel('Mage_Core_Model_Email_Template')->setDesignConfig(array('store' => $storeId));
+        $email = Mage::getModel('Magento_Core_Model_Email_Template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
             Mage::getStoreConfig('giftcard/giftcardaccount_email/template', $storeId),
             Mage::getStoreConfig('giftcard/giftcardaccount_email/identity', $storeId),
@@ -529,13 +529,13 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     /**
      * Obscure real exception message to prevent brute force attacks
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param string $realMessage
      * @param string $fakeMessage
      */
     protected function _throwException($realMessage, $fakeMessage = '')
     {
-        $e = Mage::exception('Mage_Core', $realMessage);
+        $e = Mage::exception('Magento_Core', $realMessage);
         Mage::logException($e);
         if (!$fakeMessage) {
             $fakeMessage = __('Please correct the gift card code.');

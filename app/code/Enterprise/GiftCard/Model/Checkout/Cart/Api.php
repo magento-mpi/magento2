@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Api_Resource
+class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Api_Resource
 {
     /**
      * List gift cards account belonging to quote
@@ -18,7 +18,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Ap
      */
     public function items($quoteId, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         $giftcardsList = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
@@ -44,7 +44,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Ap
      */
     public function add($giftcardAccountCode, $quoteId, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
@@ -72,7 +72,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Ap
      */
     public function remove($giftcardAccountCode, $quoteId, $store = null)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */

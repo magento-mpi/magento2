@@ -11,7 +11,7 @@
 /**
  * Gift registry frontend search controller
  */
-class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_Front_Action
 {
     /**
      * Check if gift registry is enabled on current store before all other actions
@@ -29,11 +29,11 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -157,7 +157,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
             return $array;
         }
         if (is_null($format)) {
-            $format = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
+            $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
         }
 
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
@@ -183,7 +183,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
@@ -197,7 +197,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     public function resultsAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
         if ($params = $this->getRequest()->getParam('params')) {
             $this->_getSession()->setRegistrySearchData($params);

@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected function _prepareForm()
@@ -38,7 +38,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
                 'label'    => __('Send From'),
                 'required' => true,
                 'name'     => 'store_id',
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm()
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm()
             ));
         }
 
@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
      */
     public function getShareButton()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->addData(array(
                 'id'      => '',
                 'label'   => __('Share Gift Registry'),

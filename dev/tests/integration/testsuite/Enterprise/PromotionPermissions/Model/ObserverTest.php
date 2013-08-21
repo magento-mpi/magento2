@@ -15,7 +15,7 @@
 class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout = null;
 
@@ -26,11 +26,11 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_moduleListMock = $this->getMock('Mage_Core_Model_ModuleListInterface');
-        Mage::getObjectManager()->addSharedInstance($this->_moduleListMock, 'Mage_Core_Model_ModuleList');
-        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
-            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        Mage::getObjectManager()->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
+        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 
     /**
@@ -38,9 +38,13 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
-        $block = $this->_layout->createBlock('Mage_Adminhtml_Block_Template', $parentBlock);
-        $this->_layout->addBlock('Mage_Adminhtml_Block_Template', $childBlock, $parentBlock);
-        $gridBlock = $this->_layout->addBlock('Mage_Adminhtml_Block_Template', 'banners_grid_serializer', $childBlock);
+        $block = $this->_layout->createBlock('Magento_Adminhtml_Block_Template', $parentBlock);
+        $this->_layout->addBlock('Magento_Adminhtml_Block_Template', $childBlock, $parentBlock);
+        $gridBlock = $this->_layout->addBlock(
+            'Magento_Adminhtml_Block_Template',
+            'banners_grid_serializer',
+            $childBlock
+        );
 
         $this->assertSame(
             $gridBlock,

@@ -10,9 +10,9 @@
 <config>
     <module name="Enterprise_PricePermissions" version="1.11.0.0" active="false">
         <depends>
-            <module name="Mage_Bundle" />
-            <module name="Mage_Catalog" />
-            <module name="Mage_Downloadable" />
+            <module name="Magento_Bundle" />
+            <module name="Magento_Catalog" />
+            <module name="Magento_Downloadable" />
             <module name="Enterprise_GiftCard" />
         </depends>
     </module>

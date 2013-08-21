@@ -34,7 +34,7 @@ class Combine
      *
      * @var array
      */
-    private $_namePatterns = array('#^(Mage_\w+)\.csv$#', '#^(translate).csv$#');
+    private $_namePatterns = array('#^(Magento_\w+)\.csv$#', '#^(translate).csv$#');
 
     /**
      * Pattern of the locale path

@@ -25,7 +25,7 @@
             <enterprise_search_setup>
                 <setup>
                     <module>Enterprise_Search</module>
-                    <class>Mage_Core_Model_Resource_Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </enterprise_search_setup>
         </resources>
@@ -53,7 +53,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_search before="Mage_Adminhtml">Enterprise_Search_Adminhtml</enterprise_search>
+                        <enterprise_search before="Magento_Adminhtml">Enterprise_Search_Adminhtml</enterprise_search>
                     </modules>
                 </args>
             </adminhtml>

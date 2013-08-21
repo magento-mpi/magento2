@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Wishlist_Model_Resource_Item_Collection_Grid">
+        <param name="resource">
+            <instance type="Magento_Wishlist_Model_Resource_Item" />
+        </param>
+    </type>
+</config>

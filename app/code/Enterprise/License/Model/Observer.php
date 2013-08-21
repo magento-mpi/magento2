@@ -46,7 +46,7 @@ class Enterprise_License_Model_Observer
     {
         $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
-            $lastCalculation = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
+            $lastCalculation = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
 
             $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
 
@@ -54,7 +54,7 @@ class Enterprise_License_Model_Observer
 
             $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-            if(!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
+            if(!Mage::getSingleton('Magento_Backend_Model_Auth_Session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
                 $this->_calculateDaysLeftToExpired();
             }
         }
@@ -81,7 +81,7 @@ class Enterprise_License_Model_Observer
 
             $daysLeftBeforeExpired = floor(($expiredTimestamp - time()) / 86400);
 
-            Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setDaysLeftBeforeExpired(
+            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setDaysLeftBeforeExpired(
                 array(
                     'daysLeftBeforeExpired' => $daysLeftBeforeExpired,
                     'updatedAt' => time()

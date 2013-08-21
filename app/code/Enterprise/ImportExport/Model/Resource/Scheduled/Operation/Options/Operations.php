@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Options_Operations
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Enterprise_ImportExport_Model_Scheduled_Operation_Data

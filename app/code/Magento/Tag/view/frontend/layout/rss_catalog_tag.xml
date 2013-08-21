@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <rss_catalog_tag>
+        <block type="Magento_Tag_Block_Catalog_Product_Rss" output="1" name="rss.catalog.product.tag">
+            <action method="addPriceBlockType">
+                <type>msrp_rss</type>
+                <block>Magento_Catalog_Block_Product_Price</block>
+                <template>product/price_msrp_rss.phtml</template>
+            </action>
+        </block>
+    </rss_catalog_tag>
+</layout>

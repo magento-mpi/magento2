@@ -38,11 +38,11 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
     {
         $productId = $this->_getProductId();
 
-        /** @var $product null|Mage_Catalog_Model_Product */
+        /** @var $product null|Magento_Catalog_Model_Product */
         $product = null;
 
         if ($productId) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {
@@ -57,7 +57,7 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
         }
 
         if ($categoryId && !Mage::registry('current_category')) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             if ($category) {
                 Mage::register('current_category', $category);
             }
@@ -68,7 +68,7 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
             return '';
         }
 
-        /** @var $breadcrumbsBlock Mage_Page_Block_Html_Breadcrumbs */
+        /** @var $breadcrumbsBlock Magento_Page_Block_Html_Breadcrumbs */
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();
         $breadcrumbsBlock->setNameInLayout($this->_placeholder->getAttribute('name'));
         $crumbs = $this->_placeholder->getAttribute('crumbs');

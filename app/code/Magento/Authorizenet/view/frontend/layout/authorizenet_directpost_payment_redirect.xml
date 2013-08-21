@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <authorizenet_directpost_payment_redirect translate="label" type="fragment" owner="checkout_onepage_index">
+        <label>AuthorizeNet Directpost Redirect</label>
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block type="Magento_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+        </block>
+    </authorizenet_directpost_payment_redirect>
+</layout>

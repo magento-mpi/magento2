@@ -11,18 +11,18 @@
 /**
  * Gift registry custom attribute config model
  */
-class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abstract
+class Enterprise_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abstract
 {
     protected $_config = null;
     protected $_staticTypes = null;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Mage_Core_Model_Config_StorageInterface
+     * @var Magento_Core_Model_Config_StorageInterface
      */
     protected $_configReader;
 
@@ -33,18 +33,18 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     const XML_ATTRIBUTE_TYPES_PATH = 'prototype/attribute_types';
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

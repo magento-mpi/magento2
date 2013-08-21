@@ -9,22 +9,22 @@
  */
 
 class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
- extends Mage_Adminhtml_Block_Widget
- implements Mage_Adminhtml_Block_Widget_Tab_Interface
+ extends Magento_Adminhtml_Block_Widget
+ implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -133,7 +133,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getEmailTemplates()
     {
         $result = array();
-        $template = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template');
+        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
         $template->setPath(Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);

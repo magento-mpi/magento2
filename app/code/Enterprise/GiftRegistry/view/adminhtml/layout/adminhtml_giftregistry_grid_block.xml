@@ -10,14 +10,14 @@
 <layout version="0.1.0">
     <adminhtml_giftregistry_grid_block>
         <reference name="adminhtml.giftregistry.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.giftregistry.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.giftregistry.grid" as="grid">
                 <arguments>
                     <id>giftregistryGrid</id>
                     <dataSource type="object">Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection</dataSource>
                     <default_sort>type_id</default_sort>
                     <default_dir>ASC</default_dir>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.giftregistry.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.giftregistry.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -26,7 +26,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="type_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="type_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <align>right</align>
@@ -34,26 +34,26 @@
                             <index>type_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
                             <header translate="true">Code</header>
                             <index>code</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="label">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="label">
                         <arguments>
                             <header translate="true">Label</header>
                             <index>label</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sort_order">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
                             <header translate="true">Sort Order</header>
                             <index>sort_order</index>
                             <default>-</default>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_listed">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_listed">
                         <arguments>
                             <header translate="true">Listed</header>
                             <index>is_listed</index>

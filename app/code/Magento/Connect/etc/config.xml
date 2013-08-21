@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Connect
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <connect before="Magento_Adminhtml">Magento_Connect_Adminhtml</connect>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Connect>
+                    <files>
+                        <default>Magento_Connect.csv</default>
+                    </files>
+                </Magento_Connect>
+            </modules>
+        </translate>
+    </adminhtml>
+</config>

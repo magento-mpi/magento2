@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Resource_Fulltext
+class Enterprise_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Resource_Fulltext
 {
     /**
      * Return array of price data per customer and website by products
@@ -164,8 +164,8 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Re
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
-        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $helper */
-        $helper = Mage::getResourceHelper('Mage_Core');
+        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
+        $helper = Mage::getResourceHelper('Magento_Core');
         $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
         $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
         $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');

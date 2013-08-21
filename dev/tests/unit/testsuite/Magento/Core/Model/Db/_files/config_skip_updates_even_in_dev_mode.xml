@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <fixture_module_setup>
+                <setup/>
+            </fixture_module_setup>
+        </resources>
+        <skip_process_modules_updates_ignore_dev_mode>1</skip_process_modules_updates_ignore_dev_mode>
+        <skip_process_modules_updates>1</skip_process_modules_updates>
+    </global>
+</config>

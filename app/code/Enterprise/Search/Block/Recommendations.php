@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
+class Enterprise_Search_Block_Recommendations extends Magento_Core_Block_Template
 {
     /**
      * Retrieve search recommendations
@@ -39,8 +39,8 @@ class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
         }
         $result = array();
 
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $coreHelper Magento_Core_Helper_Data */
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
         foreach ($recommendations as $recommendation) {
             $result[] = array(
                 'word'        => $coreHelper->escapeHtml($recommendation['query_text']),

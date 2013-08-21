@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Magento_Wishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <wishlist_setup>
+                <setup>
+                    <module>Magento_Wishlist</module>
+                </setup>
+            </wishlist_setup>
+        </resources>
+        <template>
+            <email>
+                <wishlist_email_email_template translate="label" module="Magento_Wishlist">
+                    <label>Wishlist Sharing</label>
+                    <file>email/share_notification.html</file>
+                    <type>html</type>
+                </wishlist_email_email_template>
+            </email>
+        </template>
+        <events>
+            <checkout_cart_update_items_before>
+                <observers>
+                    <wishlist>
+                        <class>Magento_Wishlist_Model_Observer</class>
+                        <method>processCartUpdateBefore</method>
+                    </wishlist>
+                </observers>
+            </checkout_cart_update_items_before>
+            <checkout_cart_add_product_complete>
+                <observers>
+                    <wishlist>
+                        <class>Magento_Wishlist_Model_Observer</class>
+                        <method>processAddToCart</method>
+                    </wishlist>
+                </observers>
+            </checkout_cart_add_product_complete>
+        </events>
+        <wishlist>
+            <item>
+                <product_attributes>
+                    <visibility />
+                    <url_path />
+                    <url_key />
+                </product_attributes>
+            </item>
+        </wishlist>
+    </global>
+    <frontend>
+        <routers>
+            <wishlist>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Wishlist</module>
+                    <frontName>wishlist</frontName>
+                </args>
+            </wishlist>
+        </routers>
+        <translate>
+            <modules>
+                <Magento_Wishlist>
+                    <files>
+                        <default>Magento_Wishlist.csv</default>
+                    </files>
+                </Magento_Wishlist>
+            </modules>
+        </translate>
+        <events>
+            <customer_login>
+                <observers>
+                    <wishlist>
+                        <class>Magento_Wishlist_Model_Observer</class>
+                        <method>customerLogin</method>
+                    </wishlist>
+                </observers>
+            </customer_login>
+            <customer_logout>
+                <observers>
+                    <wishlist>
+                        <class>Magento_Wishlist_Model_Observer</class>
+                        <method>customerLogout</method>
+                    </wishlist>
+                </observers>
+            </customer_logout>
+        </events>
+        <secure_url>
+            <wishlist>/wishlist/</wishlist>
+        </secure_url>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Wishlist>
+                    <files>
+                        <default>Magento_Wishlist.csv</default>
+                    </files>
+                </Magento_Wishlist>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <wishlist>
+            <general>
+                <active>1</active>
+            </general>
+            <email>
+                <email_identity>general</email_identity>
+                <email_template>wishlist_email_email_template</email_template>
+                <number_limit>10</number_limit>
+                <text_limit>255</text_limit>
+            </email>
+        </wishlist>
+    </default>
+</config>

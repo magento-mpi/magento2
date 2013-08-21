@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <install_wizard_config>
+        <reference name="database">
+            <action method="setTemplate">
+                <template>db/main.phtml</template>
+            </action>
+            <action method="addDatabaseBlock">
+                <type>mysql4</type>
+                <block>Magento_Install_Block_Db_Type_Mysql4</block>
+                <template>db/mysql4.phtml</template>
+            </action>
+        </reference>
+    </install_wizard_config>
+</layout>

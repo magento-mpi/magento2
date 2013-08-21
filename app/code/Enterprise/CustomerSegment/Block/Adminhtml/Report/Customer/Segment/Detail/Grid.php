@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize grid parameters
@@ -89,7 +89,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             'column_css_class'  => 'col-mail'
         ));
 
-        $groups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
+        $groups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

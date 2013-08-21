@@ -41,7 +41,7 @@
             </block>
         </reference>
         <reference name="before_body_end">
-            <block type="Mage_Adminhtml_Block_Template" template="Enterprise_Rma::edit/mask.phtml"/>
+            <block type="Magento_Adminhtml_Block_Template" template="Enterprise_Rma::edit/mask.phtml"/>
             <block type="Enterprise_Rma_Block_Adminhtml_Product_Bundle_Js" template="edit/bundle/js.phtml" name="enterprise_rma_js_create"/>
         </reference>
     </adminhtml_rma_new>

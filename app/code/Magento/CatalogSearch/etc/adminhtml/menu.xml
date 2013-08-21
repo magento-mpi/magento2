@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CatalogSearch
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_CatalogSearch::catalog_search" title="Search Terms" module="Magento_CatalogSearch" sortOrder="10" parent="Magento_Adminhtml::marketing_seo" action="adminhtml/catalog_search/" resource="Magento_CatalogSearch::search"/>
+    </menu>
+</config>

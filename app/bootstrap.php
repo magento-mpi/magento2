@@ -24,7 +24,7 @@ umask(0);
 /**
  * Require necessary files
  */
-require_once BP . '/app/code/Mage/Core/functions.php';
+require_once BP . '/app/code/Magento/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
 require_once __DIR__ . '/autoload.php';

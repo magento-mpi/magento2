@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <areas>
+            <test_area1>
+                <base_controller>Magento_Core_Controller_Varien_Action</base_controller>
+                <routers>
+                    <test_router1>
+                        <class>Magento_Core_Controller_Varien_Router_Default</class>
+                    </test_router1>
+                    <test_router2>
+                        <class>Magento_Core_Controller_Varien_Router_Default</class>
+                    </test_router2>
+                </routers>
+                <frontName>TESTAREA</frontName>
+            </test_area1>
+            <test_area2>
+                <base_controller></base_controller>
+                <routers>
+                    <test_router>
+                        <class>Magento_Core_Controller_Varien_Router_Default</class>
+                    </test_router>
+                </routers>
+            </test_area2>
+            <test_area3>
+                <routers>
+                    <test_router>
+                        <class>Magento_Core_Controller_Varien_Router_Default</class>
+                    </test_router>
+                </routers>
+            </test_area3>
+        </areas>
+    </global>
+    <test_area1>
+        <routers>
+            <magento_core>
+                <use>test_router</use>
+                <args>
+                    <module>Magento_Core</module>
+                </args>
+            </magento_core>
+        </routers>
+    </test_area1>
+</config>

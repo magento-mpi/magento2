@@ -28,13 +28,13 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
         $translate = function (array $args) {
             return reset($args);
         };
-        $translator = $this->getMock('Mage_Core_Model_Translate', array('translate'), array(), '', false);
+        $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
         $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));
-        $this->_storeConfig = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $this->_segmentCollection = $this->getMock(
             'Enterprise_CustomerSegment_Model_Resource_Segment_Collection', array('toOptionArray'), array(), '', false
         );
-        $helperContext = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
         $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $this->_helper = new Enterprise_CustomerSegment_Helper_Data(
             $helperContext,
@@ -74,7 +74,7 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
         $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object($fixtureFormData);
         $dependencies = $this->getMock(
-            'Mage_Backend_Block_Widget_Form_Element_Dependence',
+            'Magento_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );
@@ -149,7 +149,7 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
         $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object();
         $dependencies = $this->getMock(
-            'Mage_Backend_Block_Widget_Form_Element_Dependence',
+            'Magento_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );

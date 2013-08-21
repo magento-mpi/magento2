@@ -26,7 +26,7 @@ class Enterprise_Customer_Model_Sales_Order_AddressTest extends PHPUnit_Framewor
 
     public function testAttachDataToEntities()
     {
-        $address = Mage::getModel('Mage_Sales_Model_Order_Address');
+        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new Magento_Object(array('id' => $address->getId()));

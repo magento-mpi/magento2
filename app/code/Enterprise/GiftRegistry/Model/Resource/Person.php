@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Person extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model initialization
@@ -30,10 +30,10 @@ class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Reso
     /**
      * Serialization for custom attributes
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $object->setCustomValues(serialize($object->getCustom()));
         return parent::_beforeSave($object);
@@ -42,10 +42,10 @@ class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Reso
     /**
      * De-serialization for custom attributes
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $object->setCustom(unserialize($object->getCustomValues()));
         return parent::_afterLoad($object);

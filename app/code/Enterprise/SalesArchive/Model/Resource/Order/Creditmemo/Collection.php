@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_SalesArchive_Model_Resource_Order_Creditmemo_Collection
-    extends Mage_Sales_Model_Resource_Order_Creditmemo_Grid_Collection
+    extends Magento_Sales_Model_Resource_Order_Creditmemo_Grid_Collection
 {
     /**
      * Collection initialization

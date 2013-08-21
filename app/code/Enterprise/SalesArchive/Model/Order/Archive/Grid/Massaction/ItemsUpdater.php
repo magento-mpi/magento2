@@ -17,7 +17,7 @@
  */
 class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
     extends Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
-    implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * Remove massaction items in case they disallowed for user
@@ -27,13 +27,13 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
     public function update($argument)
     {
         if ($this->_salesArchiveConfig->isArchiveActive()) {
-            if ($this->_authorizationModel->isAllowed('Mage_Sales::cancel') === false) {
+            if ($this->_authorizationModel->isAllowed('Magento_Sales::cancel') === false) {
                 unset($argument['cancel_order']);
             }
-            if ($this->_authorizationModel->isAllowed('Mage_Sales::hold') === false) {
+            if ($this->_authorizationModel->isAllowed('Magento_Sales::hold') === false) {
                 unset($argument['hold_order']);
             }
-            if ($this->_authorizationModel->isAllowed('Mage_Sales::unhold') === false) {
+            if ($this->_authorizationModel->isAllowed('Magento_Sales::unhold') === false) {
                 unset($argument['unhold_order']);
             }
             if ($this->_authorizationModel->isAllowed('Enterprise_SalesArchive::remove') === false) {

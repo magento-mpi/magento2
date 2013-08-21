@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Event table name
@@ -38,10 +38,10 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     /**
      * Converting some data to internal database format
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $customValues = $object->getCustomValues();
         $object->setCustomValues(serialize($customValues));
@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      *
      * @param string $field
      * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -80,10 +80,10 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     /**
      * Perform actions after object is loaded
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         if ($object->getId()) {
             $object->setTypeById($object->getData('type_id'));
@@ -95,10 +95,10 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     /**
      * Perform action after object is saved - saving data to the eventTable
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $data = array();
         foreach ($object->getStaticTypeIds() as $code) {

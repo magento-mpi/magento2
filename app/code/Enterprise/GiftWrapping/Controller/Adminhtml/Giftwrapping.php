@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Mage_Adminhtml_Controller_Action
+class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adminhtml_Controller_Action
 {
 
     /**
@@ -89,7 +89,7 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Mage_Adm
     {
         $model = $this->_initModel();
         $this->_initAction();
-        if ($formData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData()) {
+        if ($formData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData()) {
             $model->addData($formData);
         }
         $this->_title(__('%1', $model->getDesign()));
@@ -123,19 +123,19 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Mage_Adm
                 }
 
                 $model->save();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You saved the gift wrapping.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the gift wrapping.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
                     return;
                 }
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (Magento_Core_Exception $e) {
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
                 Mage::logException($e);
             }
         }
@@ -159,13 +159,13 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Mage_Adm
                 } catch (Exception $e) {
                     Mage::throwException(__('You have not updated the image.'));
                 }
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (Magento_Core_Exception $e) {
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
                 Mage::logException($e);
             }
         }
@@ -196,7 +196,7 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Mage_Adm
             $this->_getSession()->addSuccess(
                 __('You updated a total of %1 records.', count($wrappingIds))
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addException($e, __('Something went wrong while updating the wrapping(s) status.'));

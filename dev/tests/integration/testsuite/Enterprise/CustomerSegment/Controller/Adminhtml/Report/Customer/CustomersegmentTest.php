@@ -13,7 +13,7 @@
  * @magentoAppArea adminhtml
  */
 class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_CustomersegmentTest
-    extends Mage_Backend_Utility_Controller
+    extends Magento_Backend_Utility_Controller
 {
     /**
      * Checks if child 'grid' block is found in

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
+    <!--<preference for="Magento_Core_Model_Config_InvalidatorInterface" type="Magento_Core_Model_Config_Invalidator_Proxy" />-->
+    <preference for="Magento_Core_Model_CacheInterface" type="Magento_Core_Model_Cache_Proxy" />
+    <virtualType name="custom_cache_instance" type="Magento_Core_Model_Cache">
+        <plugin name="tag" type="Magento_Core_Model_Cache_TagPlugin" />
+    </virtualType>
+</config>

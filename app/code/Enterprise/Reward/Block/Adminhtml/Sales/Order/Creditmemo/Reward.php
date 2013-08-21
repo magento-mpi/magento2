@@ -17,12 +17,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward
-    extends Mage_Adminhtml_Block_Template
+    extends Magento_Adminhtml_Block_Template
 {
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Sales_Model_Order_Creditmemo
      */
     public function getCreditmemo()
     {

@@ -71,11 +71,11 @@ class Enterprise_Cms_Model_Observer
                 'label'     => __('Under Version Control'),
                 'title'     => __('Under Version Control'),
                 'name'      => 'under_version_control',
-                'values'    => Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray()
+                'values'    => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray()
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
-                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision')
@@ -91,7 +91,7 @@ class Enterprise_Cms_Model_Observer
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
                             'label' => __('Currently Published Revision'),
-                            'href' => Mage::getSingleton('Mage_Backend_Model_Url')
+                            'href' => Mage::getSingleton('Magento_Backend_Model_Url')
                                 ->getUrl('*/cms_page_revision/edit', array(
                                     'page_id' => $page->getId(),
                                     'revision_id' => $page->getPublishedRevisionId()
@@ -200,7 +200,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsPageSaveAfter(Magento_Event_Observer $observer)
     {
-        /* @var $page Mage_Cms_Model_Page */
+        /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
         // Create new initial version & revision if it
@@ -216,7 +216,7 @@ class Enterprise_Cms_Model_Observer
             $version->setLabel($page->getTitle())
                 ->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
                 ->setPageId($page->getId())
-                ->setUserId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId())
+                ->setUserId(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId())
                 ->setInitialRevisionData($revisionInitialData)
                 ->save();
 
@@ -264,7 +264,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsPageSaveBefore(Magento_Event_Observer $observer)
     {
-        /* @var $page Mage_Cms_Model_Page */
+        /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
         /*
          * All new pages created by user without permission to publish
@@ -289,7 +289,7 @@ class Enterprise_Cms_Model_Observer
         $sortOrder = array();
         if ($nodesData) {
             try{
-                $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($page->getNodesData());
+                $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($page->getNodesData());
             } catch (Zend_Json_Exception $e) {
                 $nodesData=null;
             }
@@ -328,7 +328,7 @@ class Enterprise_Cms_Model_Observer
             ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
-         Mage::getSingleton('Mage_Core_Model_Resource_Iterator')
+         Mage::getSingleton('Magento_Core_Model_Resource_Iterator')
             ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
 
          return $this;
@@ -342,7 +342,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function deleteWebsite(Magento_Event_Observer $observer)
     {
-        /* @var $store Mage_Core_Model_Website */
+        /* @var $store Magento_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
         $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope(Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
@@ -378,13 +378,13 @@ class Enterprise_Cms_Model_Observer
         $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope($storeScope, $storeId);
 
-        /* @var $widgetModel Mage_Widget_Model_Widget_Instance */
-        $widgetModel = Mage::getModel('Mage_Widget_Model_Widget_Instance');
+        /* @var $widgetModel Magento_Widget_Model_Widget_Instance */
+        $widgetModel = Mage::getModel('Magento_Widget_Model_Widget_Instance');
         $widgets = $widgetModel->getResourceCollection()
                 ->addStoreFilter(array($storeId, false))
                 ->addFieldToFilter('instance_type', 'Enterprise_Cms_Block_Widget_Node');
 
-        /* @var $widgetInstance Mage_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         foreach ($widgets as $widgetInstance) {
             $storeIds = $widgetInstance->getStoreIds();
             foreach ($storeIds as $key => $value) {
@@ -417,7 +417,7 @@ class Enterprise_Cms_Model_Observer
 
         try {
             $version->delete();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher
@@ -436,7 +436,7 @@ class Enterprise_Cms_Model_Observer
     public function modifyPageStatuses(Magento_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, __('Published'));
+        $statuses->setData(Magento_Cms_Model_Page::STATUS_ENABLED, __('Published'));
 
         return $this;
     }
@@ -449,7 +449,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function cmsPageDeleteAfter(Magento_Event_Observer $observer)
     {
-        /* @var $page Mage_Cms_Model_Page */
+        /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
         Mage::getResourceSingleton('Enterprise_Cms_Model_Resource_Increment')
@@ -513,7 +513,7 @@ class Enterprise_Cms_Model_Observer
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
         $node = Mage::registry('current_cms_hierarchy_node');
 
-        /* @var $action Mage_Core_Controller_Varien_Action */
+        /* @var $action Magento_Core_Controller_Varien_Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page

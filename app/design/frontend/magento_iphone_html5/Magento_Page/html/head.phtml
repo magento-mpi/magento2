@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<title><?php echo $this->getTitle() ?></title>
+<meta charset="UTF-8">
+<?php echo $this->getMetaTagHtml() ?>
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+
+<script>
+//<![CDATA[
+    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }
+//]]>
+</script>
+
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('Magento_Core_Helper_Js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>

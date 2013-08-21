@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
      * Render product name to add Configure link
@@ -27,9 +27,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
     {
         $rendered       =  parent::render($row);
         $listType = $this->getColumn()->getGrid()->getListType();
-        if ($row instanceof Mage_Catalog_Model_Product) {
+        if ($row instanceof Magento_Catalog_Model_Product) {
             $product = $row;
-        } else if (($row instanceof Mage_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
+        } else if (($row instanceof Magento_Wishlist_Model_Item) || ($row instanceof Magento_Sales_Model_Order_Item)) {
             $product = $row->getProduct();
         }
         if ($product->canConfigure()) {

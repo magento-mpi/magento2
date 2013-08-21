@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Mage_Backend_Utility_Controller
+class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Magento_Backend_Utility_Controller
 {
     public function testEditActionSingleStore()
     {
@@ -22,7 +22,7 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Mag
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      * @magentoDataFixture Enterprise/CatalogEvent/_files/events.php
      */
     public function testEditActionMultipleStore()

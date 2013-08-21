@@ -71,7 +71,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
+            <path>dev/tests/functional/framework/Magento/Selenium/AbstractHelper.php</path>
         </item>
         <item>
             <word>enterprise</word>
@@ -79,7 +79,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/framework/Mage/Selenium/TestCase.php</path>
+            <path>dev/tests/functional/framework/Magento/Selenium/TestCase.php</path>
         </item>
         <item>
             <word>{copyright}</word>
@@ -137,6 +137,10 @@
         <item>
             <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
         </item>
     </whitelist>
 </config>
