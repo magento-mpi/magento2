@@ -541,8 +541,8 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
                 echo sprintf('* Class "%s" exists. It\'s either internal PHP class or was already included. ',
                     $parentClass
                 ).PHP_EOL;
-                $constructorReflection = new MethodReflection($parentClass, '__construct');
-                return $constructorReflection;
+                $reflection = new MethodReflection($parentClass, '__construct');
+                return $reflection;
             }
 
             if (isset(self::$_existingClasses[$parentClass])) {
@@ -597,10 +597,10 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      */
     protected function _getClassParents($class)
     {
-        $i = 0;
+        $level = 0;
         $parents = array();
         while (true) {
-            if ($i++ > 20) {
+            if ($level++ > 20) {
                 throw new Exception('Infinite loop emergency exit.');
             }
             $content = $this->_getFileContentByClass($class);
@@ -647,35 +647,53 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      *
      * @param array|MethodReflection $parentSignature
      * @param array|MethodReflection $childSignature
-     * @param bool $checkPhpDoc
      * @throws Exception
      */
-    protected function _assertSignatureMatch($parentSignature, $childSignature, $checkPhpDoc = false)
+    protected function _assertSignatureMatch($parentSignature, $childSignature)
     {
-        if ($parentSignature instanceof MethodReflection) {
-            $parentParams = $this->_getMethodParams($parentSignature);
-        } else {
-            $parentParams = $parentSignature['params'];
-        }
-        if ($childSignature instanceof MethodReflection) {
-            $childParams = $this->_getMethodParams($childSignature);
-        } else {
-            $childParams = $childSignature['params'];
-        }
-        
-        if (!is_array($parentParams)) {
-            echo __FILE__.':'.__LINE__;
-            echo '<pre>';
-            var_dump($parentParams);
-            var_dump($childSignature);
-            echo '</pre>';
-            //exit;
-        }
+        $parentParams = $this->_extractParams($parentSignature);
+        $childParams = $this->_extractParams($childSignature);
 
+        //1. assures that there is no such case
+        //  function func1($param1, $param2 = null, $param3)
+        $this->_assertRequiredParamsPlacedBeforeOptionalOnes($parentParams);
+        $this->_assertRequiredParamsPlacedBeforeOptionalOnes($childParams);
 
-        $isOptionalParamsGroup = false;
-        $firstOptionalParam = null;
         foreach ($parentParams as $index => $parentParam) {
+            $parent = isset($parentParam['type'])
+                ? $parentParam['type'] . ' ' . $parentParam['name']
+                : $parentParam['name'];
+
+            $isRequired = !isset($parentParam['is_optional']);
+            if (!$isRequired) {
+                break;
+            }
+
+            $this->_assertRequiredParamExists($parentParam, $index, $childParams);
+
+            $childParam = $childParams[$index];
+
+            $this->_assertParamsAreNamedEqually($childParam, $parentParam);
+            $this->_assertParamIsRequired($childParam);
+
+            if (isset($parentParam['type'])) {
+                $this->_assertParamHasType($childParam, $parentParam['type']);
+                $this->_assertParamTypeMatch($childParam, $parentParam['type']);
+            }
+        }
+    }
+
+    /**
+     * Assert required params are placed before optional ones in the list
+     *
+     * @param array $params
+     * @throws Exception
+     */
+    protected function _assertRequiredParamsPlacedBeforeOptionalOnes($params)
+    {
+        $isOptionalParams = false;
+        $firstOptionalParam = null;
+        foreach ($params as $parentParam) {
             $parent = isset($parentParam['type'])
                 ? $parentParam['type'] . ' ' . $parentParam['name']
                 : $parentParam['name'];
@@ -684,70 +702,150 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
             //  function func1($param1, $param2 = null, $param3)
             $isOptional = isset($parentParam['is_optional']);
             if ($isOptional) {
-                $isOptionalParamsGroup = true;
+                $isOptionalParams = true;
                 $firstOptionalParam = $parent;
-            } elseif ($isOptionalParamsGroup) {
+            } elseif ($isOptionalParams) {
                 throw new Exception(sprintf(
                     'Required param (without default value) "%s" can not go after optional param(%s)',
                     $parent, $firstOptionalParam
                 ));
             }
-
-            $isRequired = !$isOptional;
-            if ($isRequired) {
-                //2. assures that there is no such case
-                //  parent: function func1($param1, $param2)
-                //  child: function func1($param1)
-                if (!isset($childParams[$index])) {
-                    throw new Exception(sprintf('Missing required param "%s"', $parent));
-                }
-
-                $childParam = $childParams[$index];
-                $child = isset($childParam['type'])
-                    ? $childParam['type'] . ' ' . $childParam['name']
-                    : $childParam['name'];
-
-                //3. assures that there is no such case
-                //  parent: function func1($param1)
-                //  child: function func1($param2)
-                if ($parentParam['name'] != $childParam['name']) {
-                    throw new Exception(sprintf('Invalid param "%s" found. Expected param "%s".', $child, $parent));
-                }
-
-                //4. assures that there is no such case
-                //  parent: function func1($param1)
-                //  child: function func1($param1 = null)
-                if (isset($childParam['value'])) {
-                    throw new Exception(sprintf('Required param "%s" can not have default value "%s".',
-                        $parent,
-                        $childParam['value']
-                    ));
-                }
-
-                if (isset($parentParam['type'])) {
-                    //5. assures that there is no such case
-                    //  parent: function func1(Class1 $param1)
-                    //  child: function func1($param1)
-                    if (!isset($childParam['type'])) {
-                        throw new Exception(sprintf('Missing type for param "%s". Expected type "%s".',
-                            $parentParam['name'], $parentParam['type']
-                        ));
-                    }
-
-                    //6. assures that there is no such case
-                    //  parent: function func1(Class1 $param1)
-                    //  child: function func1(Class2 $param1)
-                    if (
-                        isset($childParam['type']) && !$this->_isSubclassOf($parentParam['type'], $childParam['type'])
-                    ) {
-                        throw new Exception(sprintf(
-                            'Invalid type "%s" for param "%s". Expected type "%s" or it\'s subclass.',
-                            $childParam['type'], $childParam['type'], $parentParam['type']
-                        ));
-                    }
-                }
-            }
         }
+    }
+
+    /**
+     * Check param with given index exists
+     *
+     * Assures that there is no such case:
+     *      parent: function func1($param1, $param2)
+     *      child: function func1($param1)
+     * @param array $needle
+     * @param integer $index
+     * @param array $haystack
+     * @throws Exception
+     */
+    protected function _assertRequiredParamExists($needle, $index, $haystack)
+    {
+        $parent = isset($needle['type'])
+            ? $needle['type'] . ' ' . $needle['name']
+            : $needle['name'];
+
+        if (!isset($haystack[$index])) {
+            throw new Exception(sprintf('Missing required param "%s"', $parent));
+        }
+    }
+
+    /**
+     * Check if param names match
+     *
+     * Assures that there is no such case:
+     *  parent: function func1($param1)
+     *  child: function func1($param2)
+     *
+     * @param array $paramToCheck
+     * @param array $paramToCheckAgainst
+     * @throws Exception
+     */
+    protected function _assertParamsAreNamedEqually($paramToCheck, $paramToCheckAgainst)
+    {
+        $checked = isset($paramToCheck['type'])
+            ? $paramToCheck['type'] . ' ' . $paramToCheck['name']
+            : $paramToCheck['name'];
+
+        $expected = isset($paramToCheckAgainst['type'])
+            ? $paramToCheckAgainst['type'] . ' ' . $paramToCheckAgainst['name']
+            : $paramToCheckAgainst['name'];
+
+        if ($paramToCheckAgainst['name'] != $paramToCheck['name']) {
+            throw new Exception(sprintf('Invalid param "%s" found. Expected param "%s".',
+                $checked,
+                $expected
+            ));
+        }
+    }
+
+    /**
+     * Check if param is required (has no default value)
+     *
+     * Assures that there is no such case:
+     *  parent: function func1($param1)
+     *  child: function func1($param1 = null)
+     *
+     * @param array $param
+     * @throws Exception
+     */
+    protected function _assertParamIsRequired($param)
+    {
+        $paramInfo = isset($param['type'])
+            ? $param['type'] . ' ' . $param['name']
+            : $param['name'];
+
+        if (isset($param['value'])) {
+            throw new Exception(sprintf('Required param "%s" can not have default value "%s".',
+                $paramInfo,
+                $param['value']
+            ));
+        }
+    }
+
+    /**
+     * Check if param has type at all
+     *
+     * Assures that there is no such case:
+     *  parent: function func1(Class1 $param1)
+     *  child: function func1($param1)
+     *
+     * @param array $param
+     * @param string $expectedType
+     * @throws Exception
+     */
+    protected function _assertParamHasType($param, $expectedType)
+    {
+        if (!isset($param['type'])) {
+            throw new Exception(sprintf('Missing type for param "%s". Expected type "%s".',
+                $param['name'], $expectedType
+            ));
+        }
+    }
+
+    /**
+     * Check if param could be used as a substitution for a param of given type
+     *
+     * Assures that there is no such case:
+     *  parent: function func1(Class1 $param1)
+     *  child: function func1(Class2 $param1)
+     *
+     * @param array $param
+     * @param string $type
+     * @throws Exception
+     */
+    protected function _assertParamTypeMatch($param, $type)
+    {
+        if (
+            isset($param['type']) && !$this->_isSubclassOf($type, $param['type'])
+        ) {
+            throw new Exception(sprintf(
+                'Invalid type "%s" for param "%s". Expected type "%s" or it\'s subclass.',
+                $param['type'], $param['name'], $type
+            ));
+        }
+    }
+
+    /**
+     * Extract params out of signature
+     *
+     * @param MethodReflection|array $signature
+     * @return array
+     */
+    protected function _extractParams($signature)
+    {
+        if ($signature instanceof MethodReflection) {
+            $params = $this->_getMethodParams($signature);
+        } else {
+            $params = $signature['params'];
+        }
+
+        return $params;
     }
 
     /**
