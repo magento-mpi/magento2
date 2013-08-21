@@ -9,9 +9,11 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
     <widget id="recently_viewed" class="Mage_Reports_Block_Product_Widget_Viewed"
-            translate="name description" module="Mage_Reports"
+            translate="label description" module="Mage_Reports"
             placeholder_image="Mage_Reports::images/product_widget_viewed.gif">
         <label>Recently Viewed Products</label>
         <description>List of Products Recently Viewed by Visitor</description>
@@ -23,22 +25,22 @@
             <label>Template</label>
             <option name="default" translate="label" value="widget/viewed/content/viewed_grid.phtml"
                     selected="true">
-                Viewed Products Grid Template
+                <label>Viewed Products Grid Template</label>
             </option>
             <option name="list" translate="label" value="widget/viewed/content/viewed_list.phtml">
-                Viewed Products List Template
+                <label>Viewed Products List Template</label>
             </option>
             <option name="list_default" translate="label"
                     value="widget/viewed/column/viewed_default_list.phtml">
-                Viewed Products Images and Names Template
+                <label>Viewed Products Images and Names Template</label>
             </option>
             <option name="list_names" translate="label"
                     value="widget/viewed/column/viewed_names_list.phtml">
-                Viewed Products Names Only Template
+                <label>Viewed Products Names Only Template</label>
             </option>
             <option name="list_images" translate="label"
                     value="widget/viewed/column/viewed_images_list.phtml">
-                Viewed Products Images Only Template
+                <label>Viewed Products Images Only Template</label>
             </option>
         </parameter>
         <container section="left_column" name="left">
@@ -57,7 +59,7 @@
         </container>
     </widget>
     <widget id="recently_compared" class="Mage_Reports_Block_Product_Widget_Compared"
-            translate="name description" module="Mage_Reports"
+            translate="label description" module="Mage_Reports"
             placeholder_image="Mage_Reports::images/product_widget_compared.gif">
         <label>Recently Compared Products</label>
         <description>List of Products Recently Compared and Removed from the Compare List by Visitor</description>
