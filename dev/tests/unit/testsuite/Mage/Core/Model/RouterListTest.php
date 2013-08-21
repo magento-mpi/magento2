@@ -63,5 +63,11 @@ class Mage_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class FrontClass{};
-class DefaultClass{};
+class FrontClass
+{
+
+}
+class DefaultClass
+{
+
+}

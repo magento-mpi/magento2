@@ -85,8 +85,15 @@ class Mage_Core_Model_RouterList
      */
     protected function _compareRoutersSortOrder($routerData1, $routerData2)
     {
-        if ((int)$routerData1['sortOrder'] == (int)$routerData2['sortOrder']) return 0;
-        return ((int)$routerData1['sortOrder'] < (int)$routerData2['sortOrder']) ? -1 : 1;
+        if ((int)$routerData1['sortOrder'] == (int)$routerData2['sortOrder']) {
+            return 0;
+        }
+
+        if ((int)$routerData1['sortOrder'] < (int)$routerData2['sortOrder']) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     /**
