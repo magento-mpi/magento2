@@ -19,7 +19,7 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
     /**
      * Return current category event
      *
-     * @return Enterprise_CategoryEvent_Model_Event
+     * @return Magento_CategoryEvent_Model_Event
      */
     public function getEvent()
     {

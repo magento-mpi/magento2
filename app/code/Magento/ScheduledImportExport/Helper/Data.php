@@ -132,9 +132,9 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      */
     public function isRewardPointsEnabled()
     {
-        if ($this->isModuleEnabled('Enterprise_Reward')) {
-            /** @var $rewardPointsHelper Enterprise_Reward_Helper_Data */
-            $rewardPointsHelper = Mage::helper('Enterprise_Reward_Helper_Data');
+        if ($this->isModuleEnabled('Magento_Reward')) {
+            /** @var $rewardPointsHelper Magento_Reward_Helper_Data */
+            $rewardPointsHelper = Mage::helper('Magento_Reward_Helper_Data');
             return $rewardPointsHelper->isEnabled();
         }
         return false;

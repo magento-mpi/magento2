@@ -34,7 +34,7 @@ class Magento_Banner_Model_Observer
      * Bind specified banners to catalog rule
      *
      * @param   Magento_Event_Observer $observer
-     * @return  Enterprise_Banenr_Model_Observer
+     * @return  Magento_Banner_Model_Observer
      */
     public function bindRelatedBannersToCatalogRule(Magento_Event_Observer $observer)
     {
@@ -68,7 +68,7 @@ class Magento_Banner_Model_Observer
      * Bind specified banners to sales rule
      *
      * @param   Magento_Event_Observer $observer
-     * @return  Enterprise_Banenr_Model_Observer
+     * @return  Magento_Banner_Model_Observer
      */
     public function bindRelatedBannersToSalesRule(Magento_Event_Observer $observer)
     {

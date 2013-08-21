@@ -219,17 +219,17 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     }
 
     /**
-     * Update reward points value for customer
+     * Update reward points value for customerEtn
      *
      * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      * @param int $value reward points value
-     * @return Enterprise_Reward_Model_Reward
+     * @return Magento_Reward_Model_Reward
      */
     protected function _updateRewardPointsForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
-        /** @var $rewardModel Enterprise_Reward_Model_Reward */
-        $rewardModel = $this->_objectFactory->getModelInstance('Enterprise_Reward_Model_Reward');
+        /** @var $rewardModel Magento_Reward_Model_Reward */
+        $rewardModel = $this->_objectFactory->getModelInstance('Magento_Reward_Model_Reward');
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
@@ -240,16 +240,16 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update reward points value for reward model
      *
-     * @param Enterprise_Reward_Model_Reward $rewardModel
+     * @param Magento_Reward_Model_Reward $rewardModel
      * @param int $value reward points value
-     * @return Enterprise_Reward_Model_Reward
+     * @return Magento_Reward_Model_Reward
      */
-    protected function _updateRewardValue(Enterprise_Reward_Model_Reward $rewardModel, $value)
+    protected function _updateRewardValue(Magento_Reward_Model_Reward $rewardModel, $value)
     {
         $pointsDelta = $value - $rewardModel->getPointsBalance();
         if ($pointsDelta != 0) {
             $rewardModel->setPointsDelta($pointsDelta)
-                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
+                ->setAction(Magento_Reward_Model_Reward::REWARD_ACTION_ADMIN)
                 ->setComment($this->_getComment())
                 ->updateRewardPoints();
         }

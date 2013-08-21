@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_PricePermission
+ * @package     Magento_PricePermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */

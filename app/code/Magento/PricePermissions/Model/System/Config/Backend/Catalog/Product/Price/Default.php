@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_PricePermission
+ * @package     Magento_PricePermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +21,7 @@ class Magento_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price
     /**
      * Check permission to edit product prices before the value is saved
      *
-     * @return Enterprise_PricePermossions_Model_System_Config_Backend_Catalog_Product_Price_Default
+     * @return Magento_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default
      */
     protected function _beforeSave()
     {
@@ -39,7 +39,7 @@ class Magento_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price
     /**
      * Check permission to read product prices before the value is shown to user
      *
-     * @return Enterprise_PricePermossions_Model_System_Config_Backend_Catalog_Product_Price_Default
+     * @return Magento_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default
      */
     protected function _afterLoad()
     {
