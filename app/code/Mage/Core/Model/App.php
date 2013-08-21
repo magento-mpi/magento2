@@ -168,8 +168,12 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     {
         Magento_Profiler::start('init');
 
+        if ($this->_appState->isInstalled() && !$this->_cache->load('data_upgrade')) {
+            $this->_dbUpdater->updateScheme();
+            $this->_dbUpdater->updateData();
+            $this->_cache->save(1, 'data_upgrade');
+        }
         $this->_initRequest();
-        $this->_dbUpdater->updateData();
 
         $controllerFront = $this->getFrontController();
         Magento_Profiler::stop('init');

@@ -88,13 +88,13 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     protected $_modulesReader;
 
     /**
-     * @var Mage_Core_Model_Config_Modules
+     * @var Mage_Core_Model_Config
      */
     protected $_config;
 
     /**
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config_Modules $modulesConfig
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
@@ -102,14 +102,14 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config_Modules $modulesConfig,
+        Mage_Core_Model_Config $config,
         Mage_Core_Model_ModuleListInterface $moduleList,
         Mage_Core_Model_Resource $resource,
         Mage_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
-        $this->_config = $modulesConfig;
-        $resourcesConfig->setConfig($modulesConfig);
+        $this->_config = $config;
+        $resourcesConfig->setConfig($config);
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;

@@ -38,12 +38,18 @@ class Mage_Core_Model_Config_Section_Reader_Store
     protected $_storeFactory;
 
     /**
+     * @var Mage_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
      * @param Mage_Core_Model_Config_Initial $initialConfig
      * @param Mage_Core_Model_Config_SectionPool $sectionPool
      * @param Mage_Core_Model_Config_Section_Store_Converter $converter
      * @param Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory
      * @param Mage_Core_Model_WebsiteFactory $websiteFactory
      * @param Mage_Core_Model_StoreFactory $storeFactory
+     * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Core_Model_Config_Initial $initialConfig,
@@ -51,7 +57,8 @@ class Mage_Core_Model_Config_Section_Reader_Store
         Mage_Core_Model_Config_Section_Store_Converter $converter,
         Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory,
         Mage_Core_Model_WebsiteFactory $websiteFactory,
-        Mage_Core_Model_StoreFactory $storeFactory
+        Mage_Core_Model_StoreFactory $storeFactory,
+        Mage_Core_Model_App_State $appState
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_sectionPool = $sectionPool;
@@ -59,6 +66,7 @@ class Mage_Core_Model_Config_Section_Reader_Store
         $this->_collectionFactory = $collectionFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeFactory = $storeFactory;
+        $this->_appState = $appState;
     }
 
     /**
@@ -69,16 +77,22 @@ class Mage_Core_Model_Config_Section_Reader_Store
      */
     public function read($code)
     {
-        $store = $this->_storeFactory->create();
-        $store->load($code);
-        $websiteConfig = $this->_sectionPool->getSection('website', $store->getWebsite()->getCode())->getValue();
-        $initialConfig = array_replace_recursive($websiteConfig, $this->_initialConfig->getStore($code));
+        if ($this->_appState->isInstalled()) {
+            $store = $this->_storeFactory->create();
+            $store->load($code);
+            $websiteConfig = $this->_sectionPool->getSection('website', $store->getWebsite()->getCode())->getValue();
+            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getStore($code));
 
-        $collection = $this->_collectionFactory->create(array('scope' => 'store', 'scopeId' => $store->getId()));
-        $dbStoreConfig = array();
-        foreach ($collection as $item) {
-            $dbStoreConfig[$item->getPath()] = $item->getValue();
+            $collection = $this->_collectionFactory->create(array('scope' => 'store', 'scopeId' => $store->getId()));
+            $dbStoreConfig = array();
+            foreach ($collection as $item) {
+                $dbStoreConfig[$item->getPath()] = $item->getValue();
+            }
+            $config = $this->_converter->convert($dbStoreConfig, $config);
+        } else {
+            $websiteConfig = $this->_sectionPool->getSection('website', 'default')->getValue();
+            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getStore($code));
         }
-        return $this->_converter->convert($dbStoreConfig, $initialConfig);
+        return $config;
     }
 } 

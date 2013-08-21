@@ -18,22 +18,12 @@ class Mage_Core_Model_Config_Invalidator implements Mage_Core_Model_Config_Inval
     protected $_primaryConfig;
 
     /**
-     * Modules configuration
-     *
-     * @var Mage_Core_Model_ConfigInterface
-     */
-    protected $_modulesConfig;
-
-    /**
      * @param Mage_Core_Model_ConfigInterface $primaryConfig
-     * @param Mage_Core_Model_ConfigInterface $modulesConfig
      */
     public function __construct(
-        Mage_Core_Model_ConfigInterface $primaryConfig,
-        Mage_Core_Model_ConfigInterface $modulesConfig
+        Mage_Core_Model_ConfigInterface $primaryConfig
     ) {
         $this->_primaryConfig = $primaryConfig;
-        $this->_modulesConfig = $modulesConfig;
     }
 
     /**
@@ -42,6 +32,5 @@ class Mage_Core_Model_Config_Invalidator implements Mage_Core_Model_Config_Inval
     public function invalidate()
     {
         $this->_primaryConfig->reinit();
-        $this->_modulesConfig->reinit();
     }
 }

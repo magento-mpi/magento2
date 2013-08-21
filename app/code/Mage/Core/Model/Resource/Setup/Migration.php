@@ -129,7 +129,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
 
     /**
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config_Modules $modulesConfig
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
@@ -139,7 +139,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config_Modules $modulesConfig,
+        Mage_Core_Model_Config $config,
         Mage_Core_Model_ModuleListInterface $moduleList,
         Mage_Core_Model_Resource $resource,
         Mage_Core_Model_Config_Modules_Reader $modulesReader,
@@ -154,7 +154,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             || !isset($data['connection'])
         ) {
             parent::__construct(
-                $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $resourceName
+                $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
             );
         } else {
             $this->_resourceModel = $resource;

@@ -78,24 +78,14 @@
             <instance type="Mage_Core_Model_Config_Primary" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Modules">
-        <param name="storage">
-            <instance type="Mage_Core_Model_Config_Storage_Modules" />
-        </param>
-    </type>
     <type name="Mage_Core_Model_Config_Storage">
         <param name="loader">
             <instance type="Mage_Core_Model_Config_Loader_Proxy" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Storage_Modules">
-        <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Modules_Proxy" />
-        </param>
-    </type>
     <type name="Mage_Core_Model_Event_Config">
         <param name="config">
-            <instance type="Mage_Core_Model_Config_Modules_Proxy" />
+            <instance type="Mage_Core_Model_Config_Proxy" />
         </param>
     </type>
     <type name="Mage_Core_Model_Translate">
@@ -111,9 +101,6 @@
     <type name="Mage_Core_Model_Config_Invalidator">
         <param name="primaryConfig">
             <instance type="Mage_Core_Model_Config_Primary" />
-        </param>
-        <param name="modulesConfig">
-            <instance type="Mage_Core_Model_Config_Modules" />
         </param>
     </type>
     <type name="Mage_Core_Model_Store_StorageFactory">

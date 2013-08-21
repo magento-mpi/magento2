@@ -10,37 +10,43 @@
 class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInterface
 {
     /**
-     * Modules configuration object
+     * Primary application configuration
      *
-     * @var Mage_Core_Model_Config_Modules
+     * @var Mage_Core_Model_Config_Primary
      */
-    protected $_modulesConfig;
+    protected $_primaryConfig;
 
     /**
-     * Database configuration loader
-     *
-     * @var Mage_Core_Model_Config_Loader_Db
+     * @var Mage_Core_Model_Config_Resource
      */
-    protected $_dbLoader;
+    protected $_resourceConfig;
 
     /**
-     * @var Mage_Core_Model_Config_BaseFactory
+     * @var Mage_Core_Model_Config_Modules_Reader
      */
-    protected $_configFactory;
+    protected $_fileReader;
 
     /**
-     * @param Mage_Core_Model_Config_Modules $config
-     * @param Mage_Core_Model_Config_Loader_Db $dbLoader
-     * @param Mage_Core_Model_Config_BaseFactory $factory
+     * @var Mage_Core_Model_Config_Loader_Local
+     */
+    protected $_localLoader;
+
+    /**
+     * @param Mage_Core_Model_Config_Primary $primaryConfig
+     * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Mage_Core_Model_Config_Modules_Reader $fileReader
+     * @param Mage_Core_Model_Config_Loader_Local $localLoader
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules $config,
-        Mage_Core_Model_Config_Loader_Db $dbLoader,
-        Mage_Core_Model_Config_BaseFactory $factory
+        Mage_Core_Model_Config_Primary $primaryConfig,
+        Mage_Core_Model_Config_Resource $resourceConfig,
+        Mage_Core_Model_Config_Modules_Reader $fileReader,
+        Mage_Core_Model_Config_Loader_Local $localLoader
     ) {
-        $this->_modulesConfig = $config;
-        $this->_dbLoader = $dbLoader;
-        $this->_configFactory = $factory;
+        $this->_primaryConfig = $primaryConfig;
+        $this->_resourceConfig = $resourceConfig;
+        $this->_fileReader = $fileReader;
+        $this->_localLoader = $localLoader;
     }
 
     /**
@@ -50,7 +56,28 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
-        $config->extend($this->_configFactory->create($this->_modulesConfig->getNode()));
-        $this->_dbLoader->load($config);
+        if (!$config->getNode()) {
+            $config->loadString('<config></config>');
+        }
+
+        Magento_Profiler::start('config');
+        Magento_Profiler::start('load_modules');
+
+        $config->extend($this->_primaryConfig);
+
+        Magento_Profiler::start('load_modules_configuration');
+
+        $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
+        $this->_fileReader->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
+        Magento_Profiler::stop('load_modules_configuration');
+
+        // Prevent local configuration overriding
+        $this->_localLoader->load($config);
+
+        $config->applyExtends();
+
+        Magento_Profiler::stop('load_modules');
+        Magento_Profiler::stop('config');
+        $this->_resourceConfig->setConfig($config);
     }
 }
