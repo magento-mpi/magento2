@@ -54,6 +54,28 @@ abstract class Mage_Core_Controller_Varien_Router_Abstract
     }
 
     /**
+     * Retrieve front name by route
+     *
+     * @param string $routeId
+     * @return string
+     */
+    public function getFrontNameByRoute($routeId)
+    {
+        return $routeId;
+    }
+
+    /**
+     * Retrieve route by module front name
+     *
+     * @param string $frontName
+     * @return string
+     */
+    public function getRouteByFrontName($frontName)
+    {
+        return $frontName;
+    }
+
+    /**
      * Match controller by request
      *
      * @param Mage_Core_Controller_Request_Http $request
