@@ -158,16 +158,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_moduleList;
 
     /**
-     * @var Mage_Core_Model_Config_DataInterface
+     * @var Mage_Core_Model_Config_SectionPool
      */
-    protected $_configData;
-
-    /**
-     * List of loaded scopes
-     *
-     * @var Mage_Core_Model_Config_DataInterface[]
-     */
-    protected $_scopes = array();
+    protected $_sectionPool;
 
     /**
      * @param Mage_Core_Model_ObjectManager $objectManager
@@ -177,9 +170,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
-     * @param Mage_Core_Model_Config_Data_Reader $reader
-     * @param Magento_Cache_FrontendInterface $cache
-     * @param string $cacheId
+     * @param Mage_Core_Model_Config_SectionPool $sectionPool
      */
     public function __construct(
         Mage_Core_Model_ObjectManager $objectManager,
@@ -189,9 +180,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         Mage_Core_Model_ModuleListInterface $moduleList,
         Mage_Core_Model_Config_InvalidatorInterface $invalidator,
         Magento_Config_ScopeInterface $configScope,
-        Mage_Core_Model_Config_Data_Reader $reader,
-        Magento_Cache_FrontendInterface $cache,
-        $cacheId = 'default_config_cache'
+        Mage_Core_Model_Config_SectionPool $sectionPool
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -202,9 +191,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
-        $this->_configReader = $reader;
-        $this->_cache = $cache;
-        $this->_cacheId = $cacheId;
+        $this->_sectionPool = $sectionPool;
         Magento_Profiler::stop('config_load');
     }
 
@@ -303,17 +290,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function getValue($path = null, $scope = 'default', $scopeCode = null)
     {
-        if (!isset($this->_scopes[$scope][$scopeCode])) {
-            $cacheKey = $this->_cacheId . $scope . $scopeCode;
-            $data = $this->_cache->load($cacheKey);
-            if ($data) {
-                $this->_scopes[$scope][$scopeCode] = unserialize($data);
-            } else {
-                $this->_scopes[$scope][$scopeCode] = $this->_configReader->read($scope, $scopeCode);
-                $this->_cache->save(serialize($this->_scopes[$scope][$scopeCode]), $cacheKey);
-            }
-        }
-        return $this->_scopes[$scope][$scopeCode]->getValue($path);
+        return $this->_sectionPool->getSection($scope, $scopeCode)->getValue($path);
     }
 
     /**
