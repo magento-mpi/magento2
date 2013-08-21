@@ -19,32 +19,6 @@
             </block>
             <block type="Enterprise_Rma_Block_Return_Returns" name="rma.return.returns"/>
         </reference>
-        <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="Mage_Sales">
-                <name>view</name>
-                <path>sales/order/view</path>
-                <label>Order Information</label>
-            </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
-                <name>invoice</name>
-                <path>sales/order/invoice</path>
-                <label>Invoices</label>
-            </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
-                <name>shipment</name>
-                <path>sales/order/shipment</path>
-                <label>Shipments</label>
-            </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
-                <name>creditmemo</name>
-                <path>sales/order/creditmemo</path>
-                <label>Refunds</label>
-            </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
-                <name>returns</name>
-                <path/>
-                <label>Returns</label>
-            </action>
-        </reference>
+        <update handle="sales_order_info_rma_links"/>
     </enterprise_rma_return_returns>
 </layout>

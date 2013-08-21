@@ -9,8 +9,13 @@
 -->
 <layout version="0.1.0">
     <sales_guest_invoice>
-        <reference name="my.account.wrapper">
-            <block type="Enterprise_Rma_Block_Order_Guest" name="enterprise.rma.info"/>
+        <reference name="sales.order.info.links">
+            <block type="Enterprise_Rma_Block_Order_Link" name="sales.order.info.links.returns">
+                <arguments translate="label">
+                    <path>rma/guest/returns</path>
+                    <label>Returns</label>
+                </arguments>
+            </block>
         </reference>
         <reference name="sales.order.info.buttons">
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>

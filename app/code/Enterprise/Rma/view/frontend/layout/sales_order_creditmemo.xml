@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <sales_order_creditmemo>
         <reference name="my.account.wrapper">
-            <block type="Enterprise_Rma_Block_Order_Info" name="enterprise.rma.info"/>
+            <block type="Mage_Sales_Block_Order_Info" name="enterprise.rma.info"/>
         </reference>
         <reference name="sales.order.info.buttons">
             <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>

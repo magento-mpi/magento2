@@ -74,4 +74,7 @@ return array(
     array('Enterprise_Queue_Model_Resource_Task'),
     array('Enterprise_Queue_Model_Task'),
     array('Enterprise_Queue_Model_TaskRepository'),
+    array('Enterprise_Rma_Block_Order_Guest'),
+    array('Enterprise_Rma_Block_Order_Info'),
+    array('Enterprise_Rma_Block_Return_Info'),
 );

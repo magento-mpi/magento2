@@ -692,4 +692,7 @@ return array(
     array('getDefaultMetaTags', 'Mage_Page_Block_Html_Head'),
     array('getMetaTags', 'Mage_Page_Block_Html_Head'),
     array('getMetaTagHtml', 'Mage_Page_Block_Html_Head'),
+    array('addLink', 'Mage_Sales_Block_Order_Info'),
+    array('getLinks', 'Mage_Sales_Block_Order_Info'),
+    array('checkLinks', 'Mage_Sales_Block_Order_Info'),
 );
