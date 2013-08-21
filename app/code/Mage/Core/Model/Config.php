@@ -163,6 +163,11 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_sectionPool;
 
     /**
+     * @var Mage_Core_Model_Resource_Store_Collection
+     */
+    protected $_storeCollection;
+
+    /**
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
@@ -417,48 +422,44 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      *
      * return array($storeId => $pathValue)
      *
-     * @param   string $path
-     * @param   array  $allowValues
-     * @param   string $useAsKey
-     * @return  array
+     * @param string $path
+     * @param array $allowedValues
+     * @param string $keyAttribute
+     * @return array
+     * @throws InvalidArgumentException
      */
-    public function getStoresConfigByPath($path, $allowValues = array(), $useAsKey = 'id')
+    public function getStoresConfigByPath($path, $allowedValues = array(), $keyAttribute = 'id')
     {
+        // @todo inject custom store collection that corresponds to the following requirements
+        if (is_null($this->_storeCollection)) {
+            $this->_storeCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Store_Collection');
+            $this->_storeCollection->setLoadDefault(true);
+        }
         $storeValues = array();
-        $stores = $this->getNode('stores');
-        /** @var $store Magento_Simplexml_Element */
-        foreach ($stores->children() as $code => $store) {
-            switch ($useAsKey) {
+        /** @var $store Mage_Core_Model_Store */
+        foreach ($this->_storeCollection as $store) {
+            switch ($keyAttribute) {
                 case 'id':
-                    $key = (int)$store->descend('system/store/id');
+                    $key = $store->getId();
                     break;
-
                 case 'code':
-                    $key = $code;
+                    $key = $store->getCode();
                     break;
-
                 case 'name':
-                    $key = (string) $store->descend('system/store/name');
+                    $key = $store->getName();
                     break;
-
                 default:
-                    $key = false;
+                    throw new InvalidArgumentException("'{$keyAttribute}' cannot be used as a key.");
                     break;
             }
 
-            if ($key === false) {
-                continue;
-            }
-
-            $pathValue = (string)$store->descend($path);
-
-            if (empty($allowValues)) {
-                $storeValues[$key] = $pathValue;
-            } elseif (in_array($pathValue, $allowValues)) {
-                $storeValues[$key] = $pathValue;
+            $value = $this->getValue($path, 'store', $store->getCode());
+            if (empty($allowedValues)) {
+                $storeValues[$key] = $value;
+            } elseif (in_array($value, $allowedValues)) {
+                $storeValues[$key] = $value;
             }
         }
-
         return $storeValues;
     }
 
