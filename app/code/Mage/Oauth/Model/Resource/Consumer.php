@@ -45,6 +45,7 @@ class Mage_Oauth_Model_Resource_Consumer extends Mage_Core_Model_Resource_Db_Abs
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete($this->getTable('oauth_nonce'), array('consumer_id' => $object->getId()));
+        $adapter->delete($this->getTable('oauth_token'), array('consumer_id' => $object->getId()));
         return parent::_afterDelete($object);
     }
 }

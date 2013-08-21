@@ -27,8 +27,6 @@
  * @method Mage_Oauth_Model_Token setCustomerId() setCustomerId(int $customerId)
  * @method string getType()
  * @method Mage_Oauth_Model_Token setType() setType(string $type)
- * @method string getVerifier()
- * @method Mage_Oauth_Model_Token setVerifier() setVerifier(string $verifier)
  * @method string getCallbackUrl()
  * @method Mage_Oauth_Model_Token setCallbackUrl() setCallbackUrl(string $callbackUrl)
  * @method string getCreatedAt()
@@ -108,11 +106,14 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
 
         $this->setType(self::TYPE_VERIFIER);
         $this->setConsumerId($consumerId);
+        $this->setToken($helper->generateToken());
+        $this->setSecret($helper->generateTokenSecret());
         $this->setVerifier($helper->generateVerifier());
+        // TODO: What should the callback_url be and where do we get its value from?
+        $this->setCallbackUrl(Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED);
         $this->save();
 
         return $this;
-
     }
 
     /**
@@ -297,5 +298,27 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
         }
 
         return $this->getData('consumer');
+    }
+
+    /**
+     * Return the token's verifier.
+     *
+     * @return string
+     */
+    public function getVerifier()
+    {
+        return $this->getData('verifier');
+    }
+
+    /**
+     * Set the token's verifier.
+     *
+     * @param string $verifier
+     * @return Mage_Oauth_Model_Token
+     */
+    public function setVerifier($verifier)
+    {
+        $this->setData('verifier', $verifier);
+        return $this;
     }
 }

@@ -97,7 +97,7 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     /**
      * Get access token for a pre-authorized request token
      *
-     * @param array $accessTokenReqArray array containing parameters necessary for requesting Access Token
+     * @param array $request array containing parameters necessary for requesting Access Token
      * <pre>
      * array(
      *  'oauth_version' => '1.0',
@@ -115,14 +115,15 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      * </pre>
      * @return array - The access token/secret pair.
      */
-    public function getAccessToken($requestArray);
+    public function getAccessToken($request);
 
 
     /**
      * Validate a requested access token
      *
-     * @param array $requestArray containing parameters necessary for validating Access Token
-     * <pre> eg array(
+     * @param array $request containing parameters necessary for validating Access Token
+     * <pre>
+     * array(
      *  'oauth_version' => '1.0',
      *  'oauth_signature_method' => 'HMAC-SHA1',
      *  'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
@@ -139,7 +140,7 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      * @throws Mage_Oauth_Exception
      *
      */
-    public function validateAccessToken($requestArray);
+    public function validateAccessToken($request);
 
 
     /**
