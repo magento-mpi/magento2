@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Core_Magento_Api_Helper extends Mage_Selenium_AbstractHelper
+class Core_Mage_Api_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * <p>Create new SOAP API Role</p>

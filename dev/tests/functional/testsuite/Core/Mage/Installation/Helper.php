@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Installation
+ * @package     Mage_Installation
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Core_Magento_Installation_Helper extends Mage_Selenium_AbstractHelper
+class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Delete installation files

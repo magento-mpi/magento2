@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CmsWidgets
+ * @package     Mage_CmsWidgets
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_CmsWidgets_Helper extends Core_Magento_CmsWidgets_Helper
+class Enterprise_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
 {
     /**
      * Fills "Widget Options" tab

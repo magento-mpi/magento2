@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_ImportExport
+ * @package     Mage_ImportExport
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_ImportExport_Helper extends Core_Magento_ImportExport_Helper
+class Enterprise_Mage_ImportExport_Helper extends Core_Mage_ImportExport_Helper
 {
     /**
      * Get list of Customer Entity Types specific for Magento versions

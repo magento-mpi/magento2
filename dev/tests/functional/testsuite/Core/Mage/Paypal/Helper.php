@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Paypal
+ * @package     Mage_Paypal
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Magento_Paypal_Helper extends Mage_Selenium_AbstractHelper
+class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
 {
     public static $monthMap = array('1' => '01 - January', '2' => '02 - February', '3' => '03 - March',
         '4' => '04 - April', '5' => '05 - May', '6' => '06 - June', '7' => '07 - July',

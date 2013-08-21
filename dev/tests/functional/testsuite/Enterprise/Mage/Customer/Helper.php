@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_Customer_Helper extends Core_Magento_Customer_Helper
+class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
 {
     /**
      * Updating Customer Store Credit Balance

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CmsBanners
+ * @package     Mage_CmsBanners
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
+class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Creates CMS Banners with required fields only

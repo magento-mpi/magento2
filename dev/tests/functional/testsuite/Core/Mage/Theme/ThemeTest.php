@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Theme
+ * @package     Mage_Theme
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
      * @subpackage  tests
      * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      */
-class Core_Magento_Theme_ThemeTest extends Mage_Selenium_TestCase
+class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:
@@ -373,13 +373,13 @@ class Core_Magento_Theme_ThemeTest extends Mage_Selenium_TestCase
     public function allThemeCss()
     {
         return array(
-            array('Magento_Catalog--widgets.css', 'magento_catalog_widget'),
-            array('Magento_Catalog__zoom.css', 'magento_catalog_zoom'),
-            array('Magento_Cms__widgets.css', 'magento_cms_widgets'),
-            array('Magento_Oauth--css-oauth-simple.css', 'magento_oauth_css_oauth_simple'),
-            array('Magento_Page__css_tabs.css', 'magento_page_css_tabs'),
-            array('Magento_Reports__widgets.css', 'magento_reports_widgets'),
-            array('Magento_Widget__widgets.css', 'magento_widget_widgets'),
+            array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
+            array('Mage_Catalog__zoom.css', 'mage_catalog_zoom'),
+            array('Mage_Cms__widgets.css', 'mage_cms_widgets'),
+            array('Mage_Oauth--css-oauth-simple.css', 'mage_oauth_css_oauth_simple'),
+            array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'),
+            array('Mage_Reports__widgets.css', 'mage_reports_widgets'),
+            array('Mage_Widget__widgets.css', 'mage_widget_widgets'),
             array('mage-calendar.css', 'mage_calendar'),
             array('css_print.css', 'css_print'),
             array('css_styles-ie.css', 'css_style_ie'),
