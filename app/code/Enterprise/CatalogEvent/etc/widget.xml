@@ -11,10 +11,9 @@
 -->
 <widgets>
     <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister" module="Enterprise_CatalogEvent"
-            translate="name description">
-        <name>Catalog Events Carousel</name>
+            translate="label description" placeholder_image="Enterprise_CatalogEvent::widget_lister.gif">
+        <label>Catalog Events Carousel</label>
         <description>List all open Catalog Events as a Paginated Carousel</description>
-        <placeholder_image>Enterprise_CatalogEvent::widget_lister.gif</placeholder_image>
         <parameter name="limit" xsi:type="text" required="true" visible="true" value="5" translate="label description">
             <label>Frame Size</label>
             <description>Number of Items to display at once</description>
@@ -32,7 +31,7 @@
                 Catalog Events Carousel Default Template
             </option>
         </parameter>
-        <container section="left_column">
+        <container section="left_column" name="left">
             <template name="lister" value="default"/>
         </container>
         <container section="main_content" name="content">
