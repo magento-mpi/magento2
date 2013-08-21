@@ -25,13 +25,6 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
     protected $_defaults = array();
 
     /**
-     * Available routers array
-     *
-     * @var array
-     */
-    protected $_routers = array();
-
-    /**
      * @var Mage_Core_Model_RouterList
      */
     protected $_routerList;
@@ -53,7 +46,6 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
         $this->_rewriteFactory = $rewriteFactory;
         $this->_eventManager = $eventManager;
         $this->_routerList = $routerList;
-        $this->_routers = $routerList->getRouters();
     }
 
     public function setDefault($key, $value=null)
@@ -114,8 +106,9 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
      */
     public function getRouter($name)
     {
-        if (isset($this->_routers[$name])) {
-            return $this->_routers[$name];
+        $routers = $this->_routerList->getRouters();
+        if (isset($routers[$name])) {
+            return $routers[$name];
         }
         return false;
     }
@@ -127,7 +120,7 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
      */
     public function getRouters()
     {
-        return $this->_routers;
+        return $this->_routerList->getRouters();
     }
 
     /**
@@ -153,7 +146,7 @@ class Mage_Core_Controller_Varien_Front extends Magento_Object implements Mage_C
         $routingCycleCounter = 0;
         while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
             /** @var $router Mage_Core_Controller_Varien_Router_Abstract */
-            foreach ($this->_routers as $router) {
+            foreach ($this->_routerList->getRouters() as $router) {
                 $router->setFront($this);
 
                 /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
