@@ -9,7 +9,10 @@
  * @license     {license_link}
  */
 -->
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget widget.xsd ">
+
     <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister" module="Enterprise_CatalogEvent"
             translate="label description" placeholder_image="Enterprise_CatalogEvent::widget_lister.gif">
         <label>Catalog Events Carousel</label>
@@ -28,7 +31,7 @@
         </parameter>
         <parameter name="template" xsi:type="select" required="true">
             <option name="default" value="widget/lister.phtml" selected="true" translate="label">
-                Catalog Events Carousel Default Template
+                <label>Catalog Events Carousel Default Template</label>
             </option>
         </parameter>
         <container section="left_column" name="left">
