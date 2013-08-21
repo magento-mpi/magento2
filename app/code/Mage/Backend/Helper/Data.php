@@ -30,18 +30,26 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_areaFrontName = null;
 
     /**
+     * @var Mage_Core_Model_RouterList
+     */
+    protected $_routerList;
+
+    /**
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Helper_Context $context
+     * @param Mage_Core_Model_RouterList $routerList
      * @param string $defaultAreaFrontName
      */
     public function __construct(
         Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Helper_Context $context,
+        Mage_Core_Model_RouterList $routerList,
         $defaultAreaFrontName
     ) {
         parent::__construct($context);
         $this->_config = $applicationConfig;
         $this->_defaultAreaFrontName = $defaultAreaFrontName;
+        $this->_routerList = $routerList;
     }
 
     public function getPageHelpUrl()
@@ -59,7 +67,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontName = $request->getModuleName();
-                $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
+                $router = $this->_routerList->getRouterByFrontName($frontName);
 
                 $frontModule = $router->getModulesByFrontName($frontName);
                 if (empty($frontModule) === false) {

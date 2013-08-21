@@ -102,6 +102,19 @@ class Mage_Core_Model_Url extends Magento_Object implements Mage_Core_Model_UrlI
     protected $_useSession;
 
     /**
+     * @var Mage_Core_Model_RouterList
+     */
+    protected $_routerList;
+
+    /**
+     * @param Mage_Core_Model_RouterList $routerList
+     */
+    public function __construct(Mage_Core_Model_RouterList $routerList)
+    {
+        $this->_routerList = $routerList;
+    }
+
+    /**
      * Initialize object
      */
     protected function _construct()
@@ -503,7 +516,7 @@ class Mage_Core_Model_Url extends Magento_Object implements Mage_Core_Model_UrlI
     {
         if (!$this->hasData('route_front_name')) {
             $routeId = $this->getRouteName();
-            $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($routeId);
+            $router = $this->_routerList->getRouterByRoute($routeId);
             $frontName = $router->getFrontNameByRoute($routeId);
 
             $this->setRouteFrontName($frontName);
