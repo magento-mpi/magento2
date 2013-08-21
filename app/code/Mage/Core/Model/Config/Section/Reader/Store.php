@@ -18,7 +18,7 @@ class Mage_Core_Model_Config_Section_Reader_Store
     protected $_sectionPool;
 
     /**
-     * @var Mage_Core_Model_Config_Section_Converter
+     * @var Mage_Core_Model_Config_Section_Store_Converter
      */
     protected $_converter;
 
@@ -40,7 +40,7 @@ class Mage_Core_Model_Config_Section_Reader_Store
     /**
      * @param Mage_Core_Model_Config_Initial $initialConfig
      * @param Mage_Core_Model_Config_SectionPool $sectionPool
-     * @param Mage_Core_Model_Config_Section_Converter $converter
+     * @param Mage_Core_Model_Config_Section_Store_Converter $converter
      * @param Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory
      * @param Mage_Core_Model_WebsiteFactory $websiteFactory
      * @param Mage_Core_Model_StoreFactory $storeFactory
@@ -48,7 +48,7 @@ class Mage_Core_Model_Config_Section_Reader_Store
     public function __construct(
         Mage_Core_Model_Config_Initial $initialConfig,
         Mage_Core_Model_Config_SectionPool $sectionPool,
-        Mage_Core_Model_Config_Section_Converter $converter,
+        Mage_Core_Model_Config_Section_Store_Converter $converter,
         Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory,
         Mage_Core_Model_WebsiteFactory $websiteFactory,
         Mage_Core_Model_StoreFactory $storeFactory
@@ -79,7 +79,6 @@ class Mage_Core_Model_Config_Section_Reader_Store
         foreach ($collection as $item) {
             $dbStoreConfig[$item->getPath()] = $item->getValue();
         }
-        $dbStoreConfig = $this->_converter->convert($dbStoreConfig);
-        return array_replace_recursive($initialConfig, $dbStoreConfig);
+        return $this->_converter->convert($dbStoreConfig, $initialConfig);
     }
 } 

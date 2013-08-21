@@ -21,6 +21,11 @@ class Mage_Core_Model_Config_Initial_Converter implements Magento_Config_Convert
     );
 
     /**
+     * @var array
+     */
+    protected $_metadata = array();
+
+    /**
      * @param array $nodeMap
      */
     public function __construct(array $nodeMap = array())
@@ -38,26 +43,38 @@ class Mage_Core_Model_Config_Initial_Converter implements Magento_Config_Convert
     {
         $output = array();
         $xpath = new DOMXPath($source);
+        $this->_metadata = array();
+
         /** @var $node DOMNode */
         foreach ($xpath->query(implode(' | ', $this->_nodeMap)) as $node) {
             $output = array_merge($output, $this->_convertNode($node));
         }
-        return $output;
+        return array('data' => $output, 'metadata' => $this->_metadata);
     }
 
     /**
      * Convert node oto array
      *
      * @param DOMNode $node
+     * @param string $path
      * @return array|string|null
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _convertNode(DOMNode $node)
+    protected function _convertNode(DOMNode $node, $path = '')
     {
         $output = array();
         if ($node->nodeType == XML_ELEMENT_NODE) {
+            if ($node->hasAttributes()) {
+                $backendModel = $node->attributes->getNamedItem('backend_model');
+                if ($backendModel) {
+                    $this->_metadata[$path] = array('backendModel' => $backendModel->nodeValue);
+                }
+            }
             $nodeData = array();
+            /** @var $childNode DOMNode */
             foreach ($node->childNodes as $childNode) {
-                $childrenData = $this->_convertNode($childNode);
+                $childrenData = $this->_convertNode($childNode, ($path ? $path . '/' : '') . $childNode->nodeName);
                 if ($childrenData == null) {
                     continue;
                 }

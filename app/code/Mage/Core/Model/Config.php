@@ -247,39 +247,13 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * Returns node found by the $path and scope info
      *
      * @param   string $path
-     * @param   string $scope
-     * @param   string|int $scopeCode
      * @return Mage_Core_Model_Config_Element
      * @deprecated
      */
-    public function getNode($path = null, $scope = '', $scopeCode = null)
+    public function getNode($path = null)
     {
-        if ($scope !== '') {
-            if (('store' === $scope) || ('website' === $scope)) {
-                $scope .= 's';
-            }
-            if (('default' !== $scope) && is_int($scopeCode)) {
-                if ('stores' == $scope) {
-                    $scopeCode = $this->_app->getStore($scopeCode)->getCode();
-                } elseif ('websites' == $scope) {
-                    $scopeCode = $this->_app->getWebsite($scopeCode)->getCode();
-                } else {
-                    Mage::throwException(
-                        $this->_objectManager->get('Mage_Core_Helper_Data')
-                            ->__('Unknown scope "%s".', $scope)
-                    );
-                }
-            }
-            $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
-        }
         try {
-            $value = $this->_config->getNode($path);
-            $parts = explode('/', $path);
-            if (in_array(current($parts), array('default', 'stores', 'websites'))) {
-                $defaultValue = $this->_configData->getValue($path);
-                return $defaultValue;
-            }
-            return $value;
+            return $this->_config->getNode($path);
         } catch (Mage_Core_Model_Config_Cache_Exception $e) {
             $this->reinit();
             return $this->_config->getNode($path);
@@ -292,6 +266,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param string $path
      * @param string $scope
      * @param string $scopeCode
+     * @return mixed
      */
     public function getValue($path = null, $scope = 'default', $scopeCode = null)
     {
@@ -505,30 +480,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             }
         }
         return $this->_secureUrlCache[$url];
-    }
-
-    /**
-     * Get website instance base url
-     *
-     * @return string
-     */
-    public function getDistroBaseUrl()
-    {
-        if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-            $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
-                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
-            $scheme = ($secure ? 'https' : 'http') . '://' ;
-
-            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
-            $host = $hostArr[0];
-            $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
-                ? ':'. $hostArr[1]
-                : '';
-            $path = Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http')->getBasePath();
-
-            return $scheme . $host . $port . rtrim($path, '/') . '/';
-        }
-        return 'http://localhost/';
     }
 
     /**

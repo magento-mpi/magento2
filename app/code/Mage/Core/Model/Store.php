@@ -22,10 +22,6 @@
  * @method int getStoreId()
  * @method Mage_Core_Model_Store setSortOrder(int $value)
  * @method Mage_Core_Model_Store setIsActive(int $value)
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
@@ -231,10 +227,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_appState;
 
     /**
+     * @var Mage_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Url $urlModel
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -244,6 +246,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Url $urlModel,
         Mage_Core_Model_App_State $appState,
+        Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -251,6 +254,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
+        $this->_request = $request;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -260,18 +264,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('Mage_Core_Model_Resource_Store');
-        $this->_configCacheBaseNodes = array(
-            self::XML_PATH_PRICE_SCOPE,
-            self::XML_PATH_SECURE_BASE_URL,
-            self::XML_PATH_SECURE_IN_ADMINHTML,
-            self::XML_PATH_SECURE_IN_FRONTEND,
-            self::XML_PATH_STORE_IN_URL,
-            self::XML_PATH_UNSECURE_BASE_URL,
-            self::XML_PATH_USE_REWRITES,
-            self::XML_PATH_UNSECURE_BASE_LINK_URL,
-            self::XML_PATH_SECURE_BASE_LINK_URL,
-            'general/locale/code'
-        );
     }
 
     /**
@@ -317,17 +309,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Loading store data
      *
-     * @param   mixed $id
+     * @param   mixed $key
      * @param   string $field
      * @return  Mage_Core_Model_Store
      */
-    public function load($id, $field=null)
+    public function load($key, $field = null)
     {
-        if (!is_numeric($id) && is_null($field)) {
-            $this->_getResource()->load($this, $id, 'code');
+        if (!is_numeric($key) && is_null($field)) {
+            $this->_getResource()->load($this, $key, 'code');
             return $this;
         }
-        return parent::load($id, $field);
+        return parent::load($key, $field);
     }
 
     /**
@@ -348,13 +340,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getConfig($path)
     {
-        if (isset($this->_configCache[$path])) {
-            return $this->_configCache[$path];
-        }
-
         /** @var $config Mage_Core_Model_Config */
         $config = Mage::getSingleton('Mage_Core_Model_Config');
-        $fullPath = 'stores/' . $this->getCode() . '/' . $path;
         $data = $config->getValue($path, 'store', $this->getCode());
         if (!$data && !$this->_appState->isInstalled()) {
             $data = $config->getValue($path, 'default');
@@ -362,39 +349,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (!$data) {
             return null;
         }
-        return $this->_processConfigValue($fullPath, $path, $data);
-    }
-
-    /**
-     * Initialize base store configuration data
-     *
-     * Method provide cache configuration data without loading store config XML
-     *
-     * @return Mage_Core_Model_Config
-     */
-    public function initConfigCache()
-    {
-        /**
-         * Functionality related with config separation
-         */
-        if ($this->_configCache === null) {
-            $code = $this->getCode();
-            if ($code) {
-                $cacheId = 'store_' . $code . '_config_cache';
-                $data = $this->_configCacheType->load($cacheId);
-                if ($data) {
-                    $data = unserialize($data);
-                } else {
-                    $data = array();
-                    foreach ($this->_configCacheBaseNodes as $node) {
-                        $data[$node] = $this->getConfig($node);
-                    }
-                    $this->_configCacheType->save(serialize($data), $cacheId, array(self::CACHE_TAG), false);
-                }
-                $this->_configCache = $data;
-            }
-        }
-        return $this;
+        return $data;
     }
 
     /**
@@ -408,9 +363,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function setConfig($path, $value)
     {
-        if (isset($this->_configCache[$path])) {
-            $this->_configCache[$path] = $value;
-        }
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
         Mage::getConfig()->setNode($fullPath, $value);
 
@@ -438,52 +390,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return false;
         }
         return Mage::app()->getWebsite($this->getWebsiteId());
-    }
-
-    /**
-     * Process config value
-     *
-     * @param string $fullPath
-     * @param string $path
-     * @param array|string $data
-     * @return string
-     */
-    protected function _processConfigValue($fullPath, $path, $data)
-    {
-        if (isset($this->_configCache[$path])) {
-            return $this->_configCache[$path];
-        }
-
-        if (is_array($data)) {
-            $arrayValue = array();
-            foreach ($data as $key => $value) {
-                $arrayValue[$key] = $this->_processConfigValue($fullPath . '/' . $key, $path . '/' . $key, $value);
-            }
-            $this->_configCache[$path] = $arrayValue;
-            return $arrayValue;
-        }
-
-        $stringValue = $data;
-        if (is_string($stringValue) && preg_match('/{{(.*)}}.*/', $stringValue, $matches)) {
-            $placeholder = $matches[1];
-            $url = false;
-            if ($placeholder == 'unsecure_base_url') {
-                $url = $this->getConfig(self::XML_PATH_UNSECURE_BASE_URL);
-            } elseif ($placeholder == 'secure_base_url') {
-                $url = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
-            }
-
-            if ($url) {
-                $stringValue = str_replace('{{' . $placeholder . '}}', $url, $stringValue);
-            } elseif (strpos($stringValue, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
-                $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
-                $stringValue = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $stringValue);
-            }
-        }
-
-        $this->_configCache[$path] = $stringValue;
-
-        return $stringValue;
     }
 
     /**
@@ -584,7 +490,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             }
 
             if (false !== strpos($url, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER)) {
-                $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
+                $distroBaseUrl = $this->_request->getDistroBaseUrl();
                 $url = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $url);
             }
 
@@ -1106,7 +1012,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             parse_str($storeParsedUrl['query'], $storeParsedQuery);
         }
 
-        $currQuery = Mage::app()->getRequest()->getQuery();
+        $currQuery = $this->_request->getQuery();
         if (isset($currQuery[$sidQueryParam]) && !empty($currQuery[$sidQueryParam])
             && $this->_getSession()->getSessionIdForHost($storeUrl) != $currQuery[$sidQueryParam]
         ) {
@@ -1198,7 +1104,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         Mage::getConfig()->reinit();
         $this->_dirCache        = array();
-        $this->_configCache     = array();
         $this->_baseUrlCache    = array();
         $this->_urlCache        = array();
 

@@ -14,14 +14,15 @@ class Mage_Core_Model_Config_Data implements Mage_Core_Model_Config_DataInterfac
      *
      * @var array
      */
-    protected $_data = null;
+    protected $_data = array();
 
     /**
-     * @param $data
+     * @param Mage_Core_Model_Config_MetadataProcessor $processor
+     * @param array $data
      */
-    public function __construct($data)
+    public function __construct(Mage_Core_Model_Config_MetadataProcessor $processor, array $data)
     {
-        $this->_data = $data;
+        $this->_data = $processor->process($data);
     }
 
     /**

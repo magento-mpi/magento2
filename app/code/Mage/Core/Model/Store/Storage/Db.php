@@ -359,7 +359,6 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
 
         foreach ($storeCollection as $store) {
             /** @var $store Mage_Core_Model_Store */
-            $store->initConfigCache();
             $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));
             $store->setGroup($groupCollection->getItemById($store->getGroupId()));
 

@@ -28,7 +28,7 @@ class Mage_Core_Model_Config_SectionPool
     protected $_cacheId;
 
     /**
-     * @var array
+     * @var Mage_Core_Model_Config_Data[]
      */
     protected $_sections = array();
 
@@ -64,7 +64,7 @@ class Mage_Core_Model_Config_SectionPool
             $cacheKey = $this->_cacheId . $code;
             $data = $this->_cache->load($cacheKey);
             if ($data) {
-                $this->_sections[$code] = unserialize($data);
+                $data = unserialize($data);
             } else {
                 $reader = $this->_readerPool->getReader($scopeType);
                 if ($scopeType === 'default') {
@@ -72,9 +72,9 @@ class Mage_Core_Model_Config_SectionPool
                 } else {
                     $data = $reader->read($scopeCode);
                 }
-                $this->_sections[$code] = $this->_dataFactory->create(array('data' => $data));
-                $this->_cache->save(serialize($this->_sections[$code]), $cacheKey);
+                $this->_cache->save(serialize($data), $cacheKey);
             }
+            $this->_sections[$code] = $this->_dataFactory->create(array('data' => $data));
         }
         return $this->_sections[$code];
     }

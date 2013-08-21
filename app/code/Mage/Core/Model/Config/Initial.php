@@ -10,6 +10,20 @@
 class Mage_Core_Model_Config_Initial
 {
     /**
+     * Config data
+     *
+     * @var array
+     */
+    protected $_data = array();
+
+    /**
+     * Config metadata
+     *
+     * @var array
+     */
+    protected $_metadata = array();
+
+    /**
      * @param Mage_Core_Model_Config_Initial_Reader $reader
      * @param Mage_Core_Model_Cache_Type_Config $cache
      * @param string $cacheId
@@ -26,7 +40,8 @@ class Mage_Core_Model_Config_Initial
         } else {
             $data = unserialize($data);
         }
-        $this->_data = $data;
+        $this->_data = $data['data'];
+        $this->_metadata = $data['metadata'];
     }
 
     /**
@@ -59,5 +74,15 @@ class Mage_Core_Model_Config_Initial
     public function getWebsite($code)
     {
         return isset($this->_data['websites'][$code]) ? $this->_data['websites'][$code] : array();
+    }
+
+    /**
+     * Get configuration metadata
+     *
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->_metadata;
     }
 }

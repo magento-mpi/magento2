@@ -519,4 +519,30 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 
         return (isset($_FILES[$key])) ? $_FILES[$key] : $default;
     }
+
+    /**
+     * Get website instance base url
+     *
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function getDistroBaseUrl()
+    {
+        if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
+            $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
+                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
+            $scheme = ($secure ? 'https' : 'http') . '://' ;
+
+            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
+            $host = $hostArr[0];
+            $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
+                ? ':'. $hostArr[1]
+                : '';
+            $path = $this->getBasePath();
+
+            return $scheme . $host . $port . rtrim($path, '/') . '/';
+        }
+        return 'http://localhost/';
+    }
 }
