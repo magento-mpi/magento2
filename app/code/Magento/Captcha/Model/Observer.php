@@ -328,13 +328,13 @@ class Magento_Captcha_Model_Observer
     /**
      * Get Captcha String
      *
-     * @param Magento_Object $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param string $formId
      * @return string
      */
-    protected function _getCaptchaString($request, $formId)
+    protected function _getCaptchaString(Magento_Core_Controller_Request_Http $request, $formId)
     {
         $captchaParams = $request->getPost(Magento_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE);
-        return $captchaParams[$formId];
+        return isset($captchaParams[$formId]) ? $captchaParams[$formId] : '';
     }
 }

@@ -264,12 +264,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(
                 $value,
                 $category[$name],
-                sprintf(
-                    'Category "%s" is "%s" and not the same like sent to create "%s".',
-                    $name,
-                    $category[$name],
-                    $value
-                )
+                sprintf('Category data with name "%s" is not the same like sent to create.', $name)
             );
         }
 

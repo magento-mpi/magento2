@@ -1091,7 +1091,6 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             if (!$this->getQuote()->isVirtual()) {
                 $this->_setQuoteAddress($shippingAddress, $address);
             }
-            $shippingAddress->implodeStreetAddress();
         }
         if ($address instanceof Magento_Sales_Model_Quote_Address) {
             $shippingAddress = $address;
@@ -1135,7 +1134,6 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 ->setData($address)
                 ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_BILLING);
             $this->_setQuoteAddress($billingAddress, $address);
-            $billingAddress->implodeStreetAddress();
         }
 
         if ($this->getShippingAddress()->getSameAsBilling()) {

@@ -432,9 +432,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $optionTitleTable = $this->_tables['catalog_product_option_title'];
             $productIds = array_values($this->_productsSkuToId);
             foreach ($this->_storeCodeToId as $storeId) {
-                $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption)
-                    use (&$oldCustomOptions, $storeId)
-                {
+                $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption) use (
+                    &$oldCustomOptions,
+                    $storeId
+                ) {
                     $productId = $customOption->getProductId();
                     if (!isset($oldCustomOptions[$productId])) {
                         $oldCustomOptions[$productId] = array();

@@ -732,4 +732,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_
         }
         return $data;
     }
+
+    /**
+     * Attribute value is not to be saved in a conventional way, separate table is used to store the complex value
+     *
+     * {@inheritdoc}
+     */
+    public function isScalar()
+    {
+        return false;
+    }
 }

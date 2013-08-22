@@ -166,11 +166,12 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Init Ogone Api instance, detup default values
      *
+     * @var Magento_Ogone_Model_Config $config
      * @return Magento_Ogone_Model_Api
      */
-    public function __construct()
+    public function __construct(Magento_Ogone_Model_Config $config)
     {
-        $this->_config = Mage::getSingleton('Magento_Ogone_Model_Config');
+        $this->_config = $config;
         return $this;
     }
 
@@ -227,6 +228,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
                 return array();
             }
         }
+        /** @var Magento_Sales_Model_Quote_Address $billingAddress */
         $billingAddress = $order->getBillingAddress();
         $formFields = array();
         $formFields['PSPID']    = $this->getConfig()->getPSPID();
@@ -242,7 +244,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         $formFields['ownertown']= $this->_translate($billingAddress->getCity());
         $formFields['COM']      = $this->_translate($this->_getOrderDescription($order));
         $formFields['ownertelno']   = $billingAddress->getTelephone();
-        $formFields['owneraddress'] =  $this->_translate(str_replace("\n", ' ',$billingAddress->getStreet(-1)));
+        $formFields['owneraddress'] =  $this->_translate(implode(' ', $billingAddress->getStreet()));
 
         $paymentAction = $this->_getOgonePaymentOperation();
         if ($paymentAction ) {
@@ -357,7 +359,11 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     protected function _translate($text)
     {
-        return htmlentities(iconv("UTF-8", "ISO-8859-1", $text));
+        $flags = ENT_COMPAT;
+        if (defined('ENT_HTML401')) { // Constant is defined in PHP 5.4 only
+            $flags |= ENT_HTML401;
+        }
+        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), $flags, 'ISO-8859-1');
     }
 
     /**

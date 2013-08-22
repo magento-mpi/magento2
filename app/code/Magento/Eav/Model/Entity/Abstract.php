@@ -1218,6 +1218,14 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             $attrId = $attribute->getAttributeId();
 
             /**
+             * Only scalar values can be stored in generic tables
+             */
+            if (!$attribute->getBackend()->isScalar()) {
+                continue;
+            }
+
+
+            /**
              * if attribute is static add to entity row and continue
              */
             if ($this->isAttributeStatic($k)) {
@@ -1486,10 +1494,12 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     protected function _prepareValueForSave($value, Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        if ($attribute->getBackendType() == 'decimal') {
-            return Mage::app()->getLocale()->getNumber($value);
+        $type = $attribute->getBackendType();
+        if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
+            $value = null;
+        } else if ($type == 'decimal') {
+            $value = Mage::app()->getLocale()->getNumber($value);
         }
-
         $backendTable = $attribute->getBackendTable();
         if (!isset(self::$_attributeBackendTables[$backendTable])) {
             self::$_attributeBackendTables[$backendTable] = $this->_getReadAdapter()->describeTable($backendTable);

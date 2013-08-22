@@ -752,8 +752,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
         if ($data && $address->getId()) {
             $address->addData($data);
             try {
-                $address->implodeStreetAddress()
-                    ->save();
+                $address->save();
                 $this->_getSession()->addSuccess(__('You updated the order address.'));
                 $this->_redirect('*/*/view', array('order_id' => $address->getParentId()));
                 return;

@@ -52,6 +52,24 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     static protected $_regionModels = array();
 
     /**
+     * Enforce format of the street field
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $data = $this->_implodeStreetField($data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Get full customer name
      *
      * @return string
@@ -75,25 +93,22 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     }
 
     /**
-     * get address street
+     * Retrieve street field of an address
      *
-     * @param   int $line address line index
-     * @return  string
+     * @param int|null $line Number of a line, value of which to return. Supported values:
+     *                       0|null - return array of all lines
+     *                       1..n   - return text of individual line
+     * @return array|string
      */
-    public function getStreet($line=0)
+    public function getStreet($line = 0)
     {
-        $street = parent::getData('street');
-        if (-1 === $line) {
-            return $street;
+        $lines = explode("\n", $this->getStreetFull());
+        if (0 === $line || $line === null) {
+            return $lines;
+        } else if (isset($lines[$line - 1])) {
+            return $lines[$line - 1];
         } else {
-            $arr = is_array($street) ? $street : explode("\n", $street);
-            if (0 === $line || $line === null) {
-                return $arr;
-            } elseif (isset($arr[$line-1])) {
-                return $arr[$line-1];
-            } else {
-                return '';
-            }
+            return '';
         }
     }
 
@@ -117,29 +132,82 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
         return $this->getStreet(4);
     }
 
+    /**
+     * Retrieve text of street lines, concatenated using LF symbol
+     *
+     * @return string
+     */
     public function getStreetFull()
     {
         return $this->getData('street');
     }
 
+    /**
+     * Alias for a street setter. To be used though setDataUsingMethod('street_full', $value).
+     *
+     * @param string|array $street
+     * @return Magento_Customer_Model_Address_Abstract
+     */
     public function setStreetFull($street)
     {
         return $this->setStreet($street);
     }
 
     /**
-     * set address street informa
+     * Non-magic setter for a street field
      *
-     * @param unknown_type $street
-     * @return unknown
+     * @param string|array $street
+     * @return Magento_Customer_Model_Address_Abstract
      */
     public function setStreet($street)
     {
-        if (is_array($street)) {
-            $street = trim(implode("\n", $street));
-        }
         $this->setData('street', $street);
         return $this;
+    }
+
+    /**
+     * Enforce format of the street field
+     *
+     * @param array|string $key
+     * @param null $value
+     * @return Magento_Object
+     */
+    public function setData($key, $value = null)
+    {
+        if (is_array($key)) {
+            $key = $this->_implodeStreetField($key);
+        } else if ($key == 'street') {
+            $value = $this->_implodeStreetValue($value);
+        }
+        return parent::setData($key, $value);
+    }
+
+    /**
+     * Implode value of the street field, if it is present among other fields
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function _implodeStreetField(array $data)
+    {
+        if (array_key_exists('street', $data)) {
+            $data['street'] = $this->_implodeStreetValue($data['street']);
+        }
+        return $data;
+    }
+
+    /**
+     * Combine values of street lines into a single string
+     *
+     * @param array|string $value
+     * @return string
+     */
+    protected function _implodeStreetValue($value)
+    {
+        if (is_array($value)) {
+            $value = trim(implode("\n", $value));
+        }
+        return $value;
     }
 
     /**
@@ -154,15 +222,6 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
         foreach ($streetLines as $i=>$line) {
             $this->setData('street'.($i+1), $line);
         }
-        return $this;
-    }
-
-    /**
-     * To be used when processing _POST
-     */
-    public function implodeStreetAddress()
-    {
-        $this->setStreet($this->getData('street'));
         return $this;
     }
 
@@ -322,7 +381,6 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     public function validate()
     {
         $errors = array();
-        $this->implodeStreetAddress();
         if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = __('Please enter the first name.');
         }

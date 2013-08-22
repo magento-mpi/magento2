@@ -69,8 +69,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
             self::$_whiteListJsFiles = array_merge(self::$_whiteListJsFiles, self::_scanJsFile($listFiles));
         }
         $blackListJsFiles = self::$_blackListJsFiles;
-        $filter = function($value) use($blackListJsFiles)
-        {
+        $filter = function($value) use ($blackListJsFiles) {
             return !in_array($value, $blackListJsFiles);
         };
         self::$_whiteListJsFiles = array_filter(self::$_whiteListJsFiles, $filter);
@@ -100,8 +99,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function codeJsHintDataProvider()
     {
         self::setUpBeforeClass();
-        $map = function($value)
-        {
+        $map = function($value) {
             return array($value);
         };
         return array_map($map, self::$_whiteListJsFiles);
@@ -121,8 +119,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         foreach (glob($globPattern) as $list) {
             $result = array_merge($result, file($list));
         }
-        $map = function($value)
-        {
+        $map = function($value) {
             return trim($value) ? Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR .
                 str_replace('/', DIRECTORY_SEPARATOR, trim($value)) : '';
         };

@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**
  * Magento_Webhook_Model_Formatter_Factory
  *

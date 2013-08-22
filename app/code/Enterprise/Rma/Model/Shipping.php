@@ -81,6 +81,7 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         /** @var $order Magento_Sales_Model_Order */
         $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
+        /** @var Magento_Sales_Model_Quote_Address $recipientAddress */
         $recipientAddress   = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
@@ -102,7 +103,7 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
             || !$recipientContactName->getLastName()
             || !$recipientAddress->getCompany()
             || !$storeInfo->getPhone()
-            || !$recipientAddress->getStreet(-1)
+            || !$recipientAddress->getStreetFull()
             || !$recipientAddress->getCity()
             || !$shipperRegionCode
             || !$recipientAddress->getPostcode()
@@ -142,9 +143,9 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         $request->setRecipientContactCompanyName($recipientAddress->getCompany());
         $request->setRecipientContactPhoneNumber($storeInfo->getPhone());
         $request->setRecipientEmail($recipientAddress->getEmail());
-        $request->setRecipientAddressStreet($recipientAddress->getStreet(-1));
+        $request->setRecipientAddressStreet($recipientAddress->getStreetFull());
         $request->setRecipientAddressStreet1($recipientAddress->getStreet(1));
-        $request->setRecipientAddressStreet2($recipientAddress->getStreet2(2));
+        $request->setRecipientAddressStreet2($recipientAddress->getStreet(2));
         $request->setRecipientAddressCity($recipientAddress->getCity());
         $request->setRecipientAddressStateOrProvinceCode($recipientRegionCode);
         $request->setRecipientAddressRegionCode($recipientRegionCode);

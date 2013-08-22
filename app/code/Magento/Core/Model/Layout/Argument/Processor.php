@@ -58,8 +58,8 @@ class Magento_Core_Model_Layout_Argument_Processor
         foreach ($arguments as $argumentKey => $argumentValue) {
             $value = isset($argumentValue['value']) ? $argumentValue['value'] : null;
 
-            if (true == isset($argumentValue['type']) && false == empty($argumentValue['type'])) {
-                if (true == empty($value)) {
+            if (!empty($argumentValue['type'])) {
+                if (empty($value)) {
                     throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
                 }
 
@@ -67,7 +67,7 @@ class Magento_Core_Model_Layout_Argument_Processor
                 $value   = $handler->process($value);
             }
 
-            if (true == isset($argumentValue['updater']) && false == empty($argumentValue['updater'])) {
+            if (!empty($argumentValue['updater'])) {
                 $value = $this->_argumentUpdater->applyUpdaters($value, $argumentValue['updater']);
             }
             $processedArguments[$argumentKey] = $value;
@@ -91,7 +91,7 @@ class Magento_Core_Model_Layout_Argument_Processor
         /** @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
         $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
 
-        if (false === ($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
+        if (!($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
             throw new InvalidArgumentException($type
                 . ' type handler should implement Magento_Core_Model_Layout_Argument_HandlerInterface');
         }
