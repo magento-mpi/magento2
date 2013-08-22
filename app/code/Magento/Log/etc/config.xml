@@ -92,17 +92,6 @@
             </checkout_quote_destroy>
         </events>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Log>
-                    <files>
-                        <default>Magento_Log.csv</default>
-                    </files>
-                </Magento_Log>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <log>
             <visitor>

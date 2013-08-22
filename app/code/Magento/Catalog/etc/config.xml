@@ -281,15 +281,6 @@
         </session>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Catalog>
-                    <files>
-                        <default>Magento_Catalog.csv</default>
-                    </files>
-                </Magento_Catalog>
-            </modules>
-        </translate>
         <events>
             <cms_wysiwyg_images_static_urls_allowed>
                 <observers>
@@ -343,15 +334,6 @@
                 </observers>
             </sales_convert_quote_item_to_order_item>
         </events>
-        <translate>
-            <modules>
-                <Magento_Catalog>
-                    <files>
-                        <default>Magento_Catalog.csv</default>
-                    </files>
-                </Magento_Catalog>
-            </modules>
-        </translate>
         <catalog>
             <per_page_values>
                 <grid>9,15,30</grid>

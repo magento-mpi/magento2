@@ -45,15 +45,6 @@
                 </observers>
             </enterprise_persistent_options_shopping_cart_save_after>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Persistent>
-                    <files>
-                        <default>Enterprise_Persistent.csv</default>
-                    </files>
-                </Enterprise_Persistent>
-            </modules>
-        </translate>
     </adminhtml>
     <frontend>
         <events>

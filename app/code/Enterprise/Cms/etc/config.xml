@@ -146,15 +146,6 @@
                 </observers>
             </cms_page_delete_after>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Cms>
-                    <files>
-                        <default>Enterprise_Cms.csv</default>
-                    </files>
-                </Enterprise_Cms>
-            </modules>
-        </translate>
     </adminhtml>
     <admin>
         <routers>

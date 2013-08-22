@@ -200,15 +200,6 @@
                 </observers>
             </assign_theme_to_stores_after>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_PageCache>
-                    <files>
-                        <default>Enterprise_PageCache.csv</default>
-                    </files>
-                </Enterprise_PageCache>
-            </modules>
-        </translate>
         <cache>
             <dependency>
                 <change>

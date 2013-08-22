@@ -19,27 +19,7 @@
             </shipping_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Shipping>
-                    <files>
-                        <default>Magento_Shipping.csv</default>
-                    </files>
-                </Magento_Shipping>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Shipping>
-                    <files>
-                        <default>Magento_Shipping.csv</default>
-                    </files>
-                </Magento_Shipping>
-            </modules>
-        </translate>
         <routers>
             <shipping>
                 <use>standard</use>

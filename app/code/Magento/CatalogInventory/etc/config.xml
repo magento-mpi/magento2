@@ -217,27 +217,7 @@
             </indexer>
         </index>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_CatalogInventory>
-                    <files>
-                        <default>Magento_CatalogInventory.csv</default>
-                    </files>
-                </Magento_CatalogInventory>
-            </modules>
-        </translate>
-    </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CatalogInventory>
-                    <files>
-                        <default>Magento_CatalogInventory.csv</default>
-                    </files>
-                </Magento_CatalogInventory>
-            </modules>
-        </translate>
         <events>
             <after_reindex_process_cataloginventory_stock>
                 <observers>

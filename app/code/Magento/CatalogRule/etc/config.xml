@@ -69,26 +69,8 @@
                 </observers>
             </prepare_catalog_product_collection_prices>
         </events>
-        <translate>
-            <modules>
-                <Magento_CatalogRule>
-                    <files>
-                        <default>Magento_CatalogRule.csv</default>
-                    </files>
-                </Magento_CatalogRule>
-            </modules>
-        </translate>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CatalogRule>
-                    <files>
-                        <default>Magento_CatalogRule.csv</default>
-                    </files>
-                </Magento_CatalogRule>
-            </modules>
-        </translate>
         <events>
             <catalog_product_get_final_price>
                 <observers>

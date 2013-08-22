@@ -42,39 +42,6 @@
             </layouts>
         </page>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Page>
-                    <files>
-                        <default>Magento_Page.csv</default>
-                    </files>
-                </Magento_Page>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Page>
-                    <files>
-                        <default>Magento_Page.csv</default>
-                    </files>
-                </Magento_Page>
-            </modules>
-        </translate>
-    </adminhtml>
-    <install>
-        <translate>
-            <modules>
-                <Magento_Page>
-                    <files>
-                        <default>Magento_Page.csv</default>
-                    </files>
-                </Magento_Page>
-            </modules>
-        </translate>
-    </install>
     <default>
         <design>
             <head translate="default_description">

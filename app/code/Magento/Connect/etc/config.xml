@@ -21,15 +21,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Connect>
-                    <files>
-                        <default>Magento_Connect.csv</default>
-                    </files>
-                </Magento_Connect>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

@@ -93,15 +93,6 @@
                 </full_action_names>
             </websiterestriction>
         </enterprise>
-        <translate>
-            <modules>
-                <Enterprise_WebsiteRestriction>
-                    <files>
-                        <default>Enterprise_WebsiteRestriction.csv</default>
-                    </files>
-                </Enterprise_WebsiteRestriction>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <general>

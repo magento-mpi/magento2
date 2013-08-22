@@ -39,17 +39,6 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_Invitation>
-                    <files>
-                        <default>Enterprise_Invitation.csv</default>
-                    </files>
-                </Enterprise_Invitation>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <enterprise>
             <websiterestriction>
@@ -61,15 +50,6 @@
                 </full_action_names>
             </websiterestriction>
         </enterprise>
-        <translate>
-            <modules>
-                <Enterprise_Invitation>
-                    <files>
-                        <default>Enterprise_Invitation.csv</default>
-                    </files>
-                </Enterprise_Invitation>
-            </modules>
-        </translate>
         <routers>
             <enterprise_invitation>
                 <use>standard</use>

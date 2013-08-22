@@ -142,15 +142,6 @@
                 </observers>
             </after_reindex_process_catalog_product_price>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Search>
-                    <files>
-                        <default>Enterprise_Search.csv</default>
-                    </files>
-                </Enterprise_Search>
-            </modules>
-        </translate>
     </adminhtml>
     <frontend>
         <events>
@@ -179,15 +170,6 @@
                 </observers>
             </controller_action_predispatch_catalogsearch_advanced_result>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Search>
-                    <files>
-                        <default>Enterprise_Search.csv</default>
-                    </files>
-                </Enterprise_Search>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <catalog>

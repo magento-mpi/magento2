@@ -66,17 +66,6 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Oauth>
-                    <files>
-                        <default>Magento_Oauth.csv</default>
-                    </files>
-                </Magento_Oauth>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <routers>
             <oauth>
@@ -87,15 +76,6 @@
                 </args>
             </oauth>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Oauth>
-                    <files>
-                        <default>Magento_Oauth.csv</default>
-                    </files>
-                </Magento_Oauth>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <oauth>

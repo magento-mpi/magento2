@@ -23,15 +23,6 @@
                 </args>
             </contacts>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Contacts>
-                    <files>
-                        <default>Magento_Contacts.csv</default>
-                    </files>
-                </Magento_Contacts>
-            </modules>
-        </translate>
     </frontend>
     <global>
         <resources>
@@ -51,17 +42,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Contacts>
-                    <files>
-                        <default>Magento_Contacts.csv</default>
-                    </files>
-                </Magento_Contacts>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <contacts>
             <contacts>

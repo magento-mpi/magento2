@@ -222,15 +222,6 @@
         </pdf>
     </global>
     <frontend>
-        <translate>
-            <modules>
-                <Enterprise_CustomerBalance>
-                    <files>
-                        <default>Enterprise_CustomerBalance.csv</default>
-                    </files>
-                </Enterprise_CustomerBalance>
-            </modules>
-        </translate>
         <routers>
             <enterprise_customerbalance>
                 <use>standard</use>
@@ -274,15 +265,6 @@
                 </observers>
             </sales_prepare_amount_expression>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_CustomerBalance>
-                    <files>
-                        <default>Enterprise_CustomerBalance.csv</default>
-                    </files>
-                </Enterprise_CustomerBalance>
-            </modules>
-        </translate>
     </adminhtml>
     <default>
         <customer>

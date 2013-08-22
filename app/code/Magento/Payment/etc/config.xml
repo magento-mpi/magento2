@@ -95,15 +95,6 @@
         </events>
     </global>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Payment>
-                    <files>
-                        <default>Magento_Payment.csv</default>
-                    </files>
-                </Magento_Payment>
-            </modules>
-        </translate>
         <events>
             <catalog_product_type_prepare_cart_options>
                 <observers>
@@ -115,17 +106,6 @@
             </catalog_product_type_prepare_cart_options>
         </events>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Payment>
-                    <files>
-                        <default>Magento_Payment.csv</default>
-                    </files>
-                </Magento_Payment>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <payment>
             <ccsave>

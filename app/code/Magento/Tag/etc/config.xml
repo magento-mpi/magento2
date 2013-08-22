@@ -52,15 +52,6 @@
                 </args>
             </tag>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Tag>
-                    <files>
-                        <default>Magento_Tag.csv</default>
-                    </files>
-                </Magento_Tag>
-            </modules>
-        </translate>
         <secure_url>
             <tag_customer>/tag/customer/</tag_customer>
         </secure_url>
@@ -88,14 +79,5 @@
                 </observers>
             </catalog_product_delete_before>
         </events>
-        <translate>
-            <modules>
-                <Magento_Tag>
-                    <files>
-                        <default>Magento_Tag.csv</default>
-                    </files>
-                </Magento_Tag>
-            </modules>
-        </translate>
     </adminhtml>
 </config>

@@ -34,15 +34,6 @@
         </widget>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Widget>
-                    <files>
-                        <default>Magento_Widget.csv</default>
-                    </files>
-                </Magento_Widget>
-            </modules>
-        </translate>
         <events>
             <cms_wysiwyg_config_prepare>
                 <observers>

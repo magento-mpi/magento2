@@ -97,15 +97,6 @@
                 </observers>
             </sales_quote_item_qty_set_after>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_CatalogEvent>
-                    <files>
-                        <default>Enterprise_CatalogEvent.csv</default>
-                    </files>
-                </Enterprise_CatalogEvent>
-            </modules>
-        </translate>
     </frontend>
     <admin>
         <routers>
@@ -118,15 +109,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_CatalogEvent>
-                    <files>
-                        <default>Enterprise_CatalogEvent.csv</default>
-                    </files>
-                </Enterprise_CatalogEvent>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

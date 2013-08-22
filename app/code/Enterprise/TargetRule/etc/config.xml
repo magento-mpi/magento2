@@ -54,15 +54,6 @@
                 </observers>
             </core_config_data_save_commit_after>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_TargetRule>
-                    <files>
-                        <default>Enterprise_TargetRule.csv</default>
-                    </files>
-                </Enterprise_TargetRule>
-            </modules>
-        </translate>
     </adminhtml>
     <admin>
         <routers>

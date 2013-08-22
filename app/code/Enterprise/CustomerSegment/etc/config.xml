@@ -108,15 +108,6 @@
                 </observers>
             </targetrule_edit_tab_main_after_prepare_form>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_CustomerSegment>
-                    <files>
-                        <default>Enterprise_CustomerSegment.csv</default>
-                    </files>
-                </Enterprise_CustomerSegment>
-            </modules>
-        </translate>
     </adminhtml>
     <frontend>
         <events>

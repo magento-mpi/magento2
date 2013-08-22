@@ -133,28 +133,7 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_Rma>
-                    <files>
-                        <default>Enterprise_Rma.csv</default>
-                    </files>
-                </Enterprise_Rma>
-            </modules>
-        </translate>
-        <events></events>
-    </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Enterprise_Rma>
-                    <files>
-                        <default>Enterprise_Rma.csv</default>
-                    </files>
-                </Enterprise_Rma>
-            </modules>
-        </translate>
         <routers>
             <enterprise_rma>
                 <use>standard</use>
@@ -164,6 +143,5 @@
                 </args>
             </enterprise_rma>
         </routers>
-        <events></events>
     </frontend>
 </config>

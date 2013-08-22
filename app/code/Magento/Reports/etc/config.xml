@@ -29,27 +29,7 @@
             </log_log_clean_after>
         </events>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Reports>
-                    <files>
-                        <default>Magento_Reports.csv</default>
-                    </files>
-                </Magento_Reports>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Reports>
-                    <files>
-                        <default>Magento_Reports.csv</default>
-                    </files>
-                </Magento_Reports>
-            </modules>
-        </translate>
         <events>
             <catalog_product_compare_remove_product>
                 <observers>

@@ -19,17 +19,6 @@
             </backup_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Backup>
-                    <files>
-                        <default>Magento_Backup.csv</default>
-                    </files>
-                </Magento_Backup>
-            </modules>
-        </translate>
-    </adminhtml>
     <crontab>
         <jobs>
             <system_backup>

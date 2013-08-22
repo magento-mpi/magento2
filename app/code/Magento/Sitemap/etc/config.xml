@@ -28,17 +28,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Sitemap>
-                    <files>
-                        <default>Magento_Sitemap.csv</default>
-                    </files>
-                </Magento_Sitemap>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <sitemap>
             <limit>

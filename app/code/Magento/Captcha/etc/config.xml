@@ -93,15 +93,6 @@
                 </args>
             </captcha>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Captcha>
-                    <files>
-                        <default>Magento_Captcha.csv</default>
-                    </files>
-                </Magento_Captcha>
-            </modules>
-        </translate>
     </frontend>
     <admin>
         <routers>
@@ -115,15 +106,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Captcha>
-                    <files>
-                        <default>Magento_Captcha.csv</default>
-                    </files>
-                </Magento_Captcha>
-            </modules>
-        </translate>
         <events>
             <controller_action_predispatch_adminhtml_auth_forgotpassword>
                 <observers>

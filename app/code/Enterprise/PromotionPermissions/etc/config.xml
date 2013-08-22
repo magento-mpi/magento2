@@ -37,14 +37,5 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_PromotionPermissions>
-                    <files>
-                        <default>Enterprise_PromotionPermissions.csv</default>
-                    </files>
-                </Enterprise_PromotionPermissions>
-            </modules>
-        </translate>
     </adminhtml>
 </config>

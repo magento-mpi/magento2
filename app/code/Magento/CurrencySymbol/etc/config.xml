@@ -33,15 +33,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CurrencySymbol>
-                    <files>
-                        <default>Magento_CurrencySymbol.csv</default>
-                    </files>
-                </Magento_CurrencySymbol>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

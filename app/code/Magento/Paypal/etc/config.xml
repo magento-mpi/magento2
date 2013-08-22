@@ -64,15 +64,6 @@
                 </args>
             </paypal>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Paypal>
-                    <files>
-                        <default>Magento_Paypal.csv</default>
-                    </files>
-                </Magento_Paypal>
-            </modules>
-        </translate>
         <secure_url>
             <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
         </secure_url>
@@ -95,17 +86,6 @@
             </controller_action_postdispatch_checkout_onepage_saveOrder>
         </events>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Paypal>
-                    <files>
-                        <default>Magento_Paypal.csv</default>
-                    </files>
-                </Magento_Paypal>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <paypal>
             <style>

@@ -417,15 +417,6 @@
                 </args>
             </sales>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Sales>
-                    <files>
-                        <default>Magento_Sales.csv</default>
-                    </files>
-                </Magento_Sales>
-            </modules>
-        </translate>
         <events>
             <sales_quote_address_collect_totals_before>
                 <observers>
@@ -454,15 +445,6 @@
         </events>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Sales>
-                    <files>
-                        <default>Magento_Sales.csv</default>
-                    </files>
-                </Magento_Sales>
-            </modules>
-        </translate>
         <events>
             <catalog_product_delete_before>
                 <observers>

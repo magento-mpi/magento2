@@ -31,15 +31,6 @@
         </events>
     </global>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Centinel>
-                    <files>
-                        <default>Magento_Centinel.csv</default>
-                    </files>
-                </Magento_Centinel>
-            </modules>
-        </translate>
         <events>
             <payment_form_block_to_html_before>
                 <observers>
@@ -76,15 +67,6 @@
                 </observers>
             </payment_info_block_prepare_specific_information>
         </events>
-        <translate>
-            <modules>
-                <Magento_Centinel>
-                    <files>
-                        <default>Magento_Centinel.csv</default>
-                    </files>
-                </Magento_Centinel>
-            </modules>
-        </translate>
     </adminhtml>
     <admin>
         <routers>

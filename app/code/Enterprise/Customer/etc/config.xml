@@ -206,19 +206,6 @@
             </core_copy_fieldset_sales_convert_quote_address_to_customer_address>
         </events>
     </global>
-    <frontend></frontend>
-    <adminhtml>
-        <events></events>
-        <translate>
-            <modules>
-                <Enterprise_Customer>
-                    <files>
-                        <default>Enterprise_Customer.csv</default>
-                    </files>
-                </Enterprise_Customer>
-            </modules>
-        </translate>
-    </adminhtml>
     <admin>
         <routers>
             <adminhtml>
