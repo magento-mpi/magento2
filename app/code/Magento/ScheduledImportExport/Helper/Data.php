@@ -147,9 +147,9 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      */
     public function isCustomerBalanceEnabled()
     {
-        if ($this->isModuleEnabled('Magento_CustomerCustomAttributesBalance')) {
-            /** @var $customerBalanceHelper Magento_CustomerCustomAttributesBalance_Helper_Data */
-            $customerBalanceHelper = Mage::helper('Magento_CustomerCustomAttributesBalance_Helper_Data');
+        if ($this->isModuleEnabled('Magento_CustomerBalance')) {
+            /** @var $customerBalanceHelper Magento_CustomerBalance_Helper_Data */
+            $customerBalanceHelper = Mage::helper('Magento_CustomerBalance_Helper_Data');
             return $customerBalanceHelper->isEnabled();
         }
         return false;

@@ -263,12 +263,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
      * @param Magento_Customer_Model_Customer $customer
      * @param int $websiteId
      * @param float $value store credit balance
-     * @return Magento_CustomerCustomAttributesBalance_Model_Balance
+     * @return Magento_CustomerBalance_Model_Balance
      */
     protected function _updateCustomerBalanceForCustomer(Magento_Customer_Model_Customer $customer, $websiteId, $value)
     {
-        /** @var $balanceModel Magento_CustomerCustomAttributesBalance_Model_Balance */
-        $balanceModel = $this->_objectFactory->getModelInstance('Magento_CustomerCustomAttributesBalance_Model_Balance');
+        /** @var $balanceModel Magento_CustomerBalance_Model_Balance */
+        $balanceModel = $this->_objectFactory->getModelInstance('Magento_CustomerBalance_Model_Balance');
         $balanceModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
@@ -279,11 +279,11 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Update balance for customer balance model
      *
-     * @param Magento_CustomerCustomAttributesBalance_Model_Balance $balanceModel
+     * @param Magento_CustomerBalance_Model_Balance $balanceModel
      * @param float $value store credit balance
-     * @return Magento_CustomerCustomAttributesBalance_Model_Balance
+     * @return Magento_CustomerBalance_Model_Balance
      */
-    protected function _updateCustomerBalanceValue(Magento_CustomerCustomAttributesBalance_Model_Balance $balanceModel, $value)
+    protected function _updateCustomerBalanceValue(Magento_CustomerBalance_Model_Balance $balanceModel, $value)
     {
         $amountDelta = $value - $balanceModel->getAmount();
         if ($amountDelta != 0) {
