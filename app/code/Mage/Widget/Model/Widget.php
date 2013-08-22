@@ -35,21 +35,27 @@ class Mage_Widget_Model_Widget
     /** @var  array */
     protected $_widgetsArray = array();
 
+    /** @var Mage_Widget_Model_Widget_Mapper  */
+    protected $_xmlMapper;
+
     /**
      * @param Mage_Widget_Model_Config_Data $dataStorage
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Mage_Widget_Model_Widget_Mapper $xmlMapper
      * @param array $data
      */
     public function __construct(
         Mage_Widget_Model_Config_Data $dataStorage,
         Mage_Core_Model_View_Url $viewUrl,
         Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Widget_Model_Widget_Mapper $xmlMapper,
         array $data = array()
     ) {
         $this->_dataStorage = $dataStorage;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_xmlMapper = $xmlMapper;
     }
 
     /**
@@ -99,8 +105,7 @@ class Mage_Widget_Model_Widget
             return $object;
         }
 
-        // @TODO: map $widget to $xml
-        $xml = $this->_map($widget);
+        $xml = $this->_xmlMapper->map($widget);
 
         // Save all nodes to object data
         $object->setType($type);
