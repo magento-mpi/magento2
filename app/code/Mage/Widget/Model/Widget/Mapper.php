@@ -15,7 +15,7 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Map an array of xml data based on the new XML structure into an array that resembles the old XML structure.
      *
-     * @param array $xml
+     * @param $xml array
      * @return array
      */
     public function map(array $xml)
@@ -33,7 +33,7 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Map a widget from new to old structure
      *
-     * @param $widgetXml
+     * @param $widgetXml array
      * @return array
      */
     private function _mapWidget($widgetXml)
@@ -68,20 +68,13 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Map a parameter from new to old structure
      *
-     * @param $parameterXml
+     * @param $parameterXml array
      * @return array
      */
     private function _mapParameter($parameterXml)
     {
         $parameter = array('@' => array());
-        $xsiType = $parameterXml['@']['type'];
-        if ($xsiType == 'value_renderer') {
-            $parameter['type'] = 'label';
-            $parameter['@']['type'] = 'complex';
-            $parameter['helper_block'] = $this->_mapRenderer($parameterXml['renderer'][0]);
-        } else {
-            $parameter['type'] = $xsiType;
-        }
+        $parameter = $this->_insertMappedType($parameterXml, $parameter);
         if (isset($parameterXml['@']['visible'])) {
             $parameter['visible'] = $parameterXml['@']['visible'];
         } else {
@@ -105,26 +98,14 @@ class Mage_Widget_Model_Widget_Mapper
         if (isset($parameterXml['depends'])) {
             $parameter['depends'] = $this->_mapDepends($parameterXml['depends'][0]);
         }
-        if (isset($parameterXml['option'])) {
-            $parameter['values'] = array();
-            foreach ($parameterXml['option'] as $optionXml) {
-                $parameter['values'][$optionXml['@']['name']] = $this->_mapOption($optionXml);
-                // Convert only the first option we find marked as selected into a 'value' element.
-                if (isset($optionXml['@']['selected'])
-                    && $optionXml['@']['selected']
-                    && !isset($parameter['value'])
-                ) {
-                    $parameter['value'] = $optionXml['@']['value'];
-                }
-            }
-        }
+        $parameter = $this->_insertMappedOptions($parameterXml, $parameter);
         return $parameter;
     }
 
     /**
      * Map a container from new to old structure
      *
-     * @param $containerXml
+     * @param $containerXml array
      * @return array
      */
     private function mapContainer($containerXml)
@@ -141,7 +122,7 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Map dependency from new to old structure
      *
-     * @param $dependsXml
+     * @param $dependsXml array
      * @return array
      */
     private function _mapDepends($dependsXml)
@@ -158,7 +139,7 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Map an option from new to old structure
      *
-     * @param $optionXml
+     * @param $optionXml array
      * @return array
      */
     private function _mapOption($optionXml)
@@ -177,7 +158,7 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Map a renderer from new XML to a helper_block of old xml
      *
-     * @param $rendererXml
+     * @param $rendererXml array
      * @return array
      */
     private function _mapRenderer($rendererXml)
@@ -193,8 +174,8 @@ class Mage_Widget_Model_Widget_Mapper
     /**
      * Takes an array of elements and compresses it to remove all intermediate arrays.
      *
-     * @param $elements
-     * @return array|string
+     * @param $elements array
+     * @return array
      */
     private function _compressElements($elements)
     {
@@ -209,6 +190,54 @@ class Mage_Widget_Model_Widget_Mapper
             $result[$key] = ($key == '@') ? $value : $this->_compressElements($value);
         }
         return $result;
+    }
+
+    /**
+     * Maps multiple options into a values xml container and inserts them into $parameter.
+     *
+     * @param $parameterXml array
+     * @param $parameter array
+     * @return array
+     */
+    private function _insertMappedOptions($parameterXml, $parameter)
+    {
+        if (isset($parameterXml['option'])) {
+            $parameter['values'] = array();
+            foreach ($parameterXml['option'] as $optionXml) {
+                $parameter['values'][$optionXml['@']['name']] = $this->_mapOption($optionXml);
+                // Convert only the first option we find marked as selected into a 'value' element.
+                if (isset($optionXml['@']['selected'])
+                    && $optionXml['@']['selected']
+                    && !isset($parameter['value'])
+                ) {
+                    $parameter['value'] = $optionXml['@']['value'];
+                }
+            }
+            return $parameter;
+        }
+        return $parameter;
+    }
+
+    /**
+     * Maps xsi:type to proper type and handles special types like 'value_renderer', then injects everything
+     * to $parameter.
+     *
+     * @param $parameterXml array
+     * @param $parameter array
+     * @return array
+     */
+    private function _insertMappedType($parameterXml, $parameter)
+    {
+        $xsiType = $parameterXml['@']['type'];
+        if ($xsiType == 'value_renderer') {
+            $parameter['type'] = 'label';
+            $parameter['@']['type'] = 'complex';
+            $parameter['helper_block'] = $this->_mapRenderer($parameterXml['renderer'][0]);
+            return $parameter;
+        } else {
+            $parameter['type'] = $xsiType;
+            return $parameter;
+        }
     }
 
 }
