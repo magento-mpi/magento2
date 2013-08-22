@@ -29,27 +29,27 @@
         </reference>
         <update handle="magento_rma_return_create_handle"/>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>view</name>
                 <path>sales/guest/view</path>
                 <label>Order Information</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>invoice</name>
                 <path>sales/guest/invoice</path>
                 <label>Invoices</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>shipment</name>
                 <path>sales/guest/shipment</path>
                 <label>Shipments</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>creditmemo</name>
                 <path>sales/guest/creditmemo</path>
                 <label>Refunds</label>
             </action>
-            <action method="addLink" translate="label" module="Magento_Sales">
+            <action method="addLink" translate="label">
                 <name>returns</name>
                 <path/>
                 <label>Returns</label>

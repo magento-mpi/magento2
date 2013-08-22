@@ -14,7 +14,7 @@
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_Register</type>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Magento_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Register on our site now and earn %s.</message>
                 </action>
             </block>
@@ -22,7 +22,7 @@
                 <action method="initRewardType">
                     <type>Magento_Reward_Model_Action_Newsletter</type>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Magento_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Subscribe to our newsletter now and earn %s.</message>
                 </action>
             </block>
