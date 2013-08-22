@@ -47,7 +47,7 @@
                         cookieName: '<?php echo Magento_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>',
                         cookieValue: '<?php echo $this->helper('Magento_Core_Helper_Cookie')->getAcceptedSaveCookiesWebsiteIds() ?>',
                         cookieLifetime: <?php echo $this->helper('Magento_Core_Helper_Cookie')->getCookieRestrictionLifetime()?>,
-                        noCookiesUrl: '<?php echo Mage::getUrl('cms/index/noCookies') ?>'
+                        noCookiesUrl: '<?php echo $this->getUrl('cms/index/noCookies') ?>'
                     });
                 });
         })(jQuery);

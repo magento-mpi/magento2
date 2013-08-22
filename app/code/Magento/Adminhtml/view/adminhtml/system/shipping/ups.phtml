@@ -9,7 +9,7 @@
  */
 
 /** @var $upsModel Magento_Usa_Model_Shipping_Carrier_Ups */
-$upsModel = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups');
+$upsModel = $this->getShippingModel();
 $orShipArr = $upsModel->getCode('originShipment');
 $defShipArr = $upsModel->getCode('method');
 

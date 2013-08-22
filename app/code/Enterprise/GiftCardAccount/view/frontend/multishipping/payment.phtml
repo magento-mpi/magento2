@@ -10,7 +10,7 @@
 ?>
 <div class="checkout-multishipping-payment-giftcardaccount">
 <p class="note">
-    <?php $_url = Mage::getUrl('checkout/cart'); ?>
+    <?php $_url = $this->getUrl('checkout/cart'); ?>
     <?php echo __('To add or remove gift cards, <a href="%1">click here</a>.', $_url); ?><br />
 
     <?php if ((float)$this->getAppliedGiftCardAmount()): ?>

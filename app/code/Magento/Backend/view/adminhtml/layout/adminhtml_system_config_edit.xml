@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="js">
-            <block type="Magento_Backend_Block_Template" template="Magento_Adminhtml::system/shipping/ups.phtml"/>
+            <block type="Magento_Adminhtml_Block_System_Shipping_Ups" template="Magento_Adminhtml::system/shipping/ups.phtml"/>
             <block type="Magento_Backend_Block_Template" template="system/config/js.phtml"/>
             <block type="Magento_Backend_Block_Template" template="Magento_Adminhtml::system/shipping/applicable_country.phtml"/>
         </reference>
