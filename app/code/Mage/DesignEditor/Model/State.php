@@ -176,8 +176,8 @@ class Mage_DesignEditor_Model_State
                 Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
-            $this->_application->getConfig()->setNode(
-                'default/' . Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+            $this->_application->getConfig()->setValue(
+                Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
         }

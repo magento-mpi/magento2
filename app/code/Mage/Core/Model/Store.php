@@ -363,9 +363,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function setConfig($path, $value)
     {
-        $fullPath = 'stores/' . $this->getCode() . '/' . $path;
-        Mage::getConfig()->setNode($fullPath, $value);
-
+        Mage::getConfig()->setValue($path, $value, 'store', $this->getCode());
         return $this;
     }
 
