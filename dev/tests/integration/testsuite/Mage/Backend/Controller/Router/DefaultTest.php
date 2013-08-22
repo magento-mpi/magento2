@@ -39,7 +39,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
             'routeConfig' => $this->_routeConfigMock
         );
-        $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
+        $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', true);
         $this->_model = Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
         $this->_model->setFront($this->_frontMock);
     }
