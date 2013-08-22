@@ -70,10 +70,21 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                                 'name'      => 'anchor_text',
                                 'type'      => 'text',
                                 'translate' => 'label description',
-                                'visible'   => 'true',
                             ),
                             'label' => array('Anchor Custom Text'),
                             'description' => array('If empty, the Page Title will be used'),
+                            'depends' => array(
+                                array(
+                                    'parameter' => array(
+                                        array(
+                                            '@' => array(
+                                                'name' => 'show_pager',
+                                                'value' => 'true',
+                                            )
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                         array(
                             '@' => array(
@@ -193,6 +204,11 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         'visible' => 'true',
                         'label' => 'Anchor Custom Text',
                         'description' => 'If empty, the Page Title will be used',
+                        'depends' => array(
+                            'show_pager' => array(
+                                'value' => 'true',
+                            ),
+                        ),
                     ),
                     'template' => array(
                         '@' => array(

@@ -103,7 +103,7 @@ class Mage_Widget_Model_Widget_Mapper
             $parameter['description'] = $parameterXml['description'][0];
         }
         if (isset($parameterXml['depends'])) {
-            $parameter['depends'] = $this->_mapDepends($parameterXml['depends']);
+            $parameter['depends'] = $this->_mapDepends($parameterXml['depends'][0]);
         }
         if (isset($parameterXml['option'])) {
             $parameter['values'] = array();
