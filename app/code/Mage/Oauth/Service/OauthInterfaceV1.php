@@ -99,18 +99,20 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      *
      * @param array $request array containing parameters necessary for requesting Access Token
      * <pre>
-     * array(
-     *  'oauth_version' => '1.0',
-     *  'oauth_signature_method' => 'HMAC-SHA1',
-     *  'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
-     *  'oauth_verifier' => 'a6aa81cc3e65e2960a487939244vvvvv',
-     *  'oauth_nonce' => 'BXzEolwaQDDNlCv',
-     *  'oauth_timestamp' => '1376922156',
-     *  'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *  'oauth_signature' => 'C1wtpLrci5Ak6kMCl/YN9J8Hmi0=',
-     *  'request_url' => 'http://magento.ll/oauth/token?oauth_token=a6aa81cc3e65e2960a487939244sssss
-     *                                                          &oauth_verifier=a6aa81cc3e65e2960a487939244vvvvv',
-     *  'http_method' => 'POST'
+     * array (
+     * 'request_url' => 'http://magento.ll/oauth/token/access',
+     * 'http_method' => 'POST',
+     * 'request_parameters' =>
+     *       array (
+     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
+     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
+     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
+     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
+     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
+     *
+     *          'content_type' => 'text/plain; charset=UTF-8',
+     *          'request_body' => false,
+     *       )
      * )
      * </pre>
      * @return array - The access token/secret pair.
@@ -123,17 +125,20 @@ interface Mage_Oauth_Service_OauthInterfaceV1
      *
      * @param array $request containing parameters necessary for validating Access Token
      * <pre>
-     * array(
-     *  'oauth_version' => '1.0',
-     *  'oauth_signature_method' => 'HMAC-SHA1',
-     *  'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
-     *  'oauth_nonce' => 'BXzEolwaQDDNlCv',
-     *  'oauth_timestamp' => '1376922156',
-     *  'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *  'oauth_signature' => 'C1wtpLrci5Ak6kMCl/YN9J8Hmi0=',
-     *  'request_url' => 'http://magento.ll/oauth/token?oauth_token=a6aa81cc3e65e2960a487939244sssss
-     *                                                          &oauth_verifier=a6aa81cc3e65e2960a487939244vvvvv',
-     *  'http_method' => 'POST'
+     * array (
+     * 'request_url' => 'http://magento.ll/oauth/token/access',
+     * 'http_method' => 'POST',
+     * 'request_parameters' =>
+     *       array (
+     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
+     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
+     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
+     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
+     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
+     *
+     *          'content_type' => 'text/plain; charset=UTF-8',
+     *          'request_body' => false,
+     *       )
      * )
      * </pre>
      * @return boolean true if requested access token is valid
@@ -143,6 +148,7 @@ interface Mage_Oauth_Service_OauthInterfaceV1
     public function validateAccessToken($request);
 
 
+    //TODO: Remove below methods from service
     /**
      * @return array()
      */

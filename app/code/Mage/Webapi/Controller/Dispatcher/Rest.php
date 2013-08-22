@@ -72,7 +72,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
     public function dispatch()
     {
         try {
-            // TODO: $this->_authentication->authenticate();
+            $this->_authentication->authenticate($this->_request);
             $route = $this->_router->match($this->_request);
 
             // check if the operation is a secure operation & whether the request was made in HTTPS

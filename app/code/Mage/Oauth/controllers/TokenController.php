@@ -63,7 +63,7 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
     public function accessAction()
     {
         try {
-            $accessTokenReqArray = $this->_prepareTokenRequest();
+            $accessTokenReqArray = $this->_prepareTokenRequest($this->getRequest());
 
             //Request access token in exchange of a pre-authorized token
             $response = $this->_oauthService->getAccessToken($accessTokenReqArray);
@@ -88,7 +88,7 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
     {
         try {
 
-            $signedRequest = $this->_prepareTokenRequest();
+            $signedRequest = $this->_prepareTokenRequest($this->getRequest());
 
             //Request access token in exchange of a pre-authorized token
             $response = $this->_oauthService->getRequestToken($signedRequest);
@@ -106,112 +106,49 @@ class Mage_Oauth_TokenController extends Mage_Core_Controller_Front_Action
 
 
     /**
-     * Add and create array of parameters needed by the token services
      *
-     * @return array
+     * Process HTTP request object and prepare for token validation
+     *
+     * @param Zend_Controller_Request_Http $httpRequest
+     * @return array <pre>
+     * array (
+     * 'request_url' => 'http://magento.ll/oauth/token/access',
+     * 'http_method' => 'POST',
+     * 'request_parameters' =>
+     *       array (
+     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
+     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
+     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
+     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
+     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
+     *
+     *          'content_type' => 'text/plain; charset=UTF-8',
+     *          'request_body' => false,
+     *       )
+     * )
+     * </pre>
      */
-    public function _prepareTokenRequest()
+    public function _prepareTokenRequest($httpRequest)
     {
-        //Fetch and populate protocol information from request body and header into this controller class variables
-        $requestArray = $this->_fetchParams();
+        $requestArray = array();
 
         //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
-        $requestUrl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() .
-            $this->getRequest()->getRequestUri();
+        $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
+            $httpRequest->getRequestUri();
 
         $requestArray['request_url'] = $requestUrl;
-        $requestArray['http_method'] = $this->getRequest()->getMethod();
+        $requestArray['http_method'] = $httpRequest->getMethod();
+
+        //Fetch and populate protocol information from request body and header into this controller class variables
+        $requestParams = array();
+
+        $requestParams['oauth_header'] = $httpRequest->getHeader('Authorization');
+        $requestParams['content_type'] = $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE);
+        $requestParams['request_body'] = $httpRequest->getRawBody();
+
+        $requestArray['request_parameters'] = $requestParams;
+
         return $requestArray;
-    }
-
-
-    /**
-     * TODO: FIX this method. Also refactor and break it down further
-     * Retrieve protocol and request parameters from request object
-     *
-     * @link http://tools.ietf.org/html/rfc5849#section-3.5
-     * @return array $protocolParams array of merged parameters from header, request body and/or query param
-     */
-    protected function _fetchParams()
-    {
-        $protocolParams = array();
-
-        $authHeaderValue = $this->getRequest()->getHeader('Authorization');
-
-        if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
-            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
-
-            foreach (explode(',', $authHeaderValue) as $paramStr) {
-                $nameAndValue = explode('=', trim($paramStr), 2);
-
-                if (count($nameAndValue) < 2) {
-                    continue;
-                }
-                if ($this->_isProtocolParameter($nameAndValue[0])) {
-                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
-                }
-            }
-        }
-        $contentTypeHeader = $this->getRequest()->getHeader(Zend_Http_Client::CONTENT_TYPE);
-
-        if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
-            $protocolParamsNotSet = !$protocolParams;
-
-            parse_str($this->getRequest()->getRawBody(), $protocolParams);
-
-            foreach ($protocolParams as $bodyParamName => $bodyParamValue) {
-                if (!$this->_isProtocolParameter($bodyParamName)) {
-                    $protocolParams[$bodyParamName] = $bodyParamValue;
-                } elseif ($protocolParamsNotSet) {
-                    $protocolParams[$bodyParamName] = $bodyParamValue;
-                }
-            }
-        }
-        $protocolParamsNotSet = !$protocolParams;
-
-        $url = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()
-                ->getRequestUri();
-
-        if (($queryString = Zend_Uri_Http::fromString($url)->getQuery())) {
-            foreach (explode('&', $queryString) as $paramToValue) {
-                $paramData = explode('=', $paramToValue);
-
-                if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
-                    $protocolParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
-                }
-            }
-        }
-        if ($protocolParamsNotSet) {
-            $this->_fetchProtocolParamsFromQuery($protocolParams);
-        }
-
-        //Combine request and header parameters
-        return $protocolParams;
-    }
-
-    /**
-     * Retrieve protocol parameters from query string
-     *
-     * @param $protocolParams
-     */
-    protected function _fetchProtocolParamsFromQuery(&$protocolParams)
-    {
-        foreach ($this->getRequest()->getQuery() as $queryParamName => $queryParamValue) {
-            if ($this->_isProtocolParameter($queryParamName)) {
-                $protocolParams[$queryParamName] = $queryParamValue;
-            }
-        }
-    }
-
-    /**
-     * Check if attribute is oAuth related
-     *
-     * @param string $attrName
-     * @return bool
-     */
-    protected function _isProtocolParameter($attrName)
-    {
-        return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
     }
 
     /**

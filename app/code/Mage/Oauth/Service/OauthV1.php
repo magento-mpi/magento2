@@ -200,11 +200,11 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
             $this->_httpClient->setUri($consumerData['http_post_url']);
             $this->_httpClient->setParameterPost(array(
-                    'oauth_consumer_key' => $consumerData['key'],
-                    'oauth_consumer_secret' => $consumerData['secret'],
-                    'store_url' => $storeUrl,
-                    'store_api_base_url' => $storeApiBaseUrl
-                ));
+                'oauth_consumer_key' => $consumerData['key'],
+                'oauth_consumer_secret' => $consumerData['secret'],
+                'store_url' => $storeUrl,
+                'store_api_base_url' => $storeApiBaseUrl
+            ));
             // TODO: Uncomment this when there is a live http_post_url that we can actually post to.
             //$this->_httpClient->request(Zend_Http_Client::POST);
 
@@ -227,6 +227,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      */
     public function getRequestToken($signedRequest)
     {
+        $signedRequest = $this->_processTokenRequest($signedRequest);
+
         $this->_validateVersionParam($signedRequest['oauth_version']);
 
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
@@ -262,6 +264,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      */
     public function getAccessToken($request)
     {
+        $request = $this->_processTokenRequest($request);
+
         // Make generic validation of request parameters
         $this->_validateProtocolParams($request, $this->_requiredAccess);
 
@@ -311,6 +315,8 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
      */
     public function validateAccessToken($request)
     {
+        $request = $this->_processTokenRequest($request);
+
         $oauthToken = $request['oauth_token'];
         $requestUrl = $request['request_url'];
         $httpMethod = $request['http_method'];
@@ -333,6 +339,10 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
         if ($token->getRevoked()) {
             $this->_throwException('', self::ERR_TOKEN_REVOKED);
         }
+
+        // Need to unset and remove unnecessary params from the requestTokenData array.
+        unset($request['request_url']);
+        unset($request['http_method']);
 
         $this->_validateSignature(
             $request,
@@ -503,11 +513,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
 
         $consumer = $this->_getConsumerByKey($protocolParams['oauth_consumer_key']);
 
-        $this->_validateNonce(
-            $protocolParams['oauth_nonce'],
-            $consumer->getId(),
-            $protocolParams['oauth_timestamp']
-        );
+        $this->_validateNonce($protocolParams['oauth_nonce'], $consumer->getId(), $protocolParams['oauth_timestamp']);
     }
 
     /**
@@ -562,7 +568,7 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
 
-        $tokenObj =  $this->_tokenFactory->create()->load($token, 'token');
+        $tokenObj = $this->_tokenFactory->create()->load($token, 'token');
 
         if (!$tokenObj->getId()) {
             throw new Mage_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
@@ -663,5 +669,111 @@ class Mage_Oauth_Service_OauthV1 implements Mage_Oauth_Service_OauthInterfaceV1
             }
         }
     }
+
+
+    /**
+     * Process token requests to extract Request parameters
+     *
+     * @param $request
+     * @return array
+     */
+    public function _processTokenRequest($request)
+    {
+        $requestParamArray = $request['request_parameters'];
+        $params = $this->_processRequest($requestParamArray['oauth_header'], $requestParamArray['content_type'],
+            $requestParamArray['request_body'], $request['request_url']);
+        unset($request['request_parameters']);
+        return array_merge($request, $params);
+    }
+
+
+    /**
+     * Process oauth related protocol information and return as an array
+     *
+     * @param $authHeaderValue
+     * @param $contentTypeHeader
+     * @param $requestBodyString
+     * @param $requestUrl
+     * @return array
+     */
+    protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
+    {
+
+        $protocolParams = array();
+
+        if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
+            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
+
+            foreach (explode(',', $authHeaderValue) as $paramStr) {
+                $nameAndValue = explode('=', trim($paramStr), 2);
+
+                if (count($nameAndValue) < 2) {
+                    continue;
+                }
+                if ($this->_isProtocolParameter($nameAndValue[0])) {
+                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
+                }
+            }
+        }
+
+        if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
+            $protocolParamsNotSet = !$protocolParams;
+
+            parse_str($requestBodyString, $protocolParams);
+
+            foreach ($protocolParams as $bodyParamName => $bodyParamValue) {
+                if (!$this->_isProtocolParameter($bodyParamName)) {
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
+                } elseif ($protocolParamsNotSet) {
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
+                }
+            }
+        }
+        $protocolParamsNotSet = !$protocolParams;
+
+        if (($queryString = Zend_Uri_Http::fromString($requestUrl)->getQuery())) {
+            foreach (explode('&', $queryString) as $paramToValue) {
+                $paramData = explode('=', $paramToValue);
+
+                if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
+                    $protocolParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
+                }
+            }
+        }
+        if ($protocolParamsNotSet) {
+            $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
+        }
+
+        //Combine request and header parameters
+        return $protocolParams;
+    }
+
+
+    /**
+     * Retrieve protocol parameters from query string
+     *
+     * @param $protocolParams
+     * @param $queryString
+     */
+    protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
+    {
+        foreach ($queryString as $queryParamName => $queryParamValue) {
+            if ($this->_isProtocolParameter($queryParamName)) {
+                $protocolParams[$queryParamName] = $queryParamValue;
+            }
+        }
+    }
+
+    /**
+     * Check if attribute is oAuth related
+     *
+     * @param string $attrName
+     * @return bool
+     */
+    protected function _isProtocolParameter($attrName)
+    {
+        return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
+    }
+
 
 }

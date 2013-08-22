@@ -9,41 +9,82 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Authentication
 {
-    /** @var Mage_Webapi_Model_Authorization_RoleLocator */
-    protected $_roleLocator;
-
     /** @var Mage_Webapi_Model_Rest_Oauth_Server */
-    protected $_oauthServer;
+    protected $_oauthService;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Rest_Oauth_Server $oauthServer
-     * @param Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
+     * @param Mage_Oauth_Service_OauthInterfaceV1 $oauthService
      */
     public function __construct(
-        Mage_Webapi_Model_Rest_Oauth_Server $oauthServer,
-        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
+        Mage_Oauth_Service_OauthInterfaceV1 $oauthService
     ) {
-        $this->_oauthServer = $oauthServer;
-        $this->_roleLocator = $roleLocator;
+        $this->_oauthService = $oauthService;
     }
 
     /**
      * Authenticate user.
      *
+     * @param Zend_Controller_Request_Http $httpRequest
      * @throws Mage_Webapi_Exception If authentication failed
      */
-    public function authenticate()
+    public function authenticate($httpRequest)
     {
         try {
-            $consumer = $this->_oauthServer->authenticateTwoLegged();
-            $this->_roleLocator->setRoleId($consumer->getRoleId());
+            $this->_oauthService->validateAccessToken($this->_extractAuthenticationParams($httpRequest));
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception(
-                $this->_oauthServer->reportProblem($e),
+                $e, //TODO : Fix this to report oAUth problem appropriately
+                //$this->_oauthServer->reportProblem($e),
                 Mage_Webapi_Exception::HTTP_UNAUTHORIZED
             );
         }
     }
+
+    /**
+     * Process HTTP request object and prepare for token validation
+     *
+     * @param Zend_Controller_Request_Http $httpRequest
+     * @return array <pre>
+     * array (
+     * 'request_url' => 'http://magento.ll/oauth/token/access',
+     * 'http_method' => 'POST',
+     * 'request_parameters' =>
+     *       array (
+     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
+     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
+     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
+     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
+     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
+     *
+     *          'content_type' => 'text/plain; charset=UTF-8',
+     *          'request_body' => false,
+     *       )
+     * )
+     * </pre>
+     */
+    public function _extractAuthenticationParams($httpRequest)
+    {
+        $requestArray = array();
+
+        //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
+        $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
+            $httpRequest->getRequestUri();
+
+        $requestArray['request_url'] = $requestUrl;
+        $requestArray['http_method'] = $httpRequest->getMethod();
+
+        //Fetch and populate protocol information from request body and header into this controller class variables
+        $requestParams = array();
+
+        $requestParams['oauth_header'] = $httpRequest->getHeader('Authorization');
+        $requestParams['content_type'] = $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE);
+        $requestParams['request_body'] = $httpRequest->getRawBody();
+
+        $requestArray['request_parameters'] = $requestParams;
+
+        return $requestArray;
+    }
+
 }
