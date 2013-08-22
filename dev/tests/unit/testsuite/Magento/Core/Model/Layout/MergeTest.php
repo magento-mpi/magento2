@@ -11,7 +11,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     /**
      * Fixture XML instruction(s) to be used in tests
      */
-    const FIXTURE_LAYOUT_XML = '<block type="Magento_Core_Block_Template" template="fixture.phtml"/>';
+    const FIXTURE_LAYOUT_XML = '<block class="Magento_Core_Block_Template" template="fixture.phtml"/>';
 
     /**
      * @var Magento_Core_Model_Layout_Merge

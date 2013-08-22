@@ -826,8 +826,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         // create block
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
-        } else {
-            $className = (string)$node['type'];
         }
 
         $arguments = $this->_argumentProcessor->process($arguments);

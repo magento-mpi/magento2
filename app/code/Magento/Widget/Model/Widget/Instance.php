@@ -410,7 +410,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         }
 
         $hash = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
-        $xml .= '<block type="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
+        $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
                 $value = implode(',', $value);

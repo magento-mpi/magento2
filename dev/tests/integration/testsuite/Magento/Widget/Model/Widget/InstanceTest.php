@@ -89,6 +89,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $model->setId('test_id')->setPackageTheme('magento_demo');
         $result = $model->generateLayoutUpdateXml('content');
         $this->assertContains('<reference name="content">', $result);
-        $this->assertContains('<block type="' . $model->getType() . '"', $result);
+        $this->assertContains('<block class="' . $model->getType() . '"', $result);
     }
 }
