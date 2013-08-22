@@ -12,7 +12,7 @@
 /**
  * Currency switcher
  *
- * @see Magento_Directory_Block_Currency
+ * @var $this Magento_Directory_Block_Currency
  */
 ?>
 <?php if ($this->getCurrencyCount() > 1): ?>
@@ -21,7 +21,7 @@
 <div class="switch switcher-currency">
     <label><?php echo __('Currency') ?>:</label>
     <div class="switch-wrapper" id="currency-select" tabindex="-1">
-        <strong class="current language-<?php echo $this->escapeHtml(Mage::app()->getStore()->getCode()) ?>">
+        <strong class="current language-<?php echo $this->escapeHtml($this->getStoreCode()) ?>">
             <?php echo $this->escapeHtml($currentCurrencyCode) ?> - <?php echo @$this->escapeHtml($currencies[$currentCurrencyCode]) ?>
         </strong>
         <span class="switcher-holder">(<span class="switcher"><?php echo __('Change')?></span>)</span>
