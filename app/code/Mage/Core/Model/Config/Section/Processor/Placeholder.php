@@ -15,33 +15,11 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
     protected $_request;
 
     /**
-     * @var array
-     */
-    protected $_cache = array();
-
-    /**
-     * @var array
-     */
-    protected $_configBaseNodes = array();
-
-    /**
      * @param Mage_Core_Controller_Request_Http $request
      */
     public function __construct(Mage_Core_Controller_Request_Http $request)
     {
         $this->_request = $request;
-        $this->_configBaseNodes = array(
-            Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE,
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
-            Mage_Core_Model_Store::XML_PATH_SECURE_IN_ADMINHTML,
-            Mage_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND,
-            Mage_Core_Model_Store::XML_PATH_STORE_IN_URL,
-            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
-            Mage_Core_Model_Store::XML_PATH_USE_REWRITES,
-            Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL,
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
-            'general/locale/code'
-        );
     }
 
     /**
@@ -52,27 +30,41 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
      */
     public function process(array $data = array())
     {
-        foreach ($this->_configBaseNodes as $path) {
-            $value = $this->_getValue($path, $data);
-            $this->_processPlaceholders($value, '', $data);
-            $this->_cache[$path] = $value;
+        foreach (array_keys($data) as $key) {
+            $this->_processData($data, $key);
         }
-        array_walk_recursive($data, array($this, '_processPlaceholders'), $data);
         return $data;
     }
 
     /**
-     * Replace placeholder with value
+     * Process array data recursively
+     *
+     * @param array $data
+     * @param string $path
+     */
+    public function _processData(&$data, $path)
+    {
+        $configValue = $this->_getValue($path, $data);
+        if (is_array($configValue)) {
+            foreach (array_keys($configValue) as $key) {
+                $this->_processData($data, $path . '/' . $key);
+            }
+        } else {
+            $this->_setValue($data, $path, $this->_processPlaceholders($configValue, $data));
+        }
+    }
+
+    /**
+     * Replace placeholders with config values
      *
      * @param string $value
-     * @param string $key
      * @param array $data
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return string
      */
-    protected function _processPlaceholders(&$value, $key, $data)
+    protected function _processPlaceholders($value, $data)
     {
-        if (is_string($value) && preg_match('/{{(.*)}}.*/', $value, $matches)) {
-            $placeholder = $matches[1];
+        $placeholder = $this->_getPlaceholder($value);
+        if ($placeholder) {
             $url = false;
             if ($placeholder == 'unsecure_base_url') {
                 $url = $this->_getValue(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $data);
@@ -86,7 +78,32 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
                 $distroBaseUrl = $this->_request->getDistroBaseUrl();
                 $value = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $value);
             }
+
+            if (null !== $this->_getPlaceholder($value)) {
+                $value = $this->_processPlaceholders($value, $data);
+            }
         }
+        return $value;
+    }
+
+    /**
+     * Get placeholder from value
+     *
+     * @param string $value
+     * @return string|null
+     */
+    protected function _getPlaceholder($value)
+    {
+        if (is_string($value) && preg_match('/{{(.*)}}.*/', $value, $matches)) {
+            $placeholder = $matches[1];
+            if ($placeholder == 'unsecure_base_url'
+                || $placeholder == 'secure_base_url'
+                || strpos($value, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false
+            ) {
+                return $placeholder;
+            }
+        }
+        return null;
     }
 
     /**
@@ -98,9 +115,6 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
      */
     protected function _getValue($path, array $data)
     {
-        if (isset($this->_cache[$path])) {
-            return $this->_cache[$path];
-        }
         $keys = explode('/', $path);
         foreach ($keys as $key) {
             if (is_array($data) && array_key_exists($key, $data)) {
@@ -109,7 +123,26 @@ class Mage_Core_Model_Config_Section_Processor_Placeholder
                 return null;
             }
         }
-        $this->_cache[$path] = $data;
         return $data;
+    }
+
+    /**
+     * Set array value by path
+     *
+     * @param array $container
+     * @param string $path
+     * @param string $value
+     */
+    protected function _setValue(array &$container, $path, $value)
+    {
+        $segments = explode('/', $path);
+        $currentPointer = &$container;
+        foreach ($segments as $segment) {
+            if (!isset($currentPointer[$segment])) {
+                $currentPointer[$segment] = array();
+            }
+            $currentPointer = &$currentPointer[$segment];
+        }
+        $currentPointer = $value;
     }
 }

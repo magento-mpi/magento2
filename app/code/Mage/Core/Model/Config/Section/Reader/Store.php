@@ -91,7 +91,7 @@ class Mage_Core_Model_Config_Section_Reader_Store
             $config = $this->_converter->convert($dbStoreConfig, $config);
         } else {
             $websiteConfig = $this->_sectionPool->getSection('website', 'default')->getValue();
-            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getStore($code));
+            $config = $this->_converter->convert($websiteConfig, $this->_initialConfig->getStore($code));
         }
         return $config;
     }
