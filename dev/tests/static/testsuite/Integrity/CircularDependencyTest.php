@@ -41,7 +41,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             $moduleName = str_replace('/', '_', $moduleName[1]);
             $config = simplexml_load_file($configFile);
             $result = $config->xpath("/config/module/depends/module") ?: array();
-            while(list( , $node) = each($result)) {
+            while (list( , $node) = each($result)) {
                 /** @var SimpleXMLElement $node */
                 $this->_moduleDependencies[$moduleName][] = (string)$node['name'];
             }
@@ -53,8 +53,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             $this->_expandDependencies($module, $graph);
         }
         $circulars  = $graph->findCycle(null, false);
-        foreach ($circulars as $circular)
-        {
+        foreach ($circulars as $circular) {
             array_shift($circular);
             $this->_buildCircular($circular);
         }
@@ -118,7 +117,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
         $result = '';
         $this->_buildModulesDependencies();
         if (!empty($this->_circularDependencies)) {
-            foreach($this->_circularDependencies as $circularDependency) {
+            foreach ($this->_circularDependencies as $circularDependency) {
                 $module =  array_shift($circularDependency);
                 array_push($circularDependency, $module);
                 $dependenciesByModule[$module][] = $circularDependency;
@@ -126,7 +125,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             }
         }
 
-        foreach($dependenciesByModule as $module => $moduleCircular) {
+        foreach ($dependenciesByModule as $module => $moduleCircular) {
             $result .= "$module dependencies:" . PHP_EOL;
             foreach ($moduleCircular as $chain) {
                 $result .= "Chain : " . implode('->', $chain) . PHP_EOL;

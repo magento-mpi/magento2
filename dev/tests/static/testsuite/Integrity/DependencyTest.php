@@ -390,55 +390,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         }
     }
 
-//    /**
-//     * Generate XML file for all dependencies
-//     *
-//     * @test
-//     * @depends collectRedundant
-//     */
-//    public function generateXml()
-//    {
-//        // TODO:
-//        // self::$_listModulesXml
-//
-//        $dom = new DOMDocument('1.0', 'UTF-8');
-//        $dom->formatOutput = true;
-//
-//        $configNode = $dom->createElement('config');
-//        $modulesNode =  $dom->createElement('modules');
-//
-//        foreach (array_keys(self::$_mapDependencies) as $module) {
-//
-//            $moduleNameNode = $dom->createElement($module);
-//            foreach ($this->_getTypes() as $type) {
-//
-//                $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
-//                $found = $this->_getDependencies($module, $type, self::MAP_TYPE_FOUND);
-//                $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
-//
-//                $realModules = array_diff($declared, $redundant);
-//                $realModules = array_merge($realModules, $found);
-//
-//                if (count($realModules)) {
-//                    $dependsNode = $dom->createElement('depends');
-//                    $dependsNode->setAttribute('type', $type);
-//
-//                    foreach ($realModules as $realModule) {
-//                        $dependencyNode = $dom->createElement($realModule);
-//                        $dependsNode->appendChild($dependencyNode);
-//                    }
-//                    $moduleNameNode->appendChild($dependsNode);
-//                }
-//            }
-//            $modulesNode->appendChild($moduleNameNode);
-//        }
-//
-//        $configNode->appendChild($modulesNode);
-//        $dom->appendChild($configNode);
-//
-//        $dom->save('modules.xml');
-//    }
-
     /**
      * Extract Magento relative filename from absolute filename
      *
