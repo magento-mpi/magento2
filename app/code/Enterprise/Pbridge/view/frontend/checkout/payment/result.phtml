@@ -59,7 +59,7 @@
                     var message = $('#payment-method-message', $(document));
                     if(message.length) {
                         // @TODO refactor payment method message - remove <a> from js code, remove inline color style and use a CSS class instead
-                        message.html('<?php echo Mage::helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('We submitted your payment information to the server. To make changes, please click <a style="color: #1E75B4" href="#">here</a> .')) ?>')
+                        message.html('<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('We submitted your payment information to the server. To make changes, please click <a style="color: #1E75B4" href="#">here</a> .')) ?>')
                             .find('a').on('click', function(e) {
                                 e.preventDefault();
                                 e.stopImmediatePropagation();

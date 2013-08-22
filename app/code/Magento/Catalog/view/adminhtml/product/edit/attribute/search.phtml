@@ -52,7 +52,7 @@
                 data: {'template_id': data.id}
             });
         });
-        $suggest.mage('suggest',<?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
+        $suggest.mage('suggest',<?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
             .on('suggestselect', function (e, ui) {
                 $(this).val('');
                 var templateId = $('#attribute_set_id').val();

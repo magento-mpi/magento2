@@ -10,7 +10,7 @@
 ?>
 <?php /* @var $this Magento_Downloadable_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Downloadable */ ?>
 <?php $_linksPurchasedSeparately = $this->getLinksPurchasedSeparately(); ?>
-<?php $_skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = $this->helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
 <?php if (($this->getProduct()->isSaleable() || $_skipSaleableCheck) && $this->hasLinks()):?>
 
 <div id="catalog_product_composite_configure_fields_downloadable" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">

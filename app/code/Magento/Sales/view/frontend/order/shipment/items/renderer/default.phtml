@@ -44,6 +44,6 @@
             <a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $_item->getId()?>" data-item-id="<?php echo $_item->getId()?>"><?php echo __('Gift Message') ?></a>
         <?php endif; ?>
     </td>
-    <td><?php echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_String')->splitInjection($this->getSku())) ?></td>
+    <td><?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_String')->splitInjection($this->getSku())) ?></td>
     <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
 </tr>

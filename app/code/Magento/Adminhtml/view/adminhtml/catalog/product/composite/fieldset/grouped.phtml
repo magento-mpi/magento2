@@ -10,7 +10,7 @@
  ?>
 
 <?php /* @var $this Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped */ ?>
-<?php $_skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = $this->helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
 <div id="catalog_product_composite_configure_fields_grouped" class="grid <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <h4><?php echo __('Associated Products') ?></h4>
     <div class="product-options">

@@ -10,7 +10,7 @@
 ?>
 
 <?php /* @var $this Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle */ ?>
-<?php $options = Mage::helper('Magento_Core_Helper_Data')->decorateArray($this->getOptions()); ?>
+<?php $options = $this->helper('Magento_Core_Helper_Data')->decorateArray($this->getOptions()); ?>
 <?php if (count($options)): ?>
 <div id="catalog_product_composite_configure_fields_bundle" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <h4><?php echo __('Bundle Items') ?></h4>

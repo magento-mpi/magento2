@@ -67,7 +67,7 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
+        <?php if ($this->helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>
@@ -79,7 +79,7 @@
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
                 function() {
-                    $('#login-form .new-users button').on('click', function() {window.location='<?php echo Mage::helper('Magento_Persistent_Helper_Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
+                    $('#login-form .new-users button').on('click', function() {window.location='<?php echo $this->helper('Magento_Persistent_Helper_Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
                     $('#login-form').validation();
                 });
         })(jQuery);

@@ -87,7 +87,7 @@ if (!$storeCode && $websiteCode) {
             this.storedOriginShipment = '<?php echo $storedOriginShipment ?>';
             this.storedFreeShipment = '<?php echo $storedFreeShipment ?>';
             this.storedUpsType = '<?php echo $storedUpsType ?>';
-            <?php /** @var $_coreHelper Magento_Core_Helper_Data */ $_coreHelper = Mage::helper('Magento_Core_Helper_Data'); ?>
+            <?php /** @var $_coreHelper Magento_Core_Helper_Data */ $_coreHelper = $this->helper('Magento_Core_Helper_Data'); ?>
             this.storedAllowedMethods = <?php echo $_coreHelper->jsonEncode($storedAllowedMethods) ?>;
             this.originShipmentObj = <?php echo $_coreHelper->jsonEncode($orShipArr) ?>;
             this.originShipmentObj['default'] = <?php echo $_coreHelper->jsonEncode($defShipArr) ?>;

@@ -156,7 +156,7 @@
             <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo __('Back') ?></a></p>
             <button type="submit" title="<?php echo __('Submit') ?>" class="button"><span><span><?php echo __('Submit') ?></span></span></button>
         </div>
-        <?php if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
+        <?php if ($this->helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>

@@ -28,5 +28,5 @@
 <?php endif; ?>
 <div class="button-set">
     <button class="form-button" onclick="window.open('<?php echo $this->getUrl('') ?>')" type="button"><?php echo __('Go to Frontend') ?></button>&nbsp;&nbsp;
-    <button class="form-button" onclick="window.open('<?php echo Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl() ?>')" type="button"><?php echo __('Go to Backend') ?></button>
+    <button class="form-button" onclick="window.open('<?php echo $this->helper('Magento_Backend_Helper_Data')->getHomePageUrl() ?>')" type="button"><?php echo __('Go to Backend') ?></button>
 </div>
