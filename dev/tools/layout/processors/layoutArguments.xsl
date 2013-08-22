@@ -24,12 +24,8 @@
 
     <!-- Update action node -->
     <xsl:template match="*[name()='action']">
-        <xsl:variable name="counter" select="1 + count(preceding-sibling::action)" />
         <xsl:copy>
             <xsl:apply-templates select="@*" />
-            <xsl:attribute name="id">
-                <xsl:value-of select="concat('action', $counter)"/>
-            </xsl:attribute>
             <xsl:call-template name="argument"/>
         </xsl:copy>
     </xsl:template>
@@ -107,6 +103,9 @@
             <xsl:choose>
                 <xsl:when test="name()='updater'">
                     <!--<xsl:call-template name="updater"/>-->
+                    <xsl:copy>
+                        <xsl:apply-templates select="node()|@*"/>
+                    </xsl:copy>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:element name="item">

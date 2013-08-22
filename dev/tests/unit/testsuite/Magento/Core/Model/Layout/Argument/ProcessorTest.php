@@ -67,7 +67,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
         $argumentHandlerMock = $this->getMock(
             'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
         );
-        $argumentHandlerMock->expects($this->once())
+        $argumentHandlerMock->expects($this->exactly(2))
             ->method('process')
             ->will($this->returnValue($this->getMock('Dummy_Argument_Value_Class_Name', array(), array(), '', false)));
 
@@ -79,7 +79,6 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
 
         $this->assertArrayHasKey('argKeyOne', $processedArguments);
         $this->assertArrayHasKey('argKeyTwo', $processedArguments);
-        $this->assertArrayHasKey('argKeyCorrupted', $processedArguments);
     }
 
     /**
@@ -114,9 +113,8 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
         return array(
             array(
                 array(
-                    'argKeyOne' => array('value' => 'argValue'),
+                    'argKeyOne' => array('type' => 'dummy', 'value' => 'argValue'),
                     'argKeyTwo' => array('type' => 'dummy', 'value' => 'Dummy_Argument_Value_Class_Name'),
-                    'argKeyCorrupted' => array('no_value' => false)
                 )
             )
         );
@@ -129,7 +127,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
      */
     public function testProcessWithEmptyArgumentValueAndSpecifiedType($arguments)
     {
-        $this->_model->process($arguments);
+        $this->_model->process(array($arguments));
     }
 
     public function processWhitEmptyArgumentValueAndSpecifiedTypeDataProvider()
@@ -147,6 +145,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     {
         $arguments = array(
             'one' => array(
+                'type' => 'string',
                 'value' => 1,
                 'updater' => array('Dummy_Updater_1', 'Dummy_Updater_2')
             )

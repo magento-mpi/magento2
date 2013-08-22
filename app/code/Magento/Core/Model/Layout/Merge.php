@@ -413,7 +413,8 @@ class Magento_Core_Model_Layout_Merge
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<' . '?xml version="1.0"?' . '><layout>' . $updates . '</layout>';
+        $updates = '<' . '?xml version="1.0"?' . '><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updates . '</layout>';
         return $this->_loadXmlString($updates);
     }
 
@@ -619,7 +620,7 @@ class Magento_Core_Model_Layout_Merge
             }
             $layoutStr .= $fileXml->innerXml();
         }
-        $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
+        $layoutStr = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutXml = $this->_loadXmlString($layoutStr);
         return $layoutXml;
     }

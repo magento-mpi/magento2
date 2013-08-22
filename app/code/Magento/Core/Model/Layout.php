@@ -517,13 +517,11 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     {
         $arguments = array();
 
-        foreach ($node->children() as $argument) {
+        foreach ($node->xpath('argument') as $argument) {
             /** @var $argument Magento_Core_Model_Layout_Element */
 
-            $type = $argument->getAttribute('type');
-            if (null !== $type) {
-                $arguments[$argument->getName()]['type'] = $type;
-            }
+            $name = (string)$argument['name'];
+            $arguments[$name]['type'] = (string)$argument->attributes('xsi', true)->type;
 
             if ($argument->hasChildren()) {
                 $value = array();
@@ -533,17 +531,28 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 
                 $updaters = $this->_getArgumentUpdaters($argument);
 
-                if (false === empty($updaters)) {
-                    $arguments[$argument->getName()]['updater'] = $updaters;
+                if (!empty($updaters)) {
+                    $arguments[$name]['updater'] = $updaters;
                 }
 
-                if (is_array($value) && !empty($value)) {
-                    $arguments[$argument->getName()]['value'] = $value;
+                if ($arguments[$name]['type'] == 'url') {
+                    $value = array(
+                        'path' => (string)$argument['path'],
+                        'params' => $value
+                    );
+                }
+
+                if (!empty($value) && is_array($value)) {
+                    $arguments[$name]['value'] = $value;
                 }
             } else {
+                if ($arguments[$name]['type'] == 'options' && isset($argument['model'])) {
+                    $arguments[$name]['value'] = (string)$argument['model'];
+                }
+
                 $value = $this->_translator->translateArgument($argument);
                 if ('' !== $value) {
-                    $arguments[$argument->getName()]['value'] = $value;
+                    $arguments[$name]['value'] = $value;
                 }
             }
         }
@@ -560,7 +569,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     {
         /** @var $childNode Magento_Core_Model_Layout_Element */
         foreach ($node->children() as $childNode) {
-            $nodeName = $childNode->getName();
+            $nodeName = (string)$childNode['name'];
             if ($childNode->hasChildren()) {
                 $this->_fillArgumentsArray($childNode, $argumentsArray[$nodeName]);
             } else {
@@ -646,7 +655,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             list(
                 $row[self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME],
                 $row[self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER]
-            ) = $this->_beforeAfterToSibling($node);
+                ) = $this->_beforeAfterToSibling($node);
 
             // materialized path for referencing nodes in the plain array of _scheduledStructure
             if ($this->_scheduledStructure->hasPath($parentName)) {
@@ -833,10 +842,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 
         $block = $this->_createBlock($className, $elementName,
             array('data' => $arguments));
-
-        if (!empty($node['module'])) {
-            $block->setModuleName((string)$node['module']);
-        }
 
         if (!empty($node['template'])) {
             $templateFileName = (string)$node['template'];
@@ -1169,36 +1174,39 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      */
     protected function _extractArgs($node)
     {
-        $args = (array)$node->children();
-        unset($args['@attributes']);
+        $arguments = $node->xpath('argument');
+        $result = array();
 
-        foreach ($args as $key => $arg) {
+        foreach ($arguments as $argument) {
             $matches = array();
-            if (($arg instanceof Magento_Core_Model_Layout_Element)) {
-                if (isset($arg['helper'])) {
-                    $args[$key] = $this->_getArgsByHelper($arg);
+            $key = (string)$argument['name'];
+            if ($argument instanceof Magento_Core_Model_Layout_Element) {
+                if (isset($argument['helper'])) {
+                    $result[$key] = $this->_getArgsByHelper($argument);
                 } else {
                     /**
                      * if there is no helper we hope that this is assoc array
                      */
-                    $arr = $this->_getArgsFromAssoc($arg);
+                    $arr = $this->_getArgsFromAssoc($argument);
                     if (!empty($arr)) {
-                        $args[$key] = $arr;
+                        $result[$key] = $arr;
+                    } else {
+                        $result[$key] = (string)$argument;
                     }
                 }
-            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $arg, $matches)) {
-                $args[$key] = $this->_dataServiceGraph->getArgumentValue($matches[1]);
+            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $argument, $matches)) {
+                $result[$key] = $this->_dataServiceGraph->getArgumentValue($matches[1]);
             }
         }
 
         if (isset($node['json'])) {
             $json = explode(' ', (string)$node['json']);
             foreach ($json as $arg) {
-                $args[$arg] = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($args[$arg]);
+                $result[$arg] = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($result[$arg]);
             }
         }
 
-        return $args;
+        return $result;
     }
 
     /**
@@ -1610,7 +1618,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @return $this
      */
     public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template,
-        $dataServiceName = '', $data = array()
+                                          $dataServiceName = '', $data = array()
     ) {
         if (!isset($namespace)) {
             $this->_renderers[$namespace] = array();
