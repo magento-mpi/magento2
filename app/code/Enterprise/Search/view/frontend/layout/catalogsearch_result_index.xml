@@ -11,7 +11,7 @@
     <catalogsearch_result_index>
         <reference name="left">
             <remove name="catalogsearch.leftnav"/>
-            <block type="Enterprise_Search_Block_Catalogsearch_Layer" name="enterprisesearch.leftnav" before="-" template="Mage_Catalog::layer/view.phtml"/>
+            <block type="Enterprise_Search_Block_Catalogsearch_Layer" name="enterprisesearch.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
         <reference name="search_result_list">
             <container name="additional" label="Additional Info" after="product_list_toolbar">

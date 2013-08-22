@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,8 +30,8 @@ if (strpos($_includePath, $_libDir) === false) {
 /**
  * Class for connect
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Maged_Connect
@@ -226,7 +226,7 @@ class Maged_Connect
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return boolean|Mage_Connect_Error
+     * @return boolean|Magento_Connect_Error
      */
     public function run($command, $options=array(), $params=array())
     {
@@ -239,7 +239,7 @@ class Maged_Connect
             * @var $cmd Magento_Connect_Command
             */
             $cmd = Magento_Connect_Command::getInstance($command);
-            if ($cmd instanceof Mage_Connect_Error) {
+            if ($cmd instanceof Magento_Connect_Error) {
                 return $cmd;
             }
             $this->_cmdCache[$command] = $cmd;
@@ -300,7 +300,7 @@ class Maged_Connect
      *
      * @throws Maged_Exception
      * @param array|string|Maged_Model $runParams command, options, params, comment, success_callback, failure_callback
-     * @return bool|Mage_Connect_Error
+     * @return bool|Magento_Connect_Error
      */
     public function runHtmlConsole($runParams)
     {

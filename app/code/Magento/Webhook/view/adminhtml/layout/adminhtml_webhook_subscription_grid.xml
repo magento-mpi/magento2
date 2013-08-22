@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_webhook_subscription_grid>
+        <reference name='webhook.subscriptions.list'>
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml_subscription.grid" as="grid">
+                <arguments>
+                    <dataSource type="object">Magento_Webhook_Model_Resource_Subscription_Grid_Collection</dataSource>
+                    <id>subscriptionGrid</id>
+                    <default_sort>subscription_id</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <SaveParametersInSession>1</SaveParametersInSession>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="Magento_Webhook_Block_Adminhtml_Subscription_Grid.columnSet">
+                    <arguments>
+                        <rowUrl>
+                            <path>*/*/edit</path>
+                            <extraParamsTemplate><id>getId</id>;
+                            </extraParamsTemplate>
+                        </rowUrl>
+                        <empty_text translate="true" module="Magento_Webhook">No Items Found</empty_text>
+                    </arguments>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="id">
+                        <arguments>
+                            <header translate="true" module="Magento_Webhook">ID</header>
+                            <align>right</align>
+                            <width>50px</width>
+                            <id>id</id>
+                            <index>subscription_id</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true" module="Magento_Webhook">Name</header>
+                            <index>name</index>
+                            <id>name</id>
+                            <align>left</align>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="endpoint_url">
+                        <arguments>
+                            <header translate="true" module="Magento_Webhook">Endpoint URL</header>
+                            <index>endpoint_url</index>
+                            <align>left</align>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                        <arguments>
+                            <header translate="true" module="Magento_Webhook">Status</header>
+                            <index>status</index>
+                            <align>left</align>
+                            <width>100px</width>
+                            <id>status</id>
+                            <type>options</type>
+                            <options type='options'>Magento_Webhook_Model_Subscription_Options_Status</options>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                        <arguments>
+                            <header translate="true" module="Magento_Webhook">Action</header>
+                            <index>action</index>
+                            <align>left</align>
+                            <width>80px</width>
+                            <renderer>Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action</renderer>
+                            <sortable>0</sortable>
+                            <filter>0</filter>
+                            <id>action</id>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_webhook_subscription_grid>
+</layout>

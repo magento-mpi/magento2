@@ -11,7 +11,7 @@
 /**
  * General Logging container
  */
-class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_Logging_Block_Adminhtml_Container extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Remove add button

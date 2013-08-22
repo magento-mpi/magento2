@@ -13,24 +13,24 @@ class Enterprise_Reward_Model_Reward_Balance_Validator
     protected $_modelFactory;
 
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_session;
 
     /**
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Enterprise_Reward_Model_RewardFactory $modelFactory
-     * @param Mage_Checkout_Model_Session $session
+     * @param Magento_Checkout_Model_Session $session
      */
     public function __construct(
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManager $storeManager,
         Enterprise_Reward_Model_RewardFactory $modelFactory,
-        Mage_Checkout_Model_Session $session
+        Magento_Checkout_Model_Session $session
     ) {
         $this->_storeManager = $storeManager;
         $this->_modelFactory = $modelFactory;
@@ -40,10 +40,10 @@ class Enterprise_Reward_Model_Reward_Balance_Validator
     /**
      * Check reward points balance
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @throws Enterprise_Reward_Model_Reward_Balance_Exception
      */
-    public function validate(Mage_Sales_Model_Order $order)
+    public function validate(Magento_Sales_Model_Order $order)
     {
         if ($order->getRewardPointsBalance() > 0) {
             $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();

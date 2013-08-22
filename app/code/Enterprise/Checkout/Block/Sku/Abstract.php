@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  */
 abstract class Enterprise_Checkout_Block_Sku_Abstract
-    extends Mage_Core_Block_Template
+    extends Magento_Core_Block_Template
 {
     /**
      * Retrieve form action URL

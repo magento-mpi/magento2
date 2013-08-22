@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/* @var $installer Magento_Core_Model_Resource_Setup */
 $installer = $this;
 
 $tablePage = $installer->getTable('cms_page');
@@ -54,7 +54,7 @@ if ($page) {
     $createdBlocks = array();
     foreach ($blocks as $key => $blockData) {
         list($title, $identifier, $content) = $blockData;
-        $block = Mage::getModel('Mage_Cms_Model_Block')
+        $block = Mage::getModel('Magento_Cms_Model_Block')
             ->setTitle($title)
             ->setIdentifier($identifier)
             ->setContent($content)
@@ -66,15 +66,15 @@ if ($page) {
 
     $content = '<div class="col2-set">
 <div class="col-1">
-{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento_Cms_Block_Widget_Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['flaunt_yourself'] . '"}}
 </div>
 <div class="col-2">
-{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento_Cms_Block_Widget_Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['link_privatesales'] . '"}}
-{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento_Cms_Block_Widget_Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['link_giftcards'] . '"}}
-{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="'
+{{widget type="Magento_Cms_Block_Widget_Block" template="Magento_Cms::widget/static_block/default.phtml" block_id="'
     . $createdBlocks['link_apparel_women_handbags'] . '"}}
 </div>
 </div>'

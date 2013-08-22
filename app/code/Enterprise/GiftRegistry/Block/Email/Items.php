@@ -11,7 +11,7 @@
 /**
  * Update email template gift registry items block
  */
-class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Email_Items extends Magento_Core_Block_Template
 {
 
     /**

@@ -45,7 +45,7 @@ class Enterprise_Eav_Block_Form_Renderer_Date extends Enterprise_Eav_Block_Form_
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

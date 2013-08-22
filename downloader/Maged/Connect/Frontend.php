@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Connect
+ * @category    Magento
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +11,8 @@
 /**
  * Class frontend
  *
- * @category   Mage
- * @package    Mage_Connect
+ * @category   Magento
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Maged_Connect_Frontend extends Magento_Connect_Frontend

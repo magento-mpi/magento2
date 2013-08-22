@@ -15,7 +15,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_checkout before="Mage_Adminhtml">Enterprise_Checkout_Adminhtml</enterprise_checkout>
+                        <enterprise_checkout before="Magento_Adminhtml">Enterprise_Checkout_Adminhtml</enterprise_checkout>
                     </modules>
                 </args>
             </adminhtml>
@@ -51,7 +51,7 @@
             <checkout>
                 <args>
                     <modules>
-                        <enterprise_checkout before="Mage_Checkout">Enterprise_Checkout</enterprise_checkout>
+                        <enterprise_checkout before="Magento_Checkout">Enterprise_Checkout</enterprise_checkout>
                     </modules>
                 </args>
             </checkout>

@@ -25,7 +25,7 @@ class Enterprise_Search_Model_Recommendations
     public function getSearchRecommendations()
     {
         $productCollection = Mage::getSingleton('Enterprise_Search_Model_Search_Layer')->getProductCollection();
-        $searchQueryText = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getQueryText();
+        $searchQueryText = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getQueryText();
 
         $params = array(
             'store_id' => $productCollection->getStoreId(),

@@ -15,14 +15,14 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
     /**
      * Design change model
      *
-     * @var Mage_Core_Model_Design
+     * @var Magento_Core_Model_Design
      */
     protected $_designChange;
 
     /**
      * Design model
      *
-     * @var Mage_Core_Model_View_DesignInterface
+     * @var Magento_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -34,13 +34,13 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
     protected $_fpcCache;
 
     /**
-     * @param Mage_Core_Model_Design $designChange
-     * @param Mage_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Design $designChange
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      */
     public function __construct(
-        Mage_Core_Model_Design $designChange,
-        Mage_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Design $designChange,
+        Magento_Core_Model_View_DesignInterface $design,
         Enterprise_PageCache_Model_Cache $fpcCache
     ) {
         $this->_designChange = $designChange;
@@ -59,7 +59,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
         $output = '';
         $rules = $exceptions ? @unserialize($exceptions) : array();
         if (false === empty($rules)) {
-            $output = Mage_Core_Model_View_Design::getPackageByUserAgent($rules);
+            $output = Magento_Core_Model_View_Design::getPackageByUserAgent($rules);
         }
         return $output;
     }

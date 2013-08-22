@@ -1,0 +1,146 @@
+<?php
+/**
+ * Layout functions needed for twig extension
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions
+{
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    private $_layout;
+
+    /**
+     * @var Magento_Core_Model_TemplateEngine_BlockTrackerInterface
+     */
+    private $_blockTracker;
+
+    public function __construct(
+        Magento_Core_Model_Layout $layout
+    ) {
+        $this->_layout = $layout;
+    }
+
+    /**
+     * Sets the block tracker that is needed for dynamically determining the child html at runtime
+     *
+     * @param Magento_Core_Model_TemplateEngine_BlockTrackerInterface $blockTracker
+     */
+    public function setBlockTracker(Magento_Core_Model_TemplateEngine_BlockTrackerInterface $blockTracker)
+    {
+        $this->_blockTracker = $blockTracker;
+    }
+
+    /**
+     * Returns a list of global functions to add to the existing list.
+     *
+     * @return array An array of global functions
+     */
+    public function getFunctions()
+    {
+        $options = array('is_safe' => array('html'));
+        return array(
+            new Twig_SimpleFunction('getBlockData', array($this, 'getBlockData'), $options),
+            new Twig_SimpleFunction('getMessagesHtml',
+                array($this->_layout->getMessagesBlock(), 'getGroupedHtml'), $options),
+            new Twig_SimpleFunction('executeRenderer', array($this->_layout, 'executeRenderer'), $options),
+            new Twig_SimpleFunction('getChildHtml', array($this, 'getChildHtml'), $options),
+            new Twig_SimpleFunction('getGroupChildNames', array($this, 'getGroupChildNames'), $options),
+            new Twig_SimpleFunction('getBlockNameByAlias', array($this, 'getBlockNameByAlias'), $options),
+            new Twig_SimpleFunction('createBlock', array($this->_layout, 'createBlock')),
+            new Twig_SimpleFunction('getElementAlias', array($this->_layout, 'getElementAlias'), $options),
+            new Twig_SimpleFunction('renderElement', array($this->_layout, 'renderElement'), $options),
+        );
+    }
+
+    /**
+     * Returns data assigned to the block instance
+     *
+     * @param $name
+     * @param string $key
+     * @return mixed|null
+     */
+    public function getBlockData($name, $key = '')
+    {
+        $block = $this->_layout->getBlock($name);
+        if ($block) {
+            return $block->getData($key);
+        }
+        return null;
+    }
+
+    /**
+     * Render Block defined by the alias from the parent block defined by the name
+     *
+     * @param $name
+     * @param string $alias
+     * @param bool $useCache
+     * @return string
+     */
+    public function renderBlock($name, $alias = '', $useCache = true)
+    {
+        $out = '';
+        if ($alias) {
+            $childName = $this->_layout->getChildName($name, $alias);
+            if ($childName) {
+                $out = $this->_layout->renderElement($childName, $useCache);
+            }
+        } else {
+            foreach ($this->_layout->getChildNames($name) as $child) {
+                $out .= $this->_layout->renderElement($child, $useCache);
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * Render children of the current block defined by alias
+     *
+     * @param string $alias
+     * @param bool $useCache
+     * @return string
+     */
+    public function getChildHtml($alias = '', $useCache = true)
+    {
+        $name = $this->_blockTracker->getCurrentBlock()->getNameInLayout();
+        return $this->renderBlock($name, $alias, $useCache);
+    }
+
+    /**
+     * Get a group of child blocks
+     *
+     * Returns an array of <alias> => <block>
+     * or an array of <alias> => <callback_result>
+     * The callback currently supports only $this methods and passes the alias as parameter
+     *
+     * @param string $parentName
+     * @param string $groupName
+     * @return array
+     */
+    public function getGroupChildNames($parentName, $groupName)
+    {
+        return $this->_layout->getGroupChildNames($parentName, $groupName);
+    }
+
+    /**
+     * Get name of the block defined by alias in context of parent block defined by name
+     *
+     * @param $parentName
+     * @param $alias
+     * @return bool|string
+     */
+    public function getBlockNameByAlias($parentName, $alias)
+    {
+        $name = $this->_layout->getChildName($parentName, $alias);
+        if (!$name) {
+            return '';
+        }
+        return $name;
+    }
+}

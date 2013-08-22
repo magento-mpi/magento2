@@ -21,7 +21,7 @@ class Enterprise_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_urlBuilder = $this->getMockForAbstractClass('Mage_Core_Model_UrlInterface');
+        $this->_urlBuilder = $this->getMockForAbstractClass('Magento_Core_Model_UrlInterface');
         $args = array('urlBuilder' => $this->_urlBuilder);
         $this->_block = $helper->getObject('Enterprise_GiftRegistry_Block_Product_View', $args);
     }
@@ -38,8 +38,8 @@ class Enterprise_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_T
             ->method('getParam')
             ->with('options')
             ->will($this->returnValue($options));
-        $childBlock = $this->getMockForAbstractClass('Mage_Core_Block_Abstract', array(), '', false);
-        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
             ->method('getBlock')
@@ -87,8 +87,8 @@ class Enterprise_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_T
         $request->expects($this->any())
             ->method('getParam')
             ->will($this->returnValueMap($valueMap));
-        $childBlock = $this->getMockForAbstractClass('Mage_Core_Block_Abstract', array(), '', false);
-        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
             ->method('getBlock')
@@ -101,8 +101,8 @@ class Enterprise_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_T
 
     public function testSetGiftRegistryUrlNoOptions()
     {
-        $childBlock = $this->getMockForAbstractClass('Mage_Core_Block_Abstract', array(), '', false);
-        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
             ->method('getBlock')

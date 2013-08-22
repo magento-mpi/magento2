@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Core" version="1.6.0.15" active="true">
+        <depends>
+            <extension name="spl" />
+            <extension name="dom" />
+            <extension name="simplexml" />
+            <extension name="mcrypt" />
+            <extension name="hash" />
+            <extension name="curl" />
+            <extension name="iconv" />
+            <extension name="ctype" />
+            <choice>
+                <extension name="gd" />
+                <extension name="imagick" minVersion="3.0.0" />
+            </choice>
+        </depends>
+    </module>
+</config>

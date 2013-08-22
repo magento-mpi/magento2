@@ -21,7 +21,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
      */
     public function restrictWebsite($observer)
     {
-        /* @var $controller Mage_Core_Controller_Front_Action */
+        /* @var $controller Magento_Core_Controller_Front_Action */
         $controller = $observer->getEvent()->getControllerAction();
 
         if (!Mage::app()->getStore()->isAdmin()) {
@@ -35,9 +35,9 @@ class Enterprise_WebsiteRestriction_Model_Observer
             if (!Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled()) {
                 return;
             }
-            /* @var $request Mage_Core_Controller_Request_Http */
+            /* @var $request Magento_Core_Controller_Request_Http */
             $request    = $controller->getRequest();
-            /* @var $response Mage_Core_Controller_Response_Http */
+            /* @var $response Magento_Core_Controller_Response_Http */
             $response   = $controller->getResponse();
             switch ((int)Mage::getStoreConfig(Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE)) {
                 // show only landing page with 503 or 200 code
@@ -62,14 +62,14 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
                 // redirect to landing page/login
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
-                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Mage_Customer_Helper_Data')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Magento_Customer_Helper_Data')->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
                             ->getNode(Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
-                        if (Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) {
+                        if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
                             foreach(array_keys(Mage::getConfig()
                                 ->getNode(
                                     Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
@@ -104,21 +104,21 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
                         if ($redirectUrl) {
                             $response->setRedirect($redirectUrl);
-                            $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+                            $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                         }
                         if (Mage::getStoreConfigFlag(
-                            Mage_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
+                            Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
-                            $afterLoginUrl = Mage::helper('Mage_Customer_Helper_Data')->getDashboardUrl();
+                            $afterLoginUrl = Mage::helper('Magento_Customer_Helper_Data')->getDashboardUrl();
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }
-                        Mage::getSingleton('Mage_Core_Model_Session')->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
-                    } elseif (Mage::getSingleton('Mage_Core_Model_Session')->hasWebsiteRestrictionAfterLoginUrl()) {
+                        Mage::getSingleton('Magento_Core_Model_Session')->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
+                    } elseif (Mage::getSingleton('Magento_Core_Model_Session')->hasWebsiteRestrictionAfterLoginUrl()) {
                         $response->setRedirect(
-                            Mage::getSingleton('Mage_Core_Model_Session')->getWebsiteRestrictionAfterLoginUrl(true)
+                            Mage::getSingleton('Magento_Core_Model_Session')->getWebsiteRestrictionAfterLoginUrl(true)
                         );
-                        $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+                        $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     }
                     break;
             }

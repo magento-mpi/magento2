@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Search_Model_Resource_Collection
-    extends Mage_Catalog_Model_Resource_Product_Collection
+    extends Magento_Catalog_Model_Resource_Product_Collection
 {
 
     /**
@@ -200,9 +200,9 @@ class Enterprise_Search_Model_Resource_Collection
     public function addSearchFilter($queryText)
     {
         /**
-         * @var Mage_CatalogSearch_Model_Query $query
+         * @var Magento_CatalogSearch_Model_Query $query
          */
-        $query = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
+        $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -279,10 +279,10 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Specify category filter for product collection
      *
-     * @param   Mage_Catalog_Model_Category $category
+     * @param   Magento_Catalog_Model_Category $category
      * @return  Enterprise_Search_Model_Resource_Collection
      */
-    public function addCategoryFilter(Mage_Catalog_Model_Category $category)
+    public function addCategoryFilter(Magento_Catalog_Model_Category $category)
     {
         $this->addFqFilter(array('category_ids' => $category->getId()));
         parent::addCategoryFilter($category);
@@ -312,7 +312,7 @@ class Enterprise_Search_Model_Resource_Collection
         $store  = Mage::app()->getStore();
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE),
+            'locale_code'   => $store->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE),
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;
@@ -496,7 +496,7 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Adding product count to categories collection
      *
-     * @param   Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
+     * @param   Magento_Eav_Model_Entity_Collection_Abstract $categoryCollection
      * @return  Enterprise_Search_Model_Resource_Collection
      */
     public function addCountToCategories($categoryCollection)
@@ -508,7 +508,7 @@ class Enterprise_Search_Model_Resource_Collection
      * Set product visibility filter for enabled products
      *
      * @param   array $visibility
-     * @return  Mage_Catalog_Model_Resource_Product_Collection
+     * @return  Magento_Catalog_Model_Resource_Product_Collection
      */
     public function setVisibility($visibility)
     {

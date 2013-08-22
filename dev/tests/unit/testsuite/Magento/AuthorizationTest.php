@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -42,12 +42,12 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
     public function testIsAllowedReturnPositiveValue()
     {
         $this->_policyMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $this->assertTrue($this->_model->isAllowed('Mage_Module::acl_resource'));
+        $this->assertTrue($this->_model->isAllowed('Magento_Module::acl_resource'));
     }
 
     public function testIsAllowedReturnNegativeValue()
     {
         $this->_policyMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
-        $this->assertFalse($this->_model->isAllowed('Mage_Module::acl_resource'));
+        $this->assertFalse($this->_model->isAllowed('Magento_Module::acl_resource'));
     }
 }

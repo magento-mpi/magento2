@@ -1,0 +1,47 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if (isset($poll)) : ?>
+<div class="block block-poll">
+    <div class="block-title">
+        <strong><span><?php echo __('Community Poll') ?></span></strong>
+    </div>
+    <form id="pollForm" action="<?php echo $action ?>" method="post">
+        <div class="block-content">
+            <p class="block-subtitle"><?php echo $this->escapeHtml($poll->getPollTitle()); ?></p>
+            <?php if ($poll_answers): ?>
+            <ul id="poll-answers">
+                <?php foreach ($poll_answers as $answer): ?>
+                <li>
+                    <input type="radio" name="vote" class="radio poll_vote" id="vote_<?php echo $answer->getId() ?>"
+                           value="<?php echo $answer->getAnswerId() ?>"/>
+                    <span class="label"><label
+                        for="vote_<?php echo $answer->getId() ?>"><?php echo $this->escapeHtml($answer->getAnswerTitle()) ?></label></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <script type="text/javascript">
+                //<![CDATA[
+                (function($) {
+                    head.js("<?php echo $this->getViewFileUrl('Magento_Poll::poll.js')?>", function() {
+                        $('#pollForm').poll({pollAnswersSelector: '#poll-answers', pollCheckedOption: 'input.poll_vote:checked'});
+                    });
+                })(jQuery);
+                //]]>
+            </script>
+            <?php endif; ?>
+            <div class="actions">
+                <button type="submit" title="<?php echo __('Vote') ?>" class="button">
+                    <span><span><?php echo __('Vote') ?></span></span></button>
+            </div>
+        </div>
+    </form>
+</div>
+<?php endif; ?>

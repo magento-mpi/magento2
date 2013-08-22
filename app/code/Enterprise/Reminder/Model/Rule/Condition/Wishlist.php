@@ -15,10 +15,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist');
@@ -122,9 +122,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
-        $currentTime = Mage::getModel('Mage_Core_Model_Date')->gmtDate();
-        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $daysDiffSql */
-        $daysDiffSql = Mage::getResourceHelper('Mage_Core');
+        $currentTime = Mage::getModel('Magento_Core_Model_Date')->gmtDate();
+        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $daysDiffSql */
+        $daysDiffSql = Mage::getResourceHelper('Magento_Core');
         $daysDiffSql->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));

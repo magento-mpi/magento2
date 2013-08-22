@@ -44,7 +44,7 @@ class Enterprise_PageCache_Model_Observer
     protected $_isEnabled;
 
     /**
-     * @var Mage_Core_Model_Cache_StateInterface
+     * @var Magento_Core_Model_Cache_StateInterface
      */
     protected $_cacheState;
 
@@ -85,7 +85,7 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
-     * @param Mage_Core_Model_Cache_StateInterface $cacheState
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
@@ -95,7 +95,7 @@ class Enterprise_PageCache_Model_Observer
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
-        Mage_Core_Model_Cache_StateInterface $cacheState,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Cookie $cookie,
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
@@ -153,16 +153,16 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $action = $observer->getEvent()->getControllerAction();
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $action->getRequest();
         /**
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
-            $this->_cacheState->setEnabled(Mage_Core_Block_Abstract::CACHE_GROUP, false); // disable blocks cache
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
+            $this->_cacheState->setEnabled(Magento_Core_Block_Abstract::CACHE_GROUP, false); // disable blocks cache
+            Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         } else {
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
+            Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
         }
         $this->_cookie->updateCustomerCookies();
         return $this;
@@ -301,8 +301,8 @@ class Enterprise_PageCache_Model_Observer
      */
     public function invalidateCache()
     {
-        /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Mage_Core_Model_Cache_TypeListInterface');
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
         $cacheTypeList->invalidate('full_page');
         return $this;
     }
@@ -320,7 +320,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $event = $observer->getEvent();
-        /** @var $layout Mage_Core_Model_Layout */
+        /** @var $layout Magento_Core_Model_Layout */
         $layout = $event->getData('layout');
         $name = $event->getData('element_name');
         if (!$layout->isBlock($name)) {
@@ -348,7 +348,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        /** @var Mage_Sales_Model_Quote */
+        /** @var Magento_Sales_Model_Quote */
         $quote = ($observer->getEvent()->getQuote()) ? $observer->getEvent()->getQuote() :
             $observer->getEvent()->getQuoteItem()->getQuote();
         $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
@@ -371,7 +371,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $listItems = Mage::helper('Mage_Catalog_Helper_Product_Compare')->getItemCollection();
+        $listItems = Mage::helper('Magento_Catalog_Helper_Product_Compare')->getItemCollection();
         $previousList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previousList = (empty($previousList)) ? array() : explode(',', $previousList);
 
@@ -432,20 +432,20 @@ class Enterprise_PageCache_Model_Observer
             $productIds = $this->_cookie->get(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
             if ($productIds) {
                 $productIds = explode(',', $productIds);
-                Mage::getModel('Mage_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
+                Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
             }
         } catch (Exception $e) {
             Mage::logException($e);
         }
 
         // renew customer viewed product ids cookie
-        $countLimit = Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Index_Viewed_Collection')
+        $countLimit = Mage::getStoreConfig(Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Index_Viewed_Collection')
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)
             ->setCurPage(1)
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
 
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);
@@ -504,7 +504,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $cookieValue = '';
-        foreach (Mage::helper('Mage_Wishlist_Helper_Data')->getWishlistItemCollection() as $item) {
+        foreach (Mage::helper('Magento_Wishlist_Helper_Data')->getWishlistItemCollection() as $item) {
             $cookieValue .= ($cookieValue ? '_' : '') . $item->getId();
         }
 
@@ -513,7 +513,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Wishlist items count hash for top link
         $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
-            'wishlist_item_count_' . Mage::helper('Mage_Wishlist_Helper_Data')->getItemCount());
+            'wishlist_item_count_' . Mage::helper('Magento_Wishlist_Helper_Data')->getItemCount());
 
         return $this;
     }
@@ -641,8 +641,8 @@ class Enterprise_PageCache_Model_Observer
         $url = $transport->getUrl();
         $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
-        if ($httpHost != $urlHost && Mage::getSingleton('Mage_Core_Model_Session')->getMessages()->count() > 0) {
-            $transport->setUrl(Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+        if ($httpHost != $urlHost && Mage::getSingleton('Magento_Core_Model_Session')->getMessages()->count() > 0) {
+            $transport->setUrl(Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
                 $url,
                 array(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null)
             ));
@@ -707,7 +707,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        /** @var $design Mage_Core_Model_Design */
+        /** @var $design Magento_Core_Model_Design */
         $design = $observer->getEvent()->getObject();
         $cacheId = $this->_designRules->getCacheId($design->getStoreId());
         $this->_fpcCache->remove($cacheId);

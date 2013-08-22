@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <downloadable_customer_products translate="label" type="page" parent="customer_account">
+        <label>Customer My Account Downloadable Items</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="Magento_Downloadable_Block_Customer_Products_List" name="downloadable_customer_products_list" template="customer/products/list.phtml"/>
+        </reference>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title">
+                <title>My Downloadable Products</title>
+            </action>
+        </reference>
+    </downloadable_customer_products>
+</layout>

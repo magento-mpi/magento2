@@ -21,7 +21,7 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
     'backend'      => 'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
@@ -33,7 +33,7 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', ar
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
     'backend'      => 'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
@@ -45,7 +45,7 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
     'backend'      =>'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));
@@ -57,7 +57,7 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', arr
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
     'backend'      =>'Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
 ));

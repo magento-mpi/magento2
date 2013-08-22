@@ -22,13 +22,13 @@
     (function($) {
         $('#gr-type-specific-fieldset').toggle(<?php echo ($this->getAttributes() ? "true" : "false");?>);
     <?php if ($this->getRegionJsVisible()): ?>
-        head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+        head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
             function() {
                 $('#<?php echo $this->getFieldIdPrefix() . $this->getElementCountry()?>').regionUpdater({
                     optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
                     regionListId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegion()?>',
                     regionInputId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegionText()?>',
-                    regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>,
+                    regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>,
                     isRegionRequired: false,
                     isZipRequired: false,
                     isCountryRequired: false

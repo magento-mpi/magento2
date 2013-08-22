@@ -29,7 +29,7 @@ class Enterprise_CatalogEvent_Block_Catalog_Category_Event extends Enterprise_Ca
     /**
      * Return current category
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     public function getCategory()
     {

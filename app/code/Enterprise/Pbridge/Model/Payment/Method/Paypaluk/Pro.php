@@ -12,7 +12,7 @@
  * PayPal UK Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk_Model_Pro
+class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk_Model_Pro
 {
 
     /**
@@ -47,7 +47,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;
@@ -99,7 +99,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     public function void(Magento_Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
         return $result;
     }
 
@@ -112,7 +112,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
         }
     }
 
@@ -132,8 +132,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     /**
      * Import capture results to payment
      *
-     * @param Mage_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
+     * @param Magento_Paypal_Model_Api_Nvp
+     * @param Magento_Sales_Model_Order_Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -141,14 +141,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
+        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**
      * Import refund results to payment
      *
-     * @param Mage_Paypal_Model_Api_Nvp $api
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Paypal_Model_Api_Nvp $api
+     * @param Magento_Sales_Model_Order_Payment $payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
@@ -161,6 +161,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
+        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 }

@@ -15,18 +15,18 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * @var Mage_Core_Model_Date
+     * @var Magento_Core_Model_Date
      */
     protected $_dateModel;
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
-     * @param Mage_Core_Model_Date $dateModel
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Core_Model_Date $dateModel
      * @param array $data
      */
     public function __construct(
-        Mage_Rule_Model_Condition_Context $context,
-        Mage_Core_Model_Date $dateModel,
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Core_Model_Date $dateModel,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -126,8 +126,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
-        $resourceHelper = Mage::getResourceHelper('Mage_Core');
+        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
+        $resourceHelper = Mage::getResourceHelper('Magento_Core');
         $daysDiffSql = $resourceHelper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
         );

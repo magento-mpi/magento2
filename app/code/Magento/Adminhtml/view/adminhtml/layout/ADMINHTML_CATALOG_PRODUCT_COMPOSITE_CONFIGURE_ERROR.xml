@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR>
+        <block type="Magento_Adminhtml_Block_Catalog_Product_Composite_Error" name="product.composite.error" output="1"/>
+    </ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR>
+</layout>

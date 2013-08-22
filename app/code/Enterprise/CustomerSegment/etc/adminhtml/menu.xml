@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_CustomerSegment::customer_customersegment" title="Segments" module="Enterprise_CustomerSegment" sortOrder="30" parent="Mage_Customer::customer" action="adminhtml/customersegment" dependsOnModule="Enterprise_CustomerSegment" dependsOnConfig="customer/enterprise_customersegment/is_enabled" resource="Enterprise_CustomerSegment::customersegment"/>
-        <add id="Enterprise_CustomerSegment::report_customers_segment" title="Segments" module="Enterprise_CustomerSegment" sortOrder="50" parent="Mage_Reports::report_customers" action="adminhtml/report_customer_customersegment/segment" dependsOnModule="Enterprise_CustomerSegment" dependsOnConfig="customer/enterprise_customersegment/is_enabled" resource="Enterprise_CustomerSegment::segment"/>
+        <add id="Enterprise_CustomerSegment::customer_customersegment" title="Segments" module="Enterprise_CustomerSegment" sortOrder="30" parent="Magento_Customer::customer" action="adminhtml/customersegment" dependsOnModule="Enterprise_CustomerSegment" dependsOnConfig="customer/enterprise_customersegment/is_enabled" resource="Enterprise_CustomerSegment::customersegment"/>
+        <add id="Enterprise_CustomerSegment::report_customers_segment" title="Segments" module="Enterprise_CustomerSegment" sortOrder="50" parent="Magento_Reports::report_customers" action="adminhtml/report_customer_customersegment/segment" dependsOnModule="Enterprise_CustomerSegment" dependsOnConfig="customer/enterprise_customersegment/is_enabled" resource="Enterprise_CustomerSegment::segment"/>
     </menu>
 </config>

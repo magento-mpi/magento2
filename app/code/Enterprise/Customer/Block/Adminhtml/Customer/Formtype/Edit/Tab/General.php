@@ -16,8 +16,8 @@
  * @package    Enterprise_Customer
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Initialize Edit Form
@@ -37,7 +37,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        /* @var $model Mage_Eav_Model_Form_Type */
+        /* @var $model Magento_Eav_Model_Form_Type */
         $model      = Mage::registry('current_form_type');
 
         $form       = new Magento_Data_Form();
@@ -76,8 +76,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'value'     => $model->getLabel()
         ));
 
-        /** @var $label Mage_Core_Model_Theme_Label */
-        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
         $options = $label->getLabelsCollection();
         array_unshift($options, array(
             'label' => __('All Themes'),
@@ -96,7 +96,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'name'      => 'store_id',
             'label'     => __('Store View'),
             'title'     => __('Store View'),
-            'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+            'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             'value'     => $model->getStoreId(),
             'disabled'  => true
         ));

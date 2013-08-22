@@ -16,7 +16,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
-    extends Mage_Core_Model_Config_Data
+    extends Magento_Core_Model_Config_Data
 {
 
     /**
@@ -39,7 +39,7 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
 
             }
             $this->setValue($value);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
                 __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.', $parameter)
             );
         }

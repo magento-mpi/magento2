@@ -1,0 +1,65 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+USAGE:
+
+Simple:
+
+<?php echo $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Dob')
+   ->setDate($this->getCustomer()->getDob())
+   ->toHtml() ?>
+
+For checkout/onepage/billing.phtml:
+
+<?php echo $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Dob')
+   ->setDate($this->getCustomer()->getDob())
+   ->setFieldIdFormat('billing:%s')
+   ->setFieldNameFormat('billing[%s]')
+   ->toHtml() ?>
+
+NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
+      Alternatively we could calculate widths automatically using block input parameters.
+*/
+
+/**
+ * @see Magento_Customer_Block_Widget_Dob
+ */
+?>
+<label for="<?php echo $this->getFieldId('month')?>"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo __('Date of Birth') ?></label>
+<div class="input-box customer-dob">
+<?php
+    $this->setDateInput('d',
+        '<span class="dob-day">
+             <input type="text" id="' . $this->getFieldId('day') . '" name="' . $this->getFieldName('day') . '" value="' . $this->getDay() . '" title="' . __('Day') . '" class="input-text validate-custom" ' . $this->getFieldParams() . ' />
+             <label for="' . $this->getFieldId('day') . '">' . __('Day (DD)') . '</label>
+         </span>'
+    );
+
+    $this->setDateInput('m',
+        '<span class="dob-month">
+             <input type="text" id="' . $this->getFieldId('month') . '" name="' . $this->getFieldName('month') . '" value="' . $this->getMonth()  . '" title="' . __('Month')  . '" class="input-text validate-custom" ' . $this->getFieldParams()  . ' />
+             <label for="' . $this->getFieldId('month') . '">' . __('Month (MM)')  . '</label>
+         </span>'
+    );
+
+    $this->setDateInput('y',
+        '<span class="dob-year">
+             <input type="text" id="' . $this->getFieldId('year') . '" name="' . $this->getFieldName('year') . '" value="' . $this->getYear()  . '" title="' . __('Year')  . '" class="input-text validate-custom" ' . $this->getFieldParams()  . ' />
+             <label for="' . $this->getFieldId('year') . '">' . __('Year (YYYY)')  . '</label>
+         </span>'
+    );
+?>
+    <?php echo $this->getSortedDateInputs() ?>
+    <span class="dob-full" style="display:none;">
+        <input type="hidden" id="<?php echo $this->getFieldId('full')?>" name="<?php echo $this->getFieldName('dob')?>" data-validate="{'validate-dob': ['.dob-day', '.dob-month', '.dob-year', <?php echo $this->isRequired() ? 'true' : 'false' ?>]<?php if ($this->getMinDateRange() && $this->getMaxDateRange()):?>, 'validate-date-between':['<?php echo $this->getMinDateRange()?>', '<?php echo $this->getMaxDateRange()?>']<?php endif;?>}"/>
+    </span>
+    <div class="validation-advice" id="<?php echo $this->getFieldId('date-advice')?>" style="opacity:0.999999; display:none;"></div>
+</div>

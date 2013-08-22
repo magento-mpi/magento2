@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Mage_Adminhtml_Controller_Cms_Page
+class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtml_Controller_Cms_Page
 {
     protected $_handles = array();
 
@@ -39,7 +39,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Mage_Adminhtml_Contro
             ->generateLayoutXml()
             ->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+        $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Enterprise_Cms::cms_enterprise_page_page')
@@ -63,7 +63,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Mage_Adminhtml_Contro
         $this->_title(__('Pages'));
 
         $pageId = (int) $this->getRequest()->getParam('page_id');
-        $page = Mage::getModel('Mage_Cms_Model_Page');
+        $page = Mage::getModel('Magento_Cms_Model_Page');
 
         if ($pageId) {
             $page->load($pageId);
@@ -81,7 +81,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Mage_Adminhtml_Contro
     {
         $page = $this->_initPage();
 
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (! empty($data)) {
             $page->setData($data);
         }
@@ -132,7 +132,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Mage_Adminhtml_Contro
         }
         else {
             try {
-                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
@@ -146,7 +146,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Mage_Adminhtml_Contro
                 $this->_getSession()->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);

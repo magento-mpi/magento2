@@ -285,7 +285,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_giftcardaccount before="Mage_Adminhtml">Enterprise_GiftCardAccount_Adminhtml</enterprise_giftcardaccount>
+                        <enterprise_giftcardaccount before="Magento_Adminhtml">Enterprise_GiftCardAccount_Adminhtml</enterprise_giftcardaccount>
                     </modules>
                 </args>
             </adminhtml>

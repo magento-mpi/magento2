@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <oauth_authorize_reject translate="label" type="page">
+        <update handle="oauth_root_handle"/>
+        <label>Reject OAuth token authorization</label>
+        <reference name="content">
+            <block type="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
+        </reference>
+    </oauth_authorize_reject>
+</layout>

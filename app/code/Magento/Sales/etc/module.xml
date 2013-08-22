@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Sales" version="1.6.0.11" active="true">
+        <depends>
+            <module name="Magento_Rule" />
+            <module name="Magento_Catalog" />
+            <module name="Magento_Customer" />
+            <module name="Magento_Payment" />
+        </depends>
+    </module>
+</config>

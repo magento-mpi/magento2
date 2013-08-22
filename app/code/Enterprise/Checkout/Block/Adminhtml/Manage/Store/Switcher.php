@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Backend_Block_Store_Switcher
+class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Magento_Backend_Block_Store_Switcher
 {
     /**
      * @var bool
@@ -37,7 +37,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Bac
     /**
      * Return current customer from regisrty
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
@@ -47,7 +47,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Bac
     /**
      * Return current store from regisrty
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {

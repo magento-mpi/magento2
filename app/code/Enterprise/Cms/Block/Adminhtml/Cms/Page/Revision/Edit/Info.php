@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Currently loaded page model
@@ -99,11 +99,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getAuthor()
     {
         $userId = $this->_page->getUserId();
-        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
-            return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getUsername();
+        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
+            return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
 
-        $user = Mage::getModel('Mage_User_Model_User')
+        $user = Mage::getModel('Magento_User_Model_User')
             ->load($userId);
 
         if ($user->getId()) {
@@ -120,7 +120,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getCreatedAt()
     {
         $format = Mage::app()->getLocale()->getDateTimeFormat(
-                Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
             );
         $data = $this->_page->getRevisionCreatedAt();
         try {

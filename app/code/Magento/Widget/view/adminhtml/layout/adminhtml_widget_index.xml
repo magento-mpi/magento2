@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_widget_index>
+        <block name="wysiwyg_widget" type="Magento_Widget_Block_Adminhtml_Widget" output="1"/>
+    </adminhtml_widget_index>
+</layout>

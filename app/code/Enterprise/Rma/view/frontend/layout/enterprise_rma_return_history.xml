@@ -20,7 +20,7 @@
             <block type="Enterprise_Rma_Block_Return_History" name="rma.return.history">
                 <container name="rma.return.history.info" as="info" label="Returns History Info"/>
             </block>
-            <block type="Mage_Customer_Block_Account_Dashboard" name="customer.account.link.back" template="Mage_Customer::account/link/back.phtml"/>
+            <block type="Magento_Customer_Block_Account_Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
     </enterprise_rma_return_history>
 </layout>

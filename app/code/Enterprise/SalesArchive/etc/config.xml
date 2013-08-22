@@ -127,7 +127,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_salesarchive before="Mage_Adminhtml">Enterprise_SalesArchive_Adminhtml</enterprise_salesarchive>
+                        <enterprise_salesarchive before="Magento_Adminhtml">Enterprise_SalesArchive_Adminhtml</enterprise_salesarchive>
                     </modules>
                 </args>
             </adminhtml>

@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 class Enterprise_SalesArchive_Model_System_Config_Backend_Active
-    extends Mage_Backend_Model_Config_Backend_Cache
-    implements Mage_Backend_Model_Config_CommentInterface
+    extends Magento_Backend_Model_Config_Backend_Cache
+    implements Magento_Backend_Model_Config_CommentInterface
 {
     /**
      * Cache tags to clean
@@ -17,7 +17,7 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
      * @var array
      */
     protected $_cacheTags = array(
-        Mage_Backend_Block_Menu::CACHE_TAGS
+        Magento_Backend_Block_Menu::CACHE_TAGS
     );
 
     /**

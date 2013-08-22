@@ -18,7 +18,7 @@
  */
 
 class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection_Initial
-        extends Mage_Reports_Model_Resource_Report_Collection
+        extends Magento_Reports_Model_Resource_Report_Collection
 {
     /**
      *  Report sub-collection class name

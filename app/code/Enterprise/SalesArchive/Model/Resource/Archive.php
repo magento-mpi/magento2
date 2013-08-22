@@ -16,7 +16,7 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Archive entities tables association
@@ -315,7 +315,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
             return $this;
         }
 
-        /* @var $resource Mage_Sales_Model_Resource_Abstract */
+        /* @var $resource Magento_Sales_Model_Resource_Abstract */
         $resource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
 
         $gridColumns = array_keys($this->_getWriteAdapter()->describeTable(
@@ -349,7 +349,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
             return array();
         }
 
-        /** @var $resource Mage_Sales_Model_Resource_Abstract */
+        /** @var $resource Magento_Sales_Model_Resource_Abstract */
         $resource = Mage::getResourceSingleton($resourceClass);
 
         $select = $this->_getReadAdapter()->select()

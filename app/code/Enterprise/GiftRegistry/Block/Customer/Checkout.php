@@ -11,16 +11,16 @@
 /**
  * Customer gift registry checkout abstract block
  */
-class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Template
 {
     /**
      * Get current checkout session
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -97,7 +97,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
     /**
      * Get select shipping address id prefix
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     public function getAddressIdPrefix()
     {
@@ -113,7 +113,7 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
     {
         $result = array();
         $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = Mage::getSingleton('Mage_Checkout_Model_Type_Multishipping')->getQuoteShippingAddressesItems();
+        $quoteAddressItems = Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping')->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {
             $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
             if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {

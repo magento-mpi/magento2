@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * List of product IDs
@@ -130,10 +130,10 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('Mage_Sales_Model_Quote_Config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Magento_Sales_Model_Quote_Config')->getProductAttributes())
             ->addStoreFilter()
             ->addUrlRewrite()
             ->addOptionsToResult();

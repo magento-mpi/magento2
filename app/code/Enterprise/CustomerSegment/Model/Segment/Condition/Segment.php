@@ -11,7 +11,7 @@
 /**
  * Segment condition for sales rules
  */
-class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Rule_Model_Condition_Abstract
 {
     /**
      * @var string
@@ -64,7 +64,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserGrid', array(
+        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
             'form' => $this->getJsFormObject(),
         ));
@@ -126,7 +126,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     /**
      * Validate if qoute customer is assigned to role segments
      *
-     * @param   Mage_Sales_Model_Quote_Address $object
+     * @param   Magento_Sales_Model_Quote_Address $object
      * @return  bool
      */
     public function validate(Magento_Object $object)
@@ -144,7 +144,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
 
         $quoteWebsiteId = $object->getQuote()->getStore()->getWebsite()->getId();
         if (!$customer->getId()) {
-            $visitorSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
+            $visitorSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
             if (is_array($visitorSegmentIds) && isset($visitorSegmentIds[$quoteWebsiteId])) {
                 $segments = $visitorSegmentIds[$quoteWebsiteId];
             } else {

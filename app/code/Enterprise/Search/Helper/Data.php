@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Search_Helper_Data extends Magento_Core_Helper_Abstract
     implements Enterprise_Search_Helper_ClientInterface
 {
     /**
@@ -255,7 +255,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      * @deprecated since 1.12.0.0
      *
      * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -269,7 +269,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $locale = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -285,7 +285,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
@@ -351,7 +351,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) Mage::helper('Mage_Tax_Helper_Data')->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool) Mage::helper('Magento_Tax_Helper_Data')->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;
@@ -413,7 +413,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @deprecated after 1.11.2.0
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      *
      * @return string
      */

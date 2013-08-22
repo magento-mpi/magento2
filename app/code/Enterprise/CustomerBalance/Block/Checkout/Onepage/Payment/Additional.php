@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_CustomerBalance
  */
-class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Magento_Core_Block_Template
 {
     /**
      * Customer balance instance
@@ -27,17 +27,17 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     /**
      * Get quote instance
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -68,11 +68,11 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     /**
      * Get customer instance
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
     }
 
     /**

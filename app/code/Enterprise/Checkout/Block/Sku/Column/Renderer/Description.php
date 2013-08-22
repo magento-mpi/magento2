@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Enterprise_Checkout_Block_Sku_Column_Renderer_Description
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     public function render(Magento_Object $row)
     {

@@ -27,7 +27,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
+class Enterprise_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
 {
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;

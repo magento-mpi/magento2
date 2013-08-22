@@ -20,14 +20,14 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
     /**
      * Customer object, RMA's order attached to
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer = null;
 
     /**
      * Order object, RMA attached to
      *
-     * @var Mage_Sales_Model_Order
+     * @var Magento_Sales_Model_Order
      */
     protected $_order = null;
 
@@ -35,7 +35,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
      * Get Customer object
      *
      * @param null|int $customerId
-     * @return Mage_Customer_Model_Customer|null
+     * @return Magento_Customer_Model_Customer|null
      */
     public function getCustomer($customerId = null)
     {
@@ -46,7 +46,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
             $customerId = intval($customerId);
 
             if ($customerId) {
-                $customer = Mage::getModel('Mage_Customer_Model_Customer');
+                $customer = Mage::getModel('Magento_Customer_Model_Customer');
                 $customer->load($customerId);
                 $this->_customer = $customer;
             } elseif (intval($this->getOrderId())) {
@@ -60,7 +60,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
      * Get Order object
      *
      * @param null|int $orderId
-     * @return Mage_Sales_Model_Order|null
+     * @return Magento_Sales_Model_Order|null
      */
     public function getOrder($orderId = null)
     {
@@ -70,7 +70,7 @@ class Enterprise_Rma_Model_Rma_Create extends Magento_Object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                $order = Mage::getModel('Mage_Sales_Model_Order');
+                $order = Mage::getModel('Magento_Sales_Model_Order');
                 $order->load($orderId);
                 $this->_order = $order;
             }

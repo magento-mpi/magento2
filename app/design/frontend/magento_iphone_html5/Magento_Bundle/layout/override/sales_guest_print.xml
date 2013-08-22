@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <sales_guest_print>
+        <reference name="sales.order.print">
+            <action method="addItemRender">
+                <type>bundle</type>
+                <block>Magento_Bundle_Block_Sales_Order_Items_Renderer</block>
+                <template>sales/order/items/renderer.phtml</template>
+            </action>
+        </reference>
+    </sales_guest_print>
+</layout>

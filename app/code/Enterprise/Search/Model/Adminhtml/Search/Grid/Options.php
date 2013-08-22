@@ -7,15 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Search_Model_Adminhtml_Search_Grid_Options implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_Search_Model_Adminhtml_Search_Grid_Options implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
@@ -25,13 +25,13 @@ class Enterprise_Search_Model_Adminhtml_Search_Grid_Options implements Mage_Core
     protected $_searchResourceModel;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_Registry $registry
      * @param Enterprise_Search_Model_Resource_Recommendations $searchResourceModel
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_Registry $registry,
         Enterprise_Search_Model_Resource_Recommendations $searchResourceModel
     ) {
         $this->_request = $request;

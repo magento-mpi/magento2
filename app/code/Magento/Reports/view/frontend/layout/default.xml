@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <file>Magento_Reports::widgets.css</file>
+            </action>
+        </reference>
+        <reference name="right">
+            <block type="Magento_Reports_Block_Product_Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="product_viewed.phtml"/>
+            <block type="Magento_Reports_Block_Product_Compared" before="right.permanent.callout" name="right.reports.product.compared" template="product_compared.phtml"/>
+        </reference>
+    </default>
+</layout>

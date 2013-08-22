@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_product_sold_grid>
+        <update handle="adminhtml_report_grid"/>
+        <reference name="adminhtml.report.grid">
+            <arguments>
+                <id>gridProductsSold</id>
+                <dataSource type="object">Magento_Reports_Model_Resource_Product_Sold_Collection_Initial</dataSource>
+            </arguments>
+        </reference>
+        <reference name="adminhtml.report.grid.export">
+            <arguments>
+                <exportTypes>
+                    <csv>
+                        <urlPath>*/*/exportSoldCsv</urlPath>
+                    </csv>
+                    <excel>
+                        <urlPath>*/*/exportSoldExcel</urlPath>
+                    </excel>
+                </exportTypes>
+            </arguments>
+        </reference>
+        <reference name="adminhtml.report.grid.columnSet">
+            <arguments>
+                <id>report_product_sold</id>
+                <count_totals>1</count_totals>
+            </arguments>
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                <arguments>
+                    <header translate="true">Product</header>
+                    <type>text</type>
+                    <index>order_items_name</index>
+                    <id>name</id>
+                    <column_css_class>col-product</column_css_class>
+                    <header_css_class>col-product</header_css_class>
+                </arguments>
+            </block>
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="ordered_qty">
+                <arguments>
+                    <header translate="true">Ordered Quantity</header>
+                    <total>sum</total>
+                    <type>number</type>
+                    <index>ordered_qty</index>
+                    <id>ordered_qty</id>
+                    <total>sum</total>
+                    <column_css_class>col-qty</column_css_class>
+                    <header_css_class>col-qty</header_css_class>
+                </arguments>
+            </block>
+        </reference>
+    </adminhtml_report_product_sold_grid>
+</layout>

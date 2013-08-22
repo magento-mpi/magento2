@@ -15,7 +15,7 @@
  * @package    Enterprise_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Rule_Options_Applies implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_TargetRule_Model_Rule_Options_Applies implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Result extends Mage_Core_Block_Template
+class Enterprise_Pbridge_Block_Checkout_Payment_Result extends Magento_Core_Block_Template
 {
     /**
      * Return JSON array of Payment Bridge incoming data
@@ -25,7 +25,7 @@ class Enterprise_Pbridge_Block_Checkout_Payment_Result extends Mage_Core_Block_T
      */
     public function getJsonHiddenPbridgeParams()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             Mage::helper('Enterprise_Pbridge_Helper_Data')->getPbridgeParams()
         );
     }

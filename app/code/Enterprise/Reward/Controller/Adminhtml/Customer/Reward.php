@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Mage_Adminhtml_Controller_Action
+class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check if module functionality enabled

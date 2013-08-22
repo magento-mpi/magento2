@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     design
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <email_template_test_handle>
+        <block type="Magento_Adminhtml_Block_Template" name="sample_email_content" template="Magento_Core::sample_email_content.phtml"/>
+    </email_template_test_handle>
+</layout>

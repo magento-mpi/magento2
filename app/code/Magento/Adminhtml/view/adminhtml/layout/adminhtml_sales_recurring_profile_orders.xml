@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_recurring_profile_orders>
+        <remove name="root"/>
+        <block type="Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders" name="sales.recurring.profile.tab.orders" output="1"/>
+    </adminhtml_sales_recurring_profile_orders>
+</layout>

@@ -16,7 +16,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resource_Abstract
+class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resource_Abstract
 {
     /**
      * Increment value for generate unique bind names
@@ -213,11 +213,11 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
     {
         $rule->afterLoad();
 
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();
@@ -476,14 +476,14 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      * Remove index data from index tables
      *
      * @param int|null $typeId
-     * @param Mage_Core_Model_Store|int|array|null $store
+     * @param Magento_Core_Model_Store|int|array|null $store
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
 
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = $store->getId();
         }
 
@@ -594,12 +594,12 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
         if (Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
             $customer = Mage::registry('segment_customer');
             if (!$customer) {
-                $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+                $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
             }
             $websiteId = Mage::app()->getWebsite()->getId();
 
             if (!$customer->getId()) {
-                $allSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
+                $allSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
                 if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }

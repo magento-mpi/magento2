@@ -15,7 +15,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetReturnAddressData($useStoreAddress, $storeConfigData, $mockConfig, $expectedResult)
     {
-        $storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $storeConfigMock->expects($this->any())
             ->method('getConfigFlag')
             ->with(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $mockConfig['store_id'])
@@ -26,7 +26,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($storeConfigData));
 
         $model = new Enterprise_Rma_Helper_Data(
-            $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
             $this->_getAppMock($mockConfig),
             $storeConfigMock,
             $this->_getCountryFactoryMock($mockConfig),
@@ -40,11 +40,11 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Create application mock
      *
      * @param array $mockConfig
-     * @return Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAppMock($mockConfig)
     {
-        $appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $appMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $appMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($mockConfig['store_id']));
@@ -55,11 +55,11 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Create country factory mock
      *
      * @param array $mockConfig
-     * @return Mage_Directory_Model_Country|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Directory_Model_Country|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getCountryFactoryMock(array $mockConfig)
     {
-        $countryMock = $this->getMock('Mage_Directory_Model_Country', array(), array(), '', false);
+        $countryMock = $this->getMock('Magento_Directory_Model_Country', array(), array(), '', false);
         $countryMock->expects($this->any())
             ->method('loadByCode')
             ->will($this->returnValue($countryMock));
@@ -67,7 +67,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue($mockConfig['country_name']));
         $countryFactoryMock = $this->getMock(
-            'Mage_Directory_Model_CountryFactory', array('create'), array(), '', false
+            'Magento_Directory_Model_CountryFactory', array('create'), array(), '', false
         );
         $countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($countryMock));
 
@@ -78,12 +78,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Create region factory mock
      *
      * @param array $mockConfig
-     * @return Mage_Directory_Model_Region|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Directory_Model_Region|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getRegionFactoryMock(array $mockConfig)
     {
         $regionMock = $this->getMock(
-            'Mage_Directory_Model_Region',
+            'Magento_Directory_Model_Region',
             array('load', 'getCode', 'getName'),
             array(),
             '',
@@ -98,7 +98,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
         $regionMock->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($mockConfig['region_name']));
-        $regionFactoryMock = $this->getMock('Mage_Directory_Model_RegionFactory', array(), array(), '', false);
+        $regionFactoryMock = $this->getMock('Magento_Directory_Model_RegionFactory', array(), array(), '', false);
         $regionFactoryMock->expects($this->any())->method('create')->will($this->returnValue($regionMock));
 
         return $regionFactoryMock;
@@ -110,12 +110,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(
                 true,
                 array(
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, 'AF'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, 'AF'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
                 ),
                 array(
                     'store_id' => 1,
@@ -169,12 +169,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(
                 true,
                 array(
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, null),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, null),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
                 ),
                 array(
                     'store_id' => 1,

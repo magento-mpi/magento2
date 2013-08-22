@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @see Magento_Paypal_Block_Payflow_Link_Iframe
+ */
+?>
+<html>
+<head>
+    <script type="text/javascript" src="<?php echo $this->getViewFileUrl('jquery/jquery.js')?>"></script>
+</head>
+<body>
+    <form id="token_form" method="POST" action="<?php echo $this->getTransactionUrl() ?>">
+        <input type="hidden" name="SECURETOKEN" value="<?php echo $this->getSecureToken(); ?>" />
+        <input type="hidden" name="SECURETOKENID" value="<?php echo $this->getSecureTokenId(); ?>" />
+        <input type="hidden" name="MODE" value="<?php echo $this->isTestMode() ? 'TEST' : 'LIVE'; ?>" />
+    </form>
+    <script type="text/javascript">
+        // this is NOT tested.
+        jQuery('#token_form').submit();
+    </script>
+</body>
+</html>

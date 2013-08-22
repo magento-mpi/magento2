@@ -86,7 +86,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_giftregistry before="Mage_Adminhtml">Enterprise_GiftRegistry_Adminhtml</enterprise_giftregistry>
+                        <enterprise_giftregistry before="Magento_Adminhtml">Enterprise_GiftRegistry_Adminhtml</enterprise_giftregistry>
                     </modules>
                 </args>
             </adminhtml>

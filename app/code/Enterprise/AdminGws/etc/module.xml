@@ -10,8 +10,9 @@
 <config>
     <module name="Enterprise_AdminGws" version="1.11.0.0" active="false">
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Sales" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Sales" />
+            <module name="Magento_User" />
         </depends>
     </module>
 </config>
