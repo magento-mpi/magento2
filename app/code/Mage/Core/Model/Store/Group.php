@@ -83,6 +83,30 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     private $_isReadOnly = false;
 
     /**
+     * @var Mage_Core_Model_Resource_Config_Data
+     */
+    protected $_configDataResource;
+
+    /**
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Config_Data $configDataResource
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Resource_Config_Data $configDataResource,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configDataResource = $configDataResource;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+
+    /**
      * init model
      *
      */
@@ -300,6 +324,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
+        $this->_configDataResource->clearStoreData($this->getStoreIds());
         return parent::_beforeDelete();
     }
 

@@ -127,6 +127,29 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     private $_isReadOnly = false;
 
     /**
+     * @var Mage_Core_Model_Resource_Config_Data
+     */
+    protected $_configDataResource;
+
+    /**
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Config_Data $configDataResource
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Resource_Config_Data $configDataResource,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_configDataResource = $configDataResource;
+    }
+
+    /**
      * init model
      *
      */
@@ -418,6 +441,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
+        $this->_configDataResource->clearWebsiteData($this);
         return parent::_beforeDelete();
     }
 
@@ -429,7 +453,6 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     protected function _afterDelete()
     {
         Mage::app()->clearWebsiteCache($this->getId());
-
         parent::_afterDelete();
         Mage::getConfig()->removeCache();
         return $this;

@@ -61,9 +61,9 @@ class Mage_Core_Model_Config_SectionPool
      */
     public function getSection($scopeType, $scopeCode = null)
     {
-        $code = $scopeType . $scopeCode;
+        $code = $scopeType . '|' . $scopeCode;
         if (!isset($this->_sections[$code])) {
-            $cacheKey = $this->_cacheId . $code;
+            $cacheKey = $this->_cacheId . '|' . $code;
             $data = $this->_cache->load($cacheKey);
             if ($data) {
                 $data = unserialize($data);

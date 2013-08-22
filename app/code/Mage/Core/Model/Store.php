@@ -232,11 +232,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_request;
 
     /**
+     * @var Mage_Core_Model_Resource_Config_Data
+     */
+    protected $_configDataResource;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Url $urlModel
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Resource_Config_Data $configDataResource
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -247,6 +253,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         Mage_Core_Model_Url $urlModel,
         Mage_Core_Model_App_State $appState,
         Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Resource_Config_Data $configDataResource,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -255,6 +262,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
         $this->_request = $request;
+        $this->_configDataResource = $configDataResource;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -1066,6 +1074,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $this->_protectFromNonAdmin();
         Mage::getSingleton('Mage_Index_Model_Indexer')
             ->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
+        $this->_configDataResource->clearStoreData(array($this->getId()));
         return parent::_beforeDelete();
     }
 

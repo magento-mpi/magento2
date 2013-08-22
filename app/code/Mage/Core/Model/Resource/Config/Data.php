@@ -72,4 +72,29 @@ class Mage_Core_Model_Resource_Config_Data extends Mage_Core_Model_Resource_Db_A
 
         return $this;
     }
+
+    /**
+     * Clear website data
+     *
+     * @param $website
+     */
+    public function clearWebsiteData(Mage_Core_Model_Website $website)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(), array('scope = ?' => 'website', 'scope_id' => $website->getId())
+        );
+        $this->clearStoreData($website->getStoreIds());
+    }
+
+    /**
+     * Cleare store data
+     *
+     * @param array $storeIds
+     */
+    public function clearStoreData(array $storeIds)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(), array('scope = ?' => 'store', 'scope_id IN (?)' => $storeIds)
+        );
+    }
 }
