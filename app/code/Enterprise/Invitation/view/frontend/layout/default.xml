@@ -9,8 +9,13 @@
 -->
 <layout version="0.1.0">
     <default>
-        <block type="Enterprise_Invitation_Block_Link" name="invitation_link_top">
-            <action method="addAccountLink"/>
-        </block>
+        <reference name="account.links">
+            <block type="Enterprise_Invitation_Block_Link" name="invitation_link_top">
+                <arguments translate="label">
+                    <label>Send Invitations</label>
+                    <id>invitation-send-link</id>
+                </arguments>
+            </block>
+        </reference>
     </default>
 </layout>

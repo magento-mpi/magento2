@@ -14,34 +14,29 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Link extends Mage_Core_Block_Template
+class Enterprise_Invitation_Block_Link extends Mage_Page_Block_Link
 {
     /**
-     * Adding link to account links block link params if invitation
-     * is allowed globally and for current website
-     *
-     * @return Enterprise_Invitation_Block_Link
+     * @return string
      */
-    public function addAccountLink()
+    public function getHref()
+    {
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationFormUrl();
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
     {
         if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()
             && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
         ) {
-            /** @var $blockInstance Mage_Page_Block_Template_Links */
-            $blockInstance = $this->getLayout()->getBlock('account.links');
-            if ($blockInstance) {
-                $blockInstance->addLink(
-                    $this->__('Send Invitations'),
-                    Mage::helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationFormUrl(),
-                    $this->__('Send Invitations'),
-                    true,
-                    array(),
-                    1,
-                    'id="invitation-send-link"'
-                );
-            }
+            return parent::_toHtml();
         }
-        return $this;
+        return '';
     }
 
     /**

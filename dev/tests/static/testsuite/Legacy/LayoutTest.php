@@ -180,8 +180,6 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
     public function getAllowedActionNodeMethods()
     {
         return array(
-            'addAccountLink',
-            'addAuthLink',
             'addBodyClass',
             'addButtons',
             'addColumnCountLayoutDepend',
@@ -195,10 +193,8 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addLink',
             'addLinkBlock',
             'addLinkRel',
-            'addLogInLink',
             'addNotice',
             'addPriceBlockType',
-            'addRegisterLink',
             'addRenderer',
             'addReportTypeOption',
             'addRowItemRender',
@@ -220,10 +216,8 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'prepareScheduleInfo',
             'prepareStockAlertData',
             'prepareViewData',
-            'removeAuthLink',
             'removeLink',
             'removeLinkByUrl',
-            'removeRegisterLink',
             'removeTab',
             'setActive',
             'setAddressType',

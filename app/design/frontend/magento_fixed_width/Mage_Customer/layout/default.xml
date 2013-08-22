@@ -9,20 +9,13 @@
 -->
 <layout version="0.1.0">
     <default>
-        <reference name="account_links">
-            <action method="removeAuthLink">
-                <target>top.links</target>
-            </action>
-            <action method="addAuthLink">
-                <target>account.links</target>
-                <position>100</position>
-            </action>
-            <action method="addRegisterLink" translate="text_before">
-                <target>account.links</target>
-                <position>100</position>
-                <text_before> or </text_before>
-                <text_after>.</text_after>
-            </action>
+        <move element="authorization-link" destination="account.links"/>
+        <reference name="account.links">
+            <block type="Mage_Customer_Block_Account_Register" name="register">
+                <arguments translate="label">
+                    <label>register</label>
+                </arguments>
+            </block>
         </reference>
     </default>
 </layout>
