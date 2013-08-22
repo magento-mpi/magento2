@@ -15,5 +15,5 @@
 class Mage_Page_Block_Link extends Mage_Core_Block_Template
 {
     /** @var string */
-    protected $_template = 'link.phtml';
+    protected $_template = 'Mage_Page::link.phtml';
 }

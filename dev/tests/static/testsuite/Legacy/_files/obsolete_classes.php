@@ -629,6 +629,7 @@ return array(
     array('Mage_Rss_Model_Session', 'Mage_Backend_Model_Auth and Mage_Backend_Model_Auth_Session'),
     array('Mage_Sales_Block_Order_Details'),
     array('Mage_Sales_Block_Order_Tax'),
+    array('Mage_Sales_Block_Guest_Links'),
     array('Mage_Sales_Model_Entity_Order'),
     array('Mage_Sales_Model_Entity_Order_Address'),
     array('Mage_Sales_Model_Entity_Order_Address_Collection'),

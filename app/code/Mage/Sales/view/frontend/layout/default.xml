@@ -13,10 +13,12 @@
             <block type="Mage_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
         </reference>
         <reference name="footer_links">
-            <block type="Mage_Sales_Block_Guest_Links" name="return_link"/>
-            <action method="addLinkBlock">
-                <blockName>return_link</blockName>
-            </action>
+            <block type="Mage_Sales_Block_Guest_Link" name="sales-guest-form-link">
+                <arguments translate="label">
+                    <label>Orders and Returns</label>
+                    <path>sales/guest/form</path>
+                </arguments>
+            </block>
         </reference>
     </default>
 </layout>

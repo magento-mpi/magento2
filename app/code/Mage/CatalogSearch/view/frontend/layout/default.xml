@@ -13,16 +13,20 @@
             <block type="Mage_Core_Block_Template" name="top.search" as="topSearch" template="Mage_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="Mage_CatalogSearch" ifconfig="catalog/seo/search_terms">
-                <label>Search Terms</label>
-                <url helper="Mage_CatalogSearch_Helper_Data::getSearchTermUrl"/>
-                <title>Search Terms</title>
-            </action>
-            <action method="addLink" translate="label title" module="Mage_CatalogSearch">
-                <label>Advanced Search</label>
-                <url helper="Mage_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
-                <title>Advanced Search</title>
-            </action>
+            <block type="Mage_Page_Block_Link_Current" name="catalogsearch-term-popular-link"
+                 ifconfig="catalog/seo/search_terms">
+                <arguments translate="label">
+                    <label>Search Terms</label>
+                    <path>catalogsearch/term/popular</path>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Link_Current" name="catalogsearch-advanced-link"
+                ifconfig="catalog/seo/search_terms">
+                <arguments translate="label">
+                    <label>Advanced Search</label>
+                    <path>catalogsearch/advanced</path>
+                </arguments>
+            </block>
         </reference>
     </default>
 </layout>

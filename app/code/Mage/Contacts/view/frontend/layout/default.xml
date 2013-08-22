@@ -10,11 +10,13 @@
 <layout version="0.1.0">
     <default>
         <reference name="footer_links">
-            <action method="addLink" translate="label title" module="Mage_Contacts" ifconfig="contacts/contacts/enabled">
-                <label>Contact Us</label>
-                <url>contacts</url>
-                <title>Contact Us</title>
-            </action>
+            <block type="Mage_Page_Block_Link_Current" name="catalogsearch-term-popular-link"
+                 ifconfig="contacts/contacts/enabled">
+                <arguments translate="label">
+                    <label>Contact Us</label>
+                    <path>contacts</path>
+                </arguments>
+            </block>
         </reference>
     </default>
 </layout>

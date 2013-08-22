@@ -33,7 +33,7 @@
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml">
                 <container name="bottom.container" as="bottomContainer" label="Page Footer" htmlTag="div" htmlClass="bottom-container"/>
                 <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
-                <block type="Mage_Page_Block_Template_Links" name="footer_links" as="footer_links" template="template/links.phtml"/>
+                <block type="Mage_Page_Block_Links" name="footer_links" as="footer_links" />
             </block>
             <container name="before_body_end" as="before_body_end" label="Page Bottom"/>
         </block>
