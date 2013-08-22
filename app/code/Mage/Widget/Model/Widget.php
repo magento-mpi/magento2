@@ -66,7 +66,8 @@ class Mage_Widget_Model_Widget
     public function getWidgets()
     {
         $config = $this->_dataStorage->get();
-        return isset($config['widget']) ? $config['widget'] : array();
+        return $this->_xmlMapper->map($config);
+//        return isset($config['widget']) ? $config['widget'] : array();
     }
 
     /**
@@ -81,8 +82,8 @@ class Mage_Widget_Model_Widget
         /** @var array $widget */
         foreach ($widgets as $widget) {
             if (isset($widget['@'])) {
-                if (isset($widget['@']['class'])) {
-                    if ($type === $widget['@']['class'])
+                if (isset($widget['@']['type'])) {
+                    if ($type === $widget['@']['type'])
                         return $widget;
                 }
             }
@@ -105,11 +106,9 @@ class Mage_Widget_Model_Widget
             return $object;
         }
 
-        $xml = $this->_xmlMapper->map($widget);
-
         // Save all nodes to object data
         $object->setType($type);
-        $object->setData($xml);
+        $object->setData($widget);
 
         // Set module for translations etc.
         $module = $object->getData('@/module');
@@ -177,7 +176,7 @@ class Mage_Widget_Model_Widget
             foreach ($widgets as $code => $widget) {
                 try {
                     foreach ($filters as $field => $value) {
-                        if (!isset($widget[$field]) || (string)$widget[$field][0] != $value) {
+                        if (!isset($widget[$field]) || (string)$widget[$field] != $value) {
                             throw new Exception();
                         }
                     }
@@ -202,20 +201,18 @@ class Mage_Widget_Model_Widget
         if (empty($this->_widgetsArray)) {
             $result = array();
             foreach ($this->getWidgetsByFilters($filters) as $code => $widget) {
-                if (isset($widget['@'])) {
-                    if (isset($widget['@']['module'])) {
-                        $helper = $widget['@']['module'];
-                    } else {
-                        $helper = 'Mage_Widget_Helper_Data';
-                    }
-                    $helper = Mage::helper($helper);
-                    $result[$widget['label'][0]] = array(
-                        'name'          => $helper->__((string)$widget['label'][0]),
-                        'code'          => $widget['@']['id'],
-                        'type'          => $widget['@']['class'],
-                        'description'   => $helper->__((string)$widget['description'])
-                    );
+                if (isset($widget['@']) && isset($widget['@']['module'])) {
+                    $helper = $widget['@']['module'];
+                } else {
+                    $helper = 'Mage_Widget_Helper_Data';
                 }
+                $helper = Mage::helper($helper);
+                $result[$widget['name']] = array(
+                    'name'          => $helper->__((string)$widget['name']),
+                    'code'          => $code,
+                    'type'          => $widget['@']['type'],
+                    'description'   => $helper->__((string)$widget['description'])
+                );
             }
             usort($result, array($this, "_sortWidgets"));
             $this->_widgetsArray = $result;
@@ -273,9 +270,9 @@ class Mage_Widget_Model_Widget
     public function getPlaceholderImageUrl($type)
     {
         $placeholder = false;
-        $widgetXml = $this->getWidgetByClassType($type);
-        if (is_array($widgetXml) && isset($widgetXml['@'])&& isset($widgetXml['@']['placeholder_image'])) {
-            $placeholder = (string)$widgetXml['@']['placeholder_image'];
+        $widget = $this->getWidgetByClassType($type);
+        if (is_array($widget) && isset($widget['placeholder_image'])) {
+            $placeholder = (string)$widget['placeholder_image'];
         }
         if (!$placeholder || !$this->_viewFileSystem->getViewFile($placeholder)) {
             $placeholder = 'Mage_Widget::placeholder.gif';
@@ -297,8 +294,8 @@ class Mage_Widget_Model_Widget
         /** @var array $widget */
         foreach ($widgets as $widget) {
             if (isset($widget['@'])) {
-                if (isset($widget['@']['class'])) {
-                    $type = $widget['@']['class'];
+                if (isset($widget['@']['type'])) {
+                    $type = $widget['@']['type'];
                     $result[$type] = $this->getPlaceholderImageUrl($type);
                 }
             }
