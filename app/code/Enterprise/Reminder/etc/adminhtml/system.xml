@@ -16,7 +16,7 @@
                 <label>Automated Email Reminder Rules</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Reminder Emails</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
@@ -50,7 +50,7 @@
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="1">
                     <label>Reminder Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
             </group>
         </section>

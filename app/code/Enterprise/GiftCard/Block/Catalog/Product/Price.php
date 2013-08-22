@@ -8,21 +8,21 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product_Price
+class Enterprise_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
 {
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -32,7 +32,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block
     /**
      * Return minimal amount for Giftcard product using price model
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getMinAmount($product = null)
@@ -46,7 +46,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block
     /**
      * Return maximal amount for Giftcard product using price model
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getMaxAmount($product = null)
@@ -58,8 +58,8 @@ class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block
     }
 
     /**
-     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
-     * @return bool|Mage_Core_Model_Website
+     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
+     * @return bool|Magento_Core_Model_Website
      */
     public function getWebsite($storeId)
     {

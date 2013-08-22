@@ -8,34 +8,34 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
+class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
 {
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
     /**
      * Email template model instance
      *
-     * @var Mage_Core_Model_Email_Template
+     * @var Magento_Core_Model_Email_Template
      */
     protected $_emailTemplateModel;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
-        Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
         if (isset($data['email_template_model'])) {
-            if (!$data['email_template_model'] instanceof Mage_Core_Model_Email_Template) {
+            if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an instance of "Mage_Core_Model_Email_Template".'
+                    'Argument "email_template_model" is expected to be an instance of "Magento_Core_Model_Email_Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];
@@ -169,13 +169,13 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                 $options = $item->getProductOptions();
 
                 switch ($requiredStatus) {
-                    case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
+                    case Magento_Sales_Model_Order_Item::STATUS_INVOICED:
                         $paidInvoiceItems = isset($options['giftcard_paid_invoice_items'])
                             ? $options['giftcard_paid_invoice_items']
                             : array();
                         // find invoice for this order item
                         $invoiceItemCollection = Mage::getResourceModel(
-                            'Mage_Sales_Model_Resource_Order_Invoice_Item_Collection'
+                            'Magento_Sales_Model_Resource_Order_Invoice_Item_Collection'
                         )->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
@@ -183,11 +183,11 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
+                                $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
-                            if ($invoice->getState() == Mage_Sales_Model_Order_Invoice::STATE_PAID &&
+                            if ($invoice->getState() == Magento_Sales_Model_Order_Invoice::STATE_PAID &&
                                 !in_array($invoiceItem->getId(), $paidInvoiceItems)
                             ) {
                                 $qty += $invoiceItem->getQty();
@@ -236,7 +236,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             ));
                             $codes[] = $code->getCode();
                             $goodCodes++;
-                        } catch (Mage_Core_Exception $e) {
+                        } catch (Magento_Core_Exception $e) {
                             $hasFailedCodes = true;
                             $codes[] = null;
                         }
@@ -270,9 +270,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = $this->_emailTemplateModel ?: Mage::getModel('Mage_Core_Model_Email_Template');
+                        $email = $this->_emailTemplateModel ?: Mage::getModel('Magento_Core_Model_Email_Template');
                         $email->setDesignConfig(array(
-                            'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                             'store' => $item->getOrder()->getStoreId(),
                         ));
                         $email->sendTransactional(
@@ -295,10 +295,10 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     $item->save();
                 }
                 if ($hasFailedCodes) {
-                    $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/giftcardaccount');
+                    $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/giftcardaccount');
                     $message = __('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.', $url);
 
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
                 }
             }
         }

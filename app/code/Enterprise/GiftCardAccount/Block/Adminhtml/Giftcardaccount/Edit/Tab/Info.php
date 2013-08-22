@@ -8,24 +8,24 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info extends Magento_Adminhtml_Block_Widget_Form
 {
 
     protected $_template = 'edit/tab/info.phtml';
 
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -100,10 +100,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
                 'label'     => __('Website'),
                 'title'     => __('Website'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
@@ -128,7 +128,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'label'  => __('Expiration Date'),
             'title'  => __('Expiration Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());
@@ -145,7 +145,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     protected function _getCurrency()
     {
         $result = array();
-        $websites = Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteCollection();
+        $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteCollection();
         foreach ($websites as $id => $website) {
             $result[$id] = $website->getBaseCurrencyCode();
         }
@@ -160,7 +160,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     public function getCurrencyJson()
     {
         $result = $this->_getCurrency();
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**

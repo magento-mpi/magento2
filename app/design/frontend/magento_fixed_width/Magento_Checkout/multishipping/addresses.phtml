@@ -1,0 +1,77 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Ship to multiple address template
+ *
+ * @see Magento_Checkout_Block_Multishipping_Addresses
+ */
+?>
+<form id="checkout_multishipping_form" action="<?php echo $this->getPostActionUrl() ?>" method="post">
+<div class="page-title title-buttons">
+    <h1><?php echo __('Ship to Multiple Addresses') ?></h1>
+    <button type="button" title="<?php echo __('Enter a New Address') ?>" class="button" data-role="add-new-address"><span><span><?php echo __('Enter a New Address') ?></span></span></button>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<fieldset class="multiple-checkout">
+    <input type="hidden" name="continue" value="0" id="can_continue_flag" />
+    <input type="hidden" name="new_address" value="0" id="add_new_address_flag" />
+    <h2 class="table-caption"><?php echo __('Please select shipping address for applicable items') ?></h2>
+    <table class="data-table" id="multiship-addresses-table">
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+            <tr>
+                <th><?php echo __('Product') ?></th>
+                <th class="a-center"><?php echo __('Qty') ?></th>
+                <th><?php echo __('Send To') ?></th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="100" class="a-right"><button type="submit" class="button" data-role="can-continue" data-flag="0"><span><span><?php echo __('Update Qty &amp; Addresses') ?></span></span></button></td>
+            </tr>
+        </tfoot>
+        <tbody>
+        <?php foreach ($this->getItems() as $_index => $_item): ?>
+            <?php if ($_item->getQuoteItem()) :?>
+            <tr>
+                <td><?php echo $this->getItemHtml($_item->getQuoteItem())?></td>
+                <td><input type="text" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty" data-validate="{number: true}"/></td>
+                <td><?php if ($_item->getProduct()->getIsVirtual()): echo __('Shipping selection is not applicable'); else: echo $this->getAddressesHtmlSelect($_item, $_index); endif; ?></td>
+                <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>" title="<?php echo __('Remove Item') ?>" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo __('Remove item')?>" /></a></td>
+            </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">jQuery('#multiship-addresses-table').decorate('table')</script>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo __('Back to Shopping Cart') ?></a></p>
+        <button type="submit" class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" data-role="can-continue" data-flag="1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><span><?php echo __('Continue to Shipping Information') ?></span></span></button>
+    </div>
+</fieldset>
+</form>
+<script type="text/javascript">
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+        "<?php echo $this->getViewFileUrl('Magento_Checkout::js/multi-shipping.js') ?>",
+        function() {
+            jQuery('#checkout_multishipping_form').multiShipping().validation();
+        }
+    );
+</script>

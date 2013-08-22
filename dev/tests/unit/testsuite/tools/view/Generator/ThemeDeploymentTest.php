@@ -13,7 +13,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/view/
 class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Helper_Css
+     * @var Magento_Core_Helper_Css
      */
     protected $_cssHelper;
 
@@ -25,8 +25,8 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $filesystem =  new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
-        $dirs = new Mage_Core_Model_Dir($filesystem->normalizePath(__DIR__ . '/../../../..'));
-        $this->_cssHelper = new Mage_Core_Helper_Css($filesystem, $dirs);
+        $dirs = new Magento_Core_Model_Dir($filesystem->normalizePath(__DIR__ . '/../../../..'));
+        $this->_cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
         mkdir($this->_tmpDir);
     }

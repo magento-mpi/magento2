@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Product_Source extends Mage_Eav_Model_Entity_Attribute_Source_Boolean
+class Enterprise_Rma_Model_Product_Source extends Magento_Eav_Model_Entity_Attribute_Source_Boolean
 {
     /**
      * XML configuration path allow RMA on product level

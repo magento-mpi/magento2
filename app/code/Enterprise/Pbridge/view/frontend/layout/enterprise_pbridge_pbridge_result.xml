@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <enterprise_pbridge_pbridge_result translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Payment Bridge Checkout Payment Result</label>
-        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_Pbridge_Block_Checkout_Payment_Result" name="pbridge.checkout.payment.result" template="checkout/payment/result.phtml"/>
         </block>
     </enterprise_pbridge_pbridge_result>

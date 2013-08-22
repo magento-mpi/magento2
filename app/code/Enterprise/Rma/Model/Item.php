@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
+class Enterprise_Rma_Model_Item extends Magento_Core_Model_Abstract
 {
     /**
      * Entity code.
@@ -150,7 +150,7 @@ class Enterprise_Rma_Model_Item extends Mage_Core_Model_Abstract
         }
 
         if ($qtyReturnedChange) {
-            $item = Mage::getModel('Mage_Sales_Model_Order_Item')->load($this->getOrderItemId());
+            $item = Mage::getModel('Magento_Sales_Model_Order_Item')->load($this->getOrderItemId());
             if ($item->getId()) {
                 $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)
                     ->save();

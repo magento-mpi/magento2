@@ -30,13 +30,17 @@ class Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'Relocated to pub/errors' => array('errors'),
-            'Eliminated with Mage_Compiler' => array('includes'),
+            'Eliminated with Magento_Compiler' => array('includes'),
             'Relocated to pub/lib' => array('js'),
             'Relocated to pub/media' => array('media'),
             'Eliminated as not needed' => array('pkginfo'),
             'Dissolved into themes under app/design ' => array('skin'),
             'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
             'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
+            'Relocated to Magento' => array('app/code/Mage'),
+            'Relocated to Magento' => array('app/code/core'),
+            'Relocated to Magento' => array('app/code/local'),
+            'Relocated to Magento' => array('app/code/community'),
         );
     }
 

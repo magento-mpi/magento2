@@ -12,7 +12,7 @@
 /**
  * HTTP request implementation that is used instead core one for testing
  */
-class Magento_Test_Request extends Mage_Core_Controller_Request_Http
+class Magento_Test_Request extends Magento_Core_Controller_Request_Http
 {
     /**
      * Server super-global mock

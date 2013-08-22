@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_sku_errors_block>
         <reference name='errors'>
-            <block type="Mage_Backend_Block_Widget_Grid" name='sku_error_grid' as='grid'>
+            <block type="Magento_Backend_Block_Widget_Grid" name='sku_error_grid' as='grid'>
                 <arguments>
                     <id>sku_errors</id>
                     <dataSource type="object">Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection</dataSource>
@@ -20,7 +20,7 @@
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                     </arguments>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='description'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='description'>
                         <arguments>
                             <header translate='true' module='Enterprise_Checkout'>Product</header>
                             <index>description</index>
@@ -29,7 +29,7 @@
                             <renderer>Enterprise_Checkout_Block_Sku_Column_Renderer_Description</renderer>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='price'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='price'>
                         <arguments>
                             <header translate='true' module='Enterprise_Checkout'>Price</header>
                             <index>price</index>
@@ -39,7 +39,7 @@
                             <width>100</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='qty'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='qty'>
                         <arguments>
                             <header translate='true' module='Enterprise_Checkout'>Quantity</header>
                             <index>qty</index>
@@ -50,7 +50,7 @@
                             <renderer>Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty</renderer>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='remove'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='remove'>
                         <arguments>
                             <header translate='true' module='Enterprise_Checkout'>Remove</header>
                             <index>remove_button</index>

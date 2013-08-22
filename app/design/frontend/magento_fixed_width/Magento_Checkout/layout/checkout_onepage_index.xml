@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        <update handle="page_one_column"/>
+        <reference name="head">
+            <action method="addJs">
+                <file>Magento_Checkout::js/opcheckout.js</file>
+            </action>
+        </reference>
+        <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>
+        <remove name="checkout.progress.wrapper"/>
+        <reference name="checkout.onepage.payment">
+            <block type="Magento_Core_Block_Template" name="checkout.onepage.payment.additional" as="additional" after="checkout.payment.methods"/>
+            <block type="Magento_Core_Block_Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" after="checkout.onepage.payment.additional"/>
+        </reference>
+    </checkout_onepage_index>
+</layout>

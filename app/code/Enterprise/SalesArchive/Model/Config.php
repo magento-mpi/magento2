@@ -57,7 +57,7 @@ class Enterprise_SalesArchive_Model_Config
     /**
      * Check order archiveablility for single archiving
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @param boolean $checkAge check order age for archive
      * @return boolean
      */

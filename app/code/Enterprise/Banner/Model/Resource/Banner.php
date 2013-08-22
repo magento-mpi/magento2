@@ -16,7 +16,7 @@
  * @package     Enterprise_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Banner_Model_Resource_Banner extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Sales rule table name
@@ -61,7 +61,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     protected $_bannerTypesFilter                = array();
 
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     private $_eventManager;
 
@@ -71,13 +71,13 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     private $_bannerConfig;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Enterprise_Banner_Model_Config $bannerConfig
      */
     public function __construct(
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Event_Manager $eventManager,
         Enterprise_Banner_Model_Config $bannerConfig
     ) {
         parent::__construct($resource);
@@ -457,10 +457,10 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     /**
      * Prepare banner types for saving
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_Banner_Model_Resource_Banner
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $types = $object->getTypes();
         if (empty($types)) {

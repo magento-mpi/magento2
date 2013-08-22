@@ -674,14 +674,14 @@ $installer->installEntities();
 $installer->installForms();
 
 //Add Product's Attribute
-$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 
 /**
  * Prepare database before module installation
  */
 $installer->startSetup();
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable', array(
     'group'             => 'General',
     'type'              => 'int',
     'backend'           => '',
@@ -689,8 +689,8 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', ar
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'source'            => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
+    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
     'user_defined'      => false,
@@ -701,15 +701,15 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', ar
     'visible_on_front'  => false,
     'unique'            => false,
     'apply_to'          =>
-        Mage_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
+        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
     'is_configurable'   => false,
     'input_renderer'    => 'Enterprise_Rma_Block_Adminhtml_Product_Renderer',
 ));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'use_config_is_returnable', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'use_config_is_returnable', array(
     'group'             => 'General',
     'type'              => 'int',
     'backend'           => '',
@@ -718,7 +718,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'use_config_is_retu
     'input'             => 'text',
     'class'             => '',
     'source'            => '',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'           => false,
     'required'          => false,
     'user_defined'      => false,
@@ -729,10 +729,10 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'use_config_is_retu
     'visible_on_front'  => false,
     'unique'            => false,
     'apply_to'          =>
-        Mage_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
+        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
     'is_configurable'   => false
 ));
 

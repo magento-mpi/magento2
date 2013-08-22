@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_GiftCard_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
+class Enterprise_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Retrieve GiftCard data
@@ -22,7 +22,7 @@ class Enterprise_GiftCard_Model_Customer_Api extends Mage_Api_Model_Resource_Abs
 
         try {
             $card->isValid(true, true, false, false);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('not_valid');
         }
 

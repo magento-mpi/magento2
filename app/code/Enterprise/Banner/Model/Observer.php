@@ -25,7 +25,7 @@ class Enterprise_Banner_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            Mage::helper('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }
@@ -59,7 +59,7 @@ class Enterprise_Banner_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
             'related_banners',
-            Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
+            Mage::helper('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($request->getPost('related_banners'))
         );
         return $this;
     }

@@ -12,13 +12,13 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Gif
     extends Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard
 {
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -42,7 +42,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Gif
     /**
      * Get current currency code
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $storeId $storeId
+     * @param null|string|bool|int|Magento_Core_Model_Store $storeId $storeId
      * @return string
      */
     public function getCurrentCurrencyCode($storeId)

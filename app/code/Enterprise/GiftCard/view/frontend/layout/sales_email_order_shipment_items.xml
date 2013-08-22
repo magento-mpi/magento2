@@ -13,7 +13,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>Enterprise_GiftCard_Block_Sales_Order_Item_Renderer_Noquote</block>
-                <template>Mage_Sales::email/items/shipment/default.phtml</template>
+                <template>Magento_Sales::email/items/shipment/default.phtml</template>
             </action>
         </reference>
     </sales_email_order_shipment_items>

@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +39,7 @@
             </default_read>
             <core_setup>
                 <setup>
-                    <module>Mage_Core</module>
+                    <module>Magento_Core</module>
                 </setup>
                 <connection>
                     <use>default_setup</use>
@@ -61,7 +61,7 @@
                 <types>
                     <pdo_mysql>
                         <adapter>Magento_DB_Adapter_Pdo_Mysql</adapter>
-                        <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
+                        <class>Magento_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
                         <compatibleMode>1</compatibleMode>
                     </pdo_mysql>
                 </types>

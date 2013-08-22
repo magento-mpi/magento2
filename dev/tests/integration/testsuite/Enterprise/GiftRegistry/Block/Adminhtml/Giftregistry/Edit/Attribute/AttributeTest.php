@@ -12,7 +12,7 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_AttributeTest
     extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Layout */
+    /** @var Magento_Core_Model_Layout */
     protected $_layout = null;
 
     /** @var Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute */
@@ -21,7 +21,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout
             ->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute');
     }

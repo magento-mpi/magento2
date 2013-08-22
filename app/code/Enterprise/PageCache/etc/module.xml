@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_PageCache" version="1.11.0.0" active="false">
         <depends>
-            <module name="Mage_Core" />
+            <module name="Magento_Core" />
         </depends>
     </module>
 </config>

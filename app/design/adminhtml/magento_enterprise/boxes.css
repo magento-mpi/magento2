@@ -272,7 +272,7 @@ ul.tabs span.changed,
 ul.tabs span.error,
 ul.tabs span.loading              { float:right; background:0; padding:0; }
 ul.tabs a.changed span.changed  { background:url(images/fam_bullet_disk.gif) 0 0 no-repeat !important; width:16px; height:16px; }
-ul.tabs a.error span.error      { background:url(Mage_Adminhtml::images/fam_bullet_error.gif) 0 0 no-repeat !important; width:16px; height:16px; }
+ul.tabs a.error span.error      { background:url(Magento_Adminhtml::images/fam_bullet_error.gif) 0 0 no-repeat !important; width:16px; height:16px; }
 ul.tabs li.ui-tabs-loading span.loading { background:url(images/loader-small.gif) 0 0 no-repeat !important; width:16px; height:16px; }
 ul.tabs a.changed               { font-style:italic; }
 
@@ -286,8 +286,8 @@ ul.tabs-horiz .ui-state-active a { border-bottom:1px solid #fff; background:#fff
 
 /* MESSAGES
 *******************************************************************************/
-.notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(Mage_Adminhtml::images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be; border-top:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
-.notification-global-notice { background-image:url(Mage_Adminhtml::images/note_msg_icon.gif); }
+.notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(Magento_Adminhtml::images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be; border-top:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
+.notification-global-notice { background-image:url(Magento_Adminhtml::images/note_msg_icon.gif); }
 .notification-global .label { color:#eb5e00; }
 .notification-global .clickable { cursor:pointer; }
 .notification-global span.critical { color:#d20000; }
@@ -303,10 +303,10 @@ label.mage-error {width: auto !important; display: block;}
 .messages ul { border:0 !important; }
 .messages li { min-height:23px !important; margin-bottom:11px !important; padding:8px 8px 2px 32px !important; font-size:.95em !important; font-weight:bold !important; }
 .messages ul li { margin:0 0 3px 0 !important; border:0 !important; padding:0 !important; }
-.error-msg { border:1px solid #f16048 !important; color:#df280a !important; background:#faebe7 url(Mage_Adminhtml::images/error_msg_icon.gif) no-repeat 10px 10px !important; }
-.success-msg { border:1px solid #95a486 !important; color:#3d6611 !important; background:#eff5ea url(Mage_Adminhtml::images/success_msg_icon.gif) no-repeat 10px 10px !important; }
-.notice-msg { border:1px solid #ffd967 !important; background:#fffbf0 url(Mage_Adminhtml::images/note_msg_icon.gif) no-repeat 10px 10px !important; color:#3d6611 !important; }
-.warning-msg { border:1px solid #666e73 !important; background:#e6e6e6 url(Mage_Adminhtml::images/warning_msg_icon.gif) no-repeat 10px 10px !important; color:#000000 !important; }
+.error-msg { border:1px solid #f16048 !important; color:#df280a !important; background:#faebe7 url(Magento_Adminhtml::images/error_msg_icon.gif) no-repeat 10px 10px !important; }
+.success-msg { border:1px solid #95a486 !important; color:#3d6611 !important; background:#eff5ea url(Magento_Adminhtml::images/success_msg_icon.gif) no-repeat 10px 10px !important; }
+.notice-msg { border:1px solid #ffd967 !important; background:#fffbf0 url(Magento_Adminhtml::images/note_msg_icon.gif) no-repeat 10px 10px !important; color:#3d6611 !important; }
+.warning-msg { border:1px solid #666e73 !important; background:#e6e6e6 url(Magento_Adminhtml::images/warning_msg_icon.gif) no-repeat 10px 10px !important; color:#000000 !important; }
 .validation-advice,
 label.mage-error { clear:both; min-height:15px; margin:3px 0 0 9px; background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:16px; font-size:.95em; font-weight:bold; line-height:1.25em; }
 input.validation-failed, textarea.validation-failed { background:#fef0ed; border:1px dashed #d6340e; }
@@ -429,9 +429,9 @@ span.delete-file                { padding:0; }
 .content-header .form-buttons button { margin-bottom:3px; }
 .sub-btn-set { border:1px solid #ddd; border-width:0 1px; background:url(images/sub_button_bg.gif) repeat; padding:3px 10px; text-align:right; }
 button,
-.form-button { vertical-align:middle; border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
-button:hover                    { background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0; }
-button:active                   { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
+.form-button { vertical-align:middle; border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 url(Magento_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
+button:hover                    { background:#f77c16 url(Magento_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0; }
+button:active                   { background:#f77c16 url(Magento_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
 button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
 button span span                { background:none !important; padding:0 !important; margin:0 !important; display:inline !important; }
 button.delete,
@@ -500,7 +500,7 @@ div.button {
     border-style:solid;
     border-color:#ed6502 #a04300 #a04300 #ed6502;
     padding:1px 7px 3px 7px;
-    background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%;
+    background:#ffac47 url(Magento_Adminhtml::images/btn_bg.gif) repeat-x 0 100%;
     color:#fff;
     font:bold 12px arial, helvetica, sans-serif;
     cursor:pointer;
@@ -508,10 +508,10 @@ div.button {
     white-space:nowrap;
 }
 div.button:hover {
-    background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0;
+    background:#f77c16 url(Magento_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0;
 }
 div.button:active {
-    background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0;
+    background:#f77c16 url(Magento_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0;
 }
 div.button span {
     line-height:1.25em;
@@ -611,7 +611,7 @@ div.button {
     width:6px; overflow: hidden; display: block;
 }
 .active .btn-toggle {
-    background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0;
+    background:#f77c16 url(Magento_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0;
 }
 .btn-toggle span:before {
     display: inline-block;
@@ -1151,7 +1151,7 @@ ul.item-options li { padding-left:.7em; }
 
 tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #df280a; }
 .entry-edit .entry-edit-head.sku-errors { background:#FAEBE7; border:1px solid #F16048; margin-top:10px; }
-.entry-edit .entry-edit-head.sku-errors h4 { color: #EB5E00; background:url(Mage_Adminhtml::images/error_msg_icon.gif) no-repeat scroll 0 5px; padding-left:20px; padding-top:4px; }
+.entry-edit .entry-edit-head.sku-errors h4 { color: #EB5E00; background:url(Magento_Adminhtml::images/error_msg_icon.gif) no-repeat scroll 0 5px; padding-left:20px; padding-top:4px; }
 .sku-failed-item { position:relative; }
 .sku-failed-item .sku-configure-button { position:absolute; margin:-9px 0 0; top:50%; right:5px; }
 #show-sku-panel-button { margin-right: 5px; } */
@@ -1356,7 +1356,7 @@ ul.tabs a.paypal-section:hover { background:url(images/tabs_span_bg.gif) repeat-
 .packed-window { background:#fafafa; border:1px solid #d6d6d6; left:50%; margin:-200px 0 0 -471px; position:fixed; top:50%; width:1100px; z-index:400; -webkit-box-shadow: 0px 3px 5px #ccc; -moz-box-shadow:0px 3px 5px #ccc; box-shadow:0px 3px 5px #ccc; z-index:400; }
 .packaging-window .entry-edit-head { padding:3px 5px; }
 .packaging-window .entry-edit-head button { float:right; }
-.packaging-window .messages { border:1px solid #f16048; color:#df280a; background:#faebe7 url(Mage_Adminhtml::images/error_msg_icon.gif) no-repeat 10px 10px; font-weight:bold; margin-bottom:10px; padding:10px 10px 10px 35px; }
+.packaging-window .messages { border:1px solid #f16048; color:#df280a; background:#faebe7 url(Magento_Adminhtml::images/error_msg_icon.gif) no-repeat 10px 10px; font-weight:bold; margin-bottom:10px; padding:10px 10px 10px 35px; }
 .packaging-window .validation-failed { background:#fef0eD; border:1px dashed #D6340E; }
 .packaging-window .packaging-content { overflow:auto; height:400px; height:auto !important; max-height:400px; margin:0 0 10px; padding:10px 10px 0; }
 .packaging-window .package-block { background:#f6f6f6; border:2px solid #d4d4d4; margin:0 0 10px; padding:10px; }

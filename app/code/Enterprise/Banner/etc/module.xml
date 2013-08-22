@@ -10,9 +10,9 @@
 <config>
     <module name="Enterprise_Banner" version="1.11.0.1" active="false">
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_CatalogRule" />
-            <module name="Mage_SalesRule" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_CatalogRule" />
+            <module name="Magento_SalesRule" />
             <module name="Enterprise_Cms" />
         </depends>
     </module>

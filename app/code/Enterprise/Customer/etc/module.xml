@@ -10,9 +10,9 @@
 <config>
     <module name="Enterprise_Customer" version="1.11.0.0" active="false">
         <depends>
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Customer" />
-            <module name="Mage_Sales" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Customer" />
+            <module name="Magento_Sales" />
         </depends>
     </module>
 </config>

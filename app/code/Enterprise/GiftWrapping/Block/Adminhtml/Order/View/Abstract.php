@@ -15,14 +15,14 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_Core_Block_Template
+class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_Core_Block_Template
 {
     protected $_designCollection;
 
     /*
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
      */
     protected function _preparePrices($basePrice, $price)
     {
-        return $this->helper('Mage_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $basePrice, $price);
+        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $basePrice, $price);
     }
 
     /**

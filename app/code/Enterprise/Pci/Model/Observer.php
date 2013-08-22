@@ -34,7 +34,7 @@ class Enterprise_Pci_Model_Observer
      * Admin locking and password hashing upgrade logic implementation
      *
      * @param Magento_Event_Observer $observer
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function adminAuthenticate($observer)
     {
@@ -75,7 +75,7 @@ class Enterprise_Pci_Model_Observer
             $lockExpires = new Zend_Date($lockExpires, Magento_Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                throw new Mage_Core_Exception(
+                throw new Magento_Core_Exception(
                     __('This account is locked.'),
                     self::ADMIN_USER_LOCKED
                 );
@@ -98,20 +98,20 @@ class Enterprise_Pci_Model_Observer
                 if ($this->isPasswordChangeForced()) {
                     $message = __('It\'s time to change your password.');
                 } else {
-                    $myAccountUrl = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/');
+                    $myAccountUrl = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_account/');
                     $message = __('It\'s time to <a href="%1">change your password</a>.', $myAccountUrl);
                 }
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice($message);
-                if ($message = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()) {
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice($message);
+                if ($message = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()) {
                     $message->setIdentifier('enterprise_pci_password_expired')->setIsSticky(true);
-                    Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setPciAdminUserIsPasswordExpired(true);
+                    Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setPciAdminUserIsPasswordExpired(true);
                 }
             }
         }
 
         // upgrade admin password
-        if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
-            Mage::getModel('Mage_User_Model_User')->load($user->getId())
+        if (!Mage::helper('Magento_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
+            Mage::getModel('Magento_User_Model_User')->load($user->getId())
                 ->setNewPassword($password)->setForceNewPassword(true)
                 ->save();
         }
@@ -145,8 +145,8 @@ class Enterprise_Pci_Model_Observer
     {
         $apiKey = $observer->getEvent()->getApiKey();
         $model  = $observer->getEvent()->getModel();
-        if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
-            Mage::getModel('Mage_Api_Model_User')->load($model->getId())->setNewApiKey($apiKey)->save();
+        if (!Mage::helper('Magento_Core_Helper_Data')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
+            Mage::getModel('Magento_Api_Model_User')->load($model->getId())->setNewApiKey($apiKey)->save();
         }
     }
 
@@ -159,7 +159,7 @@ class Enterprise_Pci_Model_Observer
     {
         $password = $observer->getEvent()->getPassword();
         $model    = $observer->getEvent()->getModel();
-        if (!Mage::helper('Mage_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
             $model->changePassword($password, false);
         }
     }
@@ -171,11 +171,11 @@ class Enterprise_Pci_Model_Observer
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
      * @param Magento_Event_Observer $observer
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkAdminPasswordChange($observer)
     {
-        /* @var $user Mage_User_Model_User */
+        /* @var $user Magento_User_Model_User */
         $user = $observer->getEvent()->getObject();
 
         if ($user->getNewPassword()) {
@@ -185,13 +185,13 @@ class Enterprise_Pci_Model_Observer
         }
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
-            if (Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $user->getOrigData('password'))) {
+            if (Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $user->getOrigData('password'))) {
                 Mage::throwException(__('Sorry, but this password has already been used. Please create another.'));
             }
 
             // check whether password was used before
             $resource     = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
-            $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
+            $passwordHash = Mage::helper('Magento_Core_Helper_Data')->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
                     Mage::throwException(__('Sorry, but this password has already been used. Please create another.'));
@@ -207,19 +207,19 @@ class Enterprise_Pci_Model_Observer
      */
     public function trackAdminNewPassword($observer)
     {
-        /* @var $user Mage_User_Model_User */
+        /* @var $user Magento_User_Model_User */
         $user = $observer->getEvent()->getObject();
         if ($user->getId()) {
             $password = $user->getNewPassword();
             $passwordLifetime = $this->getAdminPasswordLifetime();
             if ($passwordLifetime && $password && !$user->getForceNewPassword()) {
                 $resource     = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User');
-                $passwordHash = Mage::helper('Mage_Core_Helper_Data')->getHash($password, false);
+                $passwordHash = Mage::helper('Magento_Core_Helper_Data')->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
                         ->getMessages()
                         ->deleteMessageByIdentifier('enterprise_pci_password_expired');
-                Mage::getSingleton('Mage_Backend_Model_Auth_Session')->unsPciAdminUserIsPasswordExpired();
+                Mage::getSingleton('Magento_Backend_Model_Auth_Session')->unsPciAdminUserIsPasswordExpired();
             }
         }
     }
@@ -254,28 +254,28 @@ class Enterprise_Pci_Model_Observer
         if (!$this->isPasswordChangeForced()) {
             return;
         }
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         if (!$session->isLoggedIn()) {
             return;
         }
         $actionList = array('adminhtml_system_account_index', 'adminhtml_system_account_save',
             'adminhtml_auth_logout');
         $controller = $observer->getEvent()->getControllerAction();
-        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
+        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), $actionList)) {
-                if ($this->_authorization->isAllowed('Mage_Adminhtml::myaccount')) {
-                    $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Backend_Model_Url')
+                if ($this->_authorization->isAllowed('Magento_Adminhtml::myaccount')) {
+                    $controller->getResponse()->setRedirect(Mage::getSingleton('Magento_Backend_Model_Url')
                             ->getUrl('adminhtml/system_account/'));
-                    $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                    $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
+                    $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+                    $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
                 } else {
                     /*
                      * if admin password is expired and access to 'My Account' page is denied
                      * than we need to do force logout with error message
                      */
-                    Mage::getSingleton('Mage_Backend_Model_Auth_Session')->unsetAll();
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->unsetAll();
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                    Mage::getSingleton('Magento_Backend_Model_Auth_Session')->unsetAll();
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsetAll();
+                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                         __('Your password has expired; please contact your administrator.')
                     );
                     $controller->getRequest()->setDispatched(false);

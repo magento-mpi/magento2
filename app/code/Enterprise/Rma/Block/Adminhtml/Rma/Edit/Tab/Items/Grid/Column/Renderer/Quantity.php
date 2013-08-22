@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders quantity as integer
@@ -26,7 +26,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Qua
      */
     public function _getValue(Magento_Object $row)
     {
-        if ($row->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($row->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             return '';
         }
         $quantity = parent::_getValue($row);

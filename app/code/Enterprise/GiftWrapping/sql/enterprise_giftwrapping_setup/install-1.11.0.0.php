@@ -223,20 +223,20 @@ foreach ($entityAttributesCodes as $code => $type) {
 /**
  * Add gift wrapping attributes for catalog product entity
  */
-$types = Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray();
+$types = Mage::getModel('Magento_Catalog_Model_Product_Type')->getOptionArray();
 unset($types['virtual'], $types['downloadable'], $types['grouped']);
 $applyTo = join(',', array_keys($types));
 
-$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',
-    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Boolean',
+    'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Boolean',
     'frontend'      => '',
     'label'         => 'Allow Gift Wrapping',
     'input'         => 'select',
-    'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
-    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
+    'global'        => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'visible'       => true,
     'required'      => false,
     'user_defined'  => false,
@@ -248,14 +248,14 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_avai
     'visible_on_front' => false
 ));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
     'group'         => 'Gift Options',
     'type'          => 'decimal',
-    'backend'       => 'Mage_Catalog_Model_Product_Attribute_Backend_Price',
+    'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Price',
     'frontend'      => '',
     'label'         => 'Price for Gift Wrapping',
     'input'         => 'price',
-    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'        => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'       => true,
     'required'      => false,
     'user_defined'  => false,

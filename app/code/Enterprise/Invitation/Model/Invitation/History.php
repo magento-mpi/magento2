@@ -24,7 +24,7 @@
  * @package     Enterprise_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abstract
+class Enterprise_Invitation_Model_Invitation_History extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize model

@@ -22,7 +22,7 @@
     'layout overhead time (ms)' =>           array('layout_load', 'layout_generate_xml', 'layout_generate_blocks'),
     'response rendering time (ms)' =>        array('layout_render'),
     'post dispatching time (ms)' =>          array('postdispatch', 'response_send'),
-    /* Mage_Catalog module metrics */
+    /* Magento_Catalog module metrics */
     'product save time (ms)' =>              array('catalog_product_save'),
     'product load time (ms)' =>              array('catalog_product_load'),
     'category save time (ms)' =>             array('catalog_category_save'),

@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Model_Item extends Mage_Wishlist_Model_Item
+class Enterprise_Wishlist_Model_Item extends Magento_Wishlist_Model_Item
 {
     /**
      * Initialize resource model

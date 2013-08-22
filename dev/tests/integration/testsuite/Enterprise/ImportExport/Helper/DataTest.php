@@ -24,8 +24,8 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_moduleManagerMock = $this->getMock('Mage_Core_Model_ModuleManager', array(), array(), '', false);
-        $context = Mage::getModel('Mage_Core_Helper_Context', array('moduleManager' => $this->_moduleManagerMock));
+        $this->_moduleManagerMock = $this->getMock('Magento_Core_Model_ModuleManager', array(), array(), '', false);
+        $context = Mage::getModel('Magento_Core_Helper_Context', array('moduleManager' => $this->_moduleManagerMock));
         $this->_importExportHelper = Mage::getObjectManager()->create(
             'Enterprise_ImportExport_Helper_Data', array('context' => $context)
         );

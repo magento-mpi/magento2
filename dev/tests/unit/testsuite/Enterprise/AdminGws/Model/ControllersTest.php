@@ -46,12 +46,12 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
     public function setUp()
     {
         $this->_roleMock = $this->getMock('Enterprise_AdminGws_Model_Role', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_objectFactory = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
-        $this->_controllerMock = $this->getMock('Mage_Adminhtml_Controller_Action', array(), array(), '', false);
+        $this->_controllerMock = $this->getMock('Magento_Adminhtml_Controller_Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
-            'Mage_Core_Controller_Request_Http',
+            'Magento_Core_Controller_Request_Http',
             array(),
             array(),
             '',
@@ -163,11 +163,11 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         return array(
             array(
                 'promo_catalog',
-                'Mage_CatalogRule_Model_Rule',
+                'Magento_CatalogRule_Model_Rule',
             ),
             array(
                 'promo_quote',
-                'Mage_SalesRule_Model_Rule'
+                'Magento_SalesRule_Model_Rule'
             ),
             array(
                 'reminder',
@@ -211,7 +211,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(1);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(false));
 
@@ -228,7 +228,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
      */
     public function testValidateRuleEntityActionDenyActionIfRoleHasNoExclusiveAccessToAssignedToRuleEntityWebsites()
     {
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
 
         $this->_ctrlRequestMock
             ->expects($this->once())->method('getActionName')->will($this->returnValue('edit'));
@@ -265,7 +265,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $this->_ctrlRequestMock
             ->expects($this->once())->method('getControllerName')->will($this->returnValue('promo_catalog'));
 
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
@@ -300,7 +300,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));

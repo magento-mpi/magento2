@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Review
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="catalog">
+            <group id="review" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Product Reviews</label>
+                <field id="allow_guest" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Allow Guests to Write Reviews</label>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

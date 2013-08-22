@@ -18,7 +18,7 @@
 class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Observer_Abstract
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -34,12 +34,12 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
     /**
      * @param Enterprise_AdminGws_Model_Role $role
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Enterprise_AdminGws_Model_Role $role,
-        Mage_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Request_Http $request,
         Magento_ObjectManager $objectManager
     ) {
         parent::__construct($role);
@@ -50,7 +50,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Make sure the System Configuration pages are used in proper scopes
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSystemConfig($controller)
     {
@@ -71,19 +71,19 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                     }
                 }
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 // redirect later from non-existing website
             }
         }
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($controller, Mage::getSingleton('Mage_Backend_Model_Url')
+            return $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('adminhtml/system_config/edit',
                      array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
         }
-        $this->_redirect($controller, Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_config/edit',
+        $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_config/edit',
             array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(),
             'store' => Mage::app()->getAnyStoreView()->getCode()))
         );
@@ -92,7 +92,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate misc catalog product requests
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProduct($controller)
     {
@@ -104,7 +104,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate catalog product edit page
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductEdit($controller)
     {
@@ -117,11 +117,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate catalog product review save, edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductReview($controller)
     {
-        $reviewStores = Mage::getModel('Mage_Review_Model_Review')
+        $reviewStores = Mage::getModel('Magento_Review_Model_Review')
             ->load($controller->getRequest()->getParam('id'))
             ->getStores();
 
@@ -136,7 +136,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate catalog product massStatus
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductMassActions($controller)
     {
@@ -144,7 +144,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return;
         }
 
-        $store = Mage::app()->getStore($this->_request->getParam('store', Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
+        $store = Mage::app()->getStore($this->_request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
         if (!$this->_role->hasStoreAccess($store->getId())) {
             $this->_forward();
         }
@@ -153,11 +153,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Avoid viewing disallowed customer
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCustomerEdit($controller)
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_request->getParam('id'));
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_request->getParam('id'));
         if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
@@ -166,14 +166,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Avoid viewing disallowed customer balance
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCustomerbalance()
     {
         if (!$id = $this->_request->getParam('id')) {
             return $this->_forward();
         }
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($id);
         if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
@@ -182,7 +182,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow submitting gift cards without website-level permissions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateGiftCardAccount($controller)
     {
@@ -199,7 +199,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Prevent viewing wrong categories and creation pages
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogCategories($controller)
     {
@@ -224,7 +224,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                         $forward = true; // no adding root categories
                     }
                 } else {
-                    $category = Mage::getModel('Mage_Catalog_Model_Category')->load($controller->getRequest()->getParam('id'));
+                    $category = Mage::getModel('Magento_Catalog_Model_Category')->load($controller->getRequest()->getParam('id'));
                     if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
                         $forward = true; // no viewing wrong categories
                     }
@@ -247,7 +247,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow viewing categories in disallowed scopes
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogCategoryView($controller)
     {
@@ -257,14 +257,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow submitting catalog event in wrong scope
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogEvents($controller)
     {
         // instead of generic (we are capped by allowed store groups root categories)
         // check whether attempting to create event for wrong category
         if ('new' === $this->_request->getActionName()) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->_request->getParam('category_id'));
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($this->_request->getParam('category_id'));
             if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
                 !$this->_role->getIsWebsiteLevel()) {
                 return $this->_forward();
@@ -275,7 +275,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow viewing wrong catalog events or viewing them in disallowed scope
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogEventEdit($controller)
     {
@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // avoid viewing disallowed events
         $catalogEvent = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->load($this->_request->getParam('id'));
-        $category     = Mage::getModel('Mage_Catalog_Model_Category')->load($catalogEvent->getCategoryId());
+        $category     = Mage::getModel('Magento_Catalog_Model_Category')->load($catalogEvent->getCategoryId());
         if (!$this->_isCategoryAllowed($category)) {
             return $this->_forward();
         }
@@ -302,7 +302,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Disallow any creation order activity, if there is no website-level access
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderCreation($controller)
     {
@@ -320,7 +320,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      *
      * Returns false if disallowed
      *
-     * @param Mage_Adminhtml_Controller_Action $controller (first param is reserved, don't remove it)
+     * @param Magento_Adminhtml_Controller_Action $controller (first param is reserved, don't remove it)
      * @param string|array $denyActions
      * @param string $saveAction
      * @param string $idFieldName
@@ -344,7 +344,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Manage Stores pages actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSystemStore($controller)
     {
@@ -423,19 +423,19 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Redirect to a specific page
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     protected function _redirect($controller, $url = null)
     {
-        $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+        $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/denied');
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/denied');
         }
         elseif (is_array($url)) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl(array_shift($url), $url);
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl(array_shift($url), $url);
         }
         elseif (false === strpos($url, 'http', 0)) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl($url);
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl($url);
         }
         Mage::app()->getResponse()->setRedirect($url);
     }
@@ -483,7 +483,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Check whether specified category is allowed
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Magento_Catalog_Model_Category $category
      * @return bool
      */
     protected function _isCategoryAllowed($category)
@@ -503,12 +503,12 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Order view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderViewAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $object = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -523,7 +523,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Creditmemo view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderCreditmemoViewAction($controller)
     {
@@ -532,7 +532,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -547,7 +547,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Invoice view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderInvoiceViewAction($controller)
     {
@@ -556,7 +556,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -571,7 +571,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Shipment view actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderShipmentViewAction($controller)
     {
@@ -580,7 +580,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -595,16 +595,16 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Creditmemo creation actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderCreditmemoCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'Mage_Sales_Model_Order';
+            $className = 'Magento_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = 'Mage_Sales_Model_Order_Invoice';
+            $className = 'Magento_Sales_Model_Order_Invoice';
         } else if ($id = $this->_request->getParam('creditmemo_id')) {
-            $className = 'Mage_Sales_Model_Order_Creditmemo';
+            $className = 'Magento_Sales_Model_Order_Creditmemo';
         } else {
             return true;
         }
@@ -625,14 +625,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Invoice creation actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderInvoiceCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'Mage_Sales_Model_Order';
+            $className = 'Magento_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('invoice_id')) {
-            $className = 'Mage_Sales_Model_Order_Invoice';
+            $className = 'Magento_Sales_Model_Order_Invoice';
         } else {
             return true;
         }
@@ -653,14 +653,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Shipment creation actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderShipmentCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
-            $className = 'Mage_Sales_Model_Order';
+            $className = 'Magento_Sales_Model_Order';
         } else if ($id = $this->_request->getParam('shipment_id')) {
-            $className = 'Mage_Sales_Model_Order_Shipment';
+            $className = 'Magento_Sales_Model_Order_Shipment';
         } else {
             return true;
         }
@@ -681,14 +681,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Order mass actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderMassAction($controller)
     {
         if ($ids = $this->_request->getParam('order_ids', array())) {
             if ($ids && is_array($ids)) {
                 foreach ($ids as $id) {
-                    $object = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+                    $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
                     if ($object && $object->getId()) {
                         $store = $object->getStoreId();
                         if (!$this->_role->hasStoreAccess($store)) {
@@ -705,13 +705,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Order edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderEditStartAction($controller)
     {
         $id = $this->_request->getParam('order_id');
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -726,13 +726,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Shipment tracking actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateSalesOrderShipmentTrackAction($controller)
     {
         $id = $this->_request->getParam('track_id');
         if ($id) {
-            $object = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track')->load($id);
+            $object = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -747,13 +747,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Terms and Conditions management edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCheckoutAgreementEditAction($controller)
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = Mage::getModel('Mage_Checkout_Model_Agreement')->load($id);
+            $object = Mage::getModel('Magento_Checkout_Model_Agreement')->load($id);
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {
@@ -770,13 +770,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate URL Rewrite Management edit action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateUrlRewriteEditAction($controller)
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = Mage::getModel('Mage_Core_Model_Url_Rewrite')->load($id);
+            $object = Mage::getModel('Magento_Core_Model_Url_Rewrite')->load($id);
             if ($object && $object->getId()) {
                 if (!$this->_role->hasStoreAccess($object->getStoreId())) {
                     $this->_forward();
@@ -790,7 +790,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Admin User management actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateAdminUserAction($controller)
     {
@@ -814,7 +814,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Admin Role management actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateAdminRoleAction($controller)
     {
@@ -837,7 +837,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Attribute management actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogProductAttributeActions($controller)
     {
@@ -851,7 +851,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Attribute creation action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -868,7 +868,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Products in Catalog Product MassDelete Action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      */
     public function catalogProductMassDeleteAction($controller)
     {
@@ -876,7 +876,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $productNotExclusiveIds = array();
         $productExclusiveIds    = array();
 
-        $resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product');
+        $resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product');
 
         $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
 
@@ -891,7 +891,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
             $message = __('You need more permissions to delete this item(s): %1.', $productNotExclusiveIds);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
         }
 
         $this->_request->setParam('product', $productExclusiveIds);
@@ -901,7 +901,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Attribute set creation, deletion and saving actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -920,7 +920,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     protected function _validateCatalogSubCategoryAddPermission($categoryId)
     {
-        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
         if ($category->getId()) {
             /**
              * viewing for parent category allowed and
@@ -939,7 +939,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Block index actions for all GWS limited users.
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool
      */
     public function blockIndexAction($controller)
@@ -951,7 +951,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate misc Manage Currency Rates requests
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -968,7 +968,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate misc Transactional Emails
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1007,7 +1007,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate Giftregistry actions : edit, add, share, delete
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1030,7 +1030,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate customer attribute actions
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool
      */
     public function validateCustomerAttributeActions($controller)
@@ -1050,7 +1050,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Deny certain actions at rule entity in disallowed scopes
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1084,10 +1084,10 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         // Determine entity model class name
         switch ($controllerName) {
             case 'promo_catalog':
-                $entityModelClassName = 'Mage_CatalogRule_Model_Rule';
+                $entityModelClassName = 'Magento_CatalogRule_Model_Rule';
                 break;
             case 'promo_quote':
-                $entityModelClassName = 'Mage_SalesRule_Model_Rule';
+                $entityModelClassName = 'Magento_SalesRule_Model_Rule';
                 break;
             case 'reminder':
                 $entityModelClassName = 'Enterprise_Reminder_Model_Rule';
@@ -1139,7 +1139,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Validate applying catalog rules action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1154,7 +1154,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      *
      * @return bool
      */
@@ -1168,8 +1168,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
-     * @param Mage_Core_Model_Abstract $model
+     * @param Magento_Adminhtml_Controller_Action $controller
+     * @param Magento_Core_Model_Abstract $model
      *
      * @return bool
      */
@@ -1181,7 +1181,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Promo catalog index action
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return Enterprise_AdminGws_Model_Controllers
      */
     public function promoCatalogIndexAction($controller)
@@ -1195,7 +1195,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Block editing of RMA attributes on disallowed websites
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool|void
      */
     public function validateRmaAttributeEditAction($controller)
@@ -1210,7 +1210,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 return false;
             }
 
-            return $this->_redirect($controller, Mage::getSingleton('Mage_Backend_Model_Url')
+            return $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('adminhtml/rma_item_attribute/edit',
                      array('website' => $allowedWebsitesIds[0], '_current' => true))
             );
@@ -1223,7 +1223,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 $this->_forward();
                 return false;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_forward();
             return false;
         }
@@ -1245,7 +1245,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Block deleting of options of attributes for all GWS enabled users
      *
-     * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Magento_Adminhtml_Controller_Action $controller
      * @return bool
      */
     public function validateRmaAttributeSaveAction($controller)

@@ -1,0 +1,39 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Magento_Backend_Block_GlobalSearch */
+?>
+<script data-template="search-suggest" type="text/x-jquery-tmpl">
+    <ul class="dropdown-menu">
+    {{if items.length}}
+        {{each items}}
+        <li class="item"
+            {{html optionData($value)}}
+            >
+            <a href="${$value.url}" class="title">${$value.name}</a>
+            <div class="type">${$value.type}</div>
+            ${$value.description || ""}
+        </li>
+        {{/each}}
+    {{else}}
+        <li><span class="mage-suggest-no-records"><?php echo __('No records found.') ?></span></li>
+    {{/if}}
+    </ul>
+</script>
+<div class="search">
+    <form action="#" id="form-search">
+        <label for="search-global">
+            <input type="text" id="search-global" name="query" data-mage-init="<?php
+            echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getWidgetInitOptions()))
+            ?>">
+        </label>
+        <button type="submit" title="<?php echo __('Search') ?>"><?php echo __('Search') ?></button>
+    </form>
+</div>

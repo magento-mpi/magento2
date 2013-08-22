@@ -81,7 +81,7 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
             count($expectedErrors), $actualMessages, 'Number of messages does not meet expectations.'
         );
         foreach ($expectedErrors as $errorIndex => $expectedErrorMessage) {
-            /** @var $actualMessage Mage_Core_Model_Message_Abstract */
+            /** @var $actualMessage Magento_Core_Model_Message_Abstract */
             $actualMessage = $actualMessages[$errorIndex];
             $this->assertEquals($expectedErrorMessage, $actualMessage);
         }

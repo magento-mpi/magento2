@@ -14,9 +14,9 @@ class Enterprise_ImportExport_Model_ObserverTest extends PHPUnit_Framework_TestC
     {
         $model = new Enterprise_ImportExport_Model_Observer;
         $model->scheduledLogClean('not_used', true);
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-        $this->assertFileExists($dirs->getDir(Mage_Core_Model_Dir::LOG)
+        /** @var $dirs Magento_Core_Model_Dir */
+        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
+        $this->assertFileExists($dirs->getDir(Magento_Core_Model_Dir::LOG)
             . DIRECTORY_SEPARATOR
             . Enterprise_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY
         );

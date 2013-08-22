@@ -23,7 +23,7 @@ class Enterprise_Customer_Model_Resource_Sales_Order extends Enterprise_Customer
      *
      * @var string
      */
-    protected $_parentResourceModelName = 'Mage_Sales_Model_Resource_Order';
+    protected $_parentResourceModelName = 'Magento_Sales_Model_Resource_Order';
 
     /**
      * Initialize resource

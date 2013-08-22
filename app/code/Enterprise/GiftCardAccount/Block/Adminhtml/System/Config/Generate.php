@@ -8,12 +8,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate
-    extends Mage_Backend_Block_System_Config_Form_Field
+
+class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Magento_Backend_Block_System_Config_Form_Field
 {
-    /**
-     * @var string
-     */
+
     protected $_template = 'config/generate.phtml';
 
     /**

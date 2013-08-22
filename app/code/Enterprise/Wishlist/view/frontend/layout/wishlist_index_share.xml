@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <wishlist_index_share>
         <reference name="my.account.wrapper">
-            <block type="Enterprise_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="Mage_Wishlist::sharing.phtml"/>
+            <block type="Enterprise_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
         </reference>
     </wishlist_index_share>
 </layout>

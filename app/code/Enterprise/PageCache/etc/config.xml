@@ -212,23 +212,23 @@
         <cache>
             <dependency>
                 <change>
-                    <catalog_product>Mage_Catalog_Model_Product</catalog_product>
-                    <catalog_category>Mage_Catalog_Model_Category</catalog_category>
-                    <catalog_eav_attribute>Mage_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
-                    <review>Mage_Review_Model_Review</review>
+                    <catalog_product>Magento_Catalog_Model_Product</catalog_product>
+                    <catalog_category>Magento_Catalog_Model_Category</catalog_category>
+                    <catalog_eav_attribute>Magento_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
+                    <review>Magento_Review_Model_Review</review>
                     <cms_hierarchy_node>Enterprise_Cms_Model_Hierarchy_Node</cms_hierarchy_node>
                     <banner>Enterprise_Banner_Model_Banner</banner>
-                    <core_store_group>Mage_Core_Model_Store_Group</core_store_group>
-                    <poll>Mage_Poll_Model_Poll</poll>
+                    <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
+                    <poll>Magento_Poll_Model_Poll</poll>
                 </change>
                 <delete>
-                    <catalog_category>Mage_Catalog_Model_Category</catalog_category>
-                    <catalog_eav_attribute>Mage_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
-                    <review>Mage_Review_Model_Review</review>
+                    <catalog_category>Magento_Catalog_Model_Category</catalog_category>
+                    <catalog_eav_attribute>Magento_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
+                    <review>Magento_Review_Model_Review</review>
                     <cms_hierarchy_node>Enterprise_Cms_Model_Hierarchy_Node</cms_hierarchy_node>
                     <banner>Enterprise_Banner_Model_Banner</banner>
-                    <core_store_group>Mage_Core_Model_Store_Group</core_store_group>
-                    <poll>Mage_Poll_Model_Poll</poll>
+                    <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
+                    <poll>Magento_Poll_Model_Poll</poll>
                 </delete>
             </dependency>
         </cache>

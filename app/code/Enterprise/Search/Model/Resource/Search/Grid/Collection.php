@@ -6,21 +6,21 @@
  * @license     {license_link}
  */
 class Enterprise_Search_Model_Resource_Search_Grid_Collection
-    extends Mage_CatalogSearch_Model_Resource_Query_Collection
+    extends Magento_CatalogSearch_Model_Resource_Query_Collection
 {
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         $resource = null
     ) {
         $this->_registryManager = $registry;
@@ -43,7 +43,7 @@ class Enterprise_Search_Model_Resource_Search_Grid_Collection
     /**
      *  Retrieve a value from registry by a key
      *
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     public function getQuery()
     {

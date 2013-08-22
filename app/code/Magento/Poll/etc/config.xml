@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Poll
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <frontend>
+        <routers>
+            <poll>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Poll</module>
+                    <frontName>poll</frontName>
+                </args>
+            </poll>
+        </routers>
+        <translate>
+            <modules>
+                <Magento_Poll>
+                    <files>
+                        <default>Magento_Poll.csv</default>
+                    </files>
+                </Magento_Poll>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Poll>
+                    <files>
+                        <default>Magento_Poll.csv</default>
+                    </files>
+                </Magento_Poll>
+            </modules>
+        </translate>
+    </adminhtml>
+    <global>
+        <resources>
+            <poll_setup>
+                <setup>
+                    <module>Magento_Poll</module>
+                </setup>
+            </poll_setup>
+        </resources>
+    </global>
+</config>

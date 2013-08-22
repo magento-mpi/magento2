@@ -16,7 +16,7 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Used us prefix to name of column table
@@ -43,10 +43,10 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
     /**
      * Return column name for attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return string
      */
-    protected function _getColumnName(Mage_Customer_Model_Attribute $attribute)
+    protected function _getColumnName(Magento_Customer_Model_Attribute $attribute)
     {
         $columnName = $attribute->getAttributeCode();
         if ($this->_columnPrefix) {
@@ -58,13 +58,13 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
     /**
      * Saves a new attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Resource_Sales_Abstract
      */
-    public function saveNewAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function saveNewAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $backendType = $attribute->getBackendType();
-        if ($backendType == Mage_Customer_Model_Attribute::TYPE_STATIC) {
+        if ($backendType == Magento_Customer_Model_Attribute::TYPE_STATIC) {
             return $this;
         }
 
@@ -110,10 +110,10 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
     /**
      * Deletes an attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Resource_Sales_Abstract
      */
-    public function deleteAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function deleteAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $this->_getWriteAdapter()->dropColumn($this->getMainTable(), $this->_getColumnName($attribute));
         return $this;
@@ -122,7 +122,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
     /**
      * Return resource model of the main entity
      *
-     * @return Mage_Core_Model_Resource_Abstract | null
+     * @return Magento_Core_Model_Resource_Abstract | null
      */
     protected function _getParentResourceModel()
     {

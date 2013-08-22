@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_search_block>
+        <reference name="report.search.grid.container">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.report.search.grid" as="grid">
+                <arguments>
+                    <id>searchReportGrid</id>
+                    <dataSource type="object">Magento_CatalogSearch_Model_Resource_Query_Collection</dataSource>
+                    <default_sort>query_id</default_sort>
+                    <default_dir>DESC</default_dir>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.search.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportSearchCsv</urlPath>
+                                <label translate="true">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportSearchExcel</urlPath>
+                                <label translate="true">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.search.grid.columnSet">
+                    <arguments>
+                        <rowUrl>
+                            <path>*/catalog_search/edit</path>
+                            <extraParamsTemplate>
+                                <id>getId</id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="query_id">
+                        <arguments>
+                            <header translate="true">ID</header>
+                            <filter>0</filter>
+                            <index>query_id</index>
+                            <type>number</type>
+                            <column_css_class>col-id</column_css_class>
+                            <header_css_class>col-id</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="query_text">
+                        <arguments>
+                            <header translate="true">Search Query</header>
+                            <index>query_text</index>
+                            <column_css_class>col-query</column_css_class>
+                            <header_css_class>col-query</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                        <arguments>
+                            <header translate="true">Store</header>
+                            <index>store_id</index>
+                            <type>store</type>
+                            <store_view>1</store_view>
+                            <sortable>0</sortable>
+                            <column_css_class>col-store</column_css_class>
+                            <header_css_class>col-store</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="num_results">
+                        <arguments>
+                            <header translate="true">Results</header>
+                            <type>number</type>
+                            <index>num_results</index>
+                            <column_css_class>col-results</column_css_class>
+                            <header_css_class>col-results</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="popularity">
+                        <arguments>
+                            <header translate="true">Hits</header>
+                            <type>number</type>
+                            <index>popularity</index>
+                            <column_css_class>col-hits</column_css_class>
+                            <header_css_class>col-hits</header_css_class>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_search_block>
+</layout>

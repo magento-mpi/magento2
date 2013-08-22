@@ -11,10 +11,10 @@ class Enterprise_PageCache_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     public function testConstructorCacheExists()
     {
-        $readerMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $readerMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $readerMock->expects($this->never())
             ->method('loadModulesConfiguration');
-        $configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $configCacheTypeMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
         $configCacheTypeMock->expects($this->once())
             ->method('load')
             ->will($this->returnValue('<config/>'));
@@ -23,13 +23,13 @@ class Enterprise_PageCache_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testConstructorNoCacheExists()
     {
-        $config = new Mage_Core_Model_Config_Base('<config/>');
-        $readerMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $config = new Magento_Core_Model_Config_Base('<config/>');
+        $readerMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $readerMock->expects($this->once())
             ->method('loadModulesConfiguration')
             ->with('placeholder.xml')
             ->will($this->returnValue($config));
-        $configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $configCacheTypeMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
         $configCacheTypeMock->expects($this->once())
             ->method('load')
             ->will($this->returnValue(false));

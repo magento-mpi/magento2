@@ -7,9 +7,9 @@
  */
 
 /**
- * A custom "Import" adapter for Mage_ImportExport module that allows generating arbitrary data rows
+ * A custom "Import" adapter for Magento_ImportExport module that allows generating arbitrary data rows
  */
-class Magento_ImportExport_Fixture_Generator extends Mage_ImportExport_Model_Import_SourceAbstract
+class Magento_ImportExport_Fixture_Generator extends Magento_ImportExport_Model_Import_SourceAbstract
 {
     /**
      * Data row pattern

@@ -12,17 +12,17 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::marketing">
-                    <resource id="Mage_CatalogRule::promo">
-                        <resource id="Mage_CatalogRule::promo_catalog">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::marketing">
+                    <resource id="Magento_CatalogRule::promo">
+                        <resource id="Magento_CatalogRule::promo_catalog">
                             <resource id="Enterprise_PromotionPermissions::edit" title="Edit Catalog Price Rules" />
                         </resource>
-                        <resource id="Mage_SalesRule::quote">
+                        <resource id="Magento_SalesRule::quote">
                             <resource id="Enterprise_PromotionPermissions::quote_edit" title="Edit Shopping Cart Price Rules" />
                         </resource>
                     </resource>
-                    <resource id="Mage_Adminhtml::marketing_communications">
+                    <resource id="Magento_Adminhtml::marketing_communications">
                         <resource id="Enterprise_Reminder::enterprise_reminder">
                             <resource id="Enterprise_PromotionPermissions::enterprise_reminder_edit" title="Edit Automated Email Reminder Rules" />
                         </resource>

@@ -15,7 +15,7 @@
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Block_Adminhtml_Export_Filter extends Mage_ImportExport_Block_Adminhtml_Export_Filter
+class Enterprise_ImportExport_Block_Adminhtml_Export_Filter extends Magento_ImportExport_Block_Adminhtml_Export_Filter
 {
     /**
      * Get grid url

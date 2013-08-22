@@ -16,7 +16,7 @@
  * @package     Enterprise_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Eav_Block_Form_Template extends Mage_Core_Block_Abstract
+class Enterprise_Eav_Block_Form_Template extends Magento_Core_Block_Abstract
 {
     /**
      * Array of attribute renderers data keyed by attribute front-end type

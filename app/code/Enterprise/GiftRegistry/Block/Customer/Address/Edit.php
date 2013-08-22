@@ -16,7 +16,7 @@ class Enterprise_GiftRegistry_Block_Customer_Address_Edit extends Enterprise_Gif
     /**
      * Contains logged in customer
      *
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -32,7 +32,7 @@ class Enterprise_GiftRegistry_Block_Customer_Address_Edit extends Enterprise_Gif
     /**
      * Getter for address object
      *
-     * @return Mage_Customer_Model_Address
+     * @return Magento_Customer_Model_Address
      */
     public function getAddress()
     {
@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Block_Customer_Address_Edit extends Enterprise_Gif
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+            $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')
@@ -87,12 +87,12 @@ class Enterprise_GiftRegistry_Block_Customer_Address_Edit extends Enterprise_Gif
     /**
      * Get logged in customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -104,6 +104,6 @@ class Enterprise_GiftRegistry_Block_Customer_Address_Edit extends Enterprise_Gif
      */
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn();
+        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
     }
 }

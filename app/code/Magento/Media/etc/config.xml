@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Media
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Media>
+                    <files>
+                        <default>Magento_Media.csv</default>
+                    </files>
+                </Magento_Media>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <routers>
+            <media>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Media</module>
+                    <frontName>media</frontName>
+                </args>
+            </media>
+        </routers>
+        <translate>
+            <modules>
+                <Magento_Media>
+                    <files>
+                        <default>Magento_Media.csv</default>
+                    </files>
+                </Magento_Media>
+            </modules>
+        </translate>
+    </frontend>
+</config>

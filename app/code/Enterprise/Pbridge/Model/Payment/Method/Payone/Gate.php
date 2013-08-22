@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento
  */
-class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_Model_Method_Cc
+class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_Model_Method_Cc
 {
     /**
      * Payone payment method code
@@ -109,7 +109,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -131,7 +131,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function assignData($data)
     {
@@ -158,13 +158,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
         return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
-            && Mage_Payment_Model_Method_Abstract::isAvailable($quote);
+            && Magento_Payment_Model_Method_Abstract::isAvailable($quote);
     }
 
     /**
@@ -282,9 +282,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Payone_Gate extends Mage_Payment_M
 
     /**
      * Set capture transaction ID to invoice for informational purposes
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
+     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Payment $payment
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function processInvoice($invoice, $payment)
     {

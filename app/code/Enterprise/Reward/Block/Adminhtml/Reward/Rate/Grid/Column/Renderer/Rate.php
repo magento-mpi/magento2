@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid_Column_Renderer_Rate
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders grid column

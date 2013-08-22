@@ -11,7 +11,7 @@
     <adminhtml_giftwrapping_edit>
         <reference name="content">
             <block type="Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit" name="giftwrapping_edit"/>
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
         </reference>
     </adminhtml_giftwrapping_edit>
 </layout>

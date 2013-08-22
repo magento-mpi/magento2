@@ -16,7 +16,7 @@
  * @package    Enterprise_CatalogEvent
  */
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Text
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
 {
     public function render(Magento_Object $row)
     {

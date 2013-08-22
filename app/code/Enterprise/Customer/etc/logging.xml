@@ -13,7 +13,7 @@
     <adminhtml_customer_attribute translate="label">
         <label>Manage Customer Attributes</label>
         <expected_models>
-            <Mage_Customer_Model_Attribute/>
+            <Magento_Customer_Model_Attribute/>
         </expected_models>
         <actions>
             <adminhtml_customer_attribute_edit>
@@ -32,7 +32,7 @@
     <adminhtml_customer_address_attribute translate="label">
         <label>Manage Customer Address Attributes</label>
         <expected_models>
-            <Mage_Customer_Model_Attribute/>
+            <Magento_Customer_Model_Attribute/>
         </expected_models>
         <actions>
             <adminhtml_customer_address_attribute_edit>

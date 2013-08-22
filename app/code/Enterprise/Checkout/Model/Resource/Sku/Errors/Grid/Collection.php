@@ -15,31 +15,31 @@ class Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection extends Mage
     protected $_cart;
 
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_productModel;
 
     /**
-     * @var Mage_CatalogInventory_Model_Stock_Status
+     * @var Magento_CatalogInventory_Model_Stock_Status
      */
     protected $_inventoryModel;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_coreHelper;
 
     /**
      * @param Enterprise_Checkout_Model_Cart $cart
-     * @param Mage_Catalog_Model_Product $productModel
-     * @param Mage_CatalogInventory_Model_Stock_Status $catalogInventory
-     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Magento_Catalog_Model_Product $productModel
+     * @param Magento_CatalogInventory_Model_Stock_Status $catalogInventory
+     * @param Magento_Core_Helper_Data $coreHelper
      */
     public function __construct(
         Enterprise_Checkout_Model_Cart $cart,
-        Mage_Catalog_Model_Product $productModel,
-        Mage_CatalogInventory_Model_Stock_Status $catalogInventory,
-        Mage_Core_Helper_Data $coreHelper
+        Magento_Catalog_Model_Product $productModel,
+        Magento_CatalogInventory_Model_Stock_Status $catalogInventory,
+        Magento_Core_Helper_Data $coreHelper
     ) {
         $this->_cart = $cart;
         $this->_productModel = $productModel;
@@ -70,13 +70,13 @@ class Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection extends Mage
                 }
                 $item->addData($affectedItem['item']);
                 $item->setId($item->getSku());
-                /* @var $product Mage_Catalog_Model_Product */
+                /* @var $product Magento_Catalog_Model_Product */
                 $product = $this->_productModel;
                 if (isset($affectedItem['item']['id'])) {
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
                     $product->load($productId);
-                    /* @var $stockStatus Mage_CatalogInventory_Model_Stock_Status */
+                    /* @var $stockStatus Magento_CatalogInventory_Model_Stock_Status */
                     $stockStatus = $this->_inventoryModel;
                     $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
                     if (!empty($status[$productId])) {

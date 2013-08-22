@@ -12,7 +12,7 @@
  * PayPal Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Model_Pro
+class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Model_Pro
 {
 
     /**
@@ -47,7 +47,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;
@@ -100,7 +100,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     public function void(Magento_Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
         return $result;
     }
 
@@ -113,7 +113,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('Mage_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
+            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new Magento_Object($result), $payment);
         }
     }
 }

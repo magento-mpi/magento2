@@ -11,21 +11,21 @@
 /**
  * Websites fieldset for admin roles edit tab
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mage_Backend_Block_Template
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Magento_Backend_Block_Template
 {
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -53,7 +53,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
     /**
      * Get the role object
      *
-     * @return Mage_User_Model_Role
+     * @return Magento_User_Model_Role
      */
     public function getRole()
     {
@@ -86,13 +86,13 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
                 }
             }
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
      * Get websites
      *
-     * @return Mage_Core_Model_Website[]
+     * @return Magento_Core_Model_Website[]
      */
     public function getWebsites()
     {

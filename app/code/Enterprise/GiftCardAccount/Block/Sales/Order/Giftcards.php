@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Magento_Core_Block_Template
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -34,7 +34,7 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
     {
         $result = array();
         $source = $this->getSource();
-        if (!($source instanceof Mage_Sales_Model_Order)) {
+        if (!($source instanceof Magento_Sales_Model_Order)) {
             return $result;
         }
         $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($this->getOrder());

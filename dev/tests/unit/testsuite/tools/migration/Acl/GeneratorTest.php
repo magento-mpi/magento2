@@ -171,11 +171,11 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
                     . 'app' . DIRECTORY_SEPARATOR
                     . 'code' . DIRECTORY_SEPARATOR
                     . 'core' . DIRECTORY_SEPARATOR
-                    . 'Mage' . DIRECTORY_SEPARATOR
+                    . 'Magento' . DIRECTORY_SEPARATOR
                     . '*' . DIRECTORY_SEPARATOR
                     . 'etc' . DIRECTORY_SEPARATOR,
                 'codePool' => 'core',
-                'namespace' => 'Mage',
+                'namespace' => 'Magento',
             ),
         );
     }

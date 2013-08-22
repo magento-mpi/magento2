@@ -17,7 +17,7 @@
  */
 class Enterprise_CatalogEvent_Block_Widget_Lister
     extends Enterprise_CatalogEvent_Block_Event_Lister
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
 
 }

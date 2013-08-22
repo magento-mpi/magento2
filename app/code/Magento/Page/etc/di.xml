@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Core_Model_Page">
+        <param name="assets">
+            <instance type="Magento_Page_Model_Asset_GroupedCollection" />
+        </param>
+    </type>
+    <type name="Magento_Page_Model_Asset_GroupedCollection" shared="false" />
+</config>

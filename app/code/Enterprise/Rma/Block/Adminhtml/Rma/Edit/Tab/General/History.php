@@ -26,7 +26,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => __('Submit Comment'),
                 'class'   => 'save',

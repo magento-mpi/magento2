@@ -14,7 +14,7 @@
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Layout */
+    /** @var Magento_Core_Model_Layout */
     protected $_layout = null;
 
     /** @var Enterprise_Checkout_Block_Adminhtml_Manage_Load */
@@ -23,7 +23,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Load');
     }
 
@@ -37,10 +37,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
         $containerContent = 'Content in container';
 
         $parent = $this->_block->getNameInLayout();
-        $this->_layout->addBlock('Mage_Core_Block_Text', $blockName, $parent)->setText($content);
+        $this->_layout->addBlock('Magento_Core_Block_Text', $blockName, $parent)->setText($content);
         $this->_layout->addContainer($containerName, 'Container', array(), $parent);
-        $this->_layout->addBlock('Mage_Core_Block_Text', '', $containerName)->setText($containerContent);
-        $this->_layout->addBlock('Mage_Core_Block_Text', $blockNameOne, $parent)->setText($contentOne);
+        $this->_layout->addBlock('Magento_Core_Block_Text', '', $containerName)->setText($containerContent);
+        $this->_layout->addBlock('Magento_Core_Block_Text', $blockNameOne, $parent)->setText($contentOne);
 
         $result = $this->_block->toHtml();
         $expectedDecoded = array(
@@ -48,6 +48,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
             $containerName   => $containerContent,
             $blockNameOne    => $contentOne
         );
-        $this->assertEquals($expectedDecoded, Mage::helper('Mage_Core_Helper_Data')->jsonDecode($result));
+        $this->assertEquals($expectedDecoded, Mage::helper('Magento_Core_Helper_Data')->jsonDecode($result));
     }
 }

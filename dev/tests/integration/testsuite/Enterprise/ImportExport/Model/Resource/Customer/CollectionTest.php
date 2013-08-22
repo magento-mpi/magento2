@@ -38,9 +38,9 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
         $items = $collection->getItems();
         $this->assertCount(1, $items);
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = reset($items);
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
                 . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
@@ -63,9 +63,9 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
         $items = $collection->getItems();
         $this->assertCount(1, $items);
 
-        /** @var $customer Mage_Customer_Model_Customer */
+        /** @var $customer Magento_Customer_Model_Customer */
         $customer = reset($items);
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
                 . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;

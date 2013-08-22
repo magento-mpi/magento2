@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see Magento_Payment_Block_Info
+ */
+?>
+<?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
+
+<?php if ($_specificInfo = $this->getSpecificInformation()):?>
+<table class="data-table" cellspacing="0">
+<?php foreach ($_specificInfo as $_label => $_value):?>
+    <tr>
+        <th><?php echo $this->escapeHtml($_label)?>:</th>
+        <td><?php echo nl2br(implode($this->getValueAsArray($_value, true), "\n"))?></td>
+    </tr>
+<?php endforeach; ?>
+</table>
+<?php endif;?>
+
+<?php echo $this->getChildHtml()?>

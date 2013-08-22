@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
+class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget
 {
     /**
      * Attributes is read only flag
@@ -18,18 +18,18 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     protected $_readOnly = false;
 
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -69,7 +69,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     /**
      * Retrieve current edit product instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

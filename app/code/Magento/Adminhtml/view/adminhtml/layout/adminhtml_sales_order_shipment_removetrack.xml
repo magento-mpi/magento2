@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_shipment_removetrack>
+        <block type="Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"/>
+    </adminhtml_sales_order_shipment_removetrack>
+</layout>

@@ -37,14 +37,14 @@ class Enterprise_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_Te
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
         $formDependency = $this->getMock(
-            'Mage_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false
+            'Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false
         );
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout
             ->expects($this->once())
             ->method('createBlock')
-            ->with('Mage_Backend_Block_Widget_Form_Element_Dependence')
+            ->with('Magento_Backend_Block_Widget_Form_Element_Dependence')
             ->will($this->returnValue($formDependency))
         ;
 
@@ -64,7 +64,7 @@ class Enterprise_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_Te
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
         $form = new Magento_Data_Form();
