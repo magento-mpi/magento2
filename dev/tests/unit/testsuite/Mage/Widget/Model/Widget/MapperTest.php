@@ -14,34 +14,56 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
     private $_xmlMapper;
 
     /** @var array */
-    private $_simpleTarget;
+    private $_targetArray;
 
     /** @var array */
-    private $_simpleSource;
+    private $_sourceArray;
 
     public function setUp()
     {
-        $this->_simpleSource = array(
+        $this->_sourceArray = $this->_constructSource();
+
+        $this->_targetArray = $this->_constructTarget();
+
+        $this->_xmlMapper = new Mage_Widget_Model_Widget_Mapper();
+    }
+
+    public function testMerge()
+    {
+        $result = $this->_xmlMapper->map($this->_sourceArray);
+
+        $this->assertEquals($this->_targetArray, $result);
+    }
+
+    /**
+     * Constructs a source array that represents the new xml converted to array using new reader.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @return array
+     */
+    private function _constructSource()
+    {
+        return array(
             'widget' => array(
                 array(
                     '@' => array(
-                        'id'                    => 'cms_page_link',
-                        'class'                 => 'Mage_Cms_Block_Widget_Page_Link',
-                        'translate'             => 'label description',
-                        'module'                => 'Mage_Cms',
-                        'is_email_compatible'   => 'true',
-                        'placeholder_image'     => 'Mage_Cms::images/widget_page_link.gif',
+                        'id' => 'cms_page_link',
+                        'class' => 'Mage_Cms_Block_Widget_Page_Link',
+                        'translate' => 'label description',
+                        'module' => 'Mage_Cms',
+                        'is_email_compatible' => 'true',
+                        'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
                     ),
-                    'label'         => array('CMS Page Link'),
-                    'description'   => array('Link to a CMS Page'),
-                    'parameter'     => array(
+                    'label' => array('CMS Page Link'),
+                    'description' => array('Link to a CMS Page'),
+                    'parameter' => array(
                         array(
-                            '@'     => array(
-                                'name'       => 'page_id',
-                                'type'       => 'value_renderer',
-                                'visible'    => 'true',
-                                'required'   => 'true',
-                                'translate'  => 'label',
+                            '@' => array(
+                                'name' => 'page_id',
+                                'type' => 'value_renderer',
+                                'visible' => 'true',
+                                'required' => 'true',
+                                'translate' => 'label',
                                 'sort_order' => '10',
                             ),
                             'label' => array('CMS Page'),
@@ -57,7 +79,7 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                                                     '@' => array(
                                                         'translate' => 'open',
                                                     ),
-                                                    'open'  => array('Select Page...'),
+                                                    'open' => array('Select Page...'),
                                                 ),
                                             ),
                                         ),
@@ -67,8 +89,8 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         ),
                         array(
                             '@' => array(
-                                'name'      => 'anchor_text',
-                                'type'      => 'text',
+                                'name' => 'anchor_text',
+                                'type' => 'text',
                                 'translate' => 'label description',
                             ),
                             'label' => array('Anchor Custom Text'),
@@ -88,26 +110,26 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         ),
                         array(
                             '@' => array(
-                                'name'      => 'template',
-                                'type'      => 'select',
+                                'name' => 'template',
+                                'type' => 'select',
                                 'translate' => 'label',
-                                'visible'   => 'true',
+                                'visible' => 'true',
                             ),
                             'label' => array('Template'),
                             'option' => array(
                                 array(
                                     '@' => array(
-                                        'name'      => 'default',
-                                        'value'     => 'product/widget/link/link_block.phtml',
-                                        'selected'  => 'true',
+                                        'name' => 'default',
+                                        'value' => 'product/widget/link/link_block.phtml',
+                                        'selected' => 'true',
                                         'translate' => 'label',
                                     ),
                                     'label' => array('Product Link Block Template'),
                                 ),
                                 array(
                                     '@' => array(
-                                        'name'      => 'link_inline',
-                                        'value'     => 'product/widget/link/link_inline.phtml',
+                                        'name' => 'link_inline',
+                                        'value' => 'product/widget/link/link_inline.phtml',
                                         'translate' => 'label',
                                     ),
                                     'label' => array('Product Link Inline Template'),
@@ -119,7 +141,7 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         array(
                             '@' => array(
                                 'section' => 'left_column',
-                                'name'    => 'left',
+                                'name' => 'left',
                             ),
                             'template' => array(
                                 array(
@@ -139,7 +161,7 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         array(
                             '@' => array(
                                 'section' => 'main_content',
-                                'name'    => 'content',
+                                'name' => 'content',
                             ),
                             'template' => array(
                                 array(
@@ -160,18 +182,18 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                 ),
                 array(
                     '@' => array(
-                        'id'                    => 'enterprise_giftregistry_search',
-                        'class'                 => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
-                        'translate'             => 'label description',
-                        'module'                => 'Enterprise_GiftRegistry',
+                        'id' => 'enterprise_giftregistry_search',
+                        'class' => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
+                        'translate' => 'label description',
+                        'module' => 'Enterprise_GiftRegistry',
                     ),
-                    'label'         => array('Gift Registry Search'),
-                    'description'   => array('Gift Registry Quick Search Form'),
-                    'parameter'     => array(
+                    'label' => array('Gift Registry Search'),
+                    'description' => array('Gift Registry Quick Search Form'),
+                    'parameter' => array(
                         array(
-                            '@'     => array(
-                                'name'       => 'types',
-                                'type'       => 'multiselect',
+                            '@' => array(
+                                'name' => 'types',
+                                'type' => 'multiselect',
                                 'source_model' => 'Enterprise_GiftRegistry_Model_Source_Search',
                             ),
                         ),
@@ -179,12 +201,21 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                 ),
             ),
         );
+    }
 
-        $this->_simpleTarget = array(
+    /**
+     * Constructs a target array that represents the old xml converted to array using old reader.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @returns array
+     */
+    private function _constructTarget()
+    {
+        return array(
             'cms_page_link' => array(
                 '@' => array(
-                    'type'      => 'Mage_Cms_Block_Widget_Page_Link',
-                    'module'    => 'Mage_Cms',
+                    'type' => 'Mage_Cms_Block_Widget_Page_Link',
+                    'module' => 'Mage_Cms',
                     'translate' => 'name description',
                 ),
                 'name' => 'CMS Page Link',
@@ -194,7 +225,7 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                 'parameters' => array(
                     'page_id' => array(
                         '@' => array(
-                            'type'      => 'complex',
+                            'type' => 'complex',
                             'translate' => 'label',
                         ),
                         'type' => 'label',
@@ -273,8 +304,8 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
             ),
             'enterprise_giftregistry_search' => array(
                 '@' => array(
-                    'type'      => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
-                    'module'    => 'Enterprise_GiftRegistry',
+                    'type' => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
+                    'module' => 'Enterprise_GiftRegistry',
                     'translate' => 'name description',
                 ),
                 'name' => 'Gift Registry Search',
@@ -289,14 +320,5 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
             ),
 
         );
-
-        $this->_xmlMapper = new Mage_Widget_Model_Widget_Mapper();
-    }
-
-    public function testMerge()
-    {
-        $result = $this->_xmlMapper->map($this->_simpleSource);
-
-        $this->assertEquals($this->_simpleTarget, $result);
     }
 }
