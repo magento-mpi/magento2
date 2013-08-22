@@ -39,7 +39,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
             'routeConfig' => $this->_routeConfigMock
         );
-        $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', true);
+        $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
         $this->_model = Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
         $this->_model->setFront($this->_frontMock);
     }
@@ -63,6 +63,20 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue('backend/admin/dashboard'));
         $this->_frontMock->expects($this->once())
             ->method('setDefault');
+
+        $adminRoute = array(
+            'adminhtml' => array(
+                'id'        => 'adminhtml',
+                'frontName' => 'admin',
+                'modules'   => array(
+                    'Mage_Adminhtml'
+                )
+            )
+        );
+
+        $this->_routeConfigMock->expects($this->once())
+            ->method('getRoutes')
+            ->will($this->returnValue($adminRoute));
         $this->_model->match($request);
     }
 
