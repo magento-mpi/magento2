@@ -38,7 +38,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
     }
 
     /**
-     * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
+     * @magentoDataFixture Magento/CustomerSegment/_files/segment.php
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testMatchActionLogging()
