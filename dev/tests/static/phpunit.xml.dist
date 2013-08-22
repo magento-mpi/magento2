@@ -21,6 +21,7 @@
         </testsuite>
         <testsuite name="Code Integrity Tests">
             <directory>testsuite/Integrity</directory>
+            <directory>testsuite/Magento/Test/Integrity</directory>
         </testsuite>
         <testsuite name="Twig Syntax Checker">
             <directory>testsuite/Twig/TwigExtensionTest.php</directory>
