@@ -324,4 +324,14 @@ abstract class Magento_Eav_Model_Entity_Attribute_Backend_Abstract
         );
         return $data;
     }
+
+    /**
+     * By default attribute value is considered scalar that can be stored in a generic way
+     *
+     * {@inheritdoc}
+     */
+    public function isScalar()
+    {
+        return true;
+    }
 }

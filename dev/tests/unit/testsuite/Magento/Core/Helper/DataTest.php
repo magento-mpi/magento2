@@ -22,14 +22,14 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $string
-     * @param bool $gearman
+     * @param bool $german
      * @param string $expected
      *
      * @dataProvider removeAccentsDataProvider
      */
-    public function testRemoveAccents($string, $gearman, $expected)
+    public function testRemoveAccents($string, $german, $expected)
     {
-        $this->assertEquals($expected, $this->_helper->removeAccents($string, $gearman));
+        $this->assertEquals($expected, $this->_helper->removeAccents($string, $german));
     }
 
     /**
