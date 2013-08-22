@@ -29,6 +29,7 @@ class Integrity_Mage_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCase
      */
     public function schemaDataProvider()
     {
-        return Utility_Files::init()->getConfigFiles('widget.xml', array());
+        // Include design directory (last parameter)
+        return Utility_Files::init()->getConfigFiles('widget.xml', array(), true, true);
     }
 }
