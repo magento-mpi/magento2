@@ -86,38 +86,27 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
      * getMessages() will return an array of messages that explain why the
      * validation failed.
      *
-     * @throws Exception            Throw exception when xml object is not
-     *                              instance of Magento_Simplexml_Element
-     * @param Magento_Simplexml_Element|string $value
+     * @param string $value
      * @return bool
      */
     public function isValid($value)
     {
-        if (is_string($value)) {
-            $value = trim($value);
-            try {
-                //wrap XML value in the "layout" tag because layout cannot
-                //contain multiple root tags
-                $value = '<layout>' . $value . '</layout>';
-                $this->_domConfig
-                    ->setSchemaFile(
-                        $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd'
-                    )
-                    ->loadXml($value);
-                $value = new Magento_Simplexml_Element($value);
-            } catch (Exception $e) {
-                $this->_error(self::XML_INVALID);
-                return false;
-            }
-        } elseif (!($value instanceof Magento_Simplexml_Element)) {
-            throw new Exception(
-                __('XML object is not instance of "Magento_Simplexml_Element".'));
+        try {
+            //wrap XML value in the "layout" and "handle" tags to make it validatable
+            $value = '<layout><handle id="handleId">' . trim($value) . '</handle></layout>';
+            $this->_domConfig
+                ->setSchemaFile(
+                    $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd'
+                )
+                ->loadXml($value);
+            $value = new Magento_Simplexml_Element($value);
+        } catch (Exception $e) {
+            $this->_error(self::XML_INVALID);
+            return false;
         }
 
-        $this->_setValue($value);
-
         foreach ($this->_protectedExpressions as $key => $xpr) {
-            if ($this->_value->xpath($xpr)) {
+            if ($value->xpath($xpr)) {
                 $this->_error($key);
                 return false;
             }
