@@ -14,27 +14,17 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Customer_Link extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Customer_Link extends Mage_Page_Block_Link_Current
 {
     /**
-     * Adding link to dashboard links block
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return Enterprise_Checkout_Block_Customer_Link
+     * @inheritdoc
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    protected function _toHtml()
     {
         if (Mage::helper('Enterprise_Checkout_Helper_Data')->isSkuApplied()) {
-            /** @var $blockInstance Mage_Customer_Block_Account_Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+            return parent::_toHtml();
+        } else {
+            return '';
         }
-        return $this;
     }
 }

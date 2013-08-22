@@ -186,7 +186,6 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addColumnInputName',
             'addColumnRender',
             'addCrumb',
-            'addDashboardLink',
             'addDatabaseBlock',
             'addInputTypeTemplate',
             'addItemRender',

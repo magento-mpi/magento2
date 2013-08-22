@@ -25,6 +25,7 @@
         <update handle="page_calendar"/>
         <reference name="content">
             <block type="Mage_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
+                <action method="wrongMethod"></action>
                 <block type="Mage_Catalog_Block_Product_View_BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View_Gallery" name="product-info-gallery" as="gallery" template="product/view/gallery.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>

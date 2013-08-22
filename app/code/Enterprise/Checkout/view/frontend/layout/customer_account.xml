@@ -9,13 +9,14 @@
 -->
 <layout version="0.1.0">
     <customer_account>
-        <block type="Enterprise_Checkout_Block_Customer_Link" name="customer_link_sku">
-            <action method="addDashboardLink" translate="label" module="Enterprise_Checkout">
-                <block>customer_account_navigation</block>
-                <name>checkout</name>
-                <path>enterprise_checkout/sku</path>
-                <label>Order by SKU</label>
-            </action>
-        </block>
+        <reference name="customer-account-navigation">
+            <block type="Enterprise_Checkout_Block_Customer_Link"
+                    name="customer-account-navigation-checkout-sku-link">
+                <arguments translate="label">
+                    <path>enterprise_checkout/sku</path>
+                    <label>Order by SKU</label>
+                </arguments>
+            </block>
+        </reference>
     </customer_account>
 </layout>

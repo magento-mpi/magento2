@@ -38,27 +38,4 @@ class Enterprise_Invitation_Block_Link extends Mage_Page_Block_Link
         }
         return '';
     }
-
-    /**
-     * Adding link to account links block link params if invitation
-     * is allowed globally and for current website
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return Enterprise_Invitation_Block_Link
-     */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
-    {
-        if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()) {
-            /** @var $blockInstance Mage_Customer_Block_Account_Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
-        }
-        return $this;
-    }
 }
