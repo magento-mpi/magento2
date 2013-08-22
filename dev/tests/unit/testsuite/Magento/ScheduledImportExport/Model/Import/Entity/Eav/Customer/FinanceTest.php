@@ -66,7 +66,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         array(
             'id'   => 1,
             'attribute_code' =>
-                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE,
+                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                    COLUMN_CUSTOMER_BALANCE,
             'frontend_label' => 'Store Credit',
             'backend_type'   => 'decimal',
             'is_required'    => true,
@@ -74,7 +75,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         array(
             'id'   => 2,
             'attribute_code' =>
-                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS,
+                Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                    COLUMN_REWARD_POINTS,
             'frontend_label' => 'Reward Points',
             'backend_type'   => 'int',
             'is_required'    => false,
@@ -387,17 +389,21 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 '$behaviors' => array(
                     Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
-                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::COLUMN_WEBSITE
+                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                        COLUMN_WEBSITE
                                 ))
                         ),
                     ),
                     Magento_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
-                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::COLUMN_WEBSITE
+                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                        COLUMN_WEBSITE
                                 ))
                         ),
                     )
@@ -408,17 +414,21 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 '$behaviors' => array(
                     Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
-                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::COLUMN_WEBSITE
+                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                        COLUMN_WEBSITE
                                 ))
                         ),
                     ),
                     Magento_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
-                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::COLUMN_WEBSITE
+                                    Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                        COLUMN_WEBSITE
                                 ))
                         ),
                     )
@@ -429,7 +439,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 '$behaviors' => array(
                     Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_EMAIL_IS_EMPTY =>
                             array(
                                 array(
                                     1,
@@ -440,7 +451,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                     ),
                     Magento_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_EMAIL_IS_EMPTY =>
                             array(
                                 array(
                                     1,
@@ -456,7 +468,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 '$behaviors' => array(
                     Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_EMAIL_IS_EMPTY =>
                             array(
                                 array(
                                     1,
@@ -467,7 +480,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                     ),
                     Magento_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_EMAIL_IS_EMPTY =>
                             array(
                                 array(
                                     1,
@@ -514,7 +528,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 '$behaviors' => array(
                     Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_INVALID_EMAIL =>
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_INVALID_EMAIL =>
                             array(
                                 array(
                                     1,
@@ -525,7 +540,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                     ),
                     Magento_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_INVALID_EMAIL =>
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_INVALID_EMAIL =>
                             array(
                                 array(
                                     1,
@@ -678,7 +694,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 '$behaviors' => array(
                     Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors'  => array(
-                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_VALUE_IS_REQUIRED
+                            Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::
+                                ERROR_VALUE_IS_REQUIRED
                                 => array(array(1, 'store_credit'))
                         ),
                     ),
