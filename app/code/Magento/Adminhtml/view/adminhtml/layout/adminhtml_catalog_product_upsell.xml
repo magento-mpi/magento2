@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_product_upsell>
+        <container name="root" label="Root" output="1">
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell" name="catalog.product.edit.tab.upsell"/>
+            <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="upsell_grid_serializer">
+                <reference name="upsell_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.upsell</grid_block_name>
+                        <data_callback>getSelectedUpsellProducts</data_callback>
+                        <hidden_input_name>links[upsell]</hidden_input_name>
+                        <reload_param_name>products_upsell</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </container>
+    </adminhtml_catalog_product_upsell>
+</layout>

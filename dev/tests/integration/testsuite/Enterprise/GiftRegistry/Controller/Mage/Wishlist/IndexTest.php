@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Controller_Mage_Wishlist_IndexTest extends Magento_Test_TestCase_ControllerAbstract
+class Enterprise_GiftRegistry_Controller_Magento_Wishlist_IndexTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testIndexAction()
     {
         $this->markTestIncomplete('Bug MAGE-6447');
-        $session = Mage::getModel('Mage_Customer_Model_Session');
+        $session = Mage::getModel('Magento_Customer_Model_Session');
         $this->assertTrue($session->login('customer@example.com', 'password')); // fixture
         $this->dispatch('wishlist/index/index');
         $this->assertContains('id="giftregistry-form">', $this->getResponse()->getBody());

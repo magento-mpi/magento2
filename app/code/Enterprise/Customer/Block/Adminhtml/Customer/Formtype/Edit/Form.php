@@ -15,12 +15,12 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Retrieve current form type instance
      *
-     * @return Mage_Eav_Model_Form_Type
+     * @return Magento_Eav_Model_Form_Type
      */
     protected function _getFormType()
     {
@@ -74,8 +74,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Ma
                 'required'  => true,
             ));
 
-            /** @var $label Mage_Core_Model_Theme_Label */
-            $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+            /** @var $label Magento_Core_Model_Theme_Label */
+            $label = Mage::getModel('Magento_Core_Model_Theme_Label');
             $options = $label->getLabelsCollection();
             array_unshift($options, array(
                 'label' => __('All Themes'),
@@ -93,7 +93,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Ma
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true)
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true)
             ));
 
             $form->setValues($this->_getFormType()->getData());

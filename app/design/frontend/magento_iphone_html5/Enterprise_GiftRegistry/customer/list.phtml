@@ -23,7 +23,7 @@
             <li class="list-item">
 
                 <a class="btn-remove" href="<?php echo $this->getDeleteUrl($item)?>" onclick="return confirm('<?php echo __('Are you sure you want to delete this gift registry?'); ?>');"><?php echo __('Delete') ?></a>
-                <h2><?php echo $this->helper('Mage_Core_Helper_String')->truncate($this->getEscapedTitle($item), 70)?></h2>
+                <h2><?php echo $this->helper('Magento_Core_Helper_String')->truncate($this->getEscapedTitle($item), 70)?></h2>
                 <a class="link-edit" href="<?php echo $this->getEditUrl($item)?>"><?php echo __('Edit') ?></a>
 
                 <div class="message">

@@ -28,7 +28,7 @@
  * @package     Enterprise_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
+class Enterprise_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
 {
     const DISPLAY_CATEGORY_PAGE = 1;
     const DISPLAY_PRODUCT_PAGE  = 2;
@@ -82,7 +82,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     {
         $tags = parent::getCacheIdTags();
         if ($this->getCategoryId()) {
-            $tags[] = Mage_Catalog_Model_Category::CACHE_TAG . '_' . $this->getCategoryId();
+            $tags[] = Magento_Catalog_Model_Category::CACHE_TAG . '_' . $this->getCategoryId();
         }
         return $tags;
     }
@@ -132,7 +132,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Retrieve store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -146,12 +146,12 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Set event image
      *
-     * @param string|null|Mage_Core_Model_File_Uploader $value
+     * @param string|null|Magento_Core_Model_File_Uploader $value
      * @return Enterprise_CatalogEvent_Model_Event
      */
     public function setImage($value)
     {
-        //in the current version should be used instance of Mage_Core_Model_File_Uploader
+        //in the current version should be used instance of Magento_Core_Model_File_Uploader
         if ($value instanceof Magento_File_Uploader) {
             $value->save(Mage::getBaseDir('media') . DS
                          . strtr(self::IMAGE_PATH, '/', DS));
@@ -264,7 +264,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Retrieve category ids with events
      *
-     * @param int|string|Mage_Core_Model_Store $storeId
+     * @param int|string|Magento_Core_Model_Store $storeId
      * @return array
      */
     public function getCategoryIdsWithEvent($storeId = null)

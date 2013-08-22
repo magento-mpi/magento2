@@ -11,7 +11,7 @@
 /**
  * Persistent helper
  */
-class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Persistent_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_PERSIST_WISHLIST             = 'persistent/options/wishlist';
     const XML_PATH_PERSIST_ORDERED_ITEMS        = 'persistent/options/recently_ordered';
@@ -40,7 +40,7 @@ class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether wishlist is persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isWishlistPersist($store = null)
@@ -51,7 +51,7 @@ class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether ordered items is persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isOrderedItemsPersist($store = null)
@@ -62,7 +62,7 @@ class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether compare products is persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isCompareProductsPersist($store = null)
@@ -73,7 +73,7 @@ class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether compared products is persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isComparedProductsPersist($store = null)
@@ -84,7 +84,7 @@ class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether viewed products is persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isViewedProductsPersist($store = null)
@@ -95,7 +95,7 @@ class Enterprise_Persistent_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether customer and segments is persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isCustomerAndSegmentsPersist($store = null)

@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**
@@ -72,7 +72,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         $this->_addElementTypes($fieldset);
 
-        $currentCategory = Mage::getModel('Mage_Catalog_Model_Category')
+        $currentCategory = Mage::getModel('Magento_Catalog_Model_Category')
             ->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',
@@ -82,8 +82,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             )
         );
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => __('Start Date'),
@@ -142,7 +142,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );

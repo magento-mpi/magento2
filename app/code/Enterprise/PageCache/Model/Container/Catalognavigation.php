@@ -108,7 +108,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
 
         $categoryId = $this->_getCategoryId();
         if (!Mage::registry('current_category') && $categoryId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             Mage::register('current_category', $category);
         }
 

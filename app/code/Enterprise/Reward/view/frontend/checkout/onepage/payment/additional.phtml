@@ -21,7 +21,7 @@
     <script type="text/javascript">
         (function($) {
             head.js(
-                "<?php echo $this->getViewFileUrl('Mage_Customer::js/checkout-balance.js') ?>",
+                "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
                 function() {
                     $('#use-reward-points').checkoutBalance({
                         balance: <?php echo (float)$this->getCurrencyAmount(); ?>,

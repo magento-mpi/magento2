@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_product_grouped>
+        <update handle="adminhtml_catalog_product_grouped_grid_popup"/>
+        <reference name="product_tabs">
+            <block type="Magento_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Magento_Catalog::product/grouped/container.phtml">
+                <block type="Magento_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Magento_Catalog::product/grouped/grouped.phtml">
+                    <block type="Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List" name="catalog.product.edit.tab.super.list" as="list" template="Magento_Catalog::product/grouped/list.phtml">
+                    </block>
+                    <block type="Magento_Core_Block_Template" name="catalog.product.edit.tab.super.grid.popup.container" as="catalog.product.group.grid.popup.container"/>
+                </block>
+            </block>
+            <action method="addTab">
+                <name>grouped</name>
+                <block>catalog.product.edit.grouped.container</block>
+            </action>
+        </reference>
+    </adminhtml_catalog_product_grouped>
+</layout>

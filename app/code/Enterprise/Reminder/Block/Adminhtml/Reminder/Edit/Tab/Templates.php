@@ -12,7 +12,7 @@
  * Reminder rules edit form email templates and labels fields
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general properties form
@@ -124,7 +124,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template');
+        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
         $template->setPath(Enterprise_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();

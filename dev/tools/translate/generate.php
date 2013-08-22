@@ -15,7 +15,7 @@
  * Output file format (CSV):
  * Columns:
  *
- * Module_Name (like 'Mage_Catalog' or design package name like 'translate')
+ * Module_Name (like 'Magento_Catalog' or design package name like 'translate')
  * Translation Key (like "Translate Me")
  * Translation Value (the same)
  * Source File (source file name)

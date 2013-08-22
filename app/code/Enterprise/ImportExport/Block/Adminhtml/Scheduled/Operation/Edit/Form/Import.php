@@ -42,9 +42,9 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
-        $uniqueBehaviors = Mage_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
-            /** @var $behaviorSource Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
+            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
             $behaviorSource = Mage::getModel($behaviorClass);
             $fieldset->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
@@ -67,7 +67,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template')
+            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
                 ->setPath('enterprise_importexport_import_failed')
                 ->toOptionArray()
             );

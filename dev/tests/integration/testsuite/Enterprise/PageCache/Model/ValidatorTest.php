@@ -78,13 +78,14 @@ class Enterprise_PageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCas
     public function testGetDataDependencies($type, $object, $isInvalidated)
     {
         $cacheType = 'full_page';
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = $objectManager->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled($cacheType, true);
 
-        /** @var Mage_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = $objectManager->get('Mage_Core_Model_Cache_TypeListInterface');
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_TypeListInterface');
 
         // manual unset cache type
         $cacheTypeList->cleanType($cacheType);

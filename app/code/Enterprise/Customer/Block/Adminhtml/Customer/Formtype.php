@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Formtype extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Customer_Block_Adminhtml_Customer_Formtype extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Block constructor

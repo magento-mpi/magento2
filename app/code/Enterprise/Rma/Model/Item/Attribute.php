@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Item_Attribute extends Mage_Eav_Model_Attribute
+class Enterprise_Rma_Model_Item_Attribute extends Magento_Eav_Model_Attribute
 {
     /**
      * Name of the module

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_system_design_wysiwyg_files_contents>
+        <block name="wysiwyg_files.files" type="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files" template="browser/content/files.phtml" output="1"/>
+    </adminhtml_system_design_wysiwyg_files_contents>
+</layout>

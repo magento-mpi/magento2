@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('mage/cookies.js')?>", function() {
+            $.mage.cookies.set(
+                '<?php echo Magento_PageCache_Helper_Data::NO_CACHE_COOKIE ?>',
+                1,
+                {lifetime: <?php echo Mage::helper('Magento_PageCache_Helper_Data')->getNoCacheCookieLifetime() ?>}
+            )
+        });
+    })(jQuery);
+    //]]>
+</script>

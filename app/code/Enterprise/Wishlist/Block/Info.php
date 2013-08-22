@@ -15,12 +15,12 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
+class Enterprise_Wishlist_Block_Info extends Magento_Wishlist_Block_Abstract
 {
     /**
      * Create message block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getMessagesBlock()
     {
@@ -40,11 +40,11 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
     /**
      * Retrieve wishlist owner instance
      *
-     * @return Mage_Customer_Model_Customer|null
+     * @return Magento_Customer_Model_Customer|null
      */
     public function getWishlistOwner()
     {
-        $owner = Mage::getModel('Mage_Customer_Model_Customer');
+        $owner = Mage::getModel('Magento_Customer_Model_Customer');
         $owner->load($this->_getWishlist()->getCustomerId());
         return $owner;
     }
@@ -58,7 +58,7 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
     {
         return $this->getUrl(
             'wishlist/search/results',
-            array('_query' => array('params' => Mage::getSingleton('Mage_Customer_Model_Session')->getLastWishlistSearchParams()))
+            array('_query' => array('params' => Mage::getSingleton('Magento_Customer_Model_Session')->getLastWishlistSearchParams()))
         );
     }
 }

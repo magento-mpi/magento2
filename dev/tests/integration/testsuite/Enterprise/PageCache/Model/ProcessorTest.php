@@ -17,8 +17,8 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     public static function setUpBeforeClass()
     {
-        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
-        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 
@@ -37,7 +37,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public function testIsAllowedSessionIdGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
+        $_GET[Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
         $this->assertFalse($this->_model->isAllowed());
     }
 
@@ -47,8 +47,9 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public function testIsAllowedUseCacheFlag()
     {
         $this->assertTrue($this->_model->isAllowed());
-        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', false);
         $this->assertFalse($this->_model->isAllowed());
     }

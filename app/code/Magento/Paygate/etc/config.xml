@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Paygate
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <paygate_setup>
+                <setup>
+                    <module>Magento_Paygate</module>
+                </setup>
+            </paygate_setup>
+        </resources>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Paygate>
+                    <files>
+                        <default>Magento_Paygate.csv</default>
+                    </files>
+                </Magento_Paygate>
+            </modules>
+        </translate>
+    </adminhtml>
+    <frontend>
+        <secure_url>
+            <authorizenet_paygate>/paygate/authorizenet_payment</authorizenet_paygate>
+        </secure_url>
+        <translate>
+            <modules>
+                <Magento_Paygate>
+                    <files>
+                        <default>Magento_Paygate.csv</default>
+                    </files>
+                </Magento_Paygate>
+            </modules>
+        </translate>
+        <routers>
+            <paygate>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Paygate</module>
+                    <frontName>paygate</frontName>
+                </args>
+            </paygate>
+        </routers>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Magento_Paygate before="Magento_Adminhtml">Magento_Paygate_Adminhtml</Magento_Paygate>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <payment>
+            <authorizenet>
+                <active>0</active>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <cgi_url>https://secure.authorize.net/gateway/transact.dll</cgi_url>
+                <debug>0</debug>
+                <email_customer>0</email_customer>
+                <login backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <merchant_email />
+                <model>Magento_Paygate_Model_Authorizenet</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <test>1</test>
+                <title>Credit Card (Authorize.net)</title>
+                <trans_key backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <allowspecific>0</allowspecific>
+                <currency>USD</currency>
+                <partial_authorization_checksum_checking>1</partial_authorization_checksum_checking>
+            </authorizenet>
+        </payment>
+    </default>
+</config>

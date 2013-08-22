@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_widget_instance_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="addJs">
+                <file>mage/adminhtml/wysiwyg/widget.js</file>
+            </action>
+            <action method="addJs">
+                <file>prototype/window.js</file>
+            </action>
+            <action method="addCss">
+                <file>prototype/windows/themes/default.css</file>
+            </action>
+            <action method="addCss">
+                <file>Magento_Core::prototype/magento.css</file>
+            </action>
+            <action method="addCss">
+                <file>Magento_Widget::css/styles.css</file>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit" name="widget_instance_edit"/>
+        </reference>
+        <reference name="left">
+            <block type="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tabs" name="widget_instance_edit_tabs">
+                <block type="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings" name="widget_instance_edit_tab_settings"/>
+                <block type="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main" name="widget_instance_edit_tab_main"/>
+                <block type="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties" name="widget_instance_edit_tab_properties"/>
+                <action method="addTab">
+                    <name>settings_section</name>
+                    <block>widget_instance_edit_tab_settings</block>
+                </action>
+                <action method="addTab">
+                    <name>main_section</name>
+                    <block>widget_instance_edit_tab_main</block>
+                </action>
+                <action method="addTab">
+                    <name>properties_section</name>
+                    <block>widget_instance_edit_tab_properties</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="js">
+            <block type="Magento_Adminhtml_Block_Template" template="Magento_Widget::instance/js.phtml" name="widget_instance_js"/>
+        </reference>
+    </adminhtml_widget_instance_edit>
+</layout>

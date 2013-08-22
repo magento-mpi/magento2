@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <block type="Magento_Core_Block_Text" name="block_with_args">
+        <arguments>
+            <one>1</one>
+            <two>2</two>
+        </arguments>
+    </block>
+    <reference name="block_with_args">
+        <arguments>
+            <two>two</two>
+            <three>3</three>
+        </arguments>
+    </reference>
+</layout>

@@ -1,0 +1,49 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if($this->getItems()->getSize()): ?>
+<div class="box-collateral box-related">
+        <div class="box-title">
+            <strong><span><?php echo __('Related Products') ?></span></strong>
+        </div>
+        <p class="note"><?php echo __('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo __('select all') ?></strong></a></p>
+        <?php $i=0; foreach($this->getItems() as $_item): ?>
+        <?php if ($i++%3==0): ?>
+        <ul class="block-content">
+        <?php endif ?>
+            <li class="item<?php if(($i-1)%3==0): ?> first<?php elseif($i%3==0): ?> last<?php endif; ?>">
+                <?php if(!$_item->isComposite() && $_item->isSaleable()): ?>
+                    <?php if (!$_item->getRequiredOptions()): ?>
+                        <input type="checkbox" class="checkbox related-checkbox" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
+                    <?php endif; ?>
+                <?php endif; ?>
+                <div class="item-info">
+                    <a href="<?php echo $_item->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->getSmallImageSidebarUrl($_item) ?>" width="<?php echo $this->getSmallImageSidebarSize()?>" height="<?php echo $this->getSmallImageSidebarSize()?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" /></a>
+                    <div class="product-details">
+                        <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></h3>
+                        <?php echo $this->getPriceHtml($_item, true, '-related') ?>
+                        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+                            <p><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </li>
+        <?php if ($i%3==0 || $i==$this->getItems()->count() ): ?>
+        </ul>
+        <?php endif ?>
+        <?php endforeach ?>
+        <script type="text/javascript">jQuery('.box-related ul.block-content li').decorate('generic', ['odd','even','first','last']);</script>
+        <script>
+            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/related-products.js'); ?>", function() {
+                jQuery(".box-related a[role='select-all']").relatedProducts();
+            });
+        </script>
+</div>
+<?php endif ?>

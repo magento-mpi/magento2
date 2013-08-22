@@ -10,8 +10,8 @@
 require_once __DIR__ . '/../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../..');
 try {
-    $config = new Mage_Core_Model_Config_Primary($rootDir, array());
-    $entryPoint = new Mage_Core_Model_EntryPoint_Cron($config);
+    $config = new Magento_Core_Model_Config_Primary($rootDir, array());
+    $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
 
     Mage::getConfig()->removeCache();
     Mage::getConfig()->reinit();
@@ -37,8 +37,8 @@ try {
  */
 function updateFieldForTable($table, $col)
 {
-    /** @var $installer Mage_Core_Model_Resource_Setup */
-    $installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
+    /** @var $installer Magento_Core_Model_Resource_Setup */
+    $installer = Mage::getResourceModel('Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
     $installer->startSetup();
 
     $table = $installer->getTable($table);

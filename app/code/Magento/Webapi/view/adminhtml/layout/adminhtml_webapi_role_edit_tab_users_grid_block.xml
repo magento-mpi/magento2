@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_webapi_role_edit_tab_users_grid_block>
+        <reference name="webapi.role.edit.tab.users.grid">
+            <arguments>
+                <dataSource>
+                    <updater>Magento_Webapi_Model_Acl_Role_UsersUpdater</updater>
+                </dataSource>
+            </arguments>
+        </reference>
+        <reference name="webapi.role.edit.tab.users.grid.container">
+            <block type="Magento_Backend_Block_Widget_Grid" name="webapi.role.edit.tab.users.grid" as="grid">
+                <arguments>
+                    <id>roleUserGrid</id>
+                    <dataSource type="object">Magento_Webapi_Model_Resource_Acl_User_Collection</dataSource>
+                    <use_ajax>true</use_ajax>
+                    <default_sort>role_user_id</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <grid_url type="url">
+                        <path>*/*/usersgrid</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <action method="setTitle" translate="value">
+                    <value>Role Users Information</value>
+                </action>
+                <action method="setDefaultFilter">
+                    <value>
+                        <in_role_users>1</in_role_users>
+                    </value>
+                </action>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="webapi.role.edit.tab.users.grid.columnSet" as="grid.columnSet">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
+                        <arguments>
+                            <id>in_role_users</id>
+                            <index>in_role_users</index>
+                            <html_name>in_role_users</html_name>
+                            <header_css_class>a-center</header_css_class>
+                            <type>checkbox</type>
+                            <values>
+                                <updater>Magento_Webapi_Model_Acl_Role_InRoleUserUpdater</updater>
+                            </values>
+                            <name>in_role_users</name>
+                            <align>center</align>
+                            <index>user_id</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_user_id">
+                        <arguments>
+                            <id>role_name</id>
+                            <header translate="true">User ID</header>
+                            <width>20</width>
+                            <align>left</align>
+                            <sortable>1</sortable>
+                            <index>user_id</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_user_contactemail">
+                        <arguments>
+                            <id>role_user_contactemail</id>
+                            <header translate="true">Contact Email</header>
+                            <align>left</align>
+                            <index>contact_email</index>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="role_user_apikey">
+                        <arguments>
+                            <id>role_user_apikey</id>
+                            <header translate="true">API Key</header>
+                            <align>left</align>
+                            <index>api_key</index>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_webapi_role_edit_tab_users_grid_block>
+</layout>

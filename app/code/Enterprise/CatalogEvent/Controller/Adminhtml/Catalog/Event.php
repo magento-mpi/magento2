@@ -15,7 +15,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Mage_Adminhtml_Controller_Action
+class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check is enabled module in config
@@ -93,7 +93,7 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Mage_Ad
 
         $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
-        $sessionData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getEventData(true);
+        $sessionData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getEventData(true);
         if (!empty($sessionData)) {
             $event->addData($sessionData);
         }
@@ -150,7 +150,7 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Mage_Ad
 
         $isUploaded = true;
         try {
-            $uploader = new Mage_Core_Model_File_Uploader('image');
+            $uploader = new Magento_Core_Model_File_Uploader('image');
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);

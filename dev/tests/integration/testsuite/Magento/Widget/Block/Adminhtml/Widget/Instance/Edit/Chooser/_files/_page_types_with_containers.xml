@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layouts>
+    <non_page_handle_with_own_containers>
+        <container name="container_one" label="Container One"/>
+    </non_page_handle_with_own_containers>
+
+    <root_page_without_containers type="page">
+        <label>Root Page without Containers</label>
+    </root_page_without_containers>
+    <root_page_without_own_containers type="page">
+        <label>Root Page without Own Containers</label>
+    </root_page_without_own_containers>
+    <root_page_with_own_containers type="page">
+        <label>Root Page with Own Containers</label>
+        <container name="container_two" label="Container Two"/>
+    </root_page_with_own_containers>
+    <root_page_with_imported_containers type="page">
+        <label>Root Page with Imported Containers</label>
+        <update handle="non_page_handle_with_own_containers"/>
+    </root_page_with_imported_containers>
+
+    <child_page_without_containers type="page" parent="root_page_without_own_containers">
+        <label>Child Page without Containers</label>
+    </child_page_without_containers>
+    <child_page_with_own_containers type="page" parent="root_page_without_own_containers">
+        <label>Child Page with Own Containers</label>
+        <container name="container_three" label="Container Three"/>
+    </child_page_with_own_containers>
+    <child_page_with_inherited_containers type="page" parent="root_page_with_own_containers">
+        <label>Child Page with Inherited Containers</label>
+    </child_page_with_inherited_containers>
+    <child_page_with_inherited_imported_containers type="page" parent="root_page_with_imported_containers">
+        <label>Child Page with Inherited Imported Containers</label>
+    </child_page_with_inherited_imported_containers>
+    <catalogsearch_ajax_suggest translate="label" type="fragment" owner="root_page_with_own_containers">
+        <label>Catalog Quick Search Form Suggestions</label>
+    </catalogsearch_ajax_suggest>
+</layouts>

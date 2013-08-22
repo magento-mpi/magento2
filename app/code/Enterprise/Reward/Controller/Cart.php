@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Reward_Controller_Cart extends Mage_Core_Controller_Front_Action
+class Enterprise_Reward_Controller_Cart extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -18,7 +18,7 @@ class Enterprise_Reward_Controller_Cart extends Mage_Core_Controller_Front_Actio
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -34,15 +34,15 @@ class Enterprise_Reward_Controller_Cart extends Mage_Core_Controller_Front_Actio
             return $this->_redirect('customer/account/');
         }
 
-        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
 
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
                 __('You removed the reward points from this order.')
             );
         } else {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                 __('Reward points will not be used in this order.')
             );
         }

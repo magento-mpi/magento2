@@ -59,9 +59,9 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     {
         if ($this->_events === null) {
             $this->_events = array();
-            $categories = $this->helper('Mage_Catalog_Helper_Category')->getStoreCategories('position', true, false);
-            if (($categories instanceof Mage_Eav_Model_Entity_Collection_Abstract) ||
-                ($categories instanceof Mage_Core_Model_Resource_Db_Collection_Abstract)) {
+            $categories = $this->helper('Magento_Catalog_Helper_Category')->getStoreCategories('position', true, false);
+            if (($categories instanceof Magento_Eav_Model_Entity_Collection_Abstract) ||
+                ($categories instanceof Magento_Core_Model_Resource_Db_Collection_Abstract)) {
                 $allIds = $categories->getAllIds();
             } else {
                 $allIds = array();
@@ -103,12 +103,12 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     /**
      * Retreive category url
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Magento_Catalog_Model_Category $category
      * @return string
      */
     public function getCategoryUrl($category)
     {
-        return $this->helper('Mage_Catalog_Helper_Category')->getCategoryUrl($category);
+        return $this->helper('Magento_Catalog_Helper_Category')->getCategoryUrl($category);
     }
 
     /**

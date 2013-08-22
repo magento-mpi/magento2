@@ -152,9 +152,9 @@ class Magento_Application
     {
         $this->_bootstrap();
 
-        /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getModel('Mage_Index_Model_Indexer');
-        /** @var $process Mage_Index_Model_Process */
+        /** @var $indexer Magento_Index_Model_Indexer */
+        $indexer = Mage::getModel('Magento_Index_Model_Indexer');
+        /** @var $process Magento_Index_Model_Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();
@@ -179,13 +179,12 @@ class Magento_Application
      */
     protected function _bootstrap()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
-        if (!$objectManager) {
-            $objectManager = new Mage_Core_Model_ObjectManager(new Mage_Core_Model_Config_Primary(BP, $_SERVER));
-            Magento_Test_Helper_Bootstrap::setObjectManager($objectManager);
+        if (!Mage::getObjectManager()) {
+            new Magento_Core_Model_ObjectManager(new Magento_Core_Model_Config_Primary(BP, $_SERVER));
         }
 
-        $objectManager->get('Mage_Core_Model_App');
+        /** @var $app Magento_Core_Model_App */
+        Mage::getObjectManager()->get('Magento_Core_Model_App');
         return $this;
     }
 

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -25,7 +25,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Helper_File_Storage::getMaxFileSize
+     * @covers Magento_Core_Helper_File_Storage::getMaxFileSize
      * @backupStaticAttributes
      */
     public function testGetMaxFileSize()
@@ -35,7 +35,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Helper_File_Storage::convertSizeToInteger
+     * @covers Magento_Core_Helper_File_Storage::convertSizeToInteger
      * @dataProvider getConvertSizeToIntegerDataProvider
      * @backupStaticAttributes
      * @param string $value

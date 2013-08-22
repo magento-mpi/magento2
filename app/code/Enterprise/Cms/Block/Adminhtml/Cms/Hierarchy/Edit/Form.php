@@ -16,7 +16,7 @@
  * @package    Enterprise_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Currently selected store in store switcher
@@ -33,13 +33,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_nodePreviewStoreId;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -137,7 +137,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => __('Preview is not available.'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesNoOptions = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes
@@ -343,7 +343,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
             'class'     => 'add'
         );
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)->toHtml();
     }
 
@@ -355,19 +355,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getPagePropertiesButtons()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => __('Remove from tree.'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete'
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => __('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'cancel'
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => __('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
@@ -384,7 +384,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getTreeButtonsHtml()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'new_node_button',
             'label'     => __('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
@@ -431,7 +431,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             }
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($nodes);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($nodes);
     }
 
     /**
@@ -527,7 +527,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     /**
      * Get current store view if available, or get any in current scope
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {
@@ -602,7 +602,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             $result[$listType][$type] = $label;
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**

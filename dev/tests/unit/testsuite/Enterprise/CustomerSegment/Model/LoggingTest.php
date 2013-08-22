@@ -16,7 +16,7 @@ class Enterprise_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_Tes
      */
     public function testPostDispatchCustomerSegmentMatch($qty, $customerSegmentId, $expectedText)
     {
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $requestMock->expects($this->atLeastOnce())
             ->method('getParam')
             ->with('id')

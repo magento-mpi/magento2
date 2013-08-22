@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Mage_Adminhtml_Controller_Action
+class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Init layout and add breadcrumbs
@@ -64,7 +64,7 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
     {
         $this->loadLayout();
         $fileName = 'customer_wishlists.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -76,7 +76,7 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
     {
         $this->loadLayout();
         $fileName = 'customer_wishlists.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
  	 	$exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
  	 	$this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -84,11 +84,11 @@ class Enterprise_Wishlist_Controller_Adminhtml_Report_Customer_Wishlist extends 
     /**
      * Retrieve admin session model
      *
-     * @return Mage_Backend_Model_Auth_Session
+     * @return Magento_Backend_Model_Auth_Session
      */
     protected function _getAdminSession()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
     }
 
     /**

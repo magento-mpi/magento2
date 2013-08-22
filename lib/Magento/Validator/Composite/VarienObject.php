@@ -57,7 +57,7 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
      * @param Magento_Object $entity
      * @return bool
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function isValid($entity)
     {

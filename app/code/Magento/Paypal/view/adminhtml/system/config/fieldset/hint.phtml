@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see Magento_Paypal_Block_System_Config_Fieldset_Hint
+ */
+?>
+<?php
+    if ($this->getHelpLink()):
+?>
+<div class="paypal-payment-notice">
+    <?php echo __('Not sure what PayPal payment method to use? Click <a href="%1" target="_blank">here</a> to learn more.', $this->getHelpLink()); ?>
+</div>
+<?php
+    endif;
+?>

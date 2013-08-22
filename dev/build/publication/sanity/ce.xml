@@ -137,5 +137,9 @@
             <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
         </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
+        </item>
     </whitelist>
 </config>

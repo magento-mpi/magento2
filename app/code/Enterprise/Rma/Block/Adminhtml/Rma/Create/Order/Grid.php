@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
 
     /**
@@ -36,8 +36,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Mage_Sales_Model_Resource_Order_Grid_Collection */
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection')
+        /** @var $collection Magento_Sales_Model_Resource_Order_Grid_Collection */
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -46,7 +46,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -103,7 +103,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
             'index' => 'status',
             'type' => 'options',
             'width' => '70px',
-            'options' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses(),
+            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses(),
         ));
 
         return parent::_prepareColumns();

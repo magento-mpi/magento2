@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setTypeId(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
     ->setId(1)
     ->setAttributeSetId(4)
@@ -22,8 +22,8 @@ $product->setTypeId(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYP
     ->setMetaTitle('gift meta title')
     ->setMetaKeyword('gift meta keyword')
     ->setMetaDescription('gift meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setCategoryIds(array(2))
     ->setStockData(
         array(
@@ -35,8 +35,8 @@ $product->setTypeId(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYP
     ->setAllowOpenAmount(1)
     ->save();
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
 $requestInfo = new Magento_Object(array(
@@ -50,4 +50,4 @@ $requestInfo = new Magento_Object(array(
     'giftcard_message'        => 'message'
 ));
 
-require __DIR__ . '/../../../Mage/Checkout/_files/cart.php';
+require __DIR__ . '/../../../Magento/Checkout/_files/cart.php';

@@ -18,7 +18,7 @@
                 <blockName>wishlist_link</blockName>
             </action>
         </reference>
-        <block type="Enterprise_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Mage_Wishlist::sidebar.phtml"/>
+        <block type="Enterprise_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
         <reference name="before_body_end">
             <block type="Enterprise_Wishlist_Block_Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
         </reference>

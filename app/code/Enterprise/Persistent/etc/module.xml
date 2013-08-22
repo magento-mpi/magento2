@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_Persistent" version="1.0.0.0" active="false">
         <depends>
-            <module name="Mage_Persistent" />
+            <module name="Magento_Persistent" />
         </depends>
     </module>
 </config>

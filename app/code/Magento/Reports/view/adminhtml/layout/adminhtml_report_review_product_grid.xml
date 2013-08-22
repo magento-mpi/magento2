@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_review_product_grid>
+        <reference name="adminhtml.report.grid.container">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.report.review.product.grid" as="grid">
+                <arguments>
+                    <id>gridProducts</id>
+                    <default_sort>review_cnt</default_sort>
+                    <default_dir>desc</default_dir>
+                    <dataSource type="object">Magento_Reports_Model_Resource_Review_Product_Collection</dataSource>
+                </arguments>
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.review.product.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportProductCsv</urlPath>
+                                <label translate="true">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportProductExcel</urlPath>
+                                <label translate="true">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.report.review.product.grid.columnSet">
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                        <id>gridProducts</id>
+                        <rowUrl>
+                            <path>*/catalog_product_review</path>
+                            <extraParamsTemplate>
+                                <productId>getrId</productId>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
+                        <arguments>
+                            <header translate="true">ID</header>
+                            <index>entity_id</index>
+                            <type>text</type>
+                            <id>entity_id</id>
+                            <column_css_class>col-id</column_css_class>
+                            <header_css_class>col-id</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true">Product</header>
+                            <type>text</type>
+                            <index>name</index>
+                            <column_css_class>col-product</column_css_class>
+                            <header_css_class>col-product</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="review_cnt">
+                        <arguments>
+                            <header translate="true">Reviews</header>
+                            <id>review_cnt</id>
+                            <index>review_cnt</index>
+                            <column_css_class>col-qty</column_css_class>
+                            <header_css_class>col-qty</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="avg_rating">
+                        <arguments>
+                            <header translate="true">Average</header>
+                            <id>avg_rating</id>
+                            <index>avg_rating</index>
+                            <column_css_class>col-rating</column_css_class>
+                            <header_css_class>col-rating</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="avg_rating_approved">
+                        <arguments>
+                            <header translate="true">Average (Approved)</header>
+                            <id>avg_rating_approved</id>
+                            <index>avg_rating_approved</index>
+                            <column_css_class>col-avg-rating</column_css_class>
+                            <header_css_class>col-avg-rating</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="last_created">
+                        <arguments>
+                            <header translate="true">Last Review</header>
+                            <type>datetime</type>
+                            <id>last_created</id>
+                            <index>last_created</index>
+                            <column_css_class>col-date</column_css_class>
+                            <header_css_class>col-date</header_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                        <arguments>
+                            <header translate="true">Action</header>
+                            <align>center</align>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <renderer>Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Product</renderer>
+                            <id>action</id>
+                            <is_system>1</is_system>
+                            <column_css_class>col-actions</column_css_class>
+                            <header_css_class>col-actions</header_css_class>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_review_product_grid>
+</layout>

@@ -10,10 +10,10 @@
 <layout version="0.1.0">
     <adminhtml_locks_block>
         <reference name="pci.locks.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.locks.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.locks.grid" as="grid">
                 <arguments>
                     <id>lockedAdminsGrid</id>
-                    <dataSource type="object">Mage_User_Model_Resource_User_Locked_Collection</dataSource>
+                    <dataSource type="object">Magento_User_Model_Resource_User_Locked_Collection</dataSource>
                     <default_sort>user_id</default_sort>
                     <use_ajax>1</use_ajax>
                     <grid_url type="url">
@@ -23,7 +23,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.locks.grid.massactions" as="grid.massaction">
+                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.locks.grid.massactions" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>user_id</massaction_id_field>
                         <form_field_name>unlock</form_field_name>
@@ -37,11 +37,11 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet">
                     <arguments>
                         <id>lockedAdminsGrid</id>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="user_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <width>50px</width>
@@ -51,7 +51,7 @@
                             <index>user_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="username">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="username">
                         <arguments>
                             <header translate="true">Username</header>
                             <type>text</type>
@@ -59,7 +59,7 @@
                             <index>username</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="last_login">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="last_login">
                         <arguments>
                             <header translate="true">Last login</header>
                             <type>datetime</type>
@@ -68,7 +68,7 @@
                             <index>logdate</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="failures_num">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="failures_num">
                         <arguments>
                             <header translate="true">Failures</header>
                             <filter>0</filter>
@@ -76,7 +76,7 @@
                             <index>failures_num</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="lock_expires">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="lock_expires">
                         <arguments>
                             <header translate="true">Unlocked</header>
                             <type>datetime</type>

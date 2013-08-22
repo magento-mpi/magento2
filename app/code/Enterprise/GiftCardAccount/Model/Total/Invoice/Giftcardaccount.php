@@ -8,15 +8,15 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Model_Total_Invoice_Giftcardaccount extends Mage_Sales_Model_Order_Invoice_Total_Abstract
+class Enterprise_GiftCardAccount_Model_Total_Invoice_Giftcardaccount extends Magento_Sales_Model_Order_Invoice_Total_Abstract
 {
     /**
      * Collect gift card account totals for invoice
      *
-     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Magento_Sales_Model_Order_Invoice $invoice
      * @return Enterprise_GiftCardAccount_Model_Total_Invoice_Giftcardaccount
      */
-    public function collect(Mage_Sales_Model_Order_Invoice $invoice)
+    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
     {
         $order = $invoice->getOrder();
         if ($order->getBaseGiftCardsAmount() && $order->getBaseGiftCardsInvoiced() != $order->getBaseGiftCardsAmount()) {

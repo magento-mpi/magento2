@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
-    extends Mage_Rule_Model_Resource_Rule_Collection_Abstract
+    extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
 {
     /**
      * Store associated with rule entities information map

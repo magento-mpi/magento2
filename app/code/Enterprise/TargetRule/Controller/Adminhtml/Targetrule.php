@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminhtml_Controller_Action
+class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminhtml_Controller_Action
 {
 
     /**
@@ -75,7 +75,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
 
         $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -155,7 +155,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                     ));
                     return;
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
             } catch (Zend_Date_Exception $e) {
@@ -166,8 +166,8 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                     __('An error occurred while saving Product Rule.')
                 );
 
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -194,18 +194,18 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 $model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')
             ->addError(__("We can't find a page to delete."));
         $this->_redirect('*/*/');
     }
@@ -230,7 +230,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {

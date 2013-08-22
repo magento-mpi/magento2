@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<form action="" id="co-payment-form">
+    <fieldset>
+        <?php echo $this->getChildChildHtml('methods_additional') ?>
+        <?php echo $this->getChildHtml('methods') ?>
+    </fieldset>
+</form>
+<?php echo $this->getChildChildHtml('additional') ?>
+<div class="buttons-set" id="payment-buttons-container">
+    <p class="back-link"><a href="#"><small>&laquo; </small><?php echo __('Back') ?></a></p>
+    <button type="button" class="button"><span><span><?php echo __('Continue') ?></span></span></button>
+    <span id="payment-please-wait" class="please-wait" style="display:none">
+        <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo __('Loading next step...') ?>
+    </span>
+</div>
+<p class="required"><?php echo __('* Required Fields') ?></p>

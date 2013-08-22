@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_oauth_authorizedtokens_index>
+        <reference name="content">
+            <block type="Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens" name="oauth_authorizedTokens"/>
+        </reference>
+    </adminhtml_oauth_authorizedtokens_index>
+</layout>

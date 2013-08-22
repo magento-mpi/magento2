@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <paypal_payflow_cancelpayment translate="label" type="fragment" owner="checkout_onepage_index">
+        <label>Paypal Payflow Cancel Payment</label>
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block type="Magento_Paypal_Block_Payflow_Link_Iframe" name="payflow.link.iframe" template="payflowlink/redirect.phtml"/>
+        </block>
+    </paypal_payflow_cancelpayment>
+</layout>

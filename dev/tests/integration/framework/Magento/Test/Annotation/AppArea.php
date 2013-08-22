@@ -20,9 +20,9 @@ class Magento_Test_Annotation_AppArea
      * @var array
      */
     private $_allowedAreas = array(
-        Mage_Core_Model_App_Area::AREA_GLOBAL,
-        Mage_Core_Model_App_Area::AREA_ADMINHTML,
-        Mage_Core_Model_App_Area::AREA_FRONTEND,
+        Magento_Core_Model_App_Area::AREA_GLOBAL,
+        Magento_Core_Model_App_Area::AREA_ADMINHTML,
+        Magento_Core_Model_App_Area::AREA_FRONTEND,
         'install',
         'webapi',
         'cron',

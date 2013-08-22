@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_onepage_progress translate="label" type="fragment" owner="checkout_onepage_index">
+        <label>One Page Checkout Progress</label>
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block type="Magento_Checkout_Block_Onepage_Progress" name="progress" template="onepage/progress.phtml">
+                <block type="Magento_Checkout_Block_Onepage_Payment_Info" name="payment_info">
+                    <action method="setInfoTemplate">
+                        <method/>
+                        <template/>
+                    </action>
+                </block>
+            </block>
+        </block>
+    </checkout_onepage_progress>
+</layout>

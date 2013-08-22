@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var $this Magento_DesignEditor_Block_Adminhtml_Theme */?>
+
+<li class="theme" id="theme-id-<?php echo $this->getTheme()->getId() ?>">
+    <div class="theme-content">
+        <img class="theme-preview-image" src="<?php echo $this->getTheme()->getThemeImage()->getPreviewImageUrl() ?>" alt="<?php echo $this->getTheme()->getThemeTitle() ?>" />
+        <article class="theme-data">
+            <h4 class="theme-title" title="<?php echo $this->getTheme()->getThemeTitle() ?>"><?php echo $this->getTheme()->getThemeTitle() ?></h4>
+            <div class="actions">
+                <?php echo $this->getButtonsHtml() ?>
+            </div>
+        </article>
+    </div>
+</li>

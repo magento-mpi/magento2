@@ -12,15 +12,15 @@
  * Customer abstract model
  *
  */
-abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_Abstract
+abstract class Enterprise_Customer_Model_Sales_Abstract extends Magento_Core_Model_Abstract
 {
     /**
      * Save new attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function saveNewAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function saveNewAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $this->_getResource()->saveNewAttribute($attribute);
         return $this;
@@ -29,10 +29,10 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_
     /**
      * Delete attribute
      *
-     * @param Mage_Customer_Model_Attribute $attribute
+     * @param Magento_Customer_Model_Attribute $attribute
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function deleteAttribute(Mage_Customer_Model_Attribute $attribute)
+    public function deleteAttribute(Magento_Customer_Model_Attribute $attribute)
     {
         $this->_getResource()->deleteAttribute($attribute);
         return $this;
@@ -41,10 +41,10 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_
     /**
      * Attach extended data to sales object
      *
-     * @param Mage_Core_Model_Abstract $sales
+     * @param Magento_Core_Model_Abstract $sales
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function attachAttributeData(Mage_Core_Model_Abstract $sales)
+    public function attachAttributeData(Magento_Core_Model_Abstract $sales)
     {
         $sales->addData($this->getData());
         return $this;
@@ -53,10 +53,10 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_
     /**
      * Save extended attributes data
      *
-     * @param Mage_Core_Model_Abstract $sales
+     * @param Magento_Core_Model_Abstract $sales
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function saveAttributeData(Mage_Core_Model_Abstract $sales)
+    public function saveAttributeData(Magento_Core_Model_Abstract $sales)
     {
         $this->addData($sales->getData())
             ->setId($sales->getId())

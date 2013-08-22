@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_review_customer>
+        <update handle="adminhtml_report_review_customer_grid"/>
+        <reference name="content">
+            <block name="adminhtml.report.grid.container" type="Magento_Adminhtml_Block_Report_Review_Customer"/>
+        </reference>
+    </adminhtml_report_review_customer>
+</layout>

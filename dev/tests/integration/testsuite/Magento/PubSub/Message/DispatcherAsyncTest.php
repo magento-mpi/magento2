@@ -24,15 +24,14 @@ class Magento_PubSub_Message_DispatcherAsyncTests extends PHPUnit_Framework_Test
      */
     public function setUp()
     {
-        /** @var Mage_Webhook_Model_Resource_Event_Collection $eventCollection */
+        /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
         $eventCollection = Magento_Test_Helper_Bootstrap::getObjectManager()
-            ->create('Mage_Webhook_Model_Resource_Event_Collection')
-            ->addFieldToFilter('status', Magento_PubSub_EventInterface::READY_TO_SEND);
+            ->create('Magento_Webhook_Model_Resource_Event_Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
-        /** @var Mage_Webhook_Model_Event $event */
+        /** @var Magento_Webhook_Model_Event $event */
         foreach ($events as $event) {
-            $event->markAsProcessed();
+            $event->complete();
             $event->save();
         }
 

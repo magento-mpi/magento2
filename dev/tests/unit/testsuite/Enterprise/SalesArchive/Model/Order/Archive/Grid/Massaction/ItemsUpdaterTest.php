@@ -96,9 +96,9 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTe
     protected function _getAclResourceMap($isAllowed)
     {
         return array(
-            array('Mage_Sales::cancel', null, $isAllowed),
-            array('Mage_Sales::hold', null, $isAllowed),
-            array('Mage_Sales::unhold', null, $isAllowed),
+            array('Magento_Sales::cancel', null, $isAllowed),
+            array('Magento_Sales::hold', null, $isAllowed),
+            array('Magento_Sales::unhold', null, $isAllowed),
             array('Enterprise_SalesArchive::remove', null, $isAllowed),
         );
     }

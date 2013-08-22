@@ -22,7 +22,7 @@ class Enterprise_PageCache_Model_Container_Customer extends Enterprise_PageCache
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
-        $lifetime = Mage::getConfig()->getNode(Mage_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME);
+        $lifetime = Mage::getConfig()->getNode(Magento_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME);
         return parent::_saveCache($data, $id, $tags, $lifetime);
     }
 }

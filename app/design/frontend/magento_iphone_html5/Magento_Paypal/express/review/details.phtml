@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @see Magento_Paypal_Block_Express_Review_Details
+ */
+?>
+<table id="details-table" class="data-table">
+    <thead>
+        <tr>
+            <th><?php echo __('Product Name') ?></th>
+            <th><?php echo __('Subtotal') ?></th>
+        </tr>
+    </thead>
+<?php echo $this->getChildHtml('totals'); ?>
+    <tbody>
+        <?php foreach($this->getItems() as $_item): ?>
+            <?php echo $this->getItemHtml($_item) ?>
+        <?php endforeach ?>
+    </tbody>
+</table>

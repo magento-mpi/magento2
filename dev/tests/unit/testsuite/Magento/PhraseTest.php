@@ -21,6 +21,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->_removeRendererFromPhrase();
+        Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
     }
 
     public function testRendering()

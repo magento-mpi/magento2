@@ -1,0 +1,20 @@
+<layout>
+   <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
+      <block name="head" type="Magento_Page_Block_Html_Head">
+         <action method="safeMethod">
+            <arg>1</arg>
+         </action>
+      </block>
+      <block name="custom.safe" type="Namespace_Module_Block_Safe"/>
+      <container name="content">
+         <block name="custom.not_safe" type="Magento_Core_Block_Template" template="Magento_DesignEditor::stub.phtml">%A</block>
+         <block type="Magento_Page_Block_Safe"/>
+      </container>
+   </block>
+   <reference name="head">
+      <action method="safeMethod">
+         <arg>1</arg>
+      </action>
+   </reference>
+   <reference name="custom.not_safe">%A</reference>
+</layout>

@@ -18,12 +18,12 @@ class Enterprise_Reward_Model_Resource_Reward_History_Grid_Collection
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Enterprise_Reward_Helper_Data $helper
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Enterprise_Reward_Helper_Data $helper,
-        Mage_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_helper = $helper;
         parent::__construct($fetchStrategy, $resource);

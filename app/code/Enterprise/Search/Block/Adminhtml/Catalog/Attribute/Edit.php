@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Mage_Adminhtml_Block_Template
+class Enterprise_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Magento_Adminhtml_Block_Template
 {
     /**
      * Return true if third part search engine used

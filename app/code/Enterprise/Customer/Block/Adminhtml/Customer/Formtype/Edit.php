@@ -15,12 +15,12 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Retrieve current form type instance
      *
-     * @return Mage_Eav_Model_Form_Type
+     * @return Magento_Eav_Model_Form_Type
      */
     protected function _getFormType()
     {

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_SalesRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="promo" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>Promotions</label>
+            <tab>customer</tab>
+            <resource>Magento_SalesRule::config_promo</resource>
+            <group id="auto_generated_coupon_codes" translate="label" showInDefault="1" sortOrder="10">
+                <label>Auto Generated Specific Coupon Codes</label>
+                <field id="length" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Code Length</label>
+                    <comment>Excluding prefix, suffix and separators.</comment>
+                    <frontend_class>validate-digits</frontend_class>
+                </field>
+                <field id="format" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Code Format</label>
+                    <source_model>Magento_SalesRule_Model_System_Config_Source_Coupon_Format</source_model>
+                </field>
+                <field id="prefix" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Code Prefix</label>
+                </field>
+                <field id="suffix" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Code Suffix</label>
+                </field>
+                <field id="dash" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Dash Every X Characters</label>
+                    <comment>If empty no separation.</comment>
+                    <frontend_class>validate-digits</frontend_class>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

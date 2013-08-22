@@ -25,7 +25,7 @@
                 <?php if ($_item->getCanApplyMsrp()): ?>
                     <?php echo $this->getMsrpHtml($_item); ?>
                 <?php else: ?>
-                    <?php echo $this->helper('Mage_Core_Helper_Data')->currency($_item->getGiftRegistryPrice()) ?>
+                    <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_item->getGiftRegistryPrice()) ?>
                 <?php endif; ?>
             </span>
         </div>

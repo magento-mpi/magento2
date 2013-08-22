@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftCardAccount_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency
-extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
+extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
 {
     protected static $_websiteBaseCurrencyCodes = array();
 

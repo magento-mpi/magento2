@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adminhtml_Block_Template
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Magento_Adminhtml_Block_Template
 {
     /**
      * Unique Hash Id
@@ -53,7 +53,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
     public function getAllStoreViews()
     {
         if (empty($this->_allStoreViews)) {
-            $storeValues = Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true);
+            $storeValues = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true);
             foreach ($storeValues as $view) {
                 if (is_array($view['value']) && empty($view['value'])) {
                     continue;
@@ -82,7 +82,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
         $storeViews[] = current($allStoreViews);
         unset($allStoreViews);
 
-        $storeValues = Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreCollection();
+        $storeValues = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreCollection();
 
         foreach ($storeValues as $store) {
             $storeViews[] = array(

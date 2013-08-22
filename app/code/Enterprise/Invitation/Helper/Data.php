@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
 {
     protected $_isRegistrationAllowed = null;
 
@@ -37,9 +37,9 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationUrl($invitation)
     {
-        return Mage::getModel('Mage_Core_Model_Url')->setStore($invitation->getStoreId())
+        return Mage::getModel('Magento_Core_Model_Url')->setStore($invitation->getStoreId())
             ->getUrl('enterprise_invitation/customer_account/create', array(
-                'invitation' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($invitation->getInvitationCode()),
+                'invitation' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,
                 '_nosid' => true
             ));
@@ -74,7 +74,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = Mage::helper('Mage_Customer_Helper_Data')->isRegistrationAllowed();
+            $result = Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }

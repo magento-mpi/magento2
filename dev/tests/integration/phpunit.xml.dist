@@ -27,12 +27,12 @@
     <filter>
         <whitelist>
             <!-- All CE modules -->
-            <directory suffix=".php">../../../app/code/Mage</directory>
+            <directory suffix=".php">../../../app/code/Magento</directory>
             <exclude>
                 <!-- Excluding installation and upgrade scripts -->
-                <directory>../../../app/code/Mage/*/sql</directory>
+                <directory>../../../app/code/Magento/*/sql</directory>
                 <!-- Excluding data installation and upgrade scripts -->
-                <directory>../../../app/code/Mage/*/data</directory>
+                <directory>../../../app/code/Magento/*/data</directory>
             </exclude>
         </whitelist>
     </filter>

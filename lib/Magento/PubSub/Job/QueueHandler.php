@@ -14,7 +14,12 @@ class Magento_PubSub_Job_QueueHandler
     /**
      * @var Magento_PubSub_Job_QueueReaderInterface
      */
-    protected $_jobQueue;
+    protected $_jobQueueReader;
+
+    /**
+     * @var Magento_PubSub_Job_QueueWriterInterface
+     */
+    protected $_jobQueueWriter;
 
     /**
      * @var Magento_Outbound_TransportInterface
@@ -27,16 +32,19 @@ class Magento_PubSub_Job_QueueHandler
     protected $_messageFactory;
 
     /**
-     * @param Magento_PubSub_Job_QueueReaderInterface $jobQueue
+     * @param Magento_PubSub_Job_QueueReaderInterface $jobQueueReader
+     * @param Magento_PubSub_Job_QueueWriterInterface $jobQueueWriter
      * @param Magento_Outbound_TransportInterface $transport
      * @param Magento_Outbound_Message_FactoryInterface $messageFactory
      */
     public function __construct(
-        Magento_PubSub_Job_QueueReaderInterface $jobQueue,
+        Magento_PubSub_Job_QueueReaderInterface $jobQueueReader,
+        Magento_PubSub_Job_QueueWriterInterface $jobQueueWriter,
         Magento_Outbound_TransportInterface $transport,
         Magento_Outbound_Message_FactoryInterface $messageFactory
     ) {
-        $this->_jobQueue = $jobQueue;
+        $this->_jobQueueReader = $jobQueueReader;
+        $this->_jobQueueWriter = $jobQueueWriter;
         $this->_transport = $transport;
         $this->_messageFactory = $messageFactory;
     }
@@ -47,12 +55,19 @@ class Magento_PubSub_Job_QueueHandler
      */
     public function handle()
     {
-        $job = $this->_jobQueue->poll();
+        $job = $this->_jobQueueReader->poll();
         while (!is_null($job)) {
-            $message = $this->_messageFactory->create($job->getSubscription(), $job->getEvent());
+            $event = $job->getEvent();
+            $message = $this->_messageFactory->create($job->getSubscription()->getEndpoint(),
+                $event->getTopic(), $event->getBodyData());
             $response = $this->_transport->dispatch($message);
-            $job->handleResponse($response);
-            $job = $this->_jobQueue->poll();
+            if ($response->isSuccessful()) {
+                $job->complete();
+            } else {
+                $job->handleFailure();
+                $this->_jobQueueWriter->offer($job);
+            }
+            $job = $this->_jobQueueReader->poll();
         }
     }
 }

@@ -13,7 +13,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>Enterprise_GiftCard_Block_Sales_Order_Item_Renderer_Noquote</block>
-                <template>Mage_Sales::order/creditmemo/items/renderer/default.phtml</template>
+                <template>Magento_Sales::order/creditmemo/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_printcreditmemo>

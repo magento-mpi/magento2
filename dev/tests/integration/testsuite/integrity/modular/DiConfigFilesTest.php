@@ -27,18 +27,18 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
 
     protected function _prepareFiles()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         //init primary configs
-        /** @var $dir Mage_Core_Model_Dir */
-        $dir = $objectManager->get('Mage_Core_Model_Dir');
+        /** @var $dir Magento_Core_Model_Dir */
+        $dir = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
 
-        $configPath = $dir->getDir(Mage_Core_Model_Dir::APP) . DS . 'etc' . DS . '*' . DS;
+        $configPath = $dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'etc' . DS . '*' . DS;
         self::$_primaryFiles = glob($configPath . DS. 'di.xml');
-        array_unshift(self::$_primaryFiles, $dir->getDir(Mage_Core_Model_Dir::APP) . DS . 'etc' . DS . 'di.xml');
+        array_unshift(self::$_primaryFiles, $dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'etc' . DS . 'di.xml');
 
         //init module global configs
-        /** @var $modulesReader Mage_Core_Model_Config_Modules_Reader */
-        $modulesReader = $objectManager->get('Mage_Core_Model_Config_Modules_Reader');
+        /** @var $modulesReader Magento_Core_Model_Config_Modules_Reader */
+        $modulesReader = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config_Modules_Reader');
         self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs

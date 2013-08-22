@@ -19,9 +19,9 @@ class Magento_Test_Helper_Eav
     {
         $website = Mage::app()->getWebsite();
         $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($entityType);
-        /** @var Mage_Eav_Model_Entity_Store $entityStore */
-        $entityStore = Mage::getModel('Mage_Eav_Model_Entity_Store')->loadByEntityStore(
+        $entityTypeModel = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode($entityType);
+        /** @var Magento_Eav_Model_Entity_Store $entityStore */
+        $entityStore = Mage::getModel('Magento_Eav_Model_Entity_Store')->loadByEntityStore(
             $entityTypeModel->getId(),
             $storeId
         );

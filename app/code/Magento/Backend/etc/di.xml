@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Core_Model_Config_Storage_WriterInterface" type="Magento_Core_Model_Config_Storage_Writer_Db" />
+    <type name="Magento_Backend_Controller_Context">
+        <param name="translator">
+            <instance type="Magento_Core_Model_Translate_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Backend_Controller_Router_Default">
+        <param name="controllerFactory">
+            <instance type="Magento_Backend_Controller_Factory" />
+        </param>
+    </type>
+    <type name="Magento_Backend_Controller_Adminhtml_System_Config_Save">
+        <param name="cache">
+            <instance type="Magento_Core_Model_Cache_Type_Layout" />
+        </param>
+    </type>
+    <type name="Magento_Backend_Model_Menu_Config">
+        <param name="menuDirector"><instance type="Magento_Backend_Model_Menu_Director_Director"/></param>
+    </type>
+</config>

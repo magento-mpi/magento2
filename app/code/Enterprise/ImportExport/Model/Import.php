@@ -15,7 +15,7 @@
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Import
+class Enterprise_ImportExport_Model_Import extends Magento_ImportExport_Model_Import
     implements Enterprise_ImportExport_Model_Scheduled_Operation_Interface
 {
     /**
@@ -31,7 +31,7 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
 
         $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
         foreach ($indexers as $indexer) {
-            $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode($indexer);
+            $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode($indexer);
             if ($indexProcess) {
                 $indexProcess->reindexEverything();
             }
@@ -51,7 +51,7 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
         $sourceFile = $operation->getFileSource($this);
         $result = false;
         if ($sourceFile) {
-            $result = $this->validateSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile));
+            $result = $this->validateSource(Magento_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile));
         }
         $isAllowedForcedImport = $operation->getForceImport()
             && $this->getProcessedRowsCount() != $this->getInvalidRowsCount();
