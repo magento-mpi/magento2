@@ -126,7 +126,7 @@ class Mage_Widget_Model_Widget_Mapper
         $container['container_name'] = $containerXml['@']['name'];
         $container['template'] = array();
         foreach ($containerXml['template'] as $templateXml) {
-            $container['template'][$templateXml['@']['name']] = $templateXml['@']['value']);
+            $container['template'][$templateXml['@']['name']] = $templateXml['@']['value'];
         }
         return $container;
     }
