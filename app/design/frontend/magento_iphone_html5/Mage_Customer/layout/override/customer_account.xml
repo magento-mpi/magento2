@@ -15,37 +15,34 @@
                 <template>1column.phtml</template>
             </action>
         </reference>
-        <reference name="top.links">
-            <block type="Mage_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
-                <action method="setPosition">
-                    <value>20</value>
-                </action>
-                <action method="addLink" translate="label" module="Mage_Customer">
-                    <name>account</name>
-                    <path>customer/account/</path>
-                    <label>Account Dashboard</label>
-                </action>
-                <action method="addLink" translate="label" module="Mage_Customer">
-                    <name>account_edit</name>
-                    <path>customer/account/edit/</path>
-                    <label>Account Information</label>
-                </action>
-                <action method="addLink" translate="label" module="Mage_Customer">
-                    <name>address_book</name>
-                    <path>customer/address/</path>
-                    <label>Address Book</label>
-                </action>
-            </block>
-            <action method="addLinkBlock">
-                <blockName>customer_account_navigation</blockName>
-            </action>
-        </reference>
         <reference name="content">
             <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>
         <reference name="left">
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-            <remove name="tags_popular"/>
         </reference>
+        <reference name="top.links">
+            <block type="Mage_Page_Block_Links" name="customer-account-navigation" before="-" template="Mage_Customer::account/navigation.phtml">
+                <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-account-link">
+                    <arguments translate="label">
+                        <label>Account Dashboard</label>
+                        <path>customer/account</path>
+                    </arguments>
+                </block>
+                <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-account-edit-link">
+                    <arguments translate="label">
+                        <label>Account Information</label>
+                        <path>customer/account/edit</path>
+                    </arguments>
+                </block>
+                <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-address-link">
+                    <arguments translate="label">
+                        <label>Address Book</label>
+                        <path>customer/address</path>
+                    </arguments>
+                </block>
+            </block>
+        </reference>
+        <remove name="tags_popular"/>
     </customer_account>
 </layout>

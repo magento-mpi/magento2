@@ -13,7 +13,6 @@
             <block type="Mage_Page_Block_Link_Current" ifconfig="wishlist/general/active"
                    name="customer-account-navigation-wish-list-link">
                 <arguments translate="label">
-                    <name>wishlist</name>
                     <path>wishlist</path>
                     <label>My Wish List</label>
                 </arguments>

@@ -13,26 +13,7 @@
     </div>
     <div class="block-content">
         <ul>
-            <?php $_links = $this->getLinks(); ?>
-            <?php $_index = 1; ?>
-            <?php $_count = count($_links); ?>
-            <?php foreach ($_links as $_link): ?>
-                <?php $_last = ($_index++ >= $_count); ?>
-                <?php if ($this->isActive($_link)): ?>
-                    <li class="current<?php echo ($_last ? ' last' : '') ?>"><strong><?php echo $_link->getLabel() ?></strong></li>
-                <?php else: ?>
-                    <li<?php echo ($_last ? ' class="last"' : '') ?>><a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a></li>
-                <?php endif; ?>
-            <?php endforeach; ?>
+            <?php echo $this->getChildHtml();?>
         </ul>
-
-        <?php echo $this->getChildHtml();?>
-<!--        --><?php //if ($links = $this->getLinks()):?>
-<!--        <ul>-->
-<!--            --><?php //foreach ($links as $link):?>
-<!--                --><?php //echo $this->renderLink($link)?>
-<!--            --><?php //endforeach;?>
-<!--        </ul>-->
-<!--        --><?php //endif;?>
     </div>
 </div>

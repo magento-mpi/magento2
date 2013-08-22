@@ -10,24 +10,18 @@
 <layout version="0.1.0">
     <default>
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="Mage_Customer">
-                <label>My Account</label>
-                <url helper="Mage_Customer_Helper_Data::getAccountUrl"/>
-                <title>My Account</title>
-                <prepare/>
-                <urlParams/>
-                <position>10</position>
-            </action>
+            <block type="Mage_Customer_Block_Account_Link" name="my-account-link">
+                <arguments translate="label">
+                    <label>My Account</label>
+                </arguments>
+            </block>
         </reference>
         <reference name="account.links">
-            <action method="addLink" translate="label title before_text" module="Mage_Customer">
-                <label>Register</label>
-                <url helper="Mage_Customer_Helper_Data::getRegisterUrl"/>
-                <title>Register</title>
-                <prepare/>
-                <urlParams/>
-                <position>100</position>
-            </action>
+            <block type="Mage_Customer_Block_Account_Register" name="register">
+                <arguments translate="label">
+                    <label>Register</label>
+                </arguments>
+            </block>
         </reference>
     </default>
 </layout>

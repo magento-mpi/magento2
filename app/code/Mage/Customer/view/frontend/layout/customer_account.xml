@@ -19,33 +19,29 @@
             <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>
         <reference name="left">
-            <block type="Mage_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
-                <block type="Mage_Page_Block_Links" name="customer-account-navigation" before="-"
-                       ttemplate="Mage_Customer::account/navigation.phtml">
-                    <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-account-link">
-                        <arguments translate="label">
-                            <label>Account Dashboard</label>
-                            <path>customer/account</path>
-                        </arguments>
-                    </block>
-                    <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-account-edit-link">
-                        <arguments translate="label">
-                            <label>Account Information</label>
-                            <path>customer/account/edit</path>
-                        </arguments>
-                    </block>
-                    <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-address-link">
-                        <arguments translate="label">
-                            <label>Address Book</label>
-                            <path>customer/address</path>
-                        </arguments>
-                    </block>
+            <block type="Mage_Page_Block_Links" name="customer-account-navigation" before="-" template="Mage_Customer::account/navigation.phtml">
+                <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-account-link">
+                    <arguments translate="label">
+                        <label>Account Dashboard</label>
+                        <path>customer/account</path>
+                    </arguments>
+                </block>
+                <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-account-edit-link">
+                    <arguments translate="label">
+                        <label>Account Information</label>
+                        <path>customer/account/edit</path>
+                    </arguments>
+                </block>
+                <block type="Mage_Page_Block_Link_Current" name="customer-account-navigation-address-link">
+                    <arguments translate="label">
+                        <label>Address Book</label>
+                        <path>customer/address</path>
+                    </arguments>
                 </block>
             </block>
-
-            <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-            <remove name="tags_popular"/>
         </reference>
+        <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>
+        <remove name="tags_popular"/>
     </customer_account>
 </layout>

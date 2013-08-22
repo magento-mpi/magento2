@@ -541,7 +541,6 @@ return array(
     array('removeItem', 'Mage_Page_Block_Html_Head'),
     array('removeCustomerFromSegments'),
     array('removeHandle', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
-    array('removeLinkBlock', 'Mage_Page_Block_Template_Links'),
     array('removeParentCartLink', 'Mage_Checkout_Block_Links'),
     array('renderView', '', 'Mage_Core_Block_Template::_toHtml()'),
     array('revalidateCookie', 'Mage_Core_Model_Session_Abstract_Varien'),
