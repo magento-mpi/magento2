@@ -198,6 +198,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
@@ -220,6 +222,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
@@ -247,6 +251,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
@@ -277,6 +283,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseLayoutHandle($currentModule, $fileType, $file, &$contents)
     {
@@ -308,6 +316,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseLayoutHandleParent($currentModule, $fileType, $file, &$contents)
     {
@@ -339,6 +349,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseLayoutHandleUpdate($currentModule, $fileType, $file, &$contents)
     {
@@ -370,6 +382,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseLayoutReference($currentModule, $fileType, $file, &$contents)
     {

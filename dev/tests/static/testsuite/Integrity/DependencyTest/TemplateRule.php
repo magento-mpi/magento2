@@ -180,6 +180,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
@@ -203,6 +205,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
@@ -224,6 +228,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
@@ -245,6 +251,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
@@ -266,6 +274,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
@@ -287,6 +297,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseGetUrl($currentModule, $fileType, $file, &$contents)
     {
@@ -319,6 +331,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * @param $file
      * @param $contents
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _caseLayoutBlock($currentModule, $fileType, $file, &$contents)
     {
