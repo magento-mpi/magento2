@@ -54,6 +54,11 @@ class Mage_Core_Model_RouterList
         return $this->_activeRouters;
     }
 
+    /**
+     * Load active routers
+     *
+     * @return array
+     */
     protected function _loadRouters()
     {
         foreach ($this->_getSortedRouterList() as $routerCode => $routerData) {
