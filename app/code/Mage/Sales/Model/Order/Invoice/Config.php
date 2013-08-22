@@ -25,12 +25,13 @@ class Mage_Sales_Model_Order_Invoice_Config extends Mage_Sales_Model_Order_Total
     protected $_collectorsCacheKey = 'sorted_order_invoice_collectors';
 
     /**
-     * Constructor
-     *
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType)
-    {
-        parent::__construct($configCacheType, Mage::getConfig()->getNode('global/sales/order_invoice'));
+    public function __construct(
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_Config $config
+    ) {
+        parent::__construct($configCacheType, $config->getNode('global/sales/order_invoice'));
     }
 }

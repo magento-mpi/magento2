@@ -233,17 +233,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Returns nodes found by xpath expression
-     *
-     * @param string $xpath
-     * @return array
-     */
-    public function getXpath($xpath)
-    {
-        return $this->_config->getXpath($xpath);
-    }
-
-    /**
      * Returns node found by the $path and scope info
      *
      * @param   string $path
