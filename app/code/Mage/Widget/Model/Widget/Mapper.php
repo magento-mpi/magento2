@@ -167,7 +167,7 @@ class Mage_Widget_Model_Widget_Mapper
         if (isset($optionXml['@']['translate'])) {
             $option['@']['translate'] = $optionXml['@']['translate'];
         }
-        $option['value'] = array($optionXml['@']['value']);
+        $option['value'] = $optionXml['@']['value'];
         if (isset($optionXml['label'])) {
             $option['label'] = $optionXml['label'][0];
         }

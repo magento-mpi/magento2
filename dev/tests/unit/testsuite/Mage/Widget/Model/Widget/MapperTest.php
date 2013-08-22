@@ -75,6 +75,76 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                             'label' => array('Anchor Custom Text'),
                             'description' => array('If empty, the Page Title will be used'),
                         ),
+                        array(
+                            '@' => array(
+                                'name'      => 'template',
+                                'type'      => 'select',
+                                'translate' => 'label',
+                                'visible'   => 'true',
+                            ),
+                            'label' => array('Template'),
+                            'option' => array(
+                                array(
+                                    '@' => array(
+                                        'name'      => 'default',
+                                        'value'     => 'product/widget/link/link_block.phtml',
+                                        'selected'  => 'true',
+                                        'translate' => 'label',
+                                    ),
+                                    'label' => array('Product Link Block Template'),
+                                ),
+                                array(
+                                    '@' => array(
+                                        'name'      => 'link_inline',
+                                        'value'     => 'product/widget/link/link_inline.phtml',
+                                        'translate' => 'label',
+                                    ),
+                                    'label' => array('Product Link Inline Template'),
+                                ),
+                            )
+                        ),
+                    ),
+                    'container' => array(
+                        array(
+                            '@' => array(
+                                'section' => 'left_column',
+                                'name'    => 'left',
+                            ),
+                            'template' => array(
+                                array(
+                                    '@' => array(
+                                        'name' => 'default',
+                                        'value' => 'list_default',
+                                    )
+                                ),
+                                array(
+                                    '@' => array(
+                                        'name' => 'names_only',
+                                        'value' => 'list_names',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            '@' => array(
+                                'section' => 'main_content',
+                                'name'    => 'content',
+                            ),
+                            'template' => array(
+                                array(
+                                    '@' => array(
+                                        'name' => 'grid',
+                                        'value' => 'default',
+                                    )
+                                ),
+                                array(
+                                    '@' => array(
+                                        'name' => 'list',
+                                        'value' => 'list',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
 
@@ -85,8 +155,8 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
             'cms_page_link' => array(
                 '@' => array(
                     'type'      => 'Mage_Cms_Block_Widget_Page_Link',
-                    'translate' => 'name description', // TODO do we need to bother validating name vs label here?
                     'module'    => 'Mage_Cms',
+                    'translate' => 'name description', // TODO do we need to bother validating name vs label here?
                 ),
                 'name' => 'CMS Page Link',
                 'description' => 'Link to a CMS Page',
@@ -124,7 +194,48 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         'label' => 'Anchor Custom Text',
                         'description' => 'If empty, the Page Title will be used',
                     ),
+                    'template' => array(
+                        '@' => array(
+                            'translate' => 'label',
+                        ),
+                        'type' => 'select',
+                        'visible' => 'true',
+                        'label' => 'Template',
+                        'values' => array(
+                            'default' => array(
+                                '@' => array(
+                                    'translate' => 'label',
+                                ),
+                                'value' => 'product/widget/link/link_block.phtml',
+                                'label' => 'Product Link Block Template',
+                            ),
+                            'link_inline' => array(
+                                '@' => array(
+                                    'translate' => 'label',
+                                ),
+                                'value' => 'product/widget/link/link_inline.phtml',
+                                'label' => 'Product Link Inline Template',
+                            )
+                        ),
+                        'value' => 'product/widget/link/link_block.phtml',
+                    ),
                 ),
+                'supported_containers' => array(
+                    'left_column' => array(
+                        'container_name' => 'left',
+                        'template' => array(
+                            'default' => 'list_default',
+                            'names_only' => 'list_names',
+                        ),
+                    ),
+                    'main_content' => array(
+                        'container_name' => 'content',
+                        'template' => array(
+                            'grid' => 'default',
+                            'list' => 'list',
+                        ),
+                    )
+                )
             ),
         );
 
