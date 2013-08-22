@@ -11,7 +11,7 @@
 /**
  * Block form after
  */
-class Enterprise_ImportExport_Block_Adminhtml_Form_After extends Mage_Backend_Block_Template
+class Mage_ImportExport_Block_Adminhtml_Form_After extends Mage_Backend_Block_Template
 {
     /**
      * @var Mage_Core_Model_Registry
