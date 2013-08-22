@@ -41,14 +41,14 @@ class Mage_Widget_Model_Widget_Mapper
         $widget = array('@' => array());
         $widget['@']['type'] = $widgetXml['@']['class'];
         $widget['@']['module'] = $widgetXml['@']['module'];
-        $widget['name'] = $widgetXml['label'];
-        $widget['description'] = $widgetXml['description'];
+        $widget['name'] = $widgetXml['label'][0];
+        $widget['description'] = $widgetXml['description'][0];
         $widget['is_email_compatible'] = $widgetXml['@']['is_email_compatible'];
         if (isset($widgetXml['@']['placeholder_image'])) {
             $widget['placeholder_image'] = $widgetXml['@']['placeholder_image'];
         }
         if (isset($widgetXml['@']['translate'])) {
-            $widget['@']['translate'] = $widgetXml['@']['translate'];
+            $widget['@']['translate'] = str_replace('label', 'name', $widgetXml['@']['translate']);
         }
         if (isset($widgetXml['parameter'])) {
             $widget['parameters'] = array();
@@ -73,8 +73,15 @@ class Mage_Widget_Model_Widget_Mapper
      */
     private function _mapParameter($parameterXml)
     {
-        $parameter = array();
-        $parameter['type'] = $parameterXml['@']['type'];
+        $parameter = array('@' => array());
+        $xsiType = $parameterXml['@']['type'];
+        if ($xsiType == 'value_renderer') {
+            $parameter['type'] = 'label';
+            $parameter['@']['type'] = 'complex';
+            $parameter['helper_block'] = $this->_mapRenderer($parameterXml['renderer'][0]);
+        } else {
+            $parameter['type'] = $xsiType;
+        }
         if (isset($parameterXml['@']['visible'])) {
             $parameter['visible'] = $parameterXml['@']['visible'];
         } else {
@@ -84,16 +91,16 @@ class Mage_Widget_Model_Widget_Mapper
             $parameter['required'] = $parameterXml['@']['required'];
         }
         if (isset($parameterXml['@']['translate'])) {
-            $parameter['translate'] = $parameterXml['@']['translate'];
+            $parameter['@']['translate'] = $parameterXml['@']['translate'];
         }
         if (isset($parameterXml['@']['sort_order'])) {
             $parameter['sort_order'] = $parameterXml['@']['sort_order'];
         }
         if (isset($parameterXml['label'])) {
-            $parameter['label'] = $parameterXml['label'];
+            $parameter['label'] = $parameterXml['label'][0];
         }
         if (isset($parameterXml['description'])) {
-            $parameter['description'] = $parameterXml['description'];
+            $parameter['description'] = $parameterXml['description'][0];
         }
         if (isset($parameterXml['depends'])) {
             $parameter['depends'] = $this->_mapDepends($parameterXml['depends']);
@@ -162,9 +169,46 @@ class Mage_Widget_Model_Widget_Mapper
         }
         $option['value'] = array($optionXml['@']['value']);
         if (isset($optionXml['label'])) {
-            $option['label'] = $optionXml['label'];
+            $option['label'] = $optionXml['label'][0];
         }
         return $option;
+    }
+
+    /**
+     * Map a renderer from new XML to a helper_block of old xml
+     *
+     * @param $rendererXml
+     * @return array
+     */
+    private function _mapRenderer($rendererXml)
+    {
+        $helperBlock = array();
+
+        $helperBlock['type'] = $rendererXml['@']['class'];
+        $helperBlock['data'] = $this->_compressElements($rendererXml['data']);
+
+        return $helperBlock;
+    }
+
+    /**
+     * Takes an array of elements and compresses it to remove all intermediate arrays.
+     *
+     * @param $elements
+     * @return array|string
+     */
+    private function _compressElements($elements)
+    {
+        // $elements = {0 => {button => {0 => {open => {0 => 'text'}, @ => {translate => open}
+        $data = $elements[0];
+        if (!is_array($data)) {
+            return $data;
+        }
+
+        $result = array();
+        foreach ($data as $key => $value) {
+            $result[$key] = ($key == '@') ? $value : $this->_compressElements($value);
+        }
+        return $result;
     }
 
 }
