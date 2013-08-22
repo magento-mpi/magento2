@@ -143,11 +143,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_moduleReader;
 
     /**
-     * @var Mage_Core_Model_Config_InvalidatorInterface
-     */
-    protected $_invalidator;
-
-    /**
      * @var Magento_Config_ScopeInterface
      */
     protected $_configScope;
@@ -173,7 +168,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Core_Model_ModuleListInterface $moduleList
-     * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
      * @param Mage_Core_Model_Config_SectionPool $sectionPool
      */
@@ -183,7 +177,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_ModuleListInterface $moduleList,
-        Mage_Core_Model_Config_InvalidatorInterface $invalidator,
         Magento_Config_ScopeInterface $configScope,
         Mage_Core_Model_Config_SectionPool $sectionPool
     ) {
@@ -194,7 +187,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
         $this->_moduleList = $moduleList;
-        $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
         $this->_sectionPool = $sectionPool;
         Magento_Profiler::stop('config_load');
@@ -523,9 +515,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function reinit()
     {
-        $this->removeCache();
-        $this->_config = $this->_storage->getConfiguration();
-        $this->_cacheInstanceId = null;
+        $this->_sectionPool->clean();
     }
 
     /**

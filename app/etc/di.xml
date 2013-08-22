@@ -10,7 +10,6 @@
 <config>
     <preference for="Mage_Core_Model_Db_UpdaterInterface" type="Mage_Core_Model_Db_Updater" />
     <preference for="Mage_Core_Model_AppInterface" type="Mage_Core_Model_App_Proxy" />
-    <preference for="Mage_Core_Model_Config_InvalidatorInterface" type="Mage_Core_Model_Config_Invalidator_Proxy" />
     <preference for="Mage_Core_Model_CacheInterface" type="Mage_Core_Model_Cache_Proxy" />
     <preference for="Mage_Core_Model_Cache_StateInterface" type="Mage_Core_Model_Cache_State" />
     <preference for="Mage_Core_Model_Cache_TypeListInterface" type="Mage_Core_Model_Cache_TypeList" />
@@ -91,11 +90,6 @@
     <type name="Mage_Install_Model_Installer">
         <param name="config">
             <instance type="Mage_Core_Model_Config_Proxy" />
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Config_Invalidator">
-        <param name="primaryConfig">
-            <instance type="Mage_Core_Model_Config_Primary" />
         </param>
     </type>
     <type name="Mage_Core_Model_Store_StorageFactory">

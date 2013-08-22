@@ -175,9 +175,14 @@ class Mage_Install_Model_Installer extends Magento_Object
             ->setConfigData($data)
             ->install();
 
+
+        /** @var $primaryConfig  Mage_Core_Model_Config_Primary*/
+        $primaryConfig = Mage::getSingleton('Mage_Core_Model_Config_Primary');
+        $primaryConfig->reinit();
+
         /** @var $moduleConfig  Mage_Core_Model_Config*/
-        $moduleConfig = Mage::getSingleton('Mage_Core_Model_Config');
-        $moduleConfig->reinit();
+        $config = Mage::getSingleton('Mage_Core_Model_Config');
+        $config->reinit();
 
         return $this;
     }

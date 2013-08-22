@@ -48,7 +48,9 @@ class Mage_Core_Model_Event_Config_Data extends Magento_Config_Data
      */
     public function get($path = null, $default = null)
     {
-        if (!$this->_appState->isInstalled() && $this->_configScope->getCurrentScope() != 'global') {
+        if (!$this->_appState->isInstalled()
+            && !in_array($this->_configScope->getCurrentScope(), array('global', 'install'))
+        ) {
             return $default;
         }
         return parent::get($path, $default);

@@ -7,6 +7,8 @@
  */
 class Mage_Core_Model_Config_SectionPool
 {
+    const CACHE_TAG = 'config_sections';
+
     /**
      * @var Mage_Core_Model_Config_Section_ReaderPool
      */
@@ -72,10 +74,19 @@ class Mage_Core_Model_Config_SectionPool
                 } else {
                     $data = $reader->read($scopeCode);
                 }
-                $this->_cache->save(serialize($data), $cacheKey);
+                $this->_cache->save(serialize($data), $cacheKey, array());
             }
             $this->_sections[$code] = $this->_dataFactory->create(array('data' => $data));
         }
         return $this->_sections[$code];
+    }
+
+    /**
+     * Clear clear cache of all sections
+     */
+    public function clean()
+    {
+        $this->_sections = array();
+        $this->_cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::CACHE_TAG));
     }
 } 
