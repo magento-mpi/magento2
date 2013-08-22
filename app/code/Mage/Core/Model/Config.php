@@ -252,12 +252,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function getNode($path = null)
     {
-        try {
-            return $this->_config->getNode($path);
-        } catch (Mage_Core_Model_Config_Cache_Exception $e) {
-            $this->reinit();
-            return $this->_config->getNode($path);
-        }
+        return $this->_config->getNode($path);
     }
 
     /**
@@ -282,12 +277,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        try {
-            $this->_config->setNode($path, $value, $overwrite);
-        } catch (Mage_Core_Model_Config_Cache_Exception $e) {
-            $this->reinit();
-            $this->_config->setNode($path, $value, $overwrite);
-        }
+        $this->_config->setNode($path, $value, $overwrite);
     }
 
     /**
@@ -532,7 +522,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     public function reinit()
     {
         $this->removeCache();
-        $this->_invalidator->invalidate();
         $this->_config = $this->_storage->getConfiguration();
         $this->_cacheInstanceId = null;
     }

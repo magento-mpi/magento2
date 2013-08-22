@@ -78,6 +78,5 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
 
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
-        $this->_resourceConfig->setConfig($config);
     }
 }

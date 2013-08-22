@@ -68,11 +68,6 @@
             <instance type="Mage_Core_Model_Config_Storage" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Container">
-        <param name="configCache">
-            <instance type="Mage_Core_Model_Config_Cache_Proxy" />
-        </param>
-    </type>
     <type name="Mage_Core_Model_Config_Resource">
         <param name="config">
             <instance type="Mage_Core_Model_Config_Primary" />

@@ -18,11 +18,6 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_contFactoryMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_baseFactoryMock;
 
     /**
@@ -30,26 +25,12 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
      */
     protected $_cacheMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_configSectionsMock;
-
     protected function setUp()
     {
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false, false);
-        $this->_configSectionsMock = $this->getMock('Mage_Core_Model_Config_Sections',
-            array(), array(), '', false, false);
-        $this->_contFactoryMock = $this->getMock('Mage_Core_Model_Config_ContainerFactory',
-            array(), array(), '', false, false);
         $this->_baseFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
-        $this->_model = new Mage_Core_Model_Config_Cache(
-            $this->_cacheMock,
-            $this->_configSectionsMock,
-            $this->_contFactoryMock,
-            $this->_baseFactoryMock
-        );
+        $this->_model = new Mage_Core_Model_Config_Cache($this->_cacheMock, $this->_baseFactoryMock);
     }
 
     protected function tearDown()
