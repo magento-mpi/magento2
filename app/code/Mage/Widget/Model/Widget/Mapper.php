@@ -24,7 +24,7 @@ class Mage_Widget_Model_Widget_Mapper
 
         $widgetsXml = isset($xml['widget']) ? $xml['widget'] : array();
         foreach ($widgetsXml as $widgetXml) {
-            $widgetConfig[] = array($widgetXml['@']['id'] => $this->_mapWidget($widgetXml));
+            $widgetConfig[$widgetXml['@']['id']] = $this->_mapWidget($widgetXml);
         }
 
         return $widgetConfig;
@@ -43,9 +43,9 @@ class Mage_Widget_Model_Widget_Mapper
         $widget['@']['module'] = $widgetXml['@']['module'];
         $widget['name'] = $widgetXml['label'];
         $widget['description'] = $widgetXml['description'];
-        $widget['is_email_compatible'] = array($widgetXml['@']['is_email_compatible']);
+        $widget['is_email_compatible'] = $widgetXml['@']['is_email_compatible'];
         if (isset($widgetXml['@']['placeholder_image'])) {
-            $widget['placeholder_image'] = array($widgetXml['@']['placeholder_image']);
+            $widget['placeholder_image'] = $widgetXml['@']['placeholder_image'];
         }
         if (isset($widgetXml['@']['translate'])) {
             $widget['@']['translate'] = $widgetXml['@']['translate'];
@@ -53,14 +53,13 @@ class Mage_Widget_Model_Widget_Mapper
         if (isset($widgetXml['parameter'])) {
             $widget['parameters'] = array();
             foreach ($widgetXml['parameter'] as $parameterXml) {
-                $widget['parameters'][] = array($parameterXml['@']['name'] => $this->_mapParameter($parameterXml));
+                $widget['parameters'][$parameterXml['@']['name']] = $this->_mapParameter($parameterXml);
             }
         }
         if (isset($widgetXml['container'])) {
             $widget['supported_containers'] = array();
             foreach ($widgetXml['container'] as $containerXml) {
-                $widget['supported_containers'][]
-                    = array($containerXml['@']['section'] => $this->mapContainer($containerXml));
+                $widget['supported_containers'][$containerXml['@']['section']] = $this->mapContainer($containerXml);
             }
         }
         return $widget;
@@ -77,18 +76,18 @@ class Mage_Widget_Model_Widget_Mapper
         $parameter = array();
         $parameter['type'] = $parameterXml['@']['type'];
         if (isset($parameterXml['@']['visible'])) {
-            $parameter['visible'] = array($parameterXml['@']['visible']);
+            $parameter['visible'] = $parameterXml['@']['visible'];
         } else {
-            $parameter['visible'] = array('true');
+            $parameter['visible'] = 'true';
         }
         if (isset($parameterXml['@']['required'])) {
-            $parameter['required'] = array($parameterXml['@']['required']);
+            $parameter['required'] = $parameterXml['@']['required'];
         }
         if (isset($parameterXml['@']['translate'])) {
-            $parameter['translate'] = array($parameterXml['@']['translate']);
+            $parameter['translate'] = $parameterXml['@']['translate'];
         }
         if (isset($parameterXml['@']['sort_order'])) {
-            $parameter['sort_order'] = array($parameterXml['@']['sort_order']);
+            $parameter['sort_order'] = $parameterXml['@']['sort_order'];
         }
         if (isset($parameterXml['label'])) {
             $parameter['label'] = $parameterXml['label'];
@@ -102,13 +101,13 @@ class Mage_Widget_Model_Widget_Mapper
         if (isset($parameterXml['option'])) {
             $parameter['values'] = array();
             foreach ($parameterXml['option'] as $optionXml) {
-                $parameter['values'][] = array($optionXml['@']['name'] => $this->_mapOption($optionXml));
+                $parameter['values'][$optionXml['@']['name']] = $this->_mapOption($optionXml);
                 // Convert only the first option we find marked as selected into a 'value' element.
                 if (isset($optionXml['@']['selected'])
                     && $optionXml['@']['selected']
                     && !isset($parameter['value'])
                 ) {
-                    $parameter['value'] = array($optionXml['@']['value']);
+                    $parameter['value'] = $optionXml['@']['value'];
                 }
             }
         }
@@ -124,10 +123,10 @@ class Mage_Widget_Model_Widget_Mapper
     private function mapContainer($containerXml)
     {
         $container = array();
-        $container['container_name'] = array($containerXml['@']['name']);
+        $container['container_name'] = $containerXml['@']['name'];
         $container['template'] = array();
         foreach ($containerXml['template'] as $templateXml) {
-            $container['template'][] = array($templateXml['@']['name'] => array($templateXml['@']['value']));
+            $container['template'][$templateXml['@']['name']] = $templateXml['@']['value']);
         }
         return $container;
     }
@@ -140,17 +139,11 @@ class Mage_Widget_Model_Widget_Mapper
      */
     private function _mapDepends($dependsXml)
     {
-        // $depends = {0 => {param_name => {0 => {'value' => {0 => param_value} } } }
+        // $depends = {param_name => {'value' => param_value} }
         $depends = array();
         // Currently we only support parameter element and it must exist
         foreach ($dependsXml['parameter'] as $parameterXml) {
-            $depends[] = array(
-                $parameterXml['@']['name'] => array(
-                    array(
-                        'value' => array($parameterXml['@']['value'])
-                    )
-                )
-            );
+            $depends[$parameterXml['@']['name']] = array('value' => $parameterXml['@']['value']);
         }
         return $depends;
     }
