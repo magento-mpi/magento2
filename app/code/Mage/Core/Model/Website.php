@@ -152,35 +152,6 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Load website configuration
-     *
-     * @param   string $code
-     * @return  Mage_Core_Model_Website
-     */
-    public function loadConfig($code)
-    {
-        if (!Mage::getConfig()->getValue('websites')) {
-            return $this;
-        }
-        if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getValue('websites') as $websiteCode => $websiteConfig) {
-                if ((int)$websiteConfig['system']['website']['id'] == $code) {
-                    $code = $websiteCode;
-                    break;
-                }
-            }
-        } else {
-            $websiteConfig = Mage::getConfig()->getValue(null, 'website',  $code);
-        }
-        if (!empty($websiteConfig)) {
-            $this->setCode($code);
-            $id = (int)$websiteConfig['system']['website']['id'];
-            $this->setId($id)->setStoreId($id);
-        }
-        return $this;
-    }
-
-    /**
      * Get website config data
      *
      * @param string $path

@@ -17,6 +17,25 @@
  */
 class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget_Tabs
 {
+    /**
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Backend_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Block_Template_Context $context,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -34,16 +53,16 @@ class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
 
-        /** @var Mage_Core_Model_Config $config */
-        $config = Mage::getConfig();
         $this->addTab('default', array(
             'label'  => $this->helper('Mage_Backend_Helper_Data')->__('Default Config'),
             'url'    => $this->getUrl('*/*/*', array('section'=>$section)),
             'class' => 'default',
         ));
 
-        foreach (array_keys($config->getValue('websites')) as $wCode) {
-            $wName = $config->getValue('websites/' . $wCode . '/system/website/name');
+        /** @var $website Mage_Core_Model_Website */
+        foreach ($this->_storeManager->getWebsites(true) as $website) {
+            $wCode = $website->getCode();
+            $wName = $website->getName();
             $wUrl = $this->getUrl('*/*/*', array('section' => $section, 'website' => $wCode));
             $this->addTab('website_' . $wCode, array(
                 'label' => $wName,
@@ -57,8 +76,10 @@ class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget
                     $this->_addBreadcrumb($wName);
                 }
             }
-            foreach (array_keys($config->getValue('websites/' . $wCode . '/system/stores')) as $sCode) {
-                $sName = $config->getValue('stores/' . $sCode . '/system/store/name');
+            /** @var $store Mage_Core_Model_Store */
+            foreach ($website->getStores() as $store) {
+                $sCode = $store->getCode();
+                $sName = $store->getName();
                 $this->addTab('store_' . $sCode, array(
                     'label' => $sName,
                     'url'   => $this->getUrl('*/*/*', array(

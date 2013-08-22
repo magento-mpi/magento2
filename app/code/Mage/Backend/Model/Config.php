@@ -379,11 +379,13 @@ class Mage_Backend_Model_Config extends Magento_Object
     {
         if ($this->getStore()) {
             $scope   = 'stores';
-            $scopeId = (int) $this->_appConfig->getValue('stores/' . $this->getStore() . '/system/store/id');
+            $store = $this->_storeManager->getStore($this->getStore());
+            $scopeId = (int)$store->getId();
             $scopeCode = $this->getStore();
         } elseif ($this->getWebsite()) {
             $scope   = 'websites';
-            $scopeId = (int) $this->_appConfig->getValue('websites/' . $this->getWebsite() . '/system/website/id');
+            $website = $this->_storeManager->getWebsite($this->getWebsite());
+            $scopeId = (int)$website->getId();
             $scopeCode = $this->getWebsite();
         } else {
             $scope   = 'default';

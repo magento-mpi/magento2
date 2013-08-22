@@ -516,17 +516,10 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
 
         if (empty($this->_websites[$websiteId])) {
             $website = $this->_websiteFactory->create();
-            if (is_numeric($websiteId)) {
-                $website->load($websiteId);
-                if (!$website->hasWebsiteId()) {
-                    throw Mage::exception('Mage_Core', 'Invalid website id requested.');
-                }
-            } elseif (is_string($websiteId)) {
-                $websiteConfig = $this->_config->getValue(null, 'website', $websiteId);
-                if (!$websiteConfig) {
-                    throw Mage::exception('Mage_Core', 'Invalid website code requested: ' . $websiteId);
-                }
-                $website->loadConfig($websiteId);
+            // load method will load website by code if given ID is not a numeric value
+            $website->load($websiteId);
+            if (!$website->hasWebsiteId()) {
+                throw Mage::exception('Mage_Core', 'Invalid website id/code requested.');
             }
             $this->_websites[$website->getWebsiteId()] = $website;
             $this->_websites[$website->getCode()] = $website;

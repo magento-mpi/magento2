@@ -60,6 +60,23 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     );
 
     /**
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Resource $resource
+    ) {
+        parent::__construct($resource);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -618,11 +635,9 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     {
         if (empty($this->_storeIds)) {
             $this->_storeIds = array();
-            $storeConfigList = Mage::app()->getConfig()->getValue('stores');
-            foreach ($storeConfigList as $storeConfig) {
-                if (!empty($storeConfig['system']['store']['id'])) {
-                    $this->_storeIds[] = (int)$storeConfig['system']['store']['id'];
-                }
+            /** @var $store Mage_Core_Model_Store */
+            foreach ($this->_storeManager->getStores(true) as $store) {
+                $this->_storeIds[] = (int)$store->getId();
             }
         }
 
