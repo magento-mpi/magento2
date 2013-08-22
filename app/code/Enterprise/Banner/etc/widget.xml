@@ -11,7 +11,7 @@
 -->
 <widgets xmlns="http://www.magentocommerce.com/widget"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.magentocommerce.com/widget ../../Widget/etc/widget.xsd">
+        xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
     <widget id="enterprise_banner" class="Enterprise_Banner_Block_Widget_Banner" translate="label description"
             module="Enterprise_Banner" placeholder_image="Enterprise_Banner::widget_banner.gif">
         <label>Banner Rotator</label>
@@ -49,10 +49,10 @@
         </parameter>
         <parameter xsi:type="value_renderer" name="banner_ids" translate="label" visible="true">
             <label>Specify Banners</label>
-            <renderer class="Enterprise_Banner_Block_Adminhtml_Widget_Chooser" />
             <depends>
                 <parameter name="display_mode" value="fixed" />
             </depends>
+            <renderer class="Enterprise_Banner_Block_Adminhtml_Widget_Chooser" />
         </parameter>
         <parameter xsi:type="select" name="template" required="true" visible="false">
             <option name="block" translate="label" value="widget/block.phtml" selected="true">

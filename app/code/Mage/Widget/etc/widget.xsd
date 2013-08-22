@@ -44,7 +44,13 @@
 
     <complexType name="parameterType" abstract="true">
         <sequence>
-            <element name="label" type="string" minOccurs="0" maxOccurs="1"></element>
+        	<element name="label" type="string" minOccurs="0"
+        		maxOccurs="1">
+        	</element>
+        	<element name="description" type="string" minOccurs="0" maxOccurs="1"></element>
+        	<element name="depends" type="tns:dependsType" minOccurs="0"
+        		maxOccurs="1">
+        	</element>
         </sequence>
         <attribute name="name" type="string" use="required"></attribute>
         <attribute name="translate" type="string"></attribute>
@@ -55,8 +61,8 @@
 
 
     <complexType name="dependsParameterType">
-        <attribute name="name" type="string"></attribute>
-        <attribute name="value" type="string"></attribute>
+        <attribute name="name" type="string" use="required"></attribute>
+        <attribute name="value" type="string" use="required"></attribute>
     </complexType>
 
     <complexType name="value_renderer">
@@ -76,9 +82,10 @@
     </complexType>
 
     <complexType name="buttonType">
-        <sequence>
-            <element name="open" type="string"></element>
-        </sequence>
+    	<sequence>
+    		<element name="open" type="string"></element>
+    	</sequence>
+    	<attribute name="translate" type="string"></attribute>
     </complexType>
 
     <complexType name="rendererType">
@@ -92,9 +99,6 @@
         <complexContent>
             <extension base="tns:parameterType">
                 <sequence>
-                	<element name="description" type="string"
-                		minOccurs="0" maxOccurs="1">
-                	</element>
                 	<element name="value" type="string" minOccurs="0" maxOccurs="1"></element>
                 </sequence>
                 <attribute name="value" type="string"></attribute>
@@ -103,13 +107,14 @@
     </complexType>
 
     <complexType name="select">
-        <complexContent>
-            <extension base="tns:parameterType">
-                <sequence maxOccurs="unbounded" minOccurs="0">
-                    <element name="option" type="tns:optionType"></element>
-                </sequence>
-            </extension>
-        </complexContent>
+    	<complexContent>
+    		<extension base="tns:parameterType">
+    			<sequence maxOccurs="unbounded" minOccurs="0">
+    				<element name="option" type="tns:optionType"></element>
+    			</sequence>
+    			<attribute name="source_model" type="string"></attribute>
+    		</extension>
+    	</complexContent>
     </complexType>
 
     <complexType name="optionType">
@@ -132,7 +137,7 @@
         
     <complexType name="containerType">
     	<sequence>
-    		<element name="template" type="tns:templateType"></element>
+    		<element name="template" type="tns:templateType" minOccurs="1" maxOccurs="unbounded"></element>
     	</sequence>
     	<attribute name="section" type="string" use="required"></attribute>
     	<attribute name="name" type="string" use="required"></attribute>
@@ -142,4 +147,11 @@
     	<attribute name="name" type="string" use="required"></attribute>
     	<attribute name="value" type="string"></attribute>
     </complexType>
+
+    <complexType name="dependsType">
+    	<sequence>
+    		<element name="parameter" type="tns:dependsParameterType"></element>
+    	</sequence>
+    </complexType>
+
 </schema>
