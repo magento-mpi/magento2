@@ -258,6 +258,19 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
+     * Set config value in the corresponding config scope
+     *
+     * @param string $path
+     * @param mixed $value
+     * @param string $scope
+     * @param null|string $scopeCode
+     */
+    public function setValue($path, $value, $scope = 'default', $scopeCode = null)
+    {
+        $this->_sectionPool->getSection($scope, $scopeCode)->setValue($path, $value);
+    }
+
+    /**
      * Create node by $path and set its value.
      *
      * @param string $path separated by slashes
