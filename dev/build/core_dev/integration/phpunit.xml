@@ -35,6 +35,8 @@
         <listener class="Magento_Test_Event_PhpUnit"/>
     </listeners>
     <logging>
-        <!--coverage_html_placeholder-->
+        <!--coverage_html_placeholder
+            <log type="coverage-html" target="{{coverage_dir}}/test-reports/coverage" charset="UTF-8" yui="true" highlight="true"/>
+        coverage_html_placeholder-->
     </logging>
 </phpunit>

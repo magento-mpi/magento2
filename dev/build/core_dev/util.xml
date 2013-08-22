@@ -81,11 +81,13 @@
             <dirset dir="${product_root_dir}/var"/>
         </chmod>
     </target>
-	
+
     <target name="_code_coverage_configuration" depends="_product_location" description="Code Coverage configuration">
         <fail unless="configuration_file" message="Code coverage configuration variable 'configuration_file' must be defined"/>
         <replace file="${configuration_file}">
-            <replacefilter token="!--coverage_html_placeholder--" value="log type=&quot;coverage-html&quot; target=&quot;${product_root_dir}/test-reports/coverage&quot; charset=&quot;UTF-8&quot; yui=&quot;true&quot; highlight=&quot;true&quot; /"/>
+            <replacefilter token="{{coverage_dir}}" value="${product_root_dir}"/>
+            <replacefilter token="--coverage_html_placeholder" value="-- --&gt;"/>
+            <replacefilter token="coverage_html_placeholder--" value="&lt;!-- --"/>
         </replace>
     </target>
 
