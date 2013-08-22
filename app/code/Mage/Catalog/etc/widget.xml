@@ -68,7 +68,7 @@
             <template name="images_only" value="list_images"/>
         </container>
         <container section="main_content" name="content">
-            <template name="grid" value="defaault"/>
+            <template name="grid" value="default"/>
             <template name="list" value="list"/>
         </container>
         <container section="right_column" name="right">
