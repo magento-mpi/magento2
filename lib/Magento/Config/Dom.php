@@ -15,6 +15,11 @@
 class Magento_Config_Dom
 {
     /**
+     * Prefix which will be used for root namespace
+     */
+    const ROOT_NAMESPACE_PREFIX = 'x';
+
+    /**
      * Dom document
      *
      * @var DOMDocument
@@ -36,6 +41,13 @@ class Magento_Config_Dom
     protected $_schemaFile;
 
     /**
+     * Default names for xml elements
+     *
+     * @var string
+     */
+    protected $_rootNamespace;
+
+    /**
      * Build DOM with initial XML contents and specifying identifier attributes for merging
      *
      * Format of $idAttributes: array('/xpath/to/some/node' => 'id_attribute_name')
@@ -48,9 +60,10 @@ class Magento_Config_Dom
      */
     public function __construct($xml, array $idAttributes = array(), $schemaFile = null)
     {
-        $this->_schemaFile   = $schemaFile;
-        $this->_dom          = $this->_initDom($xml);
-        $this->_idAttributes = $idAttributes;
+        $this->_schemaFile    = $schemaFile;
+        $this->_dom           = $this->_initDom($xml);
+        $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
+        $this->_idAttributes  = $idAttributes;
     }
 
     /**
@@ -118,7 +131,11 @@ class Magento_Config_Dom
      */
     protected function _getNodePathByParent(DOMElement $node, $parentPath)
     {
-        $path = $parentPath . '/' . $node->tagName;
+        $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
+        $path = $parentPath . '/' . $prefix . $node->tagName;
+        if ($this->_rootNamespace !== null) {
+            var_dump($this->_rootNamespace, $path);
+        }
         $idAttribute = $this->_findIdAttribute($path);
         if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
             $path .= "[@{$idAttribute}='{$value}']";
@@ -135,6 +152,7 @@ class Magento_Config_Dom
     protected function _findIdAttribute($xPath)
     {
         $path = preg_replace('/\[@[^\]]+?\]/', '', $xPath);
+        $path = preg_replace('/\/[^:]+?\:/', '/', $path);
         return isset($this->_idAttributes[$path]) ? $this->_idAttributes[$path] : false;
     }
 
@@ -148,6 +166,9 @@ class Magento_Config_Dom
     protected function _getMatchedNode($nodePath)
     {
         $xPath  = new DOMXPath($this->_dom);
+        if ($this->_rootNamespace) {
+            $xPath->registerNamespace(self::ROOT_NAMESPACE_PREFIX, $this->_rootNamespace);
+        }
         $matchedNodes = $xPath->query($nodePath);
         $node = null;
         if ($matchedNodes->length > 1) {

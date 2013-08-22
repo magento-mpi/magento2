@@ -43,7 +43,9 @@ class Mage_Widget_Model_Widget_Mapper
         $widget['@']['module'] = $widgetXml['@']['module'];
         $widget['name'] = $widgetXml['label'][0];
         $widget['description'] = $widgetXml['description'][0];
-        $widget['is_email_compatible'] = $widgetXml['@']['is_email_compatible'];
+        if (isset($widgetXml['@']['is_email_compatible'])) {
+            $widget['is_email_compatible'] = $widgetXml['@']['is_email_compatible'];
+        }
         if (isset($widgetXml['@']['placeholder_image'])) {
             $widget['placeholder_image'] = $widgetXml['@']['placeholder_image'];
         }
@@ -59,7 +61,7 @@ class Mage_Widget_Model_Widget_Mapper
         if (isset($widgetXml['container'])) {
             $widget['supported_containers'] = array();
             foreach ($widgetXml['container'] as $containerXml) {
-                $widget['supported_containers'][$containerXml['@']['section']] = $this->mapContainer($containerXml);
+                $widget['supported_containers'][$containerXml['@']['section']] = $this->_mapContainer($containerXml);
             }
         }
         return $widget;
@@ -73,32 +75,9 @@ class Mage_Widget_Model_Widget_Mapper
      */
     private function _mapParameter($parameterXml)
     {
-        $parameter = array('@' => array());
-        $parameter = $this->_insertMappedType($parameterXml, $parameter);
-        if (isset($parameterXml['@']['visible'])) {
-            $parameter['visible'] = $parameterXml['@']['visible'];
-        } else {
-            $parameter['visible'] = 'true';
-        }
-        if (isset($parameterXml['@']['required'])) {
-            $parameter['required'] = $parameterXml['@']['required'];
-        }
-        if (isset($parameterXml['@']['translate'])) {
-            $parameter['@']['translate'] = $parameterXml['@']['translate'];
-        }
-        if (isset($parameterXml['@']['sort_order'])) {
-            $parameter['sort_order'] = $parameterXml['@']['sort_order'];
-        }
-        if (isset($parameterXml['label'])) {
-            $parameter['label'] = $parameterXml['label'][0];
-        }
-        if (isset($parameterXml['description'])) {
-            $parameter['description'] = $parameterXml['description'][0];
-        }
-        if (isset($parameterXml['depends'])) {
-            $parameter['depends'] = $this->_mapDepends($parameterXml['depends'][0]);
-        }
-        $parameter = $this->_insertMappedOptions($parameterXml, $parameter);
+        $parameter = array();
+        $parameter = $this->_insertTypeSpecialCases($parameterXml, $parameter);
+        $parameter = $this->_insertCommonParameterData($parameterXml, $parameter);
         return $parameter;
     }
 
@@ -108,7 +87,7 @@ class Mage_Widget_Model_Widget_Mapper
      * @param $containerXml array
      * @return array
      */
-    private function mapContainer($containerXml)
+    private function _mapContainer($containerXml)
     {
         $container = array();
         $container['container_name'] = $containerXml['@']['name'];
@@ -226,18 +205,65 @@ class Mage_Widget_Model_Widget_Mapper
      * @param $parameter array
      * @return array
      */
-    private function _insertMappedType($parameterXml, $parameter)
+    private function _insertTypeSpecialCases($parameterXml, $parameter)
     {
         $xsiType = $parameterXml['@']['type'];
         if ($xsiType == 'value_renderer') {
             $parameter['type'] = 'label';
+            if (!isset($parameter['@'])) {
+                $parameter['@'] = array();
+            }
             $parameter['@']['type'] = 'complex';
             $parameter['helper_block'] = $this->_mapRenderer($parameterXml['renderer'][0]);
-            return $parameter;
+        } else if ($xsiType == 'select' || $xsiType == 'multiselect') {
+            if (isset($parameterXml['@']['source_model'])) {
+                $parameter['source_model'] = $parameterXml['@']['source_model'];
+            }
+            $parameter['type'] = $xsiType;
+            $parameter = $this->_insertMappedOptions($parameterXml, $parameter);
         } else {
             $parameter['type'] = $xsiType;
-            return $parameter;
         }
+
+        return $parameter;
+    }
+
+    /**
+     * Inserts common parameter value mappings into $parameter.
+     *
+     * @param $parameterXml array
+     * @param $parameter array
+     * @return array
+     */
+    private function _insertCommonParameterData($parameterXml, $parameter)
+    {
+        if (isset($parameterXml['@']['visible'])) {
+            $parameter['visible'] = $parameterXml['@']['visible'];
+        } else {
+            $parameter['visible'] = 'true';
+        }
+        if (isset($parameterXml['@']['required'])) {
+            $parameter['required'] = $parameterXml['@']['required'];
+        }
+        if (isset($parameterXml['@']['translate'])) {
+            if (!isset($parameter['@'])) {
+                $parameter['@'] = array();
+            }
+            $parameter['@']['translate'] = $parameterXml['@']['translate'];
+        }
+        if (isset($parameterXml['@']['sort_order'])) {
+            $parameter['sort_order'] = $parameterXml['@']['sort_order'];
+        }
+        if (isset($parameterXml['label'])) {
+            $parameter['label'] = $parameterXml['label'][0];
+        }
+        if (isset($parameterXml['description'])) {
+            $parameter['description'] = $parameterXml['description'][0];
+        }
+        if (isset($parameterXml['depends'])) {
+            $parameter['depends'] = $this->_mapDepends($parameterXml['depends'][0]);
+        }
+        return $parameter;
     }
 
 }

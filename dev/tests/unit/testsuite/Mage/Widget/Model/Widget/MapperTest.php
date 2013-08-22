@@ -158,7 +158,25 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                         ),
                     ),
                 ),
-
+                array(
+                    '@' => array(
+                        'id'                    => 'enterprise_giftregistry_search',
+                        'class'                 => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
+                        'translate'             => 'label description',
+                        'module'                => 'Enterprise_GiftRegistry',
+                    ),
+                    'label'         => array('Gift Registry Search'),
+                    'description'   => array('Gift Registry Quick Search Form'),
+                    'parameter'     => array(
+                        array(
+                            '@'     => array(
+                                'name'       => 'types',
+                                'type'       => 'multiselect',
+                                'source_model' => 'Enterprise_GiftRegistry_Model_Source_Search',
+                            ),
+                        ),
+                    ),
+                ),
             ),
         );
 
@@ -167,7 +185,7 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                 '@' => array(
                     'type'      => 'Mage_Cms_Block_Widget_Page_Link',
                     'module'    => 'Mage_Cms',
-                    'translate' => 'name description', // TODO do we need to bother validating name vs label here?
+                    'translate' => 'name description',
                 ),
                 'name' => 'CMS Page Link',
                 'description' => 'Link to a CMS Page',
@@ -179,7 +197,7 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                             'type'      => 'complex',
                             'translate' => 'label',
                         ),
-                        'type' => 'label',  // TODO do we need to re-create this?
+                        'type' => 'label',
                         'helper_block' => array(
                             'type' => 'Mage_Adminhtml_Block_Cms_Page_Widget_Chooser',
                             'data' => array(
@@ -215,8 +233,6 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                             'translate' => 'label',
                         ),
                         'type' => 'select',
-                        'visible' => 'true',
-                        'label' => 'Template',
                         'values' => array(
                             'default' => array(
                                 '@' => array(
@@ -233,6 +249,8 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                                 'label' => 'Product Link Inline Template',
                             )
                         ),
+                        'visible' => 'true',
+                        'label' => 'Template',
                         'value' => 'product/widget/link/link_block.phtml',
                     ),
                 ),
@@ -253,6 +271,23 @@ class Mage_Widget_Model_Widget_MapperTest extends PHPUnit_Framework_TestCase
                     )
                 )
             ),
+            'enterprise_giftregistry_search' => array(
+                '@' => array(
+                    'type'      => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
+                    'module'    => 'Enterprise_GiftRegistry',
+                    'translate' => 'name description',
+                ),
+                'name' => 'Gift Registry Search',
+                'description' => 'Gift Registry Quick Search Form',
+                'parameters' => array(
+                    'types' => array(
+                        'type' => 'multiselect',
+                        'visible' => 'true', // verify default value is injected
+                        'source_model' => 'Enterprise_GiftRegistry_Model_Source_Search',
+                    ),
+                ),
+            ),
+
         );
 
         $this->_xmlMapper = new Mage_Widget_Model_Widget_Mapper();
