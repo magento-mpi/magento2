@@ -34,8 +34,8 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
     const XML_CONFIG_POOL_SIZE   = 'giftcard/giftcardaccount_general/pool_size';
     const XML_CONFIG_POOL_THRESHOLD = 'giftcard/giftcardaccount_general/pool_threshold';
 
-    const XML_CHARSET_NODE      = 'global/enterprise/giftcardaccount/charset/%s';
-    const XML_CHARSET_SEPARATOR = 'global/enterprise/giftcardaccount/separator';
+    const XML_CHARSET_NODE      = 'global/magento/giftcardaccount/charset/%s';
+    const XML_CHARSET_SEPARATOR = 'global/magento/giftcardaccount/separator';
 
     const CODE_GENERATION_ATTEMPTS = 1000;
 
