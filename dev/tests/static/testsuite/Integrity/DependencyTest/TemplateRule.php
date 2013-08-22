@@ -176,12 +176,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      *      Mage::getBlockSingleton('{Class_Name}')
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
+    protected function _caseModelSingleton($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_HARD =>
@@ -199,12 +197,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      *      $this->helper('{Class_Name}')
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseHelper($currentModule, $fileType, $file, &$contents)
+    protected function _caseHelper($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_HARD =>
@@ -220,12 +216,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * Ex.: createBlock('{Class_Name}')
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
+    protected function _caseCreateBlock($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_HARD =>
@@ -241,12 +235,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * Ex.: {Class_Name}::{Constant_Name}
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseConstant($currentModule, $fileType, $file, &$contents)
+    protected function _caseConstant($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_HARD =>
@@ -262,12 +254,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * Ex.: $this->getViewFileUrl('{Module_name}::{File_Name}')
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
+    protected function _caseAddFile($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_SOFT =>
@@ -283,12 +273,10 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * Ex.: getUrl('{path}')
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseGetUrl($currentModule, $fileType, $file, &$contents)
+    protected function _caseGetUrl($currentModule, &$contents)
     {
         $pattern = '/[\->:]+(?<source>getUrl\([\'"](?<router>[\w\/*]+)[\'"])/';
 
@@ -315,12 +303,11 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      * Check layout blocks
      *
      * @param $currentModule
-     * @param $fileType
      * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseLayoutBlock($currentModule, $fileType, $file, &$contents)
+    protected function _caseLayoutBlock($currentModule, $file, &$contents)
     {
         $pattern = '/[\->:]+(?<source>(?:getBlock|getBlockHtml)\([\'"](?<block>[\w\.\-]+)[\'"]\))/';
 

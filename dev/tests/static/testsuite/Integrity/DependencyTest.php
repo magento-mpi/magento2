@@ -9,6 +9,8 @@
  * @subpackage  Integrity
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 {
@@ -479,6 +481,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Prepare map of routers
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected static function _prepareMapRouters()
     {
@@ -594,7 +599,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    protected function _getTypes()
+    protected static function _getTypes()
     {
         return array(
             self::TYPE_HARD,
@@ -604,8 +609,10 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
     /**
      * Initialise map of dependencies
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function _initDependencies()
+    protected static function _initDependencies()
     {
         $files = Utility_Files::init()->getConfigFiles('module.xml', array(), false);
 
@@ -648,7 +655,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @param $mapType
      * @param $dependencies
      */
-    protected function _addDependencies($module, $type, $mapType, $dependencies)
+    protected static function _addDependencies($module, $type, $mapType, $dependencies)
     {
         if (!is_array($dependencies)) {
             $dependencies = array($dependencies);

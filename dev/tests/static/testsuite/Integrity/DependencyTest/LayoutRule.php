@@ -194,12 +194,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Ex.: <element module="{module}">
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
+    protected function _caseAttributeModule($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_SOFT =>
@@ -216,12 +214,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *      <block template="{path}">
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
+    protected function _caseElementBlock($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_HARD =>
@@ -243,12 +239,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *      <element helper="{name}">
      *
      * @param $currentModule
-     * @param $fileType
-     * @param $file
      * @param $contents
      * @return array
      */
-    protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
+    protected function _caseElementAction($currentModule, &$contents)
     {
         $patterns = array(
             Integrity_DependencyTest::TYPE_SOFT =>
@@ -273,12 +267,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Ex.: <layout><{name}>...</layout>
      *
      * @param $currentModule
-     * @param $fileType
      * @param $file
-     * @param $contents
      * @return array
      */
-    protected function _caseLayoutHandle($currentModule, $fileType, $file, &$contents)
+    protected function _caseLayoutHandle($currentModule, $file)
     {
         $xml = simplexml_load_file($file);
 
@@ -304,12 +296,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Ex.: <layout_name  parent="{name}">
      *
      * @param $currentModule
-     * @param $fileType
      * @param $file
-     * @param $contents
      * @return array
      */
-    protected function _caseLayoutHandleParent($currentModule, $fileType, $file, &$contents)
+    protected function _caseLayoutHandleParent($currentModule, $file)
     {
         $xml = simplexml_load_file($file);
 
@@ -335,12 +325,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Ex.: <update handle="{name}" />
      *
      * @param $currentModule
-     * @param $fileType
      * @param $file
-     * @param $contents
      * @return array
      */
-    protected function _caseLayoutHandleUpdate($currentModule, $fileType, $file, &$contents)
+    protected function _caseLayoutHandleUpdate($currentModule, $file)
     {
         $xml = simplexml_load_file($file);
 
@@ -366,12 +354,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Ex.: <reference name="{name}">
      *
      * @param $currentModule
-     * @param $fileType
      * @param $file
-     * @param $contents
      * @return array
      */
-    protected function _caseLayoutReference($currentModule, $fileType, $file, &$contents)
+    protected function _caseLayoutReference($currentModule, $file)
     {
         $xml = simplexml_load_file($file);
 

@@ -24,7 +24,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_circularDependencies = array();
+    protected $_circularDepends = array();
 
     /**
      * Build modules dependencies
@@ -97,12 +97,13 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      *
      * @param array $modules
      */
-    protected function _buildCircular($modules) {
+    protected function _buildCircular($modules)
+    {
         $path = '/' . implode('/', $modules);
-        if (isset($this->_circularDependencies[$path])) {
+        if (isset($this->_circularDepends[$path])) {
             return;
         }
-        $this->_circularDependencies[$path] = $modules;
+        $this->_circularDepends[$path] = $modules;
         array_push($modules, array_shift($modules));
         $this->_buildCircular($modules);
     }
@@ -116,8 +117,8 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
         $dependenciesByModule = array();
         $result = '';
         $this->_buildModulesDependencies();
-        if (!empty($this->_circularDependencies)) {
-            foreach ($this->_circularDependencies as $circularDependency) {
+        if (!empty($this->_circularDepends)) {
+            foreach ($this->_circularDepends as $circularDependency) {
                 $module =  array_shift($circularDependency);
                 array_push($circularDependency, $module);
                 $dependenciesByModule[$module][] = $circularDependency;
