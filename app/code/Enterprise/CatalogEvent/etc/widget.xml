@@ -29,7 +29,7 @@
             <label>Block Custom Width</label>
             <description>The width in pixels will be set automatically if this value is empty.</description>
         </parameter>
-        <parameter name="template" xsi:type="select" required="true">
+        <parameter name="template" xsi:type="select" visible="false" required="true">
             <option name="default" value="widget/lister.phtml" selected="true" translate="label">
                 <label>Catalog Events Carousel Default Template</label>
             </option>
