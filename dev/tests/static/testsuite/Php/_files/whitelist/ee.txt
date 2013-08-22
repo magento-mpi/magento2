@@ -1,12 +1,12 @@
 # A list similar to "common.txt", but distinguishes items that belong to Magento EE
 # These items and this file are not published in Magento CE
 #
-app/code/Enterprise/Banner*
-app/code/Enterprise/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
-app/code/Enterprise/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
-app/code/Enterprise/Invitation/Block/Adminhtml/Report
-app/code/Enterprise/Invitation/Model/Resource/Report
-app/code/Enterprise/Invitation/Controller/Adminhtml/Report
-app/code/Enterprise/PageCache/Model/Cache/Type.php
-app/code/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
-app/code/Enterprise/SalesArchive/Model/Order
+app/code/Magento/Banner*
+app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
+app/code/Magento/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
+app/code/Magento/Invitation/Block/Adminhtml/Report
+app/code/Magento/Invitation/Model/Resource/Report
+app/code/Magento/Invitation/Controller/Adminhtml/Report
+app/code/Magento/FullPageCache/Model/Cache/Type.php
+app/code/Magento/Pbridge/Model/Authorizenet/Source/PaymentAction.php
+app/code/Magento/SalesArchive/Model/Order

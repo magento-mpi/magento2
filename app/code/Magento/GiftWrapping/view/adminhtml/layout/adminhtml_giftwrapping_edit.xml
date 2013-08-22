@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_giftwrapping_edit>
+        <reference name="content">
+            <block type="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit" name="giftwrapping_edit"/>
+            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+        </reference>
+    </adminhtml_giftwrapping_edit>
+</layout>

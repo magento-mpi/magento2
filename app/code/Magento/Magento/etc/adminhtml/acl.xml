@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Enterprise
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::marketing">
+                    <resource id="Magento_Enterprise::marketing_private_sales" title="Private Sales" sortOrder="20" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

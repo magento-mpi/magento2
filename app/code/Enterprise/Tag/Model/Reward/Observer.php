@@ -15,7 +15,7 @@
  * @package     Enterprise_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Tag_Model_Reward_Observer extends Enterprise_Reward_Model_Observer
+class Enterprise_Tag_Model_Reward_Observer extends Magento_Reward_Model_Observer
 {
     /**
      * Send scheduled low balance warning notifications

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <sales_order_print>
+        <reference name="order_totals">
+            <block type="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
+            <block type="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance_total_refunded" template="order/customerbalance_refunded.phtml" after="-">
+                <action method="setAfterTotal">
+                    <value>grand_total</value>
+                </action>
+            </block>
+        </reference>
+    </sales_order_print>
+</layout>

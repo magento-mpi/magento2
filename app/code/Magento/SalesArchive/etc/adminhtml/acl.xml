@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_SalesArchive
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_SalesArchive::archive" title="Archive" sortOrder="20">
+                        <resource id="Magento_SalesArchive::orders"  title="Orders" sortOrder="10">
+                            <resource id="Magento_SalesArchive::add" title="Move to Archive" />
+                            <resource id="Magento_SalesArchive::remove" title="Restore from Archive" />
+                        </resource>
+                        <resource id="Magento_SalesArchive::invoices" title="Invoices" sortOrder="20" />
+                        <resource id="Magento_SalesArchive::shipments" title="Shipments" sortOrder="30" />
+                        <resource id="Magento_SalesArchive::creditmemos" title="Credit Memos" sortOrder="40" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

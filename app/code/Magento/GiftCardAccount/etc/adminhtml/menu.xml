@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftCardAccount
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_GiftCardAccount::customer_giftcardaccount" title="Gift Card Accounts" module="Magento_GiftCardAccount" sortOrder="40" parent="Magento_CatalogRule::promo" action="adminhtml/giftcardaccount" dependsOnModule="Magento_GiftCardAccount" resource="Magento_GiftCardAccount::customer_giftcardaccount"/>
+    </menu>
+</config>

@@ -1,0 +1,39 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this Magento_TargetRule_Block_Catalog_Product_List_Related */
+?>
+<?php if ($this->hasItems()):?>
+<div class="box-collateral box-related">
+    <div class="box-title">
+        <h2><?php echo __('Related Products') ?></h2>
+    </div>
+    <p class="note"><?php echo __('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo __('select all') ?></strong></a></p>
+    <?php $i=0; foreach($this->getItemCollection() as $_item): ?>
+        <?php if ($i++ % $this->getColumnCount() == 0): ?>
+        <ul class="box-content">
+        <?php endif ?>
+        <li class="item<?php if (($i - 1) % $this->getColumnCount() == 0):?> first<?php elseif ($i % $this->getColumnCount() == 0): ?> last<?php endif; ?>">
+            <?php
+                $itemBlock = $this->getChildBlock('catalog.product.related.item')->setItem($_item)->setPosition($i);
+                echo $itemBlock->toHtml();
+            ?>
+        </li>
+        <?php if ($i % $this->getColumnCount() == 0 || $i == $this->getItemsCount()): ?>
+        </ul>
+        <?php endif ?>
+    <?php endforeach ?>
+    <script type="text/javascript">jQuery('.box-related ul.box-content li').decorate('generic', ['odd','even','first','last']);</script>
+    <script type="text/javascript">
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/related-products.js'); ?>", function() {
+            jQuery(".box-related a[role='select-all']").relatedProducts();
+        });
+    </script>
+</div>
+<?php endif;?>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Banner" version="1.11.0.1" active="false">
+        <depends>
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_CatalogRule" />
+            <module name="Magento_SalesRule" />
+            <module name="Magento_VersionsCms" />
+        </depends>
+    </module>
+</config>

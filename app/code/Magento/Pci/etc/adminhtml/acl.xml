@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pci
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::system">
+                    <resource id="Magento_User::acl">
+                        <resource id="Magento_Pci::locks" title="Locked Users" sortOrder="20" />
+                    </resource>
+                    <resource id="Magento_Adminhtml::system_other_settings">
+                        <resource id="Magento_Pci::crypt_key" title="Manage Encryption Key" sortOrder="30" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

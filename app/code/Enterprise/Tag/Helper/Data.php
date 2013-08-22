@@ -20,7 +20,7 @@ class Enterprise_Tag_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Reward points model instance
      *
-     * @var Enterprise_Reward_Model_Reward
+     * @var Magento_Reward_Model_Reward
      */
     protected $_rewardModel;
 
@@ -33,7 +33,7 @@ class Enterprise_Tag_Helper_Data extends Magento_Core_Helper_Abstract
         if (isset($data['reward_model'])) {
             $this->_rewardModel = $data['reward_model'];
         } else {
-            $this->_rewardModel = Mage::getSingleton('Enterprise_Reward_Model_Reward');
+            $this->_rewardModel = Mage::getSingleton('Magento_Reward_Model_Reward');
         }
         parent::__construct($context);
     }

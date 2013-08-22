@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_TargetRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::marketing">
+                    <resource id="Magento_CatalogRule::promo">
+                        <resource id="Magento_TargetRule::targetrule" title="Related Products Rules" sortOrder="20" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

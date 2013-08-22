@@ -1,0 +1,63 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Gift registry items template
+ *
+ * @see Magento_GiftRegistry_Block_Items
+ */
+?>
+<?php
+    $_itemsCount = count($this->getItems());
+?>
+<h2 class="subtitle"><?php echo __('Gift Registry Items') ?></h2>
+<form action="<?php echo $this->getActionUrl() ?>" method="post">
+    <fieldset>
+        <table id="shopping-cart-table" class="data-table cart-table">
+            <col width="1" />
+            <col />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th><span class="nobr"><?php echo __('Product Name') ?></span></th>
+                    <th class="a-center"><?php echo __('Requested') ?></th>
+                    <th class="a-center"><?php echo __('Fulfilled') ?></th>
+                    <th class="a-center"><?php echo __('Remaining') ?></th>
+                    <th class="a-center"><span class="nobr"><?php echo __('Unit Price') ?></span></th>
+                    <th class="a-center"><?php echo __('Qty') ?></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <?php if ($_itemsCount): ?>
+                <tr>
+                    <td colspan="50" class="a-right">
+                        <button type="submit" title="<?php echo __('Add to Cart') ?>" class="button btn-update"><span><span><?php echo __('Add to Cart') ?></span></span></button>
+                    </td>
+                </tr>
+                <?php endif; ?>
+            </tfoot>
+            <tbody>
+                <?php foreach($this->getItems() as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">(function($) {$('#shopping-cart-table').decorate('table')})(jQuery)</script>
+    </fieldset>
+</form>
+<?php if (!$_itemsCount): ?>
+    <p><?php echo __('This gift registry has no items.') ?></p>
+<?php endif; ?>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <sales_order_creditmemo>
+        <reference name="additional.product.info">
+            <block type="Magento_GiftWrapping_Block_Product_Info" name="giftwrapping.product.info" template="product/info.phtml"/>
+        </reference>
+        <reference name="creditmemo_totals">
+            <block type="Magento_GiftWrapping_Block_Sales_Totals" name="giftwrapping"/>
+        </reference>
+    </sales_order_creditmemo>
+</layout>

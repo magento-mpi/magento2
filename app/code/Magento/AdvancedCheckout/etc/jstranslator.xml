@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_AdvancedCheckout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<jstranslator>
+    <sales-order-create-addproducts translate="message">
+        <message>Add Products By SKU</message>
+    </sales-order-create-addproducts>
+</jstranslator>

@@ -1,0 +1,50 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<div class="page-title">
+    <h1><?php echo Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Gift Registry'); ?></h1>
+</div>
+<div class="giftregistry">
+<?php $entityCollection = $this->getEntityCollection(); ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml();?>
+
+<?php if ($entityCollection->getSize()):?>
+    <?php echo $this->getChildHtml('pager') ?>
+    <ul class="list">
+        <?php foreach($entityCollection as $item): ?>
+            <li class="list-item">
+
+                <a class="btn-remove" href="<?php echo $this->getDeleteUrl($item)?>" onclick="return confirm('<?php echo Mage::helper('Magento_GiftRegistry_Helper_Data')->__('Are you sure you want to delete this gift registry?'); ?>');"><?php echo $this->__('Delete') ?></a>
+                <h2><?php echo $this->helper('Magento_Core_Helper_String')->truncate($this->getEscapedTitle($item), 70)?></h2>
+                <a class="link-edit" href="<?php echo $this->getEditUrl($item)?>"><?php echo $this->__('Edit') ?></a>
+
+                <div class="message">
+                    <div><?php echo $this->getEscapedMessage($item)?></div>
+                    <span class="date"><?php echo $this->getFormattedDate($item) ?></span>
+                </div>
+
+                <a href="<?php echo $this->getItemsUrl($item)?>"><?php echo $this->__('Manage Items') ?></a> <span class="separator">|</span>
+                <a href="<?php echo $this->getShareUrl($item)?>"><?php echo $this->__('Share') ?></a>
+
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->getChildHtml('pager') ?>
+<?php else:?>
+    <p><?php echo Mage::helper('Magento_GiftRegistry_Helper_Data')->__('There are no created gift registries yet.'); ?></p>
+<?php endif;?>
+
+<?php if ($this->canAddNewEntity()):?>
+<div class="buttons-set">
+    <button type="button" onclick="setLocation('<?php echo $this->escapeUrl($this->getAddUrl()) ?>')" class="button"><?php echo $this->__('Add New') ?></button>
+</div>
+<?php endif;?>
+</div>

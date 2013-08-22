@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_archive_shipmentsgrid>
+        <update handle="formkey"/>
+        <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid" name="archive.grid" as="grid" output="1"/>
+    </adminhtml_sales_archive_shipmentsgrid>
+</layout>

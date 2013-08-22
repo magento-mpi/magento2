@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerSegment
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <actions>
+        <refresh_data translate="label">
+            <label>Refresh Data</label>
+        </refresh_data>
+    </actions>
+
+    <magento_customersegment translate="label">
+        <label>Manage Segments</label>
+        <expected_models>
+            <Magento_CustomerSegment_Model_Segment/>
+        </expected_models>
+        <actions>
+            <adminhtml_customersegment_edit>
+                <action>view</action>
+            </adminhtml_customersegment_edit>
+
+            <adminhtml_customersegment_save>
+                <action>save</action>
+                <skip_on_back>
+                    <adminhtml_customersegment_edit />
+                </skip_on_back>
+            </adminhtml_customersegment_save>
+
+            <adminhtml_customersegment_match>
+                <action>refresh_data</action>
+                <post_dispatch>Magento_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch</post_dispatch>
+            </adminhtml_customersegment_match>
+
+            <adminhtml_customersegment_delete>
+                <action>delete</action>
+            </adminhtml_customersegment_delete>
+
+            <adminhtml_report_customer_customersegment_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_customersegment_exportCsv>
+
+            <adminhtml_report_customer_customersegment_exportExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_customersegment_exportExcel>
+        </actions>
+    </magento_customersegment>
+</logging>

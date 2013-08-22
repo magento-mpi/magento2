@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<widgets>
+    <magento_giftregistry_search type="Magento_GiftRegistry_Block_Search_Widget_Form" translate="name description">
+        <name>Gift Registry Search</name>
+        <description>Gift Registry Quick Search Form</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <types translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Quick Search Form Types</label>
+                <type>multiselect</type>
+                <source_model>Magento_GiftRegistry_Model_Source_Search</source_model>
+            </types>
+            <template>
+                <values>
+                    <default_template translate="label">
+                        <label>Default Template</label>
+                        <value>search/widget/form.phtml</value>
+                    </default_template>
+                </values>
+            </template>
+        </parameters>
+        <supported_containers>
+            <left_column>
+                <container_name>left</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </left_column>
+            <!--main_content>
+                <container_name>content</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </main_content-->
+            <right_column>
+                <container_name>right</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </right_column>
+        </supported_containers>
+    </magento_giftregistry_search>
+</widgets>

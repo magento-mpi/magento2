@@ -11,7 +11,7 @@
 -->
 <config>
     <system>
-        <section id="enterprise_reward">
+        <section id="magento_reward">
             <group id="points">
                 <field id="tag" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Tag Submission</label>

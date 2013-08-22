@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CatalogEvent
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <fieldsets>
+            <sales_convert_quote_item>
+                <event_id>
+                    <to_order_item>*</to_order_item>
+                </event_id>
+                <event_name>
+                    <to_order_item>*</to_order_item>
+                </event_name>
+            </sales_convert_quote_item>
+        </fieldsets>
+    </global>
+</config>

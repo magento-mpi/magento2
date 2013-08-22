@@ -51,7 +51,7 @@ new_gift_registry:
             tabs:
                 -
                     general_information:
-                        xpath: //a[@id='enterprise_giftregistry_tabs_general_section']
+                        xpath: //a[@id='magento_giftregistry_tabs_general_section']
                         fieldsets:
                             -
                                 general_info: &generalInformationTab
@@ -65,11 +65,11 @@ new_gift_registry:
                                     required: [code, label]
                 -
                     attributes: &attributesTab
-                        xpath: //a[@id='enterprise_giftregistry_tabs_registry_attributes']
+                        xpath: //a[@id='magento_giftregistry_tabs_registry_attributes']
                         fieldsets:
                             -
                                 attributes:
-                                    xpath: //div[@id='enterprise_giftregistry_tabs_registry_attributes_content']
+                                    xpath: //div[@id='magento_giftregistry_tabs_registry_attributes_content']
                                     buttons:
                                         add_attribute: //button[@id='registry_add_new_attribute']
                             -

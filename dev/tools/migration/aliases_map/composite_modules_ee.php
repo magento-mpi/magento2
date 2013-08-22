@@ -17,6 +17,6 @@ require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
     . '/app/code/Magento/Core/Model/Resource/Setup/Migration.php';
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))
-    . '/app/code/Enterprise/Enterprise/Model/Resource/Setup/Migration.php';
+    . '/app/code/Magento/Enterprise/Model/Resource/Setup/Migration.php';
 
-return Enterprise_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();
+return Magento_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();

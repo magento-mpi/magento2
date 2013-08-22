@@ -1,0 +1,97 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_Rma_Block_Return_Tracking_Package */ ?>
+<?php  $_results = $this->getPackageInfo() ?>
+<div class="page-title title-buttons">
+    <h1><?php echo __('Packages'); ?></h1>
+    <button class="button" type="button" title="<?php echo __('Print') ?>" onclick="setLocation('<?php echo $this->getPrintPackageUrl() ?>');return false;"><span><span><?php echo __('Print') ?></span></span></button>
+    <button class="button" type="button" title="<?php echo __('Close Window') ?>" onclick="window.close(); window.opener.focus();"><span><span><?php echo __('Close Window') ?></span></span></button>
+</div>
+<div class="packed-content">
+<?php foreach ($this->getPackages() as $packageId => $package): ?>
+    <div class="package">
+        <?php $package = new Magento_Object($package) ?>
+        <?php $params = new Magento_Object($package->getParams()) ?>
+        <h4><?php echo __('Package') . ' ' . $packageId ?></h4>
+        <div class="package-info">
+            <table class="tracking-table-popup data-table">
+                <colgroup>
+                    <col width="40%" />
+                    <col width="*" />
+                    <col width="40%" />
+                    <col width="*" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th class="label"><?php echo __('Type') ?></th>
+                        <td class="value"><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
+                        <th class="label"><?php echo __('Length') ?></th>
+                        <td class="value"><?php echo $params->getLength() .' '. Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                    </tr>
+                    <tr>
+                        <th class="label"><?php echo __('Total Weight') ?></th>
+                        <td class="value"><?php echo $params->getWeight() .' '. Mage::helper('Magento_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                        <th class="label"><?php echo __('Width') ?></th>
+                        <td class="value"><?php echo $params->getWidth() .' '. Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td>&nbsp;</td>
+                        <th class="label"><?php echo __('Height') ?></th>
+                        <td class="value"><?php echo $params->getHeight() .' '. Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <strong><?php echo __('Items in the Package') ?></strong>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table class="tracking-table-popup data-table">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col width="100">
+                        <col width="*">
+                    </colgroup>
+                    <thead>
+                    <tr class="headings">
+                        <th  class="a-center"><?php echo __('Product') ?></th>
+                        <th  class="a-center"><?php echo __('Weight') ?></th>
+                        <th  class="a-center"><?php echo __('Qty') ?></th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="">
+                    <?php foreach($package->getItems() as $itemId => $item) : ?>
+                        <?php $item = new Magento_Object($item) ?>
+                        <tr title="#" id="" class="">
+                            <td class="name label">
+                                <?php echo $item->getName(); ?>
+                            </td>
+                            <td class="a-center value">
+                                <?php echo $item->getWeight(); ?>
+                            </td>
+                            <td class="a-right value last">
+                                <?php echo $item->getQty()*1; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>
+<div class="buttons-set">
+    <button class="button" type="button" title="<?php echo __('Close Window') ?>" onclick="window.close(); window.opener.focus();"><span><span><?php echo __('Close Window') ?></span></span></button>
+    <button class="button" type="button" title="<?php echo __('Print') ?>" onclick="setLocation('<?php echo $this->getPrintPackageUrl() ?>');return false;"><span><span><?php echo __('Print') ?></span></span></button>
+</div>

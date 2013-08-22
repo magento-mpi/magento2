@@ -128,7 +128,7 @@ manage_invitations:
                             invitee_group: //select[@id='invitationGrid_filter_group_id']
                             view_per_page: //select[@name='limit']
                         fields:
-                            id: //input[@id='invitationGrid_filter_enterprise_invitation_id']
+                            id: //input[@id='invitationGrid_filter_magento_invitation_id']
                             email: //input[@id='invitationGrid_filter_email']
                             sent_from: //input[@name='invitation_date[from]']
                             sent_to: //input[@name='invitation_date[to]']

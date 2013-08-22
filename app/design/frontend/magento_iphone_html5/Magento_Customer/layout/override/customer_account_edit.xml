@@ -18,7 +18,7 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="Magento_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml">
-                <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                     <action method="setFormCode">
                         <code>customer_account_edit</code>
                     </action>

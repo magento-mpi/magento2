@@ -11,7 +11,7 @@
 /**
  * Block limiters for AdminGws module
  */
-class Enterprise_Tag_Model_AdminGws_Blocks extends Enterprise_AdminGws_Model_Observer_Abstract
+class Enterprise_Tag_Model_AdminGws_Blocks extends Magento_AdminGws_Model_Observer_Abstract
 {
     /**
      * Remove control buttons if user does not have exclusive access to current tag

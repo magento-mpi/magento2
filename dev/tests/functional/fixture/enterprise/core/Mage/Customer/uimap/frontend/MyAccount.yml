@@ -123,7 +123,7 @@ my_returns:
            successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"
 
 my_credit_cards:
-    mca: enterprise_pbridge/payment_profile/
+    mca: magento_pbridge/payment_profile/
     title: Magento Enterprise Edition
     uimap:
         form:

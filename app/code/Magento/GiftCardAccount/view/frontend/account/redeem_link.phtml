@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @see Magento_GiftCardAccount_Block_Account_Redeem
+ */
+?>
+<?php if ($this->canRedeem()): ?>
+    <div class="account-balance">
+        <h2 class="sub-title"><?php echo __('Redeem Gift Card'); ?></h2>
+        <p><?php echo __('Have a gift card? <a href="%1">Click here</a> to redeem it.', Mage::getUrl('magento_giftcardaccount/customer')); ?></p>
+    </div>
+<?php endif; ?>

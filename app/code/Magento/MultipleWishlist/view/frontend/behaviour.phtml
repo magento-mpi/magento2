@@ -1,0 +1,94 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+    /* @var $this Magento_MultipleWishlist_Block_Behaviour */
+?>
+<script id="form-tmpl" type="text/x-jQuery-tmpl">
+    <form id="wishlist-hidden-form" method="post" action="${url}" class="no-display">
+        {{if itemId}}<input name="item_id" value="${itemId}"/>{{/if}}
+        {{if wishlistId}}<input name="wishlist_id" value="${wishlistId}"/>{{/if}}
+        {{if qty}}<input name="qty" value="${qty}"/>{{/if}}
+        {{if item}}<input name="item" value="${item}"/>{{/if}}
+        {{if entity}}<input name="entity" value="${entity}"/>{{/if}}
+    </form>
+</script>
+<script id="popup-tmpl" type="text/x-jQuery-tmpl">
+    <div class="window-overlay active" style="height: ${$('body').height()}px;"></div>
+    <div id="${popupWishlistBlockId}" class="popup-block block undefined active">
+        <div class="block-title">
+            <strong>{{if isEdit}}${$.mage.__('Edit Wish List')}{{else}}${$.mage.__('Create New Wish List')}{{/if}}</strong>
+            <div class="${btnCloseClass}">Close</div>
+        </div>
+        <div class="block-content">
+            <form id="${popupWishlistFormId}" method="post" action="${url}">
+                <ul class="form-list">
+                    <li>
+                        <label for="wishlist-name">${$.mage.__('Wish List Name')}</label>
+                        <div class="input-box">
+                            <input id="wishlist-name" class="input-text" data-validate="{required:true}" type="text" name="name" maxlength="255" value="${name}">
+                        </div>
+                    </li>
+                    <li class="control">
+                        <div class="input-box">
+                            <input id="wishlist-public" type="checkbox" name="visibility" {{if isPublic}}checked=true{{/if}}">
+                        </div>
+                        <label for="wishlist-public">${$.mage.__('Make This Wish List Public')}</label>
+                    </li>
+                </ul>
+                <div class="buttons-set form-buttons">
+                    <button class="button btn-save" type="submit">
+                                                <span>
+                                                        <span>${$.mage.__('Save')}</span>
+                                                </span>
+                    </button>
+                    <button class="button btn-cancel ${btnCloseClass}" type="button">
+                                                <span>
+                                                    <span>${$.mage.__('Cancel')}</span>
+                                                </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+<script id="split-btn-tmpl" type="text/x-jQuery-tmpl">
+    <div class="split-button split-button-created light clickable">
+        <strong>
+            <span data-wishlist-add='{"url":"${wishlistAddUrl}"}'>Add to Wish List</span>
+        </strong>
+        <a href="#" class="change" tabindex="20">Add to:</a>
+        <div class="list-container">
+            <ul>
+                {{each wishlists}}
+                <li {{if newClass}}class="${newClass}"{{/if}}><span data-wishlist-add-to='{"url":"${url}", "isNew":${isNew}}' title="${name}">${name}</span></li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+            "<?php echo $this->getViewFileUrl('Magento_Persistent::splitbutton.js') ?>",
+            "<?php echo $this->getViewFileUrl('Magento_MultipleWishlist::js/multiple-wishlist.js') ?>",
+            function() {
+                $('body').splitButton().multipleWishlist({
+                    canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
+                    createUrl: '<?php echo $this->getCreateUrl();?>',
+                    wishlists: <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getWishlistShortList());?>
+                });
+            });
+    })(jQuery);
+</script>

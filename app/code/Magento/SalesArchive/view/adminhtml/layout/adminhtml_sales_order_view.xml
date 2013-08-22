@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="left">
+            <block type="Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer" name="archive.replacer"/>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

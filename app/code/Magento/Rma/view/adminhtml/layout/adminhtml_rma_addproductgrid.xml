@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rma_addproductgrid>
+        <block type="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid" name="add_product_grid" output="1"/>
+    </adminhtml_rma_addproductgrid>
+</layout>

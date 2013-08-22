@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_AdvancedCheckout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<widgets>
+    <order_by_sku type="Magento_AdvancedCheckout_Block_Widget_Sku" translate="name description">
+        <name>Order by SKU</name>
+        <description>Order by SKU Description</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <link_display translate="label description">
+                <visible>1</visible>
+                <label>Display a Link to Loading a Spreadsheet</label>
+                <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
+                <type>select</type>
+                <sort_order>10</sort_order>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+            </link_display>
+            <link_text translate="label description value">
+                <required>1</required>
+                <visible>1</visible>
+                <label>Link Text</label>
+                <description>The text of the link to the My Account &amp;gt; Order by SKU page</description>
+                <type>text</type>
+                <sort_order>20</sort_order>
+                <value>Load a list of SKUs</value>
+                <depends>
+                    <link_display>
+                        <value>1</value>
+                    </link_display>
+                </depends>
+            </link_text>
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <type>select</type>
+                <value>widget/sku.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>widget/sku.phtml</value>
+                        <label>Order by SKU Template</label>
+                    </default>
+                </values>
+            </template>
+        </parameters>
+    </order_by_sku>
+</widgets>

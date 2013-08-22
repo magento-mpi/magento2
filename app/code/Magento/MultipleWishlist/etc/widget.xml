@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_MultipleWishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<widgets>
+    <wishlist_search type="Magento_MultipleWishlist_Block_Widget_Search" translate="name description">
+        <name>Wishlist Search</name>
+        <description>Wish List Search Description</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <types translate="label description">
+                <required>1</required>
+                <visible>1</visible>
+                <label>Quick Search Form Types</label>
+                <type>multiselect</type>
+                <sort_order>10</sort_order>
+                <source_model>Magento_MultipleWishlist_Model_Config_Source_Search</source_model>
+            </types>
+            <template translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <type>select</type>
+                <value>widget/search.phtml</value>
+                <values>
+                    <default_template translate="label">
+                        <value>widget/search.phtml</value>
+                        <label>Wish List Search Template</label>
+                    </default_template>
+                </values>
+            </template>
+        </parameters>
+        <supported_containers>
+            <left_column>
+                <container_name>left</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </left_column>
+            <right_column>
+                <container_name>right</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </right_column>
+        </supported_containers>
+    </wishlist_search>
+</widgets>

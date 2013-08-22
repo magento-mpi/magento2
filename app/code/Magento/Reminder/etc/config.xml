@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Reminder
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <reminder_setup>
+                <setup>
+                    <module>Magento_Reminder</module>
+                    <class>Magento_Reminder_Model_Resource_Setup</class>
+                </setup>
+            </reminder_setup>
+        </resources>
+        <template>
+            <email>
+                <magento_reminder_email_template translate="label" module="Magento_Reminder">
+                    <label>Promotion Notification/Reminder</label>
+                    <file>email/promotion.html</file>
+                    <type>html</type>
+                </magento_reminder_email_template>
+            </email>
+        </template>
+        <events>
+            <salesrule_rule_get_coupon_types>
+                <observers>
+                    <magento_reminder>
+                        <class>Magento_Reminder_Model_Observer</class>
+                        <method>getCouponTypes</method>
+                    </magento_reminder>
+                </observers>
+            </salesrule_rule_get_coupon_types>
+            <adminhtml_promo_quote_edit_tab_main_prepare_form>
+                <observers>
+                    <magento_reminder>
+                        <class>Magento_Reminder_Model_Observer</class>
+                        <method>updatePromoQuoteTabMainForm</method>
+                    </magento_reminder>
+                </observers>
+            </adminhtml_promo_quote_edit_tab_main_prepare_form>
+            <salesrule_rule_save_after>
+                <observers>
+                    <magento_reminder>
+                        <class>Magento_Reminder_Model_Observer</class>
+                        <method>detachUnsupportedSalesRule</method>
+                    </magento_reminder>
+                </observers>
+            </salesrule_rule_save_after>
+            <adminhtml_block_promo_widget_chooser_prepare_collection>
+                <observers>
+                    <magento_reminder>
+                        <class>Magento_Reminder_Model_Observer</class>
+                        <method>addSalesRuleFilter</method>
+                    </magento_reminder>
+                </observers>
+            </adminhtml_block_promo_widget_chooser_prepare_collection>
+            <adminhtml_promo_quote_edit_tab_main_prepare_form>
+                <observers>
+                    <magento_reminder>
+                        <class>Magento_Reminder_Model_Observer</class>
+                        <method>addUseAutoGenerationNotice</method>
+                    </magento_reminder>
+                </observers>
+            </adminhtml_promo_quote_edit_tab_main_prepare_form>
+        </events>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <magento_reminder before="Magento_Adminhtml">Magento_Reminder_Adminhtml</magento_reminder>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Magento_Reminder>
+                    <files>
+                        <default>Magento_Reminder.csv</default>
+                    </files>
+                </Magento_Reminder>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <promo>
+            <magento_reminder>
+                <enabled>1</enabled>
+                <frequency>I</frequency>
+                <interval>15</interval>
+                <minutes>0</minutes>
+                <limit>100</limit>
+                <threshold>1</threshold>
+                <identity>general</identity>
+            </magento_reminder>
+        </promo>
+    </default>
+    <crontab>
+        <jobs>
+            <send_notification>
+                <schedule>
+                    <cron_expr>*/15 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Magento_Reminder_Model_Observer::scheduledNotification</model>
+                </run>
+            </send_notification>
+        </jobs>
+    </crontab>
+</config>

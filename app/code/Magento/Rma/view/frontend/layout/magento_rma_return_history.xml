@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <magento_rma_return_history translate="label" type="page" parent="magento_rma_return_view">
+        <label>Customer My Returns History</label>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>rma/return/history/</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="Magento_Rma_Block_Return_History" name="rma.return.history">
+                <container name="rma.return.history.info" as="info" label="Returns History Info"/>
+            </block>
+            <block type="Magento_Customer_Block_Account_Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+        </reference>
+    </magento_rma_return_history>
+</layout>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_index>
+        <reference name="billing_method">
+            <block type="Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment" template="sales/order/create/payment.phtml" name="reward_points" before="-"/>
+        </reference>
+    </adminhtml_sales_order_create_index>
+</layout>

@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Magento_TargetRule_Block_Catalog_Product_List_Upsell */
+?>
+<?php if ($this->hasItems()): ?>
+<div class="box-collateral box-up-sell">
+    <div class="box-title">
+        <h2><?php echo $this->__('You May Also Like') ?></h2>
+    </div>
+    <?php $i=0; foreach ($this->getItemCollection() as $_item): ?>
+        <?php if ($i++ % $this->getColumnCount() == 0): ?>
+            <ul class="products-grid"><!-
+        <?php endif ?>
+                -><li class="item<?php if (($i - 1) % $this->getColumnCount() == 0):?> first<?php elseif ($i % $this->getColumnCount() == 0):?> last<?php endif;?>">
+                    <?php
+                        $itemBlock = $this->getChildBlock('catalog.product.upsell.item')->setItem($_item)->setPosition($i);
+                        echo $itemBlock->toHtml();
+                    ?>
+                </li><!-
+        <?php if ($i % $this->getColumnCount() == 0 || $i == $this->getItemsCount()): ?>
+            -></ul>
+        <?php endif ?>
+    <?php endforeach; ?>
+</div>
+<?php endif ?>

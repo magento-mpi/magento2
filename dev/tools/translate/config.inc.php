@@ -343,183 +343,183 @@ $CONFIG['translates'] = array(
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
     ),
-    'Enterprise_AdminGws' => array(
-        'app/code/Enterprise/AdminGws/',
+    'Magento_AdminGws' => array(
+        'app/code/Magento/AdminGws/',
         'app/design/adminhtml/default/default/layout/enterprise/admingws.xml',
         'app/design/adminhtml/default/default/template/enterprise/admingws/',
     ),
-    'Enterprise_Banner' => array(
-        'app/code/Enterprise/Banner/',
+    'Magento_Banner' => array(
+        'app/code/Magento/Banner/',
         'app/design/adminhtml/default/default/layout/enterprise/banner.xml',
         'app/design/adminhtml/default/default/template/enterprise/banner/',
         'app/design/frontend/enterprise/default/template/banner/'
     ),
-    'Enterprise_CatalogEvent' => array(
-        'app/code/Enterprise/CatalogEvent/',
+    'Magento_CatalogEvent' => array(
+        'app/code/Magento/CatalogEvent/',
         'app/design/adminhtml/default/default/layout/enterprise/catalogevent.xml',
         'app/design/adminhtml/default/default/template/enterprise/catalogevent/',
         'app/design/frontend/enterprise/default/layout/catalogevent.xml',
         'app/design/frontend/enterprise/default/template/catalogevent/'
     ),
-    'Enterprise_CatalogPermissions' => array(
-        'app/code/Enterprise/CatalogPermissions/',
+    'Magento_CatalogPermissions' => array(
+        'app/code/Magento/CatalogPermissions/',
         'app/design/adminhtml/default/default/layout/enterprise/catalogpermissions.xml',
         'app/design/adminhtml/default/default/template/enterprise/catalogpermissions',
         'app/design/frontend/enterprise/default/layout/catalogpermissions.xml'
     ),
-    'Enterprise_Checkout' => array(
-        'app/code/Enterprise/Checkout/',
+    'Magento_AdvancedCheckout' => array(
+        'app/code/Magento/AdvancedCheckout/',
         'app/design/adminhtml/default/default/layout/enterprise/checkout.xml',
         'app/design/adminhtml/default/default/template/enterprise/checkout/',
         'app/design/frontend/enterprise/default/layout/checkout.xml',
         'app/design/frontend/enterprise/default/template/checkout/'
     ),
-    'Enterprise_Cms' => array(
-        'app/code/Enterprise/Cms/',
+    'Magento_VersionsCms' => array(
+        'app/code/Magento/VersionsCms/',
         'app/design/adminhtml/default/default/layout/enterprise/cms.xml',
         'app/design/adminhtml/default/default/template/enterprise/cms/',
         'app/design/frontend/enterprise/default/layout/cms.xml',
         'app/design/frontend/enterprise/default/template/cms/'
     ),
-    'Enterprise_Customer' => array(
-        'app/code/Enterprise/Customer/',
+    'Magento_CustomerCustomAttributes' => array(
+        'app/code/Magento/CustomerCustomAttributes/',
         'app/design/adminhtml/default/default/layout/enterprise/customer.xml',
         'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
         'app/design/frontend/enterprise/default/layout/customer.xml',
         'app/design/frontend/enterprise/default/template/customer/'
     ),
-    'Enterprise_CustomerBalance' => array(
-        'app/code/Enterprise/CustomerBalance/',
+    'Magento_CustomerBalance' => array(
+        'app/code/Magento/CustomerBalance/',
         'app/design/adminhtml/default/default/layout/enterprise/customerbalance.xml',
         'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
         'app/design/frontend/enterprise/default/layout/customerbalance.xml',
         'app/design/frontend/enterprise/default/template/customerbalance/'
     ),
-    'Enterprise_CustomerSegment' => array(
-        'app/code/Enterprise/CustomerSegment/',
+    'Magento_CustomerSegment' => array(
+        'app/code/Magento/CustomerSegment/',
         'app/design/adminhtml/default/default/layout/enterprise/customersegment.xml',
     ),
-    'Enterprise_Eav' => array(
-        'app/code/Enterprise/Eav/',
+    'Magento_CustomAttribute' => array(
+        'app/code/Magento/CustomAttribute/',
     ),
-    'Enterprise_Enterprise' => array(
-        'app/code/Enterprise/Enterprise/',
+    'Magento_Enterprise' => array(
+        'app/code/Magento/Enterprise/',
     ),
-    'Enterprise_GiftCard' => array(
-        'app/code/Enterprise/GiftCard/',
+    'Magento_GiftCard' => array(
+        'app/code/Magento/GiftCard/',
         'app/design/adminhtml/default/default/layout/enterprise/giftcard.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftcard/',
         'app/design/frontend/enterprise/default/layout/giftcard.xml',
         'app/design/frontend/enterprise/default/template/giftcard/'
     ),
-    'Enterprise_GiftCardAccount' => array(
-        'app/code/Enterprise/GiftCardAccount/',
+    'Magento_GiftCardAccount' => array(
+        'app/code/Magento/GiftCardAccount/',
         'app/design/adminhtml/default/default/layout/enterprise/giftcardaccount.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftcardaccount/',
         'app/design/frontend/enterprise/default/layout/giftcardaccount.xml',
         'app/design/frontend/enterprise/default/template/giftcardaccount/'
     ),
-    'Enterprise_GiftRegistry' => array(
-        'app/code/Enterprise/GiftRegistry/',
+    'Magento_GiftRegistry' => array(
+        'app/code/Magento/GiftRegistry/',
         'app/design/adminhtml/default/default/layout/enterprise/giftregistry.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftregistry/',
         'app/design/frontend/enterprise/default/layout/giftregistry.xml',
         'app/design/frontend/enterprise/default/template/giftregistry/'
     ),
-    'Enterprise_GiftWrapping' => array(
-        'app/code/Enterprise/GiftWrapping/',
+    'Magento_GiftWrapping' => array(
+        'app/code/Magento/GiftWrapping/',
         'app/design/adminhtml/default/default/layout/enterprise/giftwrapping.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftwrapping/',
         'app/design/frontend/enterprise/default/layout/giftwrapping.xml',
         'app/design/frontend/enterprise/default/template/giftwrapping/'
     ),
-    'Enterprise_ImportExport' => array(
-        'app/code/Enterprise/ImportExport/',
+    'Magento_ScheduledImportExport' => array(
+        'app/code/Magento/ScheduledImportExport/',
         'app/design/adminhtml/default/default/layout/enterprise/importexport.xml',
         'app/design/adminhtml/default/default/template/enterprise/importexport/',
     ),
-    'Enterprise_Invitation' => array(
-        'app/code/Enterprise/Invitation/',
+    'Magento_Invitation' => array(
+        'app/code/Magento/Invitation/',
         'app/design/adminhtml/default/default/layout/enterprise/invitation.xml',
         'app/design/adminhtml/default/default/template/enterprise/invitation/',
         'app/design/frontend/enterprise/default/layout/invitation.xml',
         'app/design/frontend/enterprise/default/template/invitation/'
     ),
-    'Enterprise_License' => array(
-        'app/code/Enterprise/License/',
+    'Magento_License' => array(
+        'app/code/Magento/License/',
         'app/design/adminhtml/default/default/layout/enterprise/license.xml',
         'app/design/adminhtml/default/default/template/enterprise/license/',
     ),
-    'Enterprise_Logging' => array(
-        'app/code/Enterprise/Logging/',
+    'Magento_Logging' => array(
+        'app/code/Magento/Logging/',
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
         'app/design/adminhtml/default/default/template/enterprise/logging/',
     ),
-    'Enterprise_PageCache' => array(
-        'app/code/Enterprise/PageCache/'
+    'Magento_FullPageCache' => array(
+        'app/code/Magento/FullPageCache/'
     ),
-    'Enterprise_Pbridge' => array(
-        'app/code/Enterprise/Pbridge/',
+    'Magento_Pbridge' => array(
+        'app/code/Magento/Pbridge/',
         'app/design/adminhtml/default/default/layout/enterprise/pbridge.xml',
         'app/design/adminhtml/default/default/template/enterprise/pbridge/',
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
     ),
-    'Enterprise_Pci' => array(
-        'app/code/Enterprise/Pci/',
+    'Magento_Pci' => array(
+        'app/code/Magento/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
     ),
-    'Enterprise_Persistent' => array(
-        'app/code/Enterprise/Persistent/',
+    'Magento_PersistentHistory' => array(
+        'app/code/Magento/PersistentHistory/',
         'app/design/frontend/enterprise/default/template/persistent/'
     ),
-    'Enterprise_PricePermissions' => array(
-        'app/code/Enterprise/PricePermissions/',
+    'Magento_PricePermissions' => array(
+        'app/code/Magento/PricePermissions/',
     ),
-    'Enterprise_PromotionPermissions' => array(
-        'app/code/Enterprise/PromotionPermissions/',
+    'Magento_PromotionPermissions' => array(
+        'app/code/Magento/PromotionPermissions/',
     ),
-    'Enterprise_Reminder' => array(
-        'app/code/Enterprise/Reminder/',
+    'Magento_Reminder' => array(
+        'app/code/Magento/Reminder/',
         'app/design/adminhtml/default/default/layout/enterprise/reminder.xml'
     ),
-    'Enterprise_Reward' => array(
-        'app/code/Enterprise/Reward/',
+    'Magento_Reward' => array(
+        'app/code/Magento/Reward/',
         'app/design/adminhtml/default/default/layout/enterprise/reward.xml',
         'app/design/adminhtml/default/default/template/enterprise/reward/',
         'app/design/frontend/enterprise/default/layout/reward.xml',
         'app/design/frontend/enterprise/default/template/reward/'
     ),
-    'Enterprise_Rma' => array(
-        'app/code/Enterprise/Rma/',
+    'Magento_Rma' => array(
+        'app/code/Magento/Rma/',
         'app/design/adminhtml/default/default/layout/enterprise/rma.xml',
         'app/design/adminhtml/default/default/template/enterprise/rma/',
         'app/design/frontend/enterprise/default/layout/rma.xml',
         'app/design/frontend/enterprise/default/template/rma/'
     ),
-    'Enterprise_SalesArchive' => array(
-        'app/code/Enterprise/SalesArchive/',
+    'Magento_SalesArchive' => array(
+        'app/code/Magento/SalesArchive/',
         'app/design/adminhtml/default/default/layout/enterprise/salesarchive.xml'
     ),
-    'Enterprise_Search' => array(
-        'app/code/Enterprise/Search/'
+    'Magento_Search' => array(
+        'app/code/Magento/Search/'
     ),
-    'Enterprise_TargetRule' => array(
-        'app/code/Enterprise/TargetRule/',
+    'Magento_TargetRule' => array(
+        'app/code/Magento/TargetRule/',
         'app/design/adminhtml/default/default/layout/enterprise/targetrule.xml',
         'app/design/adminhtml/default/default/template/enterprise/targetrule/',
         'app/design/frontend/enterprise/default/layout/targetrule.xml',
         'app/design/frontend/enterprise/default/template/targetrule/'
     ),
-    'Enterprise_WebsiteRestriction' => array(
-        'app/code/Enterprise/WebsiteRestriction/',
+    'Magento_WebsiteRestriction' => array(
+        'app/code/Magento/WebsiteRestriction/',
         'app/design/frontend/enterprise/default/layout/websiterestriction.xml'
     ),
-    'Enterprise_Wishlist' => array(
-        'app/code/Enterprise/Wishlist/',
+    'Magento_MultipleWishlist' => array(
+        'app/code/Magento/MultipleWishlist/',
         'app/design/adminhtml/default/default/layout/enterprise/wishlist.xml',
         'app/design/adminhtml/default/default/template/enterprise/wishlist/',
-        'app/design/frontend/enterprise/default/layout/enterprise_wishlist.xml',
+        'app/design/frontend/enterprise/default/layout/magento_multiplewishlist.xml',
         'app/design/frontend/enterprise/default/template/wishlist/'
     ),
     'Magento_Adminhtml' => array(
@@ -631,38 +631,38 @@ $CONFIG['helpers']  = array(
     'weee'              => 'Magento_Weee',
     'wishlist'          => 'Magento_Wishlist',
     'widget'            => 'Magento_Widget',
-    'enterprise_admingws'           => 'Enterprise_AdminGws',
-    'enterprise_banner'             => 'Enterprise_Banner',
-    'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
-    'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
-    'enterprise_checkout'           => 'Enterprise_Checkout',
-    'enterprise_cms'                => 'Enterprise_Cms',
-    'enterprise_customer'           => 'Enterprise_Customer',
-    'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
-    'enterprise_customersegment'    => 'Enterprise_CustomerSegment',
-    'enterprise_eav'                => 'Enterprise_Eav',
-    'enterprise_enterprise'         => 'Enterprise_Enterprise',
-    'enterprise_giftcard'           => 'Enterprise_GiftCard',
-    'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
-    'enterprise_giftregistry'       => 'Enterprise_GiftRegistry',
-    'enterprise_giftwrapping'       => 'Enterprise_GiftWrapping',
-    'enterprise_importexport'       => 'Enterprise_ImportExport',
-    'enterprise_invitation'         => 'Enterprise_Invitation',
-    'enterprise_license'            => 'Enterprise_License',
-    'enterprise_logging'            => 'Enterprise_Logging',
-    'enterprise_pagecache'          => 'Enterprise_PageCache',
-    'enterprise_pbridge'            => 'Enterprise_Pbridge',
-    'enterprise_pci'                => 'Enterprise_Pci',
-    'enterprise_persistent'         => 'Enterprise_Persistent',
-    'enterprise_pricepermissions'   => 'Enterprise_PricePermissions',
-    'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
-    'enterprise_reminder'           => 'Enterprise_Reminder',
-    'enterprise_reward'             => 'Enterprise_Reward',
-    'enterprise_rma'                => 'Enterprise_Rma',
-    'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
-    'enterprise_search'             => 'Enterprise_Search',
-    'enterprise_targetrule'         => 'Enterprise_TargetRule',
-    'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
-    'enterprise_wishlist'           => 'Enterprise_Wishlist',
+    'magento_admingws'           => 'Magento_AdminGws',
+    'magento_banner'             => 'Magento_Banner',
+    'magento_catalogevent'       => 'Magento_CatalogEvent',
+    'magento_catalogpermissions' => 'Magento_CatalogPermissions',
+    'magento_advancedcheckout'           => 'Magento_AdvancedCheckout',
+    'magento_versionscms'                => 'Magento_VersionsCms',
+    'magento_customercustomattributes'           => 'Magento_CustomerCustomAttributes',
+    'magento_customerbalance'    => 'Magento_CustomerBalance',
+    'magento_customersegment'    => 'Magento_CustomerSegment',
+    'magento_customattribute'                => 'Magento_CustomAttribute',
+    'magento_enterprise'         => 'Magento_Enterprise',
+    'magento_giftcard'           => 'Magento_GiftCard',
+    'magento_giftcardaccount'    => 'Magento_GiftCardAccount',
+    'magento_giftregistry'       => 'Magento_GiftRegistry',
+    'magento_giftwrapping'       => 'Magento_GiftWrapping',
+    'magento_scheduledimportexport'       => 'Magento_ScheduledImportExport',
+    'magento_invitation'         => 'Magento_Invitation',
+    'magento_license'            => 'Magento_License',
+    'magento_logging'            => 'Magento_Logging',
+    'magento_fullpagecache'          => 'Magento_FullPageCache',
+    'magento_pbridge'            => 'Magento_Pbridge',
+    'magento_pci'                => 'Magento_Pci',
+    'magento_persistenthistory'         => 'Magento_PersistentHistory',
+    'magento_pricepermissions'   => 'Magento_PricePermissions',
+    'magento_promotionpermissions' => 'Magento_PromotionPermissions',
+    'magento_reminder'           => 'Magento_Reminder',
+    'magento_reward'             => 'Magento_Reward',
+    'magento_rma'                => 'Magento_Rma',
+    'magento_salesarchive'       => 'Magento_SalesArchive',
+    'magento_search'             => 'Magento_Search',
+    'magento_targetrule'         => 'Magento_TargetRule',
+    'magento_websiterestriction' => 'Magento_WebsiteRestriction',
+    'magento_multiplewishlist'           => 'Magento_MultipleWishlist',
 );
 

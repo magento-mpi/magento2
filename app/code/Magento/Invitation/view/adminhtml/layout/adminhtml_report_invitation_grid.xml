@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_report_invitation_grid>
+        <update handle="adminhtml_report_grid"/>
+        <reference name="adminhtml.report.grid">
+            <arguments>
+                <id>report_invitation_general</id>
+                <dataSource type="object">Magento_Invitation_Model_Resource_Report_Invitation_Collection_Initial</dataSource>
+            </arguments>
+        </reference>
+        <reference name="adminhtml.report.grid.columnSet">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
+                <arguments>
+                    <header translate="true">Sent</header>
+                    <type>number</type>
+                    <index>sent</index>
+                    <id>sent</id>
+                    <header_css_class>col-inv-sent</header_css_class>
+                    <column_css_class>col-inv-sent</column_css_class>
+                </arguments>
+            </block>
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
+                <arguments>
+                    <header translate="true">Accepted</header>
+                    <type>number</type>
+                    <index>accepted</index>
+                    <id>accepted</id>
+                    <header_css_class>col-inv-acc</header_css_class>
+                    <column_css_class>col-inv-acc</column_css_class>
+                </arguments>
+            </block>
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled">
+                <arguments>
+                    <header translate="true">Discarded</header>
+                    <type>number</type>
+                    <index>canceled</index>
+                    <id>canceled</id>
+                    <header_css_class>col-inv-disc</header_css_class>
+                    <column_css_class>col-inv-disc</column_css_class>
+                </arguments>
+            </block>
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted_rate">
+                <arguments>
+                    <header translate="true">Accept Rate</header>
+                    <type>string</type>
+                    <index>accepted_rate</index>
+                    <id>accepted_rated</id>
+                    <width>170</width>
+                    <renderer>Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
+                    <header_css_class>col-inv-acc-rate</header_css_class>
+                    <column_css_class>col-inv-acc-rate</column_css_class>
+                </arguments>
+            </block>
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled_rate">
+                <arguments>
+                    <header translate="true">Discard Rate</header>
+                    <type>number</type>
+                    <index>canceled_rate</index>
+                    <id>canceled_rate</id>
+                    <width>170</width>
+                    <renderer>Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
+                    <header_css_class>col-inv-disc-rate</header_css_class>
+                    <column_css_class>col-inv-disc-rate</column_css_class>
+                </arguments>
+            </block>
+        </reference>
+    </adminhtml_report_invitation_grid>
+</layout>

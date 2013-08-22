@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_attribute_edit>
+        <update handle="scope_switcher"/>
+        <reference name="content">
+            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit" name="magento_customercustomattributes_attribute_edit"/>
+        </reference>
+        <reference name="left">
+            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tabs" name="magento_customercustomattributes_attribute_edit_tabs">
+                <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main" name="magento_customercustomattributes_attribute_edit_tab_general"/>
+                <action method="addTab">
+                    <name>general</name>
+                    <block>magento_customercustomattributes_attribute_edit_tab_general</block>
+                </action>
+                <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options" name="magento_customercustomattributes_attribute_edit_tab_options"/>
+                <action method="addTab">
+                    <name>options</name>
+                    <block>magento_customercustomattributes_attribute_edit_tab_options</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="js">
+            <block type="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Js" template="attribute/js.phtml"/>
+        </reference>
+    </adminhtml_customer_attribute_edit>
+</layout>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Core_Model_Resource_Setup_Migration" type="Magento_Enterprise_Model_Resource_Setup_Migration" />
+</config>

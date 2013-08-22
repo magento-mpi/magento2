@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_wishlist>
+        <reference name="customer.wishlist.edit.tab">
+            <arguments>
+                <dataSource>
+                    <updater>Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater</updater>
+                </dataSource>
+            </arguments>
+            <reference name="customer.wishlist.edit.tab.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="wishlist_name" before="-">
+                    <arguments>
+                        <header translate="true">Wishlist</header>
+                        <index>wishlist_name</index>
+                    </arguments>
+                </block>
+            </reference>
+        </reference>
+    </adminhtml_customer_wishlist>
+</layout>

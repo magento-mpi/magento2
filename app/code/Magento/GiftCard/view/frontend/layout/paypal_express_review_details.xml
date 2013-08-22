@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <paypal_express_review_details>
+        <reference name="paypal.express.review.details">
+            <action method="addItemRender">
+                <type>giftcard</type>
+                <block>Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</block>
+                <template>Magento_Checkout::onepage/review/item.phtml</template>
+            </action>
+        </reference>
+    </paypal_express_review_details>
+</layout>

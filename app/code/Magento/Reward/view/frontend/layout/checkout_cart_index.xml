@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_cart_index>
+        <reference name="checkout.cart.form.before">
+            <block type="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
+                <action method="initRewardType">
+                    <type>Magento_Reward_Model_Action_OrderExtra</type>
+                </action>
+                <action method="setWrapperClass">
+                    <class>reward-checkout</class>
+                </action>
+                <action method="setRewardMessage" translate="message">
+                    <message>Check out now and earn %1 for this order.</message>
+                </action>
+                <action method="setIsGuestNote">
+                    <value>1</value>
+                </action>
+            </block>
+        </reference>
+        <reference name="checkout.cart.form.before">
+            <block type="Magento_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
+                <action method="initRewardType">
+                    <type>Magento_Reward_Model_Action_Salesrule</type>
+                </action>
+                <action method="setWrapperClass">
+                    <class>reward-checkout</class>
+                </action>
+                <action method="setRewardMessage" translate="message">
+                    <message>Check out now and earn %1 for this order.</message>
+                </action>
+                <action method="setIsGuestNote">
+                    <value>1</value>
+                </action>
+            </block>
+        </reference>
+    </checkout_cart_index>
+</layout>

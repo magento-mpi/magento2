@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details
+ */
+
+$customerLink = $this->getCustomerLink();
+?>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo __('Request Details') ?></span>
+    </div>
+    <table cellspacing="0" class="data-table">
+        <tr>
+            <th><?php echo __('ID') ?></th>
+            <td><?php echo __('#') . $this->getRmaData('increment_id') ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Order ID') ?></th>
+            <td><a href="<?php echo $this->getOrderLink() ?>"><?php echo __('#') . $this->getOrderIncrementId() ?></a></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Customer Name') ?></th>
+            <td>
+                <?php
+                    if ($customerLink) {
+                        echo '<a href="' . $customerLink . '">';
+                    }
+                    echo $this->getCustomerName();
+                    if ($customerLink) {
+                        echo '</a>';
+                    }
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <th><?php echo __('Email Address') ?></th>
+            <td><a href="mailto:<?php echo $this->getCustomerEmail() ?>"><?php echo $this->getCustomerEmail() ?></a></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Contact Email Address') ?></th>
+            <td><?php if ($this->getCustomerContactEmail()): ?><a href="mailto:<?php echo $this->getCustomerContactEmail() ?>"><?php echo $this->getCustomerContactEmail() ?></a><?php endif; ?></td>
+        </tr>
+    </table>
+</div>
