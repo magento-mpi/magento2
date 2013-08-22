@@ -120,7 +120,7 @@ class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceInterceptor ex
     public function __sleep()
     {
         $this->_getSubject();
-        return array('_subject');
+        return array('_subject', '_subjectType');
     }
 
     /**

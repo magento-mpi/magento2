@@ -122,7 +122,7 @@ class SourceClassWithNamespaceInterceptor extends \Magento\Code\Generator\TestAs
     public function __sleep()
     {
         $this->_getSubject();
-        return array('_subject');
+        return array('_subject', '_subjectType');
     }
 
     /**
