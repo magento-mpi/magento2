@@ -98,13 +98,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     protected $_app;
 
     /**
-     * Config instance
-     *
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * Resource instance
      *
      * @var null
@@ -119,11 +112,16 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     protected $_translate;
 
     /**
+     * @var Mage_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Store $store
-     * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Model_Translate $translate
+     * @param Mage_Core_Model_Email_TemplateFactory $templateFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -132,24 +130,25 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         Mage_Core_Model_Context $context,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Store $store,
-        Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Model_Translate $translate,
+        Mage_Core_Model_Email_TemplateFactory $templateFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data= array()
     ) {
         $this->_app = $application;
-        $this->_config = $applicationConfig;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
         $this->_store = $store;
         $this->_translate = $translate;
+        $this->_templateFactory = $templateFactory;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Enterprise_GiftRegistry_Model_Resource_Entity');
         parent::_construct();
     }
@@ -294,7 +293,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             $storeId = $this->getStoreId();
         }
         $store = $this->_app->getStore($storeId);
-        $mail = $this->_config->getModelInstance('Mage_Core_Model_Email_Template');
+        $mail = $this->_templateFactory->create();
 
         if (is_array($recipient)) {
             $recipientEmail = $recipient['email'];
@@ -418,7 +417,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             ->load($this->getCustomerId());
 
         $store = Mage::app()->getStore();
-        $mail = Mage::getModel('Mage_Core_Model_Email_Template');
+        $mail = $this->_templateFactory->create();
 
         $this->setUpdatedQty($updatedQty);
 
@@ -459,7 +458,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             ->load($this->getCustomerId());
 
         $store = Mage::app()->getStore();
-        $mail = Mage::getModel('Mage_Core_Model_Email_Template');
+        $mail = $this->_templateFactory->create();
 
         $templateVars = array(
             'store' => $store,

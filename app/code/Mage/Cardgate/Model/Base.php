@@ -39,7 +39,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
     /**
      * Resource Transaction factory
      *
-     * @var Mage_Core_Model_Resource_Transaction_Factory
+     * @var Mage_Core_Model_Resource_TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -113,7 +113,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dir
      * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
+     * @param Mage_Core_Model_Resource_TransactionFactory $transactionFactory
      * @param Mage_Sales_Model_OrderFactory $orderFactory
      * @param Mage_Cardgate_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
@@ -124,7 +124,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Dir $dir,
         Mage_Core_Model_Logger $logger,
-        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
+        Mage_Core_Model_Resource_TransactionFactory $transactionFactory,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Mage_Cardgate_Helper_Data $helper,
         Magento_Filesystem $filesystem,

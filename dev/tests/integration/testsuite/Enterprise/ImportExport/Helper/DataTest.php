@@ -34,7 +34,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - active/enabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  1
+     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled 1
      */
     public function testIsRewardPointsEnabledActiveEnabled()
     {
@@ -46,7 +46,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - active/disabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  0
+     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled 0
      */
     public function testIsRewardPointsEnabledActiveDisabled()
     {
@@ -58,7 +58,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - inactive/enabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  1
+     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled 1
      */
     public function testIsRewardPointsEnabledInactiveEnabled()
     {
@@ -70,7 +70,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - inactive/disabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  0
+     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled 0
      */
     public function testIsRewardPointsEnabledInactiveDisabled()
     {
@@ -82,7 +82,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - active/enabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
+     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled 1
      */
     public function testisCustomerBalanceEnabledActiveEnabled()
     {
@@ -94,7 +94,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - active/disabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  0
+     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled 0
      */
     public function testisCustomerBalanceEnabledActiveDisabled()
     {
@@ -106,7 +106,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - inactive/enabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
+     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled 1
      */
     public function testisCustomerBalanceEnabledInactiveEnabled()
     {
@@ -118,7 +118,7 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - inactive/disabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  0
+     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled 0
      */
     public function testisCustomerBalanceEnabledInactiveDisabled()
     {

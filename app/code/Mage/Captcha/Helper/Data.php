@@ -64,28 +64,36 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_dirs = null;
 
     /**
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_StoreManager
      */
-    protected $_app;
+    protected $_storeManager;
+
+    /**
+     * @var Mage_Captcha_Model_CaptchaFactory
+     */
+    protected $_factory;
 
     /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_StoreManager $storeManager
      * @param Mage_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Captcha_Model_CaptchaFactory $factory
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_App $app,
+        Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_Config $config,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Mage_Captcha_Model_CaptchaFactory $factory
     ) {
         $this->_dirs = $dirs;
-        $this->_app = $app;
+        $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_filesystem = $filesystem;
+        $this->_factory = $factory;
         parent::__construct($context);
     }
 
@@ -102,7 +110,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
             if (!$type) {
                 $type = self::DEFAULT_CAPTCHA_TYPE;
             }
-            $this->_captcha[$formId] = $this->_config->getModelInstance(
+            $this->_captcha[$formId] = $this->_factory->create(
                 'Mage_Captcha_Model_' . $type,
                 array(
                     'params' => array('formId' => $formId, 'helper' => $this)
@@ -115,15 +123,15 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Returns value of the node with respect to current area (frontend or backend)
      *
-     * @param string $id The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
+     * @param string $key The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
      * @param Mage_Core_Model_Store $store
      * @return Mage_Core_Model_Config_Element
      */
-    public function getConfigNode($id, $store = null)
+    public function getConfigNode($key, $store = null)
     {
-        $store = $this->_app->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         $areaCode = $store->isAdmin() ? 'admin' : 'customer';
-        return $store->getConfig($areaCode . '/captcha/' . $id);
+        return $store->getConfig($areaCode . '/captcha/' . $key);
     }
 
     /**
@@ -159,7 +167,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     public function getImgDir($website = null)
     {
         $mediaDir =  $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA);
-        $captchaDir = $mediaDir . '/captcha/' . $this->_app->getWebsite($website)->getCode();
+        $captchaDir = $mediaDir . '/captcha/' . $this->_storeManager->getWebsite($website)->getCode();
         $this->_filesystem->setWorkingDirectory($mediaDir);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($captchaDir, 0775);
@@ -174,7 +182,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getImgUrl($website = null)
     {
-        return $this->_app->getStore()->getBaseUrl(Mage_Core_Model_Dir::MEDIA) . 'captcha'
-            . '/' . $this->_app->getWebsite($website)->getCode() . '/';
+        return $this->_storeManager->getStore()->getBaseUrl(Mage_Core_Model_Dir::MEDIA) . 'captcha'
+            . '/' . $this->_storeManager->getWebsite($website)->getCode() . '/';
     }
 }

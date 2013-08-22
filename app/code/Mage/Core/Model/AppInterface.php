@@ -58,7 +58,7 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
      */
     public function getCookie();
 
-   /**
+    /**
      * Re-declare custom error handler
      *
      * @param   string $handler

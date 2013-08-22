@@ -97,6 +97,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                 }
                 $argumentType = $argument['instance'];
                 if (isset($this->_creationStack[$argumentType])) {
+                    $this->_creationStack = array();
                     throw new LogicException(
                         'Circular dependency: ' . $argumentType . ' depends on ' . $requestedType . ' and viceversa.'
                     );

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
 {
     /**
@@ -15,15 +14,29 @@ class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
      */
     protected $_resource;
 
-    public function __construct(array $data = array())
-    {
-        $this->_resource = isset($data['resource'])
-            ? $data['resource']
-            : Mage::getSingleton('Mage_Core_Model_Resource');
+    /**
+     * @var Mage_User_Model_Acl_Role_GroupFactory
+     */
+    protected $_groupFactory;
 
-        $this->_objectFactory = isset($data['objectFactory'])
-            ? $data['objectFactory']
-            : Mage::getConfig();
+    /**
+     * @var Mage_User_Model_Acl_Role_UserFactory
+     */
+    protected $_roleFactory;
+
+    /**
+     * @param Mage_User_Model_Acl_Role_GroupFactory $groupFactory
+     * @param Mage_User_Model_Acl_Role_UserFactory $roleFactory
+     * @param Mage_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Mage_User_Model_Acl_Role_GroupFactory $groupFactory,
+        Mage_User_Model_Acl_Role_UserFactory $roleFactory,
+        Mage_Core_Model_Resource $resource
+    ) {
+        $this->_resource = $resource;
+        $this->_groupFactory = $groupFactory;
+        $this->_roleFactory = $roleFactory;
     }
 
     /**
@@ -46,9 +59,7 @@ class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
                 case Mage_User_Model_Acl_Role_Group::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['role_id'];
                     $acl->addRole(
-                        $this->_objectFactory->getModelInstance('Mage_User_Model_Acl_Role_Group',
-                            array('roleId' => $roleId)
-                        ),
+                        $this->_groupFactory->create(array('roleId' => $roleId)),
                         $parent
                     );
                     break;
@@ -57,9 +68,7 @@ class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
                     $roleId = $role['role_type'] . $role['user_id'];
                     if (!$acl->hasRole($roleId)) {
                         $acl->addRole(
-                            $this->_objectFactory->getModelInstance('Mage_User_Model_Acl_Role_User',
-                                array('roleId' => $roleId)
-                            ),
+                            $this->_roleFactory->create(array('roleId' => $roleId)),
                             $parent
                         );
                     } else {

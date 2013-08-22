@@ -84,13 +84,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_moduleHelper;
 
     /**
-     * Object factory model, currently it is config model
-     *
-     * @var Mage_Core_Model_Config
-     */
-    protected $_objectFactory;
-
-    /**
      * Admin user object
      *
      * @var Mage_User_Model_User
@@ -105,36 +98,56 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_importedRowPks = array();
 
     /**
-     * Constructor
-     *
+     * @var Mage_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Enterprise_CustomerBalance_Model_BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @var Enterprise_Reward_Model_RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
+     * @param Enterprise_ImportExport_Helper_Data $helper
+     * @param Mage_Customer_Model_CustomerFactory $customerFactory
+     * @param Enterprise_CustomerBalance_Model_BalanceFactory $balanceFactory
+     * @param Enterprise_Reward_Model_RewardFactory $rewardFactory
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Enterprise_ImportExport_Helper_Data $helper,
+        Mage_Customer_Model_CustomerFactory $customerFactory,
+        Enterprise_CustomerBalance_Model_BalanceFactory $balanceFactory,
+        Enterprise_Reward_Model_RewardFactory $rewardFactory,
+        array $data = array()
+    ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
         parent::__construct($data);
 
-        $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
-            : Mage::helper('Enterprise_ImportExport_Helper_Data');
-        $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
-            : Mage::app()->getConfig();
+        $this->_rewardFactory = $rewardFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_balanceFactory = $balanceFactory;
+        $this->_moduleHelper = $helper;
+
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
             : Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
-            $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Finance information website is not specified')
+            $this->_moduleHelper->__('Finance information website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
-            $this->_helper('Enterprise_ImportExport_Helper_Data')
-                ->__('Invalid value in Finance information website column')
+            $this->_moduleHelper->__('Invalid value in Finance information website column')
         );
         $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
-            $this->_helper('Enterprise_ImportExport_Helper_Data')
-                ->__('Row with such email, website, finance website combination was already found.')
+            $this->_moduleHelper->__('Row with such email, website, finance website combination was already found.')
         );
-
         $this->_initAttributes();
     }
 
@@ -169,7 +182,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
         }
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer');
+        $customer = $this->_customerFactory->create();
         $rewardPointsKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
@@ -231,7 +244,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _updateRewardPointsForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $rewardModel Enterprise_Reward_Model_Reward */
-        $rewardModel = $this->_objectFactory->getModelInstance('Enterprise_Reward_Model_Reward');
+        $rewardModel = $this->_rewardFactory->create();
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
@@ -270,7 +283,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _updateCustomerBalanceForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $balanceModel Enterprise_CustomerBalance_Model_Balance */
-        $balanceModel = $this->_objectFactory->getModelInstance('Enterprise_CustomerBalance_Model_Balance');
+        $balanceModel = $this->_balanceFactory->create();
         $balanceModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();

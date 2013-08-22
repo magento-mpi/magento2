@@ -478,7 +478,6 @@ final class Mage
     /**
      * Retrieve model object
      *
-     * @link    Mage_Core_Model_Config::getModelInstance
      * @param   string $modelClass
      * @param   array|object $arguments
      * @return  Mage_Core_Model_Abstract|false

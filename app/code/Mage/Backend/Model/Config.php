@@ -57,7 +57,7 @@ class Mage_Backend_Model_Config extends Magento_Object
     /**
      * TransactionFactory
      *
-     * @var Mage_Core_Model_Resource_Transaction_Factory
+     * @var Mage_Core_Model_Resource_TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -92,7 +92,7 @@ class Mage_Backend_Model_Config extends Magento_Object
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Backend_Model_Config_Structure $configStructure
-     * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
+     * @param Mage_Core_Model_Resource_TransactionFactory $transactionFactory
      * @param Mage_Backend_Model_Config_Loader $configLoader
      * @param Mage_Core_Model_Config_ValueFactory $configValueFactory
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
@@ -103,7 +103,7 @@ class Mage_Backend_Model_Config extends Magento_Object
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Config_Structure $configStructure,
-        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
+        Mage_Core_Model_Resource_TransactionFactory $transactionFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
         Mage_Core_Model_Config_ValueFactory $configValueFactory,
         Mage_Core_Model_StoreManagerInterface $storeManager,

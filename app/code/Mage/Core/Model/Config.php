@@ -2,18 +2,14 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
 {
@@ -45,48 +41,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_secureUrlCache = array();
 
     /**
-     * Configuration data model
-     *
-     * @var Mage_Core_Model_Config_Value
-     */
-    protected $_configValueModel;
-
-    /**
-     * Configuration for events by area
-     *
-     * @var array
-     */
-    protected $_eventAreas;
-
-    /**
-     * Flag cache for existing or already created directories
-     *
-     * @var array
-     */
-    protected $_dirExists = array();
-
-    /**
-     * Flach which allow using cache for config initialization
-     *
-     * @var bool
-     */
-    protected $_allowCacheForInit = true;
-
-    /**
-     * Property used during cache save process
-     *
-     * @var array
-     */
-    protected $_cachePartsForSave = array();
-
-    /**
-     * Empty configuration object for loading and merging configuration parts
-     *
-     * @var Mage_Core_Model_Config_Base
-     */
-    protected $_prototype;
-
-    /**
      * Active modules array per namespace
      *
      * @var array
@@ -99,13 +53,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @var array
      */
     protected $_allowedAreas = null;
-
-    /**
-     * Current area code
-     *
-     * @var string
-     */
-    protected $_currentAreaCode = null;
 
     /**
      * Object manager
@@ -127,13 +74,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @var Mage_Core_Model_ConfigInterface
      */
     protected $_config;
-
-    /**
-     * Application object
-     *
-     * @var Mage_Core_Model_AppInterface
-     */
-    protected $_app;
 
     /**
      * Module configuration reader
@@ -165,7 +105,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     /**
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
-     * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Config_ScopeInterface $configScope
@@ -174,7 +113,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     public function __construct(
         Mage_Core_Model_ObjectManager $objectManager,
         Mage_Core_Model_Config_StorageInterface $storage,
-        Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_ModuleListInterface $moduleList,
         Magento_Config_ScopeInterface $configScope,
@@ -182,7 +120,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
-        $this->_app = $app;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
@@ -209,7 +146,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
                     continue;
                 }
                 /**
-                 * TODO: Check of 'routers' nodes existance is excessive:
+                 * TODO: Check of 'routers' nodes existence is excessive:
                  * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
                  */
 
@@ -299,7 +236,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $areaCode = empty($areaCode) ? $this->_configScope->getCurrentScope() : $areaCode;
         $areas = $this->getAreas();
         if (!isset($areas[$areaCode])) {
-            throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
+            throw new InvalidArgumentException('Requested area (' . $areaCode . ') does not exist');
         }
         return $areas[$areaCode];
     }
@@ -516,42 +453,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     public function reinit()
     {
         $this->_sectionPool->clean();
-    }
-
-    /**
-     * Get model class instance.
-     *
-     * Example:
-     * $config->getModelInstance('Mage_Catalog_Model_Resource_Product')
-     *
-     * Will instantiate Mage_Catalog_Model_Resource_Product
-     *
-     * @param string $modelClass
-     * @param array|object $constructArguments
-     * @return Mage_Core_Model_Abstract|bool
-     */
-    public function getModelInstance($modelClass = '', $constructArguments = array())
-    {
-        if (class_exists($modelClass)) {
-            Magento_Profiler::start('FACTORY:' . $modelClass);
-            $obj = $this->_objectManager->create($modelClass, $constructArguments);
-            Magento_Profiler::stop('FACTORY:' . $modelClass);
-            return $obj;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Get resource model object by alias
-     *
-     * @param   string $modelClass
-     * @param   array $constructArguments
-     * @return  object
-     */
-    public function getResourceModelInstance($modelClass = '', $constructArguments=array())
-    {
-        return $this->getModelInstance($modelClass, $constructArguments);
     }
 
     /**

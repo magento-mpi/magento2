@@ -10,8 +10,8 @@
  */
 
 /**
- * @magentoConfigFixture current_store enterprise_reward/general/is_enabled            1
- * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
+ * @magentoConfigFixture current_store enterprise_reward/general/is_enabled 1
+ * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled 1
  */
 class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
