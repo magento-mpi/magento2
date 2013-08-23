@@ -9,8 +9,8 @@
 -->
 <config>
     <module name="Mage_Last" version="1.6.0.0.23" active="true" >
-        <depends>
+        <sequence>
             <module name="Mage_Test"/>
-        </depends>
+        </sequence>
     </module>
 </config>
