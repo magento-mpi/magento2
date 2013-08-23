@@ -19,7 +19,6 @@
             <sequence maxOccurs="unbounded" minOccurs="0">
                 <element name="widget" type="tns:widgetType"></element>
             </sequence>
-            <attribute name="schemaLocation" type="string" use="required"></attribute>
         </complexType>
     </element>
 
