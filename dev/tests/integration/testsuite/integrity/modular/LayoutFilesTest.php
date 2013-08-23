@@ -49,7 +49,7 @@ class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
             Mage::getBaseDir('app') . '/*/*/*/*/*/layout/*/*/*/*/*/*.xml'
         );
         $layouts = array();
-        foreach($patterns as $pattern) {
+        foreach ($patterns as $pattern) {
             $layouts = array_merge($layouts, glob($pattern));
         }
 
