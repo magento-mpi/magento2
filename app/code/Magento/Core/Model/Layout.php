@@ -512,6 +512,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      *
      * @param Magento_Core_Model_Layout_Element $node
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readArguments(Magento_Core_Model_Layout_Element $node)
     {
