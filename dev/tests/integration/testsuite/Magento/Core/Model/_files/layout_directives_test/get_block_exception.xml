@@ -8,8 +8,12 @@
  */
 -->
 <layout>
-    <block name="block1" class="Magento_Core_Block_Text">
-        <container name="container" label="Container"/>
-        <action method="getChildBlock"><value>container</value></action>
-    </block>
+    <handle id="get_block_exception">
+        <block name="block1" class="Magento_Core_Block_Text">
+            <container name="container" label="Container"/>
+            <action method="getChildBlock">
+                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">container</argument>
+            </action>
+        </block>
+    </handle>
 </layout>

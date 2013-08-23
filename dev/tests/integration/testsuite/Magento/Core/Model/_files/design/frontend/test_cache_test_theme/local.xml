@@ -12,8 +12,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     <handle id="layout_test_handle">
-        <block type="Magento_Core_Block_Text" name="sample_text_block">
-            <action method="setText"><text>Text declared in the frontend/test/cache_test_theme</text></action>
+        <block class="Magento_Core_Block_Text" name="sample_text_block">
+            <action method="setText">
+                <argument name="text" xsi:type="string">Text declared in the frontend/test/cache_test_theme</argument>
+            </action>
         </block>
     </handle>
 </layout>

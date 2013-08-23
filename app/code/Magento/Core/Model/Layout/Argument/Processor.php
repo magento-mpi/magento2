@@ -58,8 +58,8 @@ class Magento_Core_Model_Layout_Argument_Processor
         foreach ($arguments as $argumentKey => $argumentValue) {
             $value = is_array($argumentValue) && isset($argumentValue['value']) ? $argumentValue['value'] : null;
 
-            if (!in_array($argumentValue['type'], array('string', 'array'))) {
-                if (empty($value)) {
+            if (!in_array($argumentValue['type'], array('string', 'array', 'url'))) {
+                if (!isset($value)) {
                     throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
                 }
 
@@ -91,7 +91,7 @@ class Magento_Core_Model_Layout_Argument_Processor
         /** @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
         $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
 
-        if (!($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
+        if (false === ($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
             throw new InvalidArgumentException($type
                 . ' type handler should implement Magento_Core_Model_Layout_Argument_HandlerInterface');
         }
