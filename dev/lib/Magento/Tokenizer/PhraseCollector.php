@@ -72,7 +72,9 @@ class Magento_Tokenizer_PhraseCollector
         ) {
             $arguments = $this->_tokenizer->getFunctionArgumentsTokens();
             $phrase = $this->collectPhrase(array_shift($arguments));
-            $this->addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
+            if (null !== $phrase) {
+                $this->addPhrase($phrase, count($arguments), $this->_file, $phraseStartToken->getLine());
+            }
         }
     }
 

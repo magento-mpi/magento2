@@ -19,9 +19,7 @@ class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_In
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-                if (!is_null($phrase['phrase'])) {
-                    $this->addError($phrase);
-                }
+                $this->addError($phrase);
             }
         }
         $message = $this->_prepareErrorMessage('%d usages of the old translation method call were discovered: %s',

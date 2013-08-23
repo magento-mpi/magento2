@@ -20,9 +20,7 @@ class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity
         foreach ($this->_getFiles() as $file) {
             $this->_phraseCollector->parse($file);
             foreach ($this->_phraseCollector->getPhrases() as $phrase) {
-                if (!is_null($phrase['phrase'])
-                    && (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0)
-                ) {
+                if (preg_match_all('/%(\d+)/', $phrase['phrase'], $matches) || $phrase['arguments'] > 0) {
                     $placeholdersInPhrase = array_unique($matches[1]);
                     if (count($placeholdersInPhrase) != $phrase['arguments']) {
                         $this->addError($phrase);
