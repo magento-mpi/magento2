@@ -13,10 +13,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     <handle id="enterprise_reward_customer_info" translate="label" type="page" parent="customer_account">
         <label>Customer Reward Info</label>
-        <block type="Magento_Reward_Block_Customer_Reward" name="customer.reward" template="customer/reward.phtml">
-            <block type="Magento_Reward_Block_Customer_Reward_Info" name="customer.reward.info" template="customer/reward/info.phtml"/>
-            <block type="Magento_Reward_Block_Customer_Reward_History" name="customer.reward.history" template="customer/reward/history.phtml"/>
-            <block type="Magento_Reward_Block_Customer_Reward_Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml"/>
+        <block class="Magento_Reward_Block_Customer_Reward" name="customer.reward" template="customer/reward.phtml">
+            <block class="Magento_Reward_Block_Customer_Reward_Info" name="customer.reward.info" template="customer/reward/info.phtml"/>
+            <block class="Magento_Reward_Block_Customer_Reward_History" name="customer.reward.history" template="customer/reward/history.phtml"/>
+            <block class="Magento_Reward_Block_Customer_Reward_Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml"/>
         </block>
     </handle>
 </layout>

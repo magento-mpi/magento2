@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layouts>
     <handle id="handle_one">
         <block type="Magento_Core_Block_Text" name="some_text_block">
             <action method="setText"><text>Some Default Text</text></action>
