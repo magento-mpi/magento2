@@ -18,7 +18,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public static function setUpBeforeClass()
     {
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 
@@ -48,7 +48,8 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     {
         $this->assertTrue($this->_model->isAllowed());
         /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', false);
         $this->assertFalse($this->_model->isAllowed());
     }

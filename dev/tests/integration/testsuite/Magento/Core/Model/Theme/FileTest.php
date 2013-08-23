@@ -28,9 +28,10 @@ class Magento_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()->create('Magento_Core_Model_Theme_File');
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_model = $objectManager->create('Magento_Core_Model_Theme_File');
         /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
+        $themeModel = $objectManager->create('Magento_Core_Model_Theme');
         $this->_theme = $themeModel->getCollection()->getFirstItem();
         $this->_data = array(
             'file_path' => 'main.css',

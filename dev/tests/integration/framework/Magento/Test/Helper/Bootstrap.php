@@ -20,6 +20,11 @@ class Magento_Test_Helper_Bootstrap
     private static $_instance;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    private static $_objectManager;
+
+    /**
      * @var Magento_Test_Bootstrap
      */
     protected $_bootstrap;
@@ -126,5 +131,25 @@ class Magento_Test_Helper_Bootstrap
     public function runApp(Magento_Test_Request $request, Magento_Test_Response $response)
     {
         $this->_bootstrap->getApplication()->run($request, $response);
+    }
+
+    /**
+     * Retrieve object manager
+     *
+     * @return Magento_ObjectManager
+     */
+    public static function getObjectManager()
+    {
+        return self::$_objectManager;
+    }
+
+    /**
+     * Set object manager
+     *
+     * @param Magento_ObjectManager $objectManager
+     */
+    public static function setObjectManager(Magento_ObjectManager $objectManager)
+    {
+        self::$_objectManager = $objectManager;
     }
 }

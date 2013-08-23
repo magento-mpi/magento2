@@ -16,32 +16,38 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
     /** @var  Magento_Webhook_Model_Resource_Endpoint */
     private $_endpointResource;
 
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
     public function setUp()
     {
-        $this->_endpointResource = Mage::getObjectManager()->get('Magento_Webhook_Model_Resource_Endpoint');
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_endpointResource = $this->_objectManager->get('Magento_Webhook_Model_Resource_Endpoint');
     }
 
     public function testGetApiUserEndpoints()
     {
         // Set up the users to be associated with endpoints
-        $apiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
+        $apiUserId = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
             ->setDataChanged(true)
             ->setApiKey('api_key1')
             ->save()
             ->getUserId();
-        $wrongApiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
+        $wrongApiUserId = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
             ->setDataChanged(true)
             ->setApiKey('api_key2')
             ->save()
             ->getUserId();
-        Mage::getObjectManager()->create('Magento_Webhook_Model_User', array('webapiUserId' => $apiUserId));
-        Mage::getObjectManager()->create('Magento_Webhook_Model_User', array('webapiUserId' => $wrongApiUserId));
+        $this->_objectManager->create('Magento_Webhook_Model_User', array('webapiUserId' => $apiUserId));
+        $this->_objectManager->create('Magento_Webhook_Model_User', array('webapiUserId' => $wrongApiUserId));
 
         $endpointIds = array();
 
         // All of these should be returned
         for ($i = 0; $i < 3; $i++) {
-            $endpointIds[] = Mage::getObjectManager()
+            $endpointIds[] = $this->_objectManager
                 ->create('Magento_Webhook_Model_Endpoint')
                 ->setApiUserId($apiUserId)
                 ->save()
@@ -50,8 +56,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
 
         // None of these should be returned
         for ($i = 0; $i < 3; $i++) {
-            Mage::getObjectManager()
-                ->create('Magento_Webhook_Model_Endpoint')
+            $this->_objectManager->create('Magento_Webhook_Model_Endpoint')
                 ->setApiUserId($wrongApiUserId)
                 ->save()
                 ->getId();
@@ -64,18 +69,18 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
     public function testGetEndpointsWithoutApiUser()
     {
         // Set up the user to be associated with endpoints
-        $apiUserId = Mage::getObjectManager()->create('Magento_Webapi_Model_Acl_User')
+        $apiUserId = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
             ->setDataChanged(true)
             ->setApiKey('api_key3')
             ->save()
             ->getUserId();
-        Mage::getObjectManager()->create('Magento_Webhook_Model_User', array('webapiUserId' => $apiUserId));
+        $this->_objectManager->create('Magento_Webhook_Model_User', array('webapiUserId' => $apiUserId));
 
         $endpointIdsToFind = array();
 
         // All of these should be returned
         for ($i = 0; $i < 3; $i++) {
-            $endpointIdsToFind[] = Mage::getObjectManager()
+            $endpointIdsToFind[] = $this->_objectManager
                 ->create('Magento_Webhook_Model_Endpoint')
                 ->setApiUserId(null)
                 ->save()
@@ -84,8 +89,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
 
         // None of these should be returned
         for ($i = 0; $i < 3; $i++) {
-            Mage::getObjectManager()
-                ->create('Magento_Webhook_Model_Endpoint')
+            $this->_objectManager->create('Magento_Webhook_Model_Endpoint')
                 ->setApiUserId($apiUserId)
                 ->save()
                 ->getId();

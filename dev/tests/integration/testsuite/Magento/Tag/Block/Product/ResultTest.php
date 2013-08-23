@@ -36,13 +36,13 @@ class Magento_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_layout->addBlock('Magento_Core_Block_Text', 'root');
         $this->_layout->addBlock('Magento_Core_Block_Text', 'head');
-        $context = Mage::getObjectManager()->create('Magento_Core_Block_Template_Context',
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Template_Context',
             array('layout' => $this->_layout)
         );
         $this->_block = $this->_layout->createBlock('Magento_Tag_Block_Product_Result', 'test',
             array('context' => $context)
         );
-        $this->_child = Mage::getObjectManager()->create('Magento_Core_Block_Text');
+        $this->_child = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Block_Text');
         $this->_layout->addBlock($this->_child, 'search_result_list', 'test');
     }
 

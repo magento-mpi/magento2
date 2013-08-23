@@ -20,7 +20,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         parent::setUp();
-        Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }

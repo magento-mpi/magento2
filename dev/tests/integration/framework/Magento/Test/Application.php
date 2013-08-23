@@ -177,23 +177,25 @@ class Magento_Test_Application
         $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
         $config = new Magento_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
-        if (!Mage::getObjectManager()) {
+        if (!Magento_Test_Helper_Bootstrap::getObjectManager()) {
             $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
             $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
-
         } else {
-            $objectManager = Mage::getObjectManager();
+            $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
         }
+        Magento_Test_Helper_Bootstrap::setObjectManager($objectManager);
 
-        $objectManager->get('Magento_Core_Model_Resource')
-            ->setResourceConfig(Mage::getObjectManager()->get('Magento_Core_Model_Config_Resource'));
-        $objectManager->get('Magento_Core_Model_Resource')
-            ->setCache(Mage::getObjectManager()->get('Magento_Core_Model_CacheInterface'));
+        $objectManager->get('Magento_Core_Model_Resource')->setResourceConfig(
+            $objectManager->get('Magento_Core_Model_Config_Resource')
+        );
+        $objectManager->get('Magento_Core_Model_Resource')->setCache(
+            $objectManager->get('Magento_Core_Model_CacheInterface')
+        );
 
         /** @var Magento_Core_Model_Dir_Verification $verification */
         $verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
@@ -223,7 +225,7 @@ class Magento_Test_Application
      */
     public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {
-        $composer = Mage::getObjectManager();
+        $composer = Magento_Test_Helper_Bootstrap::getObjectManager();
         $handler = $composer->get('Magento_HTTP_Handler_Composite');
         $handler->handle($request, $response);
     }
@@ -282,14 +284,14 @@ class Magento_Test_Application
         $this->initialize();
 
         /* Run all install and data-install scripts */
-        /** @var $updater Magento_Core_Model_Db_Updater */
-        $updater = Mage::getObjectManager()->get('Magento_Core_Model_Db_Updater');
+        /** @var $updater Mage_Core_Model_Db_Updater */
+        $updater = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Db_Updater');
         $updater->updateScheme();
         $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
         $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER, true);
         $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER, true);
@@ -328,7 +330,7 @@ class Magento_Test_Application
     protected function _resetApp()
     {
         /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
         $resource = Mage::registry('_singleton/Magento_Core_Model_Resource');

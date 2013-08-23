@@ -59,7 +59,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     protected function setUp()
     {
         $this->_assertSessionErrors = false;
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         $this->_objectManager->configure(array(
             'preferences' => array(
                 'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',

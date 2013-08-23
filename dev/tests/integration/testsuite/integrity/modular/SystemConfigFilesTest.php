@@ -13,7 +13,7 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     public function testConfiguration()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         // disable config caching to not pollute it
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */

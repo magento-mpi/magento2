@@ -18,7 +18,7 @@ class Magento_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::getObjectManager()->create('Magento_Tag_Block_Customer_View');
+        $this->_block = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Tag_Block_Customer_View');
     }
 
     public function testGetMode()

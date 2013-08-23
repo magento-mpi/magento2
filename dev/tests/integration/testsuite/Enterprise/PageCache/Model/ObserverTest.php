@@ -23,8 +23,9 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
         $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
             'Enterprise_PageCache_Model_Cookie',
@@ -35,8 +36,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_observer = Mage::getObjectManager()
-            ->create('Enterprise_PageCache_Model_Observer', array('cookie' => $this->_cookie));
+        $this->_observer = $objectManager->create(
+            'Enterprise_PageCache_Model_Observer',
+            array('cookie' => $this->_cookie)
+        );
     }
 
     public function testProcessPreDispatchCanProcessRequest()
@@ -50,7 +53,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observerData = new Magento_Event_Observer();
         $arguments = array('request' => $request, 'response' => $response);
-        $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Magento_Core_Controller_Front_Action',
@@ -61,7 +65,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
 
         $cacheState->setEnabled(Magento_Core_Block_Abstract::CACHE_GROUP, true);
 
@@ -86,7 +90,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observerData = new Magento_Event_Observer();
         $arguments = array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response());
-        $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Magento_Test_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Magento_Core_Controller_Front_Action',
