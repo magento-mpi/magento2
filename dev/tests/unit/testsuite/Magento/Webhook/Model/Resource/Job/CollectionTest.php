@@ -58,7 +58,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         $mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::setObjectManager($mockObjectManager);
+        Magento_Test_Helper_Bootstrap::setObjectManager($mockObjectManager);
 
         return $mockObjectManager;
     }
