@@ -12,26 +12,8 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento_Backend_Utility_Controller
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        /** @var $auth Magento_Backend_Model_Auth */
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-    }
-
-    protected function tearDown()
-    {
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
-        parent::tearDown();
-    }
-
     public function testNewAction()
     {
         $this->dispatch('backend/admin/giftregistry/new');
