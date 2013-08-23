@@ -12,7 +12,7 @@
 <?php
 $shippingMethod = $this->getShipment()->getOrder()->getShippingMethod();
 $sizeSource = $this->getSourceSizeModel()->toOptionArray();
-$girthEnabled = $this->helper('Mage_Usa_Helper_Data')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
+$girthEnabled = $this->helper('Magento_Usa_Helper_Data')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
 ?>
 <script type="text/javascript">
     //<![CDATA[
