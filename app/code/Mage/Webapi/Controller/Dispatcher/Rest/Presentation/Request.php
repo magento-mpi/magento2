@@ -52,7 +52,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     {
         $requestBody = array();
         switch ($this->_request->getHttpMethod()) {
-            // TODO: Introduce constants instead of literals
             case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
                 // break is intentionally omitted
             case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
