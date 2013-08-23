@@ -29,13 +29,15 @@ class namespacer
     private $fileMapper = array();
     private $renameFileLogger = "nmrenameFile.txt";
     private $renameClassLogger = "nmrenameClass.txt";
+    private $globalScanner="globalscanner.txt";
     private $errorLog = "error.txt";
     private $fileChanged = array();
     private $rootDirectory = null;
     private $classSearch = array();
     private $classReplace = array();
     private $allowedFileExtensions = array('php', 'phtml', 'html', 'xml', 'sql');
-    private $ignoreFile=array();
+    private $ignoreFile="blacklist.txt";
+    private $blackListArray=array();
 
     public function __construct($path, $rootDirectory, $def = false)
     {
@@ -43,6 +45,17 @@ class namespacer
         $this->rootDirectory = $rootDirectory;
         $this->renameFileLogger=time().$this->renameFileLogger;
         $this->renameClassLogger=time().$this->renameClassLogger;
+        $this->globalScanner=time().$this->globalScanner;
+        if(file_exists($this->ignoreFile)){
+            $temp=file($this->ignoreFile);
+            foreach($temp as $fl){
+                if(!empty($fl)){
+                    $array=$this->scanDirectory(trim($fl),false);
+                    $this->blackListArray=array_merge($this->blackListArray,$array);
+                }
+
+            }
+        }
 
     }
 
@@ -87,7 +100,7 @@ class namespacer
         return $default;
     }
 
-    protected function scanDirectory($path, $onlyPhp = true)
+    protected function scanDirectory($path, $onlyPhp = true,$blackList=false)
     {
         $files = array();
         clearstatcache();
@@ -104,8 +117,17 @@ class namespacer
                         continue;
                     }
                 }
+                if($blackList){
+                    if(!in_array($file->getRealPath(),$this->blackListArray)){
+                        $files[] = $file->getRealPath();
+                    }else{
+                        die( $file->getRealPath());
+                    }
+                }else{
+                    $files[] = $file->getRealPath();
+                }
 
-                $files[] = $file->getRealPath();
+
             }
         } elseif (is_file($path)) {
             $files[] = $path;
@@ -128,10 +150,10 @@ class namespacer
                 continue;
             }
 
-           if(!$this->checkClassFile($file)){
-               echo "$file Not a clas file \n";
-               continue;
-           }
+            if(!$this->checkClassFile($file)){
+                echo "$file Not a clas file \n";
+                continue;
+            }
 
             clearstatcache();
             $lines = file($file);
@@ -184,7 +206,7 @@ class namespacer
     {
         clearstatcache();
         if (is_dir($this->rootDirectory) && !empty($this->classSearch) & !empty($this->classReplace)) {
-            $files = $this->scanDirectory($this->rootDirectory, false);
+            $files = $this->scanDirectory($this->rootDirectory, false,true);
             $search = array();
             foreach ($this->classSearch as $searchKey) {
                 $search[] = "/\\" . $searchKey . "\\b/";
@@ -192,10 +214,13 @@ class namespacer
             if (count($search) === count($this->classReplace) && count($search) === count($this->classSearch)) {
                 $this->classSearch = $search;
                 foreach ($files as $file) {
+
+                    $this->logFile($this->globalScanner, $file."Start Processing \n");
                     clearstatcache();
                     //$contents=str_replace($this->classSearch,$this->classReplace,file_get_contents($file));
                     $contents = preg_replace($this->classSearch, $this->classReplace, file_get_contents($file));
                     file_put_contents($file, $contents);
+                    $this->logFile($this->globalScanner, $file."Scanning completed \n");
                 }
             } else {
                 $string = "Cannot do a global scan and replacement , Error Please do check the rename class and rename files" . "\n";
@@ -303,6 +328,9 @@ class namespacer
                         if ((trim($val) !== 'implements') || (trim($val) !== 'extends')) {
                             $val=str_replace('//','',trim($val));
                             $change=str_replace('//','',trim($change));
+                            $val=str_replace("\\\\", "\\",trim($val));
+                            $change=str_replace("\\\\", "\\",trim($change));
+
                             $mess = trim($val) . "  =>  " . $change . "\n";
                             $this->classSearch[] = trim($val);
                             $this->classReplace[] = $change;
@@ -342,11 +370,11 @@ class namespacer
             $string = explode(" ", $string[0]);
 
         }
-         if ($newClass === 'Exception' || $newClass === 'Trait' || $newClass === 'Interface') {
-             $newClass = trim(str_replace(";", '', ($string[count($string) - 1]))) . $newClass;
-         } else {
-             $newClass = $newClass . trim(str_replace(";", '', ($string[count($string) - 1])));
-         }
+        if ($newClass === 'Exception' || $newClass === 'Trait' || $newClass === 'Interface') {
+            $newClass = trim(str_replace(";", '', ($string[count($string) - 1]))) . $newClass;
+        } else {
+            $newClass = $newClass . trim(str_replace(";", '', ($string[count($string) - 1])));
+        }
 
         if ($reserveCheck) {
             $newFileName = dirname($file) . "\\" . $newClass . '.php';
@@ -413,6 +441,15 @@ class namespacer
 //Processing CommandLine arguments
 // php psrx.php (Dir/File)Location rootdirectory
 // root directory
+
+
+function errHandle($errNo, $errStr, $errFile, $errLine) {
+    $msg = "$errStr in $errFile on line $errLine";
+    if ($errNo) {
+        die($msg);
+    }
+}
+set_error_handler('errHandle');
 
 if (isset($argv[1])) {
     $rootDirectory = false;
