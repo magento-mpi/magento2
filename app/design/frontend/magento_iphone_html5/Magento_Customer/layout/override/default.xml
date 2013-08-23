@@ -12,7 +12,7 @@
         <reference name="top.links">
             <action method="addLink" translate="label title">
                 <argument name="label" xsi:type="string">My Account</argument>
-                <argument name="url" xsi:type="string"/>
+                <argument name="url" xsi:type="helper" helper="Mage_Customer_Helper_Data::getAccountUrl"/>
                 <argument name="title" xsi:type="string">My Account</argument>
                 <argument name="prepare" xsi:type="string"/>
                 <argument name="urlParams" xsi:type="string"/>
@@ -22,7 +22,7 @@
         <reference name="account.links">
             <action method="addLink" translate="label title before_text">
                 <argument name="label" xsi:type="string">Register</argument>
-                <argument name="url" xsi:type="string"/>
+                <argument name="url" xsi:type="helper" helper="Mage_Customer_Helper_Data::getRegisterUrl"/>
                 <argument name="title" xsi:type="string">Register</argument>
                 <argument name="prepare" xsi:type="string"/>
                 <argument name="urlParams" xsi:type="string"/>

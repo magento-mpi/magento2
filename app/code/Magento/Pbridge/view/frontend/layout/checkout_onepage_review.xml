@@ -11,9 +11,9 @@
     <handle id="checkout_onepage_review">
         <reference name="checkout.onepage.review.button">
             <action method="setTemplate">
-                <argument name="template" xsi:type="array">
-                    <item name="name" xsi:type="string">Magento_Pbridge::checkout/review/button.phtml</item>
-                    <item name="block" xsi:type="string">checkout.onepage.review.button</item>
+                <argument name="template" xsi:type="helper" helper="Magento_Pbridge_Helper_Data::getReviewButtonTemplate">
+                    <param name="name">Magento_Pbridge::checkout/review/button.phtml</param>
+                    <param name="block">checkout.onepage.review.button</param>
                 </argument>
             </action>
         </reference>

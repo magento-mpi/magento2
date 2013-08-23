@@ -14,9 +14,9 @@
         </reference>
         <reference name="checkout.onepage.review.button">
             <action method="setTemplate">
-                <argument name="template" xsi:type="array">
-                    <item name="name" xsi:type="string">Magento_Paypal::hss/review/button.phtml</item>
-                    <item name="block" xsi:type="string">checkout.onepage.review.button</item>
+                <argument name="template" xsi:type="helper" helper="Magento_Paypal_Helper_Hss::getReviewButtonTemplate">
+                    <param name="name">Magento_Paypal::hss/review/button.phtml</param>
+                    <param name="block">checkout.onepage.review.button</param>
                 </argument>
             </action>
         </reference>
