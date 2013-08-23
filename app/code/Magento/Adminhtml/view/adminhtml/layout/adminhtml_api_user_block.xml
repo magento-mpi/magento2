@@ -30,7 +30,7 @@
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Adminhtml">ID</argument>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
                             <argument name="index" xsi:type="string">user_id</argument>
                             <argument name="align" xsi:type="string">right</argument>
                             <argument name="sortable" xsi:type="string">1</argument>
@@ -39,25 +39,25 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="username">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Adminhtml">User Name</argument>
+                            <argument name="header" xsi:type="string" translate="true">User Name</argument>
                             <argument name="index" xsi:type="string">username</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Adminhtml">First Name</argument>
+                            <argument name="header" xsi:type="string" translate="true">First Name</argument>
                             <argument name="index" xsi:type="string">firstname</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Adminhtml">Last Name</argument>
+                            <argument name="header" xsi:type="string" translate="true">Last Name</argument>
                             <argument name="index" xsi:type="string">lastname</argument>
                         </arguments>
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Adminhtml">Email</argument>
+                            <argument name="header" xsi:type="string" translate="true">Email</argument>
                             <argument name="index" xsi:type="string">email</argument>
                             <argument name="width" xsi:type="string">40</argument>
                             <argument name="align" xsi:type="string">left</argument>
@@ -65,7 +65,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Adminhtml">Status</argument>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="index" xsi:type="string">is_active</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="options" xsi:type="array">

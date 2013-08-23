@@ -22,7 +22,7 @@
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="description">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_AdvancedCheckout">Product</argument>
+                            <argument name="header" xsi:type="string" translate="true">Product</argument>
                             <argument name="index" xsi:type="string">description</argument>
                             <argument name="class" xsi:type="string">no-link</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
@@ -31,7 +31,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_AdvancedCheckout">Price</argument>
+                            <argument name="header" xsi:type="string" translate="true">Price</argument>
                             <argument name="index" xsi:type="string">price</argument>
                             <argument name="class" xsi:type="string">no-link</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
@@ -41,7 +41,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_AdvancedCheckout">Quantity</argument>
+                            <argument name="header" xsi:type="string" translate="true">Quantity</argument>
                             <argument name="index" xsi:type="string">qty</argument>
                             <argument name="class" xsi:type="string">no-link sku-error-qty</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
@@ -52,7 +52,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="remove">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_AdvancedCheckout">Remove</argument>
+                            <argument name="header" xsi:type="string" translate="true">Remove</argument>
                             <argument name="index" xsi:type="string">remove_button</argument>
                             <argument name="class" xsi:type="string">no-link</argument>
                             <argument name="sortable" xsi:type="string">0</argument>

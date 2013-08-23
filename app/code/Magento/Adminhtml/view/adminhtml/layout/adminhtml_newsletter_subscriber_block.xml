@@ -55,7 +55,7 @@
                     </arguments>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="subscriber_id">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">ID</argument>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
                             <argument name="index" xsi:type="string">subscriber_id</argument>
                             <argument name="header_css_class" xsi:type="string">col-id</argument>
                             <argument name="column_css_class" xsi:type="string">col-id</argument>
@@ -63,7 +63,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Email</argument>
+                            <argument name="header" xsi:type="string" translate="true">Email</argument>
                             <argument name="index" xsi:type="string">subscriber_email</argument>
                             <argument name="header_css_class" xsi:type="string">col-email</argument>
                             <argument name="column_css_class" xsi:type="string">ccol-email</argument>
@@ -71,7 +71,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Type</argument>
+                            <argument name="header" xsi:type="string" translate="true">Type</argument>
                             <argument name="index" xsi:type="string">type</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="options" xsi:type="array">
@@ -90,7 +90,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Customer First Name</argument>
+                            <argument name="header" xsi:type="string" translate="true">Customer First Name</argument>
                             <argument name="index" xsi:type="string">customer_firstname</argument>
                             <argument name="default" xsi:type="string">----</argument>
                             <argument name="header_css_class" xsi:type="string">col-first-name</argument>
@@ -99,7 +99,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Customer Last Name</argument>
+                            <argument name="header" xsi:type="string" translate="true">Customer Last Name</argument>
                             <argument name="index" xsi:type="string">customer_lastname</argument>
                             <argument name="default" xsi:type="string">----</argument>
                             <argument name="header_css_class" xsi:type="string">col-last-name</argument>
@@ -133,7 +133,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Web Site</argument>
+                            <argument name="header" xsi:type="string" translate="true">Web Site</argument>
                             <argument name="index" xsi:type="string">website_id</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="options" xsi:type="options" model="Magento_Backend_Model_Config_Source_Website_OptionHash"/>
@@ -143,7 +143,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="group">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Store</argument>
+                            <argument name="header" xsi:type="string" translate="true">Store</argument>
                             <argument name="index" xsi:type="string">group_id</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="options" xsi:type="options" model="Magento_Newsletter_Block_Subscribe_Grid_Options_GroupOptionHash"/>
@@ -153,7 +153,7 @@
                     </block>
                     <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true" module="Magento_Newsletter">Store View</argument>
+                            <argument name="header" xsi:type="string" translate="true">Store View</argument>
                             <argument name="index" xsi:type="string">store_id</argument>
                             <argument name="type" xsi:type="string">options</argument>
                             <argument name="options" xsi:type="options" model="Magento_Newsletter_Block_Subscribe_Grid_Options_StoreOptionHash"/>
