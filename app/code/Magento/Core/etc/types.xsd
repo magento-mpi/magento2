@@ -74,13 +74,28 @@
         <xs:complexContent>
             <xs:extension base="complexType">
                 <xs:sequence minOccurs="0">
-                    <xs:element name="param" minOccurs="0" maxOccurs="1">
+                    <xs:element name="param" minOccurs="0" maxOccurs="unbounded">
                         <xs:complexType mixed="true">
                             <xs:attribute name="name" type="xs:string" use="required"/>
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
                 <xs:attribute name="path" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="helper" mixed="true">
+        <xs:complexContent>
+            <xs:extension base="complexType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="param" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType mixed="true">
+                            <xs:attribute name="name" type="xs:string" use="required"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="helper" use="required"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
