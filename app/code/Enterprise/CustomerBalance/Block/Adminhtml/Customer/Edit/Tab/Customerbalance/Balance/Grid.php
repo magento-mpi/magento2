@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid extends
-    Mage_Backend_Block_Widget_Grid
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid
+    extends Mage_Backend_Block_Widget_Grid
 {
     /**
      * @return Mage_Backend_Block_Widget_Grid
