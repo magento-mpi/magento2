@@ -250,7 +250,7 @@ class namespacer
             if (trim(
                     $val
                 ) == '' || $val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface' || $val === 'extends' || $val === 'implements'
-                || $val=='{'
+                || $val=='{'  || $val=='}'  || $val=='{}'
             ) {
                 $parse = true;
                 if ($val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface') {
@@ -336,7 +336,12 @@ class namespacer
                         }
 
                     } else {
+
                         $newClass = trim($val);
+                        if (!preg_match('/[^A-Za-z0-9]/', $newClass)) // '/[^a-z\d]/i' should also work.
+                        {
+                            $newClass="\\".$newClass;
+                        }
                     }
                     $newClass = str_replace("\\\\", "\\", $newClass);
 
