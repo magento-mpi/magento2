@@ -61,7 +61,7 @@
     <default>
         <backend>
             <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
-            <frontName><![CDATA[{{backend_name}}]]></frontName>
+            <frontName>{{backend_frontname}}</frontName>
         </backend>
     </default>
 </config>
