@@ -169,7 +169,7 @@
             </block>
             <block type="Magento_Adminhtml_Block_Widget_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
             <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in Magento_Core_Model_Layout::createBlock() -->
-            <block type="Magento_Core_Block_Template" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
+            <block type="Magento_Adminhtml_Block_Admin_Formkey" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
             <!-- deprecated since 1.7.0.0 see Magento_Page_Block_Js_Translate -->
             <block type="Magento_Page_Block_Js_Translate" name="js_translate" as="js_translate" template="Magento_Adminhtml::page/js/translate.phtml"/>
             <container name="main-top" label="main-top" as="main-top">
