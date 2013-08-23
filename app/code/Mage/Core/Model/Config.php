@@ -465,4 +465,14 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
         $this->_storage->removeCache();
     }
+
+    /**
+     * Reload xml configuration data
+     * @deprecated must be removed after Installation logic is removed from application
+     */
+    public function reloadConfig()
+    {
+        $this->_storage->removeCache();
+        $this->_config = $this->_storage->getConfiguration();
+    }
 }
