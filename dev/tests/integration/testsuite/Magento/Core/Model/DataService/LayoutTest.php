@@ -94,7 +94,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Co
         $layout = Mage::getObjectManager()
             ->create('Magento_Core_Model_Layout', array('dataServiceGraph' => $this->_dataServiceGraph));
         $xml = simplexml_load_file(__DIR__ . "/_files/{$fixtureFile}", 'Magento_Core_Model_Layout_Element');
-        $layout->loadString($xml->handle->asXml());
+        $layout->setXml($xml);
         $layout->generateElements();
         return $layout;
     }
