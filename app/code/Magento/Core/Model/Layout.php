@@ -527,8 +527,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($argument->hasChildren()) {
                 $value = array();
                 $this->_fillArgumentsArray($argument, $value);
-                unset($value['updater']);
-                unset($value['@']);
 
                 $updaters = $this->_getArgumentUpdaters($argument);
 
@@ -571,6 +569,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         /** @var $childNode Magento_Core_Model_Layout_Element */
         foreach ($node->children() as $childNode) {
             $nodeName = (string)$childNode['name'];
+            if (empty($nodeName)) {
+                continue;
+            }
             if ($childNode->hasChildren()) {
                 $this->_fillArgumentsArray($childNode, $argumentsArray[$nodeName]);
             } else {

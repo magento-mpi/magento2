@@ -13,7 +13,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="webapi.user.edit.tab.roles.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">permissionsUserRolesGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Webapi_Model_Resource_Acl_Role_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_Role_Collection</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">sort_order</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
@@ -40,7 +40,7 @@
                             <argument name="filter" xsi:type="string">0</argument>
                             <argument name="sortable" xsi:type="string">0</argument>
                             <argument name="required" xsi:type="string">0</argument>
-                            <argument name="value" xsi:type="array">
+                            <argument name="value" xsi:type="string">
                                 <updater>Magento_Webapi_Model_Acl_User_RoleUpdater</updater>
                             </argument>
                         </arguments>

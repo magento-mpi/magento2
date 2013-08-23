@@ -11,7 +11,7 @@
     <handle id="adminhtml_catalog_product_superconfig_config">
         <reference name="admin.product.edit.tab.super.config.grid">
             <arguments>
-                <argument name="dataSource" xsi:type="array">
+                <argument name="dataSource" xsi:type="object">
                     <updater>Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater</updater>
                 </argument>
             </arguments>

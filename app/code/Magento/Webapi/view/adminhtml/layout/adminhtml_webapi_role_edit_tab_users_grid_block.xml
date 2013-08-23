@@ -11,7 +11,7 @@
     <handle id="adminhtml_webapi_role_edit_tab_users_grid_block">
         <reference name="webapi.role.edit.tab.users.grid">
             <arguments>
-                <argument name="dataSource" xsi:type="array">
+                <argument name="dataSource" xsi:type="object">
                     <updater>Magento_Webapi_Model_Acl_Role_UsersUpdater</updater>
                 </argument>
             </arguments>
@@ -20,7 +20,7 @@
             <block class="Magento_Backend_Block_Widget_Grid" name="webapi.role.edit.tab.users.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">roleUserGrid</argument>
-                    <argument name="dataSource" xsi:type="string">Magento_Webapi_Model_Resource_Acl_User_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_User_Collection</argument>
                     <argument name="use_ajax" xsi:type="string">true</argument>
                     <argument name="default_sort" xsi:type="string">role_user_id</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
@@ -43,7 +43,7 @@
                             <argument name="html_name" xsi:type="string">in_role_users</argument>
                             <argument name="header_css_class" xsi:type="string">a-center</argument>
                             <argument name="type" xsi:type="string">checkbox</argument>
-                            <argument name="values" xsi:type="array">
+                            <argument name="values" xsi:type="string">
                                 <updater>Magento_Webapi_Model_Acl_Role_InRoleUserUpdater</updater>
                             </argument>
                             <argument name="name" xsi:type="string">in_role_users</argument>

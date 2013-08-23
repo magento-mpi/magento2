@@ -11,7 +11,7 @@
     <handle id="adminhtml_customer_wishlist">
         <reference name="customer.wishlist.edit.tab">
             <arguments>
-                <argument name="dataSource" xsi:type="array">
+                <argument name="dataSource" xsi:type="object">
                     <updater>Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater</updater>
                 </argument>
             </arguments>
