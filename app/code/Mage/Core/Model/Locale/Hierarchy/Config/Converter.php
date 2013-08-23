@@ -46,11 +46,11 @@ class Mage_Core_Model_Locale_Hierarchy_Config_Converter implements Magento_Confi
         $locales = $source->getElementsByTagName('locale');
         /** @var DOMNode $locale */
         foreach ($locales as $locale) {
-            $config = array();
-            foreach ($locale->attributes as $attribute) {
-                $config[$attribute->nodeName] = $attribute->nodeValue;
+            $parent = $locale->attributes->getNamedItem('parent');
+            if ($parent) {
+                $output[$locale->attributes->getNamedItem('code')->nodeValue] = $parent->nodeValue;
             }
-            $output[$locale->attributes->getNamedItem('code')->nodeValue] = $config;
+
         }
         return $this->_composeLocaleHierarchy($output);
     }

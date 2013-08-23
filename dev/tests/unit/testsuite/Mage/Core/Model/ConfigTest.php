@@ -75,12 +75,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setNode('some/custom/node', 'true');
 
-        /** @var Mage_Core_Model_Config_Element $tmp */
-        $node = 'true';
-        $expected = array($node);
-
-        $actual = $this->_model->getNode('some/custom/node')->asArray();
-        $this->assertEquals($expected, $actual);
+        $actual = (string)$this->_model->getNode('some/custom/node');
+        $this->assertEquals('true', $actual);
     }
 
     public function testGetNode()

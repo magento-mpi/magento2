@@ -18,68 +18,94 @@ class Mage_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_modulesConfigMock;
+    protected $_primaryConfigMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_resourceConfigMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_modulesReaderMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_loaderLocalMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseConfigMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_localesConfigMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_dbLoaderMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_baseFactoryMock;
-
     protected function setUp()
     {
-        $this->_modulesConfigMock = $this->getMock('Mage_Core_Model_Config_Modules',
-            array('getNode'), array(), '', false, false);
-        $this->_baseConfigMock = $this->getMock('Mage_Core_Model_Config_Base',
-            array('extend'), array(), '', false, false);
-        $this->_dbLoaderMock = $this->getMock('Mage_Core_Model_Config_Loader_Db', array(), array(), '', false, false);
-        $this->_baseFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
-            array('create'), array(), '', false, false);
+        $this->_primaryConfigMock = $this->getMock(
+            'Mage_Core_Model_Config_Primary', array(), array(), '', false, false
+        );
+
+        $this->_resourceConfigMock = $this->getMock(
+            'Mage_Core_Model_Config_Resource', array(), array(), '', false, false
+        );
+
+        $this->_modulesReaderMock = $this->getMock(
+            'Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false
+        );
+
+        $this->_loaderLocalMock = $this->getMock(
+            'Mage_Core_Model_Config_Loader_Local', array(), array(), '', false, false
+        );
+
+        $this->_baseConfigMock = $this->getMock(
+            'Mage_Core_Model_Config_Base', array(), array(), '', false, false
+        );
+
         $this->_model = new Mage_Core_Model_Config_Loader(
-            $this->_modulesConfigMock,
-            $this->_dbLoaderMock,
-            $this->_baseFactoryMock
+            $this->_primaryConfigMock,
+            $this->_resourceConfigMock,
+            $this->_modulesReaderMock,
+            $this->_loaderLocalMock
         );
     }
 
-    protected function tearDown()
+    public function testLoadWithEmptyConfig()
     {
-        unset($this->_modulesConfigMock);
-        unset($this->_dbLoaderMock);
-        unset($this->_baseConfigMock);
-        unset($this->_baseFactoryMock);
-        unset($this->_model);
+        /** Test load initial xml */
+        $this->_baseConfigMock->expects($this->once())->method('getNode')->will($this->returnValue(null));
+        $this->_baseConfigMock->expects($this->once())->method('loadString')->with('<config></config>');
+
+        /** Test extends config with primary config values */
+        $this->_baseConfigMock->expects($this->once())->method('extend')->with($this->_primaryConfigMock);
+
+        /** Test loading of DB provider specific config files */
+        $this->_resourceConfigMock->expects($this->once())
+            ->method('getResourceConnectionModel')
+            ->with('core')
+            ->will($this->returnValue('mysql4'));
+        $this->_modulesReaderMock->expects($this->once())
+            ->method('loadModulesConfiguration')
+            ->with(array('config.xml', 'config.mysql4.xml'), $this->_baseConfigMock);
+
+        /** Test preventing overriding of local configuration */
+        $this->_loaderLocalMock->expects($this->once())->method('load')->with($this->_baseConfigMock);
+
+        /** Test merging of all config data */
+        $this->_baseConfigMock->expects($this->once())->method('applyExtends');
+
+        $this->_model->load($this->_baseConfigMock);
     }
 
-    public function testLoad()
+    /**
+     * @depends testLoadWithEmptyConfig
+     */
+    public function testLoadWithNotEmptyConfig()
     {
-        $element = new Magento_Simplexml_Element('<config>test_data</config>');
-        $elementConfig = new Magento_Simplexml_Config();
-        $this->_modulesConfigMock->expects($this->once())
-            ->method('getNode')
-            ->will($this->returnValue($element));
-        $this->_baseFactoryMock->expects($this->exactly(2))
-            ->method('create')
-            ->with($element)
-            ->will($this->returnValue($elementConfig));
-        $this->_baseConfigMock->expects($this->exactly(2))
-            ->method('extend')
-            ->with($this->equalTo($elementConfig))
-            ->will($this->returnValue($element));
+        /** Test load initial xml */
+        $this->_baseConfigMock->expects($this->once())->method('getNode')->will($this->returnValue('some value'));
+        $this->_baseConfigMock->expects($this->never())->method('loadString');
+
         $this->_model->load($this->_baseConfigMock);
     }
 }

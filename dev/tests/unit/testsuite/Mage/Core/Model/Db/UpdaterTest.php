@@ -16,11 +16,22 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
     {
         // Configuration
         $configuration = new Magento_Simplexml_Config($configXml);
-        $storage = $this->getMock('Mage_Core_Model_Config_Storage', array(), array(), '', false);
-        $storage->expects($this->any())
-            ->method('getConfiguration')
-            ->will($this->returnValue($configuration));
-        $modulesConfig = new Mage_Core_Model_Config_Modules($storage);
+
+        $map = array(
+            array('global/resources', $configuration->getNode('global/resources')),
+            array(
+                'global/skip_process_modules_updates_ignore_dev_mode',
+                $configuration->getNode('global/skip_process_modules_updates_ignore_dev_mode')
+            ),
+            array(
+                'global/skip_process_modules_updates',
+                $configuration->getNode('global/skip_process_modules_updates')
+            ),
+        );
+        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $configMock->expects($this->any())
+            ->method('getNode')
+            ->will($this->returnValueMap($map));
 
         // Data updates model
         $updateCalls = $expectedUpdates ? 1 : 0;
@@ -43,7 +54,7 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         $appState->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($appMode));
-        $updater = new Mage_Core_Model_Db_Updater($modulesConfig, $factory, $appState);
+        $updater = new Mage_Core_Model_Db_Updater($configMock, $factory, $appState);
 
         // Run and verify
         $updater->updateScheme();

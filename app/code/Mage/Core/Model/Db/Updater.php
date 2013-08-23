@@ -44,16 +44,16 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
     protected $_appState;
 
     /**
-     * @param Mage_Core_Model_Config $modules
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Resource_SetupFactory $factory
      * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
-        Mage_Core_Model_Config $modules,
+        Mage_Core_Model_Config $config,
         Mage_Core_Model_Resource_SetupFactory $factory,
         Mage_Core_Model_App_State $appState
     ) {
-        $this->_config = $modules;
+        $this->_config = $config;
         $this->_factory = $factory;
         $this->_appState = $appState;
     }

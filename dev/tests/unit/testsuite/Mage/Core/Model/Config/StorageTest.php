@@ -50,21 +50,12 @@ class Mage_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Config_Cache',
             array(), array(), '', false, false);
-        $this->_loaderMock = $this->getMock('Mage_Core_Model_Config_LoaderInterface',
+        $this->_loaderMock = $this->getMock('Mage_Core_Model_Config_Loader',
             array(), array(), '', false, false);
         $this->_factoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_model = new Mage_Core_Model_Config_Storage($this->_cacheMock, $this->_loaderMock, $this->_factoryMock,
             $this->_resourcesConfigMock);
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_resourcesConfigMock);
-        unset($this->_cacheMock);
-        unset($this->_loaderMock);
-        unset($this->_factoryMock);
-        unset($this->_model);
     }
 
     public function testGetConfigurationWithData()
@@ -97,5 +88,4 @@ class Mage_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->once())->method('clean');
         $this->_model->removeCache();
     }
-
 }

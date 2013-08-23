@@ -135,7 +135,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     {
         $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
             $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_ModuleListInterface'),
             $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
@@ -192,7 +192,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
 
         $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
             $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_ModuleListInterface'),
             $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
