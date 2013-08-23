@@ -1,11 +1,11 @@
 <?php
-namespace Tools\Layout {
 /**
  * {license_notice}
  *
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Tools\Layout;
 
 class Formatter
 {
@@ -64,5 +64,4 @@ class Formatter
 
         return $result;
     }
-}
 }
