@@ -34,12 +34,11 @@
             <xs:element name="updater" type="updaterType" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="name" use="required"/>
-        <xs:attribute name="label" use="optional"/>
     </xs:complexType>
 
     <xs:complexType name="argumentsType">
         <xs:sequence>
-            <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="argument" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="translate"/>
     </xs:complexType>
@@ -103,7 +102,7 @@
 
     <xs:element name="arguments" type="argumentsType"/>
     <xs:element name="container" type="containerType"/>
-    <xs:element name="label" type="labelType"/>
+    <xs:element name="label" type="xs:string"/>
     <xs:element name="update" type="updateType"/>
     <xs:element name="remove" type="removeType"/>
     <xs:element name="move" type="moveType"/>
@@ -129,14 +128,6 @@
         <xs:attribute type="xs:string" name="type"/>
         <xs:attribute type="xs:string" name="parent"/>
         <xs:attribute type="xs:string" name="owner"/>
-    </xs:complexType>
-
-    <xs:complexType name="labelType">
-        <xs:simpleContent>
-            <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="translate" use="optional"/>
-            </xs:extension>
-        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="referenceType">
