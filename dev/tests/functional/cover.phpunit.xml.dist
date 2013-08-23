@@ -26,25 +26,25 @@
             <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/CheckoutOnePage</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/CheckoutMultipleAddresses</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Customer</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/CmsPages</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/CmsPolls</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/CmsStaticBlocks</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/CmsWidgets</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsStaticBlocks</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsWidgets</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CompareProducts</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Newsletter</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Rating</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Review</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Tags</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Tax</directory>
-            <directory suffix="Test.php">testsuite/Core/Magento/Wishlist</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Wishlist</directory>
         </testsuite>
         -->
     </testsuites>
@@ -54,21 +54,21 @@
             <exclude>
                 <directory>../lib</directory>
                 <directory>../app/code/Mage/Admin/Model/Acl/Assert</directory>
-                <directory>../app/code/Magento/Adminhtml/Block</directory>
-                <directory>../app/code/Magento/Install</directory>
-                <directory>../app/code/Magento/Reports</directory>
-                <directory>../app/code/Magento/Api/Model/Acl/Assert</directory>
-                <directory>../app/code/Magento/Index</directory>
+                <directory>../app/code/Mage/Adminhtml/Block</directory>
+                <directory>../app/code/Mage/Install</directory>
+                <directory>../app/code/Mage/Reports</directory>
+                <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
+                <directory>../app/code/Mage/Index</directory>
                 <directory>../app/code/Mage/Cybersource</directory>
-                <file>../app/code/Magento/Captcha/Model/Captcha.php</file>
-                <file>../app/code/Magento/Payment/Model/Paygate/Request.php</file>
-                <file>../app/code/Magento/Sales/Model/Mysql4/Report/Abstract.php</file>
-                <file>../app/code/Magento/Sales/Model/Mysql4/Abstract.php</file>
-                <file>../app/code/Magento/Adminhtml/Model/Extension.php</file>
-                <file>../app/code/Magento/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
-                <file>../app/code/Magento/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>
-                <file>../app/code/Magento/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Abstract.php</file>
-                <file>../app/code/Magento/CatalogInventory/Model/Mysql4/Indexer/Stock/Interface.php</file>
+                <file>../app/code/Mage/Captcha/Model/Captcha.php</file>
+                <file>../app/code/Mage/Payment/Model/Paygate/Request.php</file>
+                <file>../app/code/Mage/Sales/Model/Mysql4/Report/Abstract.php</file>
+                <file>../app/code/Mage/Sales/Model/Mysql4/Abstract.php</file>
+                <file>../app/code/Mage/Adminhtml/Model/Extension.php</file>
+                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
+                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>
+                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Abstract.php</file>
+                <file>../app/code/Mage/CatalogInventory/Model/Mysql4/Indexer/Stock/Interface.php</file>
                 <directory prefix="data-upgrade-">../app/code/Mage</directory>
                 <directory prefix="data-install-">../app/code/Mage</directory>
                 <directory prefix="upgrade-">../app/code/Mage</directory>

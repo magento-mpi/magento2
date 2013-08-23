@@ -17,8 +17,8 @@ class Enterprise_Tag_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testAddActionClassToRewardModel()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Enterprise_Reward_Model_Reward');
-        $rewardModelMock = $this->getMock('Enterprise_Reward_Model_Reward', array('_init', 'setActionModelClass'),
+        $arguments = $objectManagerHelper->getConstructArguments('Magento_Reward_Model_Reward');
+        $rewardModelMock = $this->getMock('Magento_Reward_Model_Reward', array('_init', 'setActionModelClass'),
             $arguments);
         $rewardModelMock->staticExpects($this->once())
             ->method('setActionModelClass')

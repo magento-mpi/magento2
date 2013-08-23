@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <customer_account_edit>
+        <reference name="customer_edit">
+            <block type="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                <action method="setFormCode">
+                    <code>customer_account_edit</code>
+                </action>
+            </block>
+        </reference>
+        <update handle="customer_form_template_handle"/>
+    </customer_account_edit>
+</layout>

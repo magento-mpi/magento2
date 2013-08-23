@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_ImportExport
+ * @package     Mage_ImportExport
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-abstract class Core_Magento_Tags_TagsFixtureAbstract extends Mage_Selenium_TestCase
+abstract class Core_Mage_Tags_TagsFixtureAbstract extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {

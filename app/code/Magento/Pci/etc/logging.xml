@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pci
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging>
+    <magento_pci_crypt translate="label">
+        <label>Encryption Key Change</label>
+        <actions>
+            <adminhtml_crypt_key_save>
+                <action>save</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_crypt_key_save>
+        </actions>
+    </magento_pci_crypt>
+    <magento_pci_locks translate="label">
+        <label>Admin Accounts Locks</label>
+        <actions>
+            <adminhtml_locks_massUnlock>
+                <action>massUpdate</action>
+                <post_dispatch>postDispatchAdminAccountsMassUnlock</post_dispatch>
+            </adminhtml_locks_massUnlock>
+        </actions>
+    </magento_pci_locks>
+</logging>

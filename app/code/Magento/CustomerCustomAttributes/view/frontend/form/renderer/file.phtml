@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Create account form template
+ *
+ * @see Magento_CustomerCustomAttributes_Block_Form_Renderer_Boolean
+ */
+/* @var $this Magento_CustomerCustomAttributes_Block_Form_Renderer_Boolean */
+?>
+<label for="<?php echo $this->getHtmlId()?>"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo $this->getLabel() ?></label>
+<div class="input-box">
+    <input type="file" id="<?php echo $this->getHtmlId()?>" name="<?php echo $this->getFieldName()?>" value="" class="input-file" />
+    <input type="hidden" id="<?php echo $this->getHtmlId()?>_value" name="<?php echo $this->getFieldName()?>_value" value="<?php echo $this->getEscapedValue()?>" <?php if ($this->isRequired()): ?>data-validate="{required:true}" <?php endif;?>/>
+    <?php if ($_message = $this->getAdditionalDescription()) : ?>
+    <div class="validation-advice"><?php echo $_message; ?></div>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <magento_pbridge>
+                        <class>Magento_Pbridge_Model_Observer</class>
+                        <method>addPrivacyHeader</method>
+                    </magento_pbridge>
+                </observers>
+            </controller_action_predispatch>
+            <payment_method_is_active>
+                <observers>
+                    <magento_pbridge>
+                        <class>Magento_Pbridge_Model_Observer</class>
+                        <method>isPaymentMethodAvailable</method>
+                    </magento_pbridge>
+                </observers>
+            </payment_method_is_active>
+        </events>
+    </global>
+    <frontend>
+        <secure_url>
+            <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
+            <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
+        </secure_url>
+        <routers>
+            <magento_pbridge>
+                <use>standard</use>
+                <args>
+                    <module>Magento_Pbridge</module>
+                    <frontName>magento_pbridge</frontName>
+                </args>
+            </magento_pbridge>
+        </routers>
+        <translate>
+            <modules>
+                <Magento_Pbridge>
+                    <files>
+                        <default>Magento_Pbridge.csv</default>
+                    </files>
+                </Magento_Pbridge>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <events>
+            <admin_system_config_changed_section_payment>
+                <observers>
+                    <magento_pbridge>
+                        <class>Magento_Pbridge_Model_Observer</class>
+                        <method>updatePaymentProfileStatus</method>
+                    </magento_pbridge>
+                </observers>
+            </admin_system_config_changed_section_payment>
+        </events>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Magento_Pbridge after="Magento_Adminhtml">Magento_Pbridge_Adminhtml</Magento_Pbridge>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <payment>
+            <pbridge translate="title">
+                <model>Magento_Pbridge_Model_Payment_Method_Pbridge</model>
+                <title>Payment Bridge</title>
+                <debug>0</debug>
+            </pbridge>
+            <pbridge_paypal_direct>
+                <model>Magento_Pbridge_Model_Payment_Method_Paypal</model>
+                <active>1</active>
+            </pbridge_paypal_direct>
+            <pbridge_paypaluk_direct>
+                <model>Magento_Pbridge_Model_Payment_Method_Paypaluk</model>
+                <active>1</active>
+            </pbridge_paypaluk_direct>
+            <pbridge_authorizenet>
+                <model>Magento_Pbridge_Model_Payment_Method_Authorizenet</model>
+                <enabled>1</enabled>
+                <active>0</active>
+                <debug>0</debug>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <title>Authorize.net</title>
+                <allowspecific>0</allowspecific>
+                <currency>USD</currency>
+                <partial_authorization_checksum_checking>1</partial_authorization_checksum_checking>
+                <using_pbridge>1</using_pbridge>
+            </pbridge_authorizenet>
+            <eway_direct>
+                <active>0</active>
+                <title>eWAY Direct</title>
+                <model>Magento_Pbridge_Model_Payment_Method_Eway_Direct</model>
+                <using_pbridge>1</using_pbridge>
+                <payment_action>authorize_capture</payment_action>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
+            </eway_direct>
+            <pbridge_verisign>
+                <model>Magento_Pbridge_Model_Payment_Method_Payflow_Pro</model>
+                <enabled>1</enabled>
+            </pbridge_verisign>
+            <pbridge_ogone_direct>
+                <model>Magento_Pbridge_Model_Payment_Method_Ogone</model>
+                <title>Ogone Direct Link</title>
+                <userid backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <password backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <passphrase backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <payment_action>authorize</payment_action>
+                <useccv>1</useccv>
+            </pbridge_ogone_direct>
+            <worldpay_direct>
+                <title>Worldpay</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+                <model>Magento_Pbridge_Model_Payment_Method_Worldpay_Direct</model>
+                <active>0</active>
+            </worldpay_direct>
+            <cybersource_soap>
+                <active>0</active>
+                <title>Credit Card (Cybersource)</title>
+                <model>Magento_Pbridge_Model_Payment_Method_Cybersource_Soap</model>
+                <using_pbridge>1</using_pbridge>
+                <payment_action>authorize</payment_action>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
+            </cybersource_soap>
+            <dibs>
+                <title>Credit Card (DIBS)</title>
+                <using_pbridge>1</using_pbridge>
+                <model>Magento_Pbridge_Model_Payment_Method_Dibs</model>
+                <active>0</active>
+            </dibs>
+            <braintree_basic>
+                <model>Magento_Pbridge_Model_Payment_Method_Braintree_Basic</model>
+                <title>Braintree</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+            </braintree_basic>
+            <sagepay_direct>
+                <model>Magento_Pbridge_Model_Payment_Method_Sagepay_Direct</model>
+                <payment_action>authorize</payment_action>
+                <title>Credit Card (Sage Pay Direct)</title>
+                <using_pbridge>1</using_pbridge>
+            </sagepay_direct>
+            <firstdata>
+                <title>First Data Global Gateway</title>
+                <currency>USD</currency>
+                <using_pbridge>1</using_pbridge>
+                <model>Magento_Pbridge_Model_Payment_Method_Firstdata</model>
+            </firstdata>
+            <payone_gate>
+                <title>Payone.de</title>
+                <model>Magento_Pbridge_Model_Payment_Method_Payone_Gate</model>
+                <currency>EUR</currency>
+                <using_pbridge>1</using_pbridge>
+            </payone_gate>
+            <paybox_direct>
+                <active>0</active>
+                <title>Paybox Direct</title>
+                <model>Magento_Pbridge_Model_Payment_Method_Paybox_Direct</model>
+                <using_pbridge>1</using_pbridge>
+                <payment_action>authorize</payment_action>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
+            </paybox_direct>
+            <psigate_basic>
+                <title>Psigate</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+                <model>Magento_Pbridge_Model_Payment_Method_Psigate_Basic</model>
+                <active>0</active>
+            </psigate_basic>
+        </payment>
+    </default>
+</config>

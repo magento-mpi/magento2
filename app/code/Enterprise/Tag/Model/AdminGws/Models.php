@@ -11,7 +11,7 @@
 /**
  * Models limiter for AdminGws module
  */
-class Enterprise_Tag_Model_AdminGws_Models extends Enterprise_AdminGws_Model_Models
+class Enterprise_Tag_Model_AdminGws_Models extends Magento_AdminGws_Model_Models
 {
     /**
      * Validate if user has exclusive access to tag

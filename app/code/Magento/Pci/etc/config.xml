@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pci
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <helpers>
+            <core>
+                <encryption_model>Magento_Pci_Model_Encryption</encryption_model>
+            </core>
+        </helpers>
+        <resources>
+            <pci_setup>
+                <setup>
+                    <module>Magento_Pci</module>
+                    <class>Magento_Core_Model_Resource_Setup</class>
+                </setup>
+            </pci_setup>
+        </resources>
+        <events>
+            <admin_user_save_before>
+                <observers>
+                    <magento_pci>
+                        <class>Magento_Pci_Model_Observer</class>
+                        <method>checkAdminPasswordChange</method>
+                    </magento_pci>
+                </observers>
+            </admin_user_save_before>
+            <admin_user_save_after>
+                <observers>
+                    <magento_pci>
+                        <class>Magento_Pci_Model_Observer</class>
+                        <method>trackAdminNewPassword</method>
+                    </magento_pci>
+                </observers>
+            </admin_user_save_after>
+        </events>
+    </global>
+    <adminhtml>
+        <events>
+            <admin_user_authenticate_after>
+                <observers>
+                    <magento_pci>
+                        <class>Magento_Pci_Model_Observer</class>
+                        <method>adminAuthenticate</method>
+                    </magento_pci>
+                </observers>
+            </admin_user_authenticate_after>
+            <api_user_authenticated>
+                <observers>
+                    <magento_pci>
+                        <class>Magento_Pci_Model_Observer</class>
+                        <method>upgradeApiKey</method>
+                    </magento_pci>
+                </observers>
+            </api_user_authenticated>
+            <controller_action_predispatch>
+                <observers>
+                    <magento_pci>
+                        <class>Magento_Pci_Model_Observer</class>
+                        <method>forceAdminPasswordChange</method>
+                    </magento_pci>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+        <translate>
+            <modules>
+                <Magento_Pci>
+                    <files>
+                        <default>Magento_Pci.csv</default>
+                    </files>
+                </Magento_Pci>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Magento_Pci before="Magento_Adminhtml">Magento_Pci_Adminhtml</Magento_Pci>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <events>
+            <customer_customer_authenticated>
+                <observers>
+                    <magento_pci>
+                        <class>Magento_Pci_Model_Observer</class>
+                        <method>upgradeCustomerPassword</method>
+                    </magento_pci>
+                </observers>
+            </customer_customer_authenticated>
+        </events>
+        <translate>
+            <modules>
+                <Magento_Pci>
+                    <files>
+                        <default>Magento_Pci.csv</default>
+                    </files>
+                </Magento_Pci>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <admin>
+            <security>
+                <session_lifetime>900</session_lifetime>
+                <lockout_failures>6</lockout_failures>
+                <lockout_threshold>30</lockout_threshold>
+                <password_lifetime>90</password_lifetime>
+                <password_is_forced>1</password_is_forced>
+            </security>
+        </admin>
+    </default>
+</config>

@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_PageCache
+ * @package     Magento_FullPageCache
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +13,7 @@
 /**
  * Verification Manage Shopping Cart Button
  */
-class Enterprise_Magento_PageCache_BreadcrumbsTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_PageCache_BreadcrumbsTest extends Mage_Selenium_TestCase
 {
     static protected $_isFpcOnBeforeTests;
 

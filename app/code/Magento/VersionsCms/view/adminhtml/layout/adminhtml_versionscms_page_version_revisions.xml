@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_versionscms_page_version_revisions>
+        <remove name="root"/>
+        <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" output="1" name="cms_page_edit_version_edit_revisions"/>
+    </adminhtml_versionscms_page_version_revisions>
+</layout>

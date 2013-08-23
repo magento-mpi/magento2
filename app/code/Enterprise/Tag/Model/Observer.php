@@ -43,8 +43,8 @@ class Enterprise_Tag_Model_Observer
         $tag = $observer->getEvent()->getObject();
         $websiteId = Mage::app()->getStore($tag->getFirstStoreId())->getWebsiteId();
 
-        /** @var $rewardHelper Enterprise_Reward_Helper_Data */
-        $rewardHelper = Mage::helper('Enterprise_Reward_Helper_Data');
+        /** @var $rewardHelper Magento_Reward_Helper_Data */
+        $rewardHelper = Mage::helper('Magento_Reward_Helper_Data');
         if (!$rewardHelper->isEnabledOnFront($websiteId)) {
             return $this;
         }

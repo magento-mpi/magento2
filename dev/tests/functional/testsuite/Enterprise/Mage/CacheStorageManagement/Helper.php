@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Tags
+ * @package     Mage_Tags
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}

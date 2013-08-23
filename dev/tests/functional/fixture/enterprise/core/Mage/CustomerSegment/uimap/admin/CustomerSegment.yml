@@ -3,7 +3,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Magento_CustomerSegment
+# @package     Mage_CustomerSegment
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -50,7 +50,7 @@ new_customer_segment:
             tabs:
                 -
                     general_properties: &customerSegmentProperties
-                        xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']
+                        xpath: //a[@id='magento_customersegment_segment_tabs_general_section']
                         fieldsets:
                             -
                                 segment_properties:

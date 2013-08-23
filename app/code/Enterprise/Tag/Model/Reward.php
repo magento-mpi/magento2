@@ -15,7 +15,7 @@
  * @package     Enterprise_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Tag_Model_Reward extends Enterprise_Reward_Model_Reward
+class Enterprise_Tag_Model_Reward extends Magento_Reward_Model_Reward
 {
     /**
      * Index of reward action when tag submitted
