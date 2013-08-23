@@ -1,4 +1,6 @@
 <?php
+use \Zend\Code\Reflection\MethodReflection;
+
 /**
  * Check that signature of child class constructor is valid according to parent class constructor
  *
@@ -11,8 +13,11 @@
  * @license     {license_link}
  */
 
-use \Zend\Code\Reflection\MethodReflection;
-
+/**
+ * Class Integrity_ConstructorTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -63,7 +68,9 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      *
      *  It even works with broken code style
      */
+    //@codingStandardsIgnoreStart
     const PATTERN_METHOD_IGNORE_CS = '~(?:(static)\s+)?(?:(public|protected|private)\s+)?(?:(static)\s+)?(?:function\s+(%s))\(~m';
+    //@codingStandardsIgnoreEnd
 
     /**
      * Pattern for method param
@@ -83,7 +90,9 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      */
     const PATTERN_PARAM_IGNORE_CS = '~(?:(array|(?:%s))\s+)?(%s)(?:\s*=\s*(.*))?~';
 
+    //@codingStandardsIgnoreStart
     const PATTERN_CLASS_DEFINITION = '~^(?:(abstract)\s)?class\s(%s)(?:\s+extends\s(%s))?(?:(?:\s+implements\s(%s)))?~m';
+    //@codingStandardsIgnoreEnd
 
     const PATTERN_NAMESPACE = '~^namespace\s(%s);~m';
 
@@ -660,10 +669,6 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
         $this->_assertRequiredParamsPlacedBeforeOptionalOnes($childParams);
 
         foreach ($parentParams as $index => $parentParam) {
-            $parent = isset($parentParam['type'])
-                ? $parentParam['type'] . ' ' . $parentParam['name']
-                : $parentParam['name'];
-
             $isRequired = !isset($parentParam['is_optional']);
             if (!$isRequired) {
                 break;
@@ -868,7 +873,7 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
                 $countRequiredParams++;
             }
         }
-        $this->assertTrue(count($invocationData) >= $countRequiredParams  ,
+        $this->assertTrue(count($invocationData) >= $countRequiredParams,
             'Parent constructor invocation has to few params'
         );
     }
