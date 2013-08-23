@@ -40,7 +40,20 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('backend', $this->_helper->getAreaFrontName());
     }
 
-    public function testGetAreaFrontNameReturnsDefaultValueWhenCustomIsSet()
+    public function testGetAreaFrontNameLocalConfigCustomFrontName()
+    {
+        $this->_configMock->expects($this->at(0))->method('getNode')
+            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
+            ->will($this->returnValue(false));
+
+        $this->_configMock->expects($this->at(1))->method('getNode')
+            ->with(Mage_Backend_Helper_Data::XML_PATH_BACKEND_AREA_FRONTNAME)
+            ->will($this->returnValue('backend_custom'));
+
+        $this->assertEquals('backend_custom', $this->_helper->getAreaFrontName());
+    }
+
+    public function testGetAreaFrontNameAdminConfigCustomFrontName()
     {
         $this->_configMock->expects($this->at(0))->method('getNode')
             ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)
@@ -55,7 +68,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testClearAreaFrontName()
     {
-        $this->_configMock->expects($this->exactly(2))->method('getNode');
+        $this->_configMock->expects($this->exactly(4))->method('getNode');
         $this->_helper->getAreaFrontName();
         $this->_helper->clearAreaFrontName();
         $this->_helper->getAreaFrontName();
@@ -63,7 +76,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsValueFromCache()
     {
-        $this->_configMock->expects($this->exactly(1))->method('getNode');
+        $this->_configMock->expects($this->exactly(2))->method('getNode');
         $this->_helper->getAreaFrontName();
         $this->_helper->getAreaFrontName();
     }

@@ -16,6 +16,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'default/admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'default/admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'default/admin/url/custom_path';
+    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
     protected $_pageHelpUrl;
@@ -174,10 +175,21 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $this->_areaFrontName = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
+            $customAdminPath = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
                 (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH) :
-                $this->_defaultAreaFrontName;
+                '';
+
+            $configAreaFrontName = (string)$this->_config->getNode(self::XML_PATH_BACKEND_AREA_FRONTNAME);
+
+            if ($customAdminPath) {
+                $this->_areaFrontName = $customAdminPath;
+            } elseif ($configAreaFrontName) {
+                $this->_areaFrontName = $configAreaFrontName;
+            } else {
+                $this->_areaFrontName = $this->_defaultAreaFrontName;
+            }
         }
+
         return $this->_areaFrontName;
     }
 
