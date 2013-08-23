@@ -75,7 +75,7 @@ class Mage_Core_Model_Config_Section_Reader_Store
             $websiteConfig = $this->_sectionPool->getSection('website', $store->getWebsite()->getCode())->getValue();
             $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getStore($code));
 
-            $collection = $this->_collectionFactory->create(array('scope' => 'store', 'scopeId' => $store->getId()));
+            $collection = $this->_collectionFactory->create(array('scope' => 'stores', 'scopeId' => $store->getId()));
             $dbStoreConfig = array();
             foreach ($collection as $item) {
                 $dbStoreConfig[$item->getPath()] = $item->getValue();
