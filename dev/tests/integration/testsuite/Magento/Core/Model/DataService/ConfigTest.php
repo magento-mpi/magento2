@@ -59,5 +59,4 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         $this->assertEquals('last_value', $classInfo['methodArguments']['last_arg']);
         $this->assertEquals('last_value_two', $classInfo['methodArguments']['last_arg_two']);
     }
-
 }

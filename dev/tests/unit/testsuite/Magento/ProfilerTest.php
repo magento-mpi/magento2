@@ -28,7 +28,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 
     public function testSetDefaultTags()
     {
-        $expected = array('tenantId' => '12345');
+        $expected = array('some_key' => 'some_value');
         Magento_Profiler::setDefaultTags($expected);
         $this->assertAttributeEquals($expected, '_defaultTags', 'Magento_Profiler');
     }
