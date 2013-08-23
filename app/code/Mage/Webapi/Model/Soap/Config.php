@@ -18,6 +18,9 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_ObjectManager */
+    protected $_objectManager;
+
     /**
      * SOAP services should be stored separately as the list of available operations
      * is collected using reflection, not taken from config as for REST
@@ -37,6 +40,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dir
      * @param Mage_Webapi_Helper_Data $helper
@@ -46,6 +50,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Mage_Core_Model_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dir,
         Mage_Webapi_Helper_Data $helper
@@ -54,6 +59,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_helper = $helper;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -238,8 +244,7 @@ class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
         }
 
         // TODO: Should happen only once the cache is in place
-        // TODO: Use object manager instead of direct DOMDocument instantiation
-        $serviceSchema = new DOMDocument();
+        $serviceSchema = $this->_objectManager->create('DOMDocument');
         $serviceSchema->loadXML($schema);
 
         return $serviceSchema;
