@@ -470,12 +470,12 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     /**
      * Config object getter
      *
-     * @return array|string
+     * @return Mage_Core_Model_Config_Element
      */
     public function getConfig()
     {
         if (! $this->_config) {
-            $this->_config = Mage::getConfig()->getValue('cms/browser', 'adminhtml');
+            $this->_config = Mage::getConfig()->getNode('adminhtml/cms/browser');
         }
 
         return $this->_config;
@@ -489,7 +489,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     public function getConfigAsArray()
     {
         if (!$this->_configAsArray) {
-            $this->_configAsArray = $this->getConfig();
+            $this->_configAsArray = $this->getConfig()->asCanonicalArray();
         }
 
         return $this->_configAsArray;

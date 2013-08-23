@@ -18,10 +18,12 @@ class Mage_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $default = Mage::getConfig()->getNode('default');
-        $convert = $default->addChild('url')->addChild('convert')->addChild('char8482');
-        $convert->addChild('from', '™');
-        $convert->addChild('to', 'TM');
+        // @todo re-implement this test
+        $data = array(
+            'from' => '™',
+            'to' => 'TM',
+        );
+        Mage::getConfig()->setValue('url/convert/char8482', $data);
     }
 
     protected function setUp()

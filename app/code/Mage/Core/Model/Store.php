@@ -354,7 +354,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if (!$data && !$this->_appState->isInstalled()) {
             $data = $config->getValue($path, 'default');
         }
-        if (!$data) {
+        if ($data === false) {
             return null;
         }
         return $data;

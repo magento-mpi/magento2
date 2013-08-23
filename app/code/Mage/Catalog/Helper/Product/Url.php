@@ -90,7 +90,7 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
         parent::__construct($context);
         $convertConfig = $config->getValue('url/convert', 'default');
         if ($convertConfig) {
-            foreach ($convertConfig() as $configValue) {
+            foreach ($convertConfig as $configValue) {
                 $this->_convertTable[strval($configValue['from'])] = strval($configValue['to']);
             }
         }

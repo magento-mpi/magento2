@@ -65,9 +65,16 @@ class Magento_Test_Annotation_ConfigFixture
     protected function _setConfigValue($configPath, $value, $storeCode = false)
     {
         if ($storeCode === false) {
-            Mage::getConfig()->setNode($configPath, $value);
-            Mage::getObjectManager()->get('Mage_Core_Model_Config')->setNode($configPath, $value);
-            Mage::getObjectManager()->get('Mage_Core_Model_Config_Primary')->setNode($configPath, $value);
+            // @todo refactor this method when all types of configuration are represented by array
+            if (strpos($configPath, 'default/') === 0) {
+                $configPath = substr($configPath, 8);
+                Mage::getConfig()->setValue($configPath, $value);
+                Mage::getObjectManager()->get('Mage_Core_Model_Config')->setValue($configPath, $value);
+            } else {
+                Mage::getConfig()->setNode($configPath, $value);
+                Mage::getObjectManager()->get('Mage_Core_Model_Config')->setNode($configPath, $value);
+                Mage::getObjectManager()->get('Mage_Core_Model_Config_Primary')->setNode($configPath, $value);
+            }
         } else {
             Mage::app()->getStore($storeCode)->setConfig($configPath, $value);
         }
