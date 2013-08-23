@@ -74,7 +74,7 @@ class Mage_Core_Model_Config_SectionPool
                 } else {
                     $data = $reader->read($scopeCode);
                 }
-                $this->_cache->save(serialize($data), $cacheKey, array());
+                $this->_cache->save(serialize($data), $cacheKey, array(self::CACHE_TAG));
             }
             $this->_sections[$code] = $this->_dataFactory->create(array('data' => $data));
         }
