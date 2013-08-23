@@ -23,6 +23,8 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
             'urlModel' => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
             'appState' => Mage::getObjectManager()->get('Mage_Core_Model_App_State'),
+            'request' => Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http'),
+            'configDataResource' => Mage::getObjectManager()->get('Mage_Core_Model_Resource_Config_Data'),
         );
 
         $this->_model = $this->getMock(
@@ -323,6 +325,8 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
             'urlModel' => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
             'appState' => $appStateMock,
+            'request' => Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http'),
+            'configDataResource' => Mage::getObjectManager()->get('Mage_Core_Model_Resource_Config_Data'),
         );
 
         $model = $this->getMock('Mage_Core_Model_Store', array('getConfig'), $params);

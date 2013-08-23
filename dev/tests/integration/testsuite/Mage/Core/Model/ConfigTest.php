@@ -42,13 +42,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $model->determineOmittedNamespace('nonexistent', true));
     }
 
-    public function testGetDistroBaseUrl()
-    {
-        $_SERVER['SCRIPT_NAME'] = __FILE__;
-        $_SERVER['HTTP_HOST'] = 'example.com';
-        $this->assertEquals('http://example.com/', $this->_createModel()->getDistroBaseUrl());
-    }
-
     public function testGetModuleDir()
     {
         $model = $this->_createModel();
