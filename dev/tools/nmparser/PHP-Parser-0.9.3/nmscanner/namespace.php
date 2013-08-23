@@ -120,8 +120,6 @@ class namespacer
                 if($blackList){
                     if(!in_array($file->getRealPath(),$this->blackListArray)){
                         $files[] = $file->getRealPath();
-                    }else{
-                        die( $file->getRealPath());
                     }
                 }else{
                     $files[] = $file->getRealPath();
