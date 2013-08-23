@@ -92,7 +92,7 @@
                 <file>mage/loader.js</file>
             </action>
             <!-- Preload resources for widgets -->
-            <block type="Magento_Core_Block_Template" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
+            <block type="Magento_Adminhtml_Block_Page_Js_Components" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
         </reference>
     </default>
 </layout>
