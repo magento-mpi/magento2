@@ -1221,7 +1221,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     {
         $helper = (string)$arg['helper'];
         list($helperName, $helperMethod) = explode('::', $helper);
-        $arg = $arg->asArray();
+        $arg = $this->_getArgsFromAssoc($arg);
         unset($arg['@']);
         return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
     }
@@ -1229,14 +1229,15 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**
      * Converts input array to arguments array
      *
-     * @param array $array
+     * @param mixed $array
      * @return array
      */
     protected function _getArgsFromAssoc($array)
     {
         $arr = array();
-        foreach ($array as $key => $value) {
-            $arr[(string)$key] = $value->asArray();
+        foreach ($array as $item) {
+            $key = (string)$item['name'];
+            $arr[$key] = $item->children()->count() ? $this->_getArgsFromAssoc($item->children()) : (string)$item;
         }
         return $arr;
     }
