@@ -31,7 +31,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-
         $dirs = Mage::getObjectManager()->create(
             'Mage_Core_Model_Dir',
             array(
@@ -53,12 +52,6 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             'Mage_Core_Model_ModuleList',
             array('reader' => $filesystemReader, 'cache' => $this->getMock("Magento_Config_CacheInterface"))
         );
-        $reader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules_Reader', array('dirs' => $dirs, 'moduleList' => $moduleList)
-        );
-        $modulesLoader = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Loader_Modules', array('dirs' => $dirs, 'fileReader' => $reader)
-        );
 
         /**
          * Mock is used to disable caching, as far as Integration Tests Framework loads main
@@ -73,28 +66,26 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->method('load')
             ->will($this->returnValue(false));
 
-        /** @var Mage_Core_Model_Config_Storage $storage */
-        $storage = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Storage', array(
-                'loader' => $modulesLoader,
-                'cache' => $cache
-            )
-        );
-
-        /** @var Mage_Core_Model_Config_Modules $modulesConfig */
-        $modulesConfig = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Config_Modules', array(
-                'storage' => $storage
-            )
-        );
-
         /** @var Mage_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = Mage::getObjectManager()->create(
             'Mage_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
-                'modulesConfig' => $modulesConfig
+                'moduleList' => $moduleList
             )
         );
+
+        $loader = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Config_Loader',
+            array('fileReader' => $moduleReader)
+        );
+        /** @var Mage_Core_Model_Config_Storage $storage */
+        $storage = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Config_Storage', array(
+                'loader' => $loader,
+                'cache' => $cache
+            )
+        );
+
 
         $mageConfig = Mage::getObjectManager()->create(
             'Mage_Core_Model_Config',
