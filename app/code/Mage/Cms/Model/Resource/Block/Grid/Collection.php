@@ -1,5 +1,7 @@
 <?php
 /**
+ * Cms block grid collection
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -25,7 +27,7 @@ class Mage_Cms_Model_Resource_Block_Grid_Collection extends Mage_Cms_Model_Resou
     public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'store_id'){
-            return $this->addStoreFilter($value);
+            return $this->addStoreFilter($field);
         }
     }
 }
