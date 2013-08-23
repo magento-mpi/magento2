@@ -53,6 +53,54 @@ class Mage_Adminhtml_Controller_CacheTest extends Mage_Backend_Utility_Controlle
     }
 
     /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+     * @dataProvider massActionsDataProvider
+     * @param array $typesToEnable
+     */
+    public function testMassEnableAction($typesToEnable = array())
+    {
+        $this->getRequest()->setParams(array('types' => $typesToEnable));
+        $this->dispatch('backend/admin/cache/massEnable');
+
+        /** @var  Mage_Core_Model_Cache_TypeListInterface$cacheTypeList */
+        $cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Mage_Core_Model_Cache_StateInterface');
+        foreach ($types as $type) {
+            if (in_array($type, $typesToEnable)) {
+                $this->assertTrue($cacheState->isEnabled($type), "Type '$type' has not been enabled");
+            } else {
+                $this->assertFalse($cacheState->isEnabled($type), "Type '$type' must remain disabled");
+            }
+        }
+    }
+
+    /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @dataProvider massActionsDataProvider
+     * @param array $typesToDisable
+     */
+    public function testMassDisableAction($typesToDisable = array())
+    {
+        $this->getRequest()->setParams(array('types' => $typesToDisable));
+        $this->dispatch('backend/admin/cache/massDisable');
+
+        /** @var  Mage_Core_Model_Cache_TypeListInterface$cacheTypeList */
+        $cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Mage_Core_Model_Cache_StateInterface');
+        foreach ($types as $type) {
+            if (in_array($type, $typesToDisable)) {
+                $this->assertFalse($cacheState->isEnabled($type), "Type '$type' has not been disabled");
+            } else {
+                $this->assertTrue($cacheState->isEnabled($type), "Type '$type' must remain enabled");
+            }
+        }
+    }
+
+    /**
      * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_invalidated.php
      * @dataProvider massActionsDataProvider
      * @param array $typesToRefresh
