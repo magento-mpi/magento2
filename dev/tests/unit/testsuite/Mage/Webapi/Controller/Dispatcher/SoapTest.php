@@ -37,7 +37,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
     {
         parent::setUp();
 
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Config')
             ->disableOriginalConstructor()
             ->setMethods(array('getAllServicesVersions'))
             ->getMock();

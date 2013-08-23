@@ -25,7 +25,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var Mage_Webapi_Model_Config_Soap */
+    /** @var Mage_Webapi_Model_Soap_Config */
     protected $_newApiConfig;
 
     /**
@@ -34,14 +34,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Model_Config_Soap $newApiConfig
+     * @param Mage_Webapi_Model_Soap_Config $newApiConfig
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Security $security
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Model_Config_Soap $newApiConfig,
+        Mage_Webapi_Model_Soap_Config $newApiConfig,
         Mage_Webapi_Controller_Dispatcher_Soap_Security $security
     ) {
         $this->_request = $request;

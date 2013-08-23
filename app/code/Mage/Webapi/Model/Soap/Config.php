@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Soap extends Mage_Webapi_Model_Config
+class Mage_Webapi_Model_Soap_Config extends Mage_Webapi_Model_Config
 {
     /** @var Magento_Filesystem */
     protected $_filesystem;

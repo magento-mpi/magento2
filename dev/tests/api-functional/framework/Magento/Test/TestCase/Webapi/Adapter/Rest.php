@@ -18,7 +18,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
     const HTTP_METHOD_DELETE = 'DELETE';
     /**#@-*/
 
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Webapi_Model_Rest_Config */
     protected $_restHelper;
 
     /**
@@ -26,7 +26,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
      */
     public function __construct()
     {
-        $this->_restHelper = Mage::getObjectManager()->get('Mage_Webapi_Model_Config_Rest');
+        $this->_restHelper = Mage::getObjectManager()->get('Mage_Webapi_Model_Rest_Config');
     }
 
     /**

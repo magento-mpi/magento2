@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Config')
             ->setMethods(
                 array(
                     'getServiceNameByOperation',

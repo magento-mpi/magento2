@@ -28,7 +28,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     /**
      * TODO: Temporary variable for step-by-step refactoring according to new requirements
      *
-     * @var Mage_Webapi_Model_Config_Soap
+     * @var Mage_Webapi_Model_Soap_Config
      */
     protected $_newApiConfig;
 
@@ -42,14 +42,14 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $newApiConfig
+     * @param Mage_Webapi_Model_Soap_Config $newApiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      *
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $newApiConfig,
+        Mage_Webapi_Model_Soap_Config $newApiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
     ) {

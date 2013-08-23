@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_Config
+class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
 {
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;

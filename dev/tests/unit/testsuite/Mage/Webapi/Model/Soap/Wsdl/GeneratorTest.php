@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Generator */
     protected $_wsdlGenerator;
 
-    /**  @var Mage_Webapi_Model_Config_Soap */
+    /**  @var Mage_Webapi_Model_Soap_Config */
     protected $_newApiConfigMock;
 
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory */
@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
+        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Config')->disableOriginalConstructor()
             ->getMock();
         $this->_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
             ->getMock();

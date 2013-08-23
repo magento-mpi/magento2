@@ -20,7 +20,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;
 
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Webapi_Model_Rest_Config */
     protected $_apiConfigMock;
 
     /** @var Mage_Webapi_Controller_Router_Rest */
@@ -29,7 +29,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Rest')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Rest_Config')
             ->disableOriginalConstructor()
             ->getMock();
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
