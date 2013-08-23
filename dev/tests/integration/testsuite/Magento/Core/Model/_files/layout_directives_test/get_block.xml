@@ -8,7 +8,7 @@
  */
 -->
 <layout>
-    <handle id="test_get_block">
+    <handle id="get_block">
         <block name="block1" class="Magento_Core_Block_Text">
             <action method="getChildBlock">
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="value" xsi:type="string">block2</argument>

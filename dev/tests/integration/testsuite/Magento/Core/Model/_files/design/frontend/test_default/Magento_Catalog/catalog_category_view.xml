@@ -4,15 +4,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Mage_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view" type="page" parent="default"/>
-    <handle id="catalog_product_view_type_simple" type="page" parent="catalog_product_view"/>
     <handle id="catalog_category_view" type="page" parent="default"/>
-    <handle id="catalog_category_view_type_default" type="page" parent="catalog_category_view"/>
 </layout>

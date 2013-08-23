@@ -25,7 +25,7 @@ class Magento_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestC
         $utility = new Magento_Core_Utility_Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
-            __DIR__ . '/../../../_files/edit.xml',
+            __DIR__ . '/../../../_files/adminhtml_rma_edit.xml',
             $layoutArguments
         );
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();

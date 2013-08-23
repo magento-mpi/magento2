@@ -7,10 +7,10 @@
  * @license    {license_link}
  */
 -->
-<layout>
-    <default>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="default">
         <reference name="root" after="header">
             <block class="Magento_Backend_Block_Menu_Proxy" name="menu" as="menu" template="Magento_Backend::menu.phtml" />
         </reference>
-    </default>
+    </handle>
 </layout>

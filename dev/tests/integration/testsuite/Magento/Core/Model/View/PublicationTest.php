@@ -203,7 +203,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Magento_Catalog'),
-                'layout.xml'
+                'catalog_category_view.xml'
             ),
             array(
                 array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Magento_Core'),

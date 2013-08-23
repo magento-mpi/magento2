@@ -8,7 +8,7 @@
  */
 -->
 <layout>
-    <handle id="test_render">
+    <handle id="render">
         <!-- Despite reference element is not declared yet, it will "save this action for later" -->
         <reference name="block1">
             <action method="addText">

@@ -8,7 +8,7 @@
  */
 -->
 <layout>
-    <handle id="test_arguments">
+    <handle id="arguments">
         <block class="Magento_Core_Block_Text" name="block_with_args">
             <arguments>
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="string">1</argument>
