@@ -37,7 +37,6 @@ class Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
             'Dissolved into themes under app/design ' => array('skin'),
             'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
             'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
-            'Relocated to Magento' => array('app/code/Mage'),
             'Relocated to Magento' => array('app/code/core'),
             'Relocated to Magento' => array('app/code/local'),
             'Relocated to Magento' => array('app/code/community'),
