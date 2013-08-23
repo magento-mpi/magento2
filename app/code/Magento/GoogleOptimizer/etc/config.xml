@@ -75,28 +75,6 @@
             </adminhtml_catalog_category_tabs>
         </events>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_GoogleOptimizer>
-                    <files>
-                        <default>Magento_GoogleOptimizer.csv</default>
-                    </files>
-                </Magento_GoogleOptimizer>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleOptimizer>
-                    <files>
-                        <default>Magento_GoogleOptimizer.csv</default>
-                    </files>
-                </Magento_GoogleOptimizer>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <google>
             <optimizer>

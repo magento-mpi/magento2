@@ -20,15 +20,6 @@
         </resources>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Review>
-                    <files>
-                        <default>Magento_Review.csv</default>
-                    </files>
-                </Magento_Review>
-            </modules>
-        </translate>
         <events>
             <catalog_product_delete_after_done>
                 <observers>
@@ -50,15 +41,6 @@
                 </args>
             </review>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Review>
-                    <files>
-                        <default>Magento_Review.csv</default>
-                    </files>
-                </Magento_Review>
-            </modules>
-        </translate>
         <events>
             <tag_tag_product_collection_load_after>
                 <observers>

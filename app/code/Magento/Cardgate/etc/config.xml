@@ -41,27 +41,7 @@
                 </args>
             </cardgate>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Cardgate>
-                    <files>
-                        <default>Magento_Cardgate.csv</default>
-                    </files>
-                </Magento_Cardgate>
-            </modules>
-        </translate>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Cardgate>
-                    <files>
-                        <default>Magento_Cardgate.csv</default>
-                    </files>
-                </Magento_Cardgate>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <payment>
             <cardgate>

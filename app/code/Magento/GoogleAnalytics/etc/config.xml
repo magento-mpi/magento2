@@ -11,15 +11,6 @@
 -->
 <config>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_GoogleAnalytics>
-                    <files>
-                        <default>Magento_GoogleAnalytics.csv</default>
-                    </files>
-                </Magento_GoogleAnalytics>
-            </modules>
-        </translate>
         <events>
             <checkout_onepage_controller_success_action>
                 <observers>
@@ -47,15 +38,4 @@
             </googlecheckout_block_link_html_before>
         </events>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleAnalytics>
-                    <files>
-                        <default>Magento_GoogleAnalytics.csv</default>
-                    </files>
-                </Magento_GoogleAnalytics>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

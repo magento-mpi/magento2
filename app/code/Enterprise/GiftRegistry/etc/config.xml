@@ -93,15 +93,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_GiftRegistry>
-                    <files>
-                        <default>Enterprise_GiftRegistry.csv</default>
-                    </files>
-                </Enterprise_GiftRegistry>
-            </modules>
-        </translate>
         <events>
             <customer_address_format>
                 <observers>
@@ -114,15 +105,6 @@
         </events>
     </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Enterprise_GiftRegistry>
-                    <files>
-                        <default>Enterprise_GiftRegistry.csv</default>
-                    </files>
-                </Enterprise_GiftRegistry>
-            </modules>
-        </translate>
         <routers>
             <enterprise_giftregistry>
                 <use>standard</use>

@@ -11,15 +11,6 @@
 -->
 <config>
     <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_License>
-                    <files>
-                        <default>Enterprise_License.csv</default>
-                    </files>
-                </Enterprise_License>
-            </modules>
-        </translate>
         <events>
             <admin_user_authenticate_after>
                 <observers>

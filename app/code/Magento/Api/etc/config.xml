@@ -39,27 +39,7 @@
                 </args>
             </api>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Api>
-                    <files>
-                        <default>Magento_Api.csv</default>
-                    </files>
-                </Magento_Api>
-            </modules>
-        </translate>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Api>
-                    <files>
-                        <default>Magento_Api.csv</default>
-                    </files>
-                </Magento_Api>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <api>
             <config>

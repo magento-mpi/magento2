@@ -126,15 +126,6 @@
                 </observers>
             </adminhtml_catalog_product_edit_element_types>
         </events>
-        <translate>
-            <modules>
-                <Magento_Weee>
-                    <files>
-                        <default>Magento_Weee.csv</default>
-                    </files>
-                </Magento_Weee>
-            </modules>
-        </translate>
     </adminhtml>
     <default>
         <sales>
@@ -162,15 +153,4 @@
             </validator_data>
         </general>
     </default>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Weee>
-                    <files>
-                        <default>Magento_Weee.csv</default>
-                    </files>
-                </Magento_Weee>
-            </modules>
-        </translate>
-    </frontend>
 </config>

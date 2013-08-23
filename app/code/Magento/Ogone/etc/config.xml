@@ -81,15 +81,6 @@
                 </args>
             </ogone>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Ogone>
-                    <files>
-                        <default>Magento_Ogone.csv</default>
-                    </files>
-                </Magento_Ogone>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <payment>

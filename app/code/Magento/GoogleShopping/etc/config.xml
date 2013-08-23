@@ -31,15 +31,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleShopping>
-                    <files>
-                        <default>Magento_GoogleShopping.csv</default>
-                    </files>
-                </Magento_GoogleShopping>
-            </modules>
-        </translate>
         <events>
             <catalog_product_save_after>
                 <observers>

@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Media>
-                    <files>
-                        <default>Magento_Media.csv</default>
-                    </files>
-                </Magento_Media>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <routers>
             <media>
@@ -31,14 +20,5 @@
                 </args>
             </media>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Media>
-                    <files>
-                        <default>Magento_Media.csv</default>
-                    </files>
-                </Magento_Media>
-            </modules>
-        </translate>
     </frontend>
 </config>

@@ -251,15 +251,6 @@
         </pdf>
     </global>
     <frontend>
-        <translate>
-            <modules>
-                <Enterprise_GiftCardAccount>
-                    <files>
-                        <default>Enterprise_GiftCardAccount.csv</default>
-                    </files>
-                </Enterprise_GiftCardAccount>
-            </modules>
-        </translate>
         <routers>
             <enterprise_giftcardaccount>
                 <use>standard</use>
@@ -292,15 +283,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_GiftCardAccount>
-                    <files>
-                        <default>Enterprise_GiftCardAccount.csv</default>
-                    </files>
-                </Enterprise_GiftCardAccount>
-            </modules>
-        </translate>
         <events>
             <order_cancel_after>
                 <observers>

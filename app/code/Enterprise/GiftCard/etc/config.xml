@@ -112,15 +112,6 @@
                 </attributes>
             </collection>
         </product>
-        <translate>
-            <modules>
-                <Enterprise_GiftCard>
-                    <files>
-                        <default>Enterprise_GiftCard.csv</default>
-                    </files>
-                </Enterprise_GiftCard>
-            </modules>
-        </translate>
         <secure_url>
             <giftcard_customer>/giftcard/customer/</giftcard_customer>
         </secure_url>
@@ -136,15 +127,6 @@
         </events>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_GiftCard>
-                    <files>
-                        <default>Enterprise_GiftCard.csv</default>
-                    </files>
-                </Enterprise_GiftCard>
-            </modules>
-        </translate>
         <sales>
             <order>
                 <create>

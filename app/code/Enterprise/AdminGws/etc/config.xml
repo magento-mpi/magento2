@@ -550,14 +550,5 @@
                 </block_html_before>
             </admingws>
         </enterprise>
-        <translate>
-            <modules>
-                <Enterprise_AdminGws>
-                    <files>
-                        <default>Enterprise_AdminGws.csv</default>
-                    </files>
-                </Enterprise_AdminGws>
-            </modules>
-        </translate>
     </adminhtml>
 </config>

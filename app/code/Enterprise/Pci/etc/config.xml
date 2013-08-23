@@ -70,15 +70,6 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Pci>
-                    <files>
-                        <default>Enterprise_Pci.csv</default>
-                    </files>
-                </Enterprise_Pci>
-            </modules>
-        </translate>
     </adminhtml>
     <admin>
         <routers>
@@ -102,15 +93,6 @@
                 </observers>
             </customer_customer_authenticated>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Pci>
-                    <files>
-                        <default>Enterprise_Pci.csv</default>
-                    </files>
-                </Enterprise_Pci>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <admin>

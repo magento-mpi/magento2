@@ -79,15 +79,6 @@
                 </observers>
             </backend_auth_user_login_failed>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_Logging>
-                    <files>
-                        <default>Enterprise_Logging.csv</default>
-                    </files>
-                </Enterprise_Logging>
-            </modules>
-        </translate>
         <enterprise>
             <logging>
                 <skip_fields>updated_at,form_key</skip_fields>

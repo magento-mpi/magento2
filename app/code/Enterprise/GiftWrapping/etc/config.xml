@@ -123,15 +123,6 @@
                 </observers>
             </gift_options_prepare_items>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_GiftWrapping>
-                    <files>
-                        <default>Enterprise_GiftWrapping.csv</default>
-                    </files>
-                </Enterprise_GiftWrapping>
-            </modules>
-        </translate>
     </frontend>
     <admin>
         <routers>
@@ -173,15 +164,6 @@
                 </observers>
             </sales_convert_order_item_to_quote_item>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_GiftWrapping>
-                    <files>
-                        <default>Enterprise_GiftWrapping.csv</default>
-                    </files>
-                </Enterprise_GiftWrapping>
-            </modules>
-        </translate>
     </adminhtml>
     <default>
         <system>

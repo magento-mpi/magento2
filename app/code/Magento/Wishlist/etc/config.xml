@@ -65,15 +65,6 @@
                 </args>
             </wishlist>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Wishlist>
-                    <files>
-                        <default>Magento_Wishlist.csv</default>
-                    </files>
-                </Magento_Wishlist>
-            </modules>
-        </translate>
         <events>
             <customer_login>
                 <observers>
@@ -96,17 +87,6 @@
             <wishlist>/wishlist/</wishlist>
         </secure_url>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Wishlist>
-                    <files>
-                        <default>Magento_Wishlist.csv</default>
-                    </files>
-                </Magento_Wishlist>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <wishlist>
             <general>

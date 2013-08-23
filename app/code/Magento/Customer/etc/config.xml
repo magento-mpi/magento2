@@ -91,17 +91,6 @@
             </customer_address_save_after>
         </events>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Customer>
-                    <files>
-                        <default>Magento_Customer.csv</default>
-                    </files>
-                </Magento_Customer>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <secure_url>
             <customer>/customer/</customer>
@@ -125,15 +114,6 @@
                 </args>
             </customer>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Customer>
-                    <files>
-                        <default>Magento_Customer.csv</default>
-                    </files>
-                </Magento_Customer>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <customer>

@@ -79,15 +79,6 @@
         </salesrule>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_SalesRule>
-                    <files>
-                        <default>Magento_SalesRule.csv</default>
-                    </files>
-                </Magento_SalesRule>
-            </modules>
-        </translate>
         <events>
             <catalog_entity_attribute_delete_after>
                 <observers>
@@ -107,17 +98,6 @@
             </catalog_entity_attribute_save_after>
         </events>
     </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_SalesRule>
-                    <files>
-                        <default>Magento_SalesRule.csv</default>
-                    </files>
-                </Magento_SalesRule>
-            </modules>
-        </translate>
-    </frontend>
     <crontab>
         <jobs>
             <aggregate_sales_report_coupons_data>

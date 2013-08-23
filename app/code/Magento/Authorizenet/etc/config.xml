@@ -11,15 +11,6 @@
 -->
 <config>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Authorizenet>
-                    <files>
-                        <default>Magento_Authorizenet.csv</default>
-                    </files>
-                </Magento_Authorizenet>
-            </modules>
-        </translate>
         <events>
             <checkout_submit_all_after>
                 <observers>
@@ -32,15 +23,6 @@
         </events>
     </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Authorizenet>
-                    <files>
-                        <default>Magento_Authorizenet.csv</default>
-                    </files>
-                </Magento_Authorizenet>
-            </modules>
-        </translate>
         <routers>
             <authorizenet>
                 <use>standard</use>

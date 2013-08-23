@@ -64,17 +64,6 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_ImportExport>
-                    <files>
-                        <default>Enterprise_ImportExport.csv</default>
-                    </files>
-                </Enterprise_ImportExport>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <system>
             <enterprise_import_export_log>

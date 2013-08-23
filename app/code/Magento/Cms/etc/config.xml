@@ -38,26 +38,8 @@
                 </observers>
             </controller_action_nocookies>
         </events>
-        <translate>
-            <modules>
-                <Magento_Cms>
-                    <files>
-                        <default>Magento_Cms.csv</default>
-                    </files>
-                </Magento_Cms>
-            </modules>
-        </translate>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Cms>
-                    <files>
-                        <default>Magento_Cms.csv</default>
-                    </files>
-                </Magento_Cms>
-            </modules>
-        </translate>
         <cms>
             <browser>
                 <dirs>

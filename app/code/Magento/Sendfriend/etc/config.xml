@@ -29,17 +29,6 @@
             </email>
         </template>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Sendfriend>
-                    <files>
-                        <default>Magento_Sendfriend.csv</default>
-                    </files>
-                </Magento_Sendfriend>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <events>
             <catalog_controller_product_view>
@@ -60,15 +49,6 @@
                 </args>
             </sendfriend>
         </routers>
-        <translate>
-            <modules>
-                <Magento_Sendfriend>
-                    <files>
-                        <default>Magento_Sendfriend.csv</default>
-                    </files>
-                </Magento_Sendfriend>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <sendfriend>

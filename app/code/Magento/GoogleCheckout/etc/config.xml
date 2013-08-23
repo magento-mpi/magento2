@@ -35,15 +35,6 @@
             <googlecheckout_beacon>/googlecheckout/api/beacon/</googlecheckout_beacon>
             <googlecheckout_api>/googlecheckout/api/</googlecheckout_api>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_GoogleCheckout>
-                    <files>
-                        <default>Magento_GoogleCheckout.csv</default>
-                    </files>
-                </Magento_GoogleCheckout>
-            </modules>
-        </translate>
         <routers>
             <googlecheckout>
                 <use>standard</use>
@@ -55,15 +46,6 @@
         </routers>
     </frontend>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleCheckout>
-                    <files>
-                        <default>Magento_GoogleCheckout.csv</default>
-                    </files>
-                </Magento_GoogleCheckout>
-            </modules>
-        </translate>
         <events>
             <sales_order_shipment_track_save_after>
                 <observers>

@@ -20,15 +20,6 @@
         </resources>
     </global>
     <adminhtml>
-        <translate>
-            <modules>
-                <Magento_AdminNotification>
-                    <files>
-                        <default>Magento_AdminNotification.csv</default>
-                    </files>
-                </Magento_AdminNotification>
-            </modules>
-        </translate>
         <events>
             <controller_action_predispatch>
                 <observers>

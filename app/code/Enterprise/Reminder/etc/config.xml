@@ -82,17 +82,6 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_Reminder>
-                    <files>
-                        <default>Enterprise_Reminder.csv</default>
-                    </files>
-                </Enterprise_Reminder>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <promo>
             <enterprise_reminder>

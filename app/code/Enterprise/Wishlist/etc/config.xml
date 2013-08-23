@@ -31,17 +31,6 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_Wishlist>
-                    <files>
-                        <default>Enterprise_Wishlist.csv</default>
-                    </files>
-                </Enterprise_Wishlist>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <routers>
             <wishlist>
@@ -59,15 +48,6 @@
                 </args>
             </enterprise_wishlist>
         </routers>
-        <translate>
-            <modules>
-                <Enterprise_Wishlist>
-                    <files>
-                        <default>Enterprise_Wishlist.csv</default>
-                    </files>
-                </Enterprise_Wishlist>
-            </modules>
-        </translate>
         <events>
             <wishlist_delete_commit_after>
                 <observers>

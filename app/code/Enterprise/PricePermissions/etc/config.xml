@@ -85,14 +85,5 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_PricePermissions>
-                    <files>
-                        <default>Enterprise_PricePermissions.csv</default>
-                    </files>
-                </Enterprise_PricePermissions>
-            </modules>
-        </translate>
     </adminhtml>
 </config>

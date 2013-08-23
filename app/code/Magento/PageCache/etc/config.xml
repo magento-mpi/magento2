@@ -38,17 +38,6 @@
             </design_editor_deactivate>
         </events>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_PageCache>
-                    <files>
-                        <default>Magento_PageCache.csv</default>
-                    </files>
-                </Magento_PageCache>
-            </modules>
-        </translate>
-    </adminhtml>
     <frontend>
         <events>
             <controller_action_predispatch>

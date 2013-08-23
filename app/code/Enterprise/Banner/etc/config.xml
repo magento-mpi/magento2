@@ -43,15 +43,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_Banner>
-                    <files>
-                        <default>Enterprise_Banner.csv</default>
-                    </files>
-                </Enterprise_Banner>
-            </modules>
-        </translate>
         <events>
             <adminhtml_controller_catalogrule_prepare_save>
                 <observers>

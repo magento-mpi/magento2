@@ -181,15 +181,6 @@
                 </observers>
             </sales_order_grid_collection_load_before>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_SalesArchive>
-                    <files>
-                        <default>Enterprise_SalesArchive.csv</default>
-                    </files>
-                </Enterprise_SalesArchive>
-            </modules>
-        </translate>
     </adminhtml>
     <default>
         <sales>

@@ -126,15 +126,6 @@
                 </observers>
             </after_reindex_process_catalog_category_product>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_CatalogPermissions>
-                    <files>
-                        <default>Enterprise_CatalogPermissions.csv</default>
-                    </files>
-                </Enterprise_CatalogPermissions>
-            </modules>
-        </translate>
     </adminhtml>
     <frontend>
         <events>
@@ -283,15 +274,6 @@
                 </observers>
             </rss_catalog_category_xml_callback>
         </events>
-        <translate>
-            <modules>
-                <Enterprise_CatalogPermissions>
-                    <files>
-                        <default>Enterprise_CatalogPermissions.csv</default>
-                    </files>
-                </Enterprise_CatalogPermissions>
-            </modules>
-        </translate>
     </frontend>
     <default>
         <catalog>

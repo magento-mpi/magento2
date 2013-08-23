@@ -44,15 +44,6 @@
                 </args>
             </enterprise_pbridge>
         </routers>
-        <translate>
-            <modules>
-                <Enterprise_Pbridge>
-                    <files>
-                        <default>Enterprise_Pbridge.csv</default>
-                    </files>
-                </Enterprise_Pbridge>
-            </modules>
-        </translate>
     </frontend>
     <adminhtml>
         <events>

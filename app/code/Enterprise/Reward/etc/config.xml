@@ -209,15 +209,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <translate>
-            <modules>
-                <Enterprise_Reward>
-                    <files>
-                        <default>Enterprise_Reward.csv</default>
-                    </files>
-                </Enterprise_Reward>
-            </modules>
-        </translate>
         <events>
             <adminhtml_customer_prepare_save>
                 <observers>
@@ -310,15 +301,6 @@
         </events>
     </adminhtml>
     <frontend>
-        <translate>
-            <modules>
-                <Enterprise_Reward>
-                    <files>
-                        <default>Enterprise_Reward.csv</default>
-                    </files>
-                </Enterprise_Reward>
-            </modules>
-        </translate>
         <routers>
             <enterprise_reward>
                 <use>standard</use>
