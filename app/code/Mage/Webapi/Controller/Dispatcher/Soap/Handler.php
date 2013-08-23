@@ -126,43 +126,36 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     }
 
     /**
-     * TODO: Refactor method, which was copied from Mage_Api module
      * Go through an object parameters and unpack associative object to array.
      *
      * @param Object $obj - Link to Object
      * @return Object
-     * TODO: Remove warning suppression after simplifying the method
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _unpackArguments(&$obj)
     {
-        if (is_object($obj) && property_exists($obj, 'key') && property_exists($obj, 'value')) {
-            if (count(array_keys(get_object_vars($obj))) == 2) {
-                $obj = array($obj->key => $obj->value);
-                return true;
-            }
-        } elseif (is_array($obj)) {
-            $arr = array();
-            $needReplacement = true;
-            foreach ($obj as &$value) {
-                $isAssoc = $this->_unpackArguments($value);
-                if ($isAssoc) {
-                    foreach ($value as $aKey => $aVal) {
-                        $arr[$aKey] = $aVal;
-                    }
-                } else {
-                    $needReplacement = false;
+        if (is_object($obj)) {
+            if (property_exists($obj, 'key') && property_exists($obj, 'value')) {
+                if (count(array_keys(get_object_vars($obj))) === 2) {
+                    $obj = array($obj->key => $obj->value);
+                    return true;
+                }
+            } else {
+                foreach (array_keys(get_object_vars($obj)) as $key) {
+                    $this->_unpackArguments($obj->$key);
                 }
             }
-            if ($needReplacement) {
-                $obj = $arr;
+        } else if (is_array($obj)) {
+            $arr = array();
+            $object = $obj;
+            foreach ($obj as &$value) {
+                if ($this->_unpackArguments($value)) {
+                    array_walk($value, function($val, $key) use(&$arr) {
+                        $arr[$key] = $val;
+                    });
+                    $object = $arr;
+                }
             }
-        } elseif (is_object($obj)) {
-            $objectKeys = array_keys(get_object_vars($obj));
-
-            foreach ($objectKeys as $key) {
-                $this->_unpackArguments($obj->$key);
-            }
+            $obj = $object;
         }
         return false;
     }
