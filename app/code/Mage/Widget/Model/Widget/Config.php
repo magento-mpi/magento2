@@ -1,5 +1,7 @@
 <?php
 /**
+ * Widgets Insertion Plugin Config for Editor HTML Element
+ *
  * {license_notice}
  *
  * @category    Mage
@@ -7,15 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Widgets Insertion Plugin Config for Editor HTML Element
- *
- * @category    Mage
- * @package     Mage_Widget
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Widget_Model_Widget_Config extends Magento_Object
+class Mage_Widget_Model_Widget_Config
 {
     /**
      * @var Mage_Core_Model_View_Url
@@ -23,13 +17,36 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
-     * @param array $data
+     * @var Mage_Widget_Model_Widget
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $data = array())
-    {
+    protected $_widget;
+
+    /**
+     * @var Mage_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_coreHelper;
+
+    /**
+     * @param Mage_Widget_Model_Widget $widget
+     * @param Mage_Backend_Model_Url $backendUrl
+     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Mage_Core_Model_View_Url $viewUrl
+     */
+    public function __construct(
+        Mage_Widget_Model_Widget $widget,
+        Mage_Backend_Model_Url $backendUrl,
+        Mage_Core_Helper_Data $coreHelper,
+        Mage_Core_Model_View_Url $viewUrl
+    ) {
+        $this->_widget = $widget;
+        $this->_backendUrl = $backendUrl;
+        $this->_coreHelper = $coreHelper;
         $this->_viewUrl = $viewUrl;
-        parent::__construct($data);
     }
 
     /**
@@ -45,7 +62,7 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
         );
         $settings = array(
             'widget_plugin_src'   => $url,
-            'widget_placeholders' => Mage::getModel('Mage_Widget_Model_Widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => $this->_widget->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -55,7 +72,7 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param Magento_Object Editor element config
+     * @param Magento_Object $config Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)
@@ -64,12 +81,11 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsByFilters();
-            $filtered = Mage::getModel('Mage_Widget_Model_Widget')->getWidgetsByFilters($config->getData('widget_filters'));
-            $reflection = new ReflectionObject($filtered);
+            $all = $this->_widget->getWidgetsByFilters();
+            $filtered = $this->_widget->getWidgetsByFilters($config->getData('widget_filters'));
             foreach ($all as $code => $widget) {
-                if (!$reflection->hasProperty($code)) {
-                    $skipped[] = $widget->getAttribute('type');
+                if (!isset($filtered[$code])) {
+                    $skipped[] = $widget['@']['type'];
                 }
             }
         }
@@ -77,7 +93,7 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/widget/index', $params);
+        return $this->_backendUrl->getUrl('*/widget/index', $params);
     }
 
     /**
@@ -90,7 +106,7 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return Mage::helper('Mage_Core_Helper_Data')->urlEncode($param);
+        return $this->_coreHelper->urlEncode($param);
     }
 
     /**
@@ -101,7 +117,7 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = Mage::helper('Mage_Core_Helper_Data')->urlDecode($queryParam);
+        $param = $this->_coreHelper->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 
