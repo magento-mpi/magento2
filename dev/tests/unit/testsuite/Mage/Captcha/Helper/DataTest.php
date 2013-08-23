@@ -12,11 +12,6 @@
 class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Fixture for testing getFonts()
-     */
-    const FONT_FIXTURE = '<fonts><font_code><label>Label</label><path>path/to/fixture.ttf</path></font_code></fonts>';
-
-    /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
@@ -26,22 +21,15 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
     }
 
-    /**
-     * Return helper to be tested
-     *
-     * @param Mage_Core_Model_Store $store
-     * @param Mage_Core_Model_Config $config
-     * @return Mage_Captcha_Helper_Data
-     */
-    protected function _getHelper($store, $config)
+    protected function _getHelper($store, $config, $factory)
     {
-        $app = $this->getMockBuilder('Mage_Core_Model_App')
+        $storeManager = $this->getMockBuilder('Mage_Core_Model_StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $app->expects($this->any())
+        $storeManager->expects($this->any())
             ->method('getWebsite')
             ->will($this->returnValue($this->_getWebsiteStub()));
-        $app->expects($this->any())
+        $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($store));
 
@@ -55,7 +43,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $context = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
 
-        return new Mage_Captcha_Helper_Data($context, $this->_dirMock, $app, $config, $filesystem);
+        return new Mage_Captcha_Helper_Data($context, $this->_dirMock, $storeManager, $config, $filesystem, $factory);
     }
 
     /**
@@ -75,13 +63,16 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $objectManager = $this->getMock('Magento_ObjectManager');
         $config = $this->_getConfigStub();
-        $config->expects($this->once())
-            ->method('getModelInstance')
+
+        $factoryMock = $this->getMock('Mage_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+
+        $factoryMock->expects($this->once())
+            ->method('create')
             ->with('Mage_Captcha_Model_Zend')
             ->will($this->returnValue(
             new Mage_Captcha_Model_Default($objectManager, array('formId' => 'user_create'))));
 
-        $helper = $this->_getHelper($store, $config);
+        $helper = $this->_getHelper($store, $config, $factoryMock);
         $this->assertInstanceOf('Mage_Captcha_Model_Default', $helper->getCaptcha('user_create'));
     }
 
@@ -99,7 +90,9 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->with('customer/captcha/enable')
             ->will($this->returnValue('1'));
-        $object = $this->_getHelper($store, $this->_getConfigStub());
+
+        $factoryMock = $this->getMock('Mage_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $object = $this->_getHelper($store, $this->_getConfigStub(), $factoryMock);
         $object->getConfigNode('enable');
     }
 
@@ -110,7 +103,8 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with(Mage_Core_Model_Dir::LIB)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
-        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
+        $factoryMock = $this->getMock('Mage_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $fonts = $object->getFonts();
         $this->assertArrayHasKey('font_code', $fonts); // fixture
         $this->assertArrayHasKey('label', $fonts['font_code']);
@@ -126,12 +120,13 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
+        $factoryMock = $this->getMock('Mage_Captcha_Model_CaptchaFactory', array(), array(), '', false);
         $this->_dirMock->expects($this->once())
             ->method('getDir')
             ->with(Mage_Core_Model_Dir::MEDIA)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/media'));
 
-        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
+        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $this->assertFileNotExists(TESTS_TEMP_DIR . '/captcha');
         $result = $object->getImgDir();
         $result = str_replace('/', DIRECTORY_SEPARATOR, $result);
@@ -145,7 +140,8 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgUrl()
     {
-        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
+        $factoryMock = $this->getMock('Mage_Captcha_Model_CaptchaFactory', array(), array(), '', false);
+        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $this->assertEquals($object->getImgUrl(), 'http://localhost/pub/media/captcha/base/');
     }
 
@@ -158,13 +154,21 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $config = $this->getMock(
             'Mage_Core_Model_Config',
-            array('getNode', 'getModelInstance'),
+            array('getValue'),
             array(), '', false
         );
 
+        $configData = array(
+            'font_code' => array(
+                'label' => 'Label',
+                'path'  => 'path/to/fixture.ttf',
+            )
+        );
+
         $config->expects($this->any())
-            ->method('getNode')
-            ->will($this->returnValue(new SimpleXMLElement(self::FONT_FIXTURE)));
+            ->method('getValue')
+            ->with('captcha/fonts', 'default')
+            ->will($this->returnValue($configData));
         return $config;
     }
 

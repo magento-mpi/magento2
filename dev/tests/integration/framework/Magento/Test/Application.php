@@ -188,6 +188,12 @@ class Magento_Test_Application
             $objectManager->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
+            /** @var Mage_Core_Model_Dir_Verification $verification */
+            $verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
+            $verification->createAndVerifyDirectories();
+            $objectManager->configure(
+                $objectManager->get('Mage_Core_Model_ObjectManager_ConfigLoader')->load('global')
+            );
         }
 
         $objectManager->get('Mage_Core_Model_Resource')
@@ -209,10 +215,6 @@ class Magento_Test_Application
                 )
             )
         );
-
-        /** @var Mage_Core_Model_Dir_Verification $verification */
-        $verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
-        $verification->createAndVerifyDirectories();
 
         $this->loadArea(Magento_Test_Application::DEFAULT_APP_AREA);
     }

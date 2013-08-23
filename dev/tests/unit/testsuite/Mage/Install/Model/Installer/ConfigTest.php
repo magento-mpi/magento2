@@ -36,7 +36,7 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Install_Model_Installer_Config(
-            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
+            $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
             new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::CONFIG => TESTS_TEMP_DIR)),
             $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false),
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())

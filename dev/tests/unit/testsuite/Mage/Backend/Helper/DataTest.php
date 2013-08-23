@@ -31,7 +31,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomNotSet()
     {
-        $this->_configMock->expects($this->at(0))->method('getNode')
+        $this->_configMock->expects($this->at(0))->method('getValue')
             ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
@@ -44,11 +44,11 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomIsSet()
     {
-        $this->_configMock->expects($this->at(0))->method('getNode')
+        $this->_configMock->expects($this->at(0))->method('getValue')
             ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(true));
 
-        $this->_configMock->expects($this->at(1))->method('getNode')
+        $this->_configMock->expects($this->at(1))->method('getValue')
             ->with(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue('control'));
 
@@ -57,7 +57,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsEmptyStringIfAreaFrontNameDoesntExist()
     {
-        $this->_configMock->expects($this->at(0))->method('getNode')
+        $this->_configMock->expects($this->at(0))->method('getValue')
             ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
@@ -72,7 +72,8 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testClearAreaFrontName()
     {
-        $this->_configMock->expects($this->exactly(4))->method('getNode');
+        $this->_configMock->expects($this->exactly(2))->method('getNode');
+        $this->_configMock->expects($this->exactly(2))->method('getValue');
         $this->_helper->getAreaFrontName();
         $this->_helper->clearAreaFrontName();
         $this->_helper->getAreaFrontName();
@@ -80,7 +81,8 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontNameReturnsValueFromCache()
     {
-        $this->_configMock->expects($this->exactly(2))->method('getNode');
+        $this->_configMock->expects($this->once())->method('getNode');
+        $this->_configMock->expects($this->once())->method('getValue');
         $this->_helper->getAreaFrontName();
         $this->_helper->getAreaFrontName();
     }

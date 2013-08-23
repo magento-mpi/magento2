@@ -16,7 +16,7 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $contextMock = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
-        $configMock = $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false);
+        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_helper = new Mage_Core_Helper_Data($contextMock, $configMock);
     }
 
