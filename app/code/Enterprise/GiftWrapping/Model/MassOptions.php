@@ -1,5 +1,7 @@
 <?php
 /**
+ * Gift Wrapping statuses option array
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

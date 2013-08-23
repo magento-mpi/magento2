@@ -9,7 +9,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Report_Collection
     extends Enterprise_CustomerSegment_Model_Resource_Segment_Collection
 {
     /**
-     * @return $this|Enterprise_CustomerSegment_Model_Resource_Segment_Report_Collection
+     * @return Enterprise_CustomerSegment_Model_Resource_Segment_Report_Collection
      */
     protected function _initSelect()
     {

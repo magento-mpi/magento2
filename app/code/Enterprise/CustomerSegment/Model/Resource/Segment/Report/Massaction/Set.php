@@ -9,7 +9,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Report_Massaction_Set
     implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Enterprise_ImportExport_Model_Scheduled_Operation_Data
+     * @var Enterprise_CustomerSegment_Helper_Data
      */
     protected $_segmentHelper;
 
@@ -24,11 +24,10 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Report_Massaction_Set
      */
     public function __construct(
         Enterprise_CustomerSegment_Helper_Data $helper,
-        Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter)
-    {
+        Mage_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+    ) {
         $this->_segmentHelper = $helper;
         $this->_dataConverter = $converter;
-
     }
 
     /**
