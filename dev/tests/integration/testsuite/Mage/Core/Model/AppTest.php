@@ -66,6 +66,9 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_mageModel->hasSingleStore());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testSetCurrentStore()
     {
         $store = Mage::getModel('Mage_Core_Model_Store');

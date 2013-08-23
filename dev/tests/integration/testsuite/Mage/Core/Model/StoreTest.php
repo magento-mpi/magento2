@@ -222,6 +222,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPriceFilter()
     {
+        $this->_model->load('default');
         $this->assertInstanceOf('Mage_Directory_Model_Currency_Filter', $this->_model->getPriceFilter());
     }
 
@@ -236,6 +237,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function testGetCurrentUrl()
     {
+        $this->_model->load('admin');
         $this->_model->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue('http://localhost/index.php'));
