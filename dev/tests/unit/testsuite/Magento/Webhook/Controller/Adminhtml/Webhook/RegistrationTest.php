@@ -301,7 +301,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Magento_Test_Helper_Bootstrap::setObjectManager($this->_mockObjectManager);
+        Mage::setObjectManager($this->_mockObjectManager);
     }
 
     /**
