@@ -1,6 +1,6 @@
 <?php
 /**
- * Find "backend/system.xml" files and validate them
+ * Find "widget.xml" files and validate them
  *
  * {license_notice}
  *
@@ -11,6 +11,7 @@ class Integrity_Mage_Widget_WidgetConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
+     *
      * @dataProvider schemaDataProvider
      */
     public function testSchema($configFile)
