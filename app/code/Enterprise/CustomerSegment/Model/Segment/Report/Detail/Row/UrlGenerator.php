@@ -1,5 +1,7 @@
 <?php
 /**
+ * Grid row url generator
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

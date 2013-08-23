@@ -1,5 +1,7 @@
 <?php
 /**
+ * Grid row url generator
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -25,7 +27,7 @@ class Enterprise_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator
     /**
      * Convert template params array and merge with preselected params
      *
-     * @param $item
+     * @param Magento_Object $item
      * @return array|mixed
      */
     protected function _prepareParameters($item)

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Customer segment report detail collection
  * {license_notice}
  *
  * @copyright   {copyright}
