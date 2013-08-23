@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_cms_hierarchy_index>
+    <adminhtml_versionscms_hierarchy_index>
         <reference name="head">
             <action method="setCanLoadExtJs">
                 <flag>1</flag>
@@ -21,5 +21,5 @@
             </block>
         </reference>
         <block type="Magento_VersionsCms_Block_Adminhtml_Scope_Switcher" name="scope_switcher" template="hierarchy/scope/switcher.phtml"/>
-    </adminhtml_cms_hierarchy_index>
+    </adminhtml_versionscms_hierarchy_index>
 </layout>
