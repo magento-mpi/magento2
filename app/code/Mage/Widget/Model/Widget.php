@@ -67,7 +67,6 @@ class Mage_Widget_Model_Widget
     {
         $config = $this->_dataStorage->get();
         return $this->_xmlMapper->map($config);
-//        return isset($config['widget']) ? $config['widget'] : array();
     }
 
     /**

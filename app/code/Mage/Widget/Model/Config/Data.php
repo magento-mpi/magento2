@@ -28,36 +28,4 @@ class Mage_Widget_Model_Config_Data extends Magento_Config_Data
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
     }
-
-    /**
-     * Get attributes
-     *
-     * @param array $data
-     * @return null|array
-     */
-    public function getAttributes(array $data)
-    {
-        if (isset($data[0])) {
-            return isset($data[0][Magento_Config_Converter_Dom::ATTRIBUTES])
-                ? $data[0][Magento_Config_Converter_Dom::ATTRIBUTES]
-                : null;
-        }
-        return null;
-    }
-
-    /**
-     * Get content
-     *
-     * @param array $data
-     * @return null|array
-     */
-    public function getContent(array $data)
-    {
-        if (isset($data[0])) {
-            return isset($data[0][Magento_Config_Converter_Dom::CONTENT])
-                ? $data[0][Magento_Config_Converter_Dom::CONTENT]
-                : null;
-        }
-        return null;
-    }
 }
