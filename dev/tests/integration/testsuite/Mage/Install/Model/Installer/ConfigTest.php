@@ -28,8 +28,8 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
         file_put_contents(self::$_tmpDir . '/local.xml.template', "test; {{date}}; {{base_url}}; {{unknown}}");
         $expectedFile = self::$_tmpDir . '/local.xml';
 
-        $config = $this->getMock('Mage_Core_Model_Config', array('getDistroBaseUrl'), array(), '', false);
-        $config->expects($this->once())->method('getDistroBaseUrl')->will($this->returnValue('http://example.com/'));
+        $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getDistroBaseUrl'), array(), '', false);
+        $request->expects($this->once())->method('getDistroBaseUrl')->will($this->returnValue('http://example.com/'));
         $expectedContents = "test; <![CDATA[d-d-d-d-d]]>; <![CDATA[http://example.com/]]>; {{unknown}}";
         $dirs = new Mage_Core_Model_Dir(
             self::$_tmpDir,
@@ -40,7 +40,7 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertFileNotExists($expectedFile);
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         $model = Mage::getModel('Mage_Install_Model_Installer_Config', array(
-            'config' => $config, 'dirs' => $dirs, 'filesystem' => $filesystem
+            'request' => $request, 'dirs' => $dirs, 'filesystem' => $filesystem
         ));
         $model->install();
         $this->assertFileExists($expectedFile);
