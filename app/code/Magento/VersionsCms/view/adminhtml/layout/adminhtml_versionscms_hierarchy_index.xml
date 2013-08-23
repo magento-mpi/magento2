@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit" name="magento_versionscms_hierarchy_edit_tree">
+            <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit" name="versionscms_hierarchy_edit_tree">
                 <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage" name="hierarchy_manage" template="hierarchy/manage.phtml"/>
                 <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid"/>
             </block>

@@ -8,11 +8,11 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_cms_page_version_edit>
+    <adminhtml_versionscms_page_version_edit>
         <reference name="content">
             <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit" name="cms_page_version_edit">
                 <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions" name="cms_page_version_edit_revisions_grid"/>
             </block>
         </reference>
-    </adminhtml_cms_page_version_edit>
+    </adminhtml_versionscms_page_version_edit>
 </layout>

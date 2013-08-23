@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_cms_page_edit_changes>
+    <adminhtml_versionscms_page_edit_changes>
         <reference name="head">
             <action method="addJs">
                 <file>Magento_VersionsCms::cms.js</file>
@@ -30,5 +30,5 @@
                 <block>cms_page_edit_tab_versions</block>
             </action>
         </reference>
-    </adminhtml_cms_page_edit_changes>
+    </adminhtml_versionscms_page_edit_changes>
 </layout>

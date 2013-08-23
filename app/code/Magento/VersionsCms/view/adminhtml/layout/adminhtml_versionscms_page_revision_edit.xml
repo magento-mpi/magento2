@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_cms_page_revision_edit>
+    <adminhtml_versionscms_page_revision_edit>
         <update handle="editor"/>
         <reference name="head">
             <action method="addJs">
@@ -39,5 +39,5 @@
                 </action>
             </block>
         </reference>
-    </adminhtml_cms_page_revision_edit>
+    </adminhtml_versionscms_page_revision_edit>
 </layout>

@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_cms_page_revision_preview>
+    <adminhtml_versionscms_page_revision_preview>
         <reference name="root">
             <action method="setTemplate">
                 <template>Magento_VersionsCms::page/preview.phtml</template>
@@ -20,5 +20,5 @@
                 <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons" name="preview_control_buttons"/>
             </container>
         </reference>
-    </adminhtml_cms_page_revision_preview>
+    </adminhtml_versionscms_page_revision_preview>
 </layout>
