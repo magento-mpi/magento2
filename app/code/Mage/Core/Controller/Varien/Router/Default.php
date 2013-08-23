@@ -11,19 +11,6 @@
 class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Varien_Router_Abstract
 {
     /**
-     * @var Mage_Core_Model_Route_Config
-     */
-    protected $_routeConfig;
-
-    /**
-     * @param Mage_Core_Model_Route_Config $routeConfig
-     */
-    public function __construct(Mage_Core_Model_Route_Config $routeConfig)
-    {
-        $this->_routeConfig = $routeConfig;
-    }
-
-    /**
      * Modify request and set to no-route action
      * If store is admin and specified different admin front name,
      * change store to default (Possible when enabled Store Code in URL)
@@ -39,10 +26,8 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
         $actionName     = isset($noRoute[2]) ? $noRoute[2] : 'index';
 
         if (Mage::app()->getStore()->isAdmin()) {
-            $backendRoutes = $this->_routeConfig->getRoutes('adminhtml', 'admin');
-            $adminRouteData = $backendRoutes['adminhtml'];
-
-            if ($adminRouteData['frontName'] != $moduleName) {
+            $adminFrontName = (string)Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
+            if ($adminFrontName != $moduleName) {
                 $moduleName     = 'core';
                 $controllerName = 'index';
                 $actionName     = 'noRoute';
