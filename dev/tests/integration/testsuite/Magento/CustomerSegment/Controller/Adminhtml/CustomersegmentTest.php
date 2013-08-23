@@ -16,6 +16,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
+     *
+     * @magentoDbIsolation enabled
      */
     public function testNewAction()
     {
@@ -27,6 +29,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
 
     /**
      * Checks possibility to save customer segment
+     *
+     * @magentoDbIsolation enabled
      */
     public function testSaveAction()
     {
