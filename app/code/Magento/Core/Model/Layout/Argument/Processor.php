@@ -58,8 +58,8 @@ class Magento_Core_Model_Layout_Argument_Processor
         foreach ($arguments as $argumentKey => $argumentValue) {
             $value = is_array($argumentValue) && isset($argumentValue['value']) ? $argumentValue['value'] : null;
 
-            if (!in_array($argumentValue['type'], array('string', 'array', 'url'))) {
-                if (!isset($value)) {
+            if (!in_array($argumentValue['type'], array('string', 'array'))) {
+                if (!isset($value) && $argumentValue['type'] !== 'url') {
                     throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
                 }
 

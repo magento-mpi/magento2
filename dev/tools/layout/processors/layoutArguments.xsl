@@ -68,7 +68,7 @@
                 <xsl:attribute name="xsi:type">
                     <xsl:choose>
                         <!--<xsl:when test="count(child::*) &gt; 0">array</xsl:when>-->
-                        <xsl:when test="php:function('preg_match', '/^(Mage|Enterprise)_((?!::).)*$/', string(.))=1">object</xsl:when>
+                        <xsl:when test="php:function('preg_match', '/^(Mage)_((?!::).)*$/', string(.))=1">object</xsl:when>
                         <!--<xsl:when test="php:function('preg_match', '/(true|false)/', string(.))=1">boolean</xsl:when>-->
                         <!--<xsl:when test="php:function('preg_match', '/^[0-9\.\,\+\-]+$/', string(.))=1">number</xsl:when>-->
                         <!--<xsl:when test="@type='url'">url</xsl:when>-->

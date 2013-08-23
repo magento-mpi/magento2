@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
-* Schema for types
-*
-* {license_notice}
-*
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
     <xs:complexType name="simpleType" mixed="true">
