@@ -111,22 +111,24 @@
                             <header translate='true' module='Mage_Newsletter'>Status</header>
                             <index>subscriber_status</index>
                             <type>options</type>
-                            <status_not_active>
-                                <value>2</value>
-                                <label translate ="true" module="Mage_Newsletter">Not Activated</label>
-                            </status_not_active>
-                            <status_subscribed>
-                                <value>1</value>
-                                <label translate ="true" module="Mage_Newsletter">Subscribed</label>
-                            </status_subscribed>
-                            <status_unsubscribed>
-                                <value>3</value>
-                                <label translate ="true" module="Mage_Newsletter">Unsubscribed</label>
-                            </status_unsubscribed>
-                            <status_unconfirmed>
-                                <value>4</value>
-                                <label translate ="true" module="Mage_Newsletter">Unconfirmed</label>
-                            </status_unconfirmed>
+                            <options>
+                                <status_not_active>
+                                    <value>2</value>
+                                    <label translate ="true" module="Mage_Newsletter">Not Activated</label>
+                                </status_not_active>
+                                <status_subscribed>
+                                    <value>1</value>
+                                    <label translate ="true" module="Mage_Newsletter">Subscribed</label>
+                                </status_subscribed>
+                                <status_unsubscribed>
+                                    <value>3</value>
+                                    <label translate ="true" module="Mage_Newsletter">Unsubscribed</label>
+                                </status_unsubscribed>
+                                <status_unconfirmed>
+                                    <value>4</value>
+                                    <label translate ="true" module="Mage_Newsletter">Unconfirmed</label>
+                                </status_unconfirmed>
+                            </options>
                             <header_css_class>col-status</header_css_class>
                             <column_css_class>col-status</column_css_class>
                         </arguments>
