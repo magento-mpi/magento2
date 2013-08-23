@@ -77,7 +77,7 @@ class Mage_Core_Model_Config_Section_Reader_Website
             $website = $this->_websiteFactory->create();
             $website->load($code);
             $collection = $this->_collectionFactory->create(array(
-                'scope' => 'website', 'scopeId' => $website->getId())
+                'scope' => 'websites', 'scopeId' => $website->getId())
             );
             $dbWebsiteConfig = array();
             foreach ($collection as $configValue) {

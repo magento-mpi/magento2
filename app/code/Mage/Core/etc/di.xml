@@ -190,12 +190,12 @@
     </type>
     <type name="Mage_Core_Model_Config_Section_Reader_Website">
         <param name="sectionPool">
-            <instance type="Mage_Core_Model_Config_SectionPoolProxy" />
+            <instance type="Mage_Core_Model_Config_SectionPool_Proxy" />
         </param>
     </type>
     <type name="Mage_Core_Model_Config_Section_Reader_Store">
         <param name="sectionPool">
-            <instance type="Mage_Core_Model_Config_SectionPoolProxy" />
+            <instance type="Mage_Core_Model_Config_SectionPool_Proxy" />
         </param>
     </type>
 </config>

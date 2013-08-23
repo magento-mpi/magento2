@@ -28,11 +28,6 @@ class Mage_Core_Model_Config_Section_Reader_Store
     protected $_collectionFactory;
 
     /**
-     * @var Mage_Core_Model_WebsiteFactory
-     */
-    protected $_websiteFactory;
-
-    /**
      * @var Mage_Core_Model_StoreFactory
      */
     protected $_storeFactory;
@@ -47,7 +42,6 @@ class Mage_Core_Model_Config_Section_Reader_Store
      * @param Mage_Core_Model_Config_SectionPool $sectionPool
      * @param Mage_Core_Model_Config_Section_Store_Converter $converter
      * @param Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory
-     * @param Mage_Core_Model_WebsiteFactory $websiteFactory
      * @param Mage_Core_Model_StoreFactory $storeFactory
      * @param Mage_Core_Model_App_State $appState
      */
@@ -56,7 +50,6 @@ class Mage_Core_Model_Config_Section_Reader_Store
         Mage_Core_Model_Config_SectionPool $sectionPool,
         Mage_Core_Model_Config_Section_Store_Converter $converter,
         Mage_Core_Model_Resource_Config_Value_Collection_ScopedFactory $collectionFactory,
-        Mage_Core_Model_WebsiteFactory $websiteFactory,
         Mage_Core_Model_StoreFactory $storeFactory,
         Mage_Core_Model_App_State $appState
     ) {
@@ -64,7 +57,6 @@ class Mage_Core_Model_Config_Section_Reader_Store
         $this->_sectionPool = $sectionPool;
         $this->_converter = $converter;
         $this->_collectionFactory = $collectionFactory;
-        $this->_websiteFactory = $websiteFactory;
         $this->_storeFactory = $storeFactory;
         $this->_appState = $appState;
     }
