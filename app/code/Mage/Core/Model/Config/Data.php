@@ -59,7 +59,7 @@ class Mage_Core_Model_Config_Data implements Mage_Core_Model_Config_DataInterfac
         $keys = explode('/', $path);
         $lastKey = array_pop($keys);
         $currentElement = &$this->_data;
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             if (!isset($currentElement[$key])) {
                 $currentElement[$key] = array();
             }
