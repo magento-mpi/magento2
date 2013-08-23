@@ -90,12 +90,21 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      */
     const PATTERN_PARAM_IGNORE_CS = '~(?:(array|(?:%s))\s+)?(%s)(?:\s*=\s*(.*))?~';
 
+    /**
+     * Pattern for PHP class declaration (including 'extends' and 'implements' sections)
+     */
     //@codingStandardsIgnoreStart
     const PATTERN_CLASS_DEFINITION = '~^(?:(abstract)\s)?class\s(%s)(?:\s+extends\s(%s))?(?:(?:\s+implements\s(%s)))?~m';
     //@codingStandardsIgnoreEnd
 
+    /**
+     * Pattern for namespace declaration
+     */
     const PATTERN_NAMESPACE = '~^namespace\s(%s);~m';
 
+    /**
+     * Pattern for parent constructor invocation
+     */
     const PATTERN_PARENT_CONSTRUCTOR_INVOCATION = '~^\s{8}parent::__construct\(([$\w\d_,\s]*)\);~m';
 
     /**
@@ -121,6 +130,11 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
      * Pattern for PHP namespace usage declaration
      */
     const PATTERN_NAMESPACE_USES = '~^use\s+([\w\d\\\,\s]+);~m';
+
+    /**
+     * Exception code used when namespace uasge/declaration detected in file
+     */
+    const EXCEPTION_CODE_NAMESPACE_DETECTED = 1;
 
     /**
      * List of already found classes to avoid checking them over and over again
@@ -161,7 +175,10 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
                 }
             }
         } catch (Exception $e) {
-            $this->fail(sprintf('Detected problem in file "%s": %s', $file, $e->getMessage()));
+
+            if ($e->getCode() != self::EXCEPTION_CODE_NAMESPACE_DETECTED) {
+                $this->fail(sprintf('Detected problem in file "%s": %s', $file, $e->getMessage()));
+            }
         }
     }
 
@@ -352,7 +369,7 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
             . 'Impossible to automatically resolve file containing parent class "%s".',
             $parent
         );
-        throw new Exception($message);
+        throw new Exception($message, self::EXCEPTION_CODE_NAMESPACE_DETECTED);
     }
 
     /**
