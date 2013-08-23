@@ -62,9 +62,23 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     protected $_viewFileSystem;
 
+    /** @var  Mage_Widget_Model_Widget */
+    protected $_widgetModel;
+
+    /** @var  Mage_Core_Model_Config */
+    protected $_coreConfig;
+
+    /**
+     * @var Mage_Widget_Model_Config_Reader
+     */
+    protected $_reader;
+
     /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Mage_Widget_Model_Config_Reader $reader,
+     * @param Mage_Widget_Model_Widget $widgetModel,
+     * @param Mage_Core_Model_Config $coreConfig
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -72,12 +86,18 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Mage_Widget_Model_Config_Reader $reader,
+        Mage_Widget_Model_Widget $widgetModel,
+        Mage_Core_Model_Config $coreConfig,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_reader = $reader;
+        $this->_widgetModel = $widgetModel;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -265,7 +285,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetsOptionArray()
     {
         $widgets = array();
-        $widgetsArr = Mage::getSingleton('Mage_Widget_Model_Widget')->getWidgetsArray();
+        $widgetsArr = $this->_widgetModel->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
                 'value' => $widget['type'],
@@ -283,23 +303,30 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetConfig()
     {
         if ($this->_widgetConfigXml === null) {
-            $this->_widgetConfigXml = Mage::getSingleton('Mage_Widget_Model_Widget')
-                ->getWidgetByClassType($this->getType());
+            $this->_widgetConfigXml = $this->_widgetModel->getWidgetByClassType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
-                    'module' => Mage::getConfig()->determineOmittedNamespace(
+                    'module' => $this->_coreConfig->determineOmittedNamespace(
                         preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
                     ),
                 ));
 
                 if (is_readable($configFile)) {
-                    $themeWidgetsConfig = new Magento_Simplexml_Config();
-                    $themeWidgetsConfig->loadFile($configFile);
-                    $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
+                    $config = $this->_reader->readFile($configFile);
+                    $widgetName = isset($this->_widgetConfigXml['name']) ? $this->_widgetConfigXml['name'] : null;
+                    $themeWidgetConfig = null;
+                    if (!is_null($widgetName)) {
+                        foreach ($config as $widget) {
+                            if (isset($widget['name']) && ($widgetName === $widget['name'])) {
+                                $themeWidgetConfig = $widget;
+                                break;
+                            }
+                        }
+                    }
                     if ($themeWidgetConfig) {
-                        $this->_widgetConfigXml->extend($themeWidgetConfig);
+                        $this->_widgetConfigXml = array_replace_recursive($this->_widgetConfigXml, $themeWidgetConfig);
                     }
                 }
             }
