@@ -73,13 +73,13 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
         return array(
-            'design'             => $objectManager->get('Mage_Core_Model_View_DesignInterface'),
-            'blockFactory'       => $objectManager->create('Mage_Core_Model_BlockFactory', array()),
+            'design'             => $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+            'blockFactory'       => $objectManager->create('Magento_Core_Model_BlockFactory', array()),
             'structure'          => $objectManager->create('Magento_Data_Structure', array()),
-            'argumentProcessor'  => $objectManager->create('Mage_Core_Model_Layout_Argument_Processor', array()),
-            'translator'         => $objectManager->create('Mage_Core_Model_Layout_Translator'),
-            'scheduledStructure' => $objectManager->create('Mage_Core_Model_Layout_ScheduledStructure', array()),
-            'dataServiceGraph'   => $objectManager->create('Mage_Core_Model_DataService_Graph', array()),
+            'argumentProcessor'  => $objectManager->create('Magento_Core_Model_Layout_Argument_Processor', array()),
+            'translator'         => $objectManager->create('Magento_Core_Model_Layout_Translator'),
+            'scheduledStructure' => $objectManager->create('Magento_Core_Model_Layout_ScheduledStructure', array()),
+            'dataServiceGraph'   => $objectManager->create('Magento_Core_Model_DataService_Graph', array()),
         );
     }
 }

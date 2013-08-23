@@ -284,7 +284,7 @@ class Magento_Test_Application
         $this->initialize();
 
         /* Run all install and data-install scripts */
-        /** @var $updater Mage_Core_Model_Db_Updater */
+        /** @var $updater Magento_Core_Model_Db_Updater */
         $updater = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Db_Updater');
         $updater->updateScheme();
         $updater->updateData();
