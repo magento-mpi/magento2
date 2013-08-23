@@ -30,7 +30,7 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/testmodule1/' . $itemId,
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => 'testModule1AllSoapAndRestV1',

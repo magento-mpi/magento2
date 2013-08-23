@@ -24,9 +24,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
     {
         $this->_version = 'V1';
         $this->_restResourcePath = "/$this->_version/testModule2NoWebApiXml/";
-        $this->_soapService = 'testModule2NoWebApiXmlV1';
     }
-
 
     /**
      *  Test get item
@@ -38,11 +36,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'GET'
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Item'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             )
         );
         $requestData = array('id' => $itemId);
@@ -58,11 +52,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => 'GET'
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Items'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             )
         );
         $this->assertNoRestRouteException($serviceInfo);
@@ -78,11 +68,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => 'POST'
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Create'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
             )
         );
         $requestData = array('name' => $createdItemName);
@@ -99,12 +85,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'PUT'
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'serviceVersion' => $this->_version,
-                'operation' => $this->_soapService . 'Update'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
             )
         );
         $requestData = array('id' => $itemId);
@@ -121,11 +102,7 @@ class Mage_TestModule2_Service_NoWebApiXmlTestTest extends Mage_Webapi_Routing_B
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'DELETE'
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Remove'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
             )
         );
         $requestData = array('id' => $itemId);

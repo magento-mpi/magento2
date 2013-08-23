@@ -11,7 +11,6 @@
  */
 class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTest
 {
-
     /**
      * @Override
      */
@@ -21,7 +20,6 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
         $this->_restResourcePath = "/$this->_version/testModule2SubsetRest/";
         $this->_soapService = 'testModule2SubsetRestV1';
     }
-
 
     /**
      * @Override
@@ -33,7 +31,7 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -43,8 +41,6 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
-
-
     }
 
     /**
@@ -66,7 +62,7 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -76,6 +72,5 @@ class Mage_Webapi_Routing_SubsetRestTest extends Mage_Webapi_Routing_SoapOnlyTes
 
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
-
     }
 }

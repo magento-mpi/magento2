@@ -42,7 +42,7 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -72,7 +72,7 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -92,7 +92,7 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => 'POST'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -113,7 +113,7 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'PUT'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -134,7 +134,7 @@ class Mage_Webapi_Routing_ServiceVersionV1Test extends Mage_Webapi_Routing_BaseS
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'DELETE'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
             ),
             'soap' => array(
                 'service' => $this->_soapService,

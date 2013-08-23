@@ -32,7 +32,7 @@ class Mage_Webapi_Routing_ServiceVersionV2Test extends Mage_Webapi_Routing_Servi
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -55,7 +55,7 @@ class Mage_Webapi_Routing_ServiceVersionV2Test extends Mage_Webapi_Routing_Servi
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => 'DELETE'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE
             ),
             'soap' => array(
                 'service' => $this->_soapService,

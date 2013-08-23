@@ -53,14 +53,14 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
         $requestBody = array();
         switch ($this->_request->getHttpMethod()) {
             // TODO: Introduce constants instead of literals
-            case 'POST':
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
                 // break is intentionally omitted
-            case 'PUT':
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
                 $requestBody = $this->_request->getBodyParams();
                 break;
-            case 'GET':
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
                 // break is intentionally omitted
-            case 'DELETE':
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
                 // break is intentionally omitted
                 break;
         }

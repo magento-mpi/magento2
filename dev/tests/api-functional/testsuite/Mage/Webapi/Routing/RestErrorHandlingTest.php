@@ -20,7 +20,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/success',
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
 
@@ -36,7 +36,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/notfound',
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
 
@@ -49,7 +49,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/unauthorized',
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
 
@@ -68,7 +68,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/serviceexception',
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
 
@@ -87,7 +87,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/parameterizedserviceexception',
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             )
         );
         $details = array(
@@ -113,7 +113,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/otherexception',
-                'httpMethod' => 'GET'
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
 

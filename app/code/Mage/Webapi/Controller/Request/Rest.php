@@ -15,15 +15,6 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     const REQUEST_CHARSET = 'utf-8';
 
     /**#@+
-     * HTTP methods supported by REST.
-     */
-    const HTTP_METHOD_CREATE = 'create';
-    const HTTP_METHOD_GET = 'get';
-    const HTTP_METHOD_UPDATE = 'update';
-    const HTTP_METHOD_DELETE = 'delete';
-    /**#@-*/
-
-    /**#@+
      * Service types.
      */
     const ACTION_TYPE_ITEM = 'item';

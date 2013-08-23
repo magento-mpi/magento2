@@ -9,6 +9,15 @@
  */
 class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
 {
+    /**#@+
+     * HTTP methods supported by REST.
+     */
+    const HTTP_METHOD_GET = 'GET';
+    const HTTP_METHOD_DELETE = 'DELETE';
+    const HTTP_METHOD_PUT = 'PUT';
+    const HTTP_METHOD_POST = 'POST';
+    /**#@-*/
+
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 

@@ -58,17 +58,17 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
          /*
             switch (strtoupper($this->_request->getHttpMethod())) {
               // TODO: Introduce constants instead of literals
-              case 'POST':
+              case Mage_Webapi_Model_Rest_Config::POST:
                   // @var $createdItem Mage_Core_Model_Abstract
                   // TODO: Refactor.Currently uses legacy Mage_Webapi_Model_Config_Rest
                   //$this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
                   break;
-              case 'GET':
+              case Mage_Webapi_Model_Rest_Config::GET:
                   $this->_render($outputData);
                   break;
-              case 'PUT':
+              case Mage_Webapi_Model_Rest_Config::PUT:
                   // break is intentionally omitted
-              case 'DELETE':
+              case Mage_Webapi_Model_Rest_Config::DELETE:
                   break;
           }*/
         $this->_render($outputData);

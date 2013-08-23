@@ -9,15 +9,6 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-    /**#@+
-     * Supported HTTP methods
-     */
-    const HTTP_METHOD_GET = 'GET';
-    const HTTP_METHOD_POST = 'POST';
-    const HTTP_METHOD_PUT = 'PUT';
-    const HTTP_METHOD_DELETE = 'DELETE';
-    /**#@-*/
-
     /** @var Mage_Webapi_Model_Rest_Config */
     protected $_restHelper;
 
@@ -40,16 +31,16 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
         // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
         switch ($httpMethod) {
-            case self::HTTP_METHOD_GET:
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, $arguments);
                 break;
-            case self::HTTP_METHOD_POST:
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
                 $response = $curlClient->post($resourcePath, $arguments);
                 break;
-            case self::HTTP_METHOD_PUT:
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
                 $response = $curlClient->put($resourcePath, $arguments);
                 break;
-            case self::HTTP_METHOD_DELETE:
+            case Mage_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
                 $response = $curlClient->delete($resourcePath);
                 break;
             default:
