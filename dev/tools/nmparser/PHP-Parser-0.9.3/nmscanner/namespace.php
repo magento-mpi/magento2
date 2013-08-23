@@ -41,6 +41,8 @@ class namespacer
     {
         $this->path = $path;
         $this->rootDirectory = $rootDirectory;
+        $this->renameFileLogger=$this->renameFileLogger.time();
+        $this->renameClassLogger=$this->renameClassLogger.time();
 
     }
 
