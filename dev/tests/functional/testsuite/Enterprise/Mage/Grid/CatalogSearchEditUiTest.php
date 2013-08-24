@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Grid
+ * @package     Mage_Grid
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Magento_Grid_CatalogSearchEditUiTest extends Magento_Selenium_TestCase
+class Enterprise_Mage_Grid_CatalogSearchEditUiTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Assert Pre Conditions</p>

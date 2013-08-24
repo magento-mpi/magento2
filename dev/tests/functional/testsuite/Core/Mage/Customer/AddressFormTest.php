@@ -5,14 +5,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Customer
+ * @package     Mage_Customer
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  *
  */
 
-class Core_Magento_Customer_AddressFormTest extends Mage_Selenium_TestCase
+class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
 {
     /**
      *<p>Verify that Region field corresponds selected Country</p>

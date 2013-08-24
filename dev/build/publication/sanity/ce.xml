@@ -71,7 +71,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/framework/Magento/Selenium/AbstractHelper.php</path>
+            <path>dev/tests/functional/framework/Mage/Selenium/AbstractHelper.php</path>
         </item>
         <item>
             <word>enterprise</word>
@@ -79,7 +79,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/framework/Magento/Selenium/TestCase.php</path>
+            <path>dev/tests/functional/framework/Mage/Selenium/TestCase.php</path>
         </item>
         <item>
             <word>{copyright}</word>

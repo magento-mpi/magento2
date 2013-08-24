@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Grid
+ * @package     Mage_Grid
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Magento_Grid_UiElementsTest extends Core_Magento_Grid_UiElementsTest
+class Enterprise_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
 {
     public function setUpBeforeTests()
     {

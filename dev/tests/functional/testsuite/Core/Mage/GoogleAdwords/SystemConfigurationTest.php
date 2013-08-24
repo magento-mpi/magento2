@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Core_Magento_GoogleAdwords_SystemConfigurationTest extends Mage_Selenium_TestCase
+class Core_Mage_GoogleAdwords_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

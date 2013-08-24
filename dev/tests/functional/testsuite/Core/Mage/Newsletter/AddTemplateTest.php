@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Newsletter
+ * @package     Mage_Newsletter
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,11 +12,11 @@
 /**
  * Test adding new Template.
  *
- * @package     Magento_Newsletter
+ * @package     Mage_Newsletter
  * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Magento_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
+class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

@@ -2,7 +2,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Magento_CatalogtPriceRule
+# @package     Mage_CatalogtPriceRule
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}

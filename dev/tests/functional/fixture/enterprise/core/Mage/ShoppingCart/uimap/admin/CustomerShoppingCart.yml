@@ -3,7 +3,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Magento_Checkout
+# @package     Mage_Checkout
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}

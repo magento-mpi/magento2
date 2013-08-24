@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_DesignEditor
+ * @package     Mage_DesignEditor
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Magento_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
+class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
 {
     /**
      * Store new window handle
@@ -666,16 +666,16 @@ class Core_Magento_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     public function allThemeCss()
     {
         return array(
-            array('Magento_Catalog--widgets.css', 'magento_catalog_download'),
-//            array('Magento_Oauth--css_oauth-simple.css', 'magento_oauth_download'),
+            array('Mage_Catalog--widgets.css', 'mage_catalog_download'),
+//            array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_download'),
 //            array('mage_calendar.css', 'calendar_css_download'),
 //            array('css_print.css', 'css_print_download'),
 //            array('css_styles-ie.css', 'css_style_ie_download'),
 //            array('css_styles.css', 'css_style_download'),
-//            array('Magento_Cms--widgets.css', 'magento_cms_download'),
-//            array('Magento_Page__css_tabs.css', 'magento_page_download'),
-//            array('Magento_Reports__widgets.css', 'magento_reports_download'),
-//            array('Magento_Widget__widgets.css', 'magento_widget_download')
+//            array('Mage_Cms--widgets.css', 'mage_cms_download'),
+//            array('Mage_Page__css_tabs.css', 'mage_page_download'),
+//            array('Mage_Reports__widgets.css', 'mage_reports_download'),
+//            array('Mage_Widget__widgets.css', 'mage_widget_download')
         );
     }
 }

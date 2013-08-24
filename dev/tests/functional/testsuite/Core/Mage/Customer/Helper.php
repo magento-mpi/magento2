@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Customer
+ * @package     Mage_Customer
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -23,7 +23,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Magento_Customer_Helper extends Mage_Selenium_AbstractHelper
+class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Verify that address is present.
