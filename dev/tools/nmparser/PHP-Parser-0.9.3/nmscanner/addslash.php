@@ -139,7 +139,7 @@ class addSlash
             if (trim(
                     $val
                 ) == '' || $val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface' || $val === 'extends' || $val === 'implements'
-            ) {
+                || $val=='{'  || $val=='}'  || $val=='{}' ) {
                 $parse = true;
                 if ($val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface') {
                     $this->reserveCheck = true;
@@ -219,6 +219,7 @@ class addSlash
         foreach ($array as $key) {
             $string = $string . $key;
         }
+        $string=str_replace('Mage::',"\\Mage::",$string);
             file_put_contents($file, $string);
 
     }
