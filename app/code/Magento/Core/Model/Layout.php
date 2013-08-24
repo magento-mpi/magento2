@@ -549,6 +549,12 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                     $arguments[$name]['value'] = (string)$argument['model'];
                 }
 
+                if ($arguments[$name]['type'] == 'url' && isset($argument['path'])) {
+                    $arguments[$name]['value'] = array(
+                        'path' => (string)$argument['path'],
+                    );
+                }
+
                 $value = $this->_translator->translateArgument($argument);
                 if ('' !== $value) {
                     $arguments[$name]['value'] = $value;
