@@ -535,6 +535,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                         'params' => $value
                     );
                 }
+                if (!empty($value) && is_array($value)) {
+                    $arguments[$name]['value'] = $value;
+                }
             } else {
                 if ($arguments[$name]['type'] == 'options') {
                     $value = (string)$argument['model'];
@@ -549,8 +552,10 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 if ($arguments[$name]['type'] == 'string') {
                     $value = $this->_translateArgument($argument);
                 }
+                if ('' !== $value) {
+                    $arguments[$name]['value'] = $value;
+                }
             }
-            $arguments[$name]['value'] = $value;
         }
         return $arguments;
     }
