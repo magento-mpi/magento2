@@ -13,6 +13,7 @@
  *
  * @method Magento_Directory_Model_Resource_Region _getResource()
  * @method Magento_Directory_Model_Resource_Region getResource()
+ * @method string getRegionId()
  * @method string getCountryId()
  * @method Magento_Directory_Model_Region setCountryId(string $value)
  * @method string getCode()
