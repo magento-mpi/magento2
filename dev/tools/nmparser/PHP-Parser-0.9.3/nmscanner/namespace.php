@@ -35,7 +35,7 @@ class namespacer
     private $rootDirectory = null;
     private $classSearch = array();
     private $classReplace = array();
-    private $allowedFileExtensions = array('php', 'phtml', 'html', 'xml', 'sql');
+    private $allowedFileExtensions = array('php', 'phtml', 'html', 'sql');
     private $ignoreFile="blacklist.txt";
     private $blackListArray=array();
 
