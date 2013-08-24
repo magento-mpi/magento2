@@ -57,6 +57,6 @@
 <div class="buttons-set">
     <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
     <?php if ($this->canAddNewEntity()):?>
-        <button type="button" onclick="setLocation('<?php echo $this->escapeUrl($this->getAddUrl()) ?>')" class="button"><span><span><?php echo __('Add New') ?></span></span></button>
+        <a class="button" href="<?php echo $this->escapeUrl($this->getAddUrl()) ?>"><span><?php echo __('Add New') ?></span></a>
     <?php endif;?>
 </div>
