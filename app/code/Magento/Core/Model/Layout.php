@@ -525,6 +525,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 $arguments[$name]['updater'] = $updaters;
             }
 
+            $value = $this->_getArgumentValue($argument);
             if ($this->_isComplexArgument($argument)) {
                 $value = $this->_fillArgumentsArray($argument);
 
@@ -536,16 +537,18 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
                 }
             } else {
                 if ($arguments[$name]['type'] == 'options') {
-                    $arguments[$name]['value'] = (string)$argument['model'];
+                    $value = (string)$argument['model'];
                 }
 
                 if ($arguments[$name]['type'] == 'url') {
-                    $arguments[$name]['value'] = array(
+                    $value = array(
                         'path' => (string)$argument['path'],
                     );
                 }
 
-                $value = $this->_translateArgument($argument);
+                if ($arguments[$name]['type'] == 'string') {
+                    $value = $this->_translateArgument($argument);
+                }
             }
             $arguments[$name]['value'] = $value;
         }
