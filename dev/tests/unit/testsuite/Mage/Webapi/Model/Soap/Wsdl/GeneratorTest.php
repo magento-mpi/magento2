@@ -79,7 +79,8 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
 
     public function testGetComplexTypeNodes()
     {
-        $nodesList = $this->_wsdlGenerator->getComplexTypeNodes(
+        $serviceName = "serviceName";
+        $nodesList = $this->_wsdlGenerator->getComplexTypeNodes($serviceName,
             'ItemsResponse',
             $this->_getXsdDocumentWithReferencedTypes()
         );
@@ -89,7 +90,7 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
         foreach ($nodesList as $node) {
             $actualTypes[] = $node->getAttribute('name');
         }
-        $expectedTypes = array('targetNamespaceItemsResponse', 'targetNamespaceArrayItem');
+        $expectedTypes = array($serviceName . 'ItemsResponse', $serviceName . 'ArrayItem');
         $this->assertEquals(
             $expectedCount,
             count(array_intersect($expectedTypes, $actualTypes)),
@@ -133,15 +134,6 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
         $xsdDom = new DOMDocument();
         $xsdDom->loadXML($xsd);
         return $xsdDom;
-    }
-
-    public function testGetComplexTypeNodesExceptionMissingNamespace()
-    {
-        $this->setExpectedException(
-            'LogicException',
-            'Each service payload schema must have targetNamespace specified.'
-        );
-        $this->_wsdlGenerator->getComplexTypeNodes('ItemsResponse', $this->_getXsdDocumentMissingTargetNamespace());
     }
 
     /**

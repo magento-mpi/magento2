@@ -137,40 +137,41 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     /**
      * Extract complex type element from dom document by type name (include referenced types as well).
      *
-     * @param $typeName string Type name can be passed with schema target namespace prefix or without it.
-     * @param $domDocument DOMDocument
+     * @param string $serviceName
+     * @param string $typeName Type names as defined in Service XSDs
+     * @param DOMDocument $domDocument
      * @return DOMNode[]
      */
-    public function getComplexTypeNodes($typeName, $domDocument)
+    public function getComplexTypeNodes($serviceName, $typeName, $domDocument)
     {
         $response = array();
         /** TODO: Use object manager to instantiate objects */
         $xpath = new DOMXPath($domDocument);
-        $typeXPath = "//xsd:complexType[@name='{$this->_getUnprefixedTypeName($typeName, $domDocument)}']";
+        $typeXPath = "//xsd:complexType[@name='{$typeName}']";
         $complexTypeNodes = $xpath->query($typeXPath);
         if ($complexTypeNodes) {
             $complexTypeNode = $complexTypeNodes->item(0);
         }
         if (isset($complexTypeNode)) {
-            $this->_registeredTypes[] = $this->_getPrefixedTypeName($typeName, $domDocument);
+            $this->_registeredTypes[] = $serviceName . $typeName;
 
             $referencedTypes = $xpath->query("{$typeXPath}//@type");
             foreach ($referencedTypes as $referencedType) {
                 $referencedTypeName = $referencedType->value;
-                $prefixedRefTypeName = $this->_getPrefixedTypeName($referencedTypeName, $domDocument);
+                $prefixedRefTypeName = $serviceName . $referencedTypeName;
                 if ($this->isComplexType($referencedTypeName, $domDocument)
                     && !in_array($prefixedRefTypeName, $this->_registeredTypes)
                 ) {
-                    $response += $this->getComplexTypeNodes($referencedTypeName, $domDocument);
+                    $response += $this->getComplexTypeNodes($serviceName, $referencedTypeName, $domDocument);
                     /** Add target namespace to the referenced type name */
                     $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
                 }
             }
             $complexTypeNode->setAttribute(
                 'name',
-                $this->_getPrefixedTypeName($typeName, $domDocument)
+                $serviceName . $typeName
             );
-            $response[$this->_getPrefixedTypeName($typeName, $domDocument)]
+            $response[$serviceName . $typeName]
                 = $complexTypeNode->cloneNode(true);
         }
         return $response;
@@ -188,51 +189,6 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     public function isComplexType($typeName)
     {
         return !strpos($typeName, ':');
-    }
-
-    /**
-     * Identify type name prefixed by target namespace defined in schema.
-     *
-     * @param string $typeName
-     * @param DOMDocument $schemaDocument
-     * @return string
-     */
-    protected function _getPrefixedTypeName($typeName, $schemaDocument)
-    {
-        $targetNamespace = $this->_getTargetNamespace($schemaDocument);
-        return $targetNamespace . $this->_getUnprefixedTypeName($typeName, $schemaDocument);
-    }
-
-    /**
-     * Identify type name without target namespace prefix.
-     *
-     * @param $typeName
-     * @param $schemaDocument
-     * @return mixed
-     */
-    protected function _getUnprefixedTypeName($typeName, $schemaDocument)
-    {
-        $targetNamespace = $this->_getTargetNamespace($schemaDocument);
-        return str_replace($targetNamespace, '', $typeName);
-    }
-
-    /**
-     * Identify schema target namespace.
-     *
-     * @param DOMDocument $payloadSchemaDom
-     * @return string
-     * @throws LogicException
-     */
-    protected function _getTargetNamespace($payloadSchemaDom)
-    {
-        $namespace = $payloadSchemaDom->getElementsByTagName('schema')->item(0)->getAttribute('targetNamespace');
-        if (empty($namespace)) {
-            // TODO: throw proper exception according to new error handling strategy
-            throw new LogicException("Each service payload schema must have targetNamespace specified.");
-        }
-        /** Remove base url prefix and leave only the last part of the URL */
-        $namespace = preg_replace('/^.+\/(.+)$/', '$1', $namespace);
-        return $namespace;
     }
 
     /**
@@ -398,6 +354,28 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     }
 
     /**
+     * Get complexType name defined in the XSD for requests
+     *
+     * @param $serviceMethod
+     * @return string
+     */
+    public function getXsdRequestTypeName($serviceMethod)
+    {
+        return ucfirst($serviceMethod) . "Request";
+    }
+
+    /**
+     * Get complexType name defined in the XSD for responses
+     *
+     * @param $serviceMethod
+     * @return string
+     */
+    public function getXsdResponseTypeName($serviceMethod)
+    {
+        return ucfirst($serviceMethod) . "Response";
+    }
+
+    /**
      * Prepare data about requested service for WSDL generator.
      *
      * @param string $serviceName
@@ -424,7 +402,9 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
             $payloadSchemaDom = $this->_getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($serviceName, $serviceMethod);
             $inputParameterName = $this->getInputMessageName($operationName);
-            $inputComplexTypes = $this->getComplexTypeNodes($inputParameterName, $payloadSchemaDom);
+            $inputComplexTypes = $this->getComplexTypeNodes($serviceName,
+                $this->getXsdRequestTypeName($serviceMethod),
+                $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
                     throw new LogicException(
@@ -440,7 +420,9 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
             }
             $serviceDataTypes['methods'][$serviceMethod]['interface']['inputComplexTypes'] = $inputComplexTypes;
             $outputParameterName = $this->getOutputMessageName($operationName);
-            $outputComplexTypes = $this->getComplexTypeNodes($outputParameterName, $payloadSchemaDom);
+            $outputComplexTypes = $this->getComplexTypeNodes($serviceName,
+                $this->getXsdResponseTypeName($serviceMethod),
+                $payloadSchemaDom);
             if (!empty($outputComplexTypes)) {
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
