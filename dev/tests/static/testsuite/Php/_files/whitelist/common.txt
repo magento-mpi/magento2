@@ -21,7 +21,6 @@ app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
 app/code/Magento/Api/Model/Cache/Type.php
 app/code/Magento/Backend
-app/code/Magento/Cardgate
 app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/Grouped
 app/code/Magento/Catalog/Block/Product/TemplateSelector.php

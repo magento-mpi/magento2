@@ -466,7 +466,7 @@ class Magento_Io_File extends Magento_Io_Abstract
      */
     public function write($filename, $src, $mode = null)
     {
-        if (is_string($src) && is_readable($src)) {
+        if (is_string($src) && @is_readable($src)) {
             $src = realpath($src);
             $srcIsFile = true;
         } elseif (is_string($src) || is_resource($src)) {

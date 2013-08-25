@@ -462,6 +462,7 @@ return array(
     array('hasItems', 'Magento_Wishlist_Helper_Data'),
     array('htmlEscape', '', 'escapeHtml'),
     array('imageAction', 'Magento_Catalog_Controller_Product'),
+    array('implodeStreetAddress', 'Magento_Customer_Model_Address_Abstract'),
     array('importFromTextArray'),
     array('init', 'Mage'),
     array('init', 'Magento_Core_Model_App'),

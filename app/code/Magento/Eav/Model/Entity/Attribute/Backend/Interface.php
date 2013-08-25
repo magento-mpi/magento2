@@ -44,4 +44,11 @@ interface Magento_Eav_Model_Entity_Attribute_Backend_Interface
      * @param int $valueId
      */
     public function setEntityValueId($entity, $valueId);
+
+    /**
+     * Whether an attribute is represented by a scalar value that can be stored in a generic way
+     *
+     * @return bool
+     */
+    public function isScalar();
 }
