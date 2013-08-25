@@ -148,11 +148,11 @@
         </events>
         <translate>
             <modules>
-                <VersionsCms>
+                <Magento_VersionsCms>
                     <files>
                         <default>Magento_VersionsCms.csv</default>
                     </files>
-                </VersionsCms>
+                </Magento_VersionsCms>
             </modules>
         </translate>
     </adminhtml>
