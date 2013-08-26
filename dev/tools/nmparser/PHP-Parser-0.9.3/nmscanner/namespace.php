@@ -151,10 +151,10 @@ class namespacer
                 continue;
             }
 
-            if(!$this->checkClassFile($file)){
+           /* if(!$this->checkClassFile($file)){
                 echo "$file Not a clas file \n";
                 continue;
-            }
+            }*/
 
             clearstatcache();
             $lines = file($file);
@@ -312,6 +312,13 @@ class namespacer
                             );
                             $this->reserveCheck = false;
 
+                        }else{
+                            $baseFileName = basename($file);         // $file is set to "index.php"
+                            if($baseFileName!=trim($newClass)){
+                                $newFileName = dirname($file) . "\\" . $newClass . '.php';
+                                $this->fileMapper[$file] = $newFileName;
+                            }
+
                         }
                         $change = "\\" . str_replace(
                                 "_",
@@ -360,6 +367,7 @@ class namespacer
         if (substr($string, -1) == '\\') {
             $string = substr($string, 0, -1);
         }
+
         $string = rtrim($string) . "\n";
         $array[] = $string;
         return $array;
