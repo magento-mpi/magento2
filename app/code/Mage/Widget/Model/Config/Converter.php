@@ -29,7 +29,7 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
 
             $isEmailCompatible = $widgetAttributes->getNamedItem('is_email_compatible');
             if (!is_null($isEmailCompatible)) {
-                $widgetArray['is_email_compatible'] = ($isEmailCompatible->nodeValue == 'true');
+                $widgetArray['is_email_compatible'] = $isEmailCompatible->nodeValue == 'true' ? '1' : '0';
             }
             $placeholderImage = $widgetAttributes->getNamedItem('placeholder_image');
             if (!is_null($placeholderImage)) {
@@ -127,10 +127,9 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
             $parameter['@'] = array();
             $parameter['@']['type'] = 'complex';
             foreach ($source->childNodes as $rendererSubNode) {
-                switch ($rendererSubNode->nodeName) {
-                    case 'renderer':
-                        $parameter['helper_block'] = $this->_convertRenderer($rendererSubNode);
-                        break;
+                if ($rendererSubNode->nodeName == 'renderer') {
+                    $parameter['helper_block'] = $this->_convertRenderer($rendererSubNode);
+                    break;
                 }
             }
         } elseif ($xsiType == 'select' || $xsiType == 'multiselect') {
@@ -142,38 +141,38 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
 
             /** @var $paramSubNode DOMNode */
             foreach ($source->childNodes as $paramSubNode) {
-                switch ($paramSubNode->nodeName) {
-                    case 'option':
-                        $optionAttributes = $paramSubNode->attributes;
-                        $optionName = $optionAttributes->getNamedItem('name')->nodeValue;
-                        $selected = $optionAttributes->getNamedItem('selected');
-                        if (!is_null($selected)) {
-                            $parameter['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
-                        }
-                        if (!isset($parameter['values'])) {
-                            $parameter['values'] = array();
-                        }
-                        $parameter['values'][$optionName] = $this->_convertOptions($paramSubNode);
-                        break;
+                if ($paramSubNode->nodeName == 'option') {
+                    $optionAttributes = $paramSubNode->attributes;
+                    $optionName = $optionAttributes->getNamedItem('name')->nodeValue;
+                    $selected = $optionAttributes->getNamedItem('selected');
+                    if (!is_null($selected)) {
+                        $parameter['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
+                    }
+                    if (!isset($parameter['values'])) {
+                        $parameter['values'] = array();
+                    }
+                    $parameter['values'][$optionName] = $this->_convertOptions($paramSubNode);
                 }
             }
-
+        } elseif ($xsiType == 'text') {
+            $parameter['type'] = $xsiType;
+            foreach ($source->childNodes as $textSubNode) {
+                if ($textSubNode->nodeName == 'value') {
+                    $parameter['value'] = $textSubNode->nodeValue;
+                }
+            }
         } else {
             $parameter['type'] = $xsiType;
         }
         $visible = $sourceAttributes->getNamedItem('visible');
         if ($visible) {
-            $parameter['visible'] = $visible->nodeValue == 'true' ? true : false;
+            $parameter['visible'] = $visible->nodeValue == 'true' ? '1' : '0';
         } else {
             $parameter['visible'] = true;
         }
         $required = $sourceAttributes->getNamedItem('required');
         if ($required) {
-            if (((string)$required->nodeValue) == 'false') {
-                $parameter['required'] = '0';
-            } else {
-                $parameter['required'] = '1';
-            }
+            $parameter['required'] = $required->nodeValue == 'false' ? '0' : '1';
         }
         $translate = $sourceAttributes->getNamedItem('translate');
         if ($translate) {
@@ -196,9 +195,6 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                     break;
                 case 'depends':
                     $parameter['depends'] = $this->_convertDepends($paramSubNode);
-                    break;
-                case 'value' :
-                    $parameter['value'] = $paramSubNode->nodeValue;
                     break;
             }
         }
