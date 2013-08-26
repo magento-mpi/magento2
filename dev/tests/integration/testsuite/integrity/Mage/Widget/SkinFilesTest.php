@@ -36,11 +36,9 @@ class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
             /** @var $instance Mage_Widget_Model_Widget_Instance */
             $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
-            // @codingStandardsIgnoreStart
-            if (isset($config->placeholder_image)) {
-                $result[] = array((string)$config->placeholder_image);
+            if (isset($config['placeholder_image'])) {
+                $result[] = array((string)$config['placeholder_image']);
             }
-            // @codingStandardsIgnoreEnd
         }
         return $result;
     }

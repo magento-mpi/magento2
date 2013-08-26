@@ -41,8 +41,10 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     const XML_NODE_RELATED_CACHE = 'global/widget/related_cache_types';
 
+    /** @var array  */
     protected $_layoutHandles = array();
 
+    /** @var array */
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
@@ -73,12 +75,16 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     protected $_reader;
 
+    /** @var Mage_Core_Model_Translate Mage_Core_Model_Translate */
+    private $_translator;
+
     /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Widget_Model_Config_Reader $reader,
      * @param Mage_Widget_Model_Widget $widgetModel,
      * @param Mage_Core_Model_Config $coreConfig
+     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -89,6 +95,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         Mage_Widget_Model_Config_Reader $reader,
         Mage_Widget_Model_Widget $widgetModel,
         Mage_Core_Model_Config $coreConfig,
+        Mage_Core_Model_Translate $translator,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -98,6 +105,8 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
+        $this->_translator = $translator;
+
     }
 
     /**
@@ -195,7 +204,8 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($this->isCompleteToCreate()) {
             return true;
         }
-        return Mage::helper('Mage_Widget_Helper_Data')->__('We cannot create the widget instance because it is missing required information.');
+        return $this->_translator->translate(
+            array('We cannot create the widget instance because it is missing required information.'));
     }
 
     /**
@@ -342,21 +352,21 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetTemplates()
     {
         $templates = array();
-        if ($this->getWidgetConfig() && ($configTemplates = $this->getWidgetConfig()->parameters->template)) {
-            if ($configTemplates->values && $configTemplates->values->children()) {
-                foreach ($configTemplates->values->children() as $name => $template) {
-                    $helper = $template->getAttribute('module')
-                        ? $template->getAttribute('module')
-                        : 'Mage_Widget_Helper_Data';
+        $widgetConfig = $this->getWidgetConfig();
+        if ($widgetConfig && isset($widgetConfig['parameters'])
+            && isset($widgetConfig['parameters']['template'])) {
+            $configTemplates = $widgetConfig['parameters']['template'];
+            if (isset($configTemplates['values'])) {
+                foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template->value,
-                        'label' => Mage::helper($helper)->__((string)$template->label)
+                        'value' => (string)$template['value'],
+                        'label' => $this->_translator->translate(array((string)$template['label']))
                     );
                 }
-            } elseif ($configTemplates->value) {
+            } elseif (isset($configTemplates['value'])) {
                 $templates['default'] = array(
-                    'value' => (string)$configTemplates->value,
-                    'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Default Template')
+                    'value' => (string)$configTemplates['value'],
+                    'label' => $this->_translator->translate(array('Default Template'))
                 );
             }
         }
@@ -371,9 +381,13 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetSupportedContainers()
     {
         $containers = array();
-        if ($this->getWidgetConfig() && ($configNodes = $this->getWidgetConfig()->supported_containers)) {
-            foreach ($configNodes->children() as $node) {
-                $containers[] = (string)$node->container_name;
+        $widgetConfig = $this->getWidgetConfig();
+        if (isset($widgetConfig) && isset($widgetConfig['supported_containers'])) {
+            $configNodes = $widgetConfig['supported_containers'];
+            foreach ($configNodes as $node) {
+                if (isset($node['container_name'])) {
+                    $containers[] = (string)$node['container_name'];
+                }
             }
         }
         return $containers;
@@ -389,20 +403,21 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         $templates = array();
         $widgetTemplates = $this->getWidgetTemplates();
-        if ($this->getWidgetConfig()) {
-            if (!($configNodes = $this->getWidgetConfig()->supported_containers)) {
+        $widgetConfig = $this->getWidgetConfig();
+        if (isset($widgetConfig)) {
+            if (!isset($widgetConfig['supported_containers'])) {
                 return $widgetTemplates;
             }
-            foreach ($configNodes->children() as $node) {
-                if ((string)$node->container_name == $containerName) {
-                    if ($node->template && $node->template->children()) {
-                        foreach ($node->template->children() as $template) {
+            $configNodes = $widgetConfig['supported_containers'];
+            foreach ($configNodes as $node) {
+                if (isset($node['container_name']) && ((string)$node['container_name'] == $containerName)) {
+                    if (isset($node['template'])) {
+                        $templateChildren = $node['template'];
+                        foreach ($templateChildren as $template) {
                             if (isset($widgetTemplates[(string)$template])) {
                                 $templates[] = $widgetTemplates[(string)$template];
                             }
                         }
-                    } else {
-                        $templates[] = $widgetTemplates[(string)$template];
                     }
                 }
             }

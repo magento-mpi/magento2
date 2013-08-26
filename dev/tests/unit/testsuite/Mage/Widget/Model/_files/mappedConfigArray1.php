@@ -82,8 +82,8 @@ return array(
         'left_column' => array(
             'container_name' => 'left',
             'template' => array(
-                'default' => 'list_default',
-                'names_only' => 'list_names',
+                'default' => 'default',
+                'names_only' => 'link_inline',
             ),
         ),
         'main_content' => array(

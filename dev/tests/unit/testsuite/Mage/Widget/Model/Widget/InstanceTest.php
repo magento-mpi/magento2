@@ -46,10 +46,20 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         $this->_readerMock = $this->getMockBuilder('Mage_Widget_Model_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
+        $translator = $this->getMockBuilder('Mage_Core_Model_Translate')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $translator->expects($this->any())->method('translate')
+            ->will($this->returnCallback(
+                function ($arr) {
+                    return $arr[0];
+                }
+            ));
         $this->_model = $this->getMock(
             'Mage_Widget_Model_Widget_Instance',
             array('_construct'),
-            array($contextMock, $this->_viewFileSystemMock, $this->_readerMock , $this->_widgetModelMock, $this->_coreConfigMock),
+            array($contextMock, $this->_viewFileSystemMock, $this->_readerMock , $this->_widgetModelMock,
+                $this->_coreConfigMock, $translator),
             '',
             true
         );
@@ -94,19 +104,219 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         );
         $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
             ->will($this->returnValue($widget));
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
-            . DIRECTORY_SEPARATOR . 'widget.xml';
+        $xmlFile = __DIR__ . '/../_files/widget.xml';
         $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
             ->will($this->returnValue($xmlFile));
-        $themeConfigFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
-            . DIRECTORY_SEPARATOR . 'mappedConfigArrayAll.php';
+        $themeConfigFile = __DIR__ . '/../_files/mappedConfigArrayAll.php';
         $themeConfig = include $themeConfigFile;
-        $expectedConfigFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
-            . DIRECTORY_SEPARATOR . 'mappedConfigArray1.php';
-        $expectedConfig = include $expectedConfigFile;
         $this->_readerMock->expects($this->once())->method('readFile')->with($this->equalTo($xmlFile))
             ->will($this->returnValue($themeConfig));
+
         $result = $this->_model->getWidgetConfig();
+
+        $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
+        $expectedConfig = include $expectedConfigFile;
         $this->assertEquals($expectedConfig, $result);
+    }
+
+    public function testGetWidgetTemplates()
+    {
+        $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
+        $widget = include $expectedConfigFile;
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedTemplates = array(
+            'default' => array(
+                'value' => 'product/widget/link/link_block.phtml',
+                'label' => 'Product Link Block Template',
+            ),
+            'link_inline' => array(
+                'value' => 'product/widget/link/link_inline.phtml',
+                'label' => 'Product Link Inline Template',
+            )
+        );
+        $this->assertEquals($expectedTemplates, $this->_model->getWidgetTemplates());
+    }
+
+    public function testGetWidgetTemplatesValueOnly()
+    {
+        $widget = array(
+            '@' => array(
+                'type' => 'Mage_Cms_Block_Widget_Page_Link',
+                'module' => 'Mage_Cms',
+                'translate' => 'name description',
+            ),
+            'name' => 'CMS Page Link',
+            'description' => 'Link to a CMS Page',
+            'is_email_compatible' => 'true',
+            'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
+            'parameters' => array(
+                'template' => array(
+                    '@' => array(
+                        'translate' => 'label',
+                    ),
+                    'type' => 'select',
+                    'visible' => 'true',
+                    'label' => 'Template',
+                    'value' => 'product/widget/link/link_block.phtml',
+                ),
+            ),
+        );
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedTemplates = array(
+            'default' => array(
+                'value' => 'product/widget/link/link_block.phtml',
+                'label' => 'Default Template',
+            ),
+        );
+        $this->assertEquals($expectedTemplates, $this->_model->getWidgetTemplates());
+    }
+
+    public function testGetWidgetTemplatesNoTemplate()
+    {
+        $widget = array(
+            '@' => array(
+                'type' => 'Mage_Cms_Block_Widget_Page_Link',
+                'module' => 'Mage_Cms',
+                'translate' => 'name description',
+            ),
+            'name' => 'CMS Page Link',
+            'description' => 'Link to a CMS Page',
+            'is_email_compatible' => 'true',
+            'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
+            'parameters' => array(
+            ),
+        );
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedTemplates = array();
+        $this->assertEquals($expectedTemplates, $this->_model->getWidgetTemplates());
+    }
+
+    public function testGetWidgetSupportedContainers()
+    {
+        $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
+        $widget = include $expectedConfigFile;
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedContainers = array('left', 'content');
+        $this->assertEquals($expectedContainers, $this->_model->getWidgetSupportedContainers());
+    }
+
+    public function testGetWidgetSupportedContainersNoContainer()
+    {
+        $widget = array(
+            '@' => array(
+                'type' => 'Mage_Cms_Block_Widget_Page_Link',
+                'module' => 'Mage_Cms',
+                'translate' => 'name description',
+            ),
+            'name' => 'CMS Page Link',
+            'description' => 'Link to a CMS Page',
+            'is_email_compatible' => 'true',
+            'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
+        );
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedContainers = array();
+        $this->assertEquals($expectedContainers, $this->_model->getWidgetSupportedContainers());
+    }
+
+    public function testGetWidgetSupportedTemplatesByContainers()
+    {
+        $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
+        $widget = include $expectedConfigFile;
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedTemplates = array(
+            array(
+                'value' => 'product/widget/link/link_block.phtml',
+                'label' => 'Product Link Block Template',
+            ),
+            array(
+                'value' => 'product/widget/link/link_inline.phtml',
+                'label' => 'Product Link Inline Template',
+            )
+        );
+        $this->assertEquals($expectedTemplates, $this->_model->getWidgetSupportedTemplatesByContainer('left'));
+    }
+
+    public function testGetWidgetSupportedTemplatesByContainers2()
+    {
+        $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
+        $widget = include $expectedConfigFile;
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedTemplates = array(
+            array(
+                'value' => 'product/widget/link/link_block.phtml',
+                'label' => 'Product Link Block Template',
+            ),
+        );
+        $this->assertEquals($expectedTemplates, $this->_model->getWidgetSupportedTemplatesByContainer('content'));
+    }
+
+    public function testGetWidgetSupportedTemplatesByContainersNoSupportedContainersSpecified()
+    {
+        $widget = array(
+            '@' => array(
+                'type' => 'Mage_Cms_Block_Widget_Page_Link',
+                'module' => 'Mage_Cms',
+                'translate' => 'name description',
+            ),
+            'name' => 'CMS Page Link',
+            'description' => 'Link to a CMS Page',
+            'is_email_compatible' => 'true',
+            'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
+            'parameters' => array(
+                'template' => array(
+                    '@' => array(
+                        'translate' => 'label',
+                    ),
+                    'type' => 'select',
+                    'visible' => 'true',
+                    'label' => 'Template',
+                    'value' => 'product/widget/link/link_block.phtml',
+                ),
+            ),
+        );;
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedContainers = array(
+            'default' => array(
+                'value' => 'product/widget/link/link_block.phtml',
+                'label' => 'Default Template',
+            ),
+        );
+        $this->assertEquals($expectedContainers, $this->_model->getWidgetSupportedTemplatesByContainer('content'));
+    }
+
+    public function testGetWidgetSupportedTemplatesByContainersUnknownContainer()
+    {
+        $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
+        $widget = include $expectedConfigFile;
+        $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
+            ->will($this->returnValue($widget));
+        $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
+            ->will($this->returnValue(''));
+        $expectedTemplates = array();
+        $this->assertEquals($expectedTemplates, $this->_model->getWidgetSupportedTemplatesByContainer('unknown'));
     }
 }

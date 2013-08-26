@@ -42,11 +42,22 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
     public function testGetWidgetConfig()
     {
         $config = $this->_model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfig();
-        $this->assertInstanceOf('Magento_Simplexml_Element', $config);
-        /** @var Magento_Simplexml_Element $config */
-        $element = $config->xpath('/widgets/new_products/parameters/template/values/list');
-        $this->assertArrayHasKey(0, $element);
-        $this->assertInstanceOf('Magento_Simplexml_Element', $element[0]);
+        $this->assertTrue(is_array($config));
+        $element = null;
+        if(isset($config['parameters']) && isset($config['parameters']['template'])
+            && isset($config['parameters']['template']['values'])
+            && isset($config['parameters']['template']['values']['list'])
+        ) {
+            $element = $config['parameters']['template']['values']['list'];
+        }
+        $expected = array(
+            '@' => array('translate' => 'label'),
+            'value' => 'product/widget/new/content/new_list.phtml',
+            'label' => 'New Products List Template'
+        );
+        $this->assertNotNull($element);
+        $this->assertEquals($expected, $element);
+
         return $this->_model;
     }
 
