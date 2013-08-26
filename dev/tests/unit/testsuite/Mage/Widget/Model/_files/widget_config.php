@@ -76,7 +76,8 @@ return array(
                         '0' => 'Display a Link to Loading a Spreadsheet'
                     ),
                     'description' => array(
-                        '0' => 'Defines whether a link to My Account &gt; Order by SKU page will be displayed on the widget'
+                        '0' => 'Defines whether a link to My Account &gt; Order by SKU page will be
+                        displayed on the widget'
                     )
                 ),
                 '3' => array(

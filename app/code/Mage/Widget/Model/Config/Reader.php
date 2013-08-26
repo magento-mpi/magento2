@@ -58,31 +58,6 @@ class Mage_Widget_Model_Config_Reader extends Magento_Config_Reader_Filesystem
      */
     public function readFile($file)
     {
-        /** @var Magento_Config_Dom $domDocument */
-        $domDocument = null;
-        try {
-            $class = $this->_domDocumentClass;
-            $domDocument = new $class(
-                file_get_contents($file),
-                $this->_idAttributes,
-                $this->_perFileSchema
-            );
-        } catch (Magento_Config_Dom_ValidationException $e) {
-            throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
-        }
-
-        if ($this->_isValidated) {
-            $errors = array();
-            if ($domDocument && !$domDocument->validate($this->_schemaFile, $errors)) {
-                $message = "Invalid Document \n";
-                throw new Magento_Exception($message . implode("\n", $errors));
-            }
-        }
-
-        $output = array();
-        if ($domDocument) {
-            $output = $this->_converter->convert($domDocument->getDom());
-        }
-        return $output;
+        return readFile(array($file));
     }
 }

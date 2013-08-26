@@ -10,15 +10,21 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
     /** @var  Magento_Simplexml_Config */
     protected $_factory;
 
+    /** @var Mage_Widget_Model_Widget_Mapper  */
+    protected $_schemaMapper;
+
     /**
      * Constructor
      *
      * @param Magento_Simplexml_Config_Factory $factory
+     * @param Mage_Widget_Model_Widget_Mapper $schemaMapper
      */
     public function __construct(
-        Magento_Simplexml_Config_Factory $factory
+        Magento_Simplexml_Config_Factory $factory,
+        Mage_Widget_Model_Widget_Mapper $schemaMapper
     ) {
         $this->_factory = $factory;
+        $this->_schemaMapper = $schemaMapper;
     }
 
     /**
@@ -34,7 +40,8 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
         $nodeListData->loadDom($source);
         $node = $nodeListData->getNode();
         $nodeArray = $this->_toArray($node);
-        return is_array($nodeArray) ? $nodeArray : array($nodeArray);
+        $nodeArray = is_array($nodeArray) ? $nodeArray : array($nodeArray);
+        return $this->_schemaMapper->map($nodeArray);
     }
 
     /**

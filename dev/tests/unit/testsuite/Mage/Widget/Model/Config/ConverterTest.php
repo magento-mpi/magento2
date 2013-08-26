@@ -12,24 +12,31 @@ class Mage_Widget_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    protected $_mapperMock;
+
     public function setUp()
     {
         $factoryMock = $this->getMock(
             'Magento_Simplexml_Config_Factory', array('create'), array(), '', false
         );
+        $this->_mapperMock = $this->getMockBuilder('Mage_Widget_Model_Widget_Mapper')
+            ->disableOriginalConstructor()
+            ->getMock();
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue(new Magento_Simplexml_Config()));
-        $this->_model = new Mage_Widget_Model_Config_Converter($factoryMock);
+        $this->_model = new Mage_Widget_Model_Config_Converter($factoryMock, $this->_mapperMock);
     }
 
     public function testConvert()
     {
         $dom = new DOMDocument();
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'widget.xml';
+        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
+            . DIRECTORY_SEPARATOR . 'widget.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 
-        $convertedFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'widget_config.php';
-        $expectedResult = include $convertedFile;
-        $this->assertEquals($expectedResult, $this->_model->convert($dom), '', 0, 20);
+        $this->_mapperMock->expects($this->once())->method('map')
+            ->will($this->returnValue('SUCCESS'));
+        $this->assertEquals('SUCCESS', $this->_model->convert($dom));
     }
 
 

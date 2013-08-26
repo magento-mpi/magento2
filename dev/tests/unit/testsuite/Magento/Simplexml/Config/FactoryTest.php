@@ -25,7 +25,8 @@ class Magento_Simplexml_Config_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'data.xml';
+        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
+            . DIRECTORY_SEPARATOR . 'data.xml';
         $sourceData = new Magento_Simplexml_Element(file_get_contents($xmlFile));
         $config = 'Config';
         $this->_mockObjectManager->expects($this->once())
