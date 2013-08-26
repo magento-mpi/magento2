@@ -313,11 +313,15 @@ class namespacer
                             $this->reserveCheck = false;
 
                         }else{
-                            $baseFileName = basename($file);         // $file is set to "index.php"
-                            if($baseFileName!=trim($newClass)){
-                                $newFileName = dirname($file) . "\\" . $newClass . '.php';
-                                $this->fileMapper[$file] = $newFileName;
+                            if(in_Array($file,$this->reservedKeyWords)){
+                                $baseFileName = basename($file);
+                                       $newClass=trim($newClass);// $file is set to "index.php";
+                                if($baseFileName!=$newClass && !empty($newClass)){
+                                    $newFileName = dirname($file) . "\\" . $newClass . '.php';
+                                    $this->fileMapper[$file] = $newFileName;
+                                }
                             }
+
 
                         }
                         $change = "\\" . str_replace(
