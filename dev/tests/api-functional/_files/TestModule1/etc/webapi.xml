@@ -15,7 +15,6 @@
         <rest-route httpMethod="PUT" method="update">/:id</rest-route>
     </service>
 
-    <!-- Do we need to establish relation between extending Services? Do we need to -->
     <service class="Mage_TestModule1_Service_AllSoapAndRestInterfaceV2" baseUrl="/V2/testmodule1">
         <rest-route httpMethod="GET" method="item">/:id</rest-route>
         <rest-route httpMethod="GET" method="items"></rest-route>

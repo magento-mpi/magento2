@@ -50,19 +50,6 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
     }
 
     /**
-     * Add exception to the list of exceptions.
-     *
-     * Replace real error message of untrusted exceptions to prevent potential vulnerability.
-     *
-     * @param Exception $exception
-     * @return Mage_Webapi_Controller_Response_Rest
-     */
-    public function setException(Exception $exception)
-    {
-        return parent::setException($exception);
-    }
-
-    /**
      * Send response to the client, render exceptions if they are present.
      */
     public function sendResponse()

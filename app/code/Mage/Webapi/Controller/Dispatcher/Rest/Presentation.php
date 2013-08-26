@@ -34,9 +34,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      *
      * @return array
      */
-    public function fetchRequestData()
+    public function getRequestData()
     {
-        return $this->_requestProcessor->fetchRequestData();
+        return $this->_requestProcessor->getRequestData();
     }
 
     /**

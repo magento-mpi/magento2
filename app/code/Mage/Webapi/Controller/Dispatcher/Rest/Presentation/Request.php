@@ -34,7 +34,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
      *
      * @return array
      */
-    public function fetchRequestData()
+    public function getRequestData()
     {
         $requestParams = array_merge(
             $this->_getRequestBody(),

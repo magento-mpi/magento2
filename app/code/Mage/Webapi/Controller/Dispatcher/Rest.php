@@ -83,7 +83,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
                 );
             }
             /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation $inputData */
-            $inputData = $this->_restPresentation->fetchRequestData();
+            $inputData = $this->_restPresentation->getRequestData();
             // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
             $serviceMethod = $route->getServiceMethod();
             $service = $this->_objectManager->get($route->getServiceId());

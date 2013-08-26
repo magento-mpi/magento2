@@ -26,7 +26,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     protected $_objectManager;
 
     /** @var Mage_Webapi_Model_Soap_Config */
-    protected $_newApiConfig;
+    protected $_apiConfig;
 
     /**
      * Initialize dependencies.
@@ -34,20 +34,20 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Model_Soap_Config $newApiConfig
+     * @param Mage_Webapi_Model_Soap_Config $apiConfig
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Security $security
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Model_Soap_Config $newApiConfig,
+        Mage_Webapi_Model_Soap_Config $apiConfig,
         Mage_Webapi_Controller_Dispatcher_Soap_Security $security
     ) {
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
         $this->_objectManager = $objectManager;
-        $this->_newApiConfig = $newApiConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_security = $security;
     }
 
@@ -72,11 +72,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 $arguments = get_object_vars($arguments);
 
                 $requestedService = $this->_request->getRequestedServices();
-                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedService);
-                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedService);
+                $serviceId = $this->_apiConfig->getClassBySoapOperation($operation, $requestedService);
+                $serviceMethod = $this->_apiConfig->getMethodBySoapOperation($operation, $requestedService);
 
                 // check if the operation is a secure operation & whether the request was made in HTTPS
-                if ($this->_newApiConfig->isSoapOperationSecure($operation, $requestedService)
+                if ($this->_apiConfig->isSoapOperationSecure($operation, $requestedService)
                     && !$this->_request->isSecure()
                 ) {
                     throw new Mage_Webapi_Exception(
