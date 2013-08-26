@@ -7,75 +7,278 @@
  */
 class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInterface
 {
-    /** @var  Magento_Simplexml_Config */
-    protected $_factory;
-
-    /** @var Mage_Widget_Model_Widget_Mapper  */
-    protected $_schemaMapper;
-
     /**
-     * Constructor
-     *
-     * @param Magento_Simplexml_Config_Factory $factory
-     * @param Mage_Widget_Model_Widget_Mapper $schemaMapper
-     */
-    public function __construct(
-        Magento_Simplexml_Config_Factory $factory,
-        Mage_Widget_Model_Widget_Mapper $schemaMapper
-    ) {
-        $this->_factory = $factory;
-        $this->_schemaMapper = $schemaMapper;
-    }
-
-    /**
-     * Convert dom node tree to magneto xml config string
+     * Convert dom node tree to magneto array config
      *
      * @param DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
-        /** @var Magento_Simplexml_Config $nodeListData */
-        $nodeListData = $this->_factory->create();
-        $nodeListData->loadDom($source);
-        $node = $nodeListData->getNode();
-        $nodeArray = $this->_toArray($node);
-        $nodeArray = is_array($nodeArray) ? $nodeArray : array($nodeArray);
-        return $this->_schemaMapper->map($nodeArray);
+        $widgets = array();
+        $xpath = new DOMXPath($source);
+        $xpath->registerNamespace('x', $source->lookupNamespaceUri($source->namespaceURI));
+        /** @var $widget DOMNode */
+        foreach ($xpath->query('/x:widgets/x:widget') as $widget) {
+            $widgetAttributes = $widget->attributes;
+            $widgetArray = array('@' => array());
+            $widgetArray['@']['type'] = $widgetAttributes->getNamedItem('class')->nodeValue;
+            $widgetArray['@']['module'] = $widgetAttributes->getNamedItem('module')->nodeValue;
+            $isEmailCompatible = $widgetAttributes->getNamedItem('is_email_compatible');
+            if (!is_null($isEmailCompatible)) {
+                $widgetArray['is_email_compatible'] = $isEmailCompatible->nodeValue;
+            }
+            $placeholderImage = $widgetAttributes->getNamedItem('placeholder_image');
+            if (!is_null($placeholderImage)) {
+                $widgetArray['placeholder_image'] = $placeholderImage->nodeValue;
+            }
+            $widgetId = $widgetAttributes->getNamedItem('id');
+            /** @var $widgetSubNode DOMNode */
+            foreach ($widget->childNodes as $widgetSubNode) {
+                switch ($widgetSubNode->nodeName) {
+                    case 'label':
+                        $widgetArray['name'] = $widgetSubNode->nodeValue;
+                        break;
+                    case 'description':
+                        $widgetArray['description'] = $widgetSubNode->nodeValue;
+                        break;
+                    case 'parameter':
+                        $subNodeAttributes = $widgetSubNode->attributes;
+                        $parameterName = $subNodeAttributes->getNamedItem('name')->nodeValue;
+                        $widgetArray['parameters'][$parameterName] = $this->_convertParameter($widgetSubNode);
+                        break;
+                    case 'container':
+                        if (!isset($widgetArray['supported_containers'])) {
+                            $widgetArray['supported_containers'] = array();
+                        }
+                        $widgetArray['supported_containers'] = array_merge($widgetArray['supported_containers'],
+                            $this->_convertContainer($widgetSubNode));
+                        break;
+                }
+            }
+            $widgets[$widgetId->nodeValue] = $widgetArray;
+        }
+        return $widgets;
+    }
+
+
+    /**
+     * Convert dom Container node to magneto array
+     *
+     * @param DOMNode $source
+     * @return array
+     */
+    protected function _convertContainer($source)
+    {
+        $supportedContainers = array();
+        $containerAttributes = $source->attributes;
+        $template = array();
+        foreach ($source->childNodes as $containerTemplate) {
+            if (!$containerTemplate instanceof DOMElement) {
+                continue;
+            }
+            $templateAttributes = $containerTemplate->attributes;
+            $template[$templateAttributes->getNamedItem('name')->nodeValue] =
+                $templateAttributes->getNamedItem('value')->nodeValue;
+        }
+        $supportedContainers[$containerAttributes->getNamedItem('section')->nodeValue] = array(
+            'container_name' => $containerAttributes->getNamedItem('name')->nodeValue,
+            'template' => $template
+        );
+        return $supportedContainers;
     }
 
     /**
-     * Returns the node and children as an array
+     * Convert dom Parameter node to magneto array
      *
-     * @param Magento_Simplexml_Element $node
-     * @return array|string
+     * @param DOMNode $source
+     * @return array
      */
-    protected function _toArray($node)
+    protected function _convertParameter($source)
     {
-        $result = array();
-
-        // add attributes
-        foreach ($node->attributes() as $attributeName => $attribute) {
-            if ($attribute) {
-                $result['@'][$attributeName] = (string)$attribute;
+        $parameter = array();
+        $sourceAttributes = $source->attributes;
+        $xsiType = $sourceAttributes->getNamedItem('type')->nodeValue;
+        if ($xsiType == 'value_renderer') {
+            $parameter['type'] = 'label';
+            $parameter['@'] = array();
+            $parameter['@']['type'] = 'complex';
+            foreach ($source->childNodes as $rendererSubNode) {
+                switch ($rendererSubNode->nodeName) {
+                    case 'renderer':
+                        $parameter['helper_block'] = $this->_convertRenderer($rendererSubNode);
+                        break;
+                }
             }
-        }
-
-        // add children values
-        if ($node->hasChildren()) {
-            /** @var Magento_Simplexml_Element $child */
-            foreach ($node->children() as $childName => $child) {
-                $result[$childName][] = $this->_toArray($child);
+        } else if ($xsiType == 'select' || $xsiType == 'multiselect') {
+            $sourceModel = $sourceAttributes->getNamedItem('source_model');
+            if (!is_null($sourceModel)) {
+                $parameter['source_model'] = $sourceModel->nodeValue;
             }
+            $parameter['type'] = $xsiType;
+            $parameter['values'] = array();
+            /** @var $paramSubNode DOMNode */
+            foreach ($source->childNodes as $paramSubNode) {
+                switch ($paramSubNode->nodeName) {
+                    case 'option':
+                        $optionAttributes = $paramSubNode->attributes;
+                        $optionName = $optionAttributes->getNamedItem('name')->nodeValue;
+                        $selected = $optionAttributes->getNamedItem('selected');
+                        if (!is_null($selected)) {
+                            $parameter['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
+                        }
+                        $parameter['values'][$optionName] = $this->_convertOptions($paramSubNode);
+                        break;
+                }
+            }
+
         } else {
-            if (empty($result)) {
-                // return as string, if nothing was found
-                $result = (string) $node;
-            } else {
-                // value has zero key element
-                $result[0] = (string) $node;
+            $parameter['type'] = $xsiType;
+        }
+        $visible = $sourceAttributes->getNamedItem('visible');
+        if ($visible) {
+            $parameter['visible'] = $visible->nodeValue;
+        } else {
+            $parameter['visible'] = 'true';
+        }
+        $required = $sourceAttributes->getNamedItem('required');
+        if ($required) {
+            $parameter['required'] = $required->nodeValue;
+        }
+        $translate = $sourceAttributes->getNamedItem('translate');
+        if ($translate) {
+            if (!isset($parameter['@'])) {
+                $parameter['@'] = array();
+            }
+            $parameter['@']['translate'] = $translate->nodeValue;
+        }
+        $sortOrder = $sourceAttributes->getNamedItem('sort_order');
+        if ($sortOrder) {
+            $parameter['sort_order'] = $sortOrder->nodeValue;
+        }
+        foreach ($source->childNodes as $paramSubNode) {
+            switch ($paramSubNode->nodeName) {
+                case 'label':
+                    $parameter['label'] = $paramSubNode->nodeValue;
+                    break;
+                case 'description':
+                    $parameter['description'] = $paramSubNode->nodeValue;
+                    break;
+                case 'depends':
+
+                    $parameter['depends'] = $this->_convertDepends($paramSubNode);
+                    break;
             }
         }
-        return $result;
+        return $parameter;
+    }
+
+    /**
+     * Convert dom Depends node to magneto array
+     *
+     * @param DOMNode $source
+     * @return array
+     */
+    protected function _convertDepends($source)
+    {
+        $depends = array();
+        foreach ($source->childNodes as $childNode) {
+            switch ($childNode->nodeName) {
+                case 'parameter':
+                    $parameterAttributes = $childNode->attributes;
+                    $depends[$parameterAttributes->getNamedItem('name')->nodeValue] =
+                        $parameterAttributes->getNamedItem('value')->nodeValue;
+            }
+        }
+        return $depends;
+    }
+
+    /**
+     * Convert dom Renderer node to magneto array
+     *
+     * @param DOMNode $source
+     * @return array
+     */
+    protected function _convertRenderer($source)
+    {
+        $helperBlock = array();
+        $helperBlock['type'] = $source->attributes->getNamedItem('class')->nodeValue;
+        foreach ($source->childNodes as $rendererSubNode) {
+            switch ($rendererSubNode->nodeName) {
+                case 'data':
+                    $helperBlock['data'] = $this->_convertData($rendererSubNode);//$this->_compressElements($rendererSubNode);
+                    break;
+            }
+        }
+
+        return $helperBlock;
+    }
+
+    /**
+     * Convert dom Data node to magneto array
+     *
+     * @param DOMElement $source
+     * @return array
+     */
+    protected function _convertData($source)
+    {
+        $data = $this->_getAttributes($source);
+        if (!$source->hasChildNodes()) {
+            return $data;
+        }
+        foreach ($source->childNodes as $dataChild) {
+            if ($dataChild instanceof DOMElement) {
+                $data[$dataChild->tagName] = $this->_convertData($dataChild);
+            } else {
+                if (strlen(trim($dataChild->nodeValue))) {
+                    $data[$source->tagName] = $dataChild->nodeValue;
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Convert dom Data node to magneto array
+     *
+     * @param DOMElement $source
+     * @return array
+     */
+    protected function _getAttributes($source)
+    {
+        $data = array();
+        if (!$source->hasAttributes()) {
+            return;
+        }
+        $attributes = $source->attributes;
+        foreach ($attributes as $attribute) {
+            $data[$attribute->nodeName] = $attribute->nodeValue;
+        }
+        return $data;
+    }
+
+    /**
+     * Convert dom Option node to magneto array
+     *
+     * @param DOMNode $source
+     * @return array
+     */
+    protected function _convertOptions($source)
+    {
+        $option = array('@' => array());
+        $optionAttributes = $source->attributes;
+        $translate = $optionAttributes->getNamedItem('translate');
+        if (!is_null($translate)) {
+            $option['@']['translate'] = $translate->nodeValue;
+        }
+        $option['@']['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
+        foreach ($source->childNodes as $childNode) {
+            switch ($childNode->nodeName) {
+                case 'label':
+                    $option['label'] = $childNode->nodeValue;
+                    break;
+            }
+        }
+        return $option;
     }
 }
