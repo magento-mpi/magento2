@@ -37,8 +37,8 @@
             <element name="container" type="tns:containerType"
                 maxOccurs="unbounded" minOccurs="0" />
         </sequence>
-        <attribute name="id" type="string" use="required" />
-        <attribute name="translate" type="string" />
+        <attribute name="id" type="ID" use="required" />
+        <attribute name="translate" type="NMTOKENS" />
         <attribute name="class" type="string" use="required" />
         <attribute name="module" type="string" use="required" />
         <attribute name="is_email_compatible" type="boolean" />
@@ -59,8 +59,8 @@
             <element name="depends" type="tns:dependsType"
                 minOccurs="0" maxOccurs="1" />
         </sequence>
-        <attribute name="name" type="string" use="required" />
-        <attribute name="translate" type="string" />
+        <attribute name="name" type="NMTOKEN" use="required" />
+        <attribute name="translate" type="NMTOKENS" />
         <attribute name="visible" type="boolean" />
         <attribute name="sort_order" type="int" />
         <attribute name="required" type="string" />
@@ -70,7 +70,7 @@
             <documentation>The parameter name and the value it must be
                 to satisfy this dependency.</documentation>
         </annotation>
-        <attribute name="name" type="string" use="required" />
+        <attribute name="name" type="NMTOKEN" use="required" />
         <attribute name="value" type="string" use="required" />
     </complexType>
     <complexType name="value_renderer">
@@ -91,18 +91,8 @@
             <documentation>Data for the renderer.</documentation>
         </annotation>
         <sequence>
-            <element name="button" type="tns:buttonType" />
+            <any minOccurs="0" processContents="lax"/>
         </sequence>
-    </complexType>
-    <complexType name="buttonType">
-        <annotation>
-            <documentation>Displays a button to change the parameter
-                value.</documentation>
-        </annotation>
-        <sequence>
-            <element name="open" type="string" />
-        </sequence>
-        <attribute name="translate" type="string" />
     </complexType>
     <complexType name="rendererType">
         <annotation>
@@ -150,8 +140,8 @@
         <sequence>
             <element name="label" type="string" />
         </sequence>
-        <attribute name="name" type="string" use="required" />
-        <attribute name="translate" type="string" />
+        <attribute name="name" type="NMTOKEN" use="required" />
+        <attribute name="translate" type="NMTOKENS" />
         <attribute name="value" type="string" use="required" />
         <attribute name="selected" type="boolean" />
     </complexType>
@@ -176,13 +166,13 @@
                 minOccurs="1" maxOccurs="unbounded" />
         </sequence>
         <attribute name="section" type="string" use="required" />
-        <attribute name="name" type="string" use="required" />
+        <attribute name="name" type="NMTOKEN" use="required" />
     </complexType>
     <complexType name="templateType">
         <annotation>
             <documentation>Name and value of template</documentation>
         </annotation>
-        <attribute name="name" type="string" use="required" />
+        <attribute name="name" type="NMTOKEN" use="required" />
         <attribute name="value" type="string" />
     </complexType>
     <complexType name="dependsType">
