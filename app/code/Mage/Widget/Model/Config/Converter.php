@@ -58,6 +58,7 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                             $this->_convertContainer($widgetSubNode));
                         break;
                     case "#text": break;
+                    case '#comment': break;
                     default:
                         throw new LogicException(sprintf("Unsupported child xml node '%s' found in the 'widget' node",
                             $widgetSubNode->nodeName));
@@ -153,13 +154,21 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
         }
         $visible = $sourceAttributes->getNamedItem('visible');
         if ($visible) {
-            $parameter['visible'] = $visible->nodeValue;
+            if (((string)$visible->nodeValue) == 'false') {
+                $parameter['visible'] = '0';
+            } else {
+                $parameter['visible'] = '1';
+            }
         } else {
-            $parameter['visible'] = 'true';
+            $parameter['visible'] = '1';
         }
         $required = $sourceAttributes->getNamedItem('required');
         if ($required) {
-            $parameter['required'] = $required->nodeValue;
+            if (((string)$required->nodeValue) == 'false') {
+                $parameter['required'] = '0';
+            } else {
+                $parameter['required'] = '1';
+            }
         }
         $translate = $sourceAttributes->getNamedItem('translate');
         if ($translate) {
@@ -182,6 +191,9 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                     break;
                 case 'depends':
                     $parameter['depends'] = $this->_convertDepends($paramSubNode);
+                    break;
+                case 'value' :
+                    $parameter['value'] = $paramSubNode->nodeValue;
                     break;
             }
         }

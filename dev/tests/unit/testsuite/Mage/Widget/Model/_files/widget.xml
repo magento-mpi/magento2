@@ -43,7 +43,7 @@
             <depends>
                 <parameter name="link_display" value="1" />
             </depends>
-            <value>"Load a list of SKUs"</value>
+            <value>Load a list of SKUs</value>
         </parameter>
         <!-- value_renderer -->
         <parameter name="id_path" xsi:type="value_renderer" visible="true" required="true" sort_order="10" translate="label">

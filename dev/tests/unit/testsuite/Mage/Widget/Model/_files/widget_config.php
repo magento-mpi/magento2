@@ -18,7 +18,7 @@ return array(
         'parameters' => array(
             'title' => array(
                 'type' => 'text',
-                'visible' => 'false',
+                'visible' => '0',
                 '@' => array(
                     'translate' => 'label',
                 ),
@@ -63,15 +63,15 @@ return array(
                 '@' => array(
                     'translate' => 'label description value',
                 ),
-                'value' => 'Load a list of SKUs',
                 'sort_order' => '20',
-                'label' => 'Link Text,',
+                'label' => 'Link Text',
                 'description' => 'The text of the link to the My Account &gt; Order by SKU page',
                 'depends' => array(
                     'link_display' => array(
                         'value' => '1',
                     ),
                 ),
+                'value' => 'Load a list of SKUs',
             ),
             'id_path' => array(
                 'type' => 'label',
