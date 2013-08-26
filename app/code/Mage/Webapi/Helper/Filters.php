@@ -23,15 +23,18 @@ class Mage_Webapi_Helper_Filters extends Mage_Core_Helper_Abstract
      * Deserialize, retrieve, and resolve the JSON schema. Initialize the validator.
      *
      * @param Mage_Core_Helper_Context $context
+     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Helper_Context $context)
-    {
+    public function __construct(
+        Mage_Core_Helper_Context $context,
+        Mage_Core_Model_Config $config
+    ) {
         parent::__construct($context);
-        $moduleDir = Mage::getModuleDir('etc', 'Mage_Webapi');
+        $moduleDir = $config->getModuleDir('etc', 'Mage_Webapi');
         $retriever = new JsonSchema\Uri\UriRetriever();
-        $this->_schema = $retriever->retrieve('file://' . $moduleDir . DS . 'json' . DS . 'filters-schema.json');
+        $this->_schema = $retriever->retrieve('file://' . $moduleDir . '/json/filters-schema.json');
         $refResolver = new JsonSchema\RefResolver($retriever);
-        $refResolver->resolve($this->_schema, 'file://' . $moduleDir . DS . 'json');
+        $refResolver->resolve($this->_schema, 'file://' . $moduleDir . '/json');
         $this->_validator = new JsonSchema\Validator();
     }
 
