@@ -30,7 +30,7 @@ class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framewor
     protected function setUp()
     {
         $this->_model = new Magento\Tools\Di\Code\Scanner\XmlScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../../../') . '/_files');
         $this->_testFiles =  array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
             $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
