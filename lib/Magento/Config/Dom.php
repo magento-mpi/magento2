@@ -99,12 +99,7 @@ class Magento_Config_Dom
         /* Update matched node attributes and value */
         if ($matchedNode) {
             foreach ($node->attributes as $attribute) {
-                if (!is_null($attribute->prefix) && !empty($attribute->prefix)) {
-                    $attributeName = $attribute->prefix . ':' .$attribute->name;
-                } else {
-                    $attributeName =  $attribute->name;
-                }
-                $matchedNode->setAttribute($attributeName, $attribute->value);
+                $matchedNode->setAttribute($this->_getAttributeName($attribute), $attribute->value);
             }
             /* Merge child nodes */
             if ($node->hasChildNodes()) {
@@ -248,5 +243,21 @@ class Magento_Config_Dom
     {
         $errors = self::validateDomDocument($this->_dom, $schemaFileName);
         return !count($errors);
+    }
+
+    /**
+     * Returns the attribute name with prefix, if there is one
+     *
+     * @param DOMAttr $attribute
+     * @return string
+     */
+    private function _getAttributeName($attribute)
+    {
+        if (!is_null($attribute->prefix) && !empty($attribute->prefix)) {
+            $attributeName = $attribute->prefix . ':' .$attribute->name;
+        } else {
+            $attributeName =  $attribute->name;
+        }
+        return $attributeName;
     }
 }
