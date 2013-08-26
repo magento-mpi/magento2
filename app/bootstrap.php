@@ -18,7 +18,7 @@ define('BP', dirname(__DIR__));
  * Environment initialization
  */
 error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 1);
+#ini_set('display_errors', 1);
 umask(0);
 
 /**
@@ -74,6 +74,5 @@ HTML;
         Magento_Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
     }
 }
-$_SERVER['MAGE_MODE'] = 'developer';
 set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
 date_default_timezone_set(Mage::DEFAULT_TIMEZONE);
