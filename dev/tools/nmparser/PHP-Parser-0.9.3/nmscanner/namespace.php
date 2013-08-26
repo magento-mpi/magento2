@@ -278,10 +278,12 @@ class namespacer
                 }
                 foreach ($vals as $val) {
                     //fix for the global scanner
-
-                    $val = str_replace("\\", "_", $val);
                     $val = trim($val);
                     if ($this->reserveCheck) {
+                        $val = str_replace("\\\\", "\\", $val);
+                        $val = trim(str_replace("\\", " ", $val));
+                        $val = str_replace(" ", "_", $val);
+                        $val = str_replace("\\", "_", $val);
                         $namespace =
                             "namespace " . str_replace(
                                 '_',
@@ -341,10 +343,7 @@ class namespacer
                     } else {
 
                         $newClass = trim($val);
-                        if (!preg_match('/[^A-Za-z0-9]/', $newClass)) // '/[^a-z\d]/i' should also work.
-                        {
-                            $newClass="\\".$newClass;
-                        }
+
                     }
                     $newClass = str_replace("\\\\", "\\", $newClass);
 
