@@ -10,8 +10,9 @@
 
 <widgets xmlns="http://www.magentocommerce.com/widget"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../../../../../../app/code/Mage/Widget/etc/widget.xsd">
-    <widget id="sales_widget_guestfrom" class="Mage_Sales_Block_Widget_Guest_Form"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget
+         ../../../../../../../../app/code/Mage/Widget/etc/widget.xsd">
+    <widget id="sales_widget_guestform" class="Mage_Sales_Block_Widget_Guest_Form"
             translate="label description" module="Mage_Sales" is_email_compatible="true">
         <label>Orders and Returns</label>
         <description>Orders and Returns Search Form</description>
@@ -32,16 +33,17 @@
         <parameter name="link_display" xsi:type="select" translate="label_description" visible="true"
                    sort_order="10" source_model="Mage_Backend_Model_Config_Source_Yesno">
             <label>Display a Link to Loading a Spreadsheet</label>
-            <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
+            <description>Defines whether a link to My Account</description>
         </parameter>
         <!-- parameter: depends -->
         <parameter name="link_text" xsi:type="text" translate="label description value" required="true"
-                   visible="true" sort_order="20" value="Load a list of SKUs">
+                   visible="true" sort_order="20">
             <label>Link Text</label>
             <description>The text of the link to the My Account &amp;gt; Order by SKU page</description>
             <depends>
                 <parameter name="link_display" value="1" />
             </depends>
+            <value>"Load a list of SKUs"</value>
         </parameter>
         <!-- value_renderer -->
         <parameter name="id_path" xsi:type="value_renderer" visible="true" required="true" sort_order="10" translate="label">

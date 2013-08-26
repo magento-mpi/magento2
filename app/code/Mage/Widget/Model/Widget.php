@@ -39,13 +39,11 @@ class Mage_Widget_Model_Widget
      * @param Mage_Widget_Model_Config_Data $dataStorage
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
-     * @param array $data
      */
     public function __construct(
         Mage_Widget_Model_Config_Data $dataStorage,
         Mage_Core_Model_View_Url $viewUrl,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
-        array $data = array()
+        Mage_Core_Model_View_FileSystem $viewFileSystem
     ) {
         $this->_dataStorage = $dataStorage;
         $this->_viewUrl = $viewUrl;
