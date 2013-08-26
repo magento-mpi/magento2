@@ -63,7 +63,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_optionalZipCountries = null;
+    protected $_optZipCountries = null;
 
     /**
      * @var Magento_Core_Model_Cache_Type_Config
@@ -159,7 +159,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
                     ->load();
                 $regions = array(
                     'config' => array(
-                        'show_all_regions' => $this->getShowNonRequiredState(),
+                        'show_all_regions' => $this->isShowNonRequiredState(),
                         'regions_required' => $this->getCountriesWithStatesRequired()
                     )
                 );
@@ -191,6 +191,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      * @param string $from
      * @param string $to
      * @return float
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function currencyConvert($amount, $from, $to = null)
     {
@@ -212,14 +213,14 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCountriesWithOptionalZip($asJson = false)
     {
-        if (null === $this->_optionalZipCountries) {
+        if (null === $this->_optZipCountries) {
             $value = trim($this->_storeManager->getStore()->getConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH));
-            $this->_optionalZipCountries = preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
+            $this->_optZipCountries = preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return $this->_coreHelper->jsonEncode($this->_optionalZipCountries);
+            return $this->_coreHelper->jsonEncode($this->_optZipCountries);
         }
-        return $this->_optionalZipCountries;
+        return $this->_optZipCountries;
     }
 
     /**
@@ -231,7 +232,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     public function isZipCodeOptional($countryCode)
     {
         $this->getCountriesWithOptionalZip();
-        return in_array($countryCode, $this->_optionalZipCountries);
+        return in_array($countryCode, $this->_optZipCountries);
     }
 
     /**
@@ -251,11 +252,11 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Return flag, which indicates whether or not non required state should be shown
+     * Return, whether non-required state should be shown
      *
      * @return bool
      */
-    public function getShowNonRequiredState()
+    public function isShowNonRequiredState()
     {
         return (boolean)$this->_storeManager->getStore()->getConfig(self::XML_PATH_DISPLAY_ALL_STATES);
     }
