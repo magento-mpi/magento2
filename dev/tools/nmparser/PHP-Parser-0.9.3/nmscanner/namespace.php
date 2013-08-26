@@ -14,6 +14,7 @@ class namespacer
     private $path = null;
     private $namespace = array();
     private $splitLine = 0;
+    private $requireOnce = 0;
     private $reservedKeyWords = array(
         'Abstract',
         'Interface',
@@ -159,39 +160,46 @@ class namespacer
             clearstatcache();
             $lines = file($file);
             $parsedLine = null;
+            $this->requireOnce=0;
             $this->namespace = array();
             $count = 0;
             echo "$file psr1 process started \n";
             foreach ($lines as $line) {
                 $trimLine = trim($line);
-                if ($this->compareInString($trimLine, 0, 5, 'class')
-                ) {
-                    if ($this->compareInString($line, 0, 5, 'class')) {
-                        $this->splitLine = $count;
-                    }
-                    $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                } else {
-                    if ($this->compareInString($line, 0, 14, 'abstract class')) {
-                        $this->splitLine = $count;
+               if($this->compareInString($trimLine, 0, 12, 'require_once')){
+                   $this->requireOnce=$count;
+                   $parsedLine[] = $line;
+               }else{
+                   if ($this->compareInString($trimLine, 0, 5, 'class')
+                   ) {
+                       if ($this->compareInString($line, 0, 5, 'class')) {
+                           $this->splitLine = $count;
+                       }
+                       $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                   } else {
+                       if ($this->compareInString($line, 0, 14, 'abstract class')) {
+                           $this->splitLine = $count;
 
-                        $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                    } else {
-                        if ($this->compareInString($line, 0, 9, "interface")) {
+                           $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                       } else {
+                           if ($this->compareInString($line, 0, 9, "interface")) {
 
-                            $this->splitLine = $count;
-                            $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                        } else {
-                            if ($this->compareInString($line, 0, 11, "final class")) {
+                               $this->splitLine = $count;
+                               $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                           } else {
+                               if ($this->compareInString($line, 0, 11, "final class")) {
 
-                                $this->splitLine = $count;
-                                $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                            } else {
-                                $parsedLine[] = $line;
+                                   $this->splitLine = $count;
+                                   $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                               } else {
+                                   $parsedLine[] = $line;
 
-                            }
-                        }
-                    }
-                }
+                               }
+                           }
+                       }
+                   }
+               }
+
                 $count++;
 
             }
@@ -426,6 +434,12 @@ class namespacer
         // new line feeder
         if (end($array) == "}") {
             $array[] = "\n";
+        }
+        if($this->requireOnce!==0){
+            $namespace=$array[$this->splitLine];
+            $requireOnce=$array[$this->requireOnce];
+            $array[$this->requireOnce]=$namespace;
+            $array[$this->splitLine]=$requireOnce;
         }
         foreach ($array as $key) {
             $string = $string . $key;
