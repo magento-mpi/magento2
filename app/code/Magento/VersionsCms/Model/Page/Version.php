@@ -41,7 +41,7 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
      *
      * @var string
      */
-    protected $_eventPrefix = 'enterprise_cms_version';
+    protected $_eventPrefix = 'magento_versionscms_version';
 
     /**
      * Parameter name in event.

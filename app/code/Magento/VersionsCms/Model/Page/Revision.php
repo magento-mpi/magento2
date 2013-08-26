@@ -59,7 +59,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
      *
      * @var string
      */
-    protected $_eventPrefix = 'enterprise_cms_revision';
+    protected $_eventPrefix = 'magento_versionscms_revision';
 
     /**
      * Parameter name in event.
