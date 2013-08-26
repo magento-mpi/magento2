@@ -86,7 +86,7 @@ class Magento_Config_Dom
         /* Update matched node attributes and value */
         if ($matchedNode) {
             foreach ($node->attributes as $attribute) {
-                if (!is_null($attribute->prefix)) {
+                if (!is_null($attribute->prefix) && !empty($attribute->prefix)) {
                     $attributeName = $attribute->prefix . ':' .$attribute->name;
                 } else {
                     $attributeName =  $attribute->name;
