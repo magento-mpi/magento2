@@ -16,8 +16,17 @@
 $_item = $this->getItem();
 $displayBothPrices = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices();
 $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
+
+$maxQuantity = -1;
+if ($_item->getQtyMaxAllowed()) {
+    $maxQuantity = $_item->getQtyMaxAllowed();
+}
+
+if ($_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK) {
+    $maxQuantity = 0;
+}
 ?>
-<tr>
+<tr data-mage-init='{orderBySkuFailure:{}}'>
     <td>
         <img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize() ?>" height="<?php echo $this->getThumbnailSize() ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" />
     </td>
@@ -31,7 +40,15 @@ $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
     <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
     <td class="a-right"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
     <td class="a-center">
-        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo __('Qty') ?>" class="input-text qty disabled" maxlength="12" disabled="disabled" />
+        <?php $validateItemQuantityCheck = false; ?>
+        <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>" size="4"
+               title="<?php echo __('Qty') ?>" class="input-text qty disabled" maxlength="12" disabled="disabled"
+               data-role="input-qty" data-validate="{'validate-item-quantity': {
+               <?php if ($_item->getQtyMinAllowed()): ?>'minAllowed': <?php echo $_item->getQtyMinAllowed(); $validateItemQuantityCheck = true; ?><?php endif ?>
+               <?php if ($maxQuantity > 0): ?><?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'maxAllowed': <?php echo $maxQuantity; $validateItemQuantityCheck = true; ?><?php endif ?>
+               <?php if ($_item->getQtyIncrements() > 0): ?>
+                   <?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'qtyIncrements': <?php echo $_item->getQtyIncrements() ?>
+               <?php endif ?>}}" />
     </td>
     <td class="a-center last"><a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo __('Remove item')?>" class="btn-remove btn-remove2"><?php echo __('Remove item')?></a></td>
 </tr>

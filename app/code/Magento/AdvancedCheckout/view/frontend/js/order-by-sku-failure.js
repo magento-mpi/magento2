@@ -14,13 +14,8 @@
     "use strict";
     $.widget('mage.orderBySkuFailure', {
         options: {
-            itemSelector: '[data-role="row"]',
-            qtyIncrementsSelector: '[data-role="qty-increments"]',
             qtyInputSelector: '[data-role="input-qty"]',
-            qtyMaxAllowedSelector: '[data-role="qty-max-allowed"]',
-            qtyMinAllowedSelector: '[data-role="qty-min-allowed"]',
-            skuFailedQtySelector: '[data-role="sku-failed-qty"]',
-            skuOutOfStockSelector: '[data-role="sku-out-of-stock"]'
+            skuFailedQtySelector: '[data-role="sku-failed-qty"]'
         },
 
         /**
@@ -28,11 +23,13 @@
          * @private
          */
         _bind: function () {
-            // bind quantity input
-            this._on(this.options.qtyInputSelector, {
-                keyup: this._validateInputQuantity,
-                change: this._skuFailedQty
-            });
+            var handlers = {};
+
+            // bind quantity input change
+            handlers['keyup ' + this.options.qtyInputSelector] = '_qtyChange';
+            handlers['input ' + this.options.qtyInputSelector] = '_qtyChange';
+
+            this._on(handlers);
         },
 
         /**
@@ -41,82 +38,45 @@
          */
         _create: function() {
             this._bind();
-            this.element.decorate('table');
-            this.element.find(this.options.skuOutOfStockSelector).each($.proxy(this._skuOutOfStock, this));
-            this.element.find(this.options.qtyInputSelector).each($.proxy(this._validateItemQuantity, this));
+
+            // trigger the validation since it has been pre-validated on the server
+            this._getQtyInput().valid();
         },
 
         /**
-         * This method validates the input quantity.
+         * This method handles a change in quantity.
          * @private
          */
-        _validateInputQuantity: function (event) {
-            this._validateItemQuantity(null, event.target);
+        _qtyChange: function() {
+            var qtyInput = this._getQtyInput();
+            // validate
+            qtyInput.valid();
+            // update hidden quantity element
+            this._updateItemQty(qtyInput);
         },
 
         /**
-         * This method validates the item quantity.
+         * This method handles update of item quantity.
          * @private
          */
-        _validateItemQuantity: function (index, element) {
-            if (element.disabled) {
-                // remove indication of failed quantity when input disabled
-                $(element).removeClass('validation-failed');
-            }
-            else {
-                // obtain values for validation
-                var itemRow = $(element).closest(this.options.itemSelector);
-                var maxAllowed = itemRow.find(this.options.qtyMaxAllowedSelector);
-                var minAllowed = itemRow.find(this.options.qtyMinAllowedSelector);
-                var qtyIncrements = itemRow.find(this.options.qtyIncrementsSelector);
-                var qty = parseFloat($(itemRow).find(this.options.qtyInputSelector).val());
-
-                // validate quantity
-                var isMaxAllowedValid = !maxAllowed.length || (qty <= parseFloat($(maxAllowed).val()));
-                var isMinAllowedValid = !minAllowed.length || (qty >= parseFloat($(minAllowed).val()));
-                var isQtyIncrementsValid = !qtyIncrements.length || (qty % parseFloat($(qtyIncrements).val()) === 0);
-                if (isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid && qty > 0) {
-                    // remove indication of failed quantity
-                    $(element).removeClass('validation-failed');
-                } else {
-                    // show indication of failed quantity
-                    $(element).addClass('validation-failed');
-                }
-            }
-        },
-
-        /**
-         * This method disables the quantity input for the item containing the given element.
-         * @private
-         */
-        _skuOutOfStock: function(index, element) {
-            var qtyInput = this._getQtyInput(element);
-            qtyInput.prop('disabled', true);
-            qtyInput.addClass('disabled');
-        },
-
-        /**
-         * This method handles update of quantity on item previously failed for quantity.
-         * @private
-         */
-        _skuFailedQty: function(event) {
-            var inputQty = $(event.target);
-            var itemRow = inputQty.closest(this.options.itemSelector);
-            var failedQtyElement = itemRow.find(this.options.skuFailedQtySelector);
-
+        _updateItemQty: function(qtyInput) {
             // update hidden sku failed quantity element with changed quantity
-            if (failedQtyElement) {
-                $(failedQtyElement).val(inputQty.val());
-            }
+            this.element.find(this.options.skuFailedQtySelector).val(qtyInput.val());
         },
 
         /**
-         * This method returns the quantity input element for the item containing the given element.
+         * This method returns the quantity input element for this item.
          * @private
          */
-        _getQtyInput: function(element) {
-            var itemRow = $(element).closest(this.options.itemSelector);
-            return $(itemRow).find(this.options.qtyInputSelector);
+        _getQtyInput: function() {
+            return this.element.find(this.options.qtyInputSelector);
         }
     });
+
+    // override validator error messages, as errors displayed are currently included on page from server.
+    $.extend($.validator.messages, {
+        "required": "",
+        "validate-greater-than-zero": ""
+    });
+
 })(jQuery);

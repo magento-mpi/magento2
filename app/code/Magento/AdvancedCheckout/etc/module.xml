@@ -31,6 +31,7 @@
             <module name="Magento_Downloadable"/>
             <module name="Magento_Weee"/>
             <module name="Magento_Bundle" type="soft"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

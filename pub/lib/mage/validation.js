@@ -1132,6 +1132,20 @@
                 return valid;
             },
             'This is a required field.'
+        ],
+        'validate-item-quantity': [
+            function (value, element, params) {
+                // obtain values for validation
+                var qty = $.mage.parseNumber(value);
+
+                // validate quantity
+                var isMinAllowedValid = typeof params.minAllowed === 'undefined' || (qty >= $.mage.parseNumber(params.minAllowed));
+                var isMaxAllowedValid = typeof params.maxAllowed === 'undefined'  || (qty <= $.mage.parseNumber(params.maxAllowed));
+                var isQtyIncrementsValid = typeof params.qtyIncrements === 'undefined'  || (qty % $.mage.parseNumber(params.qtyIncrements) === 0);
+
+                return isMaxAllowedValid && isMinAllowedValid && isQtyIncrementsValid && qty > 0;
+            },
+            ''
         ]
     };
 

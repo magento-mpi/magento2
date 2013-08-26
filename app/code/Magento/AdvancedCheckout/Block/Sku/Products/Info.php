@@ -27,27 +27,6 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
     protected $_helper;
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Retrieve helper instance
      *
      * @return Magento_AdvancedCheckout_Helper_Data
