@@ -86,12 +86,20 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     public function dispatch()
     {
-        try {
-            $this->_getDispatcher()->dispatch();
-        } catch (Exception $e) {
-            $this->_errorProcessor->renderException($e);
+        if (!Mage::isInstalled()) {
+            Mage::app()->getResponse()
+                ->setRedirect(Mage::getBaseUrl() . '/install')
+                ->sendHeaders()
+                ->sendResponse();
         }
-        return $this;
+        else {
+            try {
+                $this->_getDispatcher()->dispatch();
+            } catch (Exception $e) {
+                $this->_errorProcessor->renderException($e);
+            }
+            return $this;
+        }
     }
 
     /**
