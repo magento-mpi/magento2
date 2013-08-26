@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Checkout
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../../../../../../../app/code/Mage/Widget/etc/widget.xsd ">
+
+    <widget id="cms_page_link" class="Mage_Cms_Block_Widget_Page_Link" translate="label description"
+            module="Mage_Cms" is_email_compatible="true" placeholder_image="Mage_Cms::images/widget_page_link.gif">
+        <label>CMS Page Link</label>
+        <description>Link to a CMS Page</description>
+        <parameter xsi:type="value_renderer" name="page_id" translate="label" visible="true" required="true"
+                   sort_order="10">
+            <label>CMS Page</label>
+            <renderer class="Mage_Adminhtml_Block_Cms_Page_Widget_Chooser">
+                <data>
+                    <button translate="open">
+                        <open>Select Page...</open>
+                    </button>
+                </data>
+            </renderer>
+        </parameter>
+        <parameter xsi:type="text" name="anchor_text" translate="label description">
+            <label>Anchor Custom Text</label>
+            <description>If empty, the Page Title will be used</description>
+            <depends>
+                <parameter name="show_pager" value="true" />
+            </depends>
+        </parameter>
+        <parameter name="template" xsi:type="select" visible="true" translate="label" >
+            <label>Template</label>
+            <option name="default" value="product/widget/link/link_block.phtml" selected="true" translate="label">
+                <label>Product Link Block Template</label>
+            </option>
+            <option name="link_inline" value="product/widget/link/link_inline.phtml" translate="label">
+                <label>Product Link Inline Template</label>
+            </option>
+        </parameter>
+        <container section="left_column" name="left">
+            <template name="default" value="list_default" />
+            <template name="names_only" value="list_names" />
+        </container>
+        <container section="main_content" name="content">
+            <template name="grid" value="default"/>
+            <template name="list" value="list"/>
+        </container>
+    </widget>
+    <widget id="enterprise_giftregistry_search" class="Enterprise_GiftRegistry_Block_Search_Widget_Form"
+            translate="label description" module="Enterprise_GiftRegistry">
+        <label>Gift Registry Search</label>
+        <description>Gift Registry Quick Search Form</description>
+        <parameter name="types" xsi:type="multiselect" source_model="Enterprise_GiftRegistry_Model_Source_Search" />
+    </widget>
+</widgets>

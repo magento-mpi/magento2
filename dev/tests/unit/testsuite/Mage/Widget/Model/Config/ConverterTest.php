@@ -12,55 +12,25 @@ class Mage_Widget_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
-    protected $_mapperMock;
+    /** @var  DOMDocument */
+    protected $_source;
+
+    /** @var  array */
+    protected $_targetArray;
 
     public function setUp()
     {
-        $factoryMock = $this->getMock(
-            'Magento_Simplexml_Config_Factory', array('create'), array(), '', false
+        $this->_model = new Mage_Widget_Model_Config_Converter();
+        $this->_source = new DOMDocument();
+        $this->_source->loadXML(
+            file_get_contents(__DIR__ . '/_files/widget.xml')
         );
-        $this->_mapperMock = $this->getMockBuilder('Mage_Widget_Model_Widget_Mapper')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $factoryMock->expects($this->any())->method('create')->will($this->returnValue(new Magento_Simplexml_Config()));
-        $this->_model = new Mage_Widget_Model_Config_Converter($factoryMock, $this->_mapperMock);
+        $this->_targetArray = include(__DIR__ . '/_files/widgetArray.php');
     }
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
-            . DIRECTORY_SEPARATOR . 'widget.xml';
-        $dom->loadXML(file_get_contents($xmlFile));
-
-        $this->_mapperMock->expects($this->once())->method('map')
-            ->will($this->returnValue('SUCCESS'));
-        $this->assertEquals('SUCCESS', $this->_model->convert($dom));
-    }
-
-
-    /**
-     * @param string $xmlData
-     * @dataProvider wrongXmlDataProvider
-     * @expectedException Exception
-     */
-    public function testThrowsExceptionWhenXmlHasWrongFormat($xmlData)
-    {
-        $dom = new DOMDocument();
-        $dom->loadXML($xmlData);
-        $this->_model->convert($dom);
-    }
-
-    /**
-     * @return array
-     */
-    public function wrongXmlDataProvider()
-    {
-        return array(
-            array(
-                '<?xml version="1.0"?><widgets>',
-            )
-        );
+        $result = $this->_model->convert($this->_source);
+        $this->assertEquals($this->_targetArray, $result);
     }
 }
