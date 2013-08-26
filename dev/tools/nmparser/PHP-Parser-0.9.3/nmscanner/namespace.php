@@ -17,6 +17,7 @@ class namespacer
     private $reservedKeyWords = array(
         'Abstract',
         'Interface',
+        'Class',
         'Array',
         'Exception',
         'Default',
