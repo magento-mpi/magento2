@@ -9,7 +9,8 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
 {
     /**
      * {@inheritdoc}
-     */
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function convert($source)
     {
         $widgets = array();
@@ -54,15 +55,22 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                         if (!isset($widgetArray['supported_containers'])) {
                             $widgetArray['supported_containers'] = array();
                         }
-                        $widgetArray['supported_containers'] = array_merge($widgetArray['supported_containers'],
-                            $this->_convertContainer($widgetSubNode));
+                        $widgetArray['supported_containers'] = array_merge(
+                            $widgetArray['supported_containers'],
+                            $this->_convertContainer($widgetSubNode)
+                        );
                         break;
-                    case "#text": break;
-                    case '#comment': break;
+                    case "#text": 
+                        break;
+                    case '#comment': 
+                        break;
                     default:
-                        throw new LogicException(sprintf("Unsupported child xml node '%s' found in the 'widget' node",
-                            $widgetSubNode->nodeName));
-                        break;
+                        throw new LogicException(
+                            sprintf(
+                                "Unsupported child xml node '%s' found in the 'widget' node",
+                                $widgetSubNode->nodeName
+                            )
+                        );
                 }
             }
             $widgets[$widgetId->nodeValue] = $widgetArray;
@@ -102,11 +110,12 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
     }
 
     /**
-     * Convert dom Parameter node to magneto array
+     * Convert dom Parameter node to Magento array
      *
      * @param DOMNode $source
      * @return array
      * @throws LogicException
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _convertParameter($source)
     {
@@ -124,7 +133,7 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                         break;
                 }
             }
-        } else if ($xsiType == 'select' || $xsiType == 'multiselect') {
+        } elseif ($xsiType == 'select' || $xsiType == 'multiselect') {
             $sourceModel = $sourceAttributes->getNamedItem('source_model');
             if (!is_null($sourceModel)) {
                 $parameter['source_model'] = $sourceModel->nodeValue;
@@ -154,13 +163,9 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
         }
         $visible = $sourceAttributes->getNamedItem('visible');
         if ($visible) {
-            if (((string)$visible->nodeValue) == 'false') {
-                $parameter['visible'] = '0';
-            } else {
-                $parameter['visible'] = '1';
-            }
+            $parameter['visible'] = $visible->nodeValue == 'true' ? true : false;
         } else {
-            $parameter['visible'] = '1';
+            $parameter['visible'] = true;
         }
         $required = $sourceAttributes->getNamedItem('required');
         if ($required) {
@@ -201,7 +206,7 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
     }
 
     /**
-     * Convert dom Depends node to magneto array
+     * Convert dom Depends node to Magento array
      *
      * @param DOMNode $source
      * @return array
@@ -215,8 +220,12 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                 continue;
             }
             if ($childNode->nodeName !== 'parameter') {
-                throw new LogicException(sprintf("Only 'parameter' node can be child of 'depends' node, %s found",
-                    $childNode->nodeName));
+                throw new LogicException(
+                    sprintf(
+                        "Only 'parameter' node can be child of 'depends' node, %s found",
+                        $childNode->nodeName
+                    )
+                );
             }
             $parameterAttributes = $childNode->attributes;
             $depends[$parameterAttributes->getNamedItem('name')->nodeValue] =
@@ -241,8 +250,12 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
                 continue;
             }
             if ($rendererSubNode->nodeName !== 'data') {
-                throw new LogicException(sprintf("Only 'data' node can be child of 'renderer' node, %s found",
-                    $rendererSubNode->nodeName));
+                throw new LogicException(
+                    sprintf(
+                        "Only 'data' node can be child of 'renderer' node, %s found",
+                        $rendererSubNode->nodeName
+                    )
+                );
             }
             $helperBlock['data'] = $this->_convertData($rendererSubNode);
         }
