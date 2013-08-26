@@ -26,7 +26,7 @@
         <item>
             <!-- MUST be refactored -->
             <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Magento_VersionsCms__widgets.css</path>
+            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Cms__widgets.css</path>
         </item>
         <item>
             <!-- MUST be refactored -->
@@ -55,11 +55,11 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Magento_Banner__widgets.css</path>
+            <path>dev/tests/functional/fixture/_testFiles/Enterprise_Banner__widgets.css</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Magento_CatalogEvent__widgets.css</path>
+            <path>dev/tests/functional/fixture/_testFiles/Enterprise_CatalogEvent__widgets.css</path>
         </item>
         <item>
             <word>enterprise</word>
