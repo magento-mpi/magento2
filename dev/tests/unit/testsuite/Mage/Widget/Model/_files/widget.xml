@@ -8,16 +8,18 @@
  */
 -->
 
-<widgets>
+<widgets xmlns="http://www.magentocommerce.com/widget"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../../../../../../app/code/Mage/Widget/etc/widget.xsd">
     <widget id="sales_widget_guestfrom" class="Mage_Sales_Block_Widget_Guest_Form"
             translate="label description" module="Mage_Sales" is_email_compatible="true">
         <label>Orders and Returns</label>
         <description>Orders and Returns Search Form</description>
-        <parameter name="title" type="text" translate="label" visible="false">
+        <parameter name="title" xsi:type="text" translate="label" visible="false">
             <label>Anchor Custom Title</label>
         </parameter>
         <!-- parameter: option -->
-        <parameter name="template" type="select" visible="false">
+        <parameter name="template" xsi:type="select" visible="false">
             <option name="default" translate="label" value="hierarchy/widget/link/link_block.phtml"
                     selected="true">
                 <label>CMS Page Link Block Template</label>
@@ -27,13 +29,13 @@
             </option>
         </parameter>
         <!-- parameter source model -->
-        <parameter name="link_display" type="select" translate="label_description" visible="true"
+        <parameter name="link_display" xsi:type="select" translate="label_description" visible="true"
                    sort_order="10" source_model="Mage_Backend_Model_Config_Source_Yesno">
             <label>Display a Link to Loading a Spreadsheet</label>
             <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
         </parameter>
         <!-- parameter: depends -->
-        <parameter name="link_text" type="text" translate="label description value" required="true"
+        <parameter name="link_text" xsi:type="text" translate="label description value" required="true"
                    visible="true" sort_order="20" value="Load a list of SKUs">
             <label>Link Text</label>
             <description>The text of the link to the My Account &amp;gt; Order by SKU page</description>
@@ -42,7 +44,7 @@
             </depends>
         </parameter>
         <!-- value_renderer -->
-        <parameter name="id_path" type="value_renderer" visible="true" required="true" sort_order="10" translate="label">
+        <parameter name="id_path" xsi:type="value_renderer" visible="true" required="true" sort_order="10" translate="label">
             <label>Product</label>
             <renderer class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
                 <data>

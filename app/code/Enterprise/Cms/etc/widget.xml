@@ -11,8 +11,7 @@
 -->
 <widgets xmlns="http://www.magentocommerce.com/widget"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd ">
-
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
     <widget id="cms_hierarchy_node" class="Enterprise_Cms_Block_Widget_Node" is_email_compatible="true"
             translate="label description" module="Enterprise_Cms"
             placeholder_image="Enterprise_Cms::widget_node.gif">

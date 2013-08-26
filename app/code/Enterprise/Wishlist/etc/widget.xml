@@ -11,8 +11,7 @@
 -->
 <widgets xmlns="http://www.magentocommerce.com/widget"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd ">
-
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
     <widget id="wishlist_search" class="Enterprise_Wishlist_Block_Widget_Search"
             translate="label description" module="Enterprise_Wishlist" is_email_compatible="false">
         <label>Wishlist Search</label>
