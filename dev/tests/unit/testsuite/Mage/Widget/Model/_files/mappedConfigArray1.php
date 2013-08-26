@@ -13,7 +13,7 @@ return array(
     ),
     'name' => 'CMS Page Link',
     'description' => 'Link to a CMS Page',
-    'is_email_compatible' => 'true',
+    'is_email_compatible' => '1',
     'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
     'parameters' => array(
         'page_id' => array(

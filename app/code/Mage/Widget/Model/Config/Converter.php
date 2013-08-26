@@ -26,7 +26,7 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
             $widgetArray['@']['module'] = $widgetAttributes->getNamedItem('module')->nodeValue;
             $isEmailCompatible = $widgetAttributes->getNamedItem('is_email_compatible');
             if (!is_null($isEmailCompatible)) {
-                $widgetArray['is_email_compatible'] = $isEmailCompatible->nodeValue;
+                $widgetArray['is_email_compatible'] = ($isEmailCompatible->nodeValue == 'true');
             }
             $placeholderImage = $widgetAttributes->getNamedItem('placeholder_image');
             if (!is_null($placeholderImage)) {
