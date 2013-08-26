@@ -101,7 +101,7 @@ class addSlash
                                 } else {
                                     if ($braceStarted == false && $starBraceCheck == true) {
                                         $parsedLine = $this->scanClass($line, $parsedLine, $file, true);
-                                    } else {
+                                        } else {
                                         $parsedLine[] = $line;
                                     }
                                 }
@@ -142,7 +142,7 @@ class addSlash
                 ) == '' || $val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface' || $val === 'extends' || $val === 'implements'
                 || $val=='{'  || $val=='}'  || $val=='{}' ) {
                 $parse = true;
-                if ($val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface') {
+                if ($val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface'||$val=='{'  || $val=='}'  || $val=='{}') {
                     $this->reserveCheck = true;
 
                 } else {
@@ -159,26 +159,32 @@ class addSlash
 
             if ($parse) {
                 $vals = explode(",", $value);
+                print_r($vals);
+
                 $multipleImplements = false;
                 if (count($vals) > 1) {
                     $multipleImplements = true;
                 }
                 foreach ($vals as $val) {
                     //fix for the global scanner
-                    if ($this->reserveCheck) {
-                        $string = $string . trim($val) . " ";
-                    } else {
-                        $newClass = str_replace("\\\\", "\\", $val);
-                        $newClass = trim(str_replace("\\", " ", $newClass));
-                        $newClass = str_replace(" ", "\\", $newClass);
-                        if ($multipleImplements && trim($val) != trim($vals[count($vals) - 1])) {
-                            $string = $string . "\\".$newClass . ",";
+                    $val=trim($val);
+                    if(!empty($val)){
+                        if ($this->reserveCheck) {
+                            $string = $string . trim($val) . " ";
                         } else {
-                            $string = $string . "\\".$newClass . " ";
+                            $newClass = str_replace("\\\\", "\\", $val);
+                            $newClass = trim(str_replace("\\", " ", $newClass));
+                            $newClass = str_replace(" ", "\\", $newClass);
+                            if ($multipleImplements && trim($val) != trim($vals[count($vals) - 1])) {
+                                $string = $string . "\\".$newClass . ",";
+                            } else {
+                                $string = $string . "\\".$newClass . " ";
+                            }
+
+
                         }
-
-
                     }
+
                 }
             }
 
