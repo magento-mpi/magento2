@@ -44,7 +44,7 @@ class Mage_Widget_Model_Widget_Mapper
         $widget['name'] = $widgetXml['label'][0];
         $widget['description'] = $widgetXml['description'][0];
         if (isset($widgetXml['@']['is_email_compatible'])) {
-            $widget['is_email_compatible'] = $widgetXml['@']['is_email_compatible'];
+            $widget['is_email_compatible'] = ($widgetXml['@']['is_email_compatible'] == 'true') ? 1 : 0;
         }
         if (isset($widgetXml['@']['placeholder_image'])) {
             $widget['placeholder_image'] = $widgetXml['@']['placeholder_image'];

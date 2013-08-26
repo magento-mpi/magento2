@@ -43,6 +43,15 @@ class Mage_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertInternalType('array', $settings['widget_placeholders']);
 
-        $this->assertStringStartsWith('http://localhost/', $settings['widget_window_url']);
+        $this->assertStringStartsWith('http://localhost/index.php/key', $settings['widget_window_url']);
+    }
+
+    public function testGetWidgetWindowUrl()
+    {
+        $config = new Magento_Object(array('widget_filters' =>  array('is_email_compatible' => 1)));
+
+        $url = $this->_model->getWidgetWindowUrl($config);
+
+        $this->assertStringStartsWith('http://localhost/index.php/skip_widgets/', $url);
     }
 }
