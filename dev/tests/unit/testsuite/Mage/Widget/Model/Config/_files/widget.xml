@@ -11,8 +11,7 @@
 -->
 <widgets xmlns="http://www.magentocommerce.com/widget"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../../../../../../../app/code/Mage/Widget/etc/widget.xsd ">
-
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../../../../../../../app/code/Mage/Widget/etc/widget.xsd">
     <widget id="cms_page_link" class="Mage_Cms_Block_Widget_Page_Link" translate="label description"
             module="Mage_Cms" is_email_compatible="true" placeholder_image="Mage_Cms::images/widget_page_link.gif">
         <label>CMS Page Link</label>

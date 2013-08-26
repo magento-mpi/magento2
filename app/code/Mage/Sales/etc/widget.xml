@@ -11,8 +11,7 @@
 -->
 <widgets xmlns="http://www.magentocommerce.com/widget"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../Widget/etc/widget.xsd ">
-
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
     <widget id="sales_widget_guestfrom" class="Mage_Sales_Block_Widget_Guest_Form"
             translate="label description" module="Mage_Sales" is_email_compatible="true">
         <label>Orders and Returns</label>

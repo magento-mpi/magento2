@@ -11,8 +11,7 @@
 -->
 <widgets xmlns="http://www.magentocommerce.com/widget"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd ">
-
+         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
     <widget id="order_by_sku" class="Enterprise_Checkout_Block_Widget_Sku" translate="label description"
             module="Enterprise_Checkout" is_email_compatible="true" >
         <label>Order by SKU</label>
