@@ -18,6 +18,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected static $_existingClasses = array();
+    protected static $_existingNamespaceViolations = array();
 
     /**
      * @param string $file
@@ -59,6 +60,8 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $this->_collectResourceHelpersPhp($contents, $classes);
 
         $this->_assertClassesExist($classes);
+
+        $this->_assertValidNamespace($classes);
     }
 
     /**
@@ -170,6 +173,44 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         }
         if ($isBug) {
             $this->markTestIncomplete('Bug MAGE-4763');
+        }
+    }
+
+    /**
+     * Check whether specified classes correspond to a file according PSR-0 standard
+     *
+     * Suppressing "unused variable" because of the "catch" block
+     *
+     * @param array $classes
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    protected function _assertValidNamespace($classes)
+    {
+        $invalidNamespaces = array('Mage_', 'Enterprise_');
+        $exceptions = array('Enterprise_Tag', 'Magento_Enterprise');
+        if (!$classes) {
+            return;
+        }
+        $badClasses = array();
+        foreach ($classes as $class) {
+            try {
+                foreach ($invalidNamespaces as $invalidNamespace) {
+                    if(substr_count($class, $invalidNamespace) != 0){
+                        if(substr_count($class, $exceptions[0]) == 0
+                            && substr_count($class, $exceptions[1]) == 0){
+                            if(!isset(self::$_existingNamespaceViolations[$class])){
+                                self::$_existingNamespaceViolations[$class] = 1;
+                                $this->assertTrue(false);
+                            }
+                        }
+                    }
+                }
+            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+                $badClasses[] = $class;
+            }
+        }
+        if ($badClasses) {
+            $this->fail("These usages of classes have invalid vendor name from \"('Mage_', 'Enterprise_')\" as root namespaces: \n" . implode("\n", $badClasses));
         }
     }
 }
