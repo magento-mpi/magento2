@@ -298,7 +298,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     /**
      * Load widget XML config and merge with theme widget config
      *
-     * @return Magento_Simplexml_Element|null
+     * @return array|null
      */
     public function getWidgetConfig()
     {

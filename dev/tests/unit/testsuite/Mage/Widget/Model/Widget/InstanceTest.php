@@ -94,12 +94,15 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         );
         $this->_widgetModelMock->expects($this->once())->method('getWidgetByClassType')
             ->will($this->returnValue($widget));
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'widget.xml';
+        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
+            . DIRECTORY_SEPARATOR . 'widget.xml';
         $this->_viewFileSystemMock->expects($this->once())->method('getFilename')
             ->will($this->returnValue($xmlFile));
-        $themeConfigFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'mappedConfigArrayAll.php';
+        $themeConfigFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
+            . DIRECTORY_SEPARATOR . 'mappedConfigArrayAll.php';
         $themeConfig = include $themeConfigFile;
-        $expectedConfigFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'mappedConfigArray1.php';
+        $expectedConfigFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
+            . DIRECTORY_SEPARATOR . 'mappedConfigArray1.php';
         $expectedConfig = include $expectedConfigFile;
         $this->_readerMock->expects($this->once())->method('readFile')->with($this->equalTo($xmlFile))
             ->will($this->returnValue($themeConfig));
