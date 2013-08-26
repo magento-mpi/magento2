@@ -37,7 +37,7 @@
                 </observers>
             </page_block_html_topmenu_gethtml_before>
         </events>
-        <enterprise_cms>
+        <magento_versionscms>
             <hierarchy>
                 <menu>
                     <layouts>
@@ -65,7 +65,7 @@
                     </layouts>
                 </menu>
             </hierarchy>
-        </enterprise_cms>
+        </magento_versionscms>
     </global>
     <frontend>
         <events>
@@ -161,7 +161,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_cms before="Magento_Adminhtml">Magento_VersionsCms_Adminhtml</enterprise_cms>
+                        <magento_versionscms before="Magento_Adminhtml">Magento_VersionsCms_Adminhtml</magento_versionscms>
                     </modules>
                 </args>
             </adminhtml>

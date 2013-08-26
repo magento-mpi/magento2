@@ -8,8 +8,8 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_versionscms_hierarchy_pagegrid>
+    <adminhtml_cms_hierarchy_pagegrid>
         <remove name="root"/>
         <block type="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="1"/>
-    </adminhtml_versionscms_hierarchy_pagegrid>
+    </adminhtml_cms_hierarchy_pagegrid>
 </layout>
