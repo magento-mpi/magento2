@@ -256,17 +256,14 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      */
     protected function _saveFatalErrorReport($reportData)
     {
-        // TODO refactor method using Varien_Io_File class functions.
-        /** Directory for API related reports. */
-        /** @see Error_Processor::__construct() */
+        $file = new Varien_Io_File();
+
         $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
-        if (!file_exists($reportDir)) {
-            @mkdir($reportDir, 0777, true);
-        }
+        $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = $reportDir . DS . $reportId;
-        @file_put_contents($reportFile, serialize($reportData));
-        @chmod($reportFile, 0777);
+        $file->write($reportFile, serialize($reportData), 0777);
+
         return $this;
     }
 }
