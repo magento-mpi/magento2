@@ -95,7 +95,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             </arguments>'
         );
 
-        foreach($methods as $method) {
+        foreach ($methods as $method) {
             $result[] = array($method, $inputData[0], false);
             $result[] = array($method, $inputData[1], true);
             $result[] = array($method, $inputData[2], true);

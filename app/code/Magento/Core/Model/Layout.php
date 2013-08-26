@@ -585,8 +585,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     {
         if (isset($argument->value)) {
             $value = $argument->value;
-        }
-        else {
+        } else {
             $value = $argument;
         }
         return (string)$value;

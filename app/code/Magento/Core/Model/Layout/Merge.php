@@ -396,7 +396,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Get layout updates as Magento_Core_Model_Layout_Element object
      *
-     * @return Magento_Core_Model_Layout_Element
+     * @return SimpleXMLElement
      */
     public function asSimplexml()
     {
