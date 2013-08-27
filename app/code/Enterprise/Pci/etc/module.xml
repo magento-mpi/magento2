@@ -12,8 +12,8 @@
         <sequence>
             <module name="Magento_Adminhtml"/>
             <module name="Magento_Customer"/>
-	    <module name="Magento_Api"/>
-            <modele name="Mage_User"/>
+            <module name="Magento_Api"/>
+            <module name="Mage_User"/>
         </sequence>
         <depends>
             <module name="Magento_Adminhtml" type="hard"/>
