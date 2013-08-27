@@ -12,7 +12,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
     /**
      * @var string REST URL base path
      */
-    const REST_BASE_PATH = '/webapi/rest/';
+    const REST_BASE_PATH = '/rest/';
 
     /**
      * @var array JSON Error code to error message mapping

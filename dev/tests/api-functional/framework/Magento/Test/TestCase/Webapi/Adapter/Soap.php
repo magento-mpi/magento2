@@ -9,7 +9,7 @@
  */
 class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase_Webapi_AdapterInterface
 {
-    const WSDL_BATH_PATH = '/webapi/soap?wsdl=1';
+    const WSDL_BASE_PATH = '/soap?wsdl=1';
 
     /**
      * SOAP client initialized with different WSDLs.
@@ -93,7 +93,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
         //TODO: This may change since same resource of multiple versions may be allowed after namespace changes
         ksort($services);
         /** TESTS_BASE_URL is initialized in PHPUnit configuration */
-        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BATH_PATH . '&services=';
+        $wsdlUrl = rtrim(TESTS_BASE_URL, '/') . self::WSDL_BASE_PATH . '&services=';
         $wsdlResourceArray = array();
         foreach ($services as $serviceName) {
             $wsdlResourceArray[] = $serviceName;
