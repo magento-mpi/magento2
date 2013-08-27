@@ -15,16 +15,16 @@
             <module name="Magento_Sales"/>
         </sequence>
         <depends>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Tax" type="hard"/>
-            <module name="Magento_Sales" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Directory" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Bundle" type="hard"/>
-            <module name="Magento_SalesRule" type="hard"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Tax"/>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Bundle"/>
+            <module name="Magento_SalesRule"/>
         </depends>
     </module>
 </config>

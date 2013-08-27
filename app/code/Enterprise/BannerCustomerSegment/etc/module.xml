@@ -14,9 +14,9 @@
             <module name="Enterprise_CustomerSegment"/>
         </sequence>
         <depends>
-            <module name="Enterprise_Banner" type="hard"/>
-            <module name="Enterprise_CustomerSegment" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Enterprise_Banner"/>
+            <module name="Enterprise_CustomerSegment"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>

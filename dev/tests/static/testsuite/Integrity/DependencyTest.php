@@ -637,7 +637,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
             foreach ($module[0]->depends->children() as $dependency) {
                 /** @var SimpleXMLElement $dependency */
-                $type = ((string)$dependency->attributes()->type == self::TYPE_SOFT) ? self::TYPE_SOFT
+                $type = (isset($dependency['type']) && (string)$dependency['type'] == self::TYPE_SOFT) ? self::TYPE_SOFT
                     : self::TYPE_HARD;
                 if ($dependency->getName() == 'module') {
                     self::_addDependencies($moduleName, $type, self::MAP_TYPE_DECLARED,

@@ -16,13 +16,13 @@
             <module name="Enterprise_GiftCard"/>
         </sequence>
         <depends>
-            <module name="Magento_Bundle" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Downloadable" type="hard"/>
-            <module name="Enterprise_GiftCard" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Bundle"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Downloadable"/>
+            <module name="Enterprise_GiftCard"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>

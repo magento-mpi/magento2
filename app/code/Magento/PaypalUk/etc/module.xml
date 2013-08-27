@@ -16,11 +16,11 @@
             <module name="Magento_Paypal"/>
         </sequence>
         <depends>
-            <module name="Magento_Checkout" type="hard"/>
-            <module name="Magento_Paypal" type="hard"/>
-            <module name="Magento_Payment" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Checkout"/>
+            <module name="Magento_Paypal"/>
+            <module name="Magento_Payment"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Page"/>
             <module name="Magento_Catalog" type="soft"/>
         </depends>
     </module>

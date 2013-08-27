@@ -14,10 +14,10 @@
             <module name="Magento_SalesRule"/>
         </sequence>
         <depends>
-            <module name="Enterprise_Banner" type="hard"/>
-            <module name="Enterprise_Reminder" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Enterprise_Banner"/>
+            <module name="Enterprise_Reminder"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>

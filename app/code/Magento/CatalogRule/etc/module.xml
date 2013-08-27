@@ -15,13 +15,13 @@
             <module name="Magento_Customer"/>
         </sequence>
         <depends>
-            <module name="Magento_Rule" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Index" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Rule"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Eav"/>
         </depends>
     </module>
 </config>

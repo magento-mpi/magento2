@@ -13,14 +13,14 @@
             <module name="Magento_Catalog"/>
         </sequence>
         <depends>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Bundle" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Index" type="hard"/>
-            <module name="Magento_Sales" type="hard"/>
-            <module name="Magento_CatalogSearch" type="hard"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Bundle"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Sales"/>
+            <module name="Magento_CatalogSearch"/>
             <module name="Magento_Adminhtml" type="soft"/>
         </depends>
     </module>

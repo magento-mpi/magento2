@@ -13,15 +13,15 @@
             <module name="Magento_Core"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Enterprise_WebsiteRestriction" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Reports" type="hard"/>
-            <module name="Magento_Wishlist" type="hard"/>
-            <module name="Enterprise_Banner" type="hard"/>
-            <module name="Magento_Page" type="hard"/>
-            <module name="Enterprise_TargetRule" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Enterprise_WebsiteRestriction"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Enterprise_Banner"/>
+            <module name="Magento_Page"/>
+            <module name="Enterprise_TargetRule"/>
         </depends>
     </module>
 </config>

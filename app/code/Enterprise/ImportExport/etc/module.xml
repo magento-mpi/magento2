@@ -13,16 +13,16 @@
             <module name="Magento_ImportExport"/>
         </sequence>
         <depends>
-            <module name="Magento_ImportExport" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Index" type="hard"/>
-            <module name="Magento_Cron" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Enterprise_Reward" type="hard"/>
-            <module name="Enterprise_CustomerBalance" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_ImportExport"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Cron"/>
+            <module name="Magento_Customer"/>
+            <module name="Enterprise_Reward"/>
+            <module name="Enterprise_CustomerBalance"/>
+            <module name="Magento_Eav"/>
         </depends>
     </module>
 </config>

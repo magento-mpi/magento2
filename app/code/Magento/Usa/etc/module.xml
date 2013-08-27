@@ -14,12 +14,12 @@
             <module name="Magento_Shipping"/>
         </sequence>
         <depends>
-            <module name="Magento_Shipping" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Directory" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Paypal" type="hard"/>
+            <module name="Magento_Shipping"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Paypal"/>
         </depends>
     </module>
 </config>

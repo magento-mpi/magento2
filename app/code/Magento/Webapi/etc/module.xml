@@ -15,11 +15,11 @@
             <module name="Magento_Backend"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Oauth" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Oauth"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Catalog"/>
         </depends>
     </module>
 </config>

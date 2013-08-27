@@ -15,9 +15,9 @@
             <module name="Enterprise_AdminGws"/>
         </sequence>
         <depends>
-            <module name="Enterprise_Reward" type="hard"/>
-            <module name="Enterprise_AdminGws" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Enterprise_Reward"/>
+            <module name="Enterprise_AdminGws"/>
+            <module name="Magento_Core"/>
             <module name="Magento_Tag" type="soft"/>
         </depends>
     </module>

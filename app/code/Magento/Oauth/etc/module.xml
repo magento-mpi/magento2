@@ -14,11 +14,11 @@
             <module name="Magento_User"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Page"/>
         </depends>
     </module>
 </config>

@@ -13,9 +13,9 @@
             <module name="Enterprise_Enterprise"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Core"/>
             <module name="Magento_AdminNotification" type="soft"/>
         </depends>
     </module>

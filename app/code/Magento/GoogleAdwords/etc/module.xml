@@ -13,8 +13,8 @@
             <module name="Magento_Checkout"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Sales"/>
         </depends>
     </module>
 </config>

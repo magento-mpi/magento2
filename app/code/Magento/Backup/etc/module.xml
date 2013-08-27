@@ -13,10 +13,10 @@
             <module name="Magento_Core"/>
         </sequence>
         <depends>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Cron" type="hard"/>
-            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Cron"/>
+            <module name="Magento_Index"/>
         </depends>
     </module>
 </config>

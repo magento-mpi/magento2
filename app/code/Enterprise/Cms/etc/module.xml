@@ -16,14 +16,14 @@
             <module name="Magento_User"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Cms" type="hard"/>
-            <module name="Magento_Widget" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_User" type="hard"/>
-            <module name="Enterprise_Enterprise" type="hard"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_User"/>
+            <module name="Enterprise_Enterprise"/>
             <module name="Magento_Page" type="soft"/>
         </depends>
     </module>

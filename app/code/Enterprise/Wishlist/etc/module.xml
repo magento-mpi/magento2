@@ -13,18 +13,18 @@
             <module name="Magento_Wishlist"/>
         </sequence>
         <depends>
-            <module name="Magento_Wishlist" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Checkout" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Rss" type="hard"/>
-            <module name="Enterprise_Checkout" type="hard"/>
-            <module name="Magento_Widget" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Checkout"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Rss"/>
+            <module name="Enterprise_Checkout"/>
+            <module name="Magento_Widget"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogInventory"/>
             <module name="Magento_Reports" type="soft"/>
             <module name="Magento_Page" type="soft"/>
             <module name="Magento_Persistent" type="soft"/>

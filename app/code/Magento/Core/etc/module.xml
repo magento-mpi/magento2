@@ -10,29 +10,29 @@
 <config>
     <module name="Magento_Core" version="1.6.0.15" active="true">
         <depends>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Directory" type="hard"/>
-            <module name="Magento_Index" type="hard"/>
-            <module name="Magento_Cron" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Api" type="hard"/>
-            <module name="Magento_Newsletter" type="hard"/>
-            <module name="Magento_Cms" type="hard"/>
-            <module name="Magento_Theme" type="hard"/>
-            <module name="Magento_AdminNotification" type="hard"/>
-            <module name="Magento_CatalogInventory" type="hard"/>
-            <module name="Magento_CatalogRule" type="hard"/>
-            <module name="Magento_CatalogSearch" type="hard"/>
-            <module name="Magento_CurrencySymbol" type="hard"/>
-            <module name="Magento_GiftMessage" type="hard"/>
-            <module name="Magento_GoogleAnalytics" type="hard"/>
-            <module name="Magento_GoogleCheckout" type="hard"/>
-            <module name="Magento_ImportExport" type="hard"/>
-            <module name="Magento_PaypalUk" type="hard"/>
-            <module name="Magento_ProductAlert" type="hard"/>
-            <module name="Magento_SalesRule" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
-            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Cron"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Api"/>
+            <module name="Magento_Newsletter"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Theme"/>
+            <module name="Magento_AdminNotification"/>
+            <module name="Magento_CatalogInventory"/>
+            <module name="Magento_CatalogRule"/>
+            <module name="Magento_CatalogSearch"/>
+            <module name="Magento_CurrencySymbol"/>
+            <module name="Magento_GiftMessage"/>
+            <module name="Magento_GoogleAnalytics"/>
+            <module name="Magento_GoogleCheckout"/>
+            <module name="Magento_ImportExport"/>
+            <module name="Magento_PaypalUk"/>
+            <module name="Magento_ProductAlert"/>
+            <module name="Magento_SalesRule"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Page"/>
             <extension name="spl"/>
             <extension name="dom"/>
             <extension name="simplexml"/>

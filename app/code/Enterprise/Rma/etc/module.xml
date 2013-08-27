@@ -14,21 +14,21 @@
             <module name="Magento_Sales"/>
         </sequence>
         <depends>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Sales" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Eav" type="hard"/>
-            <module name="Enterprise_Eav" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Tax" type="hard"/>
-            <module name="Magento_Shipping" type="hard"/>
-            <module name="Magento_Usa" type="hard"/>
-            <module name="Magento_Page" type="hard"/>
-            <module name="Magento_Payment" type="hard"/>
-            <module name="Magento_Directory" type="hard"/>
-            <module name="Enterprise_Enterprise" type="hard"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Eav"/>
+            <module name="Enterprise_Eav"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Tax"/>
+            <module name="Magento_Shipping"/>
+            <module name="Magento_Usa"/>
+            <module name="Magento_Page"/>
+            <module name="Magento_Payment"/>
+            <module name="Magento_Directory"/>
+            <module name="Enterprise_Enterprise"/>
             <module name="Enterprise_Customer" type="soft"/>
         </depends>
     </module>

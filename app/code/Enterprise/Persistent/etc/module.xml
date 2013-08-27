@@ -13,13 +13,13 @@
             <module name="Magento_Persistent"/>
         </sequence>
         <depends>
-            <module name="Magento_Persistent" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Wishlist" type="hard"/>
-            <module name="Magento_Reports" type="hard"/>
-            <module name="Magento_Catalog" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Persistent"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>

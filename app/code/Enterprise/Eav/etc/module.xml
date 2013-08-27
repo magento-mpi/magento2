@@ -14,9 +14,9 @@
             <module name="Magento_Adminhtml"/>
         </sequence>
         <depends>
-            <module name="Magento_Eav" type="hard"/>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Core"/>
         </depends>
     </module>
 </config>

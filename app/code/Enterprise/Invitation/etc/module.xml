@@ -16,12 +16,12 @@
             <module name="Enterprise_WebsiteRestriction"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml" type="hard"/>
-            <module name="Magento_Customer" type="hard"/>
-            <module name="Magento_Reports" type="hard"/>
-            <module name="Magento_Core" type="hard"/>
-            <module name="Magento_Backend" type="hard"/>
-            <module name="Enterprise_Logging" type="hard"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Reports"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Enterprise_Logging"/>
         </depends>
     </module>
 </config>
