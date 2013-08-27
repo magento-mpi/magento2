@@ -35,7 +35,7 @@ class Magento_ImportExport_Block_Adminhtml_Form_After extends Magento_Backend_Bl
     /**
      * Get current operation
      *
-     * @return Enterprise_ImportExport_Model_Scheduled_Operation
+     * @return Magento_Core_Model_Abstract
      */
     public function getOperation()
     {
