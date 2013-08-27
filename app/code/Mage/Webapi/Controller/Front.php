@@ -43,6 +43,12 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
 
+    /** @var Mage_Core_Model_StoreManagerInterface */
+    protected $_storeManager;
+
+    /** @var Mage_Core_Model_App_State */
+    protected $_appState;
+
     /**
      * Initialize dependencies.
      *
@@ -57,13 +63,17 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
         Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory,
         Mage_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_App_State $appState
     ) {
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_dispatcherFactory = $dispatcherFactory;
         $this->_application = $application;
         $this->_routeFactory = $routeFactory;
         $this->_errorProcessor = $errorProcessor;
+        $this->_storeManager = $storeManager;
+        $this->_appState = $appState;
     }
 
     /**
@@ -86,13 +96,12 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     public function dispatch()
     {
-        if (!Mage::isInstalled()) {
-            Mage::app()->getResponse()
-                ->setRedirect(Mage::getBaseUrl() . '/install')
+        if (!$this->_appState->isInstalled()) {
+            $this->_application->getResponse()
+                ->setRedirect($this->_storeManager->getStore()->getBaseUrl() . 'install')
                 ->sendHeaders()
                 ->sendResponse();
-        }
-        else {
+        } else {
             try {
                 $this->_getDispatcher()->dispatch();
             } catch (Exception $e) {
