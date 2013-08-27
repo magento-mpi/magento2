@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
-    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     protected $_template = 'form/renderer/element.phtml';
 

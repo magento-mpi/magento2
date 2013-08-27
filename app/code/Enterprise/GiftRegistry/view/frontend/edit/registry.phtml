@@ -68,7 +68,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
         <?php if ($this->useRegionUpdater($data)) : ?>
             <script type="text/javascript">
                 (function($) {
-                    head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+                    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
                         function() {
                             $('#<?php echo $field ?>').regionUpdater({
                                 optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
@@ -77,7 +77,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                                 isRegionRequired: false,
                                 isZipRequired: false,
                                 isCountryRequired: true,
-                                regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>
+                                regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>
                             });
                         });
                 })(jQuery);

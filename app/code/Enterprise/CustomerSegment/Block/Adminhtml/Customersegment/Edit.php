@@ -15,7 +15,7 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Initialize form

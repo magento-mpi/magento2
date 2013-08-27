@@ -9,7 +9,7 @@
  */
 
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid extends
-    Mage_Adminhtml_Block_Widget_Grid
+    Magento_Adminhtml_Block_Widget_Grid
 {
     protected function _construct()
     {
@@ -52,7 +52,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
-                'options'  => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'  => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
             ));
         }
 

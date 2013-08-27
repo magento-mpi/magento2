@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
-    extends Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
     /**
      * Initialize grid, set grid Id

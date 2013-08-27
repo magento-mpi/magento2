@@ -16,7 +16,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Magento_Backend_Block_Widget_Grid_Container
 {
     public function _construct()
     {

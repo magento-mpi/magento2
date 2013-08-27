@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_TARGETRULE_CONFIG    = 'catalog/enterprise_targetrule/';
 
@@ -25,7 +25,7 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve Maximum Number of Products in Product List
      *
      * @param int $type product list type
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return int
      */
     public function getMaximumNumberOfProduct($type)
@@ -51,7 +51,7 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
      * Show Related/Upsell/Cross-Sell Products behavior
      *
      * @param int $type
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return int
      */
     public function getShowProducts($type)
@@ -94,7 +94,7 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve Rotation Mode in Product List
      *
      * @param int $type product list type
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return int
      */
     public function getRotationMode($type)

@@ -6,4 +6,4 @@
  * @license    {license_link}
  */
 
-Mage::getModel('Mage_Bootstrap_ModelFactory');
+Mage::getModel('Magento_Bootstrap_ModelFactory');

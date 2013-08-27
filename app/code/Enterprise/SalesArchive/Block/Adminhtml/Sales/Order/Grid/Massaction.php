@@ -12,7 +12,7 @@
  *  Add sales archiving to order's grid view massaction
  *  @deprecated
  */
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction extends Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction extends Magento_Adminhtml_Block_Widget_Grid_Massaction_Abstract
 {
     /**
      * Before rendering html operations

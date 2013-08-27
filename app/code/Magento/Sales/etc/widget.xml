@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Sales
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<widgets>
+    <sales_widget_guestfrom type="Magento_Sales_Block_Widget_Guest_Form" translate="name description">
+        <name>Orders and Returns</name>
+        <description>Orders and Returns Search Form</description>
+        <is_email_compatible>1</is_email_compatible>
+        <parameters>
+            <title translate="label">
+                <visible>0</visible>
+                <label>Anchor Custom Title</label>
+                <type>text</type>
+            </title>
+            <template>
+                <values>
+                    <default_template translate="label">
+                        <label>Default Template</label>
+                        <value>widget/guest/form.phtml</value>
+                    </default_template>
+                </values>
+            </template>
+        </parameters>
+        <supported_containers>
+            <left_column>
+                <container_name>left</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </left_column>
+            <right_column>
+                <container_name>right</container_name>
+                <template>
+                    <default>default_template</default>
+                </template>
+            </right_column>
+        </supported_containers>
+    </sales_widget_guestfrom>
+</widgets>

@@ -16,7 +16,7 @@
  * @package    Enterprise_CatalogEvent
  */
 class Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     protected $_template = 'form/renderer/fieldset/element.phtml';
 

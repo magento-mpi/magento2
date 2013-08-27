@@ -12,13 +12,13 @@
  * Product attribute value condition
  */
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
-    extends Mage_Rule_Model_Condition_Product_Abstract
+    extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes');
@@ -96,11 +96,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
     /**
      * Get product attribute object
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**

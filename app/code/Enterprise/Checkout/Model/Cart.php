@@ -18,7 +18,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_Model_Cart_Interface
+class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
 {
     /**
      * Context of the cart - admin order
@@ -43,14 +43,14 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Quote instance
      *
-     * @var Mage_Sales_Model_Quote|null
+     * @var Magento_Sales_Model_Quote|null
      */
     protected $_quote;
 
     /**
      * Customer model instance
      *
-     * @var Mage_Customer_Model_Customer|null
+     * @var Magento_Customer_Model_Customer|null
      */
     protected $_customer;
 
@@ -78,7 +78,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Cart instance
      *
-     * @var Mage_Checkout_Model_Cart
+     * @var Magento_Checkout_Model_Cart
      */
     protected $_cart;
 
@@ -92,7 +92,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Instance of current store
      *
-     * @var null|Mage_Core_Model_Store
+     * @var null|Magento_Core_Model_Store
      */
     protected $_currentStore = null;
 
@@ -111,7 +111,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Setter for $_customer
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Magento_Customer_Model_Customer $customer
      * @return Enterprise_Checkout_Model_Cart
      */
     public function setCustomer($customer)
@@ -126,7 +126,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Getter for $_customer
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
@@ -136,7 +136,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Return quote store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -146,7 +146,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Return current active quote for specified customer
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -154,7 +154,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             return $this->_quote;
         }
 
-        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote');
 
         if ($this->getCustomer() !== null) {
             $this->_quote
@@ -168,10 +168,10 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Sets different quote model
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -180,15 +180,15 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Return quote instance depending on current area
      *
-     * @return Mage_Adminhtml_Model_Session_Quote|Mage_Sales_Model_Quote
+     * @return Magento_Adminhtml_Model_Session_Quote|Magento_Sales_Model_Quote
      */
     public function getActualQuote()
     {
         if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
+            return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
-                $customer = Mage::helper('Mage_Customer_Helper_Data')->getCustomer();
+                $customer = Mage::helper('Magento_Customer_Helper_Data')->getCustomer();
                 if ($customer) {
                     $this->setCustomer($customer);
                 }
@@ -223,7 +223,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Create quote by demand or return active customer quote if it exists
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function createQuote()
     {
@@ -293,7 +293,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      *
      * @param   mixed $product
      * @param   array|float|int|Magento_Object $config
-     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
     {
@@ -308,9 +308,9 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $separateSameProducts = false;
         }
 
-        if (!($product instanceof Mage_Catalog_Model_Product)) {
+        if (!($product instanceof Magento_Catalog_Model_Product)) {
             $productId = $product;
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStore($this->getStore())
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
@@ -351,18 +351,18 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Add new item to quote based on existing order Item
      *
-     * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param Magento_Sales_Model_Order_Item $orderItem
      * @param int|float $qty
-     * @return Mage_Sales_Model_Quote_Item
-     * @throws Mage_Core_Exception
+     * @return Magento_Sales_Model_Quote_Item
+     * @throws Magento_Core_Exception
      */
-    public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
+    public function reorderItem(Magento_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
             Mage::throwException(__('Something went wrong reordering this product.'));
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStoreId($this->getStore()->getId())
             ->load($orderItem->getProductId());
 
@@ -450,7 +450,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_addResultError($e->getMessage());
             } catch (Exception $e) {
                 return $e;
@@ -524,7 +524,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Move quote item to wishlist.
      * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
-     * @param Mage_Sales_Model_Quote_Item|int $item
+     * @param Magento_Sales_Model_Quote_Item|int $item
      * @param string $moveTo Destination storage
      * @return Enterprise_Checkout_Model_Cart
      */
@@ -536,9 +536,9 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true);
+                    $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true);
                 } else {
-                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                    $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
                         $wishlist = null;
                     }
@@ -567,11 +567,11 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Create duplicate of quote preserving all data (items, addresses, payment etc.)
      *
-     * @param Mage_Sales_Model_Quote $quote Original Quote
+     * @param Magento_Sales_Model_Quote $quote Original Quote
      * @param bool $active Create active quote or not
-     * @return Mage_Sales_Model_Quote New created quote
+     * @return Magento_Sales_Model_Quote New created quote
      */
-    public function copyQuote(Mage_Sales_Model_Quote $quote, $active = false)
+    public function copyQuote(Magento_Sales_Model_Quote $quote, $active = false)
     {
         if (!$quote->getId()) {
             return $quote;
@@ -626,12 +626,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Wrapper for getting quote item
      *
-     * @param Mage_Sales_Model_Quote_Item|int $item
-     * @return Mage_Sales_Model_Quote_Item|bool
+     * @param Magento_Sales_Model_Quote_Item|int $item
+     * @return Magento_Sales_Model_Quote_Item|bool
      */
     protected function _getQuoteItem($item)
     {
-        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+        if ($item instanceof Magento_Sales_Model_Quote_Item) {
             return $item;
         }
         elseif (is_numeric($item)) {
@@ -703,14 +703,14 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      *  'qty_max_allowed' => int (optional, if 'status'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
      * ]
      *
-     * @param Mage_CatalogInventory_Model_Stock_Item $stockItem
-     * @param Mage_Catalog_Model_Product             $product
+     * @param Magento_CatalogInventory_Model_Stock_Item $stockItem
+     * @param Magento_Catalog_Model_Product             $product
      * @param float                                  $requestedQty
      * @return array|true
      */
     public function getQtyStatus(
-        Mage_CatalogInventory_Model_Stock_Item $stockItem,
-        Mage_Catalog_Model_Product $product,
+        Magento_CatalogInventory_Model_Stock_Item $stockItem,
+        Magento_Catalog_Model_Product $product,
         $requestedQty
     ) {
         $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
@@ -746,26 +746,26 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Decide whether product has been configured or not
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array                      $config
      * @return bool
      */
-    protected function _isConfigured(Mage_Catalog_Model_Product $product, $config)
+    protected function _isConfigured(Magento_Catalog_Model_Product $product, $config)
     {
         // If below POST fields were submitted - this is product's options, it has been already configured
         switch ($product->getTypeId()) {
-            case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
-            case Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL:
+            case Magento_Catalog_Model_Product_Type::TYPE_SIMPLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL:
                 return isset($config['options']);
-            case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                 return isset($config['super_attribute']);
-            case Mage_Catalog_Model_Product_Type::TYPE_BUNDLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
                 return isset($config['bundle_option']);
-            case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
+            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
                 return isset($config['super_group']);
             case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
                 return isset($config['giftcard_amount']);
-            case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
+            case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return isset($config['links']);
         }
         return false;
@@ -775,16 +775,16 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Load product by specified sku
      *
      * @param string $sku
-     * @return bool|Mage_Catalog_Model_Product
+     * @return bool|Magento_Catalog_Model_Product
      */
     protected function _loadProductBySku($sku)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStore($this->getCurrentStore())
             ->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
-            Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->assignProduct($product);
+            Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')->assignProduct($product);
         }
 
         return $product;
@@ -794,10 +794,10 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Check whether required option is not missed, add values to configuration
      *
      * @param array $skuParts
-     * @param Mage_Catalog_Model_Product_Option $option
+     * @param Magento_Catalog_Model_Product_Option $option
      * @return bool
      */
-    protected function _processProductOption(array &$skuParts, Mage_Catalog_Model_Product_Option $option)
+    protected function _processProductOption(array &$skuParts, Magento_Catalog_Model_Product_Option $option)
     {
         $missedRequired = true;
         $optionValues = $option->getValues();
@@ -833,7 +833,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      *
      * @param string $sku
      * @param array $config
-     * @return bool|Mage_Catalog_Model_Product
+     * @return bool|Magento_Catalog_Model_Product
      */
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
@@ -859,8 +859,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $missedRequiredOption = false;
             $this->_successOptions = array();
 
-            /** @var $option Mage_Catalog_Model_Product_Option */
-            $option = Mage::getModel('Mage_Catalog_Model_Product_Option')
+            /** @var $option Magento_Catalog_Model_Product_Option */
+            $option = Mage::getModel('Magento_Catalog_Model_Product_Option')
                 ->setAddRequiredFilter(true)
                 ->setAddRequiredFilterValue(true);
 
@@ -891,14 +891,14 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check whether specified option could have multiple values
      *
-     * @param Mage_Catalog_Model_Product_Option $option
+     * @param Magento_Catalog_Model_Product_Option $option
      * @return bool
      */
     protected function _isOptionMultiple($option)
     {
         switch ($option->getType()) {
-            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
-            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
+            case Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
+            case Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                 return true;
         }
         return false;
@@ -907,8 +907,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Add product option for configuring
      *
-     * @param Mage_Catalog_Model_Product_Option $option
-     * @param Mage_Catalog_Model_Product_Option_Value $value
+     * @param Magento_Catalog_Model_Product_Option $option
+     * @param Magento_Catalog_Model_Product_Option_Value $value
      * @return Enterprise_Checkout_Model_Cart
      */
     protected function _addSuccessOption($option, $value)
@@ -982,7 +982,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $this->setAffectedItemConfig($sku, $config);
         }
 
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $this->_loadProductWithOptionsBySku($item['sku'], $config);
 
         if ($product && $product->hasConfiguredOptions()) {
@@ -992,7 +992,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
         if ($product && $product->getId()) {
             $item['id'] = $product->getId();
 
-            $item['is_qty_disabled'] = $product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
+            $item['is_qty_disabled'] = $product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_GROUPED;
 
             if ($this->_isCheckout() && $product->isDisabled()) {
                 $item['is_configure_disabled'] = true;
@@ -1054,7 +1054,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check product availability for current website
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool|string
      */
     protected function _validateProductWebsite($product)
@@ -1105,7 +1105,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check whether specified product is out of stock
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     protected function _isProductOutOfStock($product)
@@ -1127,8 +1127,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             return true;
         }
 
-        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
         $stockItem->loadByProduct($product);
         $stockItem->setProduct($product);
         return !$stockItem->getIsInStock();
@@ -1137,12 +1137,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check whether specified product should be configured
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     protected function _shouldBeConfigured($product)
     {
-        if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+        if ($product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
             && !$product->getLinksPurchasedSeparately()
         ) {
             return false;
@@ -1154,7 +1154,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
 
         switch ($product->getTypeId()) {
             case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
-            case Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
+            case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return true;
         }
 
@@ -1190,12 +1190,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Add products previously successfully processed by prepareAddProductsBySku() to cart
      *
-     * @param Mage_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
+     * @param Magento_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
      *                                                                      checkout/cart)
      * @param bool                                    $saveQuote            Whether cart quote should be saved
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
+    public function saveAffectedProducts(Magento_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
     {
         $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
@@ -1216,18 +1216,18 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Safely add product to cart, revert cart in error case
      *
      * @param array                              $item
-     * @param Mage_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
+     * @param Magento_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
      *                                                                 checkout/cart
      * @param bool                               $suppressSuperMode
      * @return Enterprise_Checkout_Model_Cart
      */
-    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $suppressSuperMode = false)
+    protected function _safeAddProduct(&$item, Magento_Checkout_Model_Cart_Interface $cart, $suppressSuperMode = false)
     {
         $quote = $cart->getQuote();
 
         // copy data to temporary quote
-        /** @var $temporaryQuote Mage_Sales_Model_Quote */
-        $temporaryQuote = Mage::getModel('Mage_Sales_Model_Quote');
+        /** @var $temporaryQuote Magento_Sales_Model_Quote */
+        $temporaryQuote = Mage::getModel('Magento_Sales_Model_Quote');
         $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;
@@ -1265,7 +1265,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
                 $config = $item['item']['qty'];
             }
             $cart->addProduct($item['item']['id'], $config);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
@@ -1398,13 +1398,13 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->success($message);
+            $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->error($warning);
+            $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->error($warning);
         }
         return $messages;
     }
@@ -1521,11 +1521,11 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Retrieve shopping cart model object
      *
-     * @return Mage_Checkout_Model_Cart
+     * @return Magento_Checkout_Model_Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Cart');
+        return Mage::getSingleton('Magento_Checkout_Model_Cart');
     }
 
     /**
@@ -1541,10 +1541,10 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Sets session where data is going to be stored
      *
-     * @param Mage_Core_Model_Session_Abstract $session
+     * @param Magento_Core_Model_Session_Abstract $session
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    public function setSession(Magento_Core_Model_Session_Abstract $session)
     {
         $this->_getHelper()->setSession($session);
         return $this;
@@ -1553,7 +1553,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Returns current session used to store data about affected items
      *
-     * @return Mage_Core_Model_Session_Abstract
+     * @return Magento_Core_Model_Session_Abstract
      */
     public function getSession()
     {
@@ -1563,7 +1563,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Retrieve instance of current store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getCurrentStore()
     {

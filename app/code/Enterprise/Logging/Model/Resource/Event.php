@@ -16,7 +16,7 @@
  * @package     Enterprise_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * @var Magento_Filesystem
@@ -26,11 +26,11 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
     /**
      * Class constructor
      *
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Filesystem $filesystem
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
     {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
@@ -48,10 +48,10 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
     /**
      * Convert data before save ip
      *
-     * @param Mage_Core_Model_Abstract $event
-     * @return $this|\Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $event
+     * @return $this|\Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $event)
+    protected function _beforeSave(Magento_Core_Model_Abstract $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->formatDate($event->getTime()));

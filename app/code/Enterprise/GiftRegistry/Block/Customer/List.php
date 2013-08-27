@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Customer_List
-    extends Mage_Customer_Block_Account_Dashboard
+    extends Magento_Customer_Block_Account_Dashboard
 {
     /**
      * Instantiate pagination
@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     protected function _prepareLayout()
     {
-        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'giftregistry.list.pager')
+        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'giftregistry.list.pager')
             ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         return parent::_prepareLayout();
@@ -39,7 +39,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
     {
         if (!$this->hasEntityCollection()) {
             $this->setData('entity_collection', Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
-                ->filterByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
@@ -128,7 +128,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getCreatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

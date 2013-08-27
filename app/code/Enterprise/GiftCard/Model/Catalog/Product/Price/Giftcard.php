@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Catalog_Model_Product_Type_Price
+class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Catalog_Model_Product_Type_Price
 {
     /**
      * Cached amounts
@@ -25,7 +25,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     /**
      * Return price of the specified product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getPrice($product)
@@ -41,7 +41,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
      * Retrieve product final price
      *
      * @param integer $qty
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getFinalPrice($qty=null, $product)
@@ -62,11 +62,11 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     /**
      * Load and set gift card amounts into product object
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
     public function getAmounts($product)
     {
-        $allGroups = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+        $allGroups = Magento_Customer_Model_Group::CUST_GROUP_ALL;
         $prices = $product->getData('giftcard_amounts');
 
         if (is_null($prices)) {
@@ -83,7 +83,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     /**
      * Return minimal amount for Giftcard product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getMinAmount($product)
@@ -95,7 +95,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     /**
      * Return maximal amount for Giftcard product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getMaxAmount($product)
@@ -107,7 +107,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     /**
      * Fill in $_amountCache or return precalculated sorted values for amounts
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getSortedAmounts($product)
@@ -130,7 +130,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     /**
      * Fill in $_minMaxCache or return precalculated values for min, max
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     protected function _calcMinMax($product)

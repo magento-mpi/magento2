@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -89,8 +89,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
          */
         $parent = array();
 
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;
@@ -128,14 +128,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
                 && !isset($parent[$item->getId()]['child'])
             ) {
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
 
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
@@ -154,7 +154,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -273,7 +273,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     /**
      * Setting column filters to collection
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @return Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      */
     protected function _addColumnFilterToCollection($column)

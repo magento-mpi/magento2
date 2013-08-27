@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Preparing form - container, which contains all attributes
@@ -35,7 +35,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
             $this->_populateItemWithProductData($item);
         }
 
-        /* @var $customerForm Mage_Customer_Model_Form */
+        /* @var $customerForm Magento_Customer_Model_Form */
         $customerForm = Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $customerForm->setEntity($item)
             ->setFormCode('default')
@@ -46,14 +46,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         );
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $okButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => __('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $cancelButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'   => __('Cancel'),
                 'class'   => 'cancel_button',
@@ -78,13 +78,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
      *
      * You can redefine this method in child classes for changin layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
         Magento_Data_Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                'Mage_Adminhtml_Block_Widget_Form_Renderer_Element',
+                'Magento_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
@@ -96,7 +96,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         );
         Magento_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
+                'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );
@@ -126,7 +126,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     protected function _populateItemWithProductData($item)
     {
         if ($this->getProductId()) {
-            $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')->load($this->getProductId());
+            $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
                 $item->setProductAdminName(Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($orderItem));
             }

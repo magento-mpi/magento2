@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set default sort
@@ -96,7 +96,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
                 'header' => __('Website'),
                 'index'  => 'website_id',
                 'type'   => 'options',
-                'options' => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash()
+                'options' => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()
             ));
         }
 

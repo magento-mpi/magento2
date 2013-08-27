@@ -10,16 +10,16 @@
 <config>
     <module name="Enterprise_Persistent" version="1.0.0.0" active="false">
         <sequence>
-            <module name="Mage_Persistent"/>
+            <module name="Magento_Persistent"/>
         </sequence>
         <depends>
-            <module name="Mage_Persistent" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Wishlist" type="hard"/>
-            <module name="Mage_Reports" type="hard"/>
-            <module name="Mage_Catalog" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
+            <module name="Magento_Persistent" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
         </depends>
     </module>
 </config>

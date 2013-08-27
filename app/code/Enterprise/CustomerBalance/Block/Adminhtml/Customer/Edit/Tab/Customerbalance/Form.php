@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form extends
-    Mage_Adminhtml_Block_Widget_Form
+    Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form fields
@@ -30,7 +30,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
@@ -42,7 +42,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'name'     => 'website_id',
                 'label'    => __('Website'),
                 'title'    => __('Website'),
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }
@@ -76,7 +76,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'title' => __('Send Email Notification From the Following Store View'),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 

@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this Magento_Adminhtml_Block_Tax_Rate_Form */
+?>
+<div id="<?php echo $this->getNameInLayout() ?>" style="display:none">
+    <?php echo $this->getFormHtml();?>
+    <?php echo $this->getChildHtml('form_after');?>
+</div>
+
+<script type="text/javascript">
+    var taxRateCollection = <?php echo json_encode($this->getRateCollection());?>;
+</script>

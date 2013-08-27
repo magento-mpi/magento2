@@ -33,7 +33,7 @@
                     $i = 1;
                     ?>
                     <?php endif; ?>
-                <?php if ($_item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                <?php if ($_item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
                     <?php $bundleID = $_item->getId(); ?>
                     <?php endif; ?>
                 <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
@@ -210,7 +210,7 @@
                         firstItemId: '<?php echo $firstItemId; ?>',
                         productType: '<?php echo $productType?>',
                         availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0 ?>',
-                        prodTypeBundle: '<?php echo Mage_Catalog_Model_Product_Type::TYPE_BUNDLE ?>'
+                        prodTypeBundle: '<?php echo Magento_Catalog_Model_Product_Type::TYPE_BUNDLE ?>'
                     }).validation({ignore: ':hidden:not(input[id$="_value"])'});
                 });
         })(jQuery);

@@ -26,7 +26,7 @@ class Enterprise_Rma_Model_Observer
     public function addRmaOption(Magento_Event_Observer $observer)
     {
         $renderer = $observer->getEvent()->getRenderer();
-        /** @var $row Mage_Sales_Model_Order */
+        /** @var $row Magento_Sales_Model_Order */
         $row = $observer->getEvent()->getRow();
 
         if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($row, true)) {

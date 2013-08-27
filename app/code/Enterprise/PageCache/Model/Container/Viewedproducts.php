@@ -41,7 +41,7 @@ class Enterprise_PageCache_Model_Container_Viewedproducts extends Enterprise_Pag
         if ($cacheId && $productIds) {
             sort($productIds);
             $cacheId = 'CONTAINER_' . md5($cacheId . implode('_', $productIds)
-                . $this->_getCookieValue(Mage_Core_Model_Store::COOKIE_CURRENCY, ''));
+                . $this->_getCookieValue(Magento_Core_Model_Store::COOKIE_CURRENCY, ''));
             return $cacheId;
         }
         return false;

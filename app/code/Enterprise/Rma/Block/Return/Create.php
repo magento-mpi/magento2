@@ -21,7 +21,7 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
         $items = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($order);
         $this->setItems($items);
 
-        $session = Mage::getSingleton('Mage_Core_Model_Session');
+        $session = Mage::getSingleton('Magento_Core_Model_Session');
         $formData = $session->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Magento_Object();
@@ -39,7 +39,7 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
     /**
      * Retrieves item qty available for return
      *
-     * @param  $item | Mage_Sales_Model_Order_Item
+     * @param  $item | Magento_Sales_Model_Order_Item
      * @return int
      */
     public function getAvailableQty($item)

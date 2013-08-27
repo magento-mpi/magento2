@@ -16,7 +16,7 @@
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
 <div id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>" class="field"
      data-apply-to="<?php echo $this->escapeHtml(
-         $this->helper('Mage_Core_Helper_Data')->jsonEncode(
+         $this->helper('Magento_Core_Helper_Data')->jsonEncode(
              $this->getElement()->hasEntityAttribute() ? $this->getElement()->getEntityAttribute()->getApplyTo() : array()
          )
      )?>">

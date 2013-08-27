@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_GoogleAdwords" version="2.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_Checkout"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+        </depends>
+    </module>
+</config>

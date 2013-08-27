@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Persistent" version="1.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Checkout"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_GoogleCheckout" type="hard"/>
+            <module name="Magento_Paypal" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Cron" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+        </depends>
+    </module>
+</config>

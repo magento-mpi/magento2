@@ -50,7 +50,7 @@ class Tools_Migration_System_Configuration_Generator
 
         $this->_basePath = realpath(dirname(__FILE__) . '/../../../../../');
         $this->_fileSchemaPath = $this->_basePath
-            . '/app/code/Mage/Backend/etc/system_file.xsd';
+            . '/app/code/Magento/Backend/etc/system_file.xsd';
     }
 
     /**

@@ -24,7 +24,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      *
      * @var string
      */
-    protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
+    protected $_code = Magento_Paypal_Model_Config::METHOD_WPP_DIRECT;
 
     /**
      * Adminhtml template for payment form block
@@ -38,7 +38,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Mage_Adminhtml_Block_Template';
+    protected $_iframeBlockType = 'Magento_Adminhtml_Block_Template';
 
     /**
      * Adminhtml iframe template
@@ -54,7 +54,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     public function getRedirectUrl()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/pbridge/result',
+        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }
@@ -62,11 +62,11 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getQuote();
+        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
     }
 
     /**
@@ -92,12 +92,12 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
     /**
      * Get current customer object
      *
-     * @return null|Mage_Customer_Model_Customer
+     * @return null|Magento_Customer_Model_Customer
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getCustomer() instanceof Mage_Customer_Model_Customer) {
-            return Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote')->getCustomer();
+        if (Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getCustomer() instanceof Magento_Customer_Model_Customer) {
+            return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getCustomer();
         }
 
         return null;
@@ -106,7 +106,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
     /**
      * Return store for current context
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getCurrentStore()
     {

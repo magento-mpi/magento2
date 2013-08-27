@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Widget" version="1.6.0.2" active="true">
+        <sequence>
+            <module name="Magento_Cms"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+        </depends>
+    </module>
+</config>

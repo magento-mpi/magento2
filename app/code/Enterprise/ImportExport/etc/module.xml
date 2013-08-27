@@ -10,19 +10,19 @@
 <config>
     <module name="Enterprise_ImportExport" version="1.11.0.3" active="false">
         <sequence>
-            <module name="Mage_ImportExport"/>
+            <module name="Magento_ImportExport"/>
         </sequence>
         <depends>
-            <module name="Mage_ImportExport" type="hard"/>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Index" type="hard"/>
-            <module name="Mage_Cron" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
+            <module name="Magento_ImportExport" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Cron" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
             <module name="Enterprise_Reward" type="hard"/>
             <module name="Enterprise_CustomerBalance" type="hard"/>
-            <module name="Mage_Eav" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
         </depends>
     </module>
 </config>

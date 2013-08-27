@@ -16,7 +16,7 @@
  * @package    Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Adding two main buttons

@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Rma::sales_enterprise_rma_rma" title="Returns" module="Enterprise_Rma" sortOrder="50" parent="Mage_Sales::sales_operation" action="adminhtml/rma" resource="Enterprise_Rma::enterprise_rma"/>
-        <add id="Enterprise_Rma::sales_enterprise_rma_rma_item_attribute" title="Returns" module="Enterprise_Rma" sortOrder="50" parent="Mage_Adminhtml::stores_attributes" action="adminhtml/rma_item_attribute" resource="Enterprise_Rma::rma_attribute"/>
+        <add id="Enterprise_Rma::sales_enterprise_rma_rma" title="Returns" module="Enterprise_Rma" sortOrder="50" parent="Magento_Sales::sales_operation" action="adminhtml/rma" resource="Enterprise_Rma::enterprise_rma"/>
+        <add id="Enterprise_Rma::sales_enterprise_rma_rma_item_attribute" title="Returns" module="Enterprise_Rma" sortOrder="50" parent="Magento_Adminhtml::stores_attributes" action="adminhtml/rma_item_attribute" resource="Enterprise_Rma::rma_attribute"/>
     </menu>
 </config>

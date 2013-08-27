@@ -17,7 +17,7 @@ class Enterprise_Logging_Model_Handler_Models
     /**
      * SaveAfter handler
      *
-     * @param object Mage_Core_Model_Abstract $model
+     * @param object Magento_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes or false if model wasn't modified
      */
     public function modelSaveAfter($model, $processor)
@@ -32,7 +32,7 @@ class Enterprise_Logging_Model_Handler_Models
     /**
      * Delete after handler
      *
-     * @param object Mage_Core_Model_Abstract $model
+     * @param object Magento_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes
      */
     public function modelDeleteAfter($model, $processor)
@@ -47,7 +47,7 @@ class Enterprise_Logging_Model_Handler_Models
     /**
      * MassUpdate after handler
      *
-     * @param object Mage_Core_Model_Abstract $model
+     * @param object Magento_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes
      */
     public function modelMassUpdateAfter($model, $processor)
@@ -58,7 +58,7 @@ class Enterprise_Logging_Model_Handler_Models
     /**
      * MassDelete after handler
      *
-     * @param object Mage_Core_Model_Abstract $model
+     * @param object Magento_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes
      */
     public function modelMassDeleteAfter($model, $processor)
@@ -69,7 +69,7 @@ class Enterprise_Logging_Model_Handler_Models
     /**
      * Load after handler
      *
-     * @param object Mage_Core_Model_Abstract $model
+     * @param object Magento_Core_Model_Abstract $model
      * @return Enterprise_Logging_Model_Event_Changes
      */
     public function modelViewAfter($model, $processor)

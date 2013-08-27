@@ -8,24 +8,24 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_Controller_Action
+class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminhtml_Controller_Action
 {
     /**
      * RMA Item Entity Type instance
      *
-     * @var Mage_Eav_Model_Entity_Type
+     * @var Magento_Eav_Model_Entity_Type
      */
     protected $_entityType;
 
     /**
      * Return RMA Item Entity Type instance
      *
-     * @return Mage_Eav_Model_Entity_Type
+     * @return Magento_Eav_Model_Entity_Type
      */
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('rma_item');
+            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('rma_item');
         }
         return $this->_entityType;
     }
@@ -151,7 +151,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminh
                     __('An attribute with the same code already exists.')
                 );
 
-                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -167,14 +167,14 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminh
     {
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $attributeObject Mage_Rma_Model_Item_Attribute */
+            /* @var $attributeObject Enterprise_Rma_Model_Item_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Rma_Helper_Eav */
             $helper = Mage::helper('Enterprise_Rma_Helper_Eav');
 
             try {
                 $data = Mage::helper('Enterprise_Rma_Helper_Eav')->filterPostData($data);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
                         $this->_redirect('*/*/edit', array('_current' => true));
@@ -210,7 +210,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminh
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+                $data['attribute_group_id'] = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 
@@ -261,7 +261,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminh
                     $this->_redirect('*/*/');
                 }
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -306,7 +306,7 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Mage_Adminh
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

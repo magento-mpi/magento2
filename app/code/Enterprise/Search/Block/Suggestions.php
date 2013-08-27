@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
+class Enterprise_Search_Block_Suggestions extends Magento_Core_Block_Template
 {
     /**
      * Retrieve search suggestions

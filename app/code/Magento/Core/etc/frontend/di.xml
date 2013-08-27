@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Core_Model_Session">
+        <param name="sessionName">
+            <value>frontend</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Layout">
+        <param name="area">
+            <value>frontend</value>
+        </param>
+    </type>
+</config>

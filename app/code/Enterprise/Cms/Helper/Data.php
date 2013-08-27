@@ -15,7 +15,7 @@
  * @package    Enterprise_Cms
  */
 
-class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Cms_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Array of admin users in system
@@ -31,7 +31,7 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $collection = Mage::getModel('Mage_User_Model_User')->getCollection();
+            $collection = Mage::getModel('Magento_User_Model_User')->getCollection();
             $this->_usersHash = array();
 
             if ($addEmptyUser) {

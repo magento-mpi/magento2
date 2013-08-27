@@ -45,7 +45,7 @@ class Enterprise_Tag_Model_AdminGws_Blocks extends Enterprise_AdminGws_Model_Obs
     public function removeTagGridActions($observer)
     {
         $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-        /* @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+        /* @var $massBlock Magento_Adminhtml_Block_Widget_Grid_Massaction */
         if ($massBlock) {
             $massBlock->removeItem('delete');
         }

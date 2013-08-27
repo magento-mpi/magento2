@@ -30,10 +30,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History');
@@ -88,7 +88,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      *
      * Modify value_option array if needed
      *
-     * @param Mage_Rule_Model_Rule $rule
+     * @param Magento_Rule_Model_Rule $rule
      * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      */
     public function setRule($rule)

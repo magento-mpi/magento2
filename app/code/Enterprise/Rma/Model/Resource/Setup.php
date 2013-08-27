@@ -16,7 +16,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
+class Enterprise_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
     /**
      * Prepare RMA item attribute values to save in additional table
@@ -51,7 +51,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                 'entity_model'                   => 'Enterprise_Rma_Model_Resource_Item',
                 'attribute_model'                => 'Enterprise_Rma_Model_Item_Attribute',
                 'table'                          => 'enterprise_rma_item_entity',
-                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'additional_attribute_table'     => 'enterprise_rma_item_eav_attribute',
                 'increment_per_store'            => 1,
                 'entity_attribute_collection'    => null,
@@ -134,7 +134,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 90,
                         'position'           => 90,
-                        'source'             => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                         'system'             => false,
                         'option'             => array('values' => array('Exchange', 'Refund', 'Store Credit')),
                         'validate_rules'     => 'a:0:{}',
@@ -145,7 +145,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 100,
                         'position'           => 100,
-                        'source'             => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                         'system'             => false,
                         'option'             => array('values' => array('Unopened', 'Opened', 'Damaged')),
                         'validate_rules'     => 'a:0:{}',
@@ -156,7 +156,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 110,
                         'position'           => 110,
-                        'source'             => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                         'system'             => false,
                         'option'             => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
                         'validate_rules'     => 'a:0:{}',

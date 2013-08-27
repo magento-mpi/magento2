@@ -10,19 +10,18 @@
 <config>
     <module name="Enterprise_Invitation" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Mage_Adminhtml"/>
-            <module name="Mage_Customer"/>
-            <module name="Mage_Reports"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Reports"/>
             <module name="Enterprise_WebsiteRestriction"/>
         </sequence>
         <depends>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Reports" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
             <module name="Enterprise_Logging" type="hard"/>
-            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

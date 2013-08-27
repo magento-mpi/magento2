@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Getter
@@ -53,7 +53,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
                 'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 

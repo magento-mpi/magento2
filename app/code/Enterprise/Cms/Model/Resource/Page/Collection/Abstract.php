@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Array of admin users in loaded collection
@@ -45,7 +45,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
      */
     public function addPageFilter($page)
     {
-        if ($page instanceof Mage_Cms_Model_Page) {
+        if ($page instanceof Magento_Cms_Model_Page) {
             $page = $page->getId();
         }
 

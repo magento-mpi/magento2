@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Expiry config
@@ -135,8 +135,8 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
 
         $this->_joinReward();
 
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        /* @var $customer Magento_Customer_Model_Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
         $warningNotification = $customer->getAttribute('reward_warning_notification');

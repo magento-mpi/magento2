@@ -16,7 +16,7 @@
                 <label>Payment Bridge</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="merchantcode" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Merchant Code</label>
@@ -37,7 +37,7 @@
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Debug</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
             <group id="cybersource_soap" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -45,7 +45,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -56,15 +56,15 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -75,7 +75,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -86,11 +86,11 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -101,22 +101,22 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -131,12 +131,12 @@
                 <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="payment_profiles_enabled" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable CIM</label>
                     <comment>3D Secure Check will be unavailable if CIM enabled.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
@@ -147,23 +147,23 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Debug</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="currency" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Accepted Currency</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Currency</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Currency</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="min_order_total" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Minimum Order Total</label>
@@ -180,11 +180,11 @@
                 <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="sandbox_flag" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                     <label>Test Mode</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -195,11 +195,11 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="165" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
             </group>
             <group id="paybox_direct" translate="label" type="text" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -207,7 +207,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -218,15 +218,15 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>Mage_Sales_Model_Config_Source_Order_Status_Processing</source_model>
+                    <source_model>Magento_Sales_Model_Config_Source_Order_Status_Processing</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -238,7 +238,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -249,7 +249,7 @@
                 </field>
                 <field id="payment_profiles_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Vault</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -260,7 +260,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -271,11 +271,11 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -286,7 +286,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -297,15 +297,15 @@
                 </field>
                 <field id="currency" translate="label" type="select" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Accepted Currency</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Currency</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Currency</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -316,7 +316,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -334,7 +334,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
@@ -345,15 +345,15 @@
                 </field>
                 <field id="enable3ds" translate="label" type="select" sortOrder="46" showInDefault="1" showInWebsite="1">
                     <label>3D Secure Card Validation</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -364,7 +364,7 @@
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -385,7 +385,7 @@
                                 <label>Use via Payment Bridge</label>
                                 <comment>This feature is functional only when a payment bridge is active.</comment>
                                 <config_path>payment/paypal_direct/using_pbridge</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>
@@ -447,7 +447,7 @@
                                 <label>Use via Payment Bridge</label>
                                 <comment>This feature is functional only when a payment bridge is active.</comment>
                                 <config_path>payment/paypaluk_direct/using_pbridge</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>
@@ -504,7 +504,7 @@
                                 <label>Use via Payment Bridge</label>
                                 <comment>This feature is functional only when a payment bridge is active.</comment>
                                 <config_path>payment/verisign/using_pbridge</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>

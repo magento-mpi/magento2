@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Adminhtml" version="0.7.1" active="true">
+        <depends>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_AdminNotification" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+            <module name="Magento_Poll" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Newsletter" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Sitemap" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_CatalogRule" type="hard"/>
+            <module name="Magento_Review" type="hard"/>
+            <module name="Magento_Rating" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_CatalogSearch" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Rule" type="hard"/>
+            <module name="Magento_SalesRule" type="hard"/>
+            <module name="Magento_Downloadable" type="hard"/>
+            <module name="Magento_Payment" type="hard"/>
+            <module name="Magento_Shipping" type="hard"/>
+            <module name="Magento_Backup" type="hard"/>
+            <module name="Magento_User" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Widget" type="hard"/>
+            <module name="Magento_ProductAlert" type="hard"/>
+            <module name="Magento_Log" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_GiftMessage" type="hard"/>
+            <module name="Magento_Weee" type="hard"/>
+            <module name="Magento_Usa" type="hard"/>
+        </depends>
+    </module>
+</config>

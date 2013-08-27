@@ -11,7 +11,7 @@
 /**
  * Cart link block
  */
-class Enterprise_GiftRegistry_Block_Cart_Link extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Cart_Link extends Magento_Core_Block_Template
 {
 
     /**

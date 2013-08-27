@@ -21,7 +21,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Return items collection
      *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     * @return Magento_Wishlist_Model_Resource_Item_Collection
      */
     protected function _createItemsCollection()
     {

@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Wishlist::report_customers_wishlist" title="Wish Lists" module="Enterprise_Wishlist" sortOrder="40" parent="Mage_Reports::report_customers" action="adminhtml/report_customer_wishlist" dependsOnModule="Enterprise_Wishlist" resource="Enterprise_Wishlist::wishlist"/>
+        <add id="Enterprise_Wishlist::report_customers_wishlist" title="Wish Lists" module="Enterprise_Wishlist" sortOrder="40" parent="Magento_Reports::report_customers" action="adminhtml/report_customer_wishlist" dependsOnModule="Enterprise_Wishlist" resource="Enterprise_Wishlist::wishlist"/>
     </menu>
 </config>

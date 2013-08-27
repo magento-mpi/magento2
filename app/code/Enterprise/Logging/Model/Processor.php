@@ -125,13 +125,13 @@ class Enterprise_Logging_Model_Processor
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
-        $doNotLog = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getSkipLoggingAction();
+        $doNotLog = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getSkipLoggingAction();
         if ($doNotLog) {
             if (is_array($doNotLog)) {
                 $key = array_search($fullActionName, $doNotLog);
                 if ($key !== false) {
                     unset($doNotLog[$key]);
-                    Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setSkipLoggingAction($doNotLog);
+                    Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setSkipLoggingAction($doNotLog);
                     $this->_skipNextAction = true;
                     return;
                 }
@@ -140,14 +140,14 @@ class Enterprise_Logging_Model_Processor
 
         if (isset($this->_eventConfig->skip_on_back)) {
             $addValue = array_keys($this->_eventConfig->skip_on_back->asArray());
-            $sessionValue = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getSkipLoggingAction();
+            $sessionValue = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
             } elseif (!$sessionValue) {
                 $sessionValue = array();
             }
             $merge = array_merge($addValue, $sessionValue);
-            Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setSkipLoggingAction($merge);
+            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setSkipLoggingAction($merge);
         }
     }
 
@@ -255,14 +255,14 @@ class Enterprise_Logging_Model_Processor
         }
         $username = null;
         $userId   = null;
-        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
-            $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
-            $username = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getUsername();
+        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+            $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
+            $username = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
-        $errors = Mage::getModel('Mage_Adminhtml_Model_Session')->getMessages()->getErrors();
+        $errors = Mage::getModel('Magento_Adminhtml_Model_Session')->getMessages()->getErrors();
         /** @var Enterprise_Logging_Model_Event $loggingEvent */
         $loggingEvent = Mage::getModel('Enterprise_Logging_Model_Event')->setData(array(
-            'ip'            => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
+            'ip'            => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
             'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
@@ -355,7 +355,7 @@ class Enterprise_Logging_Model_Processor
      * @example
      * Array
      *     (
-     *          [Mage_Sales_Model_Order] => Array
+     *          [Magento_Sales_Model_Order] => Array
      *             (
      *                 [68] => Array
      *                     (

@@ -12,7 +12,7 @@
  * Encryption key change form block
  *
  */
-class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Add form fields

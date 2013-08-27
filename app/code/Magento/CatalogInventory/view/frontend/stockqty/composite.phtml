@@ -1,0 +1,44 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @see Magento_CatalogInventory_Block_Stockqty_Composite
+ */
+?>
+<?php if($this->isMsgVisible()): ?>
+    <p class="availability-only">
+        <a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass: "no-display", baseToggleClass: "expanded", toggleContainers: "#<?php echo $this->getDetailsPlaceholderId() ?>"}}'
+           id="<?php echo $this->getPlaceholderId() ?>" title="<?php echo __('Only %1 left', ($this->getStockQty())) ?>"><?php echo __('Only %1 left', "<strong>{$this->getStockQty()}</strong>") ?></a>
+    </p>
+    <table id="<?php echo $this->getDetailsPlaceholderId() ?>" class="availability-only-details no-display">
+        <col />
+        <col width="1" />
+        <thead>
+            <tr>
+                <th><?php echo __('Product Name') ?></th>
+                <th class="a-center"><?php echo __('Qty') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->getChildProducts() as $childProduct) : ?>
+            <?php $childProductStockQty = $this->getProductStockQty($childProduct); ?>
+            <?php if ($childProductStockQty > 0) : ?>
+                <tr>
+                    <td><?php echo $childProduct->getName() ?></td>
+                    <td class="a-center"><?php echo $childProductStockQty ?></td>
+                </tr>
+            <?php endif ?>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        jQuery('#<?php echo $this->getDetailsPlaceholderId() ?>').decorate('table');
+    </script>
+<?php endif ?>

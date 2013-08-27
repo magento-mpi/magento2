@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy_Widget extends Mage_Adminhtml_Controller_Action
+class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy_Widget extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Chooser Source action

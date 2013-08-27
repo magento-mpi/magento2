@@ -10,16 +10,17 @@
 <config>
     <module name="Enterprise_Pci" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Mage_Adminhtml"/>
-            <module name="Mage_Customer"/>
-            <module name="Mage_Api"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Customer"/>
+	    <module name="Magento_Api"/>
+            <modele name="Mage_User"/>
         </sequence>
         <depends>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Api" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_User" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_User" type="hard"/>
         </depends>
     </module>
 </config>

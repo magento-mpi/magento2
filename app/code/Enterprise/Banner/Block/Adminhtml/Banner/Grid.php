@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set defaults
@@ -135,7 +135,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
     /**
      * Add store filter
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid_Column  $column
+     * @param Magento_Adminhtml_Block_Widget_Grid_Column  $column
      * @return Enterprise_Banner_Block_Adminhtml_Banner_Grid
      */
     protected function _addColumnFilterToCollection($column)

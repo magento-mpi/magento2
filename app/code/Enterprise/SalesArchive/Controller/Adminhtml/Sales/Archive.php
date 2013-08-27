@@ -12,7 +12,7 @@
  * Archive controller
  *
  */
-class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Adminhtml_Controller_Action
+class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Render archive grid
@@ -287,7 +287,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;
-                /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $grid  */
+                /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $grid  */
                 $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
                 break;
         }

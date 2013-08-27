@@ -15,8 +15,8 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Mage_Adminhtml_Block_Widget
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Magento_Adminhtml_Block_Widget
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Get Header Text for Order Selection

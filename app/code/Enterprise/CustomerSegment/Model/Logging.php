@@ -21,17 +21,17 @@ class Enterprise_CustomerSegment_Model_Logging
     protected $_resourceModel = null;
 
     /**
-     * @var Mage_Core_Controller_Request_Http|null
+     * @var Magento_Core_Controller_Request_Http|null
      */
     protected $_request = null;
 
     /**
      * @param Enterprise_CustomerSegment_Model_Resource_Segment $resourceModel
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
         Enterprise_CustomerSegment_Model_Resource_Segment $resourceModel,
-        Mage_Core_Controller_Request_Http $request
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_resourceModel = $resourceModel;
         $this->_request = $request;

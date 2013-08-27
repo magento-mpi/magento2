@@ -24,29 +24,29 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
     /**
      * Mock for store instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
     /**
      * Mock from email template instance
      *
-     * @var Mage_Core_Model_Email_Template
+     * @var Magento_Core_Model_Email_Template
      */
     protected $_emailTemplate;
 
     public function setUp()
     {
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $resource = $this->getMock('Enterprise_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
         $helper = $this->getMock('Enterprise_GiftRegistry_Helper_Data',
             array('getRegistryLink'), array(), '', false, false
         );
-        $translate = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
+        $translate = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
 
-        $config = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
-        $this->_store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
-        $this->_emailTemplate = $this->getMock('Mage_Core_Model_Email_Template',
+        $config = $this->getMock('Magento_Core_Model_Config', array('getModelInstance'), array(), '', false);
+        $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $this->_emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
             array('setDesignConfig', 'sendTransactional'), array(), '', false
         );
 
@@ -62,16 +62,16 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
 
         $config->expects($this->any())
             ->method('getModelInstance')
-            ->with($this->equalTo('Mage_Core_Model_Email_Template'))
+            ->with($this->equalTo('Magento_Core_Model_Email_Template'))
             ->will($this->returnCallback(
                 function () use ($emailTemplate) {
                     return clone $emailTemplate;
                 }
             ));
 
-        $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false, false);
-        $context = new Mage_Core_Model_Context($eventDispatcher, $cacheManager);
+        $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
+        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager);
 
         $this->_model = new Enterprise_GiftRegistry_Model_Entity(
             $context, $app, $this->_store, $config, $translate, $resource, null, array(

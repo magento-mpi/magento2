@@ -9,15 +9,15 @@
  */
 
 
-class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condition_Combine
+class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
 {
     /**
      * Set condition type
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Rule_Condition_Combine');
@@ -45,7 +45,7 @@ class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Mage_Rule_Model
     /**
      * Collect validated attributes for Product Collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
      * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
      */
     public function collectValidatedAttributes($productCollection)

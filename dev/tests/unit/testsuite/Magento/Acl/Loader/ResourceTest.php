@@ -23,7 +23,7 @@ class Magento_Acl_Loader_ResourceTest extends PHPUnit_Framework_TestCase
         $acl->expects($this->at(0))->method('addResource')->with($aclResource, null)->will($this->returnSelf());
         $acl->expects($this->at(1))->method('addResource')->with($aclResource, $aclResource)->will($this->returnSelf());
 
-        /** @var $factoryObject Mage_Core_Model_Config */
+        /** @var $factoryObject Magento_Core_Model_Config */
         $factoryObject = $this->getMock('Magento_Acl_ResourceFactory', array('createResource'), array(), '', false);
         $factoryObject->expects($this->any())->method('createResource')->will($this->returnValue($aclResource));
 

@@ -16,10 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
-    extends Mage_Backend_Block_Widget_Grid
+    extends Magento_Backend_Block_Widget_Grid
 {
     /**
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Magento_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {

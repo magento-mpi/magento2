@@ -5,14 +5,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Webhook
+ * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  *
  */
 class Magento_Outbound_Authentication_Factory
 {
-    /** @var Mage_Core_Model_ObjectManager  */
+    /** @var Magento_Core_Model_ObjectManager  */
     private $_objectManager;
 
     /**

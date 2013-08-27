@@ -16,15 +16,15 @@
  * @package    Enterprise_TargetRule
  */
 class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
-    extends Mage_Rule_Model_Condition_Product_Abstract
+    extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
      * Set condition type and value
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Special');

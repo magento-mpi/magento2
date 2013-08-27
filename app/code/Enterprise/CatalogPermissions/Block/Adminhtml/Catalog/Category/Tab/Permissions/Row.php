@@ -15,14 +15,14 @@
  * @package    Enterprise_CatalogPermissions
  */
 class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row
-    extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
 {
 
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             //'label' => __('Remove Permission'),
             'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
             'disabled' => $this->isReadonly(),
@@ -86,12 +86,12 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve websites collection
      *
-     * @return Mage_Core_Model_Resource_Website_Collection
+     * @return Magento_Core_Model_Resource_Website_Collection
      */
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = Mage::getModel('Mage_Core_Model_Website')->getCollection();
+            $collection = Mage::getModel('Magento_Core_Model_Website')->getCollection();
             $this->setData('website_collection', $collection);
         }
 
@@ -101,12 +101,12 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve customer group collection
      *
-     * @return Mage_Customer_Model_Resource_Group_Collection
+     * @return Magento_Customer_Model_Resource_Group_Collection
      */
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
+            $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
             $this->setData('customer_group_collection', $collection);
         }
 

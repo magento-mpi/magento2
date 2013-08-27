@@ -67,7 +67,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
@@ -105,7 +105,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
     }
 
     /**
-     * Callback to use instead of Mage_Core_Model_Date::date()
+     * Callback to use instead of Magento_Core_Model_Date::date()
      *
      * @param string $format
      * @param int|string $input

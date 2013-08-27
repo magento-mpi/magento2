@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
-    extends Mage_Adminhtml_Block_Widget_Form_Container
+    extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Intialize form

@@ -56,7 +56,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
+class Enterprise_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
 {
     protected $_reward = null;
     /**

@@ -38,9 +38,9 @@ class Enterprise_Logging_Model_Observer
      */
     public function controllerPredispatch($observer)
     {
-        /* @var $action Mage_Core_Controller_Varien_Action */
+        /* @var $action Magento_Core_Controller_Varien_Action */
         $action = $observer->getEvent()->getControllerAction();
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getEvent()->getControllerAction()->getRequest();
 
         $beforeForwardInfo = $request->getBeforeForwardInfo();
@@ -156,13 +156,13 @@ class Enterprise_Logging_Model_Observer
         }
         $success = (bool)$userId;
         if (!$userId) {
-            $userId = Mage::getSingleton('Mage_User_Model_User')->loadByUsername($username)->getId();
+            $userId = Mage::getSingleton('Magento_User_Model_User')->loadByUsername($username)->getId();
         }
         $request = Mage::app()->getRequest();
         /** @var Enterprise_Logging_Model_Event $event */
         $event = Mage::getSingleton('Enterprise_Logging_Model_Event');
         $event->setData(array(
-            'ip'         => Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(),
+            'ip'         => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,

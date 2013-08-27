@@ -10,21 +10,21 @@
 <config>
     <module name="Enterprise_Reminder" version="1.11.0.2" active="false">
         <sequence>
-            <module name="Mage_Customer"/>
-            <module name="Mage_Adminhtml"/>
-            <module name="Mage_Checkout"/>
-            <module name="Mage_Wishlist"/>
-            <module name="Mage_SalesRule"/>
-            <module name="Mage_Rule"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Checkout"/>
+            <module name="Magento_Wishlist"/>
+            <module name="Magento_SalesRule"/>
+            <module name="Magento_Rule"/>
         </sequence>
         <depends>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_SalesRule" type="hard"/>
-            <module name="Mage_Rule" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Eav" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_SalesRule" type="hard"/>
+            <module name="Magento_Rule" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
             <module name="Enterprise_Enterprise" type="hard"/>
         </depends>
     </module>

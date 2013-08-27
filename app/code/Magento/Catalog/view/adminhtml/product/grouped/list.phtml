@@ -1,0 +1,65 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List */
+?>
+<script type="text/x-jquery-tmpl" id="group-product-template">
+<tr title="#" class="pointer" data-role="row">
+    <td data-column="info" class="col-draggable col-info">
+        <span class="draggable-handle"></span>
+        <input type="hidden" name="links[grouped][${id}][id]" value="${id}" data-role="id" />
+        <input type="hidden" name="links[grouped][${id}][position]" value="${position}" data-role="position" />
+    </td>
+    <td data-column="name" class="editable col-name">
+        ${name}
+    </td>
+    <td data-column="sku" class="col-sku">
+        ${sku}
+    </td>
+    <td data-column="price" class="col-price">
+        ${price}
+    </td>
+    <td data-column="qty" class="editable col-qty col-number">
+        <input type="text" class="input-text " name="links[grouped][${id}][qty]" value="${qty}">
+    </td>
+    <td data-column="actions" class="col-actions">
+        <button type="button" class="action- delete" data-role="delete"></button>
+    </td>
+</tr>
+</script>
+<div class="grid-container" class="no-display">
+    <table class="data-table" data-role="grouped-product-grid"
+        data-products="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode(
+                $this->getAssociatedProducts()
+        )); ?>">
+        <thead>
+            <tr class="headings">
+                <th data-column="info" class="col-draggable no-link col-info">
+                    <span></span>
+                </th>
+                <th data-column="name" class="no-link col-name">
+                    <span><?php echo __('Name') ?></span>
+                </th>
+                <th data-column="sku" class="no-link col-sku">
+                    <span><?php echo __('SKU') ?></span>
+                </th>
+                <th data-column="price" class="no-link col-price">
+                    <span><?php echo __('Price') ?></span>
+                    </th>
+                <th data-column="qty" class="no-link col-qty">
+                    <span><?php echo __('Default Qty') ?></span>
+                </th>
+                <th data-column="actions" class="last no-link col-actions">
+                    <span></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

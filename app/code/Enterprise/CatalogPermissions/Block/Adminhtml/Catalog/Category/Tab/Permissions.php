@@ -15,8 +15,8 @@
  * @package    Enterprise_CatalogPermissions
  */
 class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
-    extends Mage_Adminhtml_Block_Catalog_Category_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
 
     protected $_template = 'catalog/category/tab/permissions.phtml';
@@ -30,7 +30,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $this->addChild('row', 'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row');
 
-        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label' => __('New Permission'),
             'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
             'type'  => 'button',
@@ -73,7 +73,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             $config = array_merge($additionalConfig, $config);
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**
@@ -125,7 +125,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         }
 
         $websites = Mage::app()->getWebsites(false);
-        $groups   = Mage::getModel('Mage_Customer_Model_Group')->getCollection()->getAllIds();
+        $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
 
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
         $helper   = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
@@ -136,7 +136,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
         foreach ($groups as $groupId) {
             foreach ($websites as $website) {
-                /* @var $website Mage_Core_Model_Website */
+                /* @var $website Magento_Core_Model_Website */
                 $websiteId = $website->getId();
 
                 $store = $website->getDefaultStore();

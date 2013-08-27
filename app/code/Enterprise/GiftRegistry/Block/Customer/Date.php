@@ -15,7 +15,7 @@
  * @package    Enterprise_GiftRegistry
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Block_Customer_Date extends Mage_Core_Block_Html_Date
+class Enterprise_GiftRegistry_Block_Customer_Date extends Magento_Core_Block_Html_Date
 {
     /**
      * Return escaped value

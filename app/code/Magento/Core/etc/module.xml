@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Core" version="1.6.0.15" active="true">
+        <depends>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Cron" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Newsletter" type="hard"/>
+            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_Theme" type="hard"/>
+            <module name="Magento_AdminNotification" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_CatalogRule" type="hard"/>
+            <module name="Magento_CatalogSearch" type="hard"/>
+            <module name="Magento_CurrencySymbol" type="hard"/>
+            <module name="Magento_GiftMessage" type="hard"/>
+            <module name="Magento_GoogleAnalytics" type="hard"/>
+            <module name="Magento_GoogleCheckout" type="hard"/>
+            <module name="Magento_ImportExport" type="hard"/>
+            <module name="Magento_PaypalUk" type="hard"/>
+            <module name="Magento_ProductAlert" type="hard"/>
+            <module name="Magento_SalesRule" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
+            <extension name="spl"/>
+            <extension name="dom"/>
+            <extension name="simplexml"/>
+            <extension name="mcrypt"/>
+            <extension name="hash"/>
+            <extension name="curl"/>
+            <extension name="iconv"/>
+            <extension name="ctype"/>
+            <choice>
+                <extension name="gd"/>
+                <extension name="imagick" minVersion="3.0.0"/>
+            </choice>
+        </depends>
+    </module>
+</config>

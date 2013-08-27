@@ -10,14 +10,14 @@
 <layout version="0.1.0">
     <adminhtml_reminder_grid_block>
         <reference name="adminhtml.reminder.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.reminder.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.reminder.grid" as="grid">
                 <arguments>
                     <id>reminderGrid</id>
                     <dataSource type="object">Enterprise_Reminder_Model_Resource_Reminder_Collection</dataSource>
                     <default_sort>rule_id</default_sort>
                     <default_dir>ASC</default_dir>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.reminder.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.reminder.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -26,7 +26,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rule_id">
                         <arguments>
                             <header translate="true">ID</header>
                             <align>right</align>
@@ -34,14 +34,14 @@
                             <index>rule_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true">Rule</header>
                             <align>left</align>
                             <index>name</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="from_date">
                         <arguments>
                             <header translate="true">Start on</header>
                             <align>left</align>
@@ -51,7 +51,7 @@
                             <index>from_date</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="to_date">
                         <arguments>
                             <header translate="true">End on</header>
                             <align>left</align>
@@ -61,7 +61,7 @@
                             <index>to_date</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
                             <header translate="true">Status</header>
                             <align>left</align>
@@ -80,14 +80,14 @@
                             <index>is_active</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
                         <arguments>
                             <header translate="true">Website</header>
                             <align>left</align>
                             <index>website_ids</index>
                             <type>options</type>
                             <sortable>0</sortable>
-                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                            <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
                             <width>200px</width>
                         </arguments>
                     </block>

@@ -12,24 +12,24 @@
  * Controller for Customer Attributes Management
  */
 class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
-    extends Mage_Adminhtml_Controller_Action
+    extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Customer Address Entity Type instance
      *
-     * @var Mage_Eav_Model_Entity_Type
+     * @var Magento_Eav_Model_Entity_Type
      */
     protected $_entityType;
 
     /**
      * Return Customer Address Entity Type instance
      *
-     * @return Mage_Eav_Model_Entity_Type
+     * @return Magento_Eav_Model_Entity_Type
      */
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
+            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
         }
         return $this->_entityType;
     }
@@ -42,7 +42,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Adminhtml::stores_attributes')
+            ->_setActiveMenu('Magento_Adminhtml::stores_attributes')
             ->_addBreadcrumb(
                 __('Customer'),
                 __('Customer'))
@@ -55,11 +55,11 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     /**
      * Retrieve customer attribute object
      *
-     * @return Mage_Customer_Model_Attribute
+     * @return Magento_Customer_Model_Attribute
      */
     protected function _initAttribute()
     {
-        $attribute = Mage::getModel('Mage_Customer_Model_Attribute');
+        $attribute = Mage::getModel('Magento_Customer_Model_Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -94,7 +94,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
      */
     public function editAction()
     {
-        /* @var $attributeObject Mage_Customer_Model_Attribute */
+        /* @var $attributeObject Magento_Customer_Model_Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
@@ -154,7 +154,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
                     __('An attribute with this code already exists.')
                 );
 
-                $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -181,7 +181,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     {
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $attributeObject Mage_Customer_Model_Attribute */
+            /* @var $attributeObject Magento_Customer_Model_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Customer_Helper_Data */
             $helper = Mage::helper('Enterprise_Customer_Helper_Data');
@@ -189,7 +189,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
             //filtering
             try {
                 $data = $this->_filterPostData($data);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
                         $this->_redirect('*/*/edit', array('_current' => true));
@@ -225,7 +225,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+                $data['attribute_group_id'] = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 
@@ -285,7 +285,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
                     $this->_redirect('*/*/');
                 }
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -332,7 +332,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

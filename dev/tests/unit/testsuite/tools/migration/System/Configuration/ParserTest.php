@@ -70,7 +70,7 @@ XML;
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
-            <resource>Mage_Some::resource</resource>
+            <resource>Magento_Some::resource</resource>
         </some_section>
     </sections>
 </config>
@@ -94,7 +94,7 @@ XMLCOMMENT;
                     'show_in_default' => array('#text' => '1'),
                     'show_in_website' => array('#text' => '1'),
                     'show_in_store' => array('#text' => '1'),
-                    'resource' => array('#text' => 'Mage_Some::resource'),
+                    'resource' => array('#text' => 'Magento_Some::resource'),
                     '@attributes' => array('translate' => 'label')
                 )
             )

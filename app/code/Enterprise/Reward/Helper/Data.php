@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Reward_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * XML configuration paths

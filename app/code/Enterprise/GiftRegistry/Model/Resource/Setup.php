@@ -16,6 +16,6 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
+class Enterprise_GiftRegistry_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
 }

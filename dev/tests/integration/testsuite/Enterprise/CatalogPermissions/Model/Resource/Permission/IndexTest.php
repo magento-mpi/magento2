@@ -24,7 +24,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/CatalogPermissions/_files/permission.php
      */
     public function testReindex()

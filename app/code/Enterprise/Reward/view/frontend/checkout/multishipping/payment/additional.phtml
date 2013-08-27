@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
     head.js(
-        "<?php echo $this->getViewFileUrl('Mage_Customer::js/checkout-balance.js') ?>",
+        "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
         function() {
             jQuery('#use-reward-points').checkoutBalance({
                 amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,

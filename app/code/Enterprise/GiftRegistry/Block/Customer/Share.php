@@ -12,7 +12,7 @@
  * Customer gift registry share block
  */
 class Enterprise_GiftRegistry_Block_Customer_Share
-    extends Mage_Customer_Block_Account_Dashboard
+    extends Magento_Customer_Block_Account_Dashboard
 {
     protected $_formData = null;
 
@@ -66,7 +66,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')
+            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')
                 ->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {

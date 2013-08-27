@@ -15,9 +15,9 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  *
- * @method Mage_Sales_Model_Quote_Item getItem()
+ * @method Magento_Sales_Model_Quote_Item getItem()
  */
-class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Template
 {
     /**
      * Helper instance
@@ -117,8 +117,8 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                         . __("Specify the product's options")
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                /** @var $helper Mage_ProductAlert_Helper_Data */
-                $helper = Mage::helper('Mage_ProductAlert_Helper_Data');
+                /** @var $helper Magento_ProductAlert_Helper_Data */
+                $helper = Mage::helper('Magento_ProductAlert_Helper_Data');
 
                 if (!$helper->isStockAlertAllowed()) {
                     return '';
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
      */
     public function getTierPriceHtml()
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $this->getItem()->getProduct();
         if (!$product || !$product->getId()) {
             return '';
@@ -151,7 +151,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
         if (!is_array($productTierPrices)) {
             $productAttributes = $product->getAttributes();
             if (!isset($productAttributes['tier_price'])
-                || !($productAttributes['tier_price'] instanceof Mage_Catalog_Model_Resource_Eav_Attribute)
+                || !($productAttributes['tier_price'] instanceof Magento_Catalog_Model_Resource_Eav_Attribute)
             ) {
                 return '';
             }
@@ -161,7 +161,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
         Mage::unregister('product');
         Mage::register('product', $product);
         if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('Mage_Catalog_Block_Product_View'));
+            $this->setProductViewBlock($this->getLayout()->createBlock('Magento_Catalog_Block_Product_View'));
         }
         return $this->getProductViewBlock()->getTierPriceHtml();
     }

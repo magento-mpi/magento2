@@ -13,8 +13,8 @@
  *
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
-    extends Mage_Adminhtml_Block_Widget
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Set identifier and title

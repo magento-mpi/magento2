@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**

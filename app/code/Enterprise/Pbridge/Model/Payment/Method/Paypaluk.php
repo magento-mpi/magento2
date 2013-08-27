@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Model_Direct
+class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Model_Direct
 {
     /**
      * Form block type for the frontend
@@ -75,7 +75,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -115,7 +115,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function assignData($data)
     {
@@ -141,13 +141,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Check whether payment method can be used
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_PE_DIRECT);
+            && $this->_pro->getConfig()->isMethodAvailable(Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT);
     }
 
     /**
@@ -186,8 +186,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Authorize payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @param Magento_Sales_Model_Order_Payment $payment
+     * @return Magento_Paypal_Model_Direct
      */
     public function authorize(Magento_Object $payment, $amount)
     {
@@ -201,8 +201,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Capture payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @param Magento_Sales_Model_Order_Payment $payment
+     * @return Magento_Paypal_Model_Direct
      */
     public function capture(Magento_Object $payment, $amount)
     {
@@ -215,8 +215,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Refund capture
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @param Magento_Sales_Model_Order_Payment $payment
+     * @return Magento_Paypal_Model_Direct
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -227,8 +227,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Void payment
      *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @param Magento_Sales_Model_Order_Payment $payment
+     * @return Magento_Paypal_Model_Direct
      */
     public function void(Magento_Object $payment)
     {
@@ -240,7 +240,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * Import direct payment results to payment
      *
      * @param Magento_Object $api
-     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Magento_Sales_Model_Order_Payment $payment
      */
     protected function _importResultToPayment($api, $payment)
     {
@@ -267,7 +267,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Store id setter, also set storeId to helper
      *
-     * @param int|string|Mage_Code_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      *
      * @return Enterprise_Pbridge_Model_Payment_Method_Paypaluk
      */

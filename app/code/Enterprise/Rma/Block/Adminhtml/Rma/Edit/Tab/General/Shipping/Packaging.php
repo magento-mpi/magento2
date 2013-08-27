@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Adminhtml
+ * @category    Magento
+ * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extends Mage_Adminhtml_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extends Magento_Adminhtml_Block_Template
 {
     /**
      * Variable to store RMA instance
@@ -164,7 +164,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $code       = $this->getRequest()->getParam('method');
         $girth      = false;
         if (!empty($code)) {
-            $girth = (Mage::helper('Mage_Usa_Helper_Data')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
+            $girth = (Mage::helper('Magento_Usa_Helper_Data')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
         }
 
         return $girth;
@@ -184,7 +184,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
             $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
             $countryId  = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
 
-            $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());
+            $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
             $shipperAddress     = $order->getShippingAddress();
              if ($carrier) {
                 $params = new Magento_Object(array(
@@ -226,7 +226,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        return Mage::getModel('Mage_Usa_Model_Shipping_Carrier_Usps_Source_Size')->toOptionArray();
+        return Mage::getModel('Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size')->toOptionArray();
     }
 
     /**
@@ -244,12 +244,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $sizeEnabled    = false;
         $regular        = $this->getShippingCarrierUspsSourceSize();
         if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == Mage_Usa_Model_Shipping_Carrier_Usps::SIZE_LARGE
+            if ($regular[0]['value'] == Magento_Usa_Model_Shipping_Carrier_Usps::SIZE_LARGE
                 && in_array(
                     key($this->getContainers()),
                     array(
-                        Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
-                        Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                        Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
+                        Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
                     )
                 )
             ) {
@@ -259,9 +259,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
             if (in_array(
                 key($this->getContainers()),
                 array(
-                    Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
-                    Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_RECTANGULAR,
-                    Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
+                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_RECTANGULAR,
+                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
                 )
             )) {
                 $sizeEnabled = true;

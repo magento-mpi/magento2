@@ -15,7 +15,7 @@ class Enterprise_TargetRule_Controller_Catalog_ProductTest extends Magento_Test_
      * Covers Enterprise/TargetRule/view/frontend/catalog/product/list/related.html
      * Checks if related products are displayed
      *
-     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
      * @magentoDataFixture Enterprise/TargetRule/_files/related.php
      */
     public function testProductViewActionRelated()
@@ -30,7 +30,7 @@ class Enterprise_TargetRule_Controller_Catalog_ProductTest extends Magento_Test_
      * Covers Enterprise/TargetRule/view/frontend/catalog/product/list/upsell.html
      * Checks if up-sell products are displayed
      *
-     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
      * @magentoDataFixture Enterprise/TargetRule/_files/upsell.php
      */
     public function testProductViewActionUpsell()

@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Flag to store if customer has orphan points
@@ -42,7 +42,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     /**
      * Getter
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     public function getCustomer()
     {
@@ -168,7 +168,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'label'     => __('Delete Orphan Points'),
                     'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',

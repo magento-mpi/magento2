@@ -10,24 +10,23 @@
 <config>
     <module name="Enterprise_Banner" version="1.11.0.1" active="false">
         <sequence>
-            <module name="Mage_Adminhtml"/>
-            <module name="Mage_CatalogRule"/>
-            <module name="Mage_SalesRule"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_CatalogRule"/>
+            <module name="Magento_SalesRule"/>
             <module name="Enterprise_Cms"/>
         </sequence>
         <depends>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_CatalogRule" type="hard"/>
-            <module name="Mage_SalesRule" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Cms" type="hard"/>
-            <module name="Mage_Widget" type="hard"/>
-            <module name="Mage_Checkout" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Sales" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_CatalogRule" type="hard"/>
+            <module name="Magento_SalesRule" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_Widget" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
             <module name="Enterprise_Enterprise" type="hard"/>
-            <module name="Mage_Page" type="soft"/>
         </depends>
     </module>
 </config>

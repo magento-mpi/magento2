@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_tag_pending>
+        <reference name="content">
+            <block type="Magento_Tag_Block_Adminhtml_Pending" name="adminhtml.tag.pending"/>
+        </reference>
+    </adminhtml_tag_pending>
+</layout>

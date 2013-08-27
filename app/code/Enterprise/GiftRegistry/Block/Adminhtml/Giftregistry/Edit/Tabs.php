@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
-    extends Mage_Adminhtml_Block_Widget_Tabs
+    extends Magento_Adminhtml_Block_Widget_Tabs
 {
     /**
      * Intialize form

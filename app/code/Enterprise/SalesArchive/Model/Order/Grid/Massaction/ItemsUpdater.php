@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
-    implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * @var Enterprise_SalesArchive_Model_Config $_salesArchiveConfig

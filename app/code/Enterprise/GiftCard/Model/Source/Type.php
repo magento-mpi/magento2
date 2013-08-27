@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Enterprise_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Get all options
@@ -70,7 +70,7 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
             'extra'     => null
         );
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {
@@ -90,7 +90,7 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
+        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

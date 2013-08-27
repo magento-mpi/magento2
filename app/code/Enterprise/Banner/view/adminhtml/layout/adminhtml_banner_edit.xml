@@ -36,7 +36,7 @@
                 <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content" name="banner_edit_tab_content"/>
                 <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
                     <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid"/>
-                    <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
+                    <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
                         <reference name="salesrule_grid_serializer">
                             <action method="initSerializerBlock">
                                 <grid_block_name>banner_salesrule_grid</grid_block_name>
@@ -47,7 +47,7 @@
                         </reference>
                     </block>
                     <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid"/>
-                    <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
+                    <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
                         <reference name="catalogrule_grid_serializer">
                             <action method="initSerializerBlock">
                                 <grid_block_name>banner_catalogrule_grid</grid_block_name>

@@ -9,7 +9,7 @@
  */
 
 
-class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Init total model, set total code
@@ -22,10 +22,10 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
     /**
      * Collect customer balance totals for specified address
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @return Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;
@@ -86,10 +86,10 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
     /**
      * Return shopping cart total row items
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @return Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance
      */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return $this;

@@ -12,10 +12,10 @@
         <remove name="top.search"/>
         <reference name="footer_links">
             <action method="removeLinkByUrl">
-                <url helper="Mage_CatalogSearch_Helper_Data::getSearchTermUrl"/>
+                <url helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
             </action>
             <action method="removeLinkByUrl">
-                <url helper="Mage_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
+                <url helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
             </action>
         </reference>
     </CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH>

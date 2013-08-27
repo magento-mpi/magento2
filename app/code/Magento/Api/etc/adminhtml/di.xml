@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <virtualType name="Magento_Api_Model_Resource_User_Options_Statuses" type="Magento_Backend_Model_Config_Source_Activity_Options">
+        <param name="helper">
+            <instance type="Magento_Backend_Helper_Data" />
+        </param>
+    </virtualType>
+</config>

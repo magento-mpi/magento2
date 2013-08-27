@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
-    extends Mage_Wishlist_Block_Customer_Wishlist_Item_Column
+    extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
      * Check whether module is available
@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
     /**
      * Check if wishlist item can be added to gift registry
      *
-     * @param Mage_Catalog_Model_Product $item
+     * @param Magento_Catalog_Model_Product $item
      * @return bool
      */
     public function checkProductType($item)

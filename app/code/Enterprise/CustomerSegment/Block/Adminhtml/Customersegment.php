@@ -15,7 +15,7 @@
  * @package    Enterprise_CustomerSegment
  */
 
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Initialize customer segment manage page

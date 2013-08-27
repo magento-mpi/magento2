@@ -25,14 +25,14 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     /**
      * Import/export config model
      *
-     * @var Mage_ImportExport_Model_Config
+     * @var Magento_ImportExport_Model_Config
      */
     protected $_importExportConfig;
 
     /**
      * Import entity model
      *
-     * @var Mage_ImportExport_Model_Import
+     * @var Magento_ImportExport_Model_Import
      */
     protected $_importModel;
 
@@ -44,9 +44,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function __construct(array $data = array())
     {
         $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
-            : Mage::getModel('Mage_ImportExport_Model_Config');
+            : Mage::getModel('Magento_ImportExport_Model_Config');
         $this->_importModel = isset($data['import_model']) ? $data['import_model']
-            : Mage::getModel('Mage_ImportExport_Model_Import');
+            : Mage::getModel('Magento_ImportExport_Model_Import');
     }
 
     /**
@@ -83,11 +83,11 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getFrequencyOptionArray()
     {
         return array(
-            Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY
+            Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY
                 => __('Daily'),
-            Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
+            Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
                 => __('Weekly'),
-            Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
+            Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
                 => __('Monthly'),
         );
     }
@@ -153,11 +153,11 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $importEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
-            Mage_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
+        $importEntities = Magento_ImportExport_Model_Config::getModelsArrayOptions(
+            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
         );
-        $exportEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
-            Mage_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
+        $exportEntities = Magento_ImportExport_Model_Config::getModelsArrayOptions(
+            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
         );
         switch ($type) {
             case 'import':

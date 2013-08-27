@@ -12,15 +12,15 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
                             <resource id="Enterprise_Logging::logging" title="Logging" />
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::system">
+                <resource id="Magento_Adminhtml::system">
                     <resource id="Enterprise_Logging::enterprise_logging" title="Action Log" sortOrder="70">
                         <resource id="Enterprise_Logging::enterprise_logging_events" title="Report" sortOrder="10"/>
                         <resource id="Enterprise_Logging::backups" title="Archive" sortOrder="20" />

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Tag" version="1.6.0.0" active="false">
+        <sequence>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Rss"/>
+            <module name="Magento_Reports"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Rss" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_CatalogSearch" type="soft"/>
+        </depends>
+    </module>
+</config>

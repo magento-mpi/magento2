@@ -18,7 +18,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends Mage_Adminhtml_Block_Widget
+abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends Magento_Adminhtml_Block_Widget
 {
     /*
      * JS listType of the error grid
@@ -82,7 +82,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
             'onclick' => 'addBySku.removeAllFailed()',
             'class'   => 'action-delete',
         );
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($buttonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($buttonData)->toHtml();
     }
 
     /**
@@ -146,7 +146,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      * Retrieve current store instance
      *
      * @abstract
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     abstract public function getStore();
 

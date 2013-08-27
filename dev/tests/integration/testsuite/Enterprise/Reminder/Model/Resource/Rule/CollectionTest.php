@@ -16,7 +16,7 @@ class Enterprise_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Fra
      */
     public function testAddDateFilter()
     {
-        $dateModel = Mage::getModel('Mage_Core_Model_Date');
+        $dateModel = Mage::getModel('Magento_Core_Model_Date');
         $collection = Mage::getResourceModel('Enterprise_Reminder_Model_Resource_Rule_Collection');
         $collection->addDateFilter($dateModel->date());
         $this->markTestIncomplete('MAGE-5166 is incomplete');

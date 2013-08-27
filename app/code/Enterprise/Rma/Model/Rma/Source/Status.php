@@ -72,7 +72,7 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
      * and returns it
      *
      * @param array $itemStatusArray Array of RMA items status
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function getStatusByItems($itemStatusArray)

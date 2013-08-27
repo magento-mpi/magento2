@@ -69,35 +69,35 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
     {
         return array(
             array(
-                'Mage_Sales_Model_Order',
+                'Magento_Sales_Model_Order',
                 Enterprise_SalesArchive_Model_Archive::ORDER
             ),
             array(
-                'Mage_Sales_Model_Resource_Order',
+                'Magento_Sales_Model_Resource_Order',
                 Enterprise_SalesArchive_Model_Archive::ORDER
             ),
             array(
-                'Mage_Sales_Model_Order_Invoice',
+                'Magento_Sales_Model_Order_Invoice',
                 Enterprise_SalesArchive_Model_Archive::INVOICE
             ),
             array(
-                'Mage_Sales_Model_Resource_Order_Invoice',
+                'Magento_Sales_Model_Resource_Order_Invoice',
                 Enterprise_SalesArchive_Model_Archive::INVOICE
             ),
             array(
-                'Mage_Sales_Model_Order_Shipment',
+                'Magento_Sales_Model_Order_Shipment',
                 Enterprise_SalesArchive_Model_Archive::SHIPMENT
             ),
             array(
-                'Mage_Sales_Model_Resource_Order_Shipment',
+                'Magento_Sales_Model_Resource_Order_Shipment',
                 Enterprise_SalesArchive_Model_Archive::SHIPMENT
             ),
             array(
-                'Mage_Sales_Model_Order_Creditmemo',
+                'Magento_Sales_Model_Order_Creditmemo',
                 Enterprise_SalesArchive_Model_Archive::CREDITMEMO
             ),
             array(
-                'Mage_Sales_Model_Resource_Order_Creditmemo',
+                'Magento_Sales_Model_Resource_Order_Creditmemo',
                 Enterprise_SalesArchive_Model_Archive::CREDITMEMO
             ),
             array('Magento_Object', false)

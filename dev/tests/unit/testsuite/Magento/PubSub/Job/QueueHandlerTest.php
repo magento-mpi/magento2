@@ -51,14 +51,14 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Object mocks
-        $this->_subscriptionMockA = $this->_makeMock('Mage_Webhook_Model_Subscription');
-        $this->_subscriptionMockB =  $this->_makeMock('Mage_Webhook_Model_Subscription');
-        $this->_eventMockA = $this->_makeMock('Mage_Webhook_Model_Event');
-        $this->_eventMockB = $this->_makeMock('Mage_Webhook_Model_Event');
+        $this->_subscriptionMockA = $this->_makeMock('Magento_Webhook_Model_Subscription');
+        $this->_subscriptionMockB =  $this->_makeMock('Magento_Webhook_Model_Subscription');
+        $this->_eventMockA = $this->_makeMock('Magento_Webhook_Model_Event');
+        $this->_eventMockB = $this->_makeMock('Magento_Webhook_Model_Event');
         $this->_msgFactoryMock = $this->_makeMock('Magento_Outbound_Message_Factory');
         $this->_transportMock = $this->_makeMock('Magento_Outbound_Transport_Http');
-        $this->_queueReaderMock = $this->_makeMock('Mage_Webhook_Model_Job_QueueReader');
-        $this->_queueWriterMock = $this->_makeMock('Mage_Webhook_Model_Job_QueueWriter');
+        $this->_queueReaderMock = $this->_makeMock('Magento_Webhook_Model_Job_QueueReader');
+        $this->_queueWriterMock = $this->_makeMock('Magento_Webhook_Model_Job_QueueWriter');
         $this->_messageMockA = $this->_makeMock('Magento_Outbound_Message');
         $this->_messageMockB = $this->_makeMock('Magento_Outbound_Message');
         $this->_endpointMockA = $this->_makeMock('Magento_Outbound_EndpointInterface');
@@ -124,8 +124,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($msgResponseMap));
 
         // Job stubs
-        $jobMockA = $this->_makeMock('Mage_Webhook_Model_Job');
-        $jobMockB = $this->_makeMock('Mage_Webhook_Model_Job');
+        $jobMockA = $this->_makeMock('Magento_Webhook_Model_Job');
+        $jobMockB = $this->_makeMock('Magento_Webhook_Model_Job');
 
         $jobMockA->expects($this->once())
             ->method('complete');

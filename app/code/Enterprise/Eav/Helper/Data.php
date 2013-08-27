@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Eav
  */
-class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Eav_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Array of User Defined attribute codes per entity type code
@@ -27,7 +27,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Default attribute entity type code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getEntityTypeCode()
     {
@@ -166,7 +166,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'filter_types'      => array(
                     'date'
                 ),
-                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime',
+                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Datetime',
                 'backend_type'      => 'datetime',
                 'default_value'     => 'date',
             ),
@@ -177,7 +177,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
@@ -188,8 +188,8 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'validate_types'    => array(),
                 'filter_types'      => array(),
                 'validate_filters'  => array(),
-                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Array',
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Array',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'varchar',
                 'default_value'     => false,
             ),
@@ -199,7 +199,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
                 'backend_type'      => 'int',
                 'default_value'     => 'yesno',
             ),
@@ -417,8 +417,8 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
-            /* @var $config Mage_Eav_Model_Config */
-            $config = Mage::getSingleton('Mage_Eav_Model_Config');
+            /* @var $config Magento_Eav_Model_Config */
+            $config = Mage::getSingleton('Magento_Eav_Model_Config');
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {
@@ -446,14 +446,14 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
      * Filter post data
      *
      * @param array $data
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array
      */
     public function filterPostData($data)

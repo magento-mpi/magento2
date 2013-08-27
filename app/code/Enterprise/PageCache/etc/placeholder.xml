@@ -12,96 +12,96 @@
 <config>
     <placeholders>
         <last_viewed_products>
-            <block>Mage_Reports_Block_Product_Viewed</block>
+            <block>Magento_Reports_Block_Product_Viewed</block>
             <placeholder>VIEWED_PRODUCTS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
         </last_viewed_products>
         <last_viewed_products_widget>
-            <block>Mage_Reports_Block_Product_Widget_Viewed</block>
+            <block>Magento_Reports_Block_Product_Widget_Viewed</block>
             <placeholder>VIEWED_PRODUCTS_WIDGET</placeholder>
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
         </last_viewed_products_widget>
         <catalog_navigation>
-            <block>Mage_Catalog_Block_Navigation</block>
+            <block>Magento_Catalog_Block_Navigation</block>
             <name>catalog.topnav</name>
             <placeholder>CATALOG_NAVIGATION</placeholder>
             <container>Enterprise_PageCache_Model_Container_Catalognavigation</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_navigation>
         <catalog_breadcrumbs>
-            <block>Mage_Page_Block_Html_Breadcrumbs</block>
+            <block>Magento_Page_Block_Html_Breadcrumbs</block>
             <name>breadcrumbs</name>
             <placeholder>PAGE_BREADCRUMBS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Breadcrumbs</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_breadcrumbs>
         <cart_sidebar>
-            <block>Mage_Checkout_Block_Cart_Sidebar</block>
+            <block>Magento_Checkout_Block_Cart_Sidebar</block>
             <placeholder>CART_SIDEBAR</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Cart</container>
             <cache_lifetime>86400</cache_lifetime>
         </cart_sidebar>
         <compare_list_sidebar>
-            <block>Mage_Catalog_Block_Product_Compare_Sidebar</block>
+            <block>Magento_Catalog_Block_Product_Compare_Sidebar</block>
             <placeholder>COMPARELIST_SIDEBAR</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Comparelist</container>
             <cache_lifetime>86400</cache_lifetime>
         </compare_list_sidebar>
         <messages>
-            <block>Mage_Core_Block_Messages</block>
+            <block>Magento_Core_Block_Messages</block>
             <placeholder>MESSAGES</placeholder>
             <name>messages</name>
             <container>Enterprise_PageCache_Model_Container_Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </messages>
         <global_messages>
-            <block>Mage_Core_Block_Messages</block>
+            <block>Magento_Core_Block_Messages</block>
             <placeholder>GLOBAL_MESSAGES</placeholder>
             <name>global_messages</name>
             <container>Enterprise_PageCache_Model_Container_Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </global_messages>
         <recently_compared_sidebar>
-            <block>Mage_Reports_Block_Product_Compared</block>
+            <block>Magento_Reports_Block_Product_Compared</block>
             <placeholder>RECENTLYCOMPARED_SIDEBAR</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared</container>
             <cache_lifetime>86400</cache_lifetime>
         </recently_compared_sidebar>
         <welcome_message>
-            <block>Mage_Page_Block_Html_Welcome</block>
+            <block>Magento_Page_Block_Html_Welcome</block>
             <placeholder>WELCOME</placeholder>
             <container>Enterprise_PageCache_Model_Container_Welcome</container>
             <cache_lifetime>86400</cache_lifetime>
         </welcome_message>
         <account_links>
-            <block>Mage_Page_Block_Template_Links</block>
+            <block>Magento_Page_Block_Template_Links</block>
             <name>account.links</name>
             <placeholder>ACCLINKS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Accountlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </account_links>
         <wishlist>
-            <block>Mage_Wishlist_Block_Customer_Sidebar</block>
+            <block>Magento_Wishlist_Block_Customer_Sidebar</block>
             <placeholder>WISHLIST</placeholder>
             <container>Enterprise_PageCache_Model_Container_Wishlist</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist>
         <orders>
-            <block>Mage_Sales_Block_Reorder_Sidebar</block>
+            <block>Magento_Sales_Block_Reorder_Sidebar</block>
             <placeholder>ORDERS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Orders</container>
             <cache_lifetime>86400</cache_lifetime>
         </orders>
         <wishlist_links>
-            <block>Mage_Wishlist_Block_Links</block>
+            <block>Magento_Wishlist_Block_Links</block>
             <placeholder>WISHLISTLINKS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Wishlistlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist_links>
         <poll_activepoll>
-            <block>Mage_Poll_Block_ActivePoll</block>
+            <block>Magento_Poll_Block_ActivePoll</block>
             <placeholder>POLL</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Poll</container>
             <cache_lifetime>86400</cache_lifetime>
@@ -127,14 +127,14 @@
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_item_upsell>
         <catalog_product_list_related>
-            <block>Mage_Catalog_Block_Product_List_Related</block>
+            <block>Magento_Catalog_Block_Product_List_Related</block>
             <name>catalog.product.related</name>
             <placeholder>CATALOG_PRODUCT_LIST_RELATED</placeholder>
             <container>Enterprise_PageCache_Model_Container_CatalogProductList</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_list_related>
         <catalog_product_list_upsell>
-            <block>Mage_Catalog_Block_Product_List_Upsell</block>
+            <block>Magento_Catalog_Block_Product_List_Upsell</block>
             <name>product.info.upsell</name>
             <placeholder>CATALOG_PRODUCT_LIST_UPSELL</placeholder>
             <container>Enterprise_PageCache_Model_Container_CatalogProductList</container>

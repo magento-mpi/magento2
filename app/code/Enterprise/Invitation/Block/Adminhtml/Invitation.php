@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_Invitation_Block_Adminhtml_Invitation extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Initialize invitation manage page

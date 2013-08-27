@@ -16,7 +16,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_Filter_Decimal
+class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Magento_Catalog_Model_Layer_Filter_Decimal
 {
     /**
      * Get data for build decimal filter items
@@ -52,8 +52,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      * Apply decimal range filter to product collection
      *
      * @param Zend_Controller_Request_Abstract $request
-     * @param Mage_Catalog_Block_Layer_Filter_Decimal $filterBlock
-     * @return Mage_Catalog_Model_Layer_Filter_Decimal
+     * @param Magento_Catalog_Block_Layer_Filter_Decimal $filterBlock
+     * @return Magento_Catalog_Model_Layer_Filter_Decimal
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
@@ -116,7 +116,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
     /**
      * Apply attribute filter to product collection
      *
-     * @param Mage_Catalog_Model_Layer_Filter_Price $filter
+     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
      * @param int $range
      * @param int $index    the range factor
      *

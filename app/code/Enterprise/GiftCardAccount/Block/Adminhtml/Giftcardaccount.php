@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
 
     protected function _construct()

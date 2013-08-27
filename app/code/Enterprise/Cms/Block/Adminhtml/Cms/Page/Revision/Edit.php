@@ -16,7 +16,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminhtml_Block_Cms_Page_Edit
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento_Adminhtml_Block_Cms_Page_Edit
 {
 
     /**
@@ -180,7 +180,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
      */
     protected function _isAllowedAction($action)
     {
-        if ($action == 'Mage_Cms::save') {
+        if ($action == 'Magento_Cms::save') {
             $action = 'Enterprise_Cms::save_revision';
         }
         return parent::_isAllowedAction($action);

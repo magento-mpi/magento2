@@ -17,27 +17,27 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Checkout_Controller_Cart
-    extends Mage_Core_Controller_Front_Action
-    implements Mage_Catalog_Controller_Product_View_Interface
+    extends Magento_Core_Controller_Front_Action
+    implements Magento_Catalog_Controller_Product_View_Interface
 {
     /**
      * Get checkout session model instance
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**
      * Get customer session model instance
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -53,11 +53,11 @@ class Enterprise_Checkout_Controller_Cart
     /**
      * Get cart model instance
      *
-     * @return Mage_Checkout_Model_Cart
+     * @return Magento_Checkout_Model_Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Cart');
+        return Mage::getSingleton('Magento_Checkout_Model_Cart');
     }
 
     /**
@@ -104,7 +104,7 @@ class Enterprise_Checkout_Controller_Cart
             if ($cart->hasErrorMessage()) {
                 Mage::throwException($cart->getErrorMessage());
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         }
 
@@ -136,7 +136,7 @@ class Enterprise_Checkout_Controller_Cart
     public function removeFailedAction()
     {
         $removed = $this->_getFailedItemsCart()->removeAffectedItem(
-            Mage::helper('Mage_Core_Helper_Url')->urlDecode($this->getRequest()->getParam('sku'))
+            Mage::helper('Magento_Core_Helper_Url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {
@@ -184,8 +184,8 @@ class Enterprise_Checkout_Controller_Cart
 
             $params->setBuyRequest($buyRequest);
 
-            Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender($id, $this, $params);
-        } catch (Mage_Core_Exception $e) {
+            Mage::helper('Magento_Catalog_Helper_Product_View')->prepareAndRender($id, $this, $params);
+        } catch (Magento_Core_Exception $e) {
             $this->_getCustomerSession()->addError($e->getMessage());
             $this->_redirect('*');
             return;
@@ -210,7 +210,7 @@ class Enterprise_Checkout_Controller_Cart
         try {
             $cart = $this->_getCart();
 
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($id);
 
@@ -220,12 +220,12 @@ class Enterprise_Checkout_Controller_Cart
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
+                    $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {

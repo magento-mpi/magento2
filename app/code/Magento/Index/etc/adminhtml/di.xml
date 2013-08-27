@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_AdminNotification_Model_System_MessageList">
+        <param name="messages">
+            <value>
+                <indexer>Magento_Index_Model_System_Message_IndexOutdated</indexer>
+            </value>
+        </param>
+    </type>
+</config>

@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Return invitation form action url
@@ -63,13 +63,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
                 'label' => __('Send From'),
                 'required' => true,
                 'name' => 'store_id',
-                'values' => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
-        $groups = Mage::getModel('Mage_Customer_Model_Group')->getCollection()
+        $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
@@ -91,11 +91,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
     /**
      * Return adminhtml session
      *
-     * @return Mage_Adminhtml_Model_Session
+     * @return Magento_Adminhtml_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
     }
 
 }

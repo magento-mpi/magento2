@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Renderer_Action
-    extends Mage_Adminhtml_Block_Sales_Reorder_Renderer_Action
+    extends Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
 {
     /**
      * Render field HRML for column

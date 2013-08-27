@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection
     /**
      * Add sore data for load
      *
-     * @return Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection|Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

@@ -16,7 +16,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Resource_Item_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Enterprise_Rma_Model_Resource_Item_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
 {
     /**
      * Internal constructor

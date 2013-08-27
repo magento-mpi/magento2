@@ -14,7 +14,7 @@
  */
 
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments
-     extends Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
+     extends Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
 {
     /**
      * Retrieve collection class

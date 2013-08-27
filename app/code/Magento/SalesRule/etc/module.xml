@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_SalesRule" version="1.6.0.4" active="true">
+        <sequence>
+            <module name="Magento_Rule"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Sales"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Rule" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_Shipping" type="hard"/>
+            <module name="Magento_Payment" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+        </depends>
+    </module>
+</config>

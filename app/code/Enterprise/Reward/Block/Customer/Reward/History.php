@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Template
 {
     /**
      * History records collection
@@ -67,7 +67,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getCurrencyBalance(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->currency($item->getCurrencyAmount());
+        return Mage::helper('Magento_Core_Helper_Data')->currency($item->getCurrencyAmount());
     }
 
     /**
@@ -100,7 +100,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getDate(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->formatDate($item->getCreatedAt(), 'short', true);
+        return Mage::helper('Magento_Core_Helper_Data')->formatDate($item->getCreatedAt(), 'short', true);
     }
 
     /**
@@ -113,7 +113,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     {
         $expiresAt = $item->getExpiresAt();
         if ($expiresAt) {
-            return Mage::helper('Mage_Core_Helper_Data')->formatDate($expiresAt, 'short', true);
+            return Mage::helper('Magento_Core_Helper_Data')->formatDate($expiresAt, 'short', true);
         }
         return '';
     }
@@ -128,7 +128,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
         if (!$this->_collection) {
             $websiteId = Mage::app()->getWebsite()->getId();
             $this->_collection = Mage::getModel('Enterprise_Reward_Model_Reward_History')->getCollection()
-                ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+                ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())
                 ->addExpirationDate($websiteId)
@@ -147,7 +147,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'reward.history.pager')
+            $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'reward.history.pager')
                 ->setCollection($this->_getCollection())->setIsOutputRequired(false)
             ;
             $this->setChild('pager', $pager);

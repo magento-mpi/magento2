@@ -23,10 +23,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region');
@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function getConditionsSql($customer, $website)
     {
         $inversion = ((int)$this->getValue() ? '' : ' NOT ');
-        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'region');
+        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
         $ifNull = $this->getResource()->getReadConnection()->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
         $select->from(array('caev' => $attribute->getBackendTable()), "({$ifNull})");

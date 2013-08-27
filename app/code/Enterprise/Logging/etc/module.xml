@@ -10,15 +10,16 @@
 <config>
     <module name="Enterprise_Logging" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Mage_Adminhtml"/>
-            <module name="Mage_Sales"/>
-            <module name="Mage_Catalog"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Sales"/>
+	    <module name="Magento_Catalog"/>
+            <module name="Magento_User"/>
         </sequence>
         <depends>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_User" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_User" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
             <module name="Enterprise_Pci" type="hard"/>
         </depends>
     </module>

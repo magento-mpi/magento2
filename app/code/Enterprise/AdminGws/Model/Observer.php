@@ -21,7 +21,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     const ACL_STORE_LEVEL = 'store_level';
 
     /**
-     * @var Mage_Core_Model_Resource_Store_Group_Collection
+     * @var Magento_Core_Model_Resource_Store_Group_Collection
      */
     protected $_storeGroupCollection;
     protected $_callbacks      = array();
@@ -99,13 +99,13 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Get all store groups
      *
-     * @return Mage_Core_Model_Resource_Store_Group_Collection
+     * @return Magento_Core_Model_Resource_Store_Group_Collection
      */
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
             $this->_storeGroupCollection = Mage::getResourceSingleton(
-                    'Mage_Core_Model_Resource_Store_Group_Collection'
+                    'Magento_Core_Model_Resource_Store_Group_Collection'
                 );
         }
         return $this->_storeGroupCollection;
@@ -220,7 +220,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = Mage::getResourceSingleton('Mage_User_Model_Resource_Role_Collection');
+        $roles = Mage::getResourceSingleton('Magento_User_Model_Resource_Role_Collection');
         foreach ($roles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());
@@ -244,8 +244,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        /* @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
         if ($session->isLoggedIn()) {
             // load role with true websites and store groups
@@ -264,7 +264,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
-                Mage::getSingleton('Mage_Core_Model_System_Store')->setIsAdminScopeAllowed(false)->reload();
+                Mage::getSingleton('Magento_Core_Model_System_Store')->setIsAdminScopeAllowed(false)->reload();
             }
 
             // inject into request predispatch to block disallowed actions
@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         }
 
         $request = Mage::app()->getRequest();
-        $storeId = $request->getParam('store', Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeId = $request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -305,8 +305,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     protected function _denyAclLevelRules($level)
     {
-         /* @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+         /* @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
         /* @var $session Magento_Acl_Builder */
         $builder = Mage::getSingleton('Magento_Acl_Builder');

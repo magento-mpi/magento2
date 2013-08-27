@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Links extends Mage_Wishlist_Block_Links
+class Enterprise_Wishlist_Block_Links extends Magento_Wishlist_Block_Links
 {
     /**
      * Count items in wishlist

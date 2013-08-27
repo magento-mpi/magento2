@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Action
+class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Action
 {
     /**
      * Popup action
@@ -62,7 +62,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
      */
     protected function _canViewRma($rma)
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             $currentOrder = Mage::registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
@@ -81,8 +81,8 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
-            && !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
+            && !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()
         ) {
             return;
         }
@@ -148,7 +148,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
                     'application/pdf'
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -174,7 +174,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
             ->loadPackage($this->getRequest()->getParam('hash'));
 
         if ($model) {
-            $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')
+            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
                     ->setPackageShippingBlock(
                         Mage::getBlockSingleton('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
                     )
@@ -182,7 +182,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
             ;
 
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                 'application/pdf'
             );
         }

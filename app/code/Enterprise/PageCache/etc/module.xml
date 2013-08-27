@@ -10,17 +10,17 @@
 <config>
     <module name="Enterprise_PageCache" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Mage_Core"/>
+            <module name="Magento_Core"/>
         </sequence>
         <depends>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
             <module name="Enterprise_WebsiteRestriction" type="hard"/>
-            <module name="Mage_Catalog" type="hard"/>
-            <module name="Mage_Reports" type="hard"/>
-            <module name="Mage_Wishlist" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
             <module name="Enterprise_Banner" type="hard"/>
-            <module name="Mage_Page" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
             <module name="Enterprise_TargetRule" type="hard"/>
         </depends>
     </module>

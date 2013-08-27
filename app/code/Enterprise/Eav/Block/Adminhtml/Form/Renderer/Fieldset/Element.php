@@ -15,7 +15,7 @@
  * @package    Enterprise_Eav
  */
 class Enterprise_Eav_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     /**
      * Retrieve data object related with form

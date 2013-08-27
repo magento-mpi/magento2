@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Logging_Model_Resource_Grid_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_Logging_Model_Resource_Grid_Statuses implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

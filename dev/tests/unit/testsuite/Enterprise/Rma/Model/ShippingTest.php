@@ -39,7 +39,7 @@ class Enterprise_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
     public static function isCustomDataProvider()
     {
         return array(
-            array(true, Mage_Sales_Model_Order_Shipment_Track::CUSTOM_CARRIER_CODE),
+            array(true, Magento_Sales_Model_Order_Shipment_Track::CUSTOM_CARRIER_CODE),
             array(false, 'ups'),
         );
     }

@@ -39,11 +39,11 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Retrieve customer session model object
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -112,7 +112,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if (Mage::getDesign()->getArea() == Mage_Core_Model_App_Area::AREA_FRONTEND) {
+        if (Mage::getDesign()->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -151,7 +151,7 @@ class Enterprise_GiftRegistry_Model_Observer
         $orderItem = $observer->getEvent()->getOrderItem();
         $item = $observer->getEvent()->getItem();
 
-        if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
             $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
         } else {
             $registryItemId = $item->getGiftregistryItemId();
@@ -237,7 +237,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function deleteProduct(Magento_Event_Observer $observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
         if ($product->getParentId()) {
@@ -280,9 +280,9 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function assignHtmlHeadRenderingFlag(Magento_Event_Observer $observer)
     {
-        /** @var $layout Mage_Core_Model_Layout */
+        /** @var $layout Magento_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();
-        /** @var $blockHead Mage_Page_Block_Html_Head */
+        /** @var $blockHead Magento_Page_Block_Html_Head */
         $blockHead = $layout->getBlock('head');
         if ($blockHead && $this->isGiftregistryEnabled()) {
             $blockHead->setData('giftregistry_enabled', true);

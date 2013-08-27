@@ -15,7 +15,7 @@
  * @package    Enterprise_Invitation
  */
 
-class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_Adminhtml_Controller_Action
+class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Init action breadcrumbs
@@ -57,7 +57,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_
     {
         $this->loadLayout();
         $fileName   = 'invitation_general.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -69,7 +69,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_
     {
         $this->loadLayout();
         $fileName = 'invitation_general.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -95,7 +95,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_
     {
         $this->loadLayout();
         $fileName = 'invitation_customer.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -106,7 +106,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_
     public function exportCustomerExcelAction()
     {
         $this->loadLayout();
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $fileName = 'invitation_customer.xml';
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
@@ -132,7 +132,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_
     {
         $this->loadLayout();
         $fileName = 'invitation_order.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -144,7 +144,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Mage_
     {
         $this->loadLayout();
         $fileName = 'invitation_order.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

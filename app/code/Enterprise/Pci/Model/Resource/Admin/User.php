@@ -16,7 +16,7 @@
  * @package     Enterprise_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pci_Model_Resource_Admin_User extends Mage_User_Model_Resource_User
+class Enterprise_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_User
 {
     /**
      * Unlock specified user record(s)
@@ -60,7 +60,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_User_Model_Resource_
     /**
      * Increment failures count along with updating lock expire and first failure dates
      *
-     * @param Mage_User_Model_User $user
+     * @param Magento_User_Model_User $user
      * @param int|false $setLockExpires
      * @param int|false $setFirstFailure
      */
@@ -82,7 +82,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_User_Model_Resource_
     /**
      * Purge and get remaining old password hashes
      *
-     * @param Mage_User_Model_User $user
+     * @param Magento_User_Model_User $user
      * @param int $retainLimit
      * @return array
      */
@@ -119,7 +119,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_User_Model_Resource_
     /**
      * Remember a password hash for further usage
      *
-     * @param Mage_User_Model_User $user
+     * @param Magento_User_Model_User $user
      * @param string $passwordHash
      * @param int $lifetime
      */

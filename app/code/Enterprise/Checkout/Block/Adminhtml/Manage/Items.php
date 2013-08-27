@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Block_Template
+class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml_Block_Template
 {
     /**
      * Rterieve grid id in template
@@ -54,8 +54,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
+        $res = Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
+            || Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }
@@ -142,7 +142,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Return current quote from registry
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     protected function getQuote()
     {
@@ -152,7 +152,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Return current store from registry
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function getStore()
     {
@@ -162,7 +162,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Return current customer from registry
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Magento_Customer_Model_Customer
      */
     protected function getCustomer()
     {
@@ -172,7 +172,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Generate configure button html
      *
-     * @param  Mage_Sales_Model_Quote_Item $item
+     * @param  Magento_Sales_Model_Quote_Item $item
      * @return string
      */
     public function getConfigureButtonHtml($item)
@@ -196,7 +196,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Returns whether moving to wishlist is allowed for this item
      *
-     * @param Mage_Sales_Model_Quote_Item $item
+     * @param Magento_Sales_Model_Quote_Item $item
      * @return bool
      */
     public function isMoveToWishlistAllowed($item)
@@ -207,12 +207,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Retrieve collection of customer wishlists
      *
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getCustomerWishlists()
     {
-        /* @var Mage_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
-        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->getCollection()
+        /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
+        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

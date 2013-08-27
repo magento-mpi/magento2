@@ -20,7 +20,7 @@ class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_A
      /**
      * Quote instance, required for estimating checkout reward (rule defined static value)
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote = null;
 
@@ -49,10 +49,10 @@ class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_A
     /**
      * Quote setter
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_Reward_Model_Action_OrderExtra
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;

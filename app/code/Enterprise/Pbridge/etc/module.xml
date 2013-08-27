@@ -13,18 +13,18 @@
             <module name="Enterprise_Enterprise"/>
         </sequence>
         <depends>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Payment" type="hard"/>
-            <module name="Mage_Checkout" type="hard"/>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Sales" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Paypal" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Directory" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Payment" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Paypal" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
             <module name="Enterprise_Pci" type="hard"/>
-            <module name="Mage_PaypalUk" type="hard"/>
-            <module name="Mage_Page" type="hard"/>
+            <module name="Magento_PaypalUk" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
         </depends>
     </module>
 </config>

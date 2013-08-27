@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_PageCache_Controller_Request extends Mage_Core_Controller_Front_Action
+class Enterprise_PageCache_Controller_Request extends Magento_Core_Controller_Front_Action
 {
     /**
      * Request processing action
@@ -40,8 +40,8 @@ class Enterprise_PageCache_Controller_Request extends Mage_Core_Controller_Front
             $sessionInfo = array();
         }
 
-        /** @var $session Mage_Core_Model_Session */
-        $session = $this->_objectManager->get('Mage_Core_Model_Session');
+        /** @var $session Magento_Core_Model_Session */
+        $session = $this->_objectManager->get('Magento_Core_Model_Session');
         $cookieName = $session->getSessionName();
         $cookieInfo = array(
             'lifetime' => $session->getCookie()->getLifetime(),

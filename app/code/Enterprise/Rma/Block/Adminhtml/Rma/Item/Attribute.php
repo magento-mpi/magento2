@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Initialize rma item management page

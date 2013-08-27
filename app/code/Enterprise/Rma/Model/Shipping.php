@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
+class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
 {
     /**
      * Store address
@@ -78,9 +78,10 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $shipmentStoreId    = $this->getRma()->getStoreId();
         $storeInfo          = new Magento_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
-        /** @var $order Mage_Sales_Model_Order */
-        $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());
+        /** @var $order Magento_Sales_Model_Order */
+        $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
+        /** @var Magento_Sales_Model_Quote_Address $recipientAddress */
         $recipientAddress   = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
@@ -92,7 +93,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             Mage::throwException(__('Invalid carrier: %1', $carrierCode));
         }
 
-        $shipperRegionCode  = Mage::getModel('Mage_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
+        $shipperRegionCode  = Mage::getModel('Magento_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
@@ -102,7 +103,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             || !$recipientContactName->getLastName()
             || !$recipientAddress->getCompany()
             || !$storeInfo->getPhone()
-            || !$recipientAddress->getStreet(-1)
+            || !$recipientAddress->getStreetFull()
             || !$recipientAddress->getCity()
             || !$shipperRegionCode
             || !$recipientAddress->getPostcode()
@@ -113,8 +114,8 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             );
         }
 
-        /** @var $request Mage_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('Mage_Shipping_Model_Shipment_Return');
+        /** @var $request Magento_Shipping_Model_Shipment_Request */
+        $request = Mage::getModel('Magento_Shipping_Model_Shipment_Return');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -142,9 +143,9 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $request->setRecipientContactCompanyName($recipientAddress->getCompany());
         $request->setRecipientContactPhoneNumber($storeInfo->getPhone());
         $request->setRecipientEmail($recipientAddress->getEmail());
-        $request->setRecipientAddressStreet($recipientAddress->getStreet(-1));
+        $request->setRecipientAddressStreet($recipientAddress->getStreetFull());
         $request->setRecipientAddressStreet1($recipientAddress->getStreet(1));
-        $request->setRecipientAddressStreet2($recipientAddress->getStreet2(2));
+        $request->setRecipientAddressStreet2($recipientAddress->getStreet(2));
         $request->setRecipientAddressCity($recipientAddress->getCity());
         $request->setRecipientAddressStateOrProvinceCode($recipientRegionCode);
         $request->setRecipientAddressRegionCode($recipientRegionCode);
@@ -170,7 +171,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();

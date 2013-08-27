@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_product_superconfig_config>
+        <reference name="admin.product.edit.tab.super.config.grid">
+            <arguments>
+                <dataSource>
+                    <updater>Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater</updater>
+                </dataSource>
+            </arguments>
+            <reference name="admin.product.edit.tab.super.config.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
+                    <arguments>
+                        <header translate="true">Stock Availability</header>
+                        <type>text</type>
+                        <index>inventory_in_stock</index>
+                        <id>inventory_in_stock</id>
+                        <filter>0</filter>
+                        <sortable>1</sortable>
+                        <renderer>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</renderer>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
+                    <arguments>
+                        <header translate="true">Qty</header>
+                        <type>text</type>
+                        <index>qty</index>
+                        <id>qty</id>
+                        <filter>0</filter>
+                        <sortable>1</sortable>
+                    </arguments>
+                </block>
+            </reference>
+        </reference>
+    </adminhtml_catalog_product_superconfig_config>
+</layout>

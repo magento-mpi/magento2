@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_PageCache_Model_Resource_Crawler extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Internal constructor

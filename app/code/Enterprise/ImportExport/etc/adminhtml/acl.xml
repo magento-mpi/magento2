@@ -12,9 +12,9 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::convert">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::system">
+                    <resource id="Magento_Adminhtml::convert">
                         <resource id="Enterprise_ImportExport::enterprise_scheduled_operation" title="Scheduled" sortOrder="40" />
                     </resource>
                 </resource>

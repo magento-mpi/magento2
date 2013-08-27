@@ -38,7 +38,7 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Mage_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;

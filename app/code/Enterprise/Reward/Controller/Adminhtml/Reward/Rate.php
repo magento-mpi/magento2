@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_Controller_Action
+class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check if module functionality enabled
@@ -198,7 +198,7 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

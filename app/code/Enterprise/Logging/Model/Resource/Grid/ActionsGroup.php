@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Logging_Model_Resource_Grid_ActionsGroup implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_Logging_Model_Resource_Grid_ActionsGroup implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Enterprise_Logging_Model_Config

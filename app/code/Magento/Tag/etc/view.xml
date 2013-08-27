@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Tag
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<view>
+    <vars module="Magento_Tag">
+        <var name="product_image_size">100</var>   <!-- Product image size used in tagged products list -->
+    </vars>
+</view>

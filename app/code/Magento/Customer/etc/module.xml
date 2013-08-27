@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Customer" version="1.6.2.0.3" active="true">
+        <sequence>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Directory"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Newsletter" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Log" type="hard"/>
+            <module name="Magento_Page" type="soft"/>
+        </depends>
+    </module>
+</config>

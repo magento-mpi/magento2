@@ -10,24 +10,24 @@
 <config>
     <module name="Enterprise_Rma" version="1.11.0.11" active="false">
         <sequence>
-            <module name="Mage_Customer"/>
-            <module name="Mage_Sales"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Sales"/>
         </sequence>
         <depends>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Sales" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Catalog" type="hard"/>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Eav" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
             <module name="Enterprise_Eav" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Tax" type="hard"/>
-            <module name="Mage_Shipping" type="hard"/>
-            <module name="Mage_Usa" type="hard"/>
-            <module name="Mage_Page" type="hard"/>
-            <module name="Mage_Payment" type="hard"/>
-            <module name="Mage_Directory" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Shipping" type="hard"/>
+            <module name="Magento_Usa" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Payment" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
             <module name="Enterprise_Enterprise" type="hard"/>
             <module name="Enterprise_Customer" type="soft"/>
         </depends>

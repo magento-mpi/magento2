@@ -22,10 +22,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
     protected $_attributes;
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes');
@@ -74,8 +74,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         if (is_null($this->_attributes)) {
             $this->_attributes  = array();
 
-            /* @var $config Mage_Eav_Model_Config */
-            $config     = Mage::getSingleton('Mage_Eav_Model_Config');
+            /* @var $config Magento_Eav_Model_Config */
+            $config     = Mage::getSingleton('Magento_Eav_Model_Config');
             $attributes = array();
 
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
@@ -107,12 +107,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Country')
+                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Allregion')
+                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')
                         ->toOptionArray();
                     break;
 

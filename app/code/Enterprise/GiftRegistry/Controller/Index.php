@@ -11,7 +11,7 @@
 /**
  * Gift registry frontend controller
  */
-class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -28,8 +28,8 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
             return $this;
         }
 
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect(Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl());
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+            $this->getResponse()->setRedirect(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         return $this;
@@ -43,7 +43,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -71,7 +71,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     $entity->addItem($request->getParam('product'), new Magento_Object($request->getParams()));
                     $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
                 } else {//Adding from cart
-                    $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
+                    $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
                         if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
                             $skippedItems++;
@@ -85,21 +85,21 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                 }
 
                 if ($count > 0) {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
                         __('%1 item(s) have been added to the gift registry.', $count)
                     );
                 } else {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addNotice(
                         __('We have nothing to add to this gift registry.')
                     );
                 }
                 if (!empty($skippedItems)) {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addNotice(
                         __("You can't add virtual products, digital products or gift cards to gift registries.")
                     );
                 }
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $this->_getCheckoutSession()->addError($e->getMessage());
                 $this->_redirectReferer('*/*');
@@ -109,7 +109,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
             }
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(__('Failed to add shopping cart items to gift registry.'));
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(__('Failed to add shopping cart items to gift registry.'));
         }
 
         if ($entity->getId()) {
@@ -131,16 +131,16 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
-                $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')
+                $wishlistItem = Mage::getModel('Magento_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
                 $this->_getSession()->addSuccess(
                     __('The wish list item has been added to this gift registry.')
                 );
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = Mage::getModel('Mage_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
                     $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
@@ -172,7 +172,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     __('You deleted this gift registry.')
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $message = __('Something went wrong while deleting the gift registry.');
@@ -191,7 +191,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
         try {
             $entity = $this->_initEntity();
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Share Gift Registry'));
@@ -199,7 +199,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
             $this->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $message = __('Something went wrong while sharing the gift registry.');
@@ -218,15 +218,15 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
         try {
             Mage::register('current_entity', $this->_initEntity());
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
-            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Gift Registry Items'));
             }
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -252,7 +252,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     __('You updated the gift registry items.')
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -290,7 +290,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                 $this->_redirect('*/*/share', array('_current' => true));
                 return;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $message = __('Something went wrong while sending email(s).');
@@ -302,21 +302,21 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
      * Get current checkout session
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -327,7 +327,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
     public function addSelectAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -372,7 +372,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
             Mage::register('enterprise_giftregistry_address', $model->exportAddress());
 
             $this->loadLayout();
-            $this->_initLayoutMessages('Mage_Customer_Model_Session');
+            $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
             if ($model->getId()) {
                 $pageTitle = __('Edit Gift Registry');
@@ -384,7 +384,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                 $headBlock->setTitle($pageTitle);
             }
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -465,8 +465,8 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                 if (!$addressTypeOrId || $addressTypeOrId == Enterprise_GiftRegistry_Helper_Data::ADDRESS_NEW) {
                     // creating new address
                     if (!empty($data['address'])) {
-                        /* @var $address Mage_Customer_Model_Address */
-                        $address = Mage::getModel('Mage_Customer_Model_Address');
+                        /* @var $address Magento_Customer_Model_Address */
+                        $address = Mage::getModel('Magento_Customer_Model_Address');
                         $address->setData($data['address']);
                         $errors = $address->validate();
                         $model->importAddress($address);
@@ -485,8 +485,8 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     if (!$addressId) {
                         Mage::throwException(__('Please select an address.'));
                     }
-                    /* @var $customer Mage_Customer_Model_Customer */
-                    $customer  = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+                    /* @var $customer Magento_Customer_Model_Customer */
+                    $customer  = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
@@ -523,7 +523,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                         $model->sendNewRegistryEmail();
                     }
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $isError = true;
             } catch (Exception $e) {

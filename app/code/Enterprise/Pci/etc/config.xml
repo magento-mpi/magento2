@@ -20,7 +20,7 @@
             <enterprise_pci_setup>
                 <setup>
                     <module>Enterprise_Pci</module>
-                    <class>Mage_Core_Model_Resource_Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </enterprise_pci_setup>
         </resources>
@@ -85,7 +85,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_Pci before="Mage_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
+                        <Enterprise_Pci before="Magento_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
                     </modules>
                 </args>
             </adminhtml>
@@ -123,4 +123,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

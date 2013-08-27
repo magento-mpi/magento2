@@ -16,8 +16,8 @@
  * @package    Enterprise_TargetRule
  */
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare target rule actions form before rendering HTML
@@ -38,7 +38,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
         $newCondUrl = $this->getUrl('*/targetrule/newConditionHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer   = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('Enterprise_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);

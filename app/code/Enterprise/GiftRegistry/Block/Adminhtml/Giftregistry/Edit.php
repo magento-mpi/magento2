@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Intialize form

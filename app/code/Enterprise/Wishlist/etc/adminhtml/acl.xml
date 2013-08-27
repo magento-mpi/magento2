@@ -12,9 +12,9 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Reports::report">
-                    <resource id="Mage_Reports::customers">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Reports::report">
+                    <resource id="Magento_Reports::customers">
                         <resource id="Enterprise_Wishlist::wishlist" title="Wish Lists" sortOrder="40" />
                     </resource>
                 </resource>

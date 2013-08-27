@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerBalance_Model_Quote_Api extends Mage_Checkout_Model_Api_Resource
+class Enterprise_CustomerBalance_Model_Quote_Api extends Magento_Checkout_Model_Api_Resource
 {
 
     /**
@@ -49,15 +49,15 @@ class Enterprise_CustomerBalance_Model_Quote_Api extends Mage_Checkout_Model_Api
      */
     protected function _setUseStoreCreditForQuote($quoteId, $store = null, $shouldUseCustomerBalance = true)
     {
-        /** @var $quote Mage_Sales_Model_Quote */
+        /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
         if (!$quote->getCustomerId()) {
             $this->_fault('guest_quote');
         }
         $quote->setUseCustomerBalance($shouldUseCustomerBalance);
         $payment = $quote->getPayment();
-        /** @var $saveTransaction Mage_Core_Model_Resource_Transaction */
-        $saveTransaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+        /** @var $saveTransaction Magento_Core_Model_Resource_Transaction */
+        $saveTransaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
         if ($shouldUseCustomerBalance) {
             $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomerId($quote->getCustomerId())

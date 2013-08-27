@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <enterprise_rma_return_dellabel translate="label" type="fragment" owner="enterprise_rma_return_view">
         <label>RMA Return Delete Label</label>
-        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml"/>
         </block>
     </enterprise_rma_return_dellabel>

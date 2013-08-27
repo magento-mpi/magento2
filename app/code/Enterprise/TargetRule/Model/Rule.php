@@ -42,7 +42,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
+class Enterprise_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
      * Position behavior selectors
@@ -174,7 +174,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);
@@ -185,14 +185,14 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
 
             $this->_productIds = array();
             $this->_products   = array();
-            Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
+            Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
                 $productCollection->getSelect(),
                 array(
                     array($this, 'callbackValidateProduct')
                 ),
                 array(
                     'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => Mage::getModel('Mage_Catalog_Model_Product'),
+                    'product'       => Mage::getModel('Magento_Catalog_Model_Product'),
                     'onlyId'        => (bool) $onlyId
                 )
             );

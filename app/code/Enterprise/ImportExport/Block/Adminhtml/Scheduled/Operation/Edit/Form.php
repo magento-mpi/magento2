@@ -25,7 +25,7 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general form for scheduled operation
@@ -101,7 +101,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
         ));
 
         $entities = Mage::getModel(
-            'Mage_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity'
+            'Magento_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity'
         )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(
@@ -202,8 +202,8 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'class'     => 'ftp-server server-dependent'
         ));
 
-        /** @var $sourceYesNo Mage_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno');
+        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
+        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
         $fieldset->addField('passive', 'select', array(
             'name'      => 'file_info[passive]',
             'title'     => __('Passive Mode'),
@@ -228,8 +228,8 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'legend' => $this->getEmailSettingsLabel()
         ));
 
-        /** @var $sourceEmailIdentity Mage_Backend_Model_Config_Source_Email_Identity */
-        $sourceEmailIdentity = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Identity');
+        /** @var $sourceEmailIdentity Magento_Backend_Model_Config_Source_Email_Identity */
+        $sourceEmailIdentity = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Identity');
 
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
@@ -257,8 +257,8 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'label'     => __('Send Failed Email Copy To')
         ));
 
-        /** @var $sourceEmailMethod Mage_Backend_Model_Config_Source_Email_Method */
-        $sourceEmailMethod = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Method');
+        /** @var $sourceEmailMethod Magento_Backend_Model_Config_Source_Email_Method */
+        $sourceEmailMethod = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Method');
 
         $fieldset->addField('email_copy_method', 'select', array(
             'name'      => 'email_copy_method',

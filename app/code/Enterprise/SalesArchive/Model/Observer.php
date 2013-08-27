@@ -68,7 +68,7 @@ class Enterprise_SalesArchive_Model_Observer
 
         if ($object->getIsArchived()) {
             $object->setBackUrl(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
+                Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
             );
         } elseif ($object->getIsMoveable() !== false) {
             $object->setIsMoveable(
@@ -156,15 +156,15 @@ class Enterprise_SalesArchive_Model_Observer
     public function replaceSalesOrderRedirect(Magento_Event_Observer $observer)
     {
         /**
-         * @var Mage_Adminhtml_Controller_Action $controller
+         * @var Magento_Adminhtml_Controller_Action $controller
          */
         $controller = $observer->getControllerAction();
         /**
-         * @var Mage_Core_Controller_Response_Http $response
+         * @var Magento_Core_Controller_Response_Http $response
          */
         $response = $controller->getResponse();
         /**
-         * @var Mage_Core_Controller_Request_Http $request
+         * @var Magento_Core_Controller_Request_Http $request
          */
         $request = $controller->getRequest();
 

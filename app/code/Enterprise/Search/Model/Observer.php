@@ -19,7 +19,7 @@ class Enterprise_Search_Model_Observer
 {
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
      *
      * @param Magento_Event_Observer $observer
      */
@@ -84,8 +84,8 @@ class Enterprise_Search_Model_Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
+                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
     }
 
@@ -100,7 +100,7 @@ class Enterprise_Search_Model_Observer
             return;
         }
 
-        $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
         if (!$engine->holdCommit()) {
             return;
         }
@@ -127,7 +127,7 @@ class Enterprise_Search_Model_Observer
             return;
         }
 
-        $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
         if (!$engine->allowCommit()) {
             return;
         }
@@ -163,7 +163,7 @@ class Enterprise_Search_Model_Observer
                 continue;
             }
 
-            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(Magento_DB_Select::SQL_ASC, true)
                 ->load();
@@ -204,18 +204,18 @@ class Enterprise_Search_Model_Observer
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof Mage_Core_Model_Website
-            || $object instanceof Mage_Core_Model_Store_Group
+        if ($object instanceof Magento_Core_Model_Website
+            || $object instanceof Magento_Core_Model_Store_Group
         ) {
             $storeIds = $object->getStoreIds();
-        } elseif ($object instanceof Mage_Core_Model_Store) {
+        } elseif ($object instanceof Magento_Core_Model_Store) {
             $storeIds = $object->getId();
         } else {
             $storeIds = array();
         }
 
         if (!empty($storeIds)) {
-            $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+            $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
             $engine->cleanIndex($storeIds);
         }
     }
@@ -256,7 +256,7 @@ class Enterprise_Search_Model_Observer
         }
 
         /* @var Enterprise_Search_Model_Indexer_Indexer $indexer */
-        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
+        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
         }
@@ -264,7 +264,7 @@ class Enterprise_Search_Model_Observer
         if ('process' == strtolower(Mage::app()->getRequest()->getControllerName())) {
             $indexer->reindexAll();
         } else {
-            $indexer->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $indexer->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
     }
 }

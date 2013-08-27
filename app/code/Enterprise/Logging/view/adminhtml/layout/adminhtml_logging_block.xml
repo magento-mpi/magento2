@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_logging_block>
         <reference name="adminhtml.logging.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="logging.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="logging.grid" as="grid">
                 <arguments>
                     <id>loggingLogGrid</id>
                     <dataSource type="object">Enterprise_Logging_Model_Resource_Event_Collection</dataSource>
@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="logging.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="logging.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -39,7 +39,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.logging.archive.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/details</path>
@@ -48,7 +48,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="time">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="time">
                         <arguments>
                             <header translate="true">Time</header>
                             <index>time</index>
@@ -56,7 +56,7 @@
                             <wwidth>160</wwidth>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="event">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="event">
                         <arguments>
                             <header translate="true">Action Group</header>
                             <index>event_code</index>
@@ -65,7 +65,7 @@
                             <options type="options">Enterprise_Logging_Model_Resource_Grid_ActionsGroup</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true">Action</header>
                             <index>action</index>
@@ -74,18 +74,18 @@
                             <options type="options">Enterprise_Logging_Model_Resource_Grid_Actions</options>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="ip">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="ip">
                         <arguments>
                             <header translate="true">IP Address</header>
                             <index>ip</index>
                             <type>text</type>
                             <filter>Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip</filter>
-                            <renderer>Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Ip</renderer>
+                            <renderer>Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Ip</renderer>
                             <sortable>0</sortable>
                             <width>125</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="user">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="user">
                         <arguments>
                             <header translate="true">Username</header>
                             <index>user</index>
@@ -96,7 +96,7 @@
                             <width>150</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <header translate="true">Result</header>
                             <index>status</index>
@@ -106,7 +106,7 @@
                             <width>100</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="fullaction">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="fullaction">
                         <arguments>
                             <header translate="true">Full Action Name</header>
                             <index>fullaction</index>
@@ -114,18 +114,18 @@
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="info">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="info">
                         <arguments>
                             <header translate="true">Short Details</header>
                             <index>info</index>
                             <type>text</type>
                             <sortable>0</sortable>
-                            <filter>Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text</filter>
+                            <filter>Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Text</filter>
                             <renderer>Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details</renderer>
                             <width>100</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="view">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="view">
                         <arguments>
                             <header translate="true">Full Details</header>
                             <index>info</index>

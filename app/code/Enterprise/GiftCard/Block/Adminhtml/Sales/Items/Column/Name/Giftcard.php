@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard
-    extends Mage_Adminhtml_Block_Sales_Items_Column_Name
+    extends Magento_Adminhtml_Block_Sales_Items_Column_Name
 {
     /**
      * Prepare custom option for display, returns false if there's no value

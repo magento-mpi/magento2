@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 class Enterprise_Reward_Model_Resource_Reward_History_Grid_Options_Websites
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * System Store Model

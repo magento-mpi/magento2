@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_User" version="1.6.1.4" active="true">
+        <sequence>
+            <module name="Magento_Backend"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_Newsletter" type="hard"/>
+            <module name="Magento_Review" type="hard"/>
+            <module name="Magento_Tag" type="hard"/>
+            <module name="Magento_AdminNotification" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Backup" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_CatalogRule" type="hard"/>
+            <module name="Magento_CatalogSearch" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Contacts" type="hard"/>
+            <module name="Magento_CurrencySymbol" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_DesignEditor" type="hard"/>
+            <module name="Magento_Downloadable" type="hard"/>
+            <module name="Magento_GoogleCheckout" type="hard"/>
+            <module name="Magento_GoogleShopping" type="hard"/>
+            <module name="Magento_ImportExport" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Oauth" type="hard"/>
+            <module name="Magento_PageCache" type="hard"/>
+            <module name="Magento_Payment" type="hard"/>
+            <module name="Magento_Paypal" type="hard"/>
+            <module name="Magento_Persistent" type="hard"/>
+            <module name="Magento_Poll" type="hard"/>
+            <module name="Magento_Rating" type="hard"/>
+            <module name="Magento_Reports" type="hard"/>
+            <module name="Magento_Rss" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_SalesRule" type="hard"/>
+            <module name="Magento_Shipping" type="hard"/>
+            <module name="Magento_Sitemap" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Widget" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_Page" type="soft"/>
+        </depends>
+    </module>
+</config>

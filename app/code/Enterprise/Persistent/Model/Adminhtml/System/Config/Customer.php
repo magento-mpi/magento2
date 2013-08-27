@@ -12,7 +12,7 @@
  * Enterprise Persistent System Config Shopping Customer option backend model
  *
  */
-class Enterprise_Persistent_Model_Adminhtml_System_Config_Customer extends Mage_Core_Model_Config_Data
+class Enterprise_Persistent_Model_Adminhtml_System_Config_Customer extends Magento_Core_Model_Config_Data
 {
     /**
      * Prefix of model events names
@@ -24,7 +24,7 @@ class Enterprise_Persistent_Model_Adminhtml_System_Config_Customer extends Mage_
     /**
      * Processing object before save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {

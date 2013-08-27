@@ -15,7 +15,7 @@
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
+class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Data
 {
     /**
      * Get operation header text

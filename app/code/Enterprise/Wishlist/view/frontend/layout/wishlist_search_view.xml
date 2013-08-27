@@ -22,35 +22,35 @@
         </reference>
         <reference name="content">
             <block type="Enterprise_Wishlist_Block_Info" name="customer.wishlist.info" template="info.phtml">
-                <block type="Mage_Wishlist_Block_Customer_Wishlist_Items" name="wishlist.view.items" as="items" template="Mage_Wishlist::item/list.phtml">
+                <block type="Magento_Wishlist_Block_Customer_Wishlist_Items" name="wishlist.view.items" as="items" template="Magento_Wishlist::item/list.phtml">
                     <block type="Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Selector_Cart" name="customer.wishlist.item.selector" after="-" template="item/column/selector.phtml">
                         <action method="setIsEnabled">
                             <isEnabled>true</isEnabled>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="Mage_Wishlist::item/column/image.phtml"/>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="Enterprise_Wishlist::item/column/details.phtml">
+                    <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml"/>
+                    <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="Enterprise_Wishlist::item/column/details.phtml">
                         <action method="setTitle" translate="title">
                             <title>Product Info</title>
                         </action>
-                        <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
+                        <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="Enterprise_Wishlist::item/column/comment.phtml">
+                    <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="Enterprise_Wishlist::item/column/comment.phtml">
                         <action method="setTitle" translate="title">
                             <title>Comment</title>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="Enterprise_Wishlist::item/column/qty.phtml">
+                    <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="Enterprise_Wishlist::item/column/qty.phtml">
                         <action method="setTitle" translate="title">
                             <title>Wanted Qty</title>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="Enterprise_Wishlist::item/column/price.phtml">
+                    <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="Enterprise_Wishlist::item/column/price.phtml">
                         <action method="setTitle" translate="title">
                             <title>Unit Price</title>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="Enterprise_Wishlist::item/column/qty_input.phtml">
+                    <block type="Magento_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="Enterprise_Wishlist::item/column/qty_input.phtml">
                         <action method="setTitle" translate="title">
                             <title>Qty</title>
                         </action>

@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Mage_Core_Model_Cache">
+    <type name="Magento_Core_Model_Cache">
         <param name="storeManager"><instance type="customStoreManagerProxy" /></param>
     </type>
-    <type name="Mage_Core_Controller_Varien_Action_Context">
+    <type name="Magento_Core_Controller_Varien_Action_Context">
         <param name="layoutFactory"><instance type="customLayoutFactory" /></param>
-        <plugin name="first" type="Mage_Core_Model_Action_Plugin" />
+        <plugin name="first" type="Magento_Core_Model_Action_Plugin" />
         <plugin name="second" type="Custom_PageCache_Model_Action_Plugin" />
     </type>
-    <virtualType name="customStoreManagerProxy" type="Mage_Core_Model_StoreManager_Proxy" />
-    <virtualType name="customLayoutFactory" type="Mage_Core_Model_Layout_Factory" />
+    <virtualType name="customStoreManagerProxy" type="Magento_Core_Model_StoreManager_Proxy" />
+    <virtualType name="customLayoutFactory" type="Magento_Core_Model_Layout_Factory" />
 </config>

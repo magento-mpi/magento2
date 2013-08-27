@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Mage/SalesRule/_files/cart_rule_40_percent_off.php';
-require __DIR__ . '/../../../Mage/SalesRule/_files/cart_rule_50_percent_off.php';
+require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_40_percent_off.php';
+require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_50_percent_off.php';
 
-/** @var Mage_SalesRule_Model_Rule $ruleFrom */
-$ruleFrom = Mage::getModel('Mage_SalesRule_Model_Rule');
+/** @var Magento_SalesRule_Model_Rule $ruleFrom */
+$ruleFrom = Mage::getModel('Magento_SalesRule_Model_Rule');
 $ruleFrom->load('40% Off on Large Orders', 'name');
 
-/** @var Mage_SalesRule_Model_Rule $ruleTo */
-$ruleTo = Mage::getModel('Mage_SalesRule_Model_Rule');
+/** @var Magento_SalesRule_Model_Rule $ruleTo */
+$ruleTo = Mage::getModel('Magento_SalesRule_Model_Rule');
 $ruleTo->load('50% Off on Large Orders', 'name');
 
 /** @var Enterprise_Banner_Model_Banner $banner */

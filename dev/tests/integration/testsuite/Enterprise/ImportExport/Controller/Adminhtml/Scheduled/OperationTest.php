@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_OperationTest extends Mage_Backend_Utility_Controller
+class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_OperationTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here
@@ -104,7 +104,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_OperationTest exten
      * Test cron action
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/operation.php
-     * @magentoDataFixture Mage/Catalog/_files/products_new.php
+     * @magentoDataFixture Magento/Catalog/_files/products_new.php
      */
     public function testCronAction()
     {
@@ -129,8 +129,8 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_OperationTest exten
         // Restore current working directory
         chdir($cwd);
 
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::SUCCESS);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::SUCCESS);
     }
 
     /**

@@ -10,27 +10,27 @@
 <config>
     <module name="Enterprise_GiftRegistry" version="1.11.0.0.1" active="false">
         <sequence>
-            <module name="Mage_Adminhtml"/>
-            <module name="Mage_Sales"/>
+            <module name="Magento_Adminhtml"/>
+            <module name="Magento_Sales"/>
         </sequence>
         <depends>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Sales" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Checkout" type="hard"/>
-            <module name="Mage_Wishlist" type="hard"/>
-            <module name="Mage_Catalog" type="hard"/>
-            <module name="Mage_Tax" type="hard"/>
-            <module name="Mage_Directory" type="hard"/>
-            <module name="Mage_Page" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Widget" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Widget" type="hard"/>
             <module name="Enterprise_Logging" type="hard"/>
-            <module name="Mage_CatalogInventory" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
             <module name="Enterprise_GiftCard" type="hard"/>
-            <module name="Mage_Paypal" type="hard"/>
-            <module name="Mage_Bundle" type="soft"/>
+            <module name="Magento_Paypal" type="hard"/>
+            <module name="Magento_Bundle" type="soft"/>
         </depends>
     </module>
 </config>

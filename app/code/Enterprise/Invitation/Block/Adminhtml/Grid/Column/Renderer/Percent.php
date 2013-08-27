@@ -15,7 +15,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Number
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Number
 {
     /**
      * Renders grid column

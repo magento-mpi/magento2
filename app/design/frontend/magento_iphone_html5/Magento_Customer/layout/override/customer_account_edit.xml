@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <customer_account_edit translate="label" type="page" parent="customer_account">
+        <label>Customer Account Edit Form</label>
+        <update handle="customer_account"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title">
+                <title>Edit Account Info</title>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="Magento_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml">
+                <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+                    <action method="setFormCode">
+                        <code>customer_account_edit</code>
+                    </action>
+                </block>
+            </block>
+        </reference>
+        <reference name="left">
+            <action method="unsetChild">
+                <name>left.permanent.callout</name>
+            </action>
+        </reference>
+        <update handle="customer_form_template_handle"/>
+    </customer_account_edit>
+</layout>

@@ -50,7 +50,7 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
-            'Mage_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -63,7 +63,13 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
             )))
         ;
 
-        $this->_eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
+        $this->_eventManager = $this->getMock(
+            'Magento_Core_Model_Event_Manager',
+            array('dispatch'),
+            array(),
+            '',
+            false
+        );
 
         $this->_bannerConfig = $this->getMock(
             'Enterprise_Banner_Model_Config', array('explodeTypes'), array(), '', false

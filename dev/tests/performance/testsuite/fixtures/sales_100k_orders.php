@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Sales
+ * @package     Magento_Sales
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -17,27 +17,27 @@ $addressData = array(
     'telephone'  => '11111111',
     'country_id' => 'US',
 );
-$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => $addressData));
+$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address', array('data' => $addressData));
 $shippingAddress = clone $billingAddress;
 
-$item = Mage::getModel('Mage_Sales_Model_Order_Item');
+$item = Mage::getModel('Magento_Sales_Model_Order_Item');
 $item->setOriginalPrice(100)
     ->setPrice(100)
     ->setQtyOrdered(1)
     ->setRowTotal(100)
     ->setSubtotal(100);
 
-$payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
+$payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
-$order = Mage::getModel('Mage_Sales_Model_Order');
+$order = Mage::getModel('Magento_Sales_Model_Order');
 $order->setBaseSubtotal(100)
     ->setSubtotal(100)
     ->setBaseGrandTotal(100)
     ->setGrandTotal(100)
     ->setTotalPaid(100)
     ->setCustomerIsGuest(true)
-    ->setState(Mage_Sales_Model_Order::STATE_NEW, true)
+    ->setState(Magento_Sales_Model_Order::STATE_NEW, true)
     ->setStoreId(Mage::app()->getStore()->getId());
 
 for ($i = 1; $i <= 100000; $i++) {

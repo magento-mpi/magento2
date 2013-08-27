@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order extends Magento_Backend_Block_Widget_Grid_Container
 {
     protected function _construct()
     {

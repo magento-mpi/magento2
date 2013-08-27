@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**
@@ -78,11 +78,11 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => __('Websites'),
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds(),
             ));
             $renderer = $this->getLayout()->createBlock(
-                'Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+                'Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
             );
             $field->setRenderer($renderer);
         }
@@ -97,7 +97,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             )
         ));
 
-        $fieldset->addType('price', 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
+        $fieldset->addType('price', 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => __('Price'),
             'name'     => 'base_price',
@@ -106,7 +106,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             'after_element_html' => '<strong>[' .  Mage::app()->getBaseCurrencyCode() . ']</strong>'
         ));
 
-        $uploadButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $uploadButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label' => __('Upload File'),
                 'id' => 'upload_image_button',

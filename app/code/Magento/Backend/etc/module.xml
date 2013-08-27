@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Backend" version="2.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_Directory"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_AdminNotification" type="hard"/>
+            <module name="Magento_Cron" type="hard"/>
+            <module name="Magento_Sendfriend" type="hard"/>
+            <module name="Magento_Page" type="soft"/>
+        </depends>
+    </module>
+</config>

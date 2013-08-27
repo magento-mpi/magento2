@@ -31,7 +31,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      * Define action type and default value
      *
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes');
@@ -60,7 +60,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueOption($option = null)
     {
         if (!$this->getData('value_option') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getAllOption();
+            $options = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getAllOption();
             $this->setData('value_option', $options);
         }
         return parent::getValueOption($option);
@@ -75,7 +75,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getAllOptions();
+            $options = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getAllOptions();
             $this->setData('value_select_options', $options);
         }
         return parent::getValueSelectOptions();
@@ -185,7 +185,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
         return $element;
     }
 
@@ -251,7 +251,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index                         $object
      * @param array                                                     $bind
      * @return Zend_Db_Expr

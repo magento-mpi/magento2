@@ -12,30 +12,30 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Customer::customer">
-                    <resource id="Mage_Customer::manage">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Customer::customer">
+                    <resource id="Magento_Customer::manage">
                         <resource id="Enterprise_Reward::reward_balance" title="Manage Reward Points Balances" sortOrder="10" />
                     </resource>
                 </resource>
-                <resource id="Mage_Sales::sales">
-                    <resource id="Mage_Sales::sales_operation">
-                        <resource id="Mage_Sales::sales_order">
-                            <resource id="Mage_Sales::actions">
-                                <resource id="Mage_Sales::create">
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Magento_Sales::sales_order">
+                            <resource id="Magento_Sales::actions">
+                                <resource id="Magento_Sales::create">
                                     <resource id="Enterprise_Reward::reward_spend" title="Can Spend Reward Points" sortOrder="30" />
                                 </resource>
                             </resource>
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
                             <resource id="Enterprise_Reward::enterprise_reward" title="Reward Points" sortOrder="10" />
                         </resource>
                     </resource>
-                    <resource id="Mage_Adminhtml::stores_other_settings">
+                    <resource id="Magento_Adminhtml::stores_other_settings">
                         <resource id="Enterprise_Reward::rates" title="Reward Exchange Rates" sortOrder="20" />
                     </resource>
                 </resource>

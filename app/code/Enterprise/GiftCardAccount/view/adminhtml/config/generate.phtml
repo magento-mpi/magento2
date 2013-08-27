@@ -28,7 +28,7 @@ echo __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total).', $_us
 //<![CDATA[
 function redirectToGeneration()
 {
-    var url = '<?php echo Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/giftcardaccount/generate'); ?>';
+    var url = '<?php echo Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/giftcardaccount/generate'); ?>';
     if (confirm('<?php echo __('Are you sure you want to continue without saving your changes?'); ?>')) {
         if (Prototype.Browser.IE) {
             var generateLink = new Element('a', {href: url});

@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Mage_Backend_Utility_Controller
+class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extend
 
     /**
      * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testMatchActionLogging()
     {

@@ -16,7 +16,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set grid Id
@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
                 'header'    => __('Website'),
                 'index'     => 'website_ids',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
                 'header_css_class'  => 'col-website',
                 'column_css_class'  => 'col-website'
             ));

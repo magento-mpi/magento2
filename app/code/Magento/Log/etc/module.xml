@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Log" version="1.6.0.0" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+        </depends>
+    </module>
+</config>

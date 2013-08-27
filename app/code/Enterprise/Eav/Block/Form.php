@@ -16,7 +16,7 @@
  * @package     Enterprise_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
+class Enterprise_Eav_Block_Form extends Magento_Core_Block_Template
 {
     /**
      * Name of the block in layout update xml file
@@ -63,21 +63,21 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Entity type instance
      *
-     * @var Mage_Eav_Model_Entity_Type
+     * @var Magento_Eav_Model_Entity_Type
      */
     protected $_entityType;
 
     /**
      * EAV form instance
      *
-     * @var Mage_Eav_Model_Form
+     * @var Magento_Eav_Model_Form
      */
     protected $_form;
 
     /**
      * EAV Entity Model
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_entity;
 
@@ -118,7 +118,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
      * Get Attribute renderers from it, and add to self
      *
      * @return Enterprise_Eav_Block_Form
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _prepareLayout()
     {
@@ -165,10 +165,10 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Set Entity object
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return Enterprise_Eav_Block_Form
      */
-    public function setEntity(Mage_Core_Model_Abstract $entity)
+    public function setEntity(Magento_Core_Model_Abstract $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -189,19 +189,19 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Set Entity type if entity model entity type is not defined or is different
      *
-     * @param int|string|Mage_Eav_Model_Entity_Type $entityType
+     * @param int|string|Magento_Eav_Model_Entity_Type $entityType
      * @return Enterprise_Eav_Block_Form
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
         return $this;
     }
 
     /**
      * Return Entity object
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getEntity()
     {
@@ -216,10 +216,10 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Set EAV entity form instance
      *
-     * @param Mage_Eav_Model_Form $form
+     * @param Magento_Eav_Model_Form $form
      * @return Enterprise_Eav_Block_Form
      */
-    public function setForm(Mage_Eav_Model_Form $form)
+    public function setForm(Magento_Eav_Model_Form $form)
     {
         $this->_form = $form;
         return $this;
@@ -240,7 +240,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Return EAV entity Form instance
      *
-     * @return Mage_Eav_Model_Form
+     * @return Magento_Eav_Model_Form
      */
     public function getForm()
     {
@@ -288,10 +288,10 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Render attribute row and return HTML
      *
-     * @param Mage_Eav_Model_Attribute $attribute
+     * @param Magento_Eav_Model_Attribute $attribute
      * @return string
      */
-    public function getAttributeHtml(Mage_Eav_Model_Attribute $attribute)
+    public function getAttributeHtml(Magento_Eav_Model_Attribute $attribute)
     {
         $type   = $attribute->getFrontendInput();
         $block  = $this->getRenderer($type);

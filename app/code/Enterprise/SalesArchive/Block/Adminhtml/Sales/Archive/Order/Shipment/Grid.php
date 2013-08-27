@@ -14,7 +14,7 @@
  */
 
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
-    extends Mage_Adminhtml_Block_Sales_Shipment_Grid
+    extends Magento_Adminhtml_Block_Sales_Shipment_Grid
 {
     public function _construct()
     {
@@ -52,8 +52,8 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     {
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
-                $url = Mage::helper('Mage_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl(Mage::helper('Mage_Core_Helper_Url')
+                $url = Mage::helper('Magento_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(Mage::helper('Magento_Core_Helper_Url')
                     ->addRequestParam($url, array('action' => 'shipment')));
             }
             return $this->_exportTypes;

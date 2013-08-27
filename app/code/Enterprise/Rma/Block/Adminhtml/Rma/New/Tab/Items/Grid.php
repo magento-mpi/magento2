@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 //    extends Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
 {
     /**
@@ -79,7 +79,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -272,7 +272,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|Magento_Object
      * @return string
      */
     public function getRowUrl($item)

@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminhtml_Block_Template
+class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Magento_Adminhtml_Block_Template
 {
     /**
      * Return applied coupon code for current quote
@@ -30,7 +30,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
     /**
      * Return current quote from regisrty
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -45,7 +45,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminh
     public function getApplyButtonHtml()
     {
         return $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
                 ->setData(array(
                     'id'        => 'apply_coupon',
                     'label'     => __('Apply'),

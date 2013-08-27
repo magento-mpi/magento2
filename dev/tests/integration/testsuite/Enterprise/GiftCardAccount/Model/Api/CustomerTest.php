@@ -29,7 +29,7 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
     /**
      * Test redeem amount present on gift card to Store Credit.
      *
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/code_pool.php
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
      */

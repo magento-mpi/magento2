@@ -48,7 +48,7 @@
                 <customer_finance translate="label">
                     <model_token>Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance</model_token>
                     <label>Customer Finances</label>
-                    <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>
+                    <behavior_token>Magento_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>
                 </customer_finance>
             </import_entities>
         </importexport>
@@ -58,7 +58,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_importexport before="Mage_Adminhtml">Enterprise_ImportExport_Adminhtml</enterprise_importexport>
+                        <enterprise_importexport before="Magento_Adminhtml">Enterprise_ImportExport_Adminhtml</enterprise_importexport>
                     </modules>
                 </args>
             </adminhtml>

@@ -10,13 +10,13 @@
 <config>
     <module name="Enterprise_Eav" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Mage_Eav"/>
-            <module name="Mage_Adminhtml"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Adminhtml"/>
         </sequence>
         <depends>
-            <module name="Mage_Eav" type="hard"/>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
         </depends>
     </module>
 </config>

@@ -12,7 +12,7 @@
         <label>Customer My Account Store Credit</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_Core_Block_Template" name="customerbalance.wrapper" template="Enterprise_CustomerBalance::account/wrapper.phtml" translate="label">
+            <block type="Magento_Core_Block_Template" name="customerbalance.wrapper" template="Enterprise_CustomerBalance::account/wrapper.phtml" translate="label">
                 <label>Store Credit Balance and History Wrapper</label>
                 <block type="Enterprise_CustomerBalance_Block_Account_Balance" name="balance" template="account/balance.phtml" before="-"/>
                 <block type="Enterprise_CustomerBalance_Block_Account_History" name="history" template="account/history.phtml" after="-"/>

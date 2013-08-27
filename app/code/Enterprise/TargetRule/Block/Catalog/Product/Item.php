@@ -15,10 +15,10 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  *
- * @method Enterprise_TargetRule_Block_Catalog_Product_Item setItem(Mage_Catalog_Model_Product $item)
- * @method Mage_Catalog_Model_Product getItem()
+ * @method Enterprise_TargetRule_Block_Catalog_Product_Item setItem(Magento_Catalog_Model_Product $item)
+ * @method Magento_Catalog_Model_Product getItem()
  */
-class Enterprise_TargetRule_Block_Catalog_Product_Item extends Mage_Catalog_Block_Product_Abstract
+class Enterprise_TargetRule_Block_Catalog_Product_Item extends Magento_Catalog_Block_Product_Abstract
 {
     /**
      * Get cache key informative items with the position number to differentiate

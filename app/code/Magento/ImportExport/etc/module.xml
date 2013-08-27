@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_ImportExport" version="1.6.0.4" active="true">
+        <sequence>
+            <module name="Magento_Catalog"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+        </depends>
+    </module>
+</config>

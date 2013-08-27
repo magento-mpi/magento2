@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Catalog" version="1.6.0.0.23" active="true">
+        <sequence>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Index"/>
+            <module name="Magento_Customer"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_Cms" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Page" type="hard"/>
+            <module name="Magento_Checkout" type="hard"/>
+            <module name="Magento_Log" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Widget" type="hard"/>
+            <module name="Magento_Wishlist" type="hard"/>
+            <module name="Magento_Review" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Bundle" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_Cron" type="hard"/>
+            <module name="Magento_Api" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Directory" type="hard"/>
+            <module name="Magento_CatalogRule" type="hard"/>
+            <module name="Magento_Media" type="hard"/>
+            <module name="Magento_Sales" type="hard"/>
+            <module name="Magento_CatalogSearch" type="hard"/>
+            <module name="Magento_Weee" type="hard"/>
+        </depends>
+    </module>
+</config>

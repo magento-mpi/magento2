@@ -17,13 +17,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
-    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Preparing global layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -63,7 +63,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         // customer attribute code can have prefix "rma_item_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
         $element->setNote(
-            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
+            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
         );
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -131,7 +131,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
             'values'    => array('' => __('None')),
         ));
 
-        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')
@@ -215,7 +215,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      */
     protected function _initFormValues()
     {

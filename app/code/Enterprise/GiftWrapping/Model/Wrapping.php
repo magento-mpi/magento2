@@ -12,7 +12,7 @@
  * Gift Wrapping model
  *
  */
-class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
+class Enterprise_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
 {
     /**
      * Relative path to folder to store wrapping image to
@@ -50,7 +50,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     {
         if (Mage::app()->hasSingleStore()) {
             $this->setData('website_ids', array_keys(
-                Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash()));
+                Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()));
         }
         if ($this->hasTmpImage()) {
             $baseImageName = $this->getTmpImage();
@@ -103,7 +103,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     /**
      * Retrieve store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -127,12 +127,12 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     /**
      * Set wrapping image
      *
-     * @param string|null|Mage_Core_Model_File_Uploader $value
+     * @param string|null|Magento_Core_Model_File_Uploader $value
      * @return Enterprise_GiftWrapping_Model_Wrapping
      */
     public function setImage($value)
     {
-        //in the current version should be used instance of Mage_Core_Model_File_Uploader
+        //in the current version should be used instance of Magento_Core_Model_File_Uploader
         if ($value instanceof Magento_File_Uploader) {
             $value->save($this->_getImageFolderAbsolutePath());
             $value = $value->getUploadedFileName();
@@ -152,7 +152,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     {
         $isUploaded = true;
         try {
-            $uploader = new Mage_Core_Model_File_Uploader($imageFieldName);
+            $uploader = new Magento_Core_Model_File_Uploader($imageFieldName);
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
@@ -173,12 +173,12 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     /**
      * Set temporary wrapping image
      *
-     * @param string|null|Mage_Core_Model_File_Uploader $value
+     * @param string|null|Magento_Core_Model_File_Uploader $value
      * @return Enterprise_GiftWrapping_Model_Wrapping
      */
     public function setTmpImage($value)
     {
-        //in the current version should be used instance of Mage_Core_Model_File_Uploader
+        //in the current version should be used instance of Magento_Core_Model_File_Uploader
         if ($value instanceof Magento_File_Uploader) {
             // Delete previous temporary image if exists
             $this->unsTmpImage();

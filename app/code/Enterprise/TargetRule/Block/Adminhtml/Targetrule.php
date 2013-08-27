@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Initialize invitation manage page

@@ -23,14 +23,14 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet"
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet"
                        name="adminhtml.reward.history.customer.edit.tab.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path></path>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="points_balance">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="points_balance">
                         <arguments>
                             <header translate="true">Balance</header>
                             <type>number</type>
@@ -40,7 +40,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="currency_amount">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="currency_amount">
                         <arguments>
                             <header translate="true">Amount Balance</header>
                             <type>currency</type>
@@ -52,7 +52,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="points_delta">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="points_delta">
                         <arguments>
                             <type>number</type>
                             <index>points_delta</index>
@@ -63,7 +63,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="currency_delta">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="currency_delta">
                         <arguments>
                             <type>currency</type>
                             <currency>base_currency_code</currency>
@@ -76,7 +76,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="rate">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rate">
                         <arguments>
                             <getter>getRateText</getter>
                             <header translate="true">Rate</header>
@@ -85,7 +85,7 @@
                             <width>1</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="website">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
                             <header translate="true">Website</header>
                             <type>options</type>
@@ -94,7 +94,7 @@
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="message">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="message">
                         <arguments>
                             <index>message</index>
                             <header translate="true">Reason</header>
@@ -105,7 +105,7 @@
                             <renderer>Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Column_Renderer_Reason</renderer>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
                             <type>datetime</type>
                             <index>created_at</index>
@@ -114,7 +114,7 @@
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="expiration_date">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="expiration_date">
                         <arguments>
                             <type>datetime</type>
                             <getter>getExpiresAt</getter>
@@ -124,7 +124,7 @@
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="comment">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="comment">
                         <arguments>
                             <index>comment</index>
                             <header translate="true">Comment</header>

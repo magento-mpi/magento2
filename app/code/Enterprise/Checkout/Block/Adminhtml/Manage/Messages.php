@@ -15,14 +15,14 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Messages extends Mage_Adminhtml_Block_Messages
+class Enterprise_Checkout_Block_Adminhtml_Manage_Messages extends Magento_Adminhtml_Block_Messages
 {
     /**
      * Prepares layout for current block
      */
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages(true));
+        $this->addMessages(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages(true));
         parent::_prepareLayout();
     }
 }

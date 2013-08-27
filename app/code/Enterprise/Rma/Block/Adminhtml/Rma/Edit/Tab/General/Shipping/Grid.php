@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Bundle
+ * @category    Magento
+ * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mage_Adminhtml_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Magento_Adminhtml_Block_Template
 {
     /**
      * Return collection of shipment items

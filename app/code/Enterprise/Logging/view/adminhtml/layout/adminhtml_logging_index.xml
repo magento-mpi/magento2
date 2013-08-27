@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_logging_block"/>
         <reference name="content">
-            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="adminhtml.logging.grid.container" template="Mage_Backend::widget/grid/container.phtml">
+            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="adminhtml.logging.grid.container" template="Magento_Backend::widget/grid/container.phtml">
                 <arguments translate="header_text">
                     <header_text>Admin Actions Log</header_text>
                 </arguments>

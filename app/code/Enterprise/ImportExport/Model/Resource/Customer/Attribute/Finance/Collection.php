@@ -36,15 +36,15 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     protected $_orderField;
 
     /**
-     * @var Mage_Eav_Model_AttributeFactory
+     * @var Magento_Eav_Model_AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
      * Class constructor
-     * @param Mage_Eav_Model_AttributeFactory $attributeFactory
+     * @param Magento_Eav_Model_AttributeFactory $attributeFactory
      */
-    public function __construct(Mage_Eav_Model_AttributeFactory $attributeFactory)
+    public function __construct(Magento_Eav_Model_AttributeFactory $attributeFactory)
     {
         $this->_attributeFactory = $attributeFactory;
 
@@ -60,7 +60,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('Mage_Eav_Model_Entity_Attribute', $storeCreditData)
+                $this->_attributeFactory->createAttribute('Magento_Eav_Model_Entity_Attribute', $storeCreditData)
             );
         }
 
@@ -73,7 +73,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('Mage_Eav_Model_Entity_Attribute', $rewardPointsData)
+                $this->_attributeFactory->createAttribute('Magento_Eav_Model_Entity_Attribute', $rewardPointsData)
             );
         }
     }

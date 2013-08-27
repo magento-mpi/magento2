@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Adminhtml_Controller_Action
+class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Load layout, set active menu and breadcrumbs
@@ -46,11 +46,11 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
     /**
      * Initialize and return current form type instance
      *
-     * @return Mage_Eav_Model_Form_Type
+     * @return Magento_Eav_Model_Form_Type
      */
     protected function _initFormType()
     {
-        $model  = Mage::getModel('Mage_Eav_Model_Form_Type');
+        $model  = Mage::getModel('Magento_Eav_Model_Form_Type');
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -86,7 +86,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = Mage::getModel('Mage_Eav_Model_Form_Type');
+                $formType = Mage::getModel('Magento_Eav_Model_Form_Type');
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -98,7 +98,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
             }
-            catch(Mage_Core_Exception $e) {
+            catch(Magento_Core_Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -133,15 +133,15 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
     /**
      * Save Form Type Tree data
      *
-     * @param Mage_Eav_Model_Form_Type $formType
+     * @param Magento_Eav_Model_Form_Type $formType
      * @param array $data
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
-        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
+        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
 
@@ -163,7 +163,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
         }
 
         foreach ($fieldsetCollection as $fieldset) {
-            /* @var $fieldset Mage_Eav_Model_Form_Fieldset */
+            /* @var $fieldset Magento_Eav_Model_Form_Fieldset */
             if (!isset($fsUpdate[$fieldset->getId()])) {
                 // collect deleted fieldsets
                 $fsDelete[$fieldset->getId()] = $fieldset;
@@ -180,7 +180,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = Mage::getModel('Mage_Eav_Model_Form_Fieldset');
+            $fieldset = Mage::getModel('Magento_Eav_Model_Form_Fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])
@@ -231,12 +231,12 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
+                $treeData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -273,7 +273,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Mage_Ad
                     $message = __('The form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
                 catch (Exception $e) {

@@ -34,10 +34,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     /**
      * Initialize model
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
 
@@ -108,7 +108,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
+        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }

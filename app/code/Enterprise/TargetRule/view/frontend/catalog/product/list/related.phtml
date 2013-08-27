@@ -31,7 +31,7 @@
     <?php endforeach ?>
     <script type="text/javascript">jQuery('.box-related ul.box-content li').decorate('generic', ['odd','even','first','last']);</script>
     <script type="text/javascript">
-        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js'); ?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/related-products.js'); ?>", function() {
             jQuery(".box-related a[role='select-all']").relatedProducts();
         });
     </script>

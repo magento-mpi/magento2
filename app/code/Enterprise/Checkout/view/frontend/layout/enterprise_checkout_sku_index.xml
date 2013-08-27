@@ -12,12 +12,12 @@
         <label>Customer Checkout by SKU</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_Core_Block_Template" name="checkout.customer.order" template="Enterprise_Checkout::customer/sku.phtml">
+            <block type="Magento_Core_Block_Template" name="checkout.customer.order" template="Enterprise_Checkout::customer/sku.phtml">
                 <block type="Enterprise_Checkout_Block_Customer_Sku" name="checkout.customer.sku" template="widget/sku.phtml">
                     <action method="setIsTitleHidden">
                         <value>true</value>
                     </action>
-                    <block type="Mage_Core_Block_Template" template="Enterprise_Checkout::customer/file.phtml"/>
+                    <block type="Magento_Core_Block_Template" template="Enterprise_Checkout::customer/file.phtml"/>
                 </block>
             </block>
         </reference>

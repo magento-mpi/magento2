@@ -11,7 +11,7 @@
 /**
  * Matched rule customer grid block
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Intialize grid

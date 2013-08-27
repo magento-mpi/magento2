@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
 {
 
     /**

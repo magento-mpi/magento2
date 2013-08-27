@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-include __DIR__ . '/../../../Mage/Customer/_files/customer.php';
+include __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 /** @var $reward Enterprise_Reward_Model_Reward */
 $reward = Mage::getModel('Enterprise_Reward_Model_Reward');
 $reward->setCustomerId(1)

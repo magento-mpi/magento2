@@ -224,7 +224,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_customer before="Mage_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
+                        <enterprise_customer before="Magento_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
                     </modules>
                 </args>
             </adminhtml>

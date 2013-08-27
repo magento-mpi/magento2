@@ -16,7 +16,7 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
+class Enterprise_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
      * Call afterApplyAllUpdates flag

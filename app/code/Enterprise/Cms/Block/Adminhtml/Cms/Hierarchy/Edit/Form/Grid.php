@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize Grid block
@@ -39,7 +39,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Cms_Model_Page')->getCollection();
+        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
 
         $store = $this->_getStore();
         if ($store->getId()) {
@@ -103,7 +103,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
     /**
      * Get selected store by store id passed through query.
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {

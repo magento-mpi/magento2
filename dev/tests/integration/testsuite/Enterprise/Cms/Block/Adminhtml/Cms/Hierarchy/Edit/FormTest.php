@@ -14,7 +14,7 @@
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Layout */
+    /** @var Magento_Core_Model_Layout */
     protected $_layout = null;
 
     /** @var Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form */
@@ -23,15 +23,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form');
     }
 
     public function testGetGridJsObject()
     {
         $parentName = 'parent';
-        $mockClass = $this->getMockClass('Mage_Catalog_Block_Product_Abstract', array('_prepareLayout'),
-            array(Mage::getModel('Mage_Core_Block_Template_Context'))
+        $mockClass = $this->getMockClass('Magento_Catalog_Block_Product_Abstract', array('_prepareLayout'),
+            array(Mage::getModel('Magento_Core_Block_Template_Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');

@@ -10,20 +10,20 @@
 <config>
     <module name="Enterprise_Search" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Mage_CatalogSearch"/>
+            <module name="Magento_CatalogSearch"/>
         </sequence>
         <depends>
-            <module name="Mage_CatalogSearch" type="hard"/>
-            <module name="Mage_Adminhtml" type="hard"/>
-            <module name="Mage_Core" type="hard"/>
-            <module name="Mage_Catalog" type="hard"/>
-            <module name="Mage_Backend" type="hard"/>
-            <module name="Mage_Index" type="hard"/>
-            <module name="Mage_Eav" type="hard"/>
-            <module name="Mage_CatalogInventory" type="hard"/>
-            <module name="Mage_Customer" type="hard"/>
-            <module name="Mage_Tax" type="hard"/>
-            <module name="Mage_Page" type="soft"/>
+            <module name="Magento_CatalogSearch" type="hard"/>
+            <module name="Magento_Adminhtml" type="hard"/>
+            <module name="Magento_Core" type="hard"/>
+            <module name="Magento_Catalog" type="hard"/>
+            <module name="Magento_Backend" type="hard"/>
+            <module name="Magento_Index" type="hard"/>
+            <module name="Magento_Eav" type="hard"/>
+            <module name="Magento_CatalogInventory" type="hard"/>
+            <module name="Magento_Customer" type="hard"/>
+            <module name="Magento_Tax" type="hard"/>
+            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

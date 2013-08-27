@@ -12,14 +12,14 @@
 class Enterprise_Rma_Controller_ReturnTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_customerSession = Mage::getModel('Mage_Customer_Model_Session');
+        $this->_customerSession = Mage::getModel('Magento_Customer_Model_Session');
         $this->_customerSession->login('customer@example.com', 'password');
     }
 
@@ -33,7 +33,7 @@ class Enterprise_Rma_Controller_ReturnTest extends Magento_Test_TestCase_Control
     /**
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
      * @magentoDataFixture Enterprise/Rma/_files/rma.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @dataProvider isResponseContainDataProvider
      */
     public function testIsResponseContain($uri, $content)

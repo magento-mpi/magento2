@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
+class Enterprise_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize resource model
@@ -28,7 +28,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
     /**
      * Get store object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -117,12 +117,12 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mailTemplate Magento_Core_Model_Email_Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
@@ -148,7 +148,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $this->getStoreId()
             ))
                 ->sendTransactional(
@@ -207,7 +207,7 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

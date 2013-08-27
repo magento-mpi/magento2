@@ -16,13 +16,13 @@ class Enterprise_PageCache_Model_Config extends Magento_Simplexml_Config
      * Class constructor
      * load cache configuration
      *
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param $data
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         $data = null
     ) {
         parent::__construct($data);
@@ -61,7 +61,7 @@ class Enterprise_PageCache_Model_Config extends Magento_Simplexml_Config
     /**
      * Create placeholder object based on block information
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return Enterprise_PageCache_Model_Container_Placeholder
      */
     public function getBlockPlaceholder($block)

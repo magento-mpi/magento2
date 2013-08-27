@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_Catalog_Block_Product_View_Abstract
+class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_Catalog_Block_Product_View_Abstract
 {
     public function getAmountSettingsJson($product)
     {
@@ -82,8 +82,8 @@ class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_
 
     public function getCustomerName()
     {
-        $firstName = (string)Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getFirstname();
-        $lastName  = (string)Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getLastname();
+        $firstName = (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getFirstname();
+        $lastName  = (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getLastname();
 
         if ($firstName && $lastName) {
             return $firstName . ' ' . $lastName;
@@ -94,7 +94,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_
 
     public function getCustomerEmail()
     {
-        return (string) Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getEmail();
+        return (string) Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getEmail();
     }
 
     public function getMessageMaxLength()
