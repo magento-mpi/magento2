@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-class Legacy_FilesystemEnterpriseTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Legacy_FilesystemEnterpriseTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Directories may re-appear again during merging, therefore ensure they were properly relocated

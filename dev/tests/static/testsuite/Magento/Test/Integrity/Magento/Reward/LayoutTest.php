@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file

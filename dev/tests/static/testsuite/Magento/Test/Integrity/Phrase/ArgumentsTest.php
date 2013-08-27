@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class ArgumentsTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Phrase_ArgumentsTest extends PHPUnit_Framework_TestCase
 {
     const FILES_MASK = '/\.(php|phtml)$/';
 
