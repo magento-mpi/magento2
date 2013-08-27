@@ -14,6 +14,9 @@
         </param>
     </type>
     <type name="Mage_Widget_Model_Config_Data">
+        <param name='reader'>
+            <instance type="Mage_Widget_Model_Config_Reader" />
+        </param>
         <param name="cacheId">
             <value>widget_config</value>
         </param>
