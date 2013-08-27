@@ -8,12 +8,24 @@
 class Mage_Checkout_Block_Cart_Link extends Mage_Page_Block_Link
 {
     /**
-     * @return string
+     * @var Mage_Core_Model_ModuleManager
      */
-    public function getTitle()
-    {
-        return $this->_createLabel($this->_getItemCount());
+    protected $_moduleManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_ModuleManager $moduleManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_ModuleManager $moduleManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_moduleManager = $moduleManager;
     }
+
 
     /**
      * @return string
@@ -38,7 +50,7 @@ class Mage_Checkout_Block_Cart_Link extends Mage_Page_Block_Link
      */
     protected function _toHtml()
     {
-        if ($this->helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
+        if ($this->_moduleManager->isOutputEnabled('Mage_Checkout')) {
             return '';
         }
         return parent::_toHtml();

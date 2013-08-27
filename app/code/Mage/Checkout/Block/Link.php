@@ -8,6 +8,25 @@
 class Mage_Checkout_Block_Link extends Mage_Page_Block_Link
 {
     /**
+     * @var Mage_Core_Model_ModuleManager
+     */
+    protected $_moduleManager;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_ModuleManager $moduleManager
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_ModuleManager $moduleManager,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_moduleManager = $moduleManager;
+    }
+
+    /**
      * @return string
      */
     public function getHref()
@@ -23,7 +42,7 @@ class Mage_Checkout_Block_Link extends Mage_Page_Block_Link
     protected function _toHtml()
     {
         if (!$this->helper('Mage_Checkout_Helper_Data')->canOnepageCheckout()
-            || !$this->helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')
+            || !$this->_moduleManager->isOutputEnabled('Mage_Checkout')
         ) {
             return '';
         }
