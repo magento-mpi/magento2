@@ -44,7 +44,7 @@ class Mage_Sales_Block_Guest_Link extends Mage_Page_Block_Link
     protected function _toHtml()
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return;
+            return '';
         }
         return parent::_toHtml();
     }
