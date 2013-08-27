@@ -43,4 +43,9 @@ class Mage_TestModule3_Service_ErrorV1 implements Mage_TestModule3_Service_Error
     {
         throw new Exception('Non service exception', 5678);
     }
+
+    public function returnIncompatibleDataType()
+    {
+        return "incompatibleDataType";
+    }
 }

@@ -88,8 +88,11 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
             $serviceMethod = $route->getServiceMethod();
             $service = $this->_objectManager->get($route->getServiceId());
             $outputData = $service->$serviceMethod($inputData);
-            if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
-                $outputData = $outputData->getData();
+            if (!is_array($outputData)) {
+                throw new LogicException(
+                    $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
+                        $route->getServiceId())
+                );
             }
             $this->_restPresentation->prepareResponse($outputData);
         } catch (Exception $e) {

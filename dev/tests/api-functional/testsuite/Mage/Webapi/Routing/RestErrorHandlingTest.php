@@ -128,6 +128,28 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
         );
     }
 
+    public function testReturnIncompatibleDataType()
+    {
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/errortest/returnIncompatibleDataType',
+                'httpMethod' => Mage_Webapi_Model_Rest_Config::HTTP_METHOD_GET
+            ),
+        );
+
+        // Mage_Service_Exception
+        $this->_errorTest(
+            $serviceInfo,
+            array(),
+            Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            0,
+            // @codingStandardsIgnoreStart
+            'The method "returnIncompatibleDataType" of service "Mage_TestModule3_Service_ErrorInterfaceV1" must return an array.',
+            // @codingStandardsIgnoreEnd
+            null
+        );
+    }
+
     /**
      * Perform a negative REST api call test case and compare the results with expected values.
      *

@@ -15,5 +15,6 @@
         <rest-route httpMethod="GET" method="parameterizedServiceException">/parameterizedserviceexception</rest-route>
         <rest-route httpMethod="GET" method="authorizationException">/unauthorized</rest-route>
         <rest-route httpMethod="GET" method="otherException">/otherexception</rest-route>
+        <rest-route httpMethod="GET" method="returnIncompatibleDataType">/returnIncompatibleDataType</rest-route>
     </service>
 </config>

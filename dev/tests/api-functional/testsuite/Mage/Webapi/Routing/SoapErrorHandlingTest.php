@@ -95,6 +95,37 @@ class Mage_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_We
         }
     }
 
+    public function testReturnIncompatibleDataType()
+    {
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1ReturnIncompatibleDataType'
+            )
+        );
+        try {
+            $this->_webApiCall($serviceInfo);
+            $this->fail("SoapFault was not raised as expected.");
+        } catch (SoapFault $e) {
+            /** In developer mode message is masked, so checks should be different in two modes */
+            if (strpos($e->getMessage(), 'Internal Error') === false) {
+                $this->_checkSoapFault(
+                    $e,
+                    'Non service exception',
+                    'env:Receiver',
+                    0
+                );
+            } else {
+                $this->_checkSoapFault(
+                    $e,
+                    'Internal Error. Details are available in Magento log file. Report ID:',
+                    'env:Receiver',
+                    500
+                );
+            }
+        }
+    }
+
     /**
      * Verify that SOAP fault contains necessary information.
      *

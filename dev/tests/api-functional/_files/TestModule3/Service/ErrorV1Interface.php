@@ -16,4 +16,5 @@ interface Mage_TestModule3_Service_ErrorV1Interface
     public function authorizationException();
     public function webapiException();
     public function otherException();
+    public function returnIncompatibleDataType();
 }

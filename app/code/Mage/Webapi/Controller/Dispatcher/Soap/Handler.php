@@ -28,6 +28,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /** @var Mage_Webapi_Model_Soap_Config */
     protected $_apiConfig;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
     /**
      * Initialize dependencies.
      *
@@ -36,19 +39,22 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Webapi_Model_Soap_Config $apiConfig
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Security $security
+     * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Soap_Config $apiConfig,
-        Mage_Webapi_Controller_Dispatcher_Soap_Security $security
+        Mage_Webapi_Controller_Dispatcher_Soap_Security $security,
+        Mage_Webapi_Helper_Data $helper
     ) {
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_security = $security;
+        $this->_helper = $helper;
     }
 
     /**
@@ -85,8 +91,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 
                 $service = $this->_objectManager->get($serviceId);
                 $outputData = $service->$serviceMethod($arguments);
-                if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
-                    $outputData = $outputData->getData();
+                if (!is_array($outputData)) {
+                    throw new LogicException(
+                        $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
+                            $serviceId)
+                    );
                 }
                 // TODO: Check why 'result' node is not generated in WSDL
                 // return (object)array(self::RESULT_NODE_NAME => $outputData);
