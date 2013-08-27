@@ -1234,7 +1234,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         foreach ($arguments as $argument) {
             $matches = array();
             $key = (string)$argument['name'];
-            if ($node->xpath($key . "[@translate='true']")) {
+            if ($node->xpath("*[@name='{$key}' and @translate='true']")) {
                 $result[$key] = __($this->_getArgumentValue($argument));
             } else if (($argument instanceof Magento_Core_Model_Layout_Element)) {
                 if (isset($argument['helper'])) {

@@ -47,8 +47,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function translateArgumentDataProvider()
     {
         return array(
-            array('<argument name="argument">phrase</argument>', false),
-            array('<argument name="argument" translate="true">phrase</argument>', true),
+            array('<argument name="argumentName">phrase</argument>', false),
+            array('<argument name="argumentName" translate="true">phrase</argument>', true),
         );
     }
 
@@ -64,7 +64,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $reflectionMethod = $reflectionObject->getMethod($method);
         $reflectionMethod->setAccessible(true);
         $result = $reflectionMethod->invoke($this->_layout, new Magento_Core_Model_Layout_Element($layoutElement));
-        $argument = $method == '_readArguments' ? $result['argument']['value'] : $result['argument'];
+        $argument = $method == '_readArguments' ? $result['argumentName']['value'] : $result['argumentName'];
 
 
         if ($isTranslatable) {
@@ -85,13 +85,13 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
         $inputData = array(
             '<arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <argument xsi:type="string" name="argument">phrase</argument>
+                <argument xsi:type="string" name="argumentName">phrase</argument>
             </arguments>',
             '<arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <argument xsi:type="string" name="argument" translate="true"><value>phrase</value></argument>
+                <argument xsi:type="string" name="argumentName" translate="true"><value>phrase</value></argument>
             </arguments>',
             '<arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <argument xsi:type="string" name="argument" translate="true"><value>phrase</value></argument>
+                <argument xsi:type="string" name="argumentName" translate="true"><value>phrase</value></argument>
             </arguments>'
         );
 
