@@ -176,20 +176,17 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     /**
      * Check if the Class contains the string 'Mage_'.  'Mage_' has been refactored to 'Magento_'
      *
-     *@param array $names
+     * @param array $names
      */
     protected function _assertDeprecatedMage($names)
     {
-        if(!$names)
-        {
+        if (!$names) {
             return;
         }
         $obsoleteClasses = array();
-        foreach ($names as $name)
-        {
+        foreach ($names as $name) {
             $result = strpos($name, 'Mage_');
-            try
-            {
+            try {
                 $this->assertFalse($result !== false);
             }
             catch (PHPUnit_Framework_AssertionFailedError $e) {
@@ -207,32 +204,26 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      * 'Enterprise_' has been refactored to the the Magento Namespace
      *
      * @param array $names
-    */
+     */
     protected function _assertDeprecatedEnterprise($names)
     {
-        if(!$names)
-        {
+        if (!$names) {
             return;
         }
         $obsoleteClasses = array();
         $exceptions = array('Enterprise_Tag', 'Magento_Enterprise');
-        foreach ($names as $name)
-        {
+        foreach ($names as $name) {
             $excludeItem = false;
-            foreach($exceptions as $exception)
-            {
-                $result = strpos($name , $exception);
-                if($result !== false)
-                {
+            foreach ($exceptions as $exception) {
+                $result = strpos($name, $exception);
+                if ($result !== false) {
                     $excludeItem = true;
                     break;
                 }
             }
-            if(!$excludeItem)
-            {
+            if (!$excludeItem) {
                 $result = strpos($name, 'Enterprise_');
-                try
-                {
+                try {
                     $this->assertFalse($result !== false);
                 }
                 catch (PHPUnit_Framework_AssertionFailedError $e) {
