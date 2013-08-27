@@ -44,8 +44,6 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
 
     public function testExceptionSoapInternalError()
     {
-        // TODO: Uncomment test
-        $this->markTestIncomplete("Uncomment test when TestModule3 WSDL is generated correctly");
         $this->_markTestAsSoapOnly();
         $serviceInfo = array(
             'serviceInterface' => 'Mage_TestModule3_Service_ErrorV1Interface',
@@ -53,7 +51,7 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
         );
         $this->setExpectedException(
             'SoapFault',
-            'Internal Error. Details are available in Magento log file.'
+            'Generic service exception'
         );
         $this->_webApiCall($serviceInfo);
     }
