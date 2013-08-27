@@ -144,7 +144,7 @@ class Mage_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_We
             Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
             0,
             // @codingStandardsIgnoreStart
-            'The method "returnIncompatibleDataType" of service "Mage_TestModule3_Service_ErrorInterfaceV1" must return an array.',
+            'The method "returnIncompatibleDataType" of service "Mage_TestModule3_Service_ErrorV1Interface" must return an array.',
             // @codingStandardsIgnoreEnd
             null
         );
