@@ -37,10 +37,10 @@ class namespacer
     private $rootDirectory = null;
     private $classSearch = array();
     private $classReplace = array();
-    private $allowedFileExtensions = array('php', 'phtml', 'html', 'sql');
+    private $allowedFileExtensions = array('php', 'phtml', 'html', 'sql', 'xml');
     private $ignoreFile="blacklist.txt";
     private $blackListArray=array();
-    private $addSlashArray= array("Zend_","Twig_", "Apache_Solrs", "PHPUnit_","CentinelClient","Exception","LogicException","Mage::");
+    private $addSlashArray= array("Zend_","Twig_", "Apache_Solrs", "PHPUnit_","CentinelClient","Exception","LogicException", "ReflectionClass", "DOMDocument", "DOMXPath", "BadMethodCallException", "SimpleXMLElement", "Mage::");
     private $libSearch =array();
     private $libReplace = array();
 
