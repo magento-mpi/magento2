@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="cms_page_link" class="Mage_Cms_Block_Widget_Page_Link" translate="label description"
             module="Mage_Cms" is_email_compatible="true"
             placeholder_image="Mage_Cms::images/widget_page_link.gif">
@@ -22,9 +21,9 @@
             <label>CMS Page</label>
             <renderer class="Mage_Adminhtml_Block_Cms_Page_Widget_Chooser">
                 <data>
-                    <button translate="open">
-                        <open>Select Page...</open>
-                    </button>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string">Select Page...</item>
+                    </item>
                 </data>
             </renderer>
         </parameter>
@@ -55,9 +54,9 @@
             <label>Block</label>
             <renderer class="Mage_Adminhtml_Block_Cms_Block_Widget_Chooser">
                 <data>
-                    <button translate="open">
-                        <open>Select Block...</open>
-                    </button>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string">Select Block...</item>
+                    </item>
                 </data>
             </renderer>
         </parameter>

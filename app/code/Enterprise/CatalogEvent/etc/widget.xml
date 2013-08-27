@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="event_lister" class="Enterprise_CatalogEvent_Block_Widget_Lister" module="Enterprise_CatalogEvent"
             translate="label description" placeholder_image="Enterprise_CatalogEvent::widget_lister.gif">
         <label>Catalog Events Carousel</label>

@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="recently_viewed" class="Mage_Reports_Block_Product_Widget_Viewed"
             translate="label description" module="Mage_Reports"
             placeholder_image="Mage_Reports::images/product_widget_viewed.gif">

@@ -58,6 +58,7 @@ return array(
             ),
             'link_text' => array(
                 'type' => 'text',
+                'value' => 'Load a list of SKUs',
                 'visible' => '1',
                 'required' => '1',
                 '@' => array(
@@ -71,7 +72,6 @@ return array(
                         'value' => '1',
                     ),
                 ),
-                'value' => 'Load a list of SKUs',
             ),
             'id_path' => array(
                 'type' => 'label',
@@ -83,9 +83,6 @@ return array(
                     'type' => 'Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser',
                     'data' => array(
                         'button' => array(
-                            '@' => array(
-                                'translate' => 'open',
-                            ),
                             'open' => 'Select Product...'
                         )
                     )

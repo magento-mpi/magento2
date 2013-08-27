@@ -7,181 +7,199 @@
  * @license     {license_link}
  */
 -->
-<schema targetNamespace="http://www.magentocommerce.com/widget"
-    elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
-    xmlns:tns="http://www.magentocommerce.com/widget">
-    <annotation>
-        <documentation>Contains widgets.</documentation>
-    </annotation>
-    <element name="widgets">
-        <annotation>
-            <documentation>A list of widgets.</documentation>
-        </annotation>
-        <complexType>
-            <sequence maxOccurs="unbounded" minOccurs="0">
-                <element name="widget" type="tns:widgetType" />
-            </sequence>
-        </complexType>
-    </element>
-    <complexType name="widgetType">
-        <annotation>
-            <documentation>Definition of a widget.</documentation>
-        </annotation>
-        <sequence>
-            <element name="label" type="string" maxOccurs="1"
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="../../Core/etc/types.xsd"/>
+
+    <xs:annotation>
+        <xs:documentation>Contains widgets.</xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="widgets">
+        <xs:annotation>
+            <xs:documentation>A list of widgets.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="widget" type="widgetType" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="widgetType">
+        <xs:annotation>
+            <xs:documentation>Definition of a widget.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="xs:string" maxOccurs="1"
                 minOccurs="1" />
-            <element name="description" type="string" maxOccurs="1"
+            <xs:element name="description" type="xs:string" maxOccurs="1"
                 minOccurs="1" />
-            <element name="parameter" type="tns:parameterType"
+            <xs:element name="parameter" type="parameterType"
                 maxOccurs="unbounded" minOccurs="0" />
-            <element name="container" type="tns:containerType"
+            <xs:element name="container" type="containerType"
                 maxOccurs="unbounded" minOccurs="0" />
-        </sequence>
-        <attribute name="id" type="ID" use="required" />
-        <attribute name="translate" type="NMTOKENS" />
-        <attribute name="class" type="string" use="required" />
-        <attribute name="module" type="string" use="required" />
-        <attribute name="is_email_compatible" type="boolean" />
-        <attribute name="placeholder_image" type="string" />
-    </complexType>
-    <complexType name="parameterType" abstract="true">
-        <annotation>
-            <documentation>Abstract type which is parent of all
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required" />
+        <xs:attribute name="translate" type="xs:NMTOKENS" />
+        <xs:attribute name="class" type="xs:string" use="required" />
+        <xs:attribute name="module" type="xs:string" use="required" />
+        <xs:attribute name="is_email_compatible" type="xs:boolean" />
+        <xs:attribute name="placeholder_image" type="xs:string" />
+    </xs:complexType>
+
+    <xs:complexType name="parameterType" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Abstract type which is parent of all
                 parameters. Contains attributes and elements common
                 across all parameter types.
-            </documentation>
-        </annotation>
-        <sequence>
-            <element name="label" type="string" minOccurs="0"
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="xs:string" minOccurs="0"
                 maxOccurs="1" />
-            <element name="description" type="string" minOccurs="0"
+            <xs:element name="description" type="xs:string" minOccurs="0"
                 maxOccurs="1" />
-            <element name="depends" type="tns:dependsType"
+            <xs:element name="depends" type="dependsType"
                 minOccurs="0" maxOccurs="1" />
-        </sequence>
-        <attribute name="name" type="NMTOKEN" use="required" />
-        <attribute name="translate" type="NMTOKENS" />
-        <attribute name="visible" type="boolean" />
-        <attribute name="sort_order" type="int" />
-        <attribute name="required" type="string" />
-    </complexType>
-    <complexType name="dependsParameterType">
-        <annotation>
-            <documentation>The parameter name and the value it must be
-                to satisfy this dependency.</documentation>
-        </annotation>
-        <attribute name="name" type="NMTOKEN" use="required" />
-        <attribute name="value" type="string" use="required" />
-    </complexType>
-    <complexType name="value_renderer">
-        <annotation>
-            <documentation>Parameter type which supplies a renderer.
-            </documentation>
-        </annotation>
-        <complexContent>
-            <extension base="tns:parameterType">
-                <sequence>
-                    <element name="renderer" type="tns:rendererType" />
-                </sequence>
-            </extension>
-        </complexContent>
-    </complexType>
-    <complexType name="dataType">
-        <annotation>
-            <documentation>Data for the renderer.</documentation>
-        </annotation>
-        <sequence>
-            <any minOccurs="0" processContents="lax"/>
-        </sequence>
-    </complexType>
-    <complexType name="rendererType">
-        <annotation>
-            <documentation>Class and data needed to render the
-                parameter.</documentation>
-        </annotation>
-        <sequence>
-            <element name="data" minOccurs="0" type="tns:dataType" />
-        </sequence>
-        <attribute name="class" type="string" use="required" />
-    </complexType>
-    <complexType name="text">
-        <annotation>
-            <documentation>Parameter type which is text</documentation>
-        </annotation>
-        <complexContent>
-            <extension base="tns:parameterType">
-                <sequence>
-                    <element name="value" type="string"
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+        <xs:attribute name="translate" type="xs:NMTOKENS" />
+        <xs:attribute name="visible" type="xs:boolean" />
+        <xs:attribute name="sort_order" type="xs:int" />
+        <xs:attribute name="required" type="xs:string" />
+    </xs:complexType>
+
+    <xs:complexType name="dependsParameterType">
+        <xs:annotation>
+            <xs:documentation>The parameter name and the value it must be
+                to satisfy this dependency.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+        <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="value_renderer">
+        <xs:annotation>
+            <xs:documentation>Parameter type which supplies a renderer.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="parameterType">
+                <xs:sequence>
+                    <xs:element name="renderer" type="rendererType" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="argumentType" abstract="true" mixed="true">
+        <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="dataType">
+        <xs:annotation>
+            <xs:documentation>Data for the renderer.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="item" type="argumentType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="rendererType">
+        <xs:annotation>
+            <xs:documentation>Class and data needed to render the
+                parameter.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="data" minOccurs="0" type="dataType" />
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="text">
+        <xs:annotation>
+            <xs:documentation>Parameter type which is text</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="parameterType">
+                <xs:sequence>
+                    <xs:element name="value" type="xs:string"
                         minOccurs="0" maxOccurs="1" />
-                </sequence>
-                <attribute name="value" type="string" />
-            </extension>
-        </complexContent>
-    </complexType>
-    <complexType name="select">
-        <annotation>
-            <documentation>Parameter type which has a list of options.
-            </documentation>
-        </annotation>
-        <complexContent>
-            <extension base="tns:parameterType">
-                <sequence maxOccurs="unbounded" minOccurs="0">
-                    <element name="option" type="tns:optionType" />
-                </sequence>
-                <attribute name="source_model" type="string" />
-            </extension>
-        </complexContent>
-    </complexType>
-    <complexType name="optionType">
-        <annotation>
-            <documentation>An option of a select parameter.
-            </documentation>
-        </annotation>
-        <sequence>
-            <element name="label" type="string" />
-        </sequence>
-        <attribute name="name" type="NMTOKEN" use="required" />
-        <attribute name="translate" type="NMTOKENS" />
-        <attribute name="value" type="string" use="required" />
-        <attribute name="selected" type="boolean" />
-    </complexType>
-    <complexType name="multiselect">
-        <annotation>
-            <documentation>Display a parameter with a multi-select box.
-            </documentation>
-        </annotation>
-        <complexContent>
-            <extension base="tns:parameterType">
-                <attribute name="source_model" type="string" />
-            </extension>
-        </complexContent>
-    </complexType>
-    <complexType name="containerType">
-        <annotation>
-            <documentation>Specifies the widget's sections and
-                templates.</documentation>
-        </annotation>
-        <sequence>
-            <element name="template" type="tns:templateType"
+                </xs:sequence>
+                <xs:attribute name="value" type="xs:string" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="select">
+        <xs:annotation>
+            <xs:documentation>Parameter type which has a list of options.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="parameterType">
+                <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                    <xs:element name="option" type="optionType" />
+                </xs:sequence>
+                <xs:attribute name="source_model" type="xs:string" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="optionType">
+        <xs:annotation>
+            <xs:documentation>An option of a select parameter.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="label" type="xs:string" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+        <xs:attribute name="translate" type="xs:NMTOKENS" />
+        <xs:attribute name="value" type="xs:string" use="required" />
+        <xs:attribute name="selected" type="xs:boolean" />
+    </xs:complexType>
+
+    <xs:complexType name="multiselect">
+        <xs:annotation>
+            <xs:documentation>Display a parameter with a multi-select box.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="parameterType">
+                <xs:attribute name="source_model" type="xs:string" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="containerType">
+        <xs:annotation>
+            <xs:documentation>Specifies the widget's sections and
+                templates.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="template" type="templateType"
                 minOccurs="1" maxOccurs="unbounded" />
-        </sequence>
-        <attribute name="section" type="string" use="required" />
-        <attribute name="name" type="NMTOKEN" use="required" />
-    </complexType>
-    <complexType name="templateType">
-        <annotation>
-            <documentation>Name and value of template</documentation>
-        </annotation>
-        <attribute name="name" type="NMTOKEN" use="required" />
-        <attribute name="value" type="string" />
-    </complexType>
-    <complexType name="dependsType">
-        <annotation>
-            <documentation>List of parameters this parameter depends on.
-            </documentation>
-        </annotation>
-        <sequence>
-            <element name="parameter" type="tns:dependsParameterType" />
-        </sequence>
-    </complexType>
-</schema>
+        </xs:sequence>
+        <xs:attribute name="section" type="xs:string" use="required" />
+        <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="templateType">
+        <xs:annotation>
+            <xs:documentation>Name and value of template</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+        <xs:attribute name="value" type="xs:string" />
+    </xs:complexType>
+
+    <xs:complexType name="dependsType">
+        <xs:annotation>
+            <xs:documentation>List of parameters this parameter depends on.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="parameter" type="dependsParameterType" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

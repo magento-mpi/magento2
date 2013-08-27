@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="enterprise_giftregistry_search" class="Enterprise_GiftRegistry_Block_Search_Widget_Form"
             translate="label description" module="Enterprise_GiftRegistry" is_email_compatible="false">
         <label>Gift Registry Search</label>

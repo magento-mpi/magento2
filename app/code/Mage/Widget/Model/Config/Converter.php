@@ -8,16 +8,17 @@
 class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source)
     {
         $widgets = array();
         $xpath = new DOMXPath($source);
-        $xpath->registerNamespace('x', $source->lookupNamespaceUri($source->namespaceURI));
+        //$xpath->registerNamespace('x', $source->lookupNamespaceUri($source->namespaceURI));
         /** @var $widget DOMNode */
-        foreach ($xpath->query('/x:widgets/x:widget') as $widget) {
+        foreach ($xpath->query('/widgets/widget') as $widget) {
             $widgetAttributes = $widget->attributes;
             $widgetArray = array('@' => array());
             $widgetArray['@']['type'] = $widgetAttributes->getNamedItem('class')->nodeValue;
@@ -116,6 +117,7 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
      * @return array
      * @throws LogicException
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _convertParameter($source)
     {
@@ -266,37 +268,18 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
      */
     protected function _convertData($source)
     {
-        $data = $this->_getAttributes($source);
+        $data = array();
         if (!$source->hasChildNodes()) {
             return $data;
         }
         foreach ($source->childNodes as $dataChild) {
             if ($dataChild instanceof DOMElement) {
-                $data[$dataChild->tagName] = $this->_convertData($dataChild);
+                $data[$dataChild->attributes->getNamedItem('name')->nodeValue] = $this->_convertData($dataChild);
             } else {
                 if (strlen(trim($dataChild->nodeValue))) {
                     $data = $dataChild->nodeValue;
                 }
             }
-        }
-        return $data;
-    }
-
-    /**
-     * Convert dom Data node to magneto array
-     *
-     * @param DOMElement $source
-     * @return array
-     */
-    protected function _getAttributes($source)
-    {
-        $data = array('@' => array());
-        if (!$source->hasAttributes()) {
-            return array();
-        }
-        $attributes = $source->attributes;
-        foreach ($attributes as $attribute) {
-            $data['@'][$attribute->nodeName] = $attribute->nodeValue;
         }
         return $data;
     }

@@ -9,9 +9,8 @@
  * @license    {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../code/Mage/Widget/etc/widget.xsd">
     <widget id="new_products" class="TODO" module="TODO">
         <label>TODO</label>
         <description>TODO</description>

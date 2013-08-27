@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="new_products" class="Mage_Catalog_Block_Product_Widget_New" module="Mage_Catalog" is_email_compatible="true"
             placeholder_image="Mage_Catalog::images/product_widget_new.gif" translate="label description">
         <label>Catalog New Products List</label>
@@ -86,9 +85,9 @@
             <label>Product</label>
             <renderer class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
                 <data>
-                    <button translate="open">
-                        <open>Select Product...</open>
-                    </button>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string">Select Product...</item>
+                    </item>
                 </data>
             </renderer>
         </parameter>
@@ -118,9 +117,9 @@
             <label>Category</label>
             <renderer class="Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser">
                 <data>
-                    <button translate="open">
-                        <open>Select Category...</open>
-                    </button>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string">Select Category...</item>
+                    </item>
                 </data>
             </renderer>
         </parameter>

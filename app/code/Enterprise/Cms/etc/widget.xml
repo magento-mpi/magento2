@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 -->
-<widgets xmlns="http://www.magentocommerce.com/widget"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.magentocommerce.com/widget ../../../Mage/Widget/etc/widget.xsd">
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Mage/Widget/etc/widget.xsd">
     <widget id="cms_hierarchy_node" class="Enterprise_Cms_Block_Widget_Node" is_email_compatible="true"
             translate="label description" module="Enterprise_Cms"
             placeholder_image="Enterprise_Cms::widget_node.gif">
@@ -22,9 +21,9 @@
             <label>Node</label>
             <renderer class="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
                 <data>
-                    <button translate="open">
-                        <open>Select a page or node.</open>
-                    </button>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string">Select a page or node.</item>
+                    </item>
                 </data>
             </renderer>
         </parameter>
