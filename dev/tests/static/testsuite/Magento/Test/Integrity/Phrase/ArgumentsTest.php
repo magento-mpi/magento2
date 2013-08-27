@@ -65,7 +65,7 @@ class Magento_Test_Integrity_Phrase_ArgumentsTest extends PHPUnit_Framework_Test
      */
     protected function _getFiles()
     {
-        $path = Utility_Files::init()->getPathToSource() . '/app/';
+        $path = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/';
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
         return new RegexIterator($files, self::FILES_MASK);
     }
