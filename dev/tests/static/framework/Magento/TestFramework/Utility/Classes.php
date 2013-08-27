@@ -196,7 +196,7 @@ class Magento_TestFramework_Utility_Classes
         if (!empty(self::$_virtualClasses)) {
             return self::$_virtualClasses;
         }
-        $configFiles = Utility_Files::init()->getDiConfigs();
+        $configFiles = Magento_TestFramework_Utility_Files::init()->getDiConfigs();
         foreach ($configFiles as $fileName) {
             $configDom = new DOMDocument();
             $configDom->load($fileName);
