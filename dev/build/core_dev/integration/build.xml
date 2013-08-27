@@ -51,59 +51,59 @@
         </exec>
     </target>
 
-    <target name="integration_tests_ee_dev_mysql" depends="_enterprise_edition" description="Integration tests in dev mode on MySQL for EE">
+    <target name="integration_tests_ee_dev_mysql" depends="_server_info, _enterprise_edition" description="Integration tests in dev mode on MySQL for EE">
         <antcall target="_integration_tests_magento"/>
     </target>
 
-    <target name="integration_tests_ee_mysql" depends="_enterprise_edition" description="Integration tests on MySQL for EE">
+    <target name="integration_tests_ee_mysql" depends="_server_info, _enterprise_edition" description="Integration tests on MySQL for EE">
         <antcall target="_integration_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
-    <target name="integration_tests_ee_dev_mysql_tpfx" depends="_enterprise_edition" description="Integration tests in dev mode with table prefix on MySQL for EE">
+    <target name="integration_tests_ee_dev_mysql_tpfx" depends="_server_info, _enterprise_edition" description="Integration tests in dev mode with table prefix on MySQL for EE">
         <antcall target="_integration_tests_magento">
             <param name="db_table_prefix" value="pfx_"/>
         </antcall>
     </target>
 
-    <target name="integration_tests_ee_dev_xd_mysql" depends="_enterprise_edition" description="Integration tests in dev mode with Xdebug on MySQL for EE">
+    <target name="integration_tests_ee_dev_xd_mysql" depends="_server_info, _enterprise_edition" description="Integration tests in dev mode with Xdebug on MySQL for EE">
         <antcall target="_integration_tests_magento_xdebug"/>
     </target>
 
-    <target name="integration_tests_ee_xd_mysql" depends="_enterprise_edition" description="Integration tests with Xdebug on MySQL for EE">
+    <target name="integration_tests_ee_xd_mysql" depends="_server_info, _enterprise_edition" description="Integration tests with Xdebug on MySQL for EE">
         <antcall target="_integration_tests_magento_xdebug">
             <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
-    <target name="integration_tests_ee_dev_xd_mysql_tpfx" depends="_enterprise_edition" description="Integration tests in dev mode with Xdebug and table prefix on MySQL for EE">
+    <target name="integration_tests_ee_dev_xd_mysql_tpfx" depends="_server_info, _enterprise_edition" description="Integration tests in dev mode with Xdebug and table prefix on MySQL for EE">
         <antcall target="_integration_tests_magento_xdebug">
             <param name="db_table_prefix" value="pfx_"/>
         </antcall>
     </target>
 
-    <target name="integration_tests_ce_dev_mysql" depends="_community_edition" description="Integration tests in dev mode on MySQL for CE">
+    <target name="integration_tests_ce_dev_mysql" depends="_server_info, _community_edition" description="Integration tests in dev mode on MySQL for CE">
         <antcall target="_integration_tests_magento"/>
     </target>
 
-    <target name="integration_tests_ce_mysql" depends="_community_edition" description="Integration tests on MySQL for CE">
+    <target name="integration_tests_ce_mysql" depends="_server_info, _community_edition" description="Integration tests on MySQL for CE">
         <antcall target="_integration_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
-    <target name="integration_tests_ce_dev_mysql_tpfx" depends="_community_edition" description="Integration tests in dev mode with table prefix on MySQL for CE">
+    <target name="integration_tests_ce_dev_mysql_tpfx" depends="_server_info, _community_edition" description="Integration tests in dev mode with table prefix on MySQL for CE">
         <antcall target="_integration_tests_magento">
             <param name="db_table_prefix" value="pfx_"/>
         </antcall>
     </target>
 
-    <target name="integration_tests_ce_dev_xd_mysql" depends="_community_edition" description="Integration tests in dev mode with Xdebug on MySQL for CE">
+    <target name="integration_tests_ce_dev_xd_mysql" depends="_server_info, _community_edition" description="Integration tests in dev mode with Xdebug on MySQL for CE">
         <antcall target="_integration_tests_magento_xdebug"/>
     </target>
 
-    <target name="integration_tests_ce_xd_mysql" depends="_community_edition" description="Integration tests with Xdebug on MySQL for CE">
+    <target name="integration_tests_ce_xd_mysql" depends="_server_info, _community_edition" description="Integration tests with Xdebug on MySQL for CE">
         <antcall target="_integration_tests_magento_xdebug">
             <param name="app_mode" value="default"/>
         </antcall>
@@ -115,21 +115,21 @@
         </exec>
     </target>
 
-    <target name="integration_integrity_tests_ee_dev_mysql" depends="_enterprise_edition" description="Integration integrity tests in dev mode on MySQL for EE">
+    <target name="integration_integrity_tests_ee_dev_mysql" depends="_server_info, _enterprise_edition" description="Integration integrity tests in dev mode on MySQL for EE">
         <antcall target="_integration_integrity_tests_magento"/>
     </target>
 
-    <target name="integration_integrity_tests_ee_mysql" depends="_enterprise_edition" description="Integration integrity tests on MySQL for EE">
+    <target name="integration_integrity_tests_ee_mysql" depends="_server_info, _enterprise_edition" description="Integration integrity tests on MySQL for EE">
         <antcall target="_integration_integrity_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
-    <target name="integration_integrity_tests_ce_dev_mysql" depends="_community_edition" description="Integration integrity tests in dev mode on MySQL for CE">
+    <target name="integration_integrity_tests_ce_dev_mysql" depends="_server_info, _community_edition" description="Integration integrity tests in dev mode on MySQL for CE">
         <antcall target="_integration_integrity_tests_magento"/>
     </target>
 
-    <target name="integration_integrity_tests_ce_mysql" depends="_community_edition" description="Integration integrity tests on MySQL for CE">
+    <target name="integration_integrity_tests_ce_mysql" depends="_server_info, _community_edition" description="Integration integrity tests on MySQL for CE">
         <antcall target="_integration_integrity_tests_magento">
             <param name="app_mode" value="default"/>
         </antcall>

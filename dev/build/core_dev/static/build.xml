@@ -55,9 +55,8 @@
         </exec>
     </target>
 
-    <target name="static_tests_ee" description="Static tests for EE">
+    <target name="static_tests_ee" depends="_server_info" description="Static tests for EE">
         <antcall>
-            <target name="_server_info"/>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
@@ -66,9 +65,8 @@
         </antcall>
     </target>
 
-    <target name="static_tests_ce" description="Static tests for CE">
+    <target name="static_tests_ce" depends="_server_info" description="Static tests for CE">
         <antcall>
-            <target name="_server_info"/>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
@@ -77,11 +75,7 @@
         </antcall>
     </target>
 
-    <target name="static_tests_js" description="JS static tests">
-        <antcall>
-            <target name="_server_info"/>
-            <target name="_product_location"/>
-        </antcall>
+    <target name="static_tests_js" depends="_server_info, _product_location" description="JS static tests">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.js.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <antcall target="_jshint_path_substitution">
@@ -92,18 +86,16 @@
         </exec>
     </target>
 
-    <target name="code_legacy_tests_ee" description="Code Legacy Tests for Enterprise Edition">
+    <target name="code_legacy_tests_ee" depends="_server_info" description="Code Legacy Tests for Enterprise Edition">
         <antcall>
-            <target name="_server_info"/>
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
             <target name="_code_legacy_tests"/>
         </antcall>
     </target>
 
-    <target name="code_legacy_tests_ce" description="Code Legacy Tests for Community Edition">
+    <target name="code_legacy_tests_ce" depends="_server_info" description="Code Legacy Tests for Community Edition">
         <antcall>
-            <target name="_server_info"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
             <target name="_code_legacy_tests"/>
