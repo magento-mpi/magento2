@@ -20,6 +20,11 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
     const CONFIGURABLE_PRODUCT_IMAGE= 'checkout/cart/configurable_product_image';
     const USE_PARENT_IMAGE          = 'parent';
 
+    public function __construct(Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($catalogProductConfiguration, $coreData, $context, $data);
+    }
+
     /**
      * Get item configurable product
      *
@@ -92,7 +97,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
     public function getOptionList()
     {
         /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
+        $helper = $this->_catalogProductConfiguration;
         $options = $helper->getConfigurableOptions($this->getItem());
         return $options;
     }

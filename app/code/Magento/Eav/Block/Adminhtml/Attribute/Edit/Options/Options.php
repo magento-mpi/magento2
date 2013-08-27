@@ -29,14 +29,14 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
     protected $_template = 'Magento_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
-     * @inheritdoc
-     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
@@ -44,7 +44,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
     ) {
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

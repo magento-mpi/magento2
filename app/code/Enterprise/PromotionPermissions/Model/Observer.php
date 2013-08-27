@@ -60,15 +60,26 @@ class Enterprise_PromotionPermissions_Model_Observer
     protected $_isEnterpriseReminderEnabled;
 
     /**
+     * Promotion permissions data
+     *
+     * @var Enterprise_PromotionPermissions_Helper_Data
+     */
+    protected $_promotionPermissionsData = null;
+
+    /**
      * Promotion Permissions Observer class constructor
      *
      * Sets necessary data
+     *
+     * @param Enterprise_PromotionPermissions_Helper_Data $promotionPermissionsData
      */
-    public function __construct()
-    {
+    public function __construct(
+        Enterprise_PromotionPermissions_Helper_Data $promotionPermissionsData
+    ) {
+        $this->_promotionPermissionsData = $promotionPermissionsData;
         $this->_request = Mage::app()->getRequest();
         // Set necessary flags
-        $helper = Mage::helper('Enterprise_PromotionPermissions_Helper_Data');
+        $helper = $this->_promotionPermissionsData;
         $this->_canEditCatalogRules = $helper->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();

@@ -15,6 +15,32 @@
 class Enterprise_WebsiteRestriction_Model_Observer
 {
     /**
+     * Website restriction data
+     *
+     * @var Enterprise_WebsiteRestriction_Helper_Data
+     */
+    protected $_websiteRestrictionData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Enterprise_WebsiteRestriction_Helper_Data $websiteRestrictionData
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Enterprise_WebsiteRestriction_Helper_Data $websiteRestrictionData
+    ) {
+        $this->_customerData = $customerData;
+        $this->_websiteRestrictionData = $websiteRestrictionData;
+    }
+
+    /**
      * Implement website stub or private sales restriction
      *
      * @param Magento_Event_Observer $observer
@@ -32,7 +58,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
             if (!$dispatchResult->getShouldProceed()) {
                 return;
             }
-            if (!Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled()) {
+            if (!$this->_websiteRestrictionData->getIsRestrictionEnabled()) {
                 return;
             }
             /* @var $request Magento_Core_Controller_Request_Http */
@@ -62,14 +88,14 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
                 // redirect to landing page/login
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
-                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('Magento_Customer_Helper_Data')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !$this->_customerData->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
                             ->getNode(Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
-                        if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
+                        if ($this->_customerData->isRegistrationAllowed()) {
                             foreach(array_keys(Mage::getConfig()
                                 ->getNode(
                                     Enterprise_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
@@ -109,7 +135,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
                         if (Mage::getStoreConfigFlag(
                             Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
-                            $afterLoginUrl = Mage::helper('Magento_Customer_Helper_Data')->getDashboardUrl();
+                            $afterLoginUrl = $this->_customerData->getDashboardUrl();
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }
@@ -137,7 +163,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
             $restrictionMode = (int)Mage::getStoreConfig(
                 Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE
             );
-            $result->setIsAllowed((!Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled())
+            $result->setIsAllowed((!$this->_websiteRestrictionData->getIsRestrictionEnabled())
                 || (Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $restrictionMode)
             );
         }

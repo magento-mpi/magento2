@@ -18,6 +18,11 @@
 class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block_Widget_Grid
 {
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
+    {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -149,7 +154,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
             if ( $json ) {
                 $jsonUsers = Array();
                 foreach($users as $usrid) $jsonUsers[$usrid] = 0;
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return $this->_coreData->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

@@ -69,6 +69,33 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Magento_Cata
     abstract public function getPositionBehavior();
 
     /**
+     * Target rule data
+     *
+     * @var Enterprise_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param Enterprise_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Return the behavior positions applicable to products based on the rule(s)
      *
      * @return array
@@ -101,7 +128,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Magento_Cata
      */
     public function getTargetRuleHelper()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data');
+        return $this->_targetRuleData;
     }
 
     /**

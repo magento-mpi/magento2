@@ -32,6 +32,20 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_isCustomerIdChecked = null;
 
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core url
+     *
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_coreUrl = null;
+
+    /**
      * Retrieve customer sharing configuration model
      *
      * @return Magento_Customer_Model_Config_Share
@@ -44,10 +58,19 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Class constructor. Initialize session namespace
      *
+     *
+     *
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_Customer_Helper_Data $customerData
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Customer_Helper_Data $customerData,
+        $sessionName = null
+    ) {
+        $this->_coreUrl = $coreUrl;
+        $this->_customerData = $customerData;
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
             $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());
@@ -257,7 +280,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
             $action->getResponse()->setRedirect($loginUrl);
         } else {
             $action->setRedirectWithCookieCheck(Magento_Customer_Helper_Data::ROUTE_ACCOUNT_LOGIN,
-                Mage::helper('Magento_Customer_Helper_Data')->getLoginUrlParams()
+                $this->_customerData->getLoginUrlParams()
             );
         }
 
@@ -273,7 +296,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = Mage::helper('Magento_Core_Helper_Url')
+        $url = $this->_coreUrl
             ->removeRequestParam($url, Mage::getSingleton('Magento_Core_Model_Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
         $url = Mage::getModel('Magento_Core_Model_Url')->getRebuiltUrl($url);

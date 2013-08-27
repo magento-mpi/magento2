@@ -22,17 +22,19 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Temp
     protected $_regionCollection;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
 

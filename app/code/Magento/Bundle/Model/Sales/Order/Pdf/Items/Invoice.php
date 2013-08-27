@@ -18,6 +18,33 @@
 class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $data
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        array $data = array(),
+        Magento_Data_Collection_Db $resourceCollection = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($data, $resourceCollection, $resource, $context, $taxData, $context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Draw item line
      *
      */
@@ -34,7 +61,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_
         $_prevOptionId = '';
         $drawItems = array();
 
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
         foreach ($items as $_item) {
             $line   = array();
 
@@ -57,7 +84,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($attributes['option_label'], 45, true, true),
+                        'text'  => $this->_coreString->str_split($attributes['option_label'], 45, true, true),
                         'feed'  => 35
                     );
 
@@ -81,14 +108,14 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_
                 $name = $_item->getName();
             }
             $line[] = array(
-                'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($name, 35, true, true),
+                'text'  => $this->_coreString->str_split($name, 35, true, true),
                 'feed'  => $feed
             );
 
             // draw SKUs
             if (!$_item->getOrderItem()->getParentItem()) {
                 $text = array();
-                foreach (Mage::helper('Magento_Core_Helper_String')->str_split($item->getSku(), 17) as $part) {
+                foreach ($this->_coreString->str_split($item->getSku(), 17) as $part) {
                     $text[] = $part;
                 }
                 $line[] = array(
@@ -139,7 +166,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(strip_tags($option['label']), 40, true, true),
+                        'text'  => $this->_coreString->str_split(strip_tags($option['label']), 40, true, true),
                         'font'  => 'italic',
                         'feed'  => 35
                     );
@@ -151,7 +178,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Magento_Bundle_
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 30, true, true) as $_value) {
+                            foreach ($this->_coreString->str_split($value, 30, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

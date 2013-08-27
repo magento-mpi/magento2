@@ -18,6 +18,11 @@
 
 class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -95,6 +100,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();
             $data['payment_method'] = $this->getQuote()->getPayment()->getMethod();
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 }

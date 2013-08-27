@@ -14,6 +14,27 @@
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Reminder data
+     *
+     * @var Enterprise_Reminder_Helper_Data
+     */
+    protected $_reminderData = null;
+
+    /**
+     * @param Enterprise_Reminder_Helper_Data $reminderData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reminder_Helper_Data $reminderData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_reminderData = $reminderData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize form
      * Add standard buttons
      * Add "Run Now" button
@@ -31,7 +52,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtm
         $rule = Mage::registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');
-            if ($limit = Mage::helper('Enterprise_Reminder_Helper_Data')->getOneRunLimit()) {
+            if ($limit = $this->_reminderData->getOneRunLimit()) {
                 $confirm .= ' ' . __('No more than %1 customers may receive the reminder email after this action.', $limit);
             }
             $this->_addButton('run_now', array(

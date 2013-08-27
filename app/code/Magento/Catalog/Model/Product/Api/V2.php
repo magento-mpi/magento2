@@ -17,6 +17,11 @@
  */
 class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product_Api
 {
+    public function __construct(Magento_Api_Helper_Data $apiData)
+    {
+        parent::__construct($apiData);
+    }
+
     /**
      * Retrieve product info
      *
@@ -287,7 +292,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
         }
 
         /** @var $helper Magento_Api_Helper_Data */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = $this->_apiData;
         $helper->v2AssociativeArrayUnpacker($productData);
         $helper->toArray($productData);
         $this->_prepareConfigurableAttributes($product, $productData);

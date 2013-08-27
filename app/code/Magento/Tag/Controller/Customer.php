@@ -100,7 +100,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
                     __('You deleted the tag.')
                 );
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/', array(
-                    self::PARAM_NAME_URL_ENCODED => Mage::helper('Magento_Core_Helper_Data')->urlEncode(
+                    self::PARAM_NAME_URL_ENCODED => $this->_objectManager->get('Magento_Core_Helper_Data')->urlEncode(
                         Mage::getUrl('customer/account/')
                     )
                 )));

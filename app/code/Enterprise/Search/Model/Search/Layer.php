@@ -15,6 +15,32 @@
 class Enterprise_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Layer
 {
     /**
+     * Search data
+     *
+     * @var Enterprise_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Enterprise_Search_Helper_Data $searchData
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Search_Helper_Data $searchData,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        array $data = array()
+    ) {
+        $this->_searchData = $searchData;
+        parent::__construct($catalogSearchData, $data);
+    }
+
+    /**
      * Retrieve current layer product collection
      *
      * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
@@ -24,7 +50,7 @@ class Enterprise_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_L
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine()->getResultCollection();
+            $collection = $this->_catalogSearchData->getEngine()->getResultCollection();
             $collection->setStoreId($this->getCurrentCategory()->getStoreId());
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
@@ -63,7 +89,7 @@ class Enterprise_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_L
         $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
             ->setItemObjectClass('Magento_Catalog_Model_Resource_Eav_Attribute');
 
-        if (Mage::helper('Enterprise_Search_Helper_Data')->getTaxInfluence()) {
+        if ($this->_searchData->getTaxInfluence()) {
             $collection->removePriceFilter();
         }
 

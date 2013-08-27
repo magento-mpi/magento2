@@ -400,7 +400,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
      */
     protected function _initProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
+        $product = $this->_catalogProduct->getProduct($productId, $this->_getStoreId($store), $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

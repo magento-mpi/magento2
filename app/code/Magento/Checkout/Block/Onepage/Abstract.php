@@ -152,7 +152,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     {
         $countryId = $this->getAddress()->getCountryId();
         if (is_null($countryId)) {
-            $countryId = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry();
+            $countryId = $this->_coreData->getDefaultCountry();
         }
         $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($type.'[country_id]')

@@ -15,13 +15,29 @@
 class Enterprise_CustomerBalance_Model_Observer
 {
     /**
+     * Customer balance data
+     *
+     * @var Enterprise_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+     */
+    public function __construct(
+        Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+    }
+
+    /**
      * Prepare customer balance POST data
      *
      * @param Magento_Event_Observer $observer
      */
     public function prepareCustomerBalanceSave($observer)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
         /* @var $customer Magento_Customer_Model_Customer */
@@ -41,7 +57,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function customerSaveAfter($observer)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
         $data = $observer->getCustomer()->getCustomerBalanceData();
@@ -75,7 +91,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function paymentDataImport(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
 
@@ -122,7 +138,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processBeforeOrderPlace(Magento_Event_Observer $observer)
     {
-        if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if ($this->_customerBalanceData->isEnabled()) {
             $order = $observer->getEvent()->getOrder();
             $this->_checkStoreCreditBalance($order);
         }
@@ -138,7 +154,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderPlace(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
 
@@ -224,7 +240,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderCreationData(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
@@ -276,7 +292,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function togglePaymentMethods($observer)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
 
@@ -370,7 +386,7 @@ class Enterprise_CustomerBalance_Model_Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getAutomaticallyCreated()) {
-            if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isAutoRefundEnabled()) {
+            if ($this->_customerBalanceData->isAutoRefundEnabled()) {
                 $creditmemo->setCustomerBalanceRefundFlag(true)
                     ->setCustomerBalTotalRefunded($creditmemo->getCustomerBalanceAmount())
                     ->setBsCustomerBalTotalRefunded($creditmemo->getBaseCustomerBalanceAmount());

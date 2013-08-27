@@ -19,6 +19,27 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
 {
     protected $_template = 'customer/tab/addresses.phtml';
 
+    /**
+     * Adminhtml addresses
+     *
+     * @var Magento_Adminhtml_Helper_Addresses
+     */
+    protected $_adminhtmlAddresses = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlAddresses = $adminhtmlAddresses;
+        parent::__construct($context, $data);
+    }
+
     public function getRegionsUrl()
     {
         return $this->getUrl('*/json/countryRegion');
@@ -84,7 +105,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
         );
 
         $addressModel = Mage::getModel('Magento_Customer_Model_Address');
-        $addressModel->setCountryId(Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($customer->getStore()));
+        $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Magento_Customer_Model_Form */
         $addressForm = Mage::getModel('Magento_Customer_Model_Form');
         $addressForm->setFormCode('adminhtml_customer_address')
@@ -93,7 +114,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
 
         $attributes = $addressForm->getAttributes();
         if(isset($attributes['street'])) {
-            Mage::helper('Magento_Adminhtml_Helper_Addresses')
+            $this->_adminhtmlAddresses
                 ->processStreetAttribute($attributes['street']);
         }
         foreach ($attributes as $attribute) {
@@ -213,7 +234,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
             );
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

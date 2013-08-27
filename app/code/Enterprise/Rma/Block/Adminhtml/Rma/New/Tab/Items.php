@@ -19,6 +19,27 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Rma eav
+     *
+     * @var Enterprise_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Class constructor
      *
      */
@@ -109,7 +130,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml
             'required'  => false
         ));
 
-        $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
+        $eavHelper = $this->_rmaEav;
         $fieldset->addField('reason', 'select', array(
             'label'=> __('Reason to Return'),
             'options' => array(''=>'')

@@ -14,13 +14,34 @@
 class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Customer_Wishlist
 {
     /**
+     * Gift registry data
+     *
+     * @var Enterprise_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare block layout, override wishlist block with different template
      *
      * @return Enterprise_GiftRegistry_Block_Wishlist_View
      */
     protected function _prepareLayout()
     {
-        $outputEnabled = Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled($this->getModuleName());
+        $outputEnabled = $this->_coreData->isModuleOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
             if ($this->_layout->hasElement('my.account.wrapper')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
@@ -51,7 +72,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block
      */
     public function getEnabled()
     {
-        return  Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
+        return  $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -61,7 +82,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block
      */
     public function getEntityValues()
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
+        return $this->_giftRegistryData->getCurrentCustomerEntityOptions();
     }
 
     /**
@@ -72,6 +93,6 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block
      */
     public function checkProductType($item)
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item);
+        return $this->_giftRegistryData->canAddToGiftRegistry($item);
     }
 }

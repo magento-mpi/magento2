@@ -18,6 +18,35 @@
 class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
 {
     /**
+     * Customer customer
+     *
+     * @var Enterprise_Customer_Helper_Customer
+     */
+    protected $_customerCustomer = null;
+
+    /**
+     * Customer address
+     *
+     * @var Enterprise_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * @param Enterprise_Customer_Helper_Address $customerAddress
+     * @param Enterprise_Customer_Helper_Customer $customerCustomer
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Enterprise_Customer_Helper_Address $customerAddress,
+        Enterprise_Customer_Helper_Customer $customerCustomer,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_customerAddress = $customerAddress;
+        $this->_customerCustomer = $customerCustomer;
+        parent::__construct($context);
+    }
+
+    /**
      * Return available customer attribute form as select options
      *
      * @throws Magento_Core_Exception
@@ -44,7 +73,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerAttributeFormOptions()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Customer')->getAttributeFormOptions();
+        return $this->_customerCustomer->getAttributeFormOptions();
     }
 
     /**
@@ -54,7 +83,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerAddressAttributeFormOptions()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Address')->getAttributeFormOptions();
+        return $this->_customerAddress->getAttributeFormOptions();
     }
 
     /**
@@ -64,7 +93,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerUserDefinedAttributeCodes()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Customer')->getUserDefinedAttributeCodes();
+        return $this->_customerCustomer->getUserDefinedAttributeCodes();
     }
 
     /**
@@ -74,6 +103,6 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getCustomerAddressUserDefinedAttributeCodes()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Address')->getUserDefinedAttributeCodes();
+        return $this->_customerAddress->getUserDefinedAttributeCodes();
     }
 }

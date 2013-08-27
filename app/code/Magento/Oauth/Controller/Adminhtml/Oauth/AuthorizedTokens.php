@@ -176,7 +176,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
             $name  = $customer->getName();
         }
         /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
         $helper->sendNotificationOnTokenStatusChange($email, $name, $token->getConsumer()->getName(), $newStatus);
     }

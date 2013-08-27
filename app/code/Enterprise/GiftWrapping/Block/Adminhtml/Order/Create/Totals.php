@@ -15,6 +15,27 @@
 class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
 {
     /**
+     * Gift wrapping data
+     *
+     * @var Enterprise_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return information for showing
      *
      * @return array
@@ -22,7 +43,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magent
     public function getValues(){
         $values = array();
         $total = $this->getTotal();
-        $totals = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getTotals($total);
+        $totals = $this->_giftWrappingData->getTotals($total);
         foreach ($totals as $total) {
             $values[$total['label']] = $total['value'];
         }

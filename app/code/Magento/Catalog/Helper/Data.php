@@ -59,6 +59,45 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeId = null;
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreString = $coreString;
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($context);
+    }
+
+    /**
      * Set a specified store ID value
      *
      * @param int $store
@@ -154,14 +193,14 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         if ($productId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId()) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
             /* @var $product Magento_Catalog_Model_Product */
-            if (Mage::helper('Magento_Catalog_Helper_Product')->canShow($product, 'catalog')) {
+            if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
         if ($categoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedCategoryId()) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             /* @var $category Magento_Catalog_Model_Category */
-            if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
+            if (!$this->_catalogCategory->canShow($category)) {
                 return '';
             }
             return $category->getCategoryUrl();
@@ -179,7 +218,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return Mage::helper('Magento_Core_Helper_String')->str_split($sku, $length, true, false, '[\-\s]');
+        return $this->_coreString->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**

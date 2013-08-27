@@ -26,11 +26,23 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_areaFrontName = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Config $applicationConfig
      * @param Magento_Core_Helper_Context $context
      */
-    public function __construct(Magento_Core_Model_Config $applicationConfig, Magento_Core_Helper_Context $context)
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_config = $applicationConfig;
     }
@@ -123,7 +135,7 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

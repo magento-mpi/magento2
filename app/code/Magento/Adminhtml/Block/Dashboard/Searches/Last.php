@@ -20,6 +20,11 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
 {
     protected $_collection;
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
+    {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -28,7 +33,7 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_CatalogSearch')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
         $this->_collection = Mage::getModel('Magento_CatalogSearch_Model_Query')

@@ -30,15 +30,25 @@ class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
     protected $_configCacheType;
 
     /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiData
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Simplexml_Element|null $sourceData
      */
     public function __construct(
+        Magento_Api_Helper_Data $apiData,
         Magento_Core_Model_Config_Modules_Reader $configReader,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         $sourceData = null
     ) {
+        $this->_apiData = $apiData;
         parent::__construct($sourceData);
         $this->_configReader = $configReader;
         $this->_configCacheType = $configCacheType;
@@ -96,7 +106,7 @@ class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
             $mergeWsdl->setHandler($this->getHandler());
 
             /** @var Magento_Api_Helper_Data $helper */
-            $helper = Mage::helper('Magento_Api_Helper_Data');
+            $helper = $this->_apiData;
             if ($helper->isWsiCompliant()) {
                 /**
                  * Exclude Magento_Api wsdl xml file because it used for previous version

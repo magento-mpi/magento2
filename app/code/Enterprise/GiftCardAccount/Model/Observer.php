@@ -11,6 +11,22 @@
 class Enterprise_GiftCardAccount_Model_Observer
 {
     /**
+     * Gift card account data
+     *
+     * @var Enterprise_GiftCardAccount_Helper_Data
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * @param Enterprise_GiftCardAccount_Helper_Data $giftCardAccountData
+     */
+    public function __construct(
+        Enterprise_GiftCardAccount_Helper_Data $giftCardAccountData
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+    }
+
+    /**
      * Charge all gift cards applied to the order
      * used for event: sales_order_place_after
      *
@@ -20,7 +36,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     public function processOrderPlace(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
+        $cards = $this->_giftCardAccountData->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as &$card) {
                 $args = array(
@@ -33,7 +49,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 $card['authorized'] = $card['ba'];
             }
 
-            $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($order, $cards);
+            $cards = $this->_giftCardAccountData->setCards($order, $cards);
         }
 
         return $this;
@@ -48,7 +64,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     public function processOrderCreateBefore(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
+        $cards = $this->_giftCardAccountData->getCards($quote);
 
         if (is_array($cards)) {
             foreach ($cards as $card) {
@@ -235,7 +251,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             return $this;
         }
         /* Gift cards validation */
-        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
+        $cards = $this->_giftCardAccountData->getCards($quote);
         $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
         foreach ($cards as $one) {
             Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
@@ -454,7 +470,7 @@ class Enterprise_GiftCardAccount_Model_Observer
      */
     protected function _revertGiftCardsForOrder(Magento_Sales_Model_Order $order)
     {
-        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
+        $cards = $this->_giftCardAccountData->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 if (isset($card['authorized'])) {
@@ -510,7 +526,7 @@ class Enterprise_GiftCardAccount_Model_Observer
         /** @var Magento_Sales_Model_Order $order */
         $order = $observer->getEvent()->getOrder();
 
-        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
+        $cards = $this->_giftCardAccountData->getCards($order);
         if (is_array($cards)) {
             $balance = 0;
             foreach ($cards as $card) {

@@ -31,10 +31,23 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sal
     protected $_quoteEntity;
 
     /**
-     * Init total model, set total code
+     * Gift wrapping data
+     *
+     * @var Enterprise_GiftWrapping_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_giftWrappingData = null;
+
+    /**
+     * Init total model, set total code
+     *
+     *
+     *
+     * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+     */
+    public function __construct(
+        Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
         $this->setCode('giftwrapping');
     }
 
@@ -161,7 +174,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sal
         $printedCardBasePrice = false;
         $printedCardPrice = false;
         if ($this->_quoteEntity->getGwAddCard()) {
-            $printedCardBasePrice = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getPrintedCardPrice($this->_store);
+            $printedCardBasePrice = $this->_giftWrappingData->getPrintedCardPrice($this->_store);
             $printedCardPrice = $this->_store->convertPrice($printedCardBasePrice);
         }
         $address->setGwCardBasePrice($printedCardBasePrice);

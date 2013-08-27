@@ -77,7 +77,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             }
             $result['controller_action_name'] = $data['controller_action_name'];
             $result['is_secure'] = isset($data['is_secure']) ? $data['is_secure'] : false;
-            $params['redirect'] = Mage::helper('Magento_Authorizenet_Helper_Data')->getRedirectIframeUrl($result);
+            $params['redirect'] = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')->getRedirectIframeUrl($result);
         }
 
         Mage::register('authorizenet_directpost_form_params', $params);
@@ -98,7 +98,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             && isset($redirectParams['controller_action_name'])
         ) {
             $this->_getDirectPostSession()->unsetData('quote_id');
-            $params['redirect_parent'] = Mage::helper('Magento_Authorizenet_Helper_Data')->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])) {
             $cancelOrder = empty($redirectParams['x_invoice_num']);
@@ -126,7 +126,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
         if (isset($paymentParam['method'])) {
-            $params = Mage::helper('Magento_Authorizenet_Helper_Data')->getSaveOrderUrlParams($controller);
+            $params = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')->getSaveOrderUrlParams($controller);
             $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
             $this->_forward(
                 $params['action'],
@@ -139,7 +139,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
                 'error_messages' => __('Please choose a payment method.'),
                 'goto_section'   => 'payment'
             );
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -150,7 +150,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
     public function returnQuoteAction()
     {
         $this->_returnCustomerQuote();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('success' => 1)));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array('success' => 1)));
     }
 
     /**

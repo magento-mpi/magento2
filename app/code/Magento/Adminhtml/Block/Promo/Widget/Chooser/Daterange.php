@@ -36,6 +36,27 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
     protected $_rangeDelimiter  = '...';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render the chooser HTML
      * Target element should be set.
      *
@@ -47,7 +68,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
             return '';
         }
 
-        $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        $idSuffix = $this->_coreData->uniqHash();
         $form = new Magento_Data_Form();
         foreach (array(
             'from' => __('From'),

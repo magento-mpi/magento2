@@ -41,6 +41,31 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected $_product;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Collection constructor
+     *
+     *
+     *
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($fetchStrategy, $resource);
+    }
+
+    /**
      * Initialize connection and define table names
      *
      */
@@ -61,7 +86,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
      */
     public function getHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data');
+        return $this->_catalogData;
     }
 
     /**

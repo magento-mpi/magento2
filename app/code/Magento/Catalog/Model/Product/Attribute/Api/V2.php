@@ -18,6 +18,31 @@
 class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Model_Product_Attribute_Api
 {
     /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * Constructor. Initializes default values.
+     *
+     *
+     *
+     * @param Magento_Api_Helper_Data $apiData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Cache_FrontendInterface $attributeLabelCache
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Cache_FrontendInterface $attributeLabelCache
+    ) {
+        $this->_apiData = $apiData;
+        parent::__construct($catalogData, $attributeLabelCache);
+    }
+
+    /**
      * Create new product attribute
      *
      * @param array $data input data
@@ -25,9 +50,9 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
      */
     public function create($data)
     {
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = $this->_apiData;
         $helper->v2AssociativeArrayUnpacker($data);
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        $this->_apiData->toArray($data);
         return parent::create($data);
     }
 
@@ -40,9 +65,9 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
      */
     public function update($attribute, $data)
     {
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = $this->_apiData;
         $helper->v2AssociativeArrayUnpacker($data);
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        $this->_apiData->toArray($data);
         return parent::update($attribute, $data);
     }
 
@@ -55,7 +80,7 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
      */
     public function addOption($attribute, $data)
     {
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        $this->_apiData->toArray($data);
         return parent::addOption($attribute, $data);
     }
 

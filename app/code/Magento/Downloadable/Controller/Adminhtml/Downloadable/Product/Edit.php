@@ -41,7 +41,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit extend
      */
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = Mage::helper('Magento_Downloadable_Helper_Download');
+        $helper = $this->_objectManager->get('Magento_Downloadable_Helper_Download');
         /* @var $helper Magento_Downloadable_Helper_Download */
 
         $helper->setResource($resource, $resourceType);
@@ -88,7 +88,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit extend
                 $resource = $link->getLinkUrl();
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($link->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = Mage::helper('Magento_Downloadable_Helper_File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
                     Magento_Downloadable_Model_Link::getBasePath(), $link->getLinkFile()
                 );
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;

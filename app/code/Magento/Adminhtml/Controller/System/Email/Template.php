@@ -174,7 +174,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             $templateBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Email_Template_Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($template->getData()));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($template->getData()));
         } catch (Exception $e) {
             Mage::logException($e);
         }

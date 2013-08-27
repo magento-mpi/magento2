@@ -18,12 +18,33 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Load Wysiwyg on demand and prepare layout
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Cms')
+        if ($this->_catalogData->isModuleEnabled('Magento_Cms')
             && Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
         ) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);

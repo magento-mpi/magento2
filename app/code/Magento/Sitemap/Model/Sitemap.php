@@ -98,6 +98,22 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     protected $_filesystem;
 
     /**
+     * Sitemap data
+     *
+     * @var Magento_Sitemap_Helper_Data
+     */
+    protected $_sitemapData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Sitemap_Helper_Data $sitemapData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -105,12 +121,16 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Sitemap_Helper_Data $sitemapData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -144,7 +164,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     protected function _initSitemapItems()
     {
         /** @var $helper Magento_Sitemap_Helper_Data */
-        $helper = Mage::helper('Magento_Sitemap_Helper_Data');
+        $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
 
         $this->_sitemapItems[] = new Magento_Object(array(
@@ -229,7 +249,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
          * Check path is allow
          */
         /** @var $helper Magento_Sitemap_Helper_Data */
-        $helper = Mage::helper('Magento_Sitemap_Helper_Data');
+        $helper = $this->_sitemapData;
         if (!$file->allowedPath($realPath, $this->_getBaseDir())) {
             Mage::throwException(__('Please define a correct path.'));
         }
@@ -238,7 +258,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
          */
         if (!$file->fileExists($realPath, false)) {
             Mage::throwException(__('Please create the specified folder "%1" before saving the sitemap.',
-                Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->getSitemapPath())));
+                $this->_coreData->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
@@ -350,7 +370,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     protected function _isSplitRequired($row)
     {
         /** @var $helper Magento_Sitemap_Helper_Data */
-        $helper = Mage::helper('Magento_Sitemap_Helper_Data');
+        $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
         if ($this->_lineCount + 1 > $helper->getMaximumLinesNumber($storeId)) {
             return true;
@@ -624,7 +644,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     protected function _isEnabledSubmissionRobots()
     {
         /** @var $helper Magento_Sitemap_Helper_Data */
-        $helper = Mage::helper('Magento_Sitemap_Helper_Data');
+        $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
         return (bool) $helper->getEnableSubmissionRobots($storeId);
     }

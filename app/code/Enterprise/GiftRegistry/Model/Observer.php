@@ -20,11 +20,24 @@ class Enterprise_GiftRegistry_Model_Observer
     protected $_isEnabled;
 
     /**
-     * Class constructor
+     * Gift registry data
+     *
+     * @var Enterprise_GiftRegistry_Helper_Data
      */
-    public function __construct()
-    {
-        $this->_isEnabled = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled();
+    protected $_giftRegistryData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+     */
+    public function __construct(
+        Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        $this->_isEnabled = $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -58,7 +71,7 @@ class Enterprise_GiftRegistry_Model_Observer
         $addressId = $observer->getEvent()->getValue();
 
         if (!is_numeric($addressId)) {
-            $prefix = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix();
+            $prefix = $this->_giftRegistryData->getAddressIdPrefix();
             $registryItemId = str_replace($prefix, '', $addressId);
             $object = $observer->getEvent()->getDataObject();
             $object->setGiftregistryItemId($registryItemId);
@@ -83,7 +96,7 @@ class Enterprise_GiftRegistry_Model_Observer
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId()
+                    $this->_giftRegistryData->getAddressIdPrefix() . $model->getId()
                 );
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());

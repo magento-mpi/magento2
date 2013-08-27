@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     protected function _construct()
     {
         // During order creation in the backend admin has ability to add any products to order
-        Mage::helper('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
+        $this->_objectManager->get('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
     }
 
     /**
@@ -256,7 +256,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getGiftmessageSaveModel()
-                ->importAllowQuoteItemsFromProducts(Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data));
+                ->importAllowQuoteItemsFromProducts($this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($data));
         }
 
         /**
@@ -293,7 +293,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     protected function _processFiles($items)
     {
         /* @var $productHelper Magento_Catalog_Helper_Product */
-        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+        $productHelper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
@@ -324,7 +324,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
         $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
-        if (!Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($order)) {
+        if (!$this->_objectManager->get('Magento_Sales_Helper_Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
 
@@ -547,7 +547,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
 
         // Render page
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -591,7 +591,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
 
         // Render page
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

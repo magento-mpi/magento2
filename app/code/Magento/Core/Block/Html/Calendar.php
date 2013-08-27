@@ -18,13 +18,18 @@
  */
 class Magento_Core_Block_Html_Calendar extends Magento_Core_Block_Template
 {
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _toHtml()
     {
         $localeCode = Mage::app()->getLocale()->getLocaleCode();
 
         // get days names
         $days = Zend_Locale_Data::getList($localeCode, 'days');
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = $this->_coreData;
         $this->assign('days', array(
             'wide'        => $helper->jsonEncode(array_values($days['format']['wide'])),
             'abbreviated' => $helper->jsonEncode(array_values($days['format']['abbreviated']))

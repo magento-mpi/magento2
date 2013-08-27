@@ -19,6 +19,27 @@ class Magento_Shipping_Model_Info extends Magento_Object
     protected $_trackingInfo = array();
 
     /**
+     * Shipping data
+     *
+     * @var Magento_Shipping_Helper_Data
+     */
+    protected $_shippingData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Shipping_Helper_Data $shippingData
+     */
+    public function __construct(
+        Magento_Shipping_Helper_Data $shippingData
+    ) {
+        $this->_shippingData = $shippingData;
+    }
+
+    /**
      * Generating tracking info
      *
      * @param array $hash
@@ -27,7 +48,7 @@ class Magento_Shipping_Model_Info extends Magento_Object
     public function loadByHash($hash)
     {
         /* @var $helper Magento_Shipping_Helper_Data */
-        $helper = Mage::helper('Magento_Shipping_Helper_Data');
+        $helper = $this->_shippingData;
         $data = $helper->decodeTrackingHash($hash);
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);

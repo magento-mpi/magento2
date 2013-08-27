@@ -28,6 +28,29 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     protected $_helper = null;
 
     /**
+     * Product alert data
+     *
+     * @var Magento_ProductAlert_Helper_Data
+     */
+    protected $_productAlertData = null;
+
+    /**
+     * @param Magento_ProductAlert_Helper_Data $productAlertData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ProductAlert_Helper_Data $productAlertData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productAlertData = $productAlertData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check whether the stock alert data can be shown and prepare related data
      *
      * @return void
@@ -80,7 +103,7 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     protected function _getHelper()
     {
         if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('Magento_ProductAlert_Helper_Data');
+            $this->_helper = $this->_productAlertData;
         }
         return $this->_helper;
     }

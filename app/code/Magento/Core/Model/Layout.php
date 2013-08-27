@@ -180,6 +180,14 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_renderers = array();
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
@@ -190,6 +198,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_BlockFactory $blockFactory,
         Magento_Data_Structure $structure,
@@ -199,6 +208,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
+        $this->_coreData = $coreData;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
@@ -1196,7 +1206,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         if (isset($node['json'])) {
             $json = explode(' ', (string)$node['json']);
             foreach ($json as $arg) {
-                $args[$arg] = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($args[$arg]);
+                $args[$arg] = $this->_coreData->jsonDecode($args[$arg]);
             }
         }
 

@@ -29,8 +29,8 @@ class Enterprise_Reward_Controller_Cart extends Magento_Core_Controller_Front_Ac
      */
     public function removeAction()
     {
-        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
-            || !Mage::helper('Enterprise_Reward_Helper_Data')->getHasRates()) {
+        if (!$this->_objectManager->get('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
+            || !$this->_objectManager->get('Enterprise_Reward_Helper_Data')->getHasRates()) {
             return $this->_redirect('customer/account/');
         }
 

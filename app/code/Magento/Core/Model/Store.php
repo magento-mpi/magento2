@@ -231,6 +231,14 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_appState;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Url $urlModel
@@ -240,6 +248,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Url $urlModel,
@@ -248,6 +257,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
@@ -677,7 +687,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected function _getMediaScriptUrl(Magento_Core_Model_Dir $dirs, $secure)
     {
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
-            && Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()
+            && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->getUri(Magento_Core_Model_Dir::PUB)
                 . '/' . self::MEDIA_REWRITE_SCRIPT;

@@ -32,6 +32,11 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      */
     protected $_ecInstance = null;
 
+    public function __construct($params = array())
+    {
+        parent::__construct($params);
+    }
+
     /**
      * EC PE won't be available if the EC is available
      *
@@ -44,7 +49,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = Mage::helper('Magento_Payment_Helper_Data')
+            $this->_ecInstance = $this->_paymentData
                 ->getMethodInstance(Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         }
         if ($quote && $this->_ecInstance) {

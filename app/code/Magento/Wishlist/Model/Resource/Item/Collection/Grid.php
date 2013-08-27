@@ -19,17 +19,21 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
     protected $_registryManager;
 
     /**
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Db_Abstract $resource
     ) {
         $this->_registryManager = $registry;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($catalogInventoryData, $adminhtmlSales, $fetchStrategy, $resource);
     }
 
     /**

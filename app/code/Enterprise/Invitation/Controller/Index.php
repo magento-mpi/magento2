@@ -31,7 +31,7 @@ class Enterprise_Invitation_Controller_Index extends Magento_Core_Controller_Fro
         }
 
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+            $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

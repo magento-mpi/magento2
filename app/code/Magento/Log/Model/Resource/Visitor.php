@@ -19,6 +19,29 @@
 class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table
      *
      */
@@ -54,8 +77,8 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     {
         $adapter    = $this->_getWriteAdapter();
         $data       = new Magento_Object(array(
-            'url'    => Mage::helper('Magento_Core_Helper_String')->substr($visitor->getUrl(), 0, 250),
-            'referer'=> Mage::helper('Magento_Core_Helper_String')->substr($visitor->getHttpReferer(), 0, 250)
+            'url'    => $this->_coreString->substr($visitor->getUrl(), 0, 250),
+            'referer'=> $this->_coreString->substr($visitor->getHttpReferer(), 0, 250)
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url_info'));
 
@@ -132,7 +155,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     protected function _saveVisitorInfo($visitor)
     {
         /* @var $stringHelper Magento_Core_Helper_String */
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
 
         $referer    = $stringHelper->cleanString($visitor->getHttpReferer());
         $referer    = $stringHelper->substr($referer, 0, 255);

@@ -37,12 +37,37 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_skipRequestLogging = false;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Onject initialization
      */
     protected function _construct()
     {
         $this->_init('Magento_Log_Model_Resource_Visitor');
-        $userAgent = Mage::helper('Magento_Core_Helper_Http')->getHttpUserAgent();
+        $userAgent = $this->_coreHttp->getHttpUserAgent();
         $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {
             $ignoreAgents = $ignoreAgents->asArray();
@@ -70,7 +95,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     public function initServerData()
     {
         /* @var $helper Magento_Core_Helper_Http */
-        $helper = Mage::helper('Magento_Core_Helper_Http');
+        $helper = $this->_coreHttp;
 
         $this->addData(array(
             'server_addr'           => $helper->getServerAddr(true),

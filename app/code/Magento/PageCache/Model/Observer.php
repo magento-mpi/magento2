@@ -20,13 +20,29 @@ class Magento_PageCache_Model_Observer
     const XML_NODE_ALLOWED_CACHE = 'frontend/cache/allowed_requests';
 
     /**
+     * Page cache data
+     *
+     * @var Magento_PageCache_Helper_Data
+     */
+    protected $_pageCacheData = null;
+
+    /**
+     * @param Magento_PageCache_Helper_Data $pageCacheData
+     */
+    public function __construct(
+        Magento_PageCache_Helper_Data $pageCacheData
+    ) {
+        $this->_pageCacheData = $pageCacheData;
+    }
+
+    /**
      * Retrieve the helper instance
      *
      * @return Magento_PageCache_Helper_Data
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_PageCache_Helper_Data');
+        return $this->_pageCacheData;
     }
 
     /**

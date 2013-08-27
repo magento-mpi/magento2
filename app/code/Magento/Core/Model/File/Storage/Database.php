@@ -298,7 +298,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
      */
     public function getDirectoryFiles($directory)
     {
-        $directory = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($directory);
+        $directory = $this->_coreFileStorageDatabase->getMediaRelativePath($directory);
         return $this->_getResource()->getDirectoryFiles($directory);
     }
 

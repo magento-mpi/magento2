@@ -15,6 +15,29 @@
 class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observer_Abstract
 {
     /**
+     * Admin gws data
+     *
+     * @var Enterprise_AdminGws_Helper_Data
+     */
+    protected $_adminGwsData = null;
+
+    /**
+     * Initialize helper
+     *
+     *
+     *
+     * @param Enterprise_AdminGws_Helper_Data $adminGwsData
+     * @param Enterprise_AdminGws_Model_Role $role
+     */
+    public function __construct(
+        Enterprise_AdminGws_Helper_Data $adminGwsData,
+        Enterprise_AdminGws_Model_Role $role
+    ) {
+        $this->_adminGwsData = $adminGwsData;
+        parent::__construct($role);
+    }
+
+    /**
      * Limit CMS page save
      *
      * @param Magento_Cms_Model_Page $model
@@ -303,7 +326,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        $websiteIds     = Mage::helper('Enterprise_AdminGws_Helper_Data')->explodeIds($model->getWebsiteIds());
+        $websiteIds     = $this->_adminGwsData->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
         if ($this->_role->getIsWebsiteLevel()) {

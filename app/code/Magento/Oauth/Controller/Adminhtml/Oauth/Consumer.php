@@ -89,7 +89,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
             $model->addData($formData);
         } else {
             /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
             $model->setKey($helper->generateConsumerKey());
             $model->setSecret($helper->generateConsumerSecret());
             $this->_setFormData($model->getData());
@@ -175,7 +175,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
                 // If an admin was started create a new consumer and at this moment he has been edited an existing
                 // consumer, we save the new consumer with a new key-secret pair
                 /** @var $helper Magento_Oauth_Helper_Data */
-                $helper = Mage::helper('Magento_Oauth_Helper_Data');
+                $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
                 $data['key']    = $helper->generateConsumerKey();
                 $data['secret'] = $helper->generateConsumerSecret();
@@ -189,7 +189,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
             $this->_setFormData(null);
         } catch (Magento_Core_Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError($this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
         } catch (Exception $e) {
             $this->_setFormData(null);

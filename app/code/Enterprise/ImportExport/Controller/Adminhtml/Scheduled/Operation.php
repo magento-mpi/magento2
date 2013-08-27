@@ -67,7 +67,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
         $operationType = $this->getRequest()->getParam('type');
         $this->_initAction()
             ->_title(
-                Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new')
+                $this->_objectManager->get('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new')
             );
 
         $this->renderLayout();
@@ -87,7 +87,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
         $operationType = $operation->getOperationType();
 
         /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+        $helper = $this->_objectManager->get('Enterprise_ImportExport_Helper_Data');
         $this->_title(
             $helper->getOperationHeaderText($operationType, 'edit')
         );
@@ -127,7 +127,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
                 $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setData($data);
                 $operation->save();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')
+                    $this->_objectManager->get('Enterprise_ImportExport_Helper_Data')
                         ->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (Magento_Core_Exception $e) {
@@ -155,7 +155,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
             try {
                 Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setId($id)->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessDeleteMessage(
+                    $this->_objectManager->get('Enterprise_ImportExport_Helper_Data')->getSuccessDeleteMessage(
                         $request->getParam('type')
                     )
                 );

@@ -29,13 +29,23 @@ class Magento_Backend_Model_Auth
     protected $_credentialStorage = null;
 
     /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Backend_Model_Auth_StorageInterface $authStorage
      * @param Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
      */
     public function __construct(
+        Magento_Backend_Helper_Data $backendData,
         Magento_Backend_Model_Auth_StorageInterface $authStorage,
         Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
     ) {
+        $this->_backendData = $backendData;
         $this->_authStorage = $authStorage;
         $this->_credentialStorage = $credentialStorage;
     }
@@ -86,7 +96,7 @@ class Magento_Backend_Model_Auth
      */
     protected function _initCredentialStorage()
     {
-        $areaConfig = Mage::getConfig()->getAreaConfig(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
+        $areaConfig = Mage::getConfig()->getAreaConfig($this->_backendData->getAreaCode());
         $storage = Mage::getModel($areaConfig['auth']['credential_storage']);
 
         if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {

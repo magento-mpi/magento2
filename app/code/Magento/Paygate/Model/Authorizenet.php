@@ -174,6 +174,25 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     protected $_cardsStorage = null;
 
     /**
+     * Paygate data
+     *
+     * @var Magento_Paygate_Helper_Data
+     */
+    protected $_paygateData = null;
+
+    /**
+     * @param Magento_Paygate_Helper_Data $paygateData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     */
+    public function __construct(
+        Magento_Paygate_Helper_Data $paygateData,
+        Magento_Core_Model_ModuleListInterface $moduleList
+    ) {
+        $this->_paygateData = $paygateData;
+        parent::__construct($moduleList);
+    }
+
+    /**
      * Check method for processing with base currency
      *
      * @param string $currencyCode
@@ -519,7 +538,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                     $newTransactionType,
                     array('is_transaction_closed' => 0),
                     array($this->_realTransactionIdKey => $card->getLastTransId()),
-                    Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+                    $this->_paygateData->getTransactionMessage(
                         $payment, $requestType, $card->getLastTransId(), $card, $amount
                     )
                 );
@@ -542,7 +561,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                             $this->_realTransactionIdKey => $card->getLastTransId(),
                             $this->_isTransactionFraud => true
                         ),
-                        Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+                        $this->_paygateData->getTransactionMessage(
                             $payment, $requestType, $card->getLastTransId(), $card, $amount
                         )
                     );
@@ -629,7 +648,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $newTransactionType,
                 array('is_transaction_closed' => 0),
                 array($this->_realTransactionIdKey => $card->getLastTransId()),
-                Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+                $this->_paygateData->getTransactionMessage(
                     $payment, $requestType, $card->getLastTransId(), $card, $card->getProcessedAmount()
                 )
             );
@@ -754,7 +773,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                             'parent_transaction_id' => $authTransactionId
                         ),
                         array($this->_realTransactionIdKey => $result->getTransactionId()),
-                        Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+                        $this->_paygateData->getTransactionMessage(
                             $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $result->getTransactionId(), $card, $amount
                         )
                     );
@@ -771,7 +790,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 break;
         }
 
-        $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+        $exceptionMessage = $this->_paygateData->getTransactionMessage(
             $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $realAuthTransactionId, $card, $amount, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
@@ -811,7 +830,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                             'parent_transaction_id' => $authTransactionId
                         ),
                         array($this->_realTransactionIdKey => $result->getTransactionId()),
-                        Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+                        $this->_paygateData->getTransactionMessage(
                             $payment, self::REQUEST_TYPE_VOID, $result->getTransactionId(), $card
                         )
                     );
@@ -834,7 +853,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                         'parent_transaction_id' => $authTransactionId
                     ),
                     array(),
-                    Mage::helper('Magento_Paygate_Helper_Data')->getExtendedTransactionMessage(
+                    $this->_paygateData->getExtendedTransactionMessage(
                         $payment,
                         self::REQUEST_TYPE_VOID,
                         null,
@@ -855,7 +874,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 break;
         }
 
-        $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+        $exceptionMessage = $this->_paygateData->getTransactionMessage(
             $payment, self::REQUEST_TYPE_VOID, $realAuthTransactionId, $card, false, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
@@ -921,7 +940,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                             'parent_transaction_id' => $captureTransactionId
                         ),
                         array($this->_realTransactionIdKey => $result->getTransactionId()),
-                        Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+                        $this->_paygateData->getTransactionMessage(
                             $payment, self::REQUEST_TYPE_CREDIT, $result->getTransactionId(), $card, $amount
                         )
                     );
@@ -937,7 +956,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 break;
         }
 
-        $exceptionMessage = Mage::helper('Magento_Paygate_Helper_Data')->getTransactionMessage(
+        $exceptionMessage = $this->_paygateData->getTransactionMessage(
             $payment, self::REQUEST_TYPE_CREDIT, $realCaptureTransactionId, $card, $amount, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
@@ -1475,7 +1494,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
             }
             $copyOrder->save();
         }
-        Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->convertMessagesToMessage($messages));
+        Mage::throwException($this->_paygateData->convertMessagesToMessage($messages));
     }
 
     /**

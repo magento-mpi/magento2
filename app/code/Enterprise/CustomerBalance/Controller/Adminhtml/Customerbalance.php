@@ -22,7 +22,7 @@ class Enterprise_CustomerBalance_Controller_Adminhtml_Customerbalance extends Ma
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }

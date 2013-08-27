@@ -51,19 +51,41 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * Cms wysiwyg images
+     *
+     * @var Magento_Cms_Helper_Wysiwyg_Images
+     */
+    protected $_cmsWysiwygImages = null;
+
+    /**
      * Constructor
      *
+     *
+     *
+     * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
+        $this->_cmsWysiwygImages = $cmsWysiwygImages;
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($this->getHelper()->getStorageRoot());
@@ -80,7 +102,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getDirsCollection($path)
     {
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
             $subDirectories = Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')
                 ->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
@@ -127,7 +149,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getFilesCollection($path, $type = null)
     {
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
             $files = Mage::getModel('Magento_Core_Model_File_Storage_Database')->getDirectoryFiles($path);
 
             $fileStorageModel = Mage::getModel('Magento_Core_Model_File_Storage_File');
@@ -220,8 +242,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
 
         $this->_filesystem->createDirectory($newPath);
         try {
-            if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-                $relativePath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($newPath);
+            if ($this->_coreFileStorageDatabase->checkDbUsage()) {
+                $relativePath = $this->_coreFileStorageDatabase->getMediaRelativePath($newPath);
                 Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->createRecursive($relativePath);
             }
 
@@ -256,7 +278,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
 
 
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+        if ($this->_coreFileStorageDatabase->checkDbUsage()) {
             Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->deleteDirectory($path);
         }
         try {
@@ -283,14 +305,14 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         if ($this->_filesystem->isFile($target)) {
             $this->_filesystem->delete($target);
         }
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFile($target);
+        $this->_coreFileStorageDatabase->deleteFile($target);
 
         $thumb = $this->getThumbnailPath($target, true);
         if ($thumb) {
             if ($this->_filesystem->isFile($thumb)) {
                 $this->_filesystem->delete($thumb);
             }
-            Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFile($thumb);
+            $this->_coreFileStorageDatabase->deleteFile($thumb);
         }
         return $this;
     }
@@ -453,7 +475,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getHelper()
     {
-        return Mage::helper('Magento_Cms_Helper_Wysiwyg_Images');
+        return $this->_cmsWysiwygImages;
     }
 
     /**

@@ -34,7 +34,7 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
 
                 if (Mage::getStoreConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', Mage::helper('Magento_Customer_Helper_Data')->getRegisterUrl()));
+                    Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', $this->_objectManager->get('Magento_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
                 $ownerId = Mage::getModel('Magento_Customer_Model_Customer')

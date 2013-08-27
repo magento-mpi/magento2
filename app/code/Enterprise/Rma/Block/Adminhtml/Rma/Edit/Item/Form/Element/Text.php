@@ -18,13 +18,29 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends Magento_Data_Form_Element_Text
 {
     /**
+     * Rma eav
+     *
+     * @var Enterprise_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Eav $rmaEav
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Eav $rmaEav
+    ) {
+        $this->_rmaEav = $rmaEav;
+    }
+
+    /**
      * Return Form Element HTML
      *
      * @return string
      */
     public function getElementHtml()
     {
-        $additionalClasses = Mage::helper('Enterprise_Rma_Helper_Eav')
+        $additionalClasses = $this->_rmaEav
             ->getAdditionalTextElementClasses($this->getEntityAttribute());
         foreach ($additionalClasses as $additionalClass) {
             $this->addClass($additionalClass);

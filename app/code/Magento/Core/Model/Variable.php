@@ -30,6 +30,31 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
     protected $_storeId = 0;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Internal Constructor
      */
     protected function _construct()
@@ -87,7 +112,7 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
             $value = $this->getData('plain_value');
             //escape html if type is html, but html value is not defined
             if ($type == self::TYPE_HTML) {
-                $value = nl2br(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($value));
+                $value = nl2br($this->_coreData->escapeHtml($value));
             }
             return $value;
         }

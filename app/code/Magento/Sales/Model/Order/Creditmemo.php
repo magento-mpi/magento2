@@ -153,6 +153,41 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     protected $_eventObject = 'creditmemo';
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize creditmemo resource model
      */
     protected function _construct()
@@ -689,7 +724,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendNewCreditmemoEmail($storeId)) {
+        if (!$this->_salesData->canSendNewCreditmemoEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -700,7 +735,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             return $this;
         }
 
-        $paymentBlockHtml = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlockHtml($order->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
@@ -765,7 +800,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendCreditmemoCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendCreditmemoCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

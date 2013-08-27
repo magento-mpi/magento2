@@ -281,12 +281,35 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected $_optionEntity;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
      * Constructor
      *
+     *
+     *
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Catalog_Helper_Data $catalogData,
+        array $data = array()
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_catalogData = $catalogData;
         parent::__construct();
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
@@ -889,7 +912,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     {
         /** @var $resource Magento_ImportExport_Model_Import_Proxy_Product_Resource */
         $resource       = Mage::getModel('Magento_ImportExport_Model_Import_Proxy_Product_Resource');
-        $priceIsGlobal  = Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal();
+        $priceIsGlobal  = $this->_catalogData->isPriceGlobal();
         $productLimit   = null;
         $productsQty    = null;
 
@@ -1372,7 +1395,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         );
 
         $entityTable = Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
-        $helper      = Mage::helper('Magento_CatalogInventory_Helper_Data');
+        $helper      = $this->_catalogInventoryData;
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();

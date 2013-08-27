@@ -19,6 +19,27 @@
 class Magento_Centinel_Model_Observer extends Magento_Object
 {
     /**
+     * Centinel data
+     *
+     * @var Magento_Centinel_Helper_Data
+     */
+    protected $_centinelData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Centinel_Helper_Data $centinelData
+     */
+    public function __construct(
+        Magento_Centinel_Helper_Data $centinelData
+    ) {
+        $this->_centinelData = $centinelData;
+    }
+
+    /**
      * Set cmpi data to payment
      *
      * @param Magento_Object $observer
@@ -49,7 +70,7 @@ class Magento_Centinel_Model_Observer extends Magento_Object
 
         $payment = $observer->getEvent()->getPayment();
         $transport = $observer->getEvent()->getTransport();
-        $helper = Mage::helper('Magento_Centinel_Helper_Data');
+        $helper = $this->_centinelData;
 
         $info = array(
             Magento_Centinel_Model_Service::CMPI_PARES,
@@ -80,7 +101,7 @@ class Magento_Centinel_Model_Observer extends Magento_Object
         if ($method && $method->getIsCentinelValidationEnabled()) {
             $paymentFormBlock->setChild(
                'payment.method.' . $method->getCode() . 'centinel.logo',
-                Mage::helper('Magento_Centinel_Helper_Data')->getMethodFormBlock($method)
+                $this->_centinelData->getMethodFormBlock($method)
             );
         }
         return $this;

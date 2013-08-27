@@ -25,13 +25,38 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     protected $_helper;
 
     /**
+     * Import export data
+     *
+     * @var Magento_ImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ImportExport_Helper_Data $importExportData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_importExportData = $importExportData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid parameters.
      */
     protected function _construct()
     {
         parent::_construct();
 
-        $this->_helper = Mage::helper('Magento_ImportExport_Helper_Data');
+        $this->_helper = $this->_importExportData;
 
         $this->setRowClickCallback(null);
         $this->setId('export_filter_grid');

@@ -18,6 +18,11 @@
 class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
+    {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -154,7 +159,7 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
                 foreach ($users as $usrid) {
                     $jsonUsers[$usrid] = 0;
                 }
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return $this->_coreData->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

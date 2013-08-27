@@ -36,6 +36,31 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_defaultLimit = 0;
 
     /**
+     * Rma data
+     *
+     * @var Enterprise_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block constructor
      */
     public function _construct()
@@ -103,7 +128,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $product->setStoreId($item->getStoreId());
                 $product->load($item->getProductId());
 
-                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $allowed = false;
                 }
             }
@@ -139,13 +164,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('Enterprise_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $this->getCollection()->removeItemByKey($item->getId());
                     continue;
                 }
             }
 
-            $item->setName(Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($item));
+            $item->setName($this->_rmaData->getAdminProductName($item));
         }
 
         return $this;

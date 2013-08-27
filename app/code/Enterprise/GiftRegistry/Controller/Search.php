@@ -19,7 +19,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;

@@ -45,6 +45,31 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
      */
     protected $_eventPrefix = 'api_user';
 
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_Api_Model_Resource_User');
@@ -201,7 +226,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        $auth = Mage::helper('Magento_Core_Helper_Data')->validateHash($apiKey, $this->getApiKey());
+        $auth = $this->_coreData->validateHash($apiKey, $this->getApiKey());
         if ($auth) {
             return true;
         } else {
@@ -288,7 +313,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
      */
     protected function _getEncodedApiKey($apiKey)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->getHash($apiKey, 2);
+        return $this->_coreData->getHash($apiKey, 2);
     }
 
 }

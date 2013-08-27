@@ -39,11 +39,33 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Filesystem $filesystem
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -182,8 +204,8 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
             if ($this->isUsingStaticUrlsAllowed()) {
                 $html = $fileurl; // $mediaPath;
             } else {
-                $directive = Mage::helper('Magento_Core_Helper_Data')->urlEncode($directive);
-                $html = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+                $directive = $this->_coreData->urlEncode($directive);
+                $html = $this->_adminhtmlData->getUrl(
                     '*/cms_wysiwyg/directive',
                     array('___directive' => $directive)
                 );

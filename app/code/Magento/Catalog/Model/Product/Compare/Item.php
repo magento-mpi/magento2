@@ -45,6 +45,31 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     protected $_eventObject = 'item';
 
     /**
+     * Catalog product compare
+     *
+     * @var Magento_Catalog_Helper_Product_Compare
+     */
+    protected $_catalogProductCompare = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogProductCompare = $catalogProductCompare;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resourse model
      *
      */
@@ -156,7 +181,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     {
         $this->_getResource()->updateCustomerFromVisitor($this);
 
-        Mage::helper('Magento_Catalog_Helper_Product_Compare')->setCustomerId($this->getCustomerId())->calculate();
+        $this->_catalogProductCompare->setCustomerId($this->getCustomerId())->calculate();
         return $this;
     }
 
@@ -170,7 +195,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 
-        Mage::helper('Magento_Catalog_Helper_Product_Compare')->calculate(true);
+        $this->_catalogProductCompare->calculate(true);
         return $this;
     }
 

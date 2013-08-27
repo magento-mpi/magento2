@@ -64,6 +64,31 @@ class Enterprise_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abst
     protected $_isVisible = false;
 
     /**
+     * Target rule data
+     *
+     * @var Enterprise_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param Enterprise_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -180,7 +205,7 @@ class Enterprise_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abst
     {
         $limit = $this->getData('limit');
         if (is_null($limit)) {
-            $limit = Mage::helper('Enterprise_TargetRule_Helper_Data')->getMaximumNumberOfProduct($this->getType());
+            $limit = $this->_targetRuleData->getMaximumNumberOfProduct($this->getType());
         }
         return $limit;
     }

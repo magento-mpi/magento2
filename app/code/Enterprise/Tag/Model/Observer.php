@@ -18,6 +18,32 @@
 class Enterprise_Tag_Model_Observer
 {
     /**
+     * Tag data
+     *
+     * @var Enterprise_Tag_Helper_Data
+     */
+    protected $_tagData = null;
+
+    /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Enterprise_Tag_Helper_Data $tagData
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Data $rewardData,
+        Enterprise_Tag_Helper_Data $tagData
+    ) {
+        $this->_rewardData = $rewardData;
+        $this->_tagData = $tagData;
+    }
+
+    /**
      * Add tag action class to reward model
      *
      * @return Enterprise_Tag_Model_Observer
@@ -25,7 +51,7 @@ class Enterprise_Tag_Model_Observer
     public function addActionClassToRewardModel()
     {
         /** @var $helper Enterprise_Tag_Helper_Data */
-        $helper = Mage::helper('Enterprise_Tag_Helper_Data');
+        $helper = $this->_tagData;
         $helper->addActionClassToRewardModel();
 
         return $this;
@@ -44,7 +70,7 @@ class Enterprise_Tag_Model_Observer
         $websiteId = Mage::app()->getStore($tag->getFirstStoreId())->getWebsiteId();
 
         /** @var $rewardHelper Enterprise_Reward_Helper_Data */
-        $rewardHelper = Mage::helper('Enterprise_Reward_Helper_Data');
+        $rewardHelper = $this->_rewardData;
         if (!$rewardHelper->isEnabledOnFront($websiteId)) {
             return $this;
         }

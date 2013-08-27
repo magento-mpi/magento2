@@ -40,6 +40,29 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     protected $_isRememberMeChecked;
 
     /**
+     * Persistent data
+     *
+     * @var Magento_Persistent_Helper_Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules $config
+     */
+    public function __construct(
+        Magento_Persistent_Helper_Data $persistentData,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config
+    ) {
+        $this->_persistentData = $persistentData;
+        parent::__construct($coreHttp, $context, $config);
+    }
+
+    /**
      * Get Session model
      *
      * @return Magento_Persistent_Model_Session
@@ -72,7 +95,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
      */
     public function isPersistent()
     {
-        return $this->getSession()->getId() && Mage::helper('Magento_Persistent_Helper_Data')->isEnabled();
+        return $this->getSession()->getId() && $this->_persistentData->isEnabled();
     }
 
     /**
@@ -92,7 +115,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
             }
 
             /** @var $helper Magento_Persistent_Helper_Data */
-            $helper = Mage::helper('Magento_Persistent_Helper_Data');
+            $helper = $this->_persistentData;
             return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
         }
 

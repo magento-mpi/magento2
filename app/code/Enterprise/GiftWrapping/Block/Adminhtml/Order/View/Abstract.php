@@ -24,6 +24,29 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
      *
      * @return Magento_Sales_Model_Order
      */
+    /**
+     * Gift wrapping data
+     *
+     * @var Enterprise_GiftWrapping_Helper_Data
+     */
+    protected $_giftWrappingData = null;
+
+    /**
+     * @param Enterprise_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftWrappingData = $giftWrappingData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getOrder()
     {
         return Mage::registry('sales_order');
@@ -90,7 +113,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displaySalesWrappingBothPrices();
+        return $this->_giftWrappingData->displaySalesWrappingBothPrices();
     }
 
     /**
@@ -100,7 +123,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displaySalesWrappingIncludeTaxPrice();
+        return $this->_giftWrappingData->displaySalesWrappingIncludeTaxPrice();
     }
 
     /**
@@ -110,7 +133,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displaySalesCardBothPrices();
+        return $this->_giftWrappingData->displaySalesCardBothPrices();
     }
 
     /**
@@ -120,6 +143,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magent
      */
     public function getDisplayCardPriceInclTax()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->displaySalesCardIncludeTaxPrice();
+        return $this->_giftWrappingData->displaySalesCardIncludeTaxPrice();
     }
 }

@@ -19,6 +19,29 @@
 class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource model
      *
      */
@@ -130,7 +153,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function prepareEntityIndex($index, $separator = ' ')
     {
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->prepareIndexdata($index, $separator);
+        return $this->_catalogSearchData->prepareIndexdata($index, $separator);
     }
 
     /**

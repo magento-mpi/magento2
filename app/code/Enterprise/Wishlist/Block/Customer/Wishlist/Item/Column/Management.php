@@ -19,13 +19,34 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
     extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
+     * Wishlist data
+     *
+     * @var Enterprise_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Enterprise_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render block
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled();
+        return $this->_wishlistData->isMultipleEnabled();
     }
 
     /**
@@ -35,7 +56,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getWishlists()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getCustomerWishlists();
+        return $this->_wishlistData->getCustomerWishlists();
     }
 
     /**
@@ -45,7 +66,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getDefaultWishlist()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlist();
+        return $this->_wishlistData->getDefaultWishlist();
     }
 
     /**
@@ -55,7 +76,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
      */
     public function getCurrentWishlist()
     {
-        return Mage::helper('Magento_Wishlist_Helper_Data')->getWishlist();
+        return $this->_wishlistData->getWishlist();
     }
 
     /**
@@ -67,7 +88,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Item_Column_Management
     public function canCreateWishlists(Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists)
     {
         $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
-        return !Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlists) && $customerId;
+        return !$this->_wishlistData->isWishlistLimitReached($wishlists) && $customerId;
     }
 
     /**

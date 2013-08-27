@@ -11,6 +11,27 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Rma data
+     *
+     * @var Enterprise_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize RMA new page. Set management buttons
      *
      */
@@ -46,7 +67,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Wid
             return;
         }
 
-        if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId, true)) {
+        if ($this->_rmaData->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_updateButton('save', 'label', __('Submit Returns'));
         } else {

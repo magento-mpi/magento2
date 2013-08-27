@@ -40,6 +40,11 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     protected $_iframeHeight = '600';
 
+    public function __construct(Enterprise_Pbridge_Helper_Data $pbridgeData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($pbridgeData, $context, $data);
+    }
+
     /**
      * Getter for label
      * @return string
@@ -107,7 +112,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getSourceUrl()
     {
-        $helper = Mage::helper('Enterprise_Pbridge_Helper_Data');
+        $helper = $this->_pbridgeData;
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
             array(

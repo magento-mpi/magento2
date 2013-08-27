@@ -23,6 +23,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      */
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Initialize form
      *
@@ -233,7 +238,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                var {$prefix}_websites = " . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websites) .";
+                var {$prefix}_websites = " . $this->_coreData->jsonEncode($websites) .";
                 jQuery.validator.addMethod('validate-website-has-store', function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     },

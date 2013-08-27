@@ -68,6 +68,31 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     protected $_paymentMethods = array();
 
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Check whether the object data is valid
      * Returns true if valid.
      *
@@ -468,7 +493,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
                 return $this->getPeriodUnitLabel($value);
             case 'method_code':
                 if (!$this->_paymentMethods) {
-                    $this->_paymentMethods = Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(false);
+                    $this->_paymentMethods = $this->_paymentData->getPaymentMethodList(false);
                 }
                 if (isset($this->_paymentMethods[$value])) {
                     return $this->_paymentMethods[$value];
@@ -547,7 +572,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     protected function getMethodInstance()
     {
         if (!$this->_methodInstance) {
-            $this->setMethodInstance(Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethodCode()));
+            $this->setMethodInstance($this->_paymentData->getMethodInstance($this->getMethodCode()));
         }
         $this->_methodInstance->setStore($this->getStoreId());
         return $this->_methodInstance;

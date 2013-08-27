@@ -18,6 +18,37 @@
 class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
 {
     /**
+     * Checkout data
+     *
+     * @var Enterprise_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Core url
+     *
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_coreUrl = null;
+
+    /**
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Url $coreUrl,
+        Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreUrl = $coreUrl;
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return list of product items
      *
      * @return array
@@ -34,7 +65,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
      */
     protected function _getHelper()
     {
-        return Mage::helper('Enterprise_Checkout_Helper_Data');
+        return $this->_checkoutData;
     }
 
     /**
@@ -119,7 +150,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
         }
         $renderer->setDeleteUrl(
             $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => Mage::helper('Magento_Core_Helper_Url')->urlEncode($item->getSku())
+                'sku' => $this->_coreUrl->urlEncode($item->getSku())
             ))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));

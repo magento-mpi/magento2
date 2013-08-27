@@ -239,13 +239,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot update the item\'s quantity.')
             );
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -394,13 +394,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add new comment.')
             );
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

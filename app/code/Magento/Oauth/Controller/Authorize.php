@@ -66,7 +66,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
         }
 
         /** @var $helper Magento_Core_Helper_Url */
-        $helper = Mage::helper('Magento_Core_Helper_Url');
+        $helper = $this->_objectManager->get('Magento_Core_Helper_Url');
         $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
                 ->setBeforeAuthUrl($helper->getCurrentUrl());
 
@@ -85,7 +85,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
     protected function _initConfirmPage($simple = false)
     {
         /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
         /** @var $session Magento_Customer_Model_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -153,7 +153,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
             /** @var $token Magento_Oauth_Model_Token */
             $token = $server->checkAuthorizeRequest();
             /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));

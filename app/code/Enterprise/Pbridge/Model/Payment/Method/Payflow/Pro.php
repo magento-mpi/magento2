@@ -41,6 +41,27 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal
     protected $_canFetchTransactionInfo = false;
 
     /**
+     * Pbridge data
+     *
+     * @var Enterprise_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Enterprise_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     */
+    public function __construct(
+        Enterprise_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_ModuleListInterface $moduleList
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($coreData, $moduleList);
+    }
+
+    /**
      * Return that current payment method is dummy
      *
      * @return boolean
@@ -58,7 +79,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -229,7 +250,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

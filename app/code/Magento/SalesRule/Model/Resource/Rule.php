@@ -37,6 +37,29 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     );
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize main table and table id field
      */
     protected function _construct()
@@ -157,7 +180,7 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
 
         $data    = array();
         foreach ($labels as $storeId => $label) {
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($label)) {
+            if ($this->_coreString->strlen($label)) {
                 $data[] = array('rule_id' => $ruleId, 'store_id' => $storeId, 'label' => $label);
             } else {
                 $deleteByStoreIds[] = $storeId;

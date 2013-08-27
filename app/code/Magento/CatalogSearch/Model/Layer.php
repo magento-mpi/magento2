@@ -13,6 +13,30 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($data);
+    }
+
+    /**
      * Get current layer product collection
      *
      * @return Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection
@@ -39,7 +63,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     {
         $collection
             ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
-            ->addSearchFilter(Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getQueryText())
+            ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
@@ -59,7 +83,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_' . Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getId()
+            $this->_stateKey = 'Q_' . $this->_catalogSearchData->getQuery()->getId()
                 . '_'. parent::getStateKey();
         }
         return $this->_stateKey;

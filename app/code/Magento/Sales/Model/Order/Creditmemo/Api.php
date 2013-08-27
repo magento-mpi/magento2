@@ -19,10 +19,25 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
 {
 
     /**
-     * Initialize attributes mapping
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
      */
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
-    {
+    protected $_apiData = null;
+
+    /**
+     * Initialize attributes mapping
+     *
+     *
+     *
+     * @param Magento_Api_Helper_Data $apiData
+     * @param  $apiHelper
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_apiData = $apiData;
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
             'creditmemo' => array('creditmemo_id' => 'entity_id'),
@@ -41,7 +56,7 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
     {
         $creditmemos = array();
         /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        $apiHelper = $this->_apiData;
         $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['creditmemo']);
         /** @var $creditmemoModel Magento_Sales_Model_Order_Creditmemo */
         $creditmemoModel = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');

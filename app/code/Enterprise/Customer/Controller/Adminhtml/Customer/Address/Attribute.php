@@ -180,7 +180,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Address_Attribute
      */
     protected function _filterPostData($data)
     {
-        return Mage::helper('Enterprise_Customer_Helper_Address')->filterPostData($data);
+        return $this->_objectManager->get('Enterprise_Customer_Helper_Address')->filterPostData($data);
     }
 
     /**
@@ -194,7 +194,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Address_Attribute
             /* @var $attributeObject Magento_Customer_Model_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Customer_Helper_Data */
-            $helper = Mage::helper('Enterprise_Customer_Helper_Data');
+            $helper = $this->_objectManager->get('Enterprise_Customer_Helper_Data');
 
             //filtering
             try {

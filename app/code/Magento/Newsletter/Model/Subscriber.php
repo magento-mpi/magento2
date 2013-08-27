@@ -70,6 +70,31 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     protected $_isStatusChanged = false;
 
     /**
+     * Newsletter data
+     *
+     * @var Magento_Newsletter_Helper_Data
+     */
+    protected $_newsletterData = null;
+
+    /**
+     * @param Magento_Newsletter_Helper_Data $newsletterData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Newsletter_Helper_Data $newsletterData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_newsletterData = $newsletterData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -113,7 +138,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      * @return string
      */
     public function getConfirmationLink() {
-        return Mage::helper('Magento_Newsletter_Helper_Data')->getConfirmationUrl($this);
+        return $this->_newsletterData->getConfirmationUrl($this);
     }
 
     /**
@@ -122,7 +147,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      * @return string
      */
     public function getUnsubscriptionLink() {
-        return Mage::helper('Magento_Newsletter_Helper_Data')->getUnsubscribeUrl($this);
+        return $this->_newsletterData->getUnsubscribeUrl($this);
     }
 
     /**

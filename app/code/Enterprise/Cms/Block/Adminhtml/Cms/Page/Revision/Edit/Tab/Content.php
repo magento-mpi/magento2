@@ -21,6 +21,29 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 {
     /**
+     * Cms data
+     *
+     * @var Enterprise_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Data $cmsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Cms_Helper_Data $cmsData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Event_Manager $eventManager,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $eventManager, $data);
+    }
+
+    /**
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
@@ -33,7 +56,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         parent::_prepareForm();
 
-        Mage::helper('Enterprise_Cms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         /* @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');

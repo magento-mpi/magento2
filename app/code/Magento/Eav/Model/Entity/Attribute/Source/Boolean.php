@@ -19,6 +19,22 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
 
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Retrieve all options array
      *
      * @return array
@@ -85,7 +101,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {

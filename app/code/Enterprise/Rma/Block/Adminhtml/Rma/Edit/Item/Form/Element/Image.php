@@ -19,12 +19,35 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Magento_Data_Form_Element_Abstract
 {
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Initialize Form Element
      *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param array $attributes
      */
-    public function __construct($attributes = array())
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        $attributes = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($attributes);
         $this->setType('file');
     }
@@ -149,8 +172,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Ma
         if (is_array($this->getValue())) {
             return false;
         }
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
+        return $this->_adminhtmlData->getUrl('adminhtml/rma/viewfile', array(
+            'image'      => $this->_coreData->urlEncode($this->getValue()),
         ));
     }
 

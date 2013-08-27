@@ -17,6 +17,11 @@
  */
 class Magento_Paypal_Block_Payflow_Advanced_Iframe extends Magento_Paypal_Block_Payflow_Link_Iframe
 {
+    public function __construct(Magento_Payment_Helper_Data $paymentData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($paymentData, $context, $data);
+    }
+
     /**
      * Set payment method code
      */
@@ -43,7 +48,7 @@ class Magento_Paypal_Block_Payflow_Advanced_Iframe extends Magento_Paypal_Block_
      */
     public function isTestMode()
     {
-        $mode = Mage::helper('Magento_Payment_Helper_Data')
+        $mode = $this->_paymentData
             ->getMethodInstance(Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED)
             ->getConfigData('sandbox_flag');
         return (bool) $mode;

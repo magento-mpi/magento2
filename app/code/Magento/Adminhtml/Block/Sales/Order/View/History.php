@@ -17,6 +17,27 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
@@ -39,7 +60,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_History extends Magento_Adminhtml
 
     public function canSendCommentEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**

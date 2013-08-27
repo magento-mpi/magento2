@@ -23,13 +23,29 @@ class Enterprise_License_Model_Observer
     const EXPIRED_DATE_KEY = 'expiredOn';
 
     /**
+     * License data
+     *
+     * @var Enterprise_License_Helper_Data
+     */
+    protected $_licenseData = null;
+
+    /**
+     * @param Enterprise_License_Helper_Data $licenseData
+     */
+    public function __construct(
+        Enterprise_License_Helper_Data $licenseData
+    ) {
+        $this->_licenseData = $licenseData;
+    }
+
+    /**
      * Calculates the balance period of the license after (in days) admin authenticate in the backend.
      * 
      * @return void
      */
     public function adminUserAuthenticateAfter()
     {
-        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
+        $enterprise_license=$this->_licenseData;
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
             $this->_calculateDaysLeftToExpired();
         }
@@ -44,7 +60,7 @@ class Enterprise_License_Model_Observer
      */
     public function preDispatch()
     {
-        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
+        $enterprise_license=$this->_licenseData;
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
             $lastCalculation = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
 
@@ -68,9 +84,9 @@ class Enterprise_License_Model_Observer
      */
     protected function _calculateDaysLeftToExpired()
     {
-        $enterprise_license=Mage::helper('Enterprise_License_Helper_Data');
+        $enterprise_license=$this->_licenseData;
         if($enterprise_license->isIoncubeLoaded() && $enterprise_license->isIoncubeEncoded()) {
-            $licenseProperties = Mage::helper('Enterprise_License_Helper_Data')->getIoncubeLicenseProperties();
+            $licenseProperties = $this->_licenseData->getIoncubeLicenseProperties();
             $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
 
             $expiredYear = (int)(substr($expiredDate, 0, 4));

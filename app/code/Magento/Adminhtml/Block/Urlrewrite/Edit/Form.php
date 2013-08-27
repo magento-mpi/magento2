@@ -41,6 +41,27 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     protected $_formValues = array();
 
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Set form id and title
      *
      */
@@ -207,7 +228,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     protected function _formPostInit($form)
     {
         $form->setAction(
-            Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
+            $this->_adminhtmlData->getUrl('*/*/save', array(
                 'id' => $this->_getModel()->getId()
             ))
         );

@@ -11,6 +11,32 @@
 class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_Block_Cart_Item_Renderer
 {
     /**
+     * Gift card catalog product configuration
+     *
+     * @var Enterprise_GiftCard_Helper_Catalog_Product_Configuration
+     */
+    protected $_giftCardCatalogProductConfiguration = null;
+
+    /**
+     * @param Enterprise_GiftCard_Helper_Catalog_Product_Configuration
+     * $giftCardCatalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCatalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftCardCatalogProductConfiguration = $giftCardCatalogProductConfiguration;
+        parent::__construct($catalogProductConfiguration, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare custom option for display, returns false if there's no value
      *
      * @param string $code
@@ -18,7 +44,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      */
     protected function _prepareCustomOption($code)
     {
-        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')
+        return $this->_giftCardCatalogProductConfiguration
             ->prepareCustomOption($this->getItem(), $code);
     }
 
@@ -29,7 +55,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      */
     protected function _getGiftcardOptions()
     {
-        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')
+        return $this->_giftCardCatalogProductConfiguration
             ->getGiftcardOptions($this->getItem());
     }
 
@@ -40,7 +66,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      */
     public function getOptionList()
     {
-        return Mage::helper('Enterprise_GiftCard_Helper_Catalog_Product_Configuration')
+        return $this->_giftCardCatalogProductConfiguration
             ->getOptions($this->getItem());
     }
 }

@@ -28,6 +28,22 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
      */
     static protected $_regionCollections;
 
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+    }
+
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = '<div class="field field-region required">'."\n";
@@ -78,7 +94,7 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
                 $selected = ($regionId==$region['value']) ? ' selected="selected"' : '';
                 $regionVal = (0 == $region['value']) ? '' : (int)$region['value'];
                 $html.= '<option value="' . $regionVal . '"' . $selected . '>'
-                    . Mage::helper('Magento_Adminhtml_Helper_Data')->escapeHtml(__($region['label']))
+                    . $this->_adminhtmlData->escapeHtml(__($region['label']))
                     . '</option>';
             }
             $html.= '</select>' . "\n";

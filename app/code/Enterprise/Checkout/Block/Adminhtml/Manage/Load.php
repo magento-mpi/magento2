@@ -22,6 +22,29 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Load extends Magento_Core_Block
      *
      * @return string
      */
+    /**
+     * Adminhtml js
+     *
+     * @var Magento_Adminhtml_Helper_Js
+     */
+    protected $_adminhtmlJs = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Js $adminhtmlJs,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlJs = $adminhtmlJs;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _toHtml()
     {
         $result = array();
@@ -29,10 +52,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Load extends Magento_Core_Block
         foreach ($this->getChildNames() as $name) {
             $result[$name] = $layout->renderElement($name);
         }
-        $resultJson = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        $resultJson = $this->_coreData->jsonEncode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');
         if ($jsVarname) {
-            return Mage::helper('Magento_Adminhtml_Helper_Js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
+            return $this->_adminhtmlJs->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
         } else {
             return $resultJson;
         }

@@ -19,6 +19,27 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Rma data
+     *
+     * @var Enterprise_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve shipment model instance
      *
      * @return Magento_Sales_Model_Order_Shipment
@@ -35,7 +56,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getCarriers()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        return $this->_rmaData->getAllowedShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

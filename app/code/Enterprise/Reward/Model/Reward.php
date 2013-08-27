@@ -61,6 +61,41 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
     protected $_rewardPointsUpdated = false;
 
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Reward customer
+     *
+     * @var Enterprise_Reward_Helper_Customer
+     */
+    protected $_rewardCustomer = null;
+
+    /**
+     * @param Enterprise_Reward_Helper_Customer $rewardCustomer
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Customer $rewardCustomer,
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rewardCustomer = $rewardCustomer;
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()
@@ -438,7 +473,7 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
     {
         $websiteId = $this->getWebsiteId();
         $uncappedPts = (int)$action->getPoints($websiteId);
-        $max = (int)Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('max_points_balance', $websiteId);
+        $max = (int)$this->_rewardData->getGeneralConfig('max_points_balance', $websiteId);
         if ($max > 0) {
             return min(max($max - (int)$this->getPointsBalance(), 0), $uncappedPts);
         }
@@ -499,7 +534,7 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
         }
         $pointsBalance = 0;
         $pointsBalance = (int)$this->getPointsBalance() + $points;
-        $maxPointsBalance = (int)(Mage::helper('Enterprise_Reward_Helper_Data')
+        $maxPointsBalance = (int)($this->_rewardData
             ->getGeneralConfig('max_points_balance', $this->getWebsiteId()));
         if ($maxPointsBalance != 0 && ($pointsBalance > $maxPointsBalance)) {
             $pointsBalance = $maxPointsBalance;
@@ -603,13 +638,13 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
-            'unsubscription_url' => Mage::helper('Enterprise_Reward_Helper_Customer')
+            'unsubscription_url' => $this->_rewardCustomer
                 ->getUnsubscribeUrl('update', $store->getId()),
             'points_balance' => $this->getPointsBalance(),
-            'reward_amount_was' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount(
+            'reward_amount_was' => $this->_rewardData->formatAmount(
                 $this->getCurrencyAmount() - $history->getCurrencyDelta()
                 , true, $store->getStoreId()),
-            'reward_amount_now' => Mage::helper('Enterprise_Reward_Helper_Data')->formatAmount(
+            'reward_amount_now' => $this->_rewardData->formatAmount(
                 $this->getCurrencyAmount()
                 , true, $store->getStoreId()),
             'reward_pts_was' => ($this->getPointsBalance() - $delta),
@@ -647,14 +682,14 @@ class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
             'store' => $item->getStoreId()
         ));
         $store = Mage::app()->getStore($item->getStoreId());
-        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        $helper = $this->_rewardData;
         $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
         $action = Mage::getSingleton('Enterprise_Reward_Model_Reward')->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
-            'unsubscription_url' => Mage::helper('Enterprise_Reward_Helper_Customer')->getUnsubscribeUrl('warning'),
+            'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
             'remaining_days' => $store->getConfig('enterprise_reward/notification/expiry_day_before'),
             'points_balance' => $item->getPointsBalanceTotal(),
             'points_expiring' => $item->getTotalExpired(),

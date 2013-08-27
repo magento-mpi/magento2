@@ -10,6 +10,11 @@
 
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Magento_Adminhtml_Block_Widget_Form
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Init form fields
      *
@@ -78,7 +83,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             }
         }
 
-        $websiteStores = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websiteStores);
+        $websiteStores = $this->_coreData->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

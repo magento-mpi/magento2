@@ -20,6 +20,27 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
     extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Sales rule coupon
+     *
+     * @var Magento_SalesRule_Helper_Coupon
+     */
+    protected $_salesRuleCoupon = null;
+
+    /**
+     * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_salesRuleCoupon = $salesRuleCoupon;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare coupon codes generation parameters form
      *
      * @return Magento_Adminhtml_Block_Widget_Form
@@ -31,7 +52,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
         /**
          * @var Magento_SalesRule_Helper_Coupon $couponHelper
          */
-        $couponHelper = Mage::helper('Magento_SalesRule_Helper_Coupon');
+        $couponHelper = $this->_salesRuleCoupon;
 
         $model = Mage::registry('current_promo_quote_rule');
         $ruleId = $model->getId();

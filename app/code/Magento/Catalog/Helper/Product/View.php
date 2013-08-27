@@ -34,13 +34,23 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config
     ) {
+        $this->_catalogProduct = $catalogProduct;
         parent::__construct($context);
         $this->_config = $config;
     }
@@ -120,7 +130,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     public function prepareAndRender($productId, $controller, $params = null)
     {
         // Prepare data
-        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+        $productHelper = $this->_catalogProduct;
         if (!$params) {
             $params = new Magento_Object();
         }

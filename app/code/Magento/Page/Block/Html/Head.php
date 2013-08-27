@@ -59,7 +59,28 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     private $_pageAssets;
 
+    /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param array $data
+     * @param Magento_Core_Helper_Data $coreData
+     * @param  $context
+     * @param  $objectManager
+     * @param  $page
+     * @param  $assetMergeService
+     * @param  $assetMinifyService
+     * @param  $data
+     */
     public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        array $data,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Page $page,
@@ -67,7 +88,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        parent::__construct($coreData, $data, $context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
@@ -525,8 +547,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage() && !is_file($filename)) {
-            Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+        if ($this->_coreFileStorageDatabase->checkDbUsage() && !is_file($filename)) {
+            $this->_coreFileStorageDatabase->saveFileToFilesystem($filename);
         }
         return is_file($filename);
     }

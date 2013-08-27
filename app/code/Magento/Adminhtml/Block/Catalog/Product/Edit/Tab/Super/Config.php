@@ -23,6 +23,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize block
      *
      */
@@ -84,7 +105,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function isAttributesPricesReadonly()
     {
         return $this->getProduct()->getAttributesConfigurationReadonly() ||
-            (Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $this->isReadonly());
+            ($this->_catalogData->isPriceGlobal() && $this->isReadonly());
     }
 
     /**
@@ -249,7 +270,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         foreach ($products as $product) {
             $data[$product->getId()] = $this->getConfigurableSettings($product);
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**
@@ -394,7 +415,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getShowUseDefaultPrice()
     {
-        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal()
+        return !$this->_catalogData->isPriceGlobal()
             && $this->getProduct()->getStoreId();
     }
 

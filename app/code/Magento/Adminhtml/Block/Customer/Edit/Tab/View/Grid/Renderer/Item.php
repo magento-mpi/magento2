@@ -19,6 +19,27 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_catalogProductConfiguration = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Returns helper for product type
      *
      * @param Magento_Catalog_Model_Product $product
@@ -92,7 +113,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
         $params = array(
             'max_length' => 55
         );
-        return Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getFormattedOptionValue($option, $params);
+        return $this->_catalogProductConfiguration->getFormattedOptionValue($option, $params);
     }
 
     /*

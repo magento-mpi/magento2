@@ -87,10 +87,23 @@ class Enterprise_Logging_Model_Processor
     protected $_collectedAdditionalData = array();
 
     /**
-     * Initialize configuration model, controller and model handler
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
      */
-    public function __construct()
-    {
+    protected $_coreHttp = null;
+
+    /**
+     * Initialize configuration model, controller and model handler
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Http $coreHttp
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp
+    ) {
+        $this->_coreHttp = $coreHttp;
         $this->_config = Mage::getSingleton('Enterprise_Logging_Model_Config');
         $this->_modelsHandler = Mage::getModel('Enterprise_Logging_Model_Handler_Models');
         $this->_controllerActionsHandler = Mage::getModel('Enterprise_Logging_Model_Handler_Controllers');
@@ -262,7 +275,7 @@ class Enterprise_Logging_Model_Processor
         $errors = Mage::getModel('Magento_Adminhtml_Model_Session')->getMessages()->getErrors();
         /** @var Enterprise_Logging_Model_Event $loggingEvent */
         $loggingEvent = Mage::getModel('Enterprise_Logging_Model_Event')->setData(array(
-            'ip'            => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
+            'ip'            => $this->_coreHttp->getRemoteAddr(),
             'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,

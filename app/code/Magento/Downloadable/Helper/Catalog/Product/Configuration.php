@@ -19,6 +19,25 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
     implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_catalogProductConfiguration = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieves item links options
      *
      * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
@@ -64,7 +83,7 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
      */
     public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
-        $options = Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getOptions($item);
+        $options = $this->_catalogProductConfiguration->getOptions($item);
 
         $links = $this->getLinks($item);
         if ($links) {

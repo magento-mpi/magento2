@@ -17,6 +17,11 @@
  */
 class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminhtml_Block_Widget_Container
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Block construction
      */
@@ -83,7 +88,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminht
             'showBreadcrumbs' => true
         ));
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->_coreData->jsonEncode($setupObject);
     }
 
     /**

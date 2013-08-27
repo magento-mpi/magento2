@@ -68,7 +68,7 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Co
                 if (empty($key)) {
                     throw new Exception(__('Please enter an encryption key.'));
                 }
-                Mage::helper('Magento_Core_Helper_Data')->validateKey($key);
+                $this->_objectManager->get('Magento_Core_Helper_Data')->validateKey($key);
             }
 
             $newKey = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Key_Change')

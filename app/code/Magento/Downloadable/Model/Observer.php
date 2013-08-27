@@ -29,7 +29,7 @@ class Magento_Downloadable_Model_Observer
      */
     public function __construct(array $data = array())
     {
-        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Magento_Core_Helper_Data');
+        $this->_helper = isset($data['helper']) ? $data['helper'] : $this->_helper;
     }
 
     /**
@@ -109,13 +109,13 @@ class Magento_Downloadable_Model_Observer
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased');
-                Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+                $this->_helper->copyFieldset(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+                $this->_helper->copyFieldset(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -133,7 +133,7 @@ class Magento_Downloadable_Model_Observer
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+                        $this->_helper->copyFieldset(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],

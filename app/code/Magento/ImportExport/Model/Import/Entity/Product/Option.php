@@ -240,12 +240,25 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_pageSize;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
      * Constructor
      *
+     *
+     *
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
@@ -265,7 +278,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $this->_isPriceGlobal = $data['is_price_global'];
         } else {
             /** @var $catalogHelper Magento_Catalog_Helper_Data */
-            $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
+            $catalogHelper = $this->_catalogData;
             $this->_isPriceGlobal = $catalogHelper->isPriceGlobal();
         }
 

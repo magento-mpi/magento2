@@ -26,6 +26,39 @@ class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Res
     protected $_bindIncrement  = 0;
 
     /**
+     * Target rule data
+     *
+     * @var Enterprise_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * Customer segment data
+     *
+     * @var Enterprise_CustomerSegment_Helper_Data
+     */
+    protected $_customerSegmentData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Enterprise_CustomerSegment_Helper_Data $customerSegmentData
+     * @param Enterprise_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Enterprise_CustomerSegment_Helper_Data $customerSegmentData,
+        Enterprise_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_customerSegmentData = $customerSegmentData;
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define main table
      *
      */
@@ -104,7 +137,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Res
             ->where('store_id = :store_id')
             ->where('customer_group_id = :customer_group_id');
 
-        $rotationMode = Mage::helper('Enterprise_TargetRule_Helper_Data')->getRotationMode($object->getType());
+        $rotationMode = $this->_targetRuleData->getRotationMode($object->getType());
         if ($rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
             $this->orderRand($select);
         }
@@ -153,7 +186,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Res
         $limit = $object->getLimit() + $this->getOverfillLimit();
         $productIds = array();
         $ruleCollection = $object->getRuleCollection();
-        if (Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
+        if ($this->_customerSegmentData->isEnabled()) {
             $ruleCollection->addSegmentFilter($segmentId);
         }
         foreach ($ruleCollection as $rule) {
@@ -591,7 +624,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Res
     protected function _getSegmentsIdsFromCurrentCustomer()
     {
         $segmentIds = array();
-        if (Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
+        if ($this->_customerSegmentData->isEnabled()) {
             $customer = Mage::registry('segment_customer');
             if (!$customer) {
                 $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();

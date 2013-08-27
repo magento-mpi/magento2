@@ -25,18 +25,20 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     protected $_locale;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
         Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_application = $application;
         $this->_locale = $locale;
     }

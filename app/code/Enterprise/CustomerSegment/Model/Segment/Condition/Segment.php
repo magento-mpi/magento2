@@ -19,6 +19,37 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Magento
     protected $_inputType = 'multiselect';
 
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Customer segment data
+     *
+     * @var Enterprise_CustomerSegment_Helper_Data
+     */
+    protected $_customerSegmentData = null;
+
+    /**
+     * @param Enterprise_CustomerSegment_Helper_Data $customerSegmentData
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CustomerSegment_Helper_Data $customerSegmentData,
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSegmentData = $customerSegmentData;
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Default operator input by type map getter
      *
      * @return array
@@ -64,7 +95,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Magento
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserGrid', array(
+        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
             'form' => $this->getJsFormObject(),
         ));
@@ -131,7 +162,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Magento
      */
     public function validate(Magento_Object $object)
     {
-        if (!Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled()) {
+        if (!$this->_customerSegmentData->isEnabled()) {
             return false;
         }
         $customer = null;

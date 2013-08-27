@@ -13,6 +13,27 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Gift registry data
+     *
+     * @var Enterprise_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Set identifier and title
      */
     protected  function _construct()
@@ -51,7 +72,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     {
         $customer = Mage::registry('current_customer');
         return $customer->getId()
-           && Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()
+           && $this->_giftRegistryData->isEnabled()
            && $this->_authorization->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
     }
 

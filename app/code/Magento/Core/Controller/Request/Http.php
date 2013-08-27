@@ -132,7 +132,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected function _isFrontArea($storeCode)
     {
-        return $storeCode != Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $storeCode != $this->_objectManager->get('Magento_Backend_Helper_Data')->getAreaFrontName();
     }
 
     /**

@@ -19,6 +19,22 @@
 class Enterprise_Rma_Model_Observer
 {
     /**
+     * Rma data
+     *
+     * @var Enterprise_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Data $rmaData
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Data $rmaData
+    ) {
+        $this->_rmaData = $rmaData;
+    }
+
+    /**
      * Add rma availability option to options column in customer's order grid
      *
      * @param Magento_Event_Observer $observer
@@ -29,7 +45,7 @@ class Enterprise_Rma_Model_Observer
         /** @var $row Magento_Sales_Model_Order */
         $row = $observer->getEvent()->getRow();
 
-        if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($row, true)) {
+        if ($this->_rmaData->canCreateRma($row, true)) {
             $reorderAction = array(
                     '@' =>  array('href' => $renderer->getUrl('*/rma/new', array('order_id'=>$row->getId()))),
                     '#' =>  __('Return')

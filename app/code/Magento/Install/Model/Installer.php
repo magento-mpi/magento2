@@ -53,6 +53,14 @@ class Magento_Install_Model_Installer extends Magento_Object
     protected $_cacheTypeList;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
      * @param Magento_Core_Model_CacheInterface $cache
@@ -61,6 +69,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
         Magento_Core_Model_CacheInterface $cache,
@@ -68,6 +77,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         Magento_Core_Model_Cache_StateInterface $cacheState,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
@@ -303,7 +313,7 @@ class Magento_Install_Model_Installer extends Magento_Object
     public function installEncryptionKey($key)
     {
         /** @var $helper Magento_Core_Helper_Data */
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = $this->_coreData;
         $helper->validateKey($key);
         Mage::getSingleton('Magento_Install_Model_Installer_Config')->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
@@ -319,7 +329,7 @@ class Magento_Install_Model_Installer extends Magento_Object
     public function getValidEncryptionKey($key = null)
     {
         /** @var $helper Magento_Core_Helper_Data */
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = $this->_coreData;
         if (!$key) {
             $key = md5($helper->getRandomString(10));
         }

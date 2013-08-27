@@ -20,18 +20,27 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_emailTemplateModel;
 
     /**
+     * Gift card data
+     *
+     * @var Enterprise_GiftCard_Helper_Data
+     */
+    protected $_giftCardData = null;
+
+    /**
+     * @param Enterprise_GiftCard_Helper_Data $giftCardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
-     * @throws InvalidArgumentException
      */
     public function __construct(
+        Enterprise_GiftCard_Helper_Data $giftCardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_giftCardData = $giftCardData;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
@@ -248,7 +257,7 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = Mage::helper('Enterprise_GiftCard_Helper_Data')->getEmailGeneratedItemsBlock()
+                        $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(Mage::app()->getStore($order->getStoreId()));

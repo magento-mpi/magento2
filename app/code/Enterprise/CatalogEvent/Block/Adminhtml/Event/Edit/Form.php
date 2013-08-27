@@ -18,6 +18,27 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Ad
 {
 
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return form action url
      *
      * @return string
@@ -142,7 +163,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Ad
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . $this->_adminhtmlData->getUrl('adminhtml/catalog_category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );

@@ -36,15 +36,25 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_viewUrl;
 
     /**
+     * Cms data
+     *
+     * @var Magento_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
+        $this->_cmsData = $cmsData;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
@@ -78,7 +88,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
+            'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                =>
                 Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),

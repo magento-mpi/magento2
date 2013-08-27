@@ -124,18 +124,59 @@ class Magento_Paypal_Model_Express_Checkout
     protected $_configCacheType;
 
     /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
      * Set config, session and quote instances
      *
+     *
+     *
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $params
-     * @throws Exception
      */
     public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Checkout_Helper_Data $checkoutData,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         $params = array()
     ) {
+        $this->_customerData = $customerData;
+        $this->_coreData = $coreData;
+        $this->_taxData = $taxData;
+        $this->_checkoutData = $checkoutData;
         $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
 
@@ -655,7 +696,7 @@ class Magento_Paypal_Model_Express_Checkout
             return Magento_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
         }
         if (!$this->_quote->getCheckoutMethod()) {
-            if (Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->_quote)) {
+            if ($this->_checkoutData->isAllowedGuestCheckout($this->_quote)) {
                 $this->_quote->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_GUEST);
             } else {
                 $this->_quote->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER);
@@ -750,8 +791,8 @@ class Magento_Paypal_Model_Express_Checkout
                     continue;
                 }
                 $isDefault = $address->getShippingMethod() === $rate->getCode();
-                $amountExclTax = Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($amount, false, $address);
-                $amountInclTax = Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($amount, true, $address);
+                $amountExclTax = $this->_taxData->getShippingPrice($amount, false, $address);
+                $amountInclTax = $this->_taxData->getShippingPrice($amount, true, $address);
 
                 $options[$i] = new Magento_Object(array(
                     'is_default' => $isDefault,
@@ -902,7 +943,7 @@ class Magento_Paypal_Model_Express_Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        $this->_coreData->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());
@@ -964,7 +1005,7 @@ class Magento_Paypal_Model_Express_Checkout
         $customer = $this->_quote->getCustomer();
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation');
-            $url = Mage::helper('Magento_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );

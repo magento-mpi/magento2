@@ -18,6 +18,27 @@
 class Enterprise_Wishlist_Block_Links extends Magento_Wishlist_Block_Links
 {
     /**
+     * Wishlist data
+     *
+     * @var Enterprise_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Enterprise_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Count items in wishlist
      *
      * @return int
@@ -35,7 +56,7 @@ class Enterprise_Wishlist_Block_Links extends Magento_Wishlist_Block_Links
      */
     protected function _createLabel($count)
     {
-        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             if ($count > 1) {
                 return __('My Wish Lists (%1 items)', $count);
             } else if ($count == 1) {

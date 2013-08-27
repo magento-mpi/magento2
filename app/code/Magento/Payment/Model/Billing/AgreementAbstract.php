@@ -54,6 +54,31 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     abstract public function cancel();
 
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retreive payment method instance
      *
      * @return Magento_Payment_Model_Method_Abstract
@@ -61,7 +86,7 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     public function getPaymentMethodInstance()
     {
         if (is_null($this->_paymentMethodInstance)) {
-            $this->_paymentMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethodCode());
+            $this->_paymentMethodInstance = $this->_paymentData->getMethodInstance($this->getMethodCode());
         }
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($this->getStoreId());

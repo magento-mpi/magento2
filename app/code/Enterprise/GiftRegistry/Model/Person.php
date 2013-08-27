@@ -36,6 +36,31 @@ class Enterprise_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
     }
 
     /**
+     * Gift registry data
+     *
+     * @var Enterprise_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Validate registrant attribute values
      *
      * @return array|bool
@@ -60,7 +85,7 @@ class Enterprise_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
         $customValues = $this->getCustom();
         $attributes = Mage::getSingleton('Enterprise_GiftRegistry_Model_Entity')->getRegistrantAttributes();
 
-        $errorsCustom = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->validateCustomAttributes($customValues, $attributes);
+        $errorsCustom = $this->_giftRegistryData->validateCustomAttributes($customValues, $attributes);
         if ($errorsCustom !== true) {
             $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
         }

@@ -34,12 +34,25 @@ class Magento_Weee_Model_Total_Quote_Weee extends Magento_Tax_Model_Sales_Total_
     protected $_isTaxAffected;
 
     /**
-     * Initialize Weee totals collector
+     * Sales rule data
+     *
+     * @var Magento_SalesRule_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_salesRuleData = null;
+
+    /**
+     * Initialize Weee totals collector
+     *
+     *
+     *
+     * @param Magento_SalesRule_Helper_Data $salesRuleData
+     */
+    public function __construct(
+        Magento_SalesRule_Helper_Data $salesRuleData
+    ) {
+        $this->_salesRuleData = $salesRuleData;
         $this->setCode('weee');
-        $this->_helper = Mage::helper('Magento_Weee_Helper_Data');
+        $this->_helper = $this->_helper;
         $this->_config = Mage::getSingleton('Magento_Tax_Model_Config');
     }
 
@@ -189,7 +202,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Magento_Tax_Model_Sales_Total_
     protected function _processDiscountSettings($item, $value, $baseValue)
     {
         if ($this->_helper->isDiscounted($this->_store)) {
-            Mage::helper('Magento_SalesRule_Helper_Data')->addItemDiscountPrices($item, $baseValue, $value);
+            $this->_salesRuleData->addItemDiscountPrices($item, $baseValue, $value);
         }
         return $this;
     }

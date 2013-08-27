@@ -47,6 +47,29 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     protected $_messagesScope          = 'newsletter/session';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize resource model
      * Get tablename from config
      *
@@ -128,7 +151,7 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
      */
     protected function _generateRandomCode()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

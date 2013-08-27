@@ -25,16 +25,19 @@ class Magento_AdminNotification_Block_ToolbarEntry extends Magento_Backend_Block
     protected $_notificationList;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList
+     * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread
+     * $notificationList
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_notificationList = $notificationList;
     }
 

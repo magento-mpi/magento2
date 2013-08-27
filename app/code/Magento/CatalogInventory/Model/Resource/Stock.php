@@ -68,6 +68,29 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     protected $_stock;
 
     /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table and initialize connection
      *
      */
@@ -208,7 +231,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
 
             $this->_isConfig = true;
             $this->_stock = Mage::getModel('Magento_CatalogInventory_Model_Stock');
-            $this->_configTypeIds = array_keys(Mage::helper('Magento_CatalogInventory_Helper_Data')->getIsQtyTypeIds(true));
+            $this->_configTypeIds = array_keys($this->_catalogInventoryData->getIsQtyTypeIds(true));
         }
     }
 

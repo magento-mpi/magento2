@@ -21,6 +21,27 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     protected $_saved = false;
 
     /**
+     * Gift message message
+     *
+     * @var Magento_GiftMessage_Helper_Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     */
+    public function __construct(
+        Magento_GiftMessage_Helper_Message $giftMessageMessage
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
+    }
+
+    /**
      * Save all seted giftmessages
      *
      * @return Magento_Adminhtml_Model_Giftmessage_Save
@@ -220,7 +241,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     public function isGiftMessagesAvailable($item)
     {
-        return Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->_giftMessageMessage->getIsMessagesAvailable(
             'item', $item, $item->getStore()
         );
     }

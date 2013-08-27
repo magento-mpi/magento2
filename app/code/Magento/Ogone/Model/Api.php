@@ -164,13 +164,25 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     const HASH_SHA512 = 'sha512';
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
      * Init Ogone Api instance, detup default values
      *
-     * @var Magento_Ogone_Model_Config $config
-     * @return Magento_Ogone_Model_Api
+     *
+     *
+     * @param Magento_Core_Helper_String $coreString
+     * @param  $config
      */
-    public function __construct(Magento_Ogone_Model_Config $config)
-    {
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Ogone_Model_Config $config
+    ) {
+        $this->_coreString = $coreString;
         $this->_config = $config;
         return $this;
     }
@@ -398,12 +410,12 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
                 continue;
             }
             //COM filed can only handle max 100
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($invoiceDesc.$item->getName()) > 100) {
+            if ($this->_coreString->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return Mage::helper('Magento_Core_Helper_String')->substr($invoiceDesc, 0, -2);
+        return $this->_coreString->substr($invoiceDesc, 0, -2);
     }
 
     /**

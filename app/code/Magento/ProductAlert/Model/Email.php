@@ -72,6 +72,31 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     protected $_stockBlock;
 
     /**
+     * Product alert data
+     *
+     * @var Magento_ProductAlert_Helper_Data
+     */
+    protected $_productAlertData = null;
+
+    /**
+     * @param Magento_ProductAlert_Helper_Data $productAlertData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ProductAlert_Helper_Data $productAlertData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productAlertData = $productAlertData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set model type
      *
      * @param string $type
@@ -185,7 +210,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     protected function _getPriceBlock()
     {
         if (is_null($this->_priceBlock)) {
-            $this->_priceBlock = Mage::helper('Magento_ProductAlert_Helper_Data')
+            $this->_priceBlock = $this->_productAlertData
                 ->createBlock('Magento_ProductAlert_Block_Email_Price');
         }
         return $this->_priceBlock;
@@ -199,7 +224,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     protected function _getStockBlock()
     {
         if (is_null($this->_stockBlock)) {
-            $this->_stockBlock = Mage::helper('Magento_ProductAlert_Helper_Data')
+            $this->_stockBlock = $this->_productAlertData
                 ->createBlock('Magento_ProductAlert_Block_Email_Stock');
         }
         return $this->_stockBlock;

@@ -77,6 +77,27 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Customer_Helper_Address $customerAddress
+     */
+    public function __construct(
+        Magento_Customer_Helper_Address $customerAddress
+    ) {
+        $this->_customerAddress = $customerAddress;
+    }
+
+    /**
      * Return Paypal Api user name based on config data
      *
      * @return string
@@ -511,7 +532,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
             return;
         }
 
-        $street = Mage::helper('Magento_Customer_Helper_Address')
+        $street = $this->_customerAddress
             ->convertStreetLines($address->getStreet(), count($keys));
 
         $i = 0;

@@ -64,7 +64,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
 
         // try to login using HTTP-authentication
         if (!$session->isLoggedIn()) {
-            list($login, $password) = Mage::helper('Magento_Core_Helper_Http')
+            list($login, $password) = $this->_objectManager->get('Magento_Core_Helper_Http')
                 ->getHttpAuthCredentials($controller->getRequest());
             try {
                 $auth->login($login, $password);
@@ -75,7 +75,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
 
         // verify if logged in and authorized
         if (!$session->isLoggedIn() || !Mage::getSingleton('Magento_AuthorizationInterface')->isAllowed($aclResource)) {
-            Mage::helper('Magento_Core_Helper_Http')->failHttpAuthentication($controller->getResponse(), 'RSS Feeds');
+            $this->_objectManager->get('Magento_Core_Helper_Http')->failHttpAuthentication($controller->getResponse(), 'RSS Feeds');
             $controller->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
@@ -94,7 +94,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
      */
     public function statusAction()
     {
-        $order = Mage::helper('Magento_Rss_Helper_Order')->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
+        $order = $this->_objectManager->get('Magento_Rss_Helper_Order')->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
         if (!is_null($order)) {
             Mage::register('current_order', $order);
             $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');

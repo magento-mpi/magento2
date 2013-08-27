@@ -31,6 +31,31 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     const SEARCH_TYPE_COMBINE           = 3;
     const XML_PATH_CATALOG_SEARCH_TYPE  = 'catalog/search/search_type';
 
+    /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_CatalogSearch_Model_Resource_Fulltext');
@@ -103,9 +128,9 @@ class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     public function prepareResult($query = null)
     {
         if (!$query instanceof Magento_CatalogSearch_Model_Query) {
-            $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+            $query = $this->_catalogSearchData->getQuery();
         }
-        $queryText = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQueryText();
+        $queryText = $this->_catalogSearchData->getQueryText();
         if ($query->getSynonymFor()) {
             $queryText = $query->getSynonymFor();
         }

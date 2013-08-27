@@ -48,6 +48,31 @@ class Enterprise_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_storeData = array();
 
     /**
+     * Reminder data
+     *
+     * @var Enterprise_Reminder_Helper_Data
+     */
+    protected $_reminderData = null;
+
+    /**
+     * @param Enterprise_Reminder_Helper_Data $reminderData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reminder_Helper_Data $reminderData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_reminderData = $reminderData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      *
      * @return void
@@ -133,10 +158,10 @@ class Enterprise_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
         $translate = Mage::getSingleton('Magento_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
-        $identity = Mage::helper('Enterprise_Reminder_Helper_Data')->getEmailIdentity();
+        $identity = $this->_reminderData->getEmailIdentity();
 
         $this->_matchCustomers();
-        $limit = Mage::helper('Enterprise_Reminder_Helper_Data')->getOneRunLimit();
+        $limit = $this->_reminderData->getOneRunLimit();
 
         $recipients = $this->_getResource()->getCustomersForNotification($limit, $this->getRuleId());
 
@@ -195,7 +220,7 @@ class Enterprise_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
      */
     protected function _matchCustomers()
     {
-        $threshold   = Mage::helper('Enterprise_Reminder_Helper_Data')->getSendFailureThreshold();
+        $threshold   = $this->_reminderData->getSendFailureThreshold();
         $currentDate = Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
 

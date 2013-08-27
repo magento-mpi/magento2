@@ -18,6 +18,37 @@
 class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
 {
     /**
+     * Rss data
+     *
+     * @var Magento_Rss_Helper_Data
+     */
+    protected $_rssData = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Rss_Helper_Data $rssData
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Rss_Helper_Data $rssData,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        $this->_rssData = $rssData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render XML response
      *
      * @return string
@@ -26,7 +57,7 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
     {
         $newUrl = Mage::getUrl('rss/catalog/review');
         $title = __('Pending product review(s)');
-        Mage::helper('Magento_Rss_Helper_Data')->disableFlat();
+        $this->_rssData->disableFlat();
 
         $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
         $data = array(
@@ -67,7 +98,7 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
         $store = Mage::app()->getStore($row['store_id']);
         $urlModel = Mage::getModel('Magento_Core_Model_Url')->setStore($store);
         $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
-        $reviewUrl = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+        $reviewUrl = $this->_adminhtmlData->getUrl(
             'adminhtml/catalog_product_review/edit/',
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true));
         $storeName = $store->getName();

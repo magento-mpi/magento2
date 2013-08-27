@@ -374,7 +374,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 Mage::logException($e);
             }
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

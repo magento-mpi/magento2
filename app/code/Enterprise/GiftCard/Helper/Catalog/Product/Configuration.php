@@ -19,6 +19,25 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Magento_C
     implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
+     * Catalog product configuration
+     *
+     * @var Magento_Catalog_Helper_Product_Configuration
+     */
+    protected $_catalogProductConfiguration = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_catalogProductConfiguration = $catalogProductConfiguration;
+        parent::__construct($context);
+    }
+
+    /**
      * Prepare custom option for display, returns false if there's no value
      *
      * @param string $code
@@ -89,7 +108,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Magento_C
     {
         return array_merge(
             $this->getGiftcardOptions($item),
-            Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
+            $this->_catalogProductConfiguration->getCustomOptions($item)
         );
     }
 }

@@ -26,6 +26,29 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     protected $_template = 'inline.phtml';
 
     /**
+     * Gift message message
+     *
+     * @var Magento_GiftMessage_Helper_Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftMessage_Helper_Message $giftMessageMessage,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set entity
      *
      * @return mixed
@@ -243,7 +266,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     public function isMessagesAvailable()
     {
-        return Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable('quote', $this->getEntity());
+        return $this->_giftMessageMessage->isMessagesAvailable('quote', $this->getEntity());
     }
 
     /**
@@ -254,7 +277,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     public function isItemMessagesAvailable($item)
     {
         $type = substr($this->getType(), 0, 5) == 'multi' ? 'address_item' : 'item';
-        return Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable($type, $item);
+        return $this->_giftMessageMessage->isMessagesAvailable($type, $item);
     }
 
     /**

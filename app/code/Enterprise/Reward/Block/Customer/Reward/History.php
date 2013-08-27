@@ -25,6 +25,29 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
     protected $_collection = null;
 
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get history collection if needed
      *
      * @return Enterprise_Reward_Model_Resource_Reward_History_Collection|false
@@ -45,7 +68,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
      */
     public function getPointsDelta(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->formatPointsDelta($item->getPointsDelta());
+        return $this->_rewardData->formatPointsDelta($item->getPointsDelta());
     }
 
     /**
@@ -67,7 +90,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
      */
     public function getCurrencyBalance(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->currency($item->getCurrencyAmount());
+        return $this->_coreData->currency($item->getCurrencyAmount());
     }
 
     /**
@@ -100,7 +123,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
      */
     public function getDate(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate($item->getCreatedAt(), 'short', true);
+        return $this->_coreData->formatDate($item->getCreatedAt(), 'short', true);
     }
 
     /**
@@ -113,7 +136,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
     {
         $expiresAt = $item->getExpiresAt();
         if ($expiresAt) {
-            return Mage::helper('Magento_Core_Helper_Data')->formatDate($expiresAt, 'short', true);
+            return $this->_coreData->formatDate($expiresAt, 'short', true);
         }
         return '';
     }
@@ -130,7 +153,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
             $this->_collection = Mage::getModel('Enterprise_Reward_Model_Reward_History')->getCollection()
                 ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->addWebsiteFilter($websiteId)
-                ->setExpiryConfig(Mage::helper('Enterprise_Reward_Helper_Data')->getExpiryConfig())
+                ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->addExpirationDate($websiteId)
                 ->skipExpiredDuplicates()
                 ->setDefaultOrder()
@@ -175,7 +198,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
      */
     protected function _isEnabled()
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
-            && Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('publish_history');
+        return $this->_rewardData->isEnabledOnFront()
+            && $this->_rewardData->getGeneralConfig('publish_history');
     }
 }

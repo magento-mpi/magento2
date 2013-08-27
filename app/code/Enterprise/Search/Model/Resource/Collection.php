@@ -113,6 +113,43 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_storedPageSize = false;
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Search data
+     *
+     * @var Enterprise_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * Collection constructor
+     *
+     *
+     *
+     * @param Enterprise_Search_Helper_Data $searchData
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        Enterprise_Search_Helper_Data $searchData,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_searchData = $searchData;
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($catalogData, $catalogProductFlat, $fetchStrategy);
+    }
+
+    /**
      * Load faceted data if not loaded
      *
      * @return Enterprise_Search_Model_Resource_Collection
@@ -202,7 +239,7 @@ class Enterprise_Search_Model_Resource_Collection
         /**
          * @var Magento_CatalogSearch_Model_Query $query
          */
-        $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+        $query = $this->_catalogSearchData->getQuery();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -414,7 +451,7 @@ class Enterprise_Search_Model_Resource_Collection
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
 
-            $helper = Mage::helper('Enterprise_Search_Helper_Data');
+            $helper = $this->_searchData;
             $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
                     && $helper->getSolrConfigData('server_suggestion_enabled'));
             if ($searchSuggestionsEnabled) {

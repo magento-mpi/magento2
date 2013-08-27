@@ -36,6 +36,25 @@ class Enterprise_Reward_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_ratesArray = null;
 
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context);
+    }
+
+    /**
      * Setter for hasRates flag
      *
      * @param boolean $flag
@@ -92,7 +111,7 @@ class Enterprise_Reward_Helper_Data extends Magento_Core_Helper_Abstract
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
-        return $allowed = (bool)(int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('order', $websiteId);
+        return $allowed = (bool)(int)$this->_rewardData->getPointsConfig('order', $websiteId);
     }
 
     /**

@@ -46,8 +46,22 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Mode
      */
     protected $_proType = 'Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro';
 
-    public function __construct($params = array())
-    {
+    /**
+     * Pbridge data
+     *
+     * @var Enterprise_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Enterprise_Pbridge_Helper_Data $pbridgeData
+     * @param  $params
+     */
+    public function __construct(
+        Enterprise_Pbridge_Helper_Data $pbridgeData,
+        $params = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
         parent::__construct($params);
         $this->_pro->setPaymentMethod($this);
     }
@@ -70,7 +84,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Mode
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -225,7 +239,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Mode
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
         return $this;
     }

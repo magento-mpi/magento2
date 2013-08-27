@@ -82,6 +82,30 @@ class Enterprise_PageCache_Model_Observer
     protected $_designRules;
 
     /**
+     * Catalog product compare
+     *
+     * @var Magento_Catalog_Helper_Product_Compare
+     */
+    protected $_catalogProductCompare = null;
+
+    /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Core url
+     *
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_coreUrl = null;
+
+    /**
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
@@ -92,6 +116,9 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_DesignPackage_Rules $designRules
      */
     public function __construct(
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
@@ -101,6 +128,9 @@ class Enterprise_PageCache_Model_Observer
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
         Enterprise_PageCache_Model_DesignPackage_Rules $designRules
     ) {
+        $this->_coreUrl = $coreUrl;
+        $this->_wishlistData = $wishlistData;
+        $this->_catalogProductCompare = $catalogProductCompare;
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cacheState = $cacheState;
@@ -371,7 +401,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $listItems = Mage::helper('Magento_Catalog_Helper_Product_Compare')->getItemCollection();
+        $listItems = $this->_catalogProductCompare->getItemCollection();
         $previousList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previousList = (empty($previousList)) ? array() : explode(',', $previousList);
 
@@ -504,7 +534,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $cookieValue = '';
-        foreach (Mage::helper('Magento_Wishlist_Helper_Data')->getWishlistItemCollection() as $item) {
+        foreach ($this->_wishlistData->getWishlistItemCollection() as $item) {
             $cookieValue .= ($cookieValue ? '_' : '') . $item->getId();
         }
 
@@ -513,7 +543,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Wishlist items count hash for top link
         $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
-            'wishlist_item_count_' . Mage::helper('Magento_Wishlist_Helper_Data')->getItemCount());
+            'wishlist_item_count_' . $this->_wishlistData->getItemCount());
 
         return $this;
     }
@@ -642,7 +672,7 @@ class Enterprise_PageCache_Model_Observer
         $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
         if ($httpHost != $urlHost && Mage::getSingleton('Magento_Core_Model_Session')->getMessages()->count() > 0) {
-            $transport->setUrl(Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
+            $transport->setUrl($this->_coreUrl->addRequestParam(
                 $url,
                 array(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null)
             ));

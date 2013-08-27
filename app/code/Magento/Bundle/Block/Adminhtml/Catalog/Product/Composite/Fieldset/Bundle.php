@@ -18,6 +18,11 @@
 class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle
     extends Magento_Bundle_Block_Catalog_Product_View_Type_Bundle
 {
+    public function __construct(Magento_Catalog_Helper_Product $catalogProduct, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($catalogProduct, $context, $data);
+    }
+
     /**
      * Returns string with json config for bundle product
      *
@@ -37,6 +42,6 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle
             }
         }
         $config = array('options' => $options);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 }

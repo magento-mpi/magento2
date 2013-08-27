@@ -31,6 +31,11 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
      */
     protected $_mapRenderer = 'msrp_rss';
 
+    public function __construct(Magento_Wishlist_Helper_Data $wishlistData, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /**
      * Retrieve Wishlist model
      *
@@ -65,7 +70,7 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
         if (is_null($this->_customer)) {
             $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
 
-            $params = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
             if ($cId && ($cId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {

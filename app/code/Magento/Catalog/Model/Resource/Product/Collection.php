@@ -184,6 +184,39 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_catalogPreparePriceSelect = null;
 
     /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Collection constructor
+     *
+     *
+     *
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_catalogData = $catalogData;
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($fetchStrategy);
+    }
+
+    /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
      * @return Magento_DB_Select
@@ -274,7 +307,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      */
     public function getFlatHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**
@@ -1176,7 +1209,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
 
             return $this;
         }
-        if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogRule')) {
+        if (!$this->_catalogData->isModuleEnabled('Magento_CatalogRule')) {
             return $this;
         }
         $wId = Mage::app()->getWebsite()->getId();

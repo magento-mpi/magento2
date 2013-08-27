@@ -18,6 +18,52 @@ class Enterprise_Persistent_Model_Observer
     protected $_setQuotePersistent = true;
 
     /**
+     * Persistent data
+     *
+     * @var Magento_Persistent_Helper_Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * Persistent data
+     *
+     * @var Enterprise_Persistent_Helper_Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Persistent session
+     *
+     * @var Magento_Persistent_Helper_Session
+     */
+    protected $_persistentSession = null;
+
+    /**
+     * @param Magento_Persistent_Helper_Session $persistentSession
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Enterprise_Persistent_Helper_Data $persistentData
+     * @param Magento_Persistent_Helper_Data $persistentData
+     */
+    public function __construct(
+        Magento_Persistent_Helper_Session $persistentSession,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Enterprise_Persistent_Helper_Data $persistentData,
+        Magento_Persistent_Helper_Data $persistentData
+    ) {
+        $this->_persistentSession = $persistentSession;
+        $this->_wishlistData = $wishlistData;
+        $this->_persistentData = $persistentData;
+        $this->_persistentData = $persistentData;
+    }
+
+    /**
      * Set persistent data to customer session
      *
      * @param Magento_Event_Observer $observer
@@ -25,8 +71,8 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateCustomer($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer)
-            || !Mage::helper('Enterprise_Persistent_Helper_Data')->isCustomerAndSegmentsPersist()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentData->isCustomerAndSegmentsPersist()
         ) {
             return $this;
         }
@@ -43,7 +89,7 @@ class Enterprise_Persistent_Model_Observer
             // apply persistent data to segments
             Mage::register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
-                Mage::helper('Magento_Wishlist_Helper_Data')->setCustomer($customer);
+                $this->_wishlistData->setCustomer($customer);
             }
         }
         return $this;
@@ -71,20 +117,20 @@ class Enterprise_Persistent_Model_Observer
      */
     public function applyPersistentData($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer)
+        if (!$this->_persistentData->canProcess($observer)
             || !$this->_isPersistent() || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         ) {
             return;
         }
         Mage::getModel('Magento_Persistent_Model_Persistent_Config')
-            ->setConfigFilePath(Mage::helper('Enterprise_Persistent_Helper_Data')->getPersistentConfigFilePath())
+            ->setConfigFilePath($this->_persistentData->getPersistentConfigFilePath())
             ->fire();
     }
 
     public function applyBlockPersistentData($observer)
     {
         $observer->getEvent()->setConfigFilePath(
-            Mage::helper('Enterprise_Persistent_Helper_Data')->getPersistentConfigFilePath()
+            $this->_persistentData->getPersistentConfigFilePath()
         );
         return Mage::getSingleton('Magento_Persistent_Model_Observer')->applyBlockPersistentData($observer);
     }
@@ -127,7 +173,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function initReorderSidebar($block)
     {
-        if (!Mage::helper('Enterprise_Persistent_Helper_Data')->isOrderedItemsPersist()) {
+        if (!$this->_persistentData->isOrderedItemsPersist()) {
             return;
         }
         $block->setCustomerId($this->_getCustomerId());
@@ -142,7 +188,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateViewedProductsBlock(Magento_Reports_Block_Product_Viewed $block)
     {
-        if (!Mage::helper('Enterprise_Persistent_Helper_Data')->isViewedProductsPersist()) {
+        if (!$this->_persistentData->isViewedProductsPersist()) {
             return;
         }
         $customerId = $this->_getCustomerId();
@@ -222,7 +268,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function applyCustomerId($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer) || !$this->_isCompareProductsPersist()) {
+        if (!$this->_persistentData->canProcess($observer) || !$this->_isCompareProductsPersist()) {
             return;
         }
         $instance = $observer->getEvent()->getControllerAction();
@@ -237,7 +283,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateWishlist($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer)
+        if (!$this->_persistentData->canProcess($observer)
             || !$this->_isPersistent() || !$this->_isWishlistPersist()
         ) {
             return;
@@ -257,7 +303,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function setQuotePersistentData($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer) || !$this->_isPersistent()) {
+        if (!$this->_persistentData->canProcess($observer) || !$this->_isPersistent()) {
             return;
         }
 
@@ -270,7 +316,7 @@ class Enterprise_Persistent_Model_Observer
         /** @var $customerSession Magento_Customer_Model_Session */
         $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
 
-        $helper = Mage::helper('Enterprise_Persistent_Helper_Data');
+        $helper = $this->_persistentData;
         if ($helper->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
             $customerId = $customerSession->getCustomerId();
             if ($customerId) {
@@ -384,7 +430,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _getPersistentHelper()
     {
-        return Mage::helper('Magento_Persistent_Helper_Session');
+        return $this->_persistentSession;
     }
 
     /**
@@ -404,7 +450,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _isWishlistPersist()
     {
-        return Mage::helper('Enterprise_Persistent_Helper_Data')->isWishlistPersist();
+        return $this->_persistentData->isWishlistPersist();
     }
 
     /**
@@ -414,7 +460,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _isCompareProductsPersist()
     {
-        return Mage::helper('Enterprise_Persistent_Helper_Data')->isCompareProductsPersist();
+        return $this->_persistentData->isCompareProductsPersist();
     }
 
     /**
@@ -424,7 +470,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _isComparedProductsPersist()
     {
-        return Mage::helper('Enterprise_Persistent_Helper_Data')->isComparedProductsPersist();
+        return $this->_persistentData->isComparedProductsPersist();
     }
 
     /**
@@ -454,7 +500,7 @@ class Enterprise_Persistent_Model_Observer
      */
     protected function _isGuestShoppingCart()
     {
-        return $this->_isLoggedOut() && !Mage::helper('Magento_Persistent_Helper_Data')->isShoppingCartPersist();
+        return $this->_isLoggedOut() && !$this->_persistentData->isShoppingCartPersist();
     }
 
     /**

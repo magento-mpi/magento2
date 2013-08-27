@@ -11,6 +11,30 @@
 class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
 {
     /**
+     * Customer balance data
+     *
+     * @var Enterprise_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CustomerBalance_Helper_Data $customerBalanceData,
+        array $data = array()
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        parent::__construct($data);
+    }
+
+    /**
      * Collect customer balance totals for credit memo
      *
      * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
@@ -24,7 +48,7 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
         $creditmemo->setBaseCustomerBalanceReturnMax(0);
         $creditmemo->setCustomerBalanceReturnMax(0);
 
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
 

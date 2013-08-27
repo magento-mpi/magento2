@@ -116,6 +116,22 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     protected $_config;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -125,6 +141,8 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_StoreManager $storeManager,
@@ -133,6 +151,8 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_customerData = $customerData;
+        $this->_coreData = $coreData;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -381,7 +401,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function hashPassword($password, $salt = null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->getHash($password, !is_null($salt) ? $salt : 2);
+        return $this->_coreData->getHash($password, !is_null($salt) ? $salt : 2);
     }
 
     /**
@@ -392,7 +412,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function generatePassword($length = 6)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->getRandomString($length);
+        return $this->_coreData->getRandomString($length);
     }
 
     /**
@@ -407,7 +427,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         if (!$hash) {
             return false;
         }
-        return Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $hash);
+        return $this->_coreData->validateHash($password, $hash);
     }
 
 
@@ -419,7 +439,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function encryptPassword($password)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->encrypt($password);
+        return $this->_coreData->encrypt($password);
     }
 
     /**
@@ -430,7 +450,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function decryptPassword($password)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($password);
+        return $this->_coreData->decrypt($password);
     }
 
     /**
@@ -1099,7 +1119,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
             return true;
         }
 
-        $expirationPeriod = Mage::helper('Magento_Customer_Helper_Data')->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = Magento_Date::now();
         $currentTimestamp = Magento_Date::toTimestamp($currentDate);

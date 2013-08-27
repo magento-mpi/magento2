@@ -19,6 +19,29 @@ class Magento_Tag_Block_Product_List extends Magento_Core_Block_Template
      */
     protected $_uniqueHtmlId = null;
 
+    /**
+     * Core url
+     *
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_coreUrl = null;
+
+    /**
+     * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreUrl = $coreUrl;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getCount()
     {
         return count($this->getTags());
@@ -65,7 +88,7 @@ class Magento_Tag_Block_Product_List extends Magento_Core_Block_Template
 
     public function getFormAction()
     {
-        $helper = Mage::helper('Magento_Core_Helper_Url');
+        $helper = $this->_coreUrl;
         return Mage::getUrl('tag/index/save', array(
             'product' => $this->getProductId(),
             Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $helper->getEncodedUrl()
@@ -99,7 +122,7 @@ class Magento_Tag_Block_Product_List extends Magento_Core_Block_Template
     public function getUniqueHtmlId($prefix = '')
     {
         if (is_null($this->_uniqueHtmlId)) {
-            $this->_uniqueHtmlId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($prefix);
+            $this->_uniqueHtmlId = $this->_coreData->uniqHash($prefix);
         }
         return $this->_uniqueHtmlId;
     }

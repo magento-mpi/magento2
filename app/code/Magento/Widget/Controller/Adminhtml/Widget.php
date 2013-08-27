@@ -39,7 +39,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
         try {
             $this->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
-                $request = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($paramsJson);
+                $request = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
                     $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
@@ -53,7 +53,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
             }
         } catch (Magento_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 

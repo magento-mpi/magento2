@@ -39,7 +39,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
             Mage::logException($e);
             $result['message'] = __('Validation failed.');
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

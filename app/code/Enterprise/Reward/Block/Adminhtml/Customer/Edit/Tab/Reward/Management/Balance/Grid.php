@@ -27,6 +27,31 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     protected $_customerHasOrphanPoints = false;
 
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Internal constructor
      *
      */
@@ -75,11 +100,11 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         foreach ($this->getCollection() as $item) {
             $website = $item->getData('website_id');
             if ($website !== null) {
-                $minBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig(
+                $minBalance = $this->_rewardData->getGeneralConfig(
                     'min_points_balance',
                     (int)$website
                 );
-                $maxBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig(
+                $maxBalance = $this->_rewardData->getGeneralConfig(
                     'max_points_balance',
                     (int)$website
                 );

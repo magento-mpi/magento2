@@ -33,15 +33,25 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
     protected $_nodePreviewStoreId;
 
     /**
+     * Cms hierarchy
+     *
+     * @var Enterprise_Cms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
+        Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        $this->_cmsHierarchy = $cmsHierarchy;
         parent::__construct($context, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
@@ -142,7 +152,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
         /**
          * Define field set with elements for root nodes
          */
-        if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) {
+        if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $fieldset   = $form->addFieldset('metadata_fieldset', array(
                 'legend'    => __('Render Metadata in HTML Head.')
             ));
@@ -431,7 +441,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
             }
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($nodes);
+        return $this->_coreData->jsonEncode($nodes);
     }
 
     /**
@@ -602,7 +612,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
             $result[$listType][$type] = $label;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

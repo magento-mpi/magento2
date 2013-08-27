@@ -116,7 +116,7 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 /** @var $validator Magento_Core_Model_File_Validator_AvailablePath */
                 $validator = Mage::getModel('Magento_Core_Model_File_Validator_AvailablePath');
                 /** @var $helper Magento_Adminhtml_Helper_Catalog */
-                $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog');
+                $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {

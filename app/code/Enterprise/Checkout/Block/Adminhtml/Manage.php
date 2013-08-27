@@ -17,6 +17,11 @@
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -183,7 +188,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block
             'store_id' => $this->_getStore()->getId()
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**

@@ -17,9 +17,30 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
 {
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $data);
+    }
+
     public function getBackordersOption()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
         }
 
@@ -33,7 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
      */
     public function getStockOption()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Stock')->toOptionArray();
         }
 

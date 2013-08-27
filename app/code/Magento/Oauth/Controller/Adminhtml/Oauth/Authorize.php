@@ -139,7 +139,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     protected function _initConfirmPage($simple = false)
     {
         /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
         /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
@@ -209,7 +209,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         try {
             $token = $server->checkAuthorizeRequest();
             /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
+            $helper = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));

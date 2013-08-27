@@ -22,6 +22,27 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     protected $_template = 'catalog/category/tab/permissions.phtml';
 
     /**
+     * Catalog permissions data
+     *
+     * @var Enterprise_CatalogPermissions_Helper_Data
+     */
+    protected $_catalogPermissionsData = null;
+
+    /**
+     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogPermissionsData = $catalogPermissionsData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare layout
      *
      * @return Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
@@ -73,7 +94,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             $config = array_merge($additionalConfig, $config);
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**
@@ -128,7 +149,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
 
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
-        $helper   = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
+        $helper   = $this->_catalogPermissionsData;
 
         $parent = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
         $allow  = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;

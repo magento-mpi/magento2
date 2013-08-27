@@ -20,6 +20,33 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
     extends Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $data
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        array $data = array(),
+        Magento_Data_Collection_Db $resourceCollection = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($data, $resourceCollection, $resource, $context, $taxData, $context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Draw item line
      *
      */
@@ -32,7 +59,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
         $lines  = array();
 
         // draw Product name
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
         $lines[0] = array(array(
             'text' => $stringHelper->str_split($item->getName(), 35, true, true),
             'feed' => 35,

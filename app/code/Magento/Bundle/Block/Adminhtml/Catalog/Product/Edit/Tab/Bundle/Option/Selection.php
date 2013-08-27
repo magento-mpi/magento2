@@ -20,6 +20,27 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     protected $_template = 'product/edit/bundle/option/selection.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize bundle option selection block
      */
     protected function _construct()
@@ -129,7 +150,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      */
     public function isUsedWebsitePrice()
     {
-        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && Mage::registry('product')->getStoreId();
+        return !$this->_catalogData->isPriceGlobal() && Mage::registry('product')->getStoreId();
     }
 
     /**

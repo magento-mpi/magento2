@@ -18,6 +18,27 @@
 
 class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Review data
+     *
+     * @var Magento_Review_Helper_Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Review_Helper_Data $reviewData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareForm()
     {
         $review = Mage::registry('review_data');
@@ -33,7 +54,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
         $fieldset = $form->addFieldset('review_details', array('legend' => __('Review Details'), 'class' => 'fieldset-wide'));
 
         /** @var $helper Magento_Review_Helper_Data */
-        $helper = Mage::helper('Magento_Review_Helper_Data');
+        $helper = $this->_reviewData;
         $fieldset->addField('product_name', 'note', array(
             'label'     => __('Product'),
             'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" onclick="this.target=\'blank\'">' . $helper->escapeHtml($product->getName()) . '</a>'
@@ -71,7 +92,7 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
             'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
-            'values'    => Mage::helper('Magento_Review_Helper_Data')->getReviewStatusesOptionArray(),
+            'values'    => $this->_reviewData->getReviewStatusesOptionArray(),
         ));
 
         /**

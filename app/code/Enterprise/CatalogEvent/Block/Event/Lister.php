@@ -25,6 +25,27 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     protected $_events = null;
 
     /**
+     * Catalog event data
+     *
+     * @var Enterprise_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
+     * @param Enterprise_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogEventData = $catalogEventData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve html id
      *
      * @return string
@@ -45,7 +66,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function canDisplay()
     {
-        return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()
+        return $this->_catalogEventData->isEnabled()
             && Mage::getStoreConfigFlag('catalog/enterprise_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }

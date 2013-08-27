@@ -98,7 +98,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
             : Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
         $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
-            : Mage::helper('Enterprise_ImportExport_Helper_Data');
+            : $this->_moduleHelper;
 
         $this->_initFrontendWebsites()
             ->_initWebsites(true);

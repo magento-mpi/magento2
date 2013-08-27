@@ -17,6 +17,11 @@
  */
 class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
+    {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Block construction, prepare grid params
      */
@@ -37,7 +42,7 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
      */
     public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_block_widget/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')

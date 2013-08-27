@@ -20,6 +20,27 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
 {
 
     /**
+     * Gift message message
+     *
+     * @var Magento_GiftMessage_Helper_Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     */
+    public function __construct(
+        Magento_GiftMessage_Helper_Message $giftMessageMessage
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
+    }
+
+    /**
      * Set gift messages to order item on import item
      *
      * @param Magento_Object $observer
@@ -30,7 +51,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         $orderItem = $observer->getEvent()->getOrderItem();
         $quoteItem = $observer->getEvent()->getItem();
 
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        $isAvailable = $this->_giftMessageMessage->getIsMessagesAvailable(
             'item',
             $quoteItem,
             $quoteItem->getStoreId()
@@ -149,7 +170,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        if (!Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable('order', $order, $order->getStore())){
+        if (!$this->_giftMessageMessage->isMessagesAvailable('order', $order, $order->getStore())){
             return $this;
         }
         $giftMessageId = $order->getGiftMessageId();
@@ -179,7 +200,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
             return $this;
         }
 
-        $isAvailable = Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable(
+        $isAvailable = $this->_giftMessageMessage->isMessagesAvailable(
             'order_item',
             $orderItem,
             $orderItem->getStoreId()

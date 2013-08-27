@@ -24,6 +24,22 @@ class Magento_GoogleAnalytics_Model_Observer
     protected $_isGoogleCheckoutLinkAdded = false;
 
     /**
+     * Google analytics data
+     *
+     * @var Magento_GoogleAnalytics_Helper_Data
+     */
+    protected $_googleAnalyticsData = null;
+
+    /**
+     * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
+     */
+    public function __construct(
+        Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
+    ) {
+        $this->_googleAnalyticsData = $googleAnalyticsData;
+    }
+
+    /**
      * Add order information into GA block to render on checkout success pages
      *
      * @param Magento_Event_Observer $observer
@@ -53,7 +69,7 @@ class Magento_GoogleAnalytics_Model_Observer
     public function injectAnalyticsInGoogleCheckoutLink(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block || !Mage::helper('Magento_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
+        if (!$block || !$this->_googleAnalyticsData->isGoogleAnalyticsAvailable()) {
             return;
         }
 

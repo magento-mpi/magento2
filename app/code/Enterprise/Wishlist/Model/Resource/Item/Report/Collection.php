@@ -19,6 +19,41 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Collection constructor
+     *
+     *
+     *
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_wishlistData = $wishlistData;
+        $this->_catalogData = $catalogData;
+        parent::__construct($fetchStrategy, $resource);
+    }
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -129,7 +164,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
      */
     protected function _addProductInfo()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             $this->getSelect()->joinLeft(
                 array('item_stock' => $this->getTable('cataloginventory_stock_item')),
                 'main_table.product_id = item_stock.product_id',
@@ -156,7 +191,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
             ->columns(array('item_qty' => 'qty', 'added_at', 'description', 'product_id'));
 
         $adapter = $this->getSelect()->getAdapter();
-        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = $this->_wishlistData->getDefaultWishlistName();
         $this->getSelect()->join(
             array('wishlist_table' => $this->getTable('wishlist')),
             'main_table.wishlist_id = wishlist_table.wishlist_id',

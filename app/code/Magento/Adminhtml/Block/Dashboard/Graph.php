@@ -96,6 +96,27 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
     protected $_template = 'dashboard/graph.phtml';
 
     /**
+     * Adminhtml dashboard data
+     *
+     * @var Magento_Adminhtml_Helper_Dashboard_Data
+     */
+    protected $_adminhtmlDashboardData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Dashboard_Data $adminhtmlDashboardData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Dashboard_Data $adminhtmlDashboardData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlDashboardData = $adminhtmlDashboardData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get tab template
      *
      * @return string
@@ -411,7 +432,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             return self::API_URL . '?' . implode('&', $p);
         } else {
             $gaData = urlencode(base64_encode(json_encode($params)));
-            $gaHash = Mage::helper('Magento_Adminhtml_Helper_Dashboard_Data')->getChartDataHash($gaData);
+            $gaHash = $this->_adminhtmlDashboardData->getChartDataHash($gaData);
             $params = array('ga' => $gaData, 'h' => $gaHash);
             return $this->getUrl('*/*/tunnel', array('_query' => $params));
         }

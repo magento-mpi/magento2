@@ -18,6 +18,30 @@
 class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Data $rewardData,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve points delta for action
      *
      * @param int $websiteId
@@ -25,7 +49,7 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('newsletter', $websiteId);
+        return (int)$this->_rewardData->getPointsConfig('newsletter', $websiteId);
     }
 
     /**

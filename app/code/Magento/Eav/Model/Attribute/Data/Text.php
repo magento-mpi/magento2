@@ -31,7 +31,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
     public function __construct(array $arguments = array())
     {
         $this->_stringHelper = isset($arguments['stringHelper'])
-            ? $arguments['stringHelper'] : Mage::helper('Magento_Core_Helper_String');
+            ? $arguments['stringHelper'] : $this->_stringHelper;
     }
 
     /**

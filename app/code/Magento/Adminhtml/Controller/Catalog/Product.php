@@ -640,7 +640,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
             $product->addData($productData);
             $product->setCollectExceptionMessages(true);
-            $configurableAttribute = Mage::helper('Magento_Core_Helper_Data')
+            $configurableAttribute = $this->_objectManager->get('Magento_Core_Helper_Data')
                 ->jsonDecode($productData['configurable_attribute']);
             $configurableAttribute = implode('-', $configurableAttribute);
 
@@ -717,16 +717,16 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
         $links = $this->getRequest()->getPost('links');
         if (isset($links['related']) && !$product->getRelatedReadonly()) {
             $product->setRelatedLinkData(
-                Mage::helper('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related'])
+                $this->_objectManager->get('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related'])
             );
         }
         if (isset($links['upsell']) && !$product->getUpsellReadonly()) {
             $product->setUpSellLinkData(
-                Mage::helper('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell'])
+                $this->_objectManager->get('Magento_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell'])
             );
         }
         if (isset($links['crosssell']) && !$product->getCrosssellReadonly()) {
-            $product->setCrossSellLinkData(Mage::helper('Magento_Adminhtml_Helper_Js')
+            $product->setCrossSellLinkData($this->_objectManager->get('Magento_Adminhtml_Helper_Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
 
@@ -851,9 +851,9 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
-                        __('SKU for product %1 has been changed to %2.', Mage::helper('Magento_Core_Helper_Data')
+                        __('SKU for product %1 has been changed to %2.', $this->_objectManager->get('Magento_Core_Helper_Data')
                             ->escapeHtml($product->getName()),
-                            Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getSku()))
+                            $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
 
@@ -1055,7 +1055,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
         $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
         if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Magento_Object) {
             /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-            $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+            $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
             $helper->renderUpdateResult($this, $session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {
@@ -1089,7 +1089,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     public function suggestProductTemplatesAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(
             $this->getLayout()->createBlock('Magento_Catalog_Block_Product_TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));

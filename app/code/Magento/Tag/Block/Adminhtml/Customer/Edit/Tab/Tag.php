@@ -21,12 +21,16 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Magento_Backend_
     protected $_customer;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
         $this->setId('tags');
         $this->setTitle(__('Product Tags'));
     }

@@ -25,7 +25,7 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Enterprise_CatalogEvent_Helper_Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }

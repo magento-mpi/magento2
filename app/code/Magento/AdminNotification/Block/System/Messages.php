@@ -15,16 +15,20 @@ class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Bl
     protected $_messages;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
+     * @param
+     * Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized
+     * $messages
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_messages = $messages;
     }
 

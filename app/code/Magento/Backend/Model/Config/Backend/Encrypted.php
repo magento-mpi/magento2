@@ -19,13 +19,38 @@ class Magento_Backend_Model_Config_Backend_Encrypted extends Magento_Core_Model_
 {
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Decrypt value after loading
      *
      */
     protected function _afterLoad()
     {
         $value = (string)$this->getValue();
-        if (!empty($value) && ($decrypted = Mage::helper('Magento_Core_Helper_Data')->decrypt($value))) {
+        if (!empty($value) && ($decrypted = $this->_coreData->decrypt($value))) {
             $this->setValue($decrypted);
         }
     }
@@ -41,7 +66,7 @@ class Magento_Backend_Model_Config_Backend_Encrypted extends Magento_Core_Model_
         if (preg_match('/^\*+$/', $this->getValue())) {
             $value = $this->getOldValue();
         }
-        if (!empty($value) && ($encrypted = Mage::helper('Magento_Core_Helper_Data')->encrypt($value))) {
+        if (!empty($value) && ($encrypted = $this->_coreData->encrypt($value))) {
             $this->setValue($encrypted);
         }
     }
@@ -53,6 +78,6 @@ class Magento_Backend_Model_Config_Backend_Encrypted extends Magento_Core_Model_
      */
     public function getOldValue()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt(parent::getOldValue());
+        return $this->_coreData->decrypt(parent::getOldValue());
     }
 }

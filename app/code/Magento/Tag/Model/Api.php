@@ -18,6 +18,22 @@
 class Magento_Tag_Model_Api extends Magento_Catalog_Model_Api_Resource
 {
     /**
+     * Tag data
+     *
+     * @var Magento_Tag_Helper_Data
+     */
+    protected $_tagData = null;
+
+    /**
+     * @param Magento_Tag_Helper_Data $tagData
+     */
+    public function __construct(
+        Magento_Tag_Helper_Data $tagData
+    ) {
+        $this->_tagData = $tagData;
+    }
+
+    /**
      * Retrieve list of tags for specified product
      *
      * @param int $productId
@@ -106,7 +122,7 @@ class Magento_Tag_Model_Api extends Magento_Catalog_Model_Api_Resource
         try {
             /** @var $tag Magento_Tag_Model_Tag */
             $tag = Mage::getModel('Magento_Tag_Model_Tag');
-            $tagHelper = Mage::helper('Magento_Tag_Helper_Data');
+            $tagHelper = $this->_tagData;
             $tagNamesArr = $tagHelper->cleanTags($tagHelper->extractTags($data['tag']));
             foreach ($tagNamesArr as $tagName) {
                 // unset previously added tag data

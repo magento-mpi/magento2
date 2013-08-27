@@ -97,7 +97,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
         }
 
         /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

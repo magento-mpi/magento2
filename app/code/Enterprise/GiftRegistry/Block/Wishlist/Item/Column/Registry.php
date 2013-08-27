@@ -19,13 +19,34 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
     extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
+     * Gift registry data
+     *
+     * @var Enterprise_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Check whether module is available
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled() && count($this->getGiftRegistryList());
+        return $this->_giftRegistryData->isEnabled() && count($this->getGiftRegistryList());
     }
 
     /**
@@ -35,7 +56,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function getGiftRegistryList()
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
+        return $this->_giftRegistryData->getCurrentCustomerEntityOptions();
     }
 
     /**
@@ -46,7 +67,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function checkProductType($item)
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item);
+        return $this->_giftRegistryData->canAddToGiftRegistry($item);
     }
 
     /**

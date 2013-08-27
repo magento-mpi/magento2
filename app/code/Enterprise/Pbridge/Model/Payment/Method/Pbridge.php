@@ -62,6 +62,25 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
     );
 
     /**
+     * Pbridge data
+     *
+     * @var Enterprise_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Enterprise_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Payment_Helper_Data $paymentData
+     */
+    public function __construct(
+        Enterprise_Pbridge_Helper_Data $pbridgeData,
+        Magento_Payment_Helper_Data $paymentData
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($paymentData);
+    }
+
+    /**
      * Initialize and return Pbridge Api object
      *
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
@@ -103,7 +122,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
             'quote'           => $quote,
         ));
         $usingPbridge = $this->getOriginalMethodInstance()->getConfigData('using_pbridge', $storeId);
-        return $checkResult->isAvailable && Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($storeId)
+        return $checkResult->isAvailable && $this->_pbridgeData->isEnabled($storeId)
             && $usingPbridge;
     }
 
@@ -196,7 +215,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
             if (null === $this->_originalMethodCode) {
                 return null;
             }
-            $this->_originalMethodInstance = Mage::helper('Magento_Payment_Helper_Data')
+            $this->_originalMethodInstance = $this->_paymentData
                  ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
@@ -262,7 +281,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
             $email = $order->getCustomerEmail();
             $id = $order->getCustomer()->getId();
             $request->setData('customer_id',
-                Mage::helper('Enterprise_Pbridge_Helper_Data')->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
+                $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
             );
         }
 
@@ -460,7 +479,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Mo
      */
     protected function _getCart(Magento_Core_Model_Abstract $order)
     {
-        list($items, $totals) = Mage::helper('Enterprise_Pbridge_Helper_Data')->prepareCart($order);
+        list($items, $totals) = $this->_pbridgeData->prepareCart($order);
         //Getting cart items
         $result = array();
 

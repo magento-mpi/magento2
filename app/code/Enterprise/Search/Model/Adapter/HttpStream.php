@@ -45,6 +45,35 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      *
      * @return array
      */
+    /**
+     * Catalog inventory data
+     *
+     * @var Magento_CatalogInventory_Helper_Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * Initialize connect to Solr Client
+     *
+     *
+     *
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Magento_Core_Model_Logger $logger
+     * @param Enterprise_Search_Helper_ClientInterface $clientHelper
+     * @param  $options
+     */
+    public function __construct(
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Core_Model_Logger $logger,
+        Enterprise_Search_Helper_ClientInterface $clientHelper,
+        $options = array()
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        parent::__construct($clientFactory, $logger, $clientHelper, $options);
+    }
+
     protected function _search($query, $params = array())
     {
         $searchConditions = $this->prepareSearchConditions($query);
@@ -145,7 +174,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         if ($_params['store_id'] > 0) {
             $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
         }
-        if (!Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
+        if (!$this->_catalogInventoryData->isShowOutOfStock()) {
             $searchParams['fq'][] = 'in_stock:true';
         }
 

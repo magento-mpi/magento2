@@ -18,6 +18,33 @@
 class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle_Model_Sales_Order_Pdf_Items_Abstract
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $data
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        array $data = array(),
+        Magento_Data_Collection_Db $resourceCollection = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($data, $resourceCollection, $resource, $context, $taxData, $context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Draw item line
      *
      */
@@ -35,7 +62,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
         $_prevOptionId = '';
         $drawItems = array();
 
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
         foreach ($items as $_item) {
             $line   = array();
 
@@ -58,7 +85,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($attributes['option_label'], 60, true, true),
+                        'text'  => $this->_coreString->str_split($attributes['option_label'], 60, true, true),
                         'feed'  => 60
                     );
 
@@ -111,7 +138,7 @@ class Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Magento_Bundle
 
             // draw SKUs
             $text = array();
-            foreach (Mage::helper('Magento_Core_Helper_String')->str_split($_item->getSku(), 25) as $part) {
+            foreach ($this->_coreString->str_split($_item->getSku(), 25) as $part) {
                 $text[] = $part;
             }
             $line[] = array(

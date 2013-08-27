@@ -24,6 +24,41 @@
 class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
+     * Review action pager
+     *
+     * @var Magento_Review_Helper_Action_Pager
+     */
+    protected $_reviewActionPager = null;
+
+    /**
+     * Review data
+     *
+     * @var Magento_Review_Helper_Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Review_Helper_Action_Pager $reviewActionPager
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Review_Helper_Data $reviewData,
+        Magento_Review_Helper_Action_Pager $reviewActionPager,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_reviewData = $reviewData;
+        $this->_reviewActionPager = $reviewActionPager;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize grid
      */
     protected function _construct()
@@ -41,7 +76,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected function _afterLoadCollection()
     {
         /** @var $actionPager Magento_Review_Helper_Action_Pager */
-        $actionPager = Mage::helper('Magento_Review_Helper_Action_Pager');
+        $actionPager = $this->_reviewActionPager;
         $actionPager->setStorageId('reviews');
         $actionPager->setItems($this->getCollection()->getResultingIds());
 
@@ -96,7 +131,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected function _prepareColumns()
     {
         /** @var $helper Magento_Review_Helper_Data */
-        $helper = Mage::helper('Magento_Review_Helper_Data');
+        $helper = $this->_reviewData;
         $this->addColumn('review_id', array(
             'header'        => __('ID'),
             'align'         => 'right',
@@ -233,7 +268,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected function _prepareMassaction()
     {
         /** @var $helper Magento_Review_Helper_Data */
-        $helper = Mage::helper('Magento_Review_Helper_Data');
+        $helper = $this->_reviewData;
 
         $this->setMassactionIdField('review_id');
         $this->setMassactionIdFilter('rt.review_id');

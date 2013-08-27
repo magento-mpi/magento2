@@ -53,7 +53,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()) {
+        if (!$this->_objectManager->get('Enterprise_Cms_Helper_Hierarchy')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -261,7 +261,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
+                            $nodesData = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
                         }catch (Zend_Json_Exception $e){
                             $nodesData = array();
                         }

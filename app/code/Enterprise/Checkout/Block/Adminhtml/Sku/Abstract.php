@@ -30,6 +30,11 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_
 
     protected $_template = 'sku/add.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Initialize SKU container
      */
@@ -118,7 +123,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_
             'fileUploadUrl'    => $this->getFileUploadUrl(),
         );
 
-        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        $json = $this->_coreData->jsonEncode($data);
         return $json;
     }
 

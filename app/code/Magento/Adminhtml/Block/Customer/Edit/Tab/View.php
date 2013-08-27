@@ -24,6 +24,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     protected $_customerLog;
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     public function getCustomer()
     {
         if (!$this->_customer) {
@@ -62,7 +67,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
      */
     public function getCreateDate()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+        return $this->_coreData->formatDate(
             $this->getCustomer()->getCreatedAtTimestamp(),
             Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
             true
@@ -94,7 +99,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+            return $this->_coreData->formatDate(
                 $date,
                 Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
                 true

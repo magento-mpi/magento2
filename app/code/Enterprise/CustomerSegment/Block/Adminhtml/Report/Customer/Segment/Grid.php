@@ -19,6 +19,31 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Customer segment data
+     *
+     * @var Enterprise_CustomerSegment_Helper_Data
+     */
+    protected $_customerSegmentData = null;
+
+    /**
+     * @param Enterprise_CustomerSegment_Helper_Data $customerSegmentData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CustomerSegment_Helper_Data $customerSegmentData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_customerSegmentData = $customerSegmentData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid Id
      */
     protected function _construct()
@@ -117,7 +142,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
                      'type'     => 'select',
                      'class'    => 'required-entry',
                      'label'    => __('Set'),
-                     'values'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getOptionsArray()
+                     'values'   => $this->_customerSegmentData->getOptionsArray()
                 )
             )
         ));

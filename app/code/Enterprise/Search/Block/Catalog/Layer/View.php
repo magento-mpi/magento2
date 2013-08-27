@@ -18,13 +18,34 @@
 class Enterprise_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Layer_View
 {
     /**
+     * Search data
+     *
+     * @var Enterprise_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param Enterprise_Search_Helper_Data $searchData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Search_Helper_Data $searchData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_searchData = $searchData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize blocks names
      */
     protected function _initBlocks()
     {
         parent::_initBlocks();
 
-        if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
+        if ($this->_searchData->getIsEngineAvailableForNavigation()) {
             $this->_categoryBlockName        = 'Enterprise_Search_Block_Catalog_Layer_Filter_Category';
             $this->_attributeFilterBlockName = 'Enterprise_Search_Block_Catalog_Layer_Filter_Attribute';
             $this->_priceFilterBlockName     = 'Enterprise_Search_Block_Catalog_Layer_Filter_Price';
@@ -39,7 +60,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_L
      */
     protected function _prepareLayout()
     {
-        $helper = Mage::helper('Enterprise_Search_Helper_Data');
+        $helper = $this->_searchData;
         if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation()) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
@@ -87,7 +108,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_L
      */
     public function getLayer()
     {
-        if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
+        if ($this->_searchData->getIsEngineAvailableForNavigation()) {
             return Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer');
         }
 

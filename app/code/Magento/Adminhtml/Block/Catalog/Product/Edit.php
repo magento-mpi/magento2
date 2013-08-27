@@ -19,6 +19,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
 {
     protected $_template = 'catalog/product/edit.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -228,7 +233,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getTypeSwitcherData()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+        return $this->_coreData->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',

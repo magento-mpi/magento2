@@ -24,13 +24,33 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     protected $_configScope;
 
     /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Api_Helper_Data $apiHelper
      * @param Magento_Core_Model_Config_Scope $configScope
      */
     public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Checkout_Helper_Data $checkoutData,
         Magento_Api_Helper_Data $apiHelper,
         Magento_Core_Model_Config_Scope $configScope
     ) {
+        $this->_paymentData = $paymentData;
+        $this->_checkoutData = $checkoutData;
         $this->_configScope = $configScope;
         parent::__construct($apiHelper);
         $this->_storeIdSessionField = "cart_store_id";
@@ -217,7 +237,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             $this->_fault('invalid_checkout_type');
         }
         if ($quote->getCheckoutMethod() == Magento_Checkout_Model_Api_Resource_Customer::MODE_GUEST
-            && !Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($quote, $quote->getStoreId())
+            && !$this->_checkoutData->isAllowedGuestCheckout($quote, $quote->getStoreId())
         ) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
@@ -299,7 +319,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             }
 
             $total = $quote->getBaseSubtotal();
-            $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+            $methods = $this->_paymentData->getStoreMethods($store, $quote);
             foreach ($methods as $key => $method) {
                 if ($method->getCode() == $paymentData['method']) {
                     /** @var $method Magento_Payment_Model_Method_Abstract */
@@ -326,7 +346,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
      */
     protected function _checkAgreement($agreements = null)
     {
-        $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
+        $requiredAgreements = $this->_checkoutData->getRequiredAgreementIds();
         if (!empty($requiredAgreements)) {
             $diff = array_diff($agreements, $requiredAgreements);
             if (!empty($diff)) {

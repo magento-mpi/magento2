@@ -26,7 +26,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder();
+        return $this->_objectManager->get('Magento_Sales_Helper_Guest')->loadValidOrder();
     }
 
     /**
@@ -51,7 +51,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
         }
 
         $this->loadLayout();
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -66,7 +66,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
         }
         $this->loadLayout();
         $this->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 

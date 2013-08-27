@@ -24,6 +24,11 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
      */
     protected $_stringHelper;
 
+    public function __construct(array $data = array(), Magento_Data_Collection_Db $resourceCollection = null, Magento_Core_Model_Resource_Abstract $resource = null, Magento_Core_Model_Context $context, Magento_Tax_Helper_Data $taxData)
+    {
+        parent::__construct($data, $resourceCollection, $resource, $context, $taxData, $context, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Retrieve string helper instance
      *
@@ -32,7 +37,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     protected function _getStringHelper()
     {
         if (!$this->_stringHelper) {
-            $this->_stringHelper = Mage::helper('Magento_Core_Helper_String');
+            $this->_stringHelper = $this->_stringHelper;
         }
         return $this->_stringHelper;
     }

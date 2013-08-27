@@ -18,13 +18,34 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Bl
     protected $_readOnly = false;
 
     /**
+     * Target rule data
+     *
+     * @var Enterprise_TargetRule_Helper_Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param Enterprise_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_TargetRule_Helper_Data $targetRuleData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve TargetRule Data Helper
      *
      * @return Enterprise_TargetRule_Helper_Data
      */
     protected function _getRuleHelper()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data');
+        return $this->_targetRuleData;
     }
 
     /**

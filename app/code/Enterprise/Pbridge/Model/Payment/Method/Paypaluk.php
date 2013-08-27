@@ -47,12 +47,25 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     protected $_proType = 'Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro';
 
     /**
+     * Pbridge data
+     *
+     * @var Enterprise_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
      * Constructor
      *
+     *
+     *
+     * @param Enterprise_Pbridge_Helper_Data $pbridgeData
      * @param array $params
      */
-    public function __construct($params = array())
-    {
+    public function __construct(
+        Enterprise_Pbridge_Helper_Data $pbridgeData,
+        $params = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
         parent::__construct($params);
         $this->_pro->setPaymentMethod($this);
     }
@@ -75,7 +88,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -274,7 +287,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
 
         return $this;

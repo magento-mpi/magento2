@@ -20,6 +20,31 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
     /*
      * Set template
      */
+    /**
+     * Page robots
+     *
+     * @var Magento_Page_Helper_Robots
+     */
+    protected $_pageRobots = null;
+
+    /**
+     * @param Magento_Page_Helper_Robots $pageRobots
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Page_Helper_Robots $pageRobots,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $application,
+        array $data = array()
+    ) {
+        $this->_pageRobots = $pageRobots;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -33,7 +58,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return Mage::helper('Magento_Page_Helper_Robots')->getRobotsDefaultCustomInstructions();
+        return $this->_pageRobots->getRobotsDefaultCustomInstructions();
     }
 
     /**

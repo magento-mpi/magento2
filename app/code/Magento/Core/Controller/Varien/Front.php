@@ -403,7 +403,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected function _isAdminFrontNameMatched($request)
     {
         $pathPrefix = $this->_extractPathPrefixFromUrl($request);
-        return $pathPrefix == Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $pathPrefix == $this->_objectManager->get('Magento_Backend_Helper_Data')->getAreaFrontName();
     }
 
     /**

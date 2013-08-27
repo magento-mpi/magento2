@@ -45,7 +45,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     protected function _getHelper()
     {
         if (empty($this->_helper)) {
-            $this->_helper = Mage::helper('Magento_Catalog_Helper_Data');
+            $this->_helper = $this->_helper;
         }
         return $this->_helper;
     }

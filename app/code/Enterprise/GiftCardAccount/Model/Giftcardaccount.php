@@ -64,6 +64,31 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
      */
     protected static $_alreadySelectedIds = array();
 
+    /**
+     * Gift card account data
+     *
+     * @var Enterprise_GiftCardAccount_Helper_Data
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * @param Enterprise_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_GiftCardAccount_Helper_Data $giftCardAccountData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount');
@@ -179,7 +204,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
         }
         $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
         if ($this->isValid(true, true, $website)) {
-            $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
+            $cards = $this->_giftCardAccountData->getCards($quote);
             if (!$cards) {
                 $cards = array();
             } else {
@@ -195,7 +220,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
                 'a'=>$this->getBalance(),   // amount
                 'ba'=>$this->getBalance(),  // base amount
             );
-            Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
+            $this->_giftCardAccountData->setCards($quote, $cards);
 
             if ($saveQuote) {
                 $quote->collectTotals()->save();
@@ -221,12 +246,12 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
             $quote = $this->_getCheckoutSession()->getQuote();
         }
 
-        $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
+        $cards = $this->_giftCardAccountData->getCards($quote);
         if ($cards) {
             foreach ($cards as $k => $one) {
                 if ($one['i'] == $this->getId()) {
                     unset($cards[$k]);
-                    Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
+                    $this->_giftCardAccountData->setCards($quote, $cards);
 
                     if ($saveQuote) {
                         $quote->collectTotals()->save();

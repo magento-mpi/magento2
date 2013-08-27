@@ -97,6 +97,37 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
     protected $_currentStore = null;
 
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Checkout data
+     *
+     * @var Enterprise_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Customer_Helper_Data $customerData
+     */
+    public function __construct(
+        Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Customer_Helper_Data $customerData
+    ) {
+        $this->_checkoutData = $checkoutData;
+        $this->_customerData = $customerData;
+    }
+
+    /**
      * Set context of the cart
      *
      * @param string $context
@@ -188,7 +219,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
             return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
-                $customer = Mage::helper('Magento_Customer_Helper_Data')->getCustomer();
+                $customer = $this->_customerData->getCustomer();
                 if ($customer) {
                     $this->setCustomer($customer);
                 }
@@ -1535,7 +1566,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
      */
     protected function _getHelper()
     {
-        return Mage::helper('Enterprise_Checkout_Helper_Data');
+        return $this->_checkoutData;
     }
 
     /**

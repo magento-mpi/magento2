@@ -18,6 +18,27 @@
 class Enterprise_CatalogEvent_Block_Catalog_Product_Event extends Enterprise_CatalogEvent_Block_Event_Abstract
 {
     /**
+     * Catalog event data
+     *
+     * @var Enterprise_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
+     * @param Enterprise_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogEventData = $catalogEventData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return current category event
      *
      * @return Enterprise_CategoryEvent_Model_Event
@@ -48,7 +69,7 @@ class Enterprise_CatalogEvent_Block_Catalog_Product_Event extends Enterprise_Cat
      */
     public function canDisplay()
     {
-        return Mage::helper('Enterprise_CatalogEvent_Helper_Data')->isEnabled() &&
+        return $this->_catalogEventData->isEnabled() &&
                $this->getProduct() &&
                $this->getEvent() &&
                $this->getEvent()->canDisplayProductPage() &&

@@ -797,10 +797,10 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -813,7 +813,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $filesystem->setWorkingDirectory($path);
         $fileName   = $path . $file;
         if (!$filesystem->isFile($fileName)
-            && !Mage::helper('Magento_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
+            && !$this->_objectManager->get('Magento_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();
         }

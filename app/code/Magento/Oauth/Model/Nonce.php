@@ -25,6 +25,31 @@
 class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
 {
     /**
+     * Oauth data
+     *
+     * @var Magento_Oauth_Helper_Data
+     */
+    protected $_oauthData = null;
+
+    /**
+     * @param Magento_Oauth_Helper_Data $oauthData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Oauth_Helper_Data $oauthData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_oauthData = $oauthData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      * @return void
@@ -45,7 +70,7 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
 
         //Cleanup old entries
         /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        $helper = $this->_oauthData;
         if ($helper->isCleanupProbability()) {
             $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
         }

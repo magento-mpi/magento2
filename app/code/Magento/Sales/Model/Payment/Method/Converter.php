@@ -39,7 +39,7 @@ class Magento_Sales_Model_Payment_Method_Converter
 
     public function __construct(array $data = array())
     {
-        $this->_encryptor = isset($data['encryptor']) ? $data['encryptor'] : Mage::helper('Magento_Core_Helper_Data');
+        $this->_encryptor = isset($data['encryptor']) ? $data['encryptor'] : $this->_encryptor;
     }
 
     /**

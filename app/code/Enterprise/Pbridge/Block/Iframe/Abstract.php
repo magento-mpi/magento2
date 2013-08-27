@@ -61,6 +61,27 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_
     protected $_allowReload = true;
 
     /**
+     * Pbridge data
+     *
+     * @var Enterprise_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Enterprise_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return redirect url for Payment Bridge application
      *
      * @return string
@@ -255,7 +276,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_
         $customer = $this->_getCurrentCustomer();
         $store = $this->_getCurrentStore();
         if ($customer && $customer->getEmail()) {
-            return Mage::helper('Enterprise_Pbridge_Helper_Data')
+            return $this->_pbridgeData
                 ->getCustomerIdentifierByEmail($customer->getId(), $store->getId());
         }
         return null;

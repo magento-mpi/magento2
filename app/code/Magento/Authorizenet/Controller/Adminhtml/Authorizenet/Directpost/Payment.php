@@ -71,7 +71,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
         if (isset($paymentParam['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             $result = array();
-            $params = Mage::helper('Magento_Authorizenet_Helper_Data')->getSaveOrderUrlParams($controller);
+            $params = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')->getSaveOrderUrlParams($controller);
             //create order partially
             $this->_getOrderCreateModel()->setPaymentData($paymentParam);
             $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentParam);
@@ -131,13 +131,13 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
                 $result['redirect'] = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/sales_order_create/');
             }
 
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
         else {
             $result = array(
                 'error_messages' => __('Please choose a payment method.')
             );
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -153,7 +153,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])
         ) {
-            $params['redirect_parent'] = Mage::helper('Magento_Authorizenet_Helper_Data')->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = $this->_objectManager->get('Magento_Authorizenet_Helper_Data')->getSuccessOrderUrl($redirectParams);
             $this->_getDirectPostSession()->unsetData('quote_id');
             //cancel old order
             $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
@@ -190,7 +190,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
     public function returnQuoteAction()
     {
         $this->_returnQuote();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('success' => 1)));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array('success' => 1)));
     }
 
     /**

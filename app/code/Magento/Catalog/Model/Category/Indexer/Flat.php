@@ -46,10 +46,35 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
      *
      * @return bool
      */
+    /**
+     * Catalog category flat
+     *
+     * @var Magento_Catalog_Helper_Category_Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     public function isVisible()
     {
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $categoryFlatHelper = $this->_catalogCategoryFlat;
         return $categoryFlatHelper->isEnabled() || !$categoryFlatHelper->isBuilt();
     }
 
@@ -94,7 +119,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
     public function matchEvent(Magento_Index_Model_Event $event)
     {
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
-        $categoryFlatHelper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $categoryFlatHelper = $this->_catalogCategoryFlat;
         if (!$categoryFlatHelper->isAvailable() || !$categoryFlatHelper->isBuilt()) {
             return false;
         }

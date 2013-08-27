@@ -21,6 +21,27 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return tab label
      *
      * @return string
@@ -49,7 +70,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
     {
         $customer = Mage::registry('current_customer');
         return $customer->getId()
-            && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
+            && $this->_rewardData->isEnabled()
             && $this->_authorization->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 

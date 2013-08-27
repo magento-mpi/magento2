@@ -18,6 +18,11 @@
 
 class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Block_Dashboard_Grid
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
+    {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -26,7 +31,7 @@ class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')

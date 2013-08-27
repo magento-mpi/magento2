@@ -212,7 +212,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      */
     public function getSubdirectories($directory)
     {
-        $directory = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($directory);
+        $directory = $this->_coreFileStorageDatabase->getMediaRelativePath($directory);
 
         return $this->_getResource()->getSubdirectories($directory);
     }
@@ -225,7 +225,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      */
     public function deleteDirectory($dirPath)
     {
-        $dirPath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($dirPath);
+        $dirPath = $this->_coreFileStorageDatabase->getMediaRelativePath($dirPath);
         $name = basename($dirPath);
         $path = dirname($dirPath);
 

@@ -117,7 +117,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
         parent::__construct($data);
 
         $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
-            : Mage::helper('Enterprise_ImportExport_Helper_Data');
+            : $this->_moduleHelper;
         $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
             : Mage::app()->getConfig();
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']

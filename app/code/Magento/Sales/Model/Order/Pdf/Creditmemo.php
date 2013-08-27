@@ -18,6 +18,11 @@
  */
 class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order_Pdf_Abstract
 {
+    public function __construct(Magento_Payment_Helper_Data $paymentData, Magento_Core_Helper_Data $coreData, Magento_Core_Helper_String $coreString)
+    {
+        parent::__construct($paymentData, $coreData, $coreString);
+    }
+
     /**
      * Draw table header for product items
      *
@@ -41,41 +46,41 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(__('SKU'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('SKU'), 12, true, true),
             'feed'  => 255,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(__('Total (ex)'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Total (ex)'), 12, true, true),
             'feed'  => 330,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(__('Discount'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Discount'), 12, true, true),
             'feed'  => 380,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(__('Qty'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Qty'), 12, true, true),
             'feed'  => 445,
             'align' => 'right',
             //'width' => 30,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(__('Tax'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Tax'), 12, true, true),
             'feed'  => 495,
             'align' => 'right',
             //'width' => 45,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(__('Total (inc)'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Total (inc)'), 12, true, true),
             'feed'  => 565,
             'align' => 'right'
         );

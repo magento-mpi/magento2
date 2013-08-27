@@ -24,6 +24,11 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
      */
     protected static $_currentDate = null;
 
+    public function __construct(Magento_Catalog_Helper_Data $catalogData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($catalogData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -104,7 +109,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
 
                 // add price data if needed
                 if ($product->getAllowedPriceInRss()) {
-                    if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                    if ($this->_catalogData->canApplyMsrp($product)) {
                         $html .= '<br/><a href="' . $product->getProductUrl() . '">'
                             . __('Click for price') . '</a>';
                     } else {
@@ -113,8 +118,8 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
                             $special = '<br />' . __('Special Expires On: %1', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
-                            __('Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
-                            __('Special Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
+                            __('Price: %1', $this->_coreData->currency($result['price'])),
+                            __('Special Price: %1', $this->_coreData->currency($result['final_price'])),
                             $special
                         );
                     }

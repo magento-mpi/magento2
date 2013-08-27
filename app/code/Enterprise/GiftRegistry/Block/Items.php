@@ -15,6 +15,27 @@ class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
 {
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return list of gift registry items
      *
      * @return array
@@ -46,11 +67,11 @@ class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
+                            $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
                     $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));

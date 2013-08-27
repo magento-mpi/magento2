@@ -26,6 +26,42 @@ class Magento_Customer_Model_Observer
     const VIV_CURRENTLY_SAVED_ADDRESS = 'currently_saved_address';
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Customer_Helper_Address $customerAddress
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Customer_Helper_Address $customerAddress
+    ) {
+        $this->_coreData = $coreData;
+        $this->_customerData = $customerData;
+        $this->_customerAddress = $customerAddress;
+    }
+
+    /**
      * Check whether specified billing address is default for its customer
      *
      * @param Magento_Customer_Model_Address $address
@@ -65,7 +101,7 @@ class Magento_Customer_Model_Observer
             return false;
         }
 
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
+        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
         if ($configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING) {
             return $this->_isDefaultShipping($address);
         }
@@ -88,7 +124,7 @@ class Magento_Customer_Model_Observer
         if ($customerAddress->getId()) {
             Mage::register(self::VIV_CURRENTLY_SAVED_ADDRESS, $customerAddress->getId());
         } else {
-            $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
+            $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
 
             $forceProcess = ($configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING)
                 ? $customerAddress->getIsDefaultShipping() : $customerAddress->getIsDefaultBilling();
@@ -112,7 +148,7 @@ class Magento_Customer_Model_Observer
         $customerAddress = $observer->getCustomerAddress();
         $customer = $customerAddress->getCustomer();
 
-        if (!Mage::helper('Magento_Customer_Helper_Address')->isVatValidationEnabled($customer->getStore())
+        if (!$this->_customerAddress->isVatValidationEnabled($customer->getStore())
             || Mage::registry(self::VIV_PROCESSED_FLAG)
             || !$this->_canProcessAddress($customerAddress)
         ) {
@@ -123,10 +159,10 @@ class Magento_Customer_Model_Observer
             Mage::register(self::VIV_PROCESSED_FLAG, true);
 
             /** @var $customerHelper Magento_Customer_Helper_Data */
-            $customerHelper = Mage::helper('Magento_Customer_Helper_Data');
+            $customerHelper = $this->_customerData;
 
             if ($customerAddress->getVatId() == ''
-                || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerAddress->getCountry()))
+                || !$this->_coreData->isCountryInEU($customerAddress->getCountry()))
             {
                 $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 
@@ -151,7 +187,7 @@ class Magento_Customer_Model_Observer
                 }
 
                 if (!Mage::app()->getStore()->isAdmin()) {
-                    $validationMessage = Mage::helper('Magento_Customer_Helper_Data')->getVatValidationUserMessage($customerAddress,
+                    $validationMessage = $this->_customerData->getVatValidationUserMessage($customerAddress,
                         $customer->getDisableAutoGroupChange(), $result);
 
                     if (!$validationMessage->getIsError()) {
@@ -176,7 +212,7 @@ class Magento_Customer_Model_Observer
         /** @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getQuote()->getCustomer();
 
-        if (!Mage::helper('Magento_Customer_Helper_Address')->isVatValidationEnabled($customer->getStore())) {
+        if (!$this->_customerAddress->isVatValidationEnabled($customer->getStore())) {
             return;
         }
 

@@ -18,13 +18,36 @@
 class Enterprise_Search_Block_Suggestions extends Magento_Core_Block_Template
 {
     /**
+     * Search data
+     *
+     * @var Enterprise_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param Enterprise_Search_Helper_Data $searchData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Search_Helper_Data $searchData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_searchData = $searchData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve search suggestions
      *
      * @return array
      */
     public function getSuggestions()
     {
-        $helper = Mage::helper('Enterprise_Search_Helper_Data');
+        $helper = $this->_searchData;
 
         $searchSuggestionsEnabled = (bool)$helper->getSolrConfigData('server_suggestion_enabled');
         if (!($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) || !$searchSuggestionsEnabled) {
@@ -48,7 +71,7 @@ class Enterprise_Search_Block_Suggestions extends Magento_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (bool)Mage::helper('Enterprise_Search_Helper_Data')
+        return (bool)$this->_searchData
             ->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }

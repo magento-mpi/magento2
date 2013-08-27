@@ -170,10 +170,10 @@ class Enterprise_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adm
             /* @var $attributeObject Enterprise_Rma_Model_Item_Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Rma_Helper_Eav */
-            $helper = Mage::helper('Enterprise_Rma_Helper_Eav');
+            $helper = $this->_objectManager->get('Enterprise_Rma_Helper_Eav');
 
             try {
-                $data = Mage::helper('Enterprise_Rma_Helper_Eav')->filterPostData($data);
+                $data = $this->_objectManager->get('Enterprise_Rma_Helper_Eav')->filterPostData($data);
             } catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {

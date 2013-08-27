@@ -18,6 +18,11 @@
 
 class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block_Template
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Chooser source URL getter
      *
@@ -146,7 +151,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
-        $configJson = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config->getData());
+        $configJson = $this->_coreData->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
             . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>

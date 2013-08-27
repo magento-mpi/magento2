@@ -45,10 +45,35 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Ind
      *
      * @return bool
      */
+    /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
     public function isVisible()
     {
         /** @var $productFlatHelper Magento_Catalog_Helper_Product_Flat */
-        $productFlatHelper = Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        $productFlatHelper = $this->_catalogProductFlat;
         return $productFlatHelper->isEnabled() || !$productFlatHelper->isBuilt();
     }
 
@@ -93,7 +118,7 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Ind
     public function matchEvent(Magento_Index_Model_Event $event)
     {
         /** @var $productFlatHelper Magento_Catalog_Helper_Product_Flat */
-        $productFlatHelper = $event->getFlatHelper() ?: Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        $productFlatHelper = $event->getFlatHelper() ?: $this->_catalogProductFlat;
         if (!$productFlatHelper->isAvailable() || !$productFlatHelper->isBuilt()) {
             return false;
         }

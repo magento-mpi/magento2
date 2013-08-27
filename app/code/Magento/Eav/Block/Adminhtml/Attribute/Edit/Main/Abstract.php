@@ -20,6 +20,27 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
 {
     protected $_attribute = null;
 
+    /**
+     * Eav data
+     *
+     * @var Magento_Eav_Helper_Data
+     */
+    protected $_eavData = null;
+
+    /**
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavData = $eavData;
+        parent::__construct($context, $data);
+    }
+
     public function setAttributeObject($attribute)
     {
         $this->_attribute = $attribute;
@@ -160,7 +181,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
             'name'  => 'frontend_class',
             'label' => __('Input Validation for Store Owner'),
             'title' => __('Input Validation for Store Owner'),
-            'values'=> Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
+            'values'=> $this->_eavData->getFrontendClasses(
                 $attributeObject->getEntityType()->getEntityTypeCode()
             )
         ));
@@ -202,7 +223,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
         $attributeObject = $this->getAttributeObject();
         if ($attributeObject->getId()) {
             $form = $this->getForm();
-            $disableAttributeFields = Mage::helper('Magento_Eav_Helper_Data')
+            $disableAttributeFields = $this->_eavData
                 ->getAttributeLockedFields($attributeObject->getEntityType()->getEntityTypeCode());
             if (isset($disableAttributeFields[$attributeObject->getAttributeCode()])) {
                 foreach ($disableAttributeFields[$attributeObject->getAttributeCode()] as $field) {

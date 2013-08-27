@@ -28,7 +28,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         parent::preDispatch();
 
         /* @var $helper Magento_Sendfriend_Helper_Data */
-        $helper = Mage::helper('Magento_Sendfriend_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Sendfriend_Helper_Data');
         /* @var $session Magento_Customer_Model_Session */
         $session = Mage::getSingleton('Magento_Customer_Model_Session');
 
@@ -80,7 +80,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
     protected function _initSendToFriendModel()
     {
         $model  = Mage::getModel('Magento_Sendfriend_Model_Sendfriend');
-        $model->setRemoteAddr(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true));
+        $model->setRemoteAddr($this->_objectManager->get('Magento_Core_Helper_Http')->getRemoteAddr(true));
         $model->setCookie(Mage::app()->getCookie());
         $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 

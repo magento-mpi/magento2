@@ -29,7 +29,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
     {
         parent::preDispatch();
 
-        $allowGuest = Mage::helper('Magento_Review_Helper_Data')->getIsGuestAllowToWrite();
+        $allowGuest = $this->_objectManager->get('Magento_Review_Helper_Data')->getIsGuestAllowToWrite();
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
@@ -41,7 +41,7 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
                 Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
                 Mage::getSingleton('Magento_Review_Model_Session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+                $this->_redirectUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             }
         }
 

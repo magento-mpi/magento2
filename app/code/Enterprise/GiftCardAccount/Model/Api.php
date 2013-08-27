@@ -31,6 +31,22 @@ class Enterprise_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Ab
     );
 
     /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiData
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData
+    ) {
+        $this->_apiData = $apiData;
+    }
+
+    /**
      * Retrieve gift card accounts list
      *
      * @param object|array $filters
@@ -41,7 +57,7 @@ class Enterprise_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Ab
         /** @var $collection Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection */
         $collection = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
         /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        $apiHelper = $this->_apiData;
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {

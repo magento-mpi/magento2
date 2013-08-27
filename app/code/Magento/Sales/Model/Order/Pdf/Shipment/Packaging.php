@@ -18,6 +18,34 @@
 class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Model_Order_Pdf_Abstract
 {
     /**
+     * Usa data
+     *
+     * @var Magento_Usa_Helper_Data
+     */
+    protected $_usaData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
+     */
+    public function __construct(
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString
+    ) {
+        $this->_usaData = $usaData;
+        parent::__construct($paymentData, $coreData, $coreString);
+    }
+
+    /**
      * Format pdf file
      *
      * @param  null $shipment
@@ -101,7 +129,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
 
             $package = new Magento_Object($package);
             $params = new Magento_Object($package->getParams());
-            $dimensionUnits = Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits());
+            $dimensionUnits = $this->_usaData->getMeasureDimensionName($params->getDimensionUnits());
 
             $typeText = __('Type') . ' : '
                 . $packaging->getContainerTypeByCode($params->getContainer());
@@ -153,7 +181,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
             $this->y = $this->y - 10;
 
             $weightText = __('Total Weight') . ' : ' . $params->getWeight() .' '
-                . Mage::helper('Magento_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits());
+                . $this->_usaData->getMeasureWeightName($params->getWeightUnits());
             $page->drawText($weightText, 35, $this->y , 'UTF-8');
 
             if ($params->getHeight() != null) {
@@ -171,7 +199,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
                 $page->drawText($sizeText, 35, $this->y , 'UTF-8');
             }
             if ($params->getGirth() != null) {
-                $dimensionGirthUnits = Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getGirthDimensionUnits());
+                $dimensionGirthUnits = $this->_usaData->getMeasureDimensionName($params->getGirthDimensionUnits());
                 $girthText = __('Girth')
                              . ' : ' . $params->getGirth() . ' ' . $dimensionGirthUnits;
                 $page->drawText($girthText, 200, $this->y , 'UTF-8');

@@ -47,6 +47,39 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      */
     protected $_checkoutType = 'Magento_Paypal_Model_Express_Checkout';
 
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Paypal data
+     *
+     * @var Magento_Paypal_Helper_Data
+     */
+    protected $_paypalData = null;
+
+    /**
+     * @param Magento_Paypal_Helper_Data $paypalData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Paypal_Helper_Data $paypalData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_paypalData = $paypalData;
+        $this->_paymentData = $paymentData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
@@ -83,7 +116,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         }
 
         // check payment method availability
-        $methodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->_paymentMethodCode);
+        $methodInstance = $this->_paymentData->getMethodInstance($this->_paymentMethodCode);
         if (!$methodInstance || !$methodInstance->isAvailable($quote)) {
             $this->_shouldRender = false;
             return $result;
@@ -110,7 +143,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
 
         // ask whether to create a billing agreement
         $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId(); // potential issue for caching
-        if (Mage::helper('Magento_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
+        if ($this->_paypalData->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));

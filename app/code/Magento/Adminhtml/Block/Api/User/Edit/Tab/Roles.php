@@ -11,6 +11,11 @@
 class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_Block_Widget_Grid
 {
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, Magento_Core_Model_StoreManagerInterface $storeManager, Magento_Core_Model_Url $urlModel, array $data = array())
+    {
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -94,7 +99,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
         if ($json) {
             $jsonRoles = Array();
             foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
+            return $this->_coreData->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

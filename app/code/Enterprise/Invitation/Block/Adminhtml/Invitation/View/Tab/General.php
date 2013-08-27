@@ -20,6 +20,27 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     protected $_template = 'view/tab/general.phtml';
 
     /**
+     * Invitation data
+     *
+     * @var Enterprise_Invitation_Helper_Data
+     */
+    protected $_invitationData = null;
+
+    /**
+     * @param Enterprise_Invitation_Helper_Data $invitationData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Invitation_Helper_Data $invitationData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_invitationData = $invitationData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Tab label getter
      *
      * @return string
@@ -223,7 +244,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
             Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
             return false;
         }
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->getInvitationUrl($this->getInvitation());
+        return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }
 
     /**

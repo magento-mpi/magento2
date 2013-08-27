@@ -169,7 +169,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         if (isset($data['core_helper'])) {
             $this->_coreHelper = $data['core_helper'];
         } else {
-            $this->_coreHelper = Mage::helper('Magento_Core_Helper_Data');
+            $this->_coreHelper = $this->_coreHelper;
         }
 
         if (isset($data['base_dir'])) {

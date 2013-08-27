@@ -42,6 +42,29 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     );
 
     /**
+     * Catalog rule data
+     *
+     * @var Magento_CatalogRule_Helper_Data
+     */
+    protected $_catalogRuleData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_CatalogRule_Helper_Data $catalogRuleData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_CatalogRule_Helper_Data $catalogRuleData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogRuleData = $catalogRuleData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize main table and table id field
      */
     protected function _construct()
@@ -544,7 +567,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             }
         }
 
-        $productPrice = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
+        $productPrice = $this->_catalogRuleData->calcPriceRule(
             $ruleData['action_operator'],
             $ruleData['action_amount'],
             $productPrice);

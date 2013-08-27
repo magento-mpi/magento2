@@ -113,12 +113,25 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     protected $_simpleXmlElementFactory;
 
     /**
+     * Usa data
+     *
+     * @var Magento_Usa_Helper_Data
+     */
+    protected $_usaData = null;
+
+    /**
      * Usps constructor
      *
+     *
+     *
+     * @param Magento_Usa_Helper_Data $usaData
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
-    {
+    public function __construct(
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+    ) {
+        $this->_usaData = $usaData;
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
     }
 
@@ -1220,7 +1233,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            $packageWeight = round($this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 Zend_Measure_Weight::OUNCE
@@ -1305,7 +1318,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            $packageWeight = round($this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 Zend_Measure_Weight::OUNCE
@@ -1384,31 +1397,31 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $girth = $packageParams->getGirth();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-            $packageWeight = Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            $packageWeight = $this->_usaData->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 Zend_Measure_Weight::POUND
             );
         }
         if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
-            $length = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $length = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getLength(),
                 $packageParams->getDimensionUnits(),
                 Zend_Measure_Length::INCH
             ));
-            $width = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $width = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getWidth(),
                 $packageParams->getDimensionUnits(),
                 Zend_Measure_Length::INCH
             ));
-            $height = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $height = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getHeight(),
                 $packageParams->getDimensionUnits(),
                 Zend_Measure_Length::INCH
             ));
         }
         if ($packageParams->getGirthDimensionUnits() != Zend_Measure_Length::INCH) {
-            $girth = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $girth = round($this->_usaData->convertMeasureDimension(
                 $packageParams->getGirth(),
                 $packageParams->getGirthDimensionUnits(),
                 Zend_Measure_Length::INCH
@@ -1536,7 +1549,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
             $itemWeight = $item->getWeight() * $item->getQty();
             if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-                $itemWeight = Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+                $itemWeight = $this->_usaData->convertMeasureWeight(
                     $itemWeight,
                     $packageParams->getWeightUnits(),
                     Zend_Measure_Weight::POUND

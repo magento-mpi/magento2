@@ -16,6 +16,31 @@
 class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid params
      */
     protected function _construct()
@@ -106,7 +131,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
             'header'            => __('Payment Method'),
             'index'             => 'method_code',
             'type'              => 'options',
-            'options'           => Mage::helper('Magento_Payment_Helper_Data')->getAllBillingAgreementMethods(),
+            'options'           => $this->_paymentData->getAllBillingAgreementMethods(),
             'header_css_class'  => 'col-payment',
             'column_css_class'  => 'col-payment'
         ));

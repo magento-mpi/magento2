@@ -30,10 +30,37 @@ class Enterprise_Cms_Model_Observer
     protected $_authorization;
 
     /**
-     * Constructor
+     * Cms hierarchy
+     *
+     * @var Enterprise_Cms_Helper_Hierarchy
      */
-    public function __construct(Enterprise_Cms_Model_Config $config, Magento_AuthorizationInterface $authorization)
-    {
+    protected $_cmsHierarchy = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
+     * @param  $config
+     * @param  $authorization
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
+        Enterprise_Cms_Model_Config $config,
+        Magento_AuthorizationInterface $authorization
+    ) {
+        $this->_coreData = $coreData;
+        $this->_cmsHierarchy = $cmsHierarchy;
         $this->_config = $config;
         $this->_authorization = $authorization;
     }
@@ -129,7 +156,7 @@ class Enterprise_Cms_Model_Observer
     public function cmsControllerRouterMatchBefore(Magento_Event_Observer $observer)
     {
         /* @var $helper Enterprise_Cms_Helper_Hierarchy */
-        $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
+        $helper = $this->_cmsHierarchy;
         if (!$helper->isEnabled()) {
             return $this;
         }
@@ -229,7 +256,7 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if (!Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()) {
+        if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
         }
 
@@ -289,7 +316,7 @@ class Enterprise_Cms_Model_Observer
         $sortOrder = array();
         if ($nodesData) {
             try{
-                $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($page->getNodesData());
+                $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
             } catch (Zend_Json_Exception $e) {
                 $nodesData=null;
             }
@@ -505,7 +532,7 @@ class Enterprise_Cms_Model_Observer
     public function affectCmsPageRender(Magento_Event_Observer $observer)
     {
         /* @var $helper Enterprise_Cms_Helper_Hierarchy */
-        $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
+        $helper = $this->_cmsHierarchy;
         if (!is_object(Mage::registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
             return $this;
         }

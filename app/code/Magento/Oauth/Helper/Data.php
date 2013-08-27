@@ -65,6 +65,25 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Generate random string for token or secret or verifier
      *
      * @param int $length String length
@@ -73,7 +92,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     protected function _generateRandomString($length)
     {
         /** @var $helper Magento_Core_Helper_Data */
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = $this->_coreData;
 
         return $helper->getRandomString(
             $length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS

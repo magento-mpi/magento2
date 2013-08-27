@@ -18,6 +18,27 @@
 class Enterprise_Cms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract
 {
     /**
+     * Cms hierarchy
+     *
+     * @var Enterprise_Cms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsHierarchy = $cmsHierarchy;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare Global Layout
      *
      * @return Enterprise_Cms_Block_Hieararchy_Head
@@ -29,7 +50,7 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract
         /* @var $head Magento_Page_Block_Html_Head */
         $head      = $this->getLayout()->getBlock('head');
 
-        if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled() && $node && $head) {
+        if ($this->_cmsHierarchy->isMetadataEnabled() && $node && $head) {
             $treeMetaData = $node->getTreeMetaData();
             if (is_array($treeMetaData)) {
                 /* @var $linkNode Enterprise_Cms_Model_Hierarchy_Node */

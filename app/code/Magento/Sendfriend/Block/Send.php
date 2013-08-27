@@ -19,6 +19,29 @@
 class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
 {
     /**
+     * Sendfriend data
+     *
+     * @var Magento_Sendfriend_Helper_Data
+     */
+    protected $_sendfriendData = null;
+
+    /**
+     * @param Magento_Sendfriend_Helper_Data $sendfriendData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sendfriend_Helper_Data $sendfriendData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sendfriendData = $sendfriendData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve username for form field
      *
      * @return string
@@ -130,7 +153,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      */
     public function getMaxRecipients()
     {
-        return Mage::helper('Magento_Sendfriend_Helper_Data')->getMaxRecipients();
+        return $this->_sendfriendData->getMaxRecipients();
     }
 
     /**

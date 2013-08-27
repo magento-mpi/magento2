@@ -11,6 +11,30 @@
 class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Magento_Sales_Model_Order_Invoice_Total_Abstract
 {
     /**
+     * Customer balance data
+     *
+     * @var Enterprise_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CustomerBalance_Helper_Data $customerBalanceData,
+        array $data = array()
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        parent::__construct($data);
+    }
+
+    /**
      * Collect customer balance totals for invoice
      *
      * @param Magento_Sales_Model_Order_Invoice $invoice
@@ -18,7 +42,7 @@ class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Mag
      */
     public function collect(Magento_Sales_Model_Order_Invoice $invoice)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $order = $invoice->getOrder();

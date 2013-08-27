@@ -25,6 +25,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
      */
     protected $_template = 'catalog/product/created.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('close_button', 'Magento_Adminhtml_Block_Widget_Button', array(
@@ -72,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
             );
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

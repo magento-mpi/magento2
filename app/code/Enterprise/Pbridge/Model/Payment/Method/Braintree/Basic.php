@@ -58,6 +58,25 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Magento_Pa
      */
     protected $_pbridgeMethodInstance = null;
     /**
+     * Pbridge data
+     *
+     * @var Enterprise_Pbridge_Helper_Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param Enterprise_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     */
+    public function __construct(
+        Enterprise_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_ModuleListInterface $moduleList
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($moduleList);
+    }
+
+    /**
      * Return that current payment method is dummy
      * @return boolean
      */
@@ -74,7 +93,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Magento_Pa
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -100,7 +119,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Magento_Pa
      */
     public function isAvailable($quote = null)
     {
-        return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
+        return $this->_pbridgeData->isEnabled($quote ? $quote->getStoreId() : null)
             && Magento_Payment_Model_Method_Abstract::isAvailable($quote);
     }
 
@@ -244,7 +263,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Magento_Pa
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
     /**

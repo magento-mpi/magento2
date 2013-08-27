@@ -57,6 +57,25 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_wishlistItemCollection = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retreive customer session
      *
      * @return Magento_Customer_Model_Session
@@ -314,7 +333,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAddToCartUrl($item)
     {
         $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(
+        $continueUrl  = $this->_coreData->urlEncode(
             Mage::getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
@@ -338,7 +357,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(Mage::getUrl('*/*/*', array(
+        $continueUrl  = $this->_coreData->urlEncode(Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
@@ -415,7 +434,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
-                'data' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($key),
+                'data' => $this->_coreData->urlEncode($key),
                 '_secure' => false,
             );
         }

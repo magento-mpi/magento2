@@ -210,7 +210,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
             if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
                 $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
-                $name = Mage::helper('Magento_Adminhtml_Helper_Data')->stripTags($data['new_attribute_set_name']);
+                $name = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
                 $attributeSet->setEntityTypeId($this->_entityTypeId)
                     ->load($name, 'attribute_set_name');
@@ -240,7 +240,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
             /* @var $model Magento_Catalog_Model_Resource_Eav_Attribute */
             $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
             /* @var $helper Magento_Catalog_Helper_Product */
-            $helper = Mage::helper('Magento_Catalog_Helper_Product');
+            $helper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
 
             $id = $this->getRequest()->getParam('attribute_id');
 

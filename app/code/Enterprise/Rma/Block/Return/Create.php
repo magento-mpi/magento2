@@ -10,6 +10,27 @@
 
 class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
 {
+    /**
+     * Rma data
+     *
+     * @var Enterprise_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $data);
+    }
+
     public function _construct()
     {
         $order = Mage::registry('current_order');
@@ -18,7 +39,7 @@ class Enterprise_Rma_Block_Return_Create extends Enterprise_Rma_Block_Form
         }
         $this->setOrder($order);
 
-        $items = Mage::helper('Enterprise_Rma_Helper_Data')->getOrderItems($order);
+        $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
         $session = Mage::getSingleton('Magento_Core_Model_Session');

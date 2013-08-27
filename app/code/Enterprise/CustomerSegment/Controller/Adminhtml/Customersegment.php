@@ -264,7 +264,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Customersegment extends Ma
     {
         return $this->_authorization
             ->isAllowed('Enterprise_CustomerSegment::customersegment')
-            && Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
+            && $this->_objectManager->get('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 
     /**

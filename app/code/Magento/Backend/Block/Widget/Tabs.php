@@ -41,6 +41,11 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
     /** @var string */
     protected $_template = 'Magento_Backend::widget/tabs.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * retrieve destination html element id
      *
@@ -367,7 +372,7 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
             }
         }
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+            return $this->_coreData->jsonEncode($result);
         }
         return $result;
     }

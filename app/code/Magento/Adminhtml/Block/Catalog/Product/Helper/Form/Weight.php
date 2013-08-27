@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
 
     public function __construct(array $data = array())
     {
-        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Magento_Catalog_Helper_Product');
+        $this->_helper = isset($data['helper']) ? $data['helper'] : $this->_helper;
         $this->_virtual = isset($data['element'])
             ? $data['element']
             : Mage::getModel('Magento_Data_Form_Element_Checkbox');

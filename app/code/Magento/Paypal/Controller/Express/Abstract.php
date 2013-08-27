@@ -321,7 +321,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
+            $requiredAgreements = $this->_objectManager->get('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
@@ -477,8 +477,8 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
-                Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento_Core_Helper_Url')->addRequestParam(
+                $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );

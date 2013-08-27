@@ -18,10 +18,25 @@
 class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Resource
 {
     /**
-     * Initialize attributes map
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
      */
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
-    {
+    protected $_apiData = null;
+
+    /**
+     * Initialize attributes map
+     *
+     *
+     *
+     * @param Magento_Api_Helper_Data $apiData
+     * @param  $apiHelper
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_apiData = $apiData;
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
             'invoice' => array('invoice_id' => 'entity_id'),
@@ -50,7 +65,7 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
             ->addAttributeToSelect('order_currency_code');
 
         /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        $apiHelper = $this->_apiData;
         try {
             $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['invoice']);
             foreach ($filters as $field => $value) {

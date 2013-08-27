@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         /**
          * @var Magento_Backup_Helper_Data $helper
          */
-        $helper = Mage::helper('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
 
         try {
             $type = $this->getRequest()->getParam('type');
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*');
         }
 
-        $fileName = Mage::helper('Magento_Backup_Helper_Data')->generateBackupDownloadName($backup);
+        $fileName = $this->_objectManager->get('Magento_Backup_Helper_Data')->generateBackupDownloadName($backup);
 
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
 
@@ -164,7 +164,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     public function rollbackAction()
     {
-        if (!Mage::helper('Magento_Backup_Helper_Data')->isRollbackAllowed()){
+        if (!$this->_objectManager->get('Magento_Backup_Helper_Data')->isRollbackAllowed()){
             return $this->_forward('denied');
         }
 
@@ -172,7 +172,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $helper = Mage::helper('Magento_Backup_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Backup_Helper_Data');
         $response = new Magento_Object();
 
         try {

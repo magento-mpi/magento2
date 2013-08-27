@@ -18,6 +18,22 @@
 class Magento_Catalog_Model_Product_Option_Value_Api_V2 extends Magento_Catalog_Model_Product_Option_Value_Api
 {
     /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiData
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData
+    ) {
+        $this->_apiData = $apiData;
+    }
+
+    /**
      * Retrieve values from specified option
      *
      * @param string $optionId
@@ -28,7 +44,7 @@ class Magento_Catalog_Model_Product_Option_Value_Api_V2 extends Magento_Catalog_
     {
         $result = parent::items($optionId, $store);
         foreach ($result as $key => $optionValue) {
-            $result[$key] = Mage::helper('Magento_Api_Helper_Data')->wsiArrayPacker($optionValue);
+            $result[$key] = $this->_apiData->wsiArrayPacker($optionValue);
         }
         return $result;
     }
@@ -42,7 +58,7 @@ class Magento_Catalog_Model_Product_Option_Value_Api_V2 extends Magento_Catalog_
      */
     public function info($valueId, $store = null)
     {
-        return Mage::helper('Magento_Api_Helper_Data')->wsiArrayPacker(
+        return $this->_apiData->wsiArrayPacker(
             parent::info($valueId, $store)
         );
     }
@@ -57,7 +73,7 @@ class Magento_Catalog_Model_Product_Option_Value_Api_V2 extends Magento_Catalog_
      */
     public function add($optionId, $data, $store = null)
     {
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        $this->_apiData->toArray($data);
         return parent::add($optionId, $data, $store);
     }
 
@@ -71,7 +87,7 @@ class Magento_Catalog_Model_Product_Option_Value_Api_V2 extends Magento_Catalog_
      */
     public function update($valueId, $data, $store = null)
     {
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        $this->_apiData->toArray($data);
         return parent::update($valueId, $data, $store);
     }
 

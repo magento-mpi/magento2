@@ -22,8 +22,34 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
      */
     protected $_layout;
 
-    public function __construct($attributes = array(), Magento_Core_Model_Layout $layout = null)
-    {
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param  $attributes
+     * @param  $layout
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Helper_Data $coreData,
+        $attributes = array(),
+        Magento_Core_Model_Layout $layout = null
+    ) {
+        $this->_backendData = $backendData;
+        $this->_coreData = $coreData;
         parent::__construct($attributes);
         $this->_layout = $layout ?: Mage::getObjectManager()->get('Magento_Core_Model_Layout');
     }
@@ -70,7 +96,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
     public function getAfterElementHtml()
     {
         /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->_coreData;
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
@@ -101,7 +127,7 @@ HTML;
     protected function _getSelectorOptions()
     {
         return array(
-            'source' => Mage::helper('Magento_Backend_Helper_Data')
+            'source' => $this->_backendData
                 ->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',

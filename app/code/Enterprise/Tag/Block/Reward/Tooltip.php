@@ -25,12 +25,18 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
     protected $_helpers;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Enterprise_Reward_Helper_Data $rewardData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Core_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($rewardData, $coreData, $context, $data);
 
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];

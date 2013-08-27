@@ -14,6 +14,11 @@
 class Enterprise_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
 {
 
+    public function __construct(Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /**
      * Return gift registry form header
      */
@@ -122,6 +127,6 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block
     {
         $product = $item->getProduct();
         $product->setCustomOptions($item->getOptionsByCode());
-        return Mage::helper('Magento_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
+        return $this->_coreData->currency($product->getFinalPrice(),true,true);
     }
 }

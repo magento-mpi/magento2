@@ -25,8 +25,8 @@ class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml
     public function cleanAction()
     {
         try {
-            if (Mage::helper('Magento_PageCache_Helper_Data')->isEnabled()) {
-                Mage::helper('Magento_PageCache_Helper_Data')->getCacheControlInstance()->clean();
+            if ($this->_objectManager->get('Magento_PageCache_Helper_Data')->isEnabled()) {
+                $this->_objectManager->get('Magento_PageCache_Helper_Data')->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(
                     __('The external full page cache has been cleaned.')
                 );

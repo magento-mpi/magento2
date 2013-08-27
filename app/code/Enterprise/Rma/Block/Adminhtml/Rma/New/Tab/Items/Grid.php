@@ -28,6 +28,31 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected $_attributeOptionValues = null;
 
     /**
+     * Rma eav
+     *
+     * @var Enterprise_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block constructor
      */
     public function _construct()
@@ -125,7 +150,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'column_css_class'  => 'col-qty'
         ));
 
-        $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
+        $eavHelper = $this->_rmaEav;
         $this->addColumn('reason', array(
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
@@ -260,7 +285,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _getAttributeOptionStringValue($value)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = $this->_rmaEav->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$value])) {
             return $this->escapeHtml($this->_attributeOptionValues[$value]);

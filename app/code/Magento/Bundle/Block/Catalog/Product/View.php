@@ -18,6 +18,11 @@
  */
 class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Product_View
 {
+    public function __construct(Magento_Core_Helper_String $coreString, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreString, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /**
      * Get tier prices (formatted)
      *
@@ -35,7 +40,7 @@ class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Pr
         $prices = $product->getFormatedTierPrice();
         if (is_array($prices)) {
             $store = Mage::app()->getStore();
-            $helper = Mage::helper('Magento_Tax_Helper_Data');
+            $helper = $this->_taxData;
             $specialPrice = $product->getSpecialPrice();
             $defaultDiscount = max($product->getGroupPrice(), $specialPrice ? 100 - $specialPrice : 0);
             foreach ($prices as $price) {

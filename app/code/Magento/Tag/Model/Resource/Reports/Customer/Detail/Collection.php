@@ -23,15 +23,19 @@ class Magento_Tag_Model_Resource_Reports_Customer_Detail_Collection extends Mage
     protected $_request;
 
     /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Controller_Request_Http $request
     ) {
         $this->_request = $request;
-        parent::__construct($fetchStrategy);
+        parent::__construct($catalogProductFlat, $catalogData, $fetchStrategy);
     }
 
     /**

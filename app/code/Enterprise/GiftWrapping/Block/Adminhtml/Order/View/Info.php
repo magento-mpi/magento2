@@ -18,6 +18,11 @@
 class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
     extends Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract
 {
+    public function __construct(Enterprise_GiftWrapping_Helper_Data $giftWrappingData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($giftWrappingData, $coreData, $context, $data);
+    }
+
     /**
      * Prepare and return order items info
      *
@@ -110,7 +115,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowPrintedCard($this->getStoreId());
+        return $this->_giftWrappingData->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -120,7 +125,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->allowGiftReceipt($this->getStoreId());
+        return $this->_giftWrappingData->allowGiftReceipt($this->getStoreId());
     }
 
     /**

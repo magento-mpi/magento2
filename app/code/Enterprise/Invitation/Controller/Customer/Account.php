@@ -65,7 +65,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Magento_Customer
         if (!Mage::registry('current_invitation')) {
             $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation');
             $invitation
-                ->loadByInvitationCode(Mage::helper('Magento_Core_Helper_Data')->urlDecode(
+                ->loadByInvitationCode($this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
                 ))
                 ->makeSureCanBeAccepted();
@@ -129,7 +129,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Magento_Customer
                 $this->_getSession()->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if (Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
+                if ($this->_objectManager->get('Magento_Customer_Helper_Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
                         __('Your invitation is not valid. Please create an account.')
                     );

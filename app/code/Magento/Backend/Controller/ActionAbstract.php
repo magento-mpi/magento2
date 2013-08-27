@@ -245,7 +245,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+                $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                     'error' => true,
                     'message' => $_keyErrorMsg
                 )));

@@ -21,9 +21,14 @@ class Magento_Adminhtml_Block_Dashboard_Sales extends Magento_Adminhtml_Block_Da
 
     protected $_template = 'dashboard/salebar.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');

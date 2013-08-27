@@ -20,6 +20,22 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
     const MIN_PASSWORD_LENGTH = 6;
 
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString
+    ) {
+        $this->_coreString = $coreString;
+    }
+
+    /**
      * Special processing before attribute save:
      * a) check some rules for password
      * b) transform temporary attribute 'password' into real attribute 'password_hash'
@@ -30,7 +46,7 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
     {
         $password = $object->getPassword();
         /** @var Magento_Core_Helper_String $stringHelper */
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = $this->_coreString;
 
         $length = $stringHelper->strlen($password);
         if ($length > 0) {

@@ -12,10 +12,23 @@
 class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
-     * Init total model, set total code
+     * Customer balance data
+     *
+     * @var Enterprise_CustomerBalance_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_customerBalanceData = null;
+
+    /**
+     * Init total model, set total code
+     *
+     *
+     *
+     * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+     */
+    public function __construct(
+        Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
         $this->setCode('customerbalance');
     }
 
@@ -27,7 +40,7 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Magen
      */
     public function collect(Magento_Sales_Model_Quote_Address $address)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $quote = $address->getQuote();
@@ -91,7 +104,7 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Magen
      */
     public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         if ($address->getCustomerBalanceAmount()) {

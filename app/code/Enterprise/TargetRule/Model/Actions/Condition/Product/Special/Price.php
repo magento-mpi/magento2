@@ -21,12 +21,18 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     /**
      * Set rule type
      *
+     *
+     *
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($adminhtmlData, $context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price');
         $this->setValue(100);
     }

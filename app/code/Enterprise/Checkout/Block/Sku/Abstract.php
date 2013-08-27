@@ -25,6 +25,29 @@ abstract class Enterprise_Checkout_Block_Sku_Abstract
     abstract public function getFormAction();
 
     /**
+     * Checkout data
+     *
+     * @var Enterprise_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get request parameter name of SKU file imported flag
      *
      * @return string
@@ -57,7 +80,7 @@ abstract class Enterprise_Checkout_Block_Sku_Abstract
         }
 
         /** @var $helper Enterprise_Checkout_Helper_Data */
-        $helper = Mage::helper('Enterprise_Checkout_Helper_Data');
+        $helper = $this->_checkoutData;
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             return '';
         }

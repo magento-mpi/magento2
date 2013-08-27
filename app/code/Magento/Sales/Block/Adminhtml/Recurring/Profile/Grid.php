@@ -16,6 +16,31 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
     /**
      * Set ajax/session parameters
      */
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -91,7 +116,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
         ));
 
         $methods = array();
-        foreach (Mage::helper('Magento_Payment_Helper_Data')->getRecurringProfileMethods() as $method) {
+        foreach ($this->_paymentData->getRecurringProfileMethods() as $method) {
             $methods[$method->getCode()] = $method->getTitle();
         }
         $this->addColumn('method_code', array(

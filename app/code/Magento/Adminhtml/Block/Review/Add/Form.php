@@ -18,6 +18,27 @@
 
 class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Review data
+     *
+     * @var Magento_Review_Helper_Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Review_Helper_Data $reviewData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($context, $data);
+    }
+
     protected function _prepareForm()
     {
         $form = new Magento_Data_Form();
@@ -40,7 +61,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
             'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
-            'values'    => Mage::helper('Magento_Review_Helper_Data')->getReviewStatusesOptionArray(),
+            'values'    => $this->_reviewData->getReviewStatusesOptionArray(),
         ));
 
         /**

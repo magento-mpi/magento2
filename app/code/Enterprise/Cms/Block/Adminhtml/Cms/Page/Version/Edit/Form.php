@@ -22,6 +22,27 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_
     protected $_template = 'page/version/form.phtml';
 
     /**
+     * Cms data
+     *
+     * @var Enterprise_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Data $cmsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Cms_Helper_Data $cmsData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Preparing from for version page
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
@@ -68,7 +89,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_
             'label'     => __('Access Level'),
             'title'     => __('Access Level'),
             'name'      => 'access_level',
-            'options'   => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionAccessLevels(),
+            'options'   => $this->_cmsData->getVersionAccessLevels(),
             'disabled'  => !$isOwner && !$isPublisher
         ));
 
@@ -77,7 +98,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_
                 'label'     => __('Owner'),
                 'title'     => __('Owner'),
                 'name'      => 'user_id',
-                'options'   => Mage::helper('Enterprise_Cms_Helper_Data')->getUsersArray(!$version->getUserId()),
+                'options'   => $this->_cmsData->getUsersArray(!$version->getUserId()),
                 'required'  => !$version->getUserId()
             ));
         }

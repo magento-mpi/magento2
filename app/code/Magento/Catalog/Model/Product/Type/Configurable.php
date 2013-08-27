@@ -78,6 +78,31 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     protected $_canConfigure            = true;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Initialize data
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($filesystem, $data);
+    }
+
+    /**
      * Return relation info about used products
      *
      * @return Magento_Object Object with information data
@@ -888,7 +913,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
         $generatedProductIds = array();
         foreach ($productsData as $simpleProductData) {
             $newSimpleProduct = Mage::getModel('Magento_Catalog_Model_Product');
-            $configurableAttribute = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(
+            $configurableAttribute = $this->_coreData->jsonDecode(
                 $simpleProductData['configurable_attribute']
             );
             unset($simpleProductData['configurable_attribute']);

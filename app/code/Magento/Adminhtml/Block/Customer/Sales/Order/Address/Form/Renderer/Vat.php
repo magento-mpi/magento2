@@ -27,6 +27,11 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
 
     protected $_template = 'customer/sales/order/create/address/form/renderer/vat.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve validate button block
      *
@@ -47,7 +52,7 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $groupSuggestionMessage = __('The customer is currently assigned to Customer Group %s.')
                 . ' ' . __('Would you like to change the Customer Group for this order?');
 
-            $vatValidateOptions = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $vatValidateOptions = $this->_coreData->jsonEncode(array(
                 'vatElementId' => $vatElementId,
                 'countryElementId' => $countryElementId,
                 'groupIdHtmlId' => 'group_id',

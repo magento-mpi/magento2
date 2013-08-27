@@ -29,12 +29,16 @@ class Magento_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
     const TAB_ID = 'tags';
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
 
         $this->setId(self::TAB_ID);
         $this->setTitle(__('Product Tags'));

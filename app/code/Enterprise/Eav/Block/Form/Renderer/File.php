@@ -18,6 +18,11 @@
  */
 class Enterprise_Eav_Block_Form_Renderer_File extends Enterprise_Eav_Block_Form_Renderer_Abstract
 {
+    public function __construct(Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Return escaped value
      *
@@ -26,7 +31,7 @@ class Enterprise_Eav_Block_Form_Renderer_File extends Enterprise_Eav_Block_Form_
     public function getEscapedValue()
     {
         if ($this->getValue()) {
-            return $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()));
+            return $this->escapeHtml($this->_coreData->urlEncode($this->getValue()));
         }
         return '';
     }

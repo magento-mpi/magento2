@@ -19,6 +19,27 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
     extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Import export data
+     *
+     * @var Enterprise_ImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * @param Enterprise_ImportExport_Helper_Data $importExportData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_ImportExport_Helper_Data $importExportData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_importExportData = $importExportData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize operation form container.
      * Create operation instance from database and set it to register.
      *
@@ -63,7 +84,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . Mage::helper('Enterprise_ImportExport_Helper_Data')->getConfirmationDeleteMessage($operation->getOperationType())
+            . $this->_importExportData->getConfirmationDeleteMessage($operation->getOperationType())
             .'\', \'' . $this->getDeleteUrl() . '\')'
         );
 
@@ -96,7 +117,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         } else {
             $action = 'new';
         }
-        return Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText(
+        return $this->_importExportData->getOperationHeaderText(
             $operation->getOperationType(),
             $action
         );

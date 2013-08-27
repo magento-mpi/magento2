@@ -22,14 +22,14 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Enterprise_GiftRegistry_Helper_Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;
         }
 
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+            $this->getResponse()->setRedirect($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         return $this;
@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
-                        if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
+                        if (!$this->_objectManager->get('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
                             $skippedItems++;
                             continue;
                         }
@@ -424,7 +424,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                     }
                 }
 
-                $data = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->filterDatesByFormat(
+                $data = $this->_objectManager->get('Enterprise_GiftRegistry_Helper_Data')->filterDatesByFormat(
                     $data,
                     $model->getDateFieldArray()
                 );

@@ -33,6 +33,11 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
 
     protected $_itemLimits = array();
 
+    public function __construct(Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+    }
+
     protected function _prepareData()
     {
         $product = Mage::registry('product');
@@ -41,7 +46,7 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
             ->setPositionOrder()
             ->addStoreFilter()
         ;
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Checkout')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,

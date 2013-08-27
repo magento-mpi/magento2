@@ -97,17 +97,47 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     protected $_calculatePrice = true;
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog image
+     *
+     * @var Magento_Catalog_Helper_Image
+     */
+    protected $_catalogImage = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Image $catalogImage
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Model_Context $context
      * @param Magento_Catalog_Model_Resource_Product $resource
      * @param Magento_Catalog_Model_Resource_Product_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Image $catalogImage,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Model_Context $context,
         Magento_Catalog_Model_Resource_Product $resource,
         Magento_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()
     ) {
+        $this->_catalogImage = $catalogImage;
+        $this->_catalogData = $catalogData;
+        $this->_catalogProduct = $catalogProduct;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -1248,7 +1278,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     public function isAvailable()
     {
         return $this->getTypeInstance()->isSalable($this)
-            || Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
+            || $this->_catalogProduct->getSkipSaleableCheck();
     }
 
     /**
@@ -1428,7 +1458,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     public function fromArray($data)
     {
         if (isset($data['stock_item'])) {
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+            if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
                 $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')
                     ->setData($data['stock_item'])
                     ->setProduct($this);
@@ -1705,7 +1735,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     protected function _getImageHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Image');
+        return $this->_catalogImage;
     }
 
     /**

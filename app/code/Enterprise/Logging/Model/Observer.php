@@ -23,11 +23,23 @@ class Enterprise_Logging_Model_Observer
     protected $_processor;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
      * Initialize Enterprise_Logging_Model_Processor class
      *
+     *
+     *
+     * @param Magento_Core_Helper_Http $coreHttp
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp
+    ) {
+        $this->_coreHttp = $coreHttp;
         $this->_processor = Mage::getSingleton('Enterprise_Logging_Model_Processor');
     }
 
@@ -162,7 +174,7 @@ class Enterprise_Logging_Model_Observer
         /** @var Enterprise_Logging_Model_Event $event */
         $event = Mage::getSingleton('Enterprise_Logging_Model_Event');
         $event->setData(array(
-            'ip'         => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
+            'ip'         => $this->_coreHttp->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,

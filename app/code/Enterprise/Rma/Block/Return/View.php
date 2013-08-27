@@ -16,6 +16,37 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
      */
     protected $_realValueAttributes = array();
 
+    /**
+     * Rma data
+     *
+     * @var Enterprise_Rma_Helper_Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Enterprise_Rma_Helper_Data $rmaData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Enterprise_Rma_Helper_Data $rmaData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -211,7 +242,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
 
     public function getAddress()
     {
-        return  Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress();
+        return  $this->_rmaData->getReturnAddress();
     }
 
     public function getSubmitUrl()
@@ -222,7 +253,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function getCustomerName()
     {
         if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::helper('Magento_Customer_Helper_Data')->getCustomerName();
+            return $this->_customerData->getCustomerName();
         } else {
             $billingAddress = Mage::registry('current_order')->getBillingAddress();
 
@@ -355,7 +386,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
      */
     public function getCarriers()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers($this->getRma()->getStoreId());
+        return $this->_rmaData->getShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

@@ -19,6 +19,29 @@
 class Magento_Tag_Model_Resource_Tag extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table and primary index
      *
      */
@@ -53,8 +76,8 @@ class Magento_Tag_Model_Resource_Tag extends Magento_Core_Model_Resource_Db_Abst
         if ( $name ) {
             $read = $this->_getReadAdapter();
             $select = $read->select();
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($name) > 255) {
-                $name = Mage::helper('Magento_Core_Helper_String')->substr($name, 0, 255);
+            if ($this->_coreString->strlen($name) > 255) {
+                $name = $this->_coreString->substr($name, 0, 255);
             }
 
             $select->from($this->getMainTable())
@@ -84,8 +107,8 @@ class Magento_Tag_Model_Resource_Tag extends Magento_Core_Model_Resource_Db_Abst
             }
         }
 
-        if (Mage::helper('Magento_Core_Helper_String')->strlen($object->getName()) > 255) {
-            $object->setName(Mage::helper('Magento_Core_Helper_String')->substr($object->getName(), 0, 255));
+        if ($this->_coreString->strlen($object->getName()) > 255) {
+            $object->setName($this->_coreString->substr($object->getName(), 0, 255));
         }
 
         return parent::_beforeSave($object);

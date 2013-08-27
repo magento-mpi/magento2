@@ -20,6 +20,41 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Downloadable file
+     *
+     * @var Magento_Downloadable_Helper_File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Initialize data
+     *
+     *
+     *
+     * @param Magento_Downloadable_Helper_File $downloadableFile
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Downloadable_Helper_File $downloadableFile,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        $this->_downloadableFile = $downloadableFile;
+        $this->_coreData = $coreData;
+        parent::__construct($filesystem, $data);
+    }
+
+    /**
      * Get downloadable product links
      *
      * @param Magento_Catalog_Model_Product $product
@@ -151,7 +186,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                         $sampleModel = Mage::getModel('Magento_Downloadable_Model_Sample');
                         $files = array();
                         if (isset($sampleItem['file'])) {
-                            $files = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($sampleItem['file']);
+                            $files = $this->_coreData->jsonDecode($sampleItem['file']);
                             unset($sampleItem['file']);
                         }
 
@@ -161,7 +196,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                             ->setStoreId($product->getStoreId());
 
                         if ($sampleModel->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                            $sampleFileName = Mage::helper('Magento_Downloadable_Helper_File')->moveFileFromTmp(
+                            $sampleFileName = $this->_downloadableFile->moveFileFromTmp(
                                 Magento_Downloadable_Model_Sample::getBaseTmpPath(),
                                 Magento_Downloadable_Model_Sample::getBasePath(),
                                 $files
@@ -189,7 +224,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                         }
                         $files = array();
                         if (isset($linkItem['file'])) {
-                            $files = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($linkItem['file']);
+                            $files = $this->_coreData->jsonDecode($linkItem['file']);
                             unset($linkItem['file']);
                         }
                         $sample = array();
@@ -217,11 +252,11 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                             }
                             $linkModel->setSampleType($sample['type']);
                             if (isset($sample['file'])) {
-                                $sampleFile = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($sample['file']);
+                                $sampleFile = $this->_coreData->jsonDecode($sample['file']);
                             }
                         }
                         if ($linkModel->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                            $linkFileName = Mage::helper('Magento_Downloadable_Helper_File')->moveFileFromTmp(
+                            $linkFileName = $this->_downloadableFile->moveFileFromTmp(
                                 Magento_Downloadable_Model_Link::getBaseTmpPath(),
                                 Magento_Downloadable_Model_Link::getBasePath(),
                                 $files
@@ -229,7 +264,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                             $linkModel->setLinkFile($linkFileName);
                         }
                         if ($linkModel->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                            $linkSampleFileName = Mage::helper('Magento_Downloadable_Helper_File')->moveFileFromTmp(
+                            $linkSampleFileName = $this->_downloadableFile->moveFileFromTmp(
                                 Magento_Downloadable_Model_Link::getBaseSampleTmpPath(),
                                 Magento_Downloadable_Model_Link::getBaseSamplePath(),
                                 $sampleFile

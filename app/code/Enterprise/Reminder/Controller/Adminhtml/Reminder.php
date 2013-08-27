@@ -250,6 +250,6 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtm
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Enterprise_Reminder::enterprise_reminder') &&
-            Mage::helper('Enterprise_Reminder_Helper_Data')->isEnabled();
+            $this->_objectManager->get('Enterprise_Reminder_Helper_Data')->isEnabled();
     }
 }

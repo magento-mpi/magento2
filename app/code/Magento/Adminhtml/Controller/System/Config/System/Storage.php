@@ -147,7 +147,7 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
             $state = Magento_Core_Model_File_Storage_Flag::STATE_INACTIVE;
         }
         $result['state'] = $state;
-        $result = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        $result = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result);
         $this->_response->setBody($result);
     }
 }

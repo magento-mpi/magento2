@@ -112,21 +112,21 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
             $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')
                 ->setData($rateData)
                 ->save();
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
             ));
         } catch (Magento_Core_Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage(),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('Something went wrong saving this rate.'),
                 'tax_calculation_rate_id' => '',
@@ -237,17 +237,17 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         try {
             $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')->load($rateId);
             $rate->delete();
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => ''
             ));
         } catch (Magento_Core_Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => __('An error occurred while deleting this tax rate.')
             ));

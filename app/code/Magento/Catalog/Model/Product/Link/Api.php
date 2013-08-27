@@ -285,7 +285,7 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
      */
     protected function _initProduct($productId, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, null, $identifierType);
+        $product = $this->_catalogProduct->getProduct($productId, null, $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

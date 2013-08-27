@@ -19,13 +19,39 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
 {
 
     /**
+     * Downloadable catalog product configuration
+     *
+     * @var Magento_Downloadable_Helper_Catalog_Product_Configuration
+     */
+    protected $_downloadableCatalogProductConfiguration = null;
+
+    /**
+     * @param Magento_Downloadable_Helper_Catalog_Product_Configuration
+     * $downloadableCatalogProductConfiguration
+     * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Downloadable_Helper_Catalog_Product_Configuration $downloadableCatalogProductConfiguration,
+        Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_downloadableCatalogProductConfiguration = $downloadableCatalogProductConfiguration;
+        parent::__construct($catalogProductConfiguration, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieves item links options
      *
      * @return array
      */
     public function getLinks()
     {
-        return Mage::helper('Magento_Downloadable_Helper_Catalog_Product_Configuration')->getLinks($this->getItem());
+        return $this->_downloadableCatalogProductConfiguration->getLinks($this->getItem());
     }
 
     /**
@@ -35,6 +61,6 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
      */
     public function getLinksTitle()
     {
-        return Mage::helper('Magento_Downloadable_Helper_Catalog_Product_Configuration')->getLinksTitle($this->getProduct());
+        return $this->_downloadableCatalogProductConfiguration->getLinksTitle($this->getProduct());
     }
 }

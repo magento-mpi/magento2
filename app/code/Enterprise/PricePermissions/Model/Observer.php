@@ -81,12 +81,25 @@ class Enterprise_PricePermissions_Model_Observer
     );
 
     /**
+     * Price permissions data
+     *
+     * @var Enterprise_PricePermissions_Helper_Data
+     */
+    protected $_pricePermissionsData = null;
+
+    /**
      * Price Permissions Observer class constructor
      *
      * Sets necessary data
+     *
+     * @param Enterprise_PricePermissions_Helper_Data $pricePermissionsData
+     * @param  $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Enterprise_PricePermissions_Helper_Data $pricePermissionsData,
+        array $data = array()
+    ) {
+        $this->_pricePermissionsData = $pricePermissionsData;
         $this->_request = (isset($data['request']) && false === $data['request']) ? false : Mage::app()->getRequest();
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
@@ -116,7 +129,7 @@ class Enterprise_PricePermissions_Model_Observer
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
             /** @var $helper Enterprise_PricePermissions_Helper_Data */
-            $helper = Mage::helper('Enterprise_PricePermissions_Helper_Data');
+            $helper = $this->_pricePermissionsData;
             $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
             $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();

@@ -29,18 +29,22 @@ class Magento_Tag_Model_Resource_Reports_Product_Detail_Collection
     protected $_request;
 
     /**
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Tag_Model_Tag $tagModel
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Tag_Model_Tag $tagModel,
         Magento_Core_Controller_Request_Http $request
     ) {
         $this->_model = $tagModel;
         $this->_request = $request;
-        parent::__construct($fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $fetchStrategy);
     }
 
     /**

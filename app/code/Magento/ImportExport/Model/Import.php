@@ -71,6 +71,30 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     );
 
     /**
+     * Import export data
+     *
+     * @var Magento_ImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ImportExport_Helper_Data $importExportData,
+        array $data = array()
+    ) {
+        $this->_importExportData = $importExportData;
+        parent::__construct($data);
+    }
+
+    /**
      * Create instance of entity adapter and return it
      *
      * @throws Magento_Core_Exception
@@ -416,7 +440,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         if (!$adapter->isValid(self::FIELD_NAME_SOURCE_FILE)) {
             $errors = $adapter->getErrors();
             if ($errors[0] == Zend_Validate_File_Upload::INI_SIZE) {
-                $errorMessage = Mage::helper('Magento_ImportExport_Helper_Data')->getMaxUploadSizeMessage();
+                $errorMessage = $this->_importExportData->getMaxUploadSizeMessage();
             } else {
                 $errorMessage = __('File was not uploaded.');
             }

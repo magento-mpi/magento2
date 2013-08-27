@@ -47,7 +47,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
+                $this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
             }
 
             $result['cookie'] = array(
@@ -61,7 +61,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
             $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
         }
 
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

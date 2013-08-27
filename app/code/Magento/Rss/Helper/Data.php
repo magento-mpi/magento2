@@ -24,10 +24,29 @@ class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @return null
      */
+    /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($context);
+    }
+
     public function disableFlat()
     {
         /* @var $flatHelper Magento_Catalog_Helper_Product_Flat */
-        $flatHelper = Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        $flatHelper = $this->_catalogProductFlat;
         if ($flatHelper->isAvailable()) {
             /* @var $emulationModel Magento_Core_Model_App_Emulation */
             $emulationModel = Mage::getModel('Magento_Core_Model_App_Emulation');

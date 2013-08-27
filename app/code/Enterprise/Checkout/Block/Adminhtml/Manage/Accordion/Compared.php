@@ -23,6 +23,31 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
      */
     protected $_listType = 'compared';
 
+    /**
+     * Adminhtml sales
+     *
+     * @var Magento_Adminhtml_Helper_Sales
+     */
+    protected $_adminhtmlSales = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -53,7 +78,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
             Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
-            $collection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($collection);
+            $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);
         }

@@ -333,7 +333,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
             // add handles used to render cms page on frontend
             $this->getLayout()->getUpdate()->addHandle('default');
             $this->getLayout()->getUpdate()->addHandle('cms_page_view');
-            Mage::helper('Magento_Cms_Helper_Page')->renderPageExtended($this);
+            $this->_objectManager->get('Magento_Cms_Helper_Page')->renderPageExtended($this);
             Mage::app()->getLocale()->revert();
 
         } else {

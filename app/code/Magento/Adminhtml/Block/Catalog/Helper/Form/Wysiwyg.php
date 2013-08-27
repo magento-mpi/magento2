@@ -18,6 +18,32 @@
 class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_Form_Element_Textarea
 {
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Adminhtml_Helper_Data $adminhtmlData
+    ) {
+        $this->_catalogData = $catalogData;
+        $this->_adminhtmlData = $adminhtmlData;
+    }
+
+    /**
      * Retrieve additional html and put it at the end of element html
      *
      * @return string
@@ -34,7 +60,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
                     'onclick' => 'catalogWysiwygEditor.open(\''
-                        . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/wysiwyg')
+                        . $this->_adminhtmlData->getUrl('adminhtml/catalog_product/wysiwyg')
                         . '\', \'' . $this->getHtmlId().'\')'
                 )))->toHtml();
             $html .= <<<HTML
@@ -70,7 +96,7 @@ HTML;
      */
     public function getIsWysiwygEnabled()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Cms')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_Cms')) {
             return (bool)(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }

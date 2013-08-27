@@ -58,9 +58,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
         $this->_url = isset($attributes['url']) ? $attributes['url']
             : Mage::getModel('Magento_Backend_Model_Url');
         $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
-            : Mage::helper('Magento_Core_Helper_Data');
+            : $this->_coreHelper;
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
-            : Mage::helper('Magento_Catalog_Helper_Data');
+            : $this->_catalogHelperData;
         $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
             Mage::getSingleton('Magento_File_Size');
         $this->_maxFileSize = $this->_getFileMaxSize();

@@ -27,6 +27,39 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
     protected $_helper;
 
     /**
+     * Checkout data
+     *
+     * @var Enterprise_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Product alert data
+     *
+     * @var Magento_ProductAlert_Helper_Data
+     */
+    protected $_productAlertData = null;
+
+    /**
+     * @param Magento_ProductAlert_Helper_Data $productAlertData
+     * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ProductAlert_Helper_Data $productAlertData,
+        Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productAlertData = $productAlertData;
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve helper instance
      *
      * @return Enterprise_Checkout_Helper_Data
@@ -34,7 +67,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
     protected function _getHelper()
     {
         if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('Enterprise_Checkout_Helper_Data');
+            $this->_helper = $this->_checkoutData;
         }
         return $this->_helper;
     }
@@ -118,7 +151,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper Magento_ProductAlert_Helper_Data */
-                $helper = Mage::helper('Magento_ProductAlert_Helper_Data');
+                $helper = $this->_productAlertData;
 
                 if (!$helper->isStockAlertAllowed()) {
                     return '';

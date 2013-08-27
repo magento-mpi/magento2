@@ -85,6 +85,39 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_preparedFlatTables   = array();
 
     /**
+     * Catalog product flat
+     *
+     * @var Magento_Catalog_Helper_Product_Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreData = $coreData;
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -130,7 +163,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
      */
     public function getFlatHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**
@@ -398,7 +431,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     public function getFlatColumns()
     {
         if ($this->_columns === null) {
-            if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+            if ($this->_coreData->useDbCompatibleMode()) {
                 $this->_columns = $this->_getFlatColumnsOldDefinition();
             } else {
                 $this->_columns = $this->_getFlatColumnsDdlDefinition();
@@ -531,7 +564,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
         // Extract columns we need to have in flat table
         $columns = $this->getFlatColumns();
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
                 $columns[$key] = Mage::getResourceHelper('Magento_Core')->convertOldColumnDefinition($column);

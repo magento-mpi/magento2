@@ -43,6 +43,27 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
      *
      * @return array
@@ -364,7 +385,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
             default:
                 break;
         }
-        return $url !== false ? Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl($url) : '';
+        return $url !== false ? $this->_adminhtmlData->getUrl($url) : '';
     }
 
     /**

@@ -97,6 +97,41 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
     protected $_treeModel = null;
 
     /**
+     * Catalog category flat
+     *
+     * @var Magento_Catalog_Helper_Category_Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource mode
      *
      * @return void
@@ -104,7 +139,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
     protected function _construct()
     {
         // If Flat Data enabled then use it but only on frontend
-        if (Mage::helper('Magento_Catalog_Helper_Category_Flat')->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
             $this->_init('Magento_Catalog_Model_Resource_Category_Flat');
             $this->_useFlatResource = true;
         } else {
@@ -445,7 +480,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
      */
     public function formatUrlKey($str)
     {
-        $str = Mage::helper('Magento_Core_Helper_Data')->removeAccents($str);
+        $str = $this->_coreData->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');

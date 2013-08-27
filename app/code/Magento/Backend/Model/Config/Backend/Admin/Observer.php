@@ -11,6 +11,22 @@
 class Magento_Backend_Model_Config_Backend_Admin_Observer
 {
     /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $backendData
+    ) {
+        $this->_backendData = $backendData;
+    }
+
+    /**
      * Log out user and redirect him to new admin custom url
      *
      * @SuppressWarnings(PHPMD.ExitExpression)
@@ -26,7 +42,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
         $adminSession->unsetAll();
         $adminSession->getCookie()->delete($adminSession->getSessionName());
 
-        $route = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        $route = $this->_backendData->getAreaFrontName();
 
         Mage::app()->getResponse()
             ->setRedirect(Mage::getBaseUrl() . $route)

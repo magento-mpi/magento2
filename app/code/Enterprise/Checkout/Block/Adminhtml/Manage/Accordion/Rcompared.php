@@ -24,6 +24,31 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     protected $_listType = 'rcompared';
 
     /**
+     * Adminhtml sales
+     *
+     * @var Magento_Adminhtml_Helper_Sales
+     */
+    protected $_adminhtmlSales = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize Grid
      *
      */
@@ -74,7 +99,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
                 0,
                 $skipProducts
             );
-            $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
             // Remove disabled and out of stock products from the grid
             foreach ($productCollection as $product) {
                 if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {

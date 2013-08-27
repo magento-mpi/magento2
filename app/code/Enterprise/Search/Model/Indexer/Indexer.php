@@ -52,13 +52,29 @@ class Enterprise_Search_Model_Indexer_Indexer
 
 
     /**
+     * Search data
+     *
+     * @var Enterprise_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param Enterprise_Search_Helper_Data $searchData
+     */
+    public function __construct(
+        Enterprise_Search_Helper_Data $searchData
+    ) {
+        $this->_searchData = $searchData;
+    }
+
+    /**
      * Reindex of catalog search fulltext index using search engine
      *
      * @return Enterprise_Search_Model_Indexer_Indexer
      */
     public function reindexAll()
     {
-        $helper = Mage::helper('Enterprise_Search_Helper_Data');
+        $helper = $this->_searchData;
         if ($helper->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
             $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');

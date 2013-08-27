@@ -27,10 +27,21 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     protected $_authorization;
 
     /**
+     * Catalog permissions data
+     *
+     * @var Enterprise_CatalogPermissions_Helper_Data
+     */
+    protected $_catalogPermissionsData = null;
+
+    /**
+     * @param Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData
      * @param Magento_AuthorizationInterface $authorization
      */
-    public function __construct(Magento_AuthorizationInterface $authorization)
-    {
+    public function __construct(
+        Enterprise_CatalogPermissions_Helper_Data $catalogPermissionsData,
+        Magento_AuthorizationInterface $authorization
+    ) {
+        $this->_catalogPermissionsData = $catalogPermissionsData;
         $this->_authorization = $authorization;
     }
 
@@ -44,7 +55,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     {
         $category = $observer->getEvent()->getCategory();
         /* @var $category Magento_Catalog_Model_Category */
-        $helper = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
+        $helper = $this->_catalogPermissionsData;
         if (!$helper->isAllowedCategory($category) && $category->hasData('permissions')) {
             $category->unsetData('permissions');
         }
@@ -60,7 +71,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function saveCategoryPermissions(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogPermissionsData->isEnabled()) {
             return $this;
         }
 
@@ -245,7 +256,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function addCategoryPermissionTab(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isEnabled()) {
+        if (!$this->_catalogPermissionsData->isEnabled()) {
             return $this;
         }
         if (!$this->_authorization->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
@@ -255,7 +266,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs Magento_Adminhtml_Block_Catalog_Category_Tabs */
 
-        //if (Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isAllowedCategory($tabs->getCategory())) {
+        //if ($this->_catalogPermissionsData->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(
                 'permissions',
                 'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions'

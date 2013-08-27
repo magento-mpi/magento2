@@ -28,6 +28,27 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
      */
     protected $_mapRenderer = 'msrp_item';
 
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($context, $data);
+    }
+
     public function getOptions()
     {
         if (!$this->_options) {
@@ -43,7 +64,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             );
 
             $this->_options = $optionCollection->appendSelections($selectionCollection, false,
-                Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck()
+                $this->_catalogProduct->getSkipSaleableCheck()
             );
         }
 
@@ -72,11 +93,11 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         $selected     = array();
         $currentProduct = $this->getProduct();
         /* @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper   = Mage::helper('Magento_Core_Helper_Data');
+        $coreHelper   = $this->_coreData;
         /* @var $catalogHelper Magento_Catalog_Helper_Data */
-        $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
+        $catalogHelper = $this->_catalogData;
         /* @var $taxHelper Magento_Tax_Helper_Data */
-        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper = $this->_taxData;
         /* @var $bundlePriceModel Magento_Bundle_Model_Product_Price */
         $bundlePriceModel = Mage::getModel('Magento_Bundle_Model_Product_Price');
 

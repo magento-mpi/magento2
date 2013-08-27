@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve required options from parent
      */
     protected function _beforeToHtml()
@@ -53,7 +74,7 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
 
     public function canSendCommentEmail()
     {
-        $helper = Mage::helper('Magento_Sales_Helper_Data');
+        $helper = $this->_salesData;
         switch ($this->getParentType()) {
             case 'invoice':
                 return $helper->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());

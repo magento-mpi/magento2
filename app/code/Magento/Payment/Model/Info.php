@@ -25,6 +25,41 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     protected $_additionalInformation = -1;
 
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve data
      *
      * @param   string $key
@@ -56,7 +91,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     {
         if (!$this->hasMethodInstance()) {
             if ($this->getMethod()) {
-                $instance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethod());
+                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
                 if ($instance) {
                     $instance->setInfoInstance($this);
                     $this->setMethodInstance($instance);
@@ -78,7 +113,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     public function encrypt($data)
     {
         if ($data) {
-            return Mage::helper('Magento_Core_Helper_Data')->encrypt($data);
+            return $this->_coreData->encrypt($data);
         }
         return $data;
     }
@@ -92,7 +127,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     public function decrypt($data)
     {
         if ($data) {
-            return Mage::helper('Magento_Core_Helper_Data')->decrypt($data);
+            return $this->_coreData->decrypt($data);
         }
         return $data;
     }

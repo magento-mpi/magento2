@@ -98,7 +98,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
      */
     public function getConfigJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return $this->_coreData->jsonEncode($this->getConfig()->getData());
     }
 
     /**

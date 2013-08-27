@@ -21,6 +21,29 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
     protected $_rates;
     protected $_address;
 
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
     public function getShippingRates()
     {
 
@@ -69,7 +92,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $this->getAddress()),
+            $this->_taxData->getShippingPrice($price, $flag, $this->getAddress()),
             true
         );
     }

@@ -27,6 +27,27 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
     protected $_template = 'widget/tabshoriz.phtml';
 
     /**
+     * Adminhtml catalog
+     *
+     * @var Magento_Adminhtml_Helper_Catalog
+     */
+    protected $_adminhtmlCatalog = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize Tabs
      *
      */
@@ -56,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
      */
     public function getCatalogHelper()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Catalog');
+        return $this->_adminhtmlCatalog;
     }
 
     /**

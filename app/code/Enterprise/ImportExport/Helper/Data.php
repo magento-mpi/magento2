@@ -18,6 +18,37 @@
 class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Data
 {
     /**
+     * Reward data
+     *
+     * @var Enterprise_Reward_Helper_Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Customer balance data
+     *
+     * @var Enterprise_CustomerBalance_Helper_Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param Enterprise_CustomerBalance_Helper_Data $customerBalanceData
+     * @param Enterprise_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules $config
+     */
+    public function __construct(
+        Enterprise_CustomerBalance_Helper_Data $customerBalanceData,
+        Enterprise_Reward_Helper_Data $rewardData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $config);
+    }
+
+    /**
      * Get operation header text
      *
      * @param string $type   operation type
@@ -134,7 +165,7 @@ class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Da
     {
         if ($this->isModuleEnabled('Enterprise_Reward')) {
             /** @var $rewardPointsHelper Enterprise_Reward_Helper_Data */
-            $rewardPointsHelper = Mage::helper('Enterprise_Reward_Helper_Data');
+            $rewardPointsHelper = $this->_rewardData;
             return $rewardPointsHelper->isEnabled();
         }
         return false;
@@ -149,7 +180,7 @@ class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Da
     {
         if ($this->isModuleEnabled('Enterprise_CustomerBalance')) {
             /** @var $customerBalanceHelper Enterprise_CustomerBalance_Helper_Data */
-            $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
+            $customerBalanceHelper = $this->_customerBalanceData;
             return $customerBalanceHelper->isEnabled();
         }
         return false;

@@ -35,6 +35,37 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     protected static $_urlRewrite;
 
     /**
+     * Catalog product url
+     *
+     * @var Magento_Catalog_Helper_Product_Url
+     */
+    protected $_catalogProductUrl = null;
+
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Catalog_Helper_Product_Url $catalogProductUrl
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Product_Url $catalogProductUrl
+    ) {
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProductUrl = $catalogProductUrl;
+    }
+
+    /**
      * Retrieve URL Instance
      *
      * @return Magento_Core_Model_Url
@@ -116,7 +147,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
      */
     public function formatUrlKey($str)
     {
-        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', Mage::helper('Magento_Catalog_Helper_Product_Url')->format($str));
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $this->_catalogProductUrl->format($str));
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
 
@@ -142,7 +173,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
             Mage::throwException('Invalid category object supplied');
         }
 
-        return Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath())
+        return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath())
             . '/' . $path;
     }
 

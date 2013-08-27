@@ -41,15 +41,29 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     protected $_attributeFactory;
 
     /**
+     * Import export data
+     *
+     * @var Enterprise_ImportExport_Helper_Data
+     */
+    protected $_importExportData = null;
+
+    /**
      * Class constructor
+     *
+     *
+     *
+     * @param Enterprise_ImportExport_Helper_Data $importExportData
      * @param Magento_Eav_Model_AttributeFactory $attributeFactory
      */
-    public function __construct(Magento_Eav_Model_AttributeFactory $attributeFactory)
-    {
+    public function __construct(
+        Enterprise_ImportExport_Helper_Data $importExportData,
+        Magento_Eav_Model_AttributeFactory $attributeFactory
+    ) {
+        $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;
 
         /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+        $helper = $this->_importExportData;
 
         if ($helper->isCustomerBalanceEnabled()) {
             $storeCreditData = array(

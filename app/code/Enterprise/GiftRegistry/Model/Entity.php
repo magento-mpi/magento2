@@ -119,6 +119,22 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     protected $_translate;
 
     /**
+     * Gift registry data
+     *
+     * @var Enterprise_GiftRegistry_Helper_Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Enterprise_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Model_Store $store
@@ -129,6 +145,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Enterprise_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_App $application,
         Magento_Core_Model_Store $store,
@@ -138,6 +156,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data= array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_giftRegistryData = $giftRegistryData;
         $this->_app = $application;
         $this->_config = $applicationConfig;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
@@ -183,7 +203,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
-                     if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
+                     if (!$this->_giftRegistryData->canAddToGiftRegistry($item)) {
                         $skippedItems++;
                         continue;
                     }
@@ -465,7 +485,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             'store' => $store,
             'owner' => $owner,
             'entity' => $this,
-            'url' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
+            'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
@@ -756,7 +776,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             }
         }
 
-        $errorsCustom = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->validateCustomAttributes(
+        $errorsCustom = $this->_giftRegistryData->validateCustomAttributes(
             $allCustomValues, $this->getRegistryAttributes()
         );
         if ($errorsCustom !== true) {
@@ -849,7 +869,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function getGenerateKeyId()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

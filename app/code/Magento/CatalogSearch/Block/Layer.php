@@ -15,6 +15,27 @@
 class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
 {
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()
@@ -50,7 +71,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine()->isLayeredNavigationAllowed();
+        $_isLNAllowedByEngine = $this->_catalogSearchData->getEngine()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }

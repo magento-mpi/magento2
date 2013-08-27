@@ -30,13 +30,27 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resour
     protected $_filesystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Constructor
      *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Resource $resource,
+        Magento_Filesystem $filesystem
+    ) {
+        $this->_coreData = $coreData;
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
     }
@@ -58,7 +72,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resour
      */
     public function reEncryptDatabaseValues($safe = true)
     {
-        $this->_encryptor = clone Mage::helper('Magento_Core_Helper_Data')->getEncryptor();
+        $this->_encryptor = clone $this->_coreData->getEncryptor();
 
         // update database only
         if ($safe) {
@@ -100,7 +114,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resour
         if (null === $key) {
             $key = md5(time());
         }
-        $this->_encryptor = clone Mage::helper('Magento_Core_Helper_Data')->getEncryptor();
+        $this->_encryptor = clone $this->_coreData->getEncryptor();
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
             '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents

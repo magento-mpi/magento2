@@ -18,6 +18,22 @@
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_Data_Form_Element_Text
 {
 
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_taxData = $taxData;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -37,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
             }
             $store = Mage::app()->getStore($storeId);
             $html.= '<strong>' . Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
-            if (Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax($store)) {
+            if ($this->_taxData->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
                     $html.= ' <strong>['.__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';

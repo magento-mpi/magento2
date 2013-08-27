@@ -49,7 +49,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
             );
         }
 
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     protected function _isAllowed()

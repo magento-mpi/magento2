@@ -20,6 +20,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
 
     protected $_template = 'catalog/product/attribute/new/created.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve list of product attributes
      *
@@ -81,6 +86,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
             );
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }

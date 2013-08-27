@@ -25,7 +25,7 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
     {
         $result['success'] = false;
         try {
-            $paymentMethod = Mage::helper('Magento_Payment_Helper_Data')
+            $paymentMethod = $this->_objectManager->get('Magento_Payment_Helper_Data')
                 ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
                 $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment());
@@ -41,7 +41,7 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
         }
 
         Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

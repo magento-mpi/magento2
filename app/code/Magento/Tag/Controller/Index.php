@@ -119,7 +119,7 @@ class Magento_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
     {
         /** @var $session Magento_Core_Model_Session_Generic */
         $session = Mage::getSingleton('Magento_Tag_Model_Session');
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Core_Helper_Data');
 
         if (count($counter[Magento_Tag_Model_Tag::ADD_STATUS_NEW])) {
             $tagsCount = count($counter[Magento_Tag_Model_Tag::ADD_STATUS_NEW]);

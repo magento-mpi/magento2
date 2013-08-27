@@ -34,7 +34,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($categoryId);
 
-        if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
+        if (!$this->_objectManager->get('Magento_Catalog_Helper_Category')->canShow($category)) {
             return false;
         }
         Mage::getSingleton('Magento_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());

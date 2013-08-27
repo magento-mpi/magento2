@@ -61,13 +61,46 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected $_engine                   = null;
 
     /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Core string
+     *
+     * @var Magento_Core_Helper_String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_coreString = $coreString;
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource model
      *
      */
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+        $this->_engine = $this->_catalogSearchData->getEngine();
     }
 
     /**
@@ -344,7 +377,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
                 || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             ) {
                 $helper = Mage::getResourceHelper('Magento_Core');
-                $words = Mage::helper('Magento_Core_Helper_String')
+                $words = $this->_coreString
                     ->splitWords($queryText, true, $query->getMaxQueryWords());
                 foreach ($words as $word) {
                     $like[] = $helper->getCILike('s.data_index', $word, array('position' => 'any'));
@@ -674,7 +707,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
 
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->prepareIndexdata($index, $this->_separator);
+        return $this->_catalogSearchData->prepareIndexdata($index, $this->_separator);
     }
 
     /**

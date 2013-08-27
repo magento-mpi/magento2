@@ -41,6 +41,33 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     protected $_comparableAttributes;
 
     /**
+     * Catalog product compare
+     *
+     * @var Magento_Catalog_Helper_Product_Compare
+     */
+    protected $_catalogProductCompare = null;
+
+    /**
+     * Collection constructor
+     *
+     *
+     *
+     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_catalogProductCompare = $catalogProductCompare;
+        parent::__construct($catalogData, $catalogProductFlat, $fetchStrategy);
+    }
+
+    /**
      * Initialize resources
      */
     protected function _construct()
@@ -309,7 +336,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function isEnabledFlat()
     {
-        if (!Mage::helper('Magento_Catalog_Helper_Product_Compare')->getAllowUsedFlat()) {
+        if (!$this->_catalogProductCompare->getAllowUsedFlat()) {
             return false;
         }
         return parent::isEnabledFlat();

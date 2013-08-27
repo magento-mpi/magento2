@@ -43,6 +43,11 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
         'notice'  => array()
     );
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Add action for response.
      *
@@ -188,6 +193,6 @@ class Magento_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_A
         if (!isset($this->_actions['import_validation_messages'])) {
             $this->addAction('innerHTML', 'import_validation_messages', $this->getMessagesHtml());
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_actions);
+        return $this->_coreData->jsonEncode($this->_actions);
     }
 }

@@ -42,6 +42,27 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     protected $_websites;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve current product instance
      *
      * @return Magento_Catalog_Model_Product
@@ -128,7 +149,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Customer')) {
+            if (!$this->_catalogData->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
             $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();

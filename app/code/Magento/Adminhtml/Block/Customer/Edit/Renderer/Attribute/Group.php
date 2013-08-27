@@ -21,6 +21,27 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
     protected $_template = 'customer/edit/tab/account/form/renderer/group.phtml';
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerAddress = $customerAddress;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve disable auto group change element HTML ID
      *
      * @return string
@@ -49,7 +70,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
     {
         $customer = Mage::registry('current_customer');
         $checkedByDefault = ($customer && $customer->getId())
-            ? false : Mage::helper('Magento_Customer_Helper_Address')->getDisableAutoGroupAssignDefaultValue();
+            ? false : $this->_customerAddress->getDisableAutoGroupAssignDefaultValue();
 
         $value = $this->getDisableAutoGroupChangeAttributeValue();
         $state = '';

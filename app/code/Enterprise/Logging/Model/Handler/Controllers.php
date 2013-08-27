@@ -30,7 +30,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     {
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
-            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
+            $eventModel->setInfo($this->_objectManager->get('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
             return true;
         }
         return false;
@@ -339,7 +339,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
+            $products = $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -451,7 +451,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($backup->getDeleteResult()));
+                ->setInfo($this->_objectManager->get('Enterprise_Logging_Helper_Data')->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -660,7 +660,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $success = true;
         $body = Mage::app()->getResponse()->getBody();
-        $messages = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
+        $messages = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

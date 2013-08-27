@@ -33,6 +33,31 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
     protected $_attributeOptionValues = null;
 
     /**
+     * Rma eav
+     *
+     * @var Enterprise_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block constructor
      */
     public function _construct()
@@ -170,7 +195,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reasonselect',
-            'options' => Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('reason'),
+            'options' => $this->_rmaEav->getAttributeOptionValues('reason'),
             'index' => 'reason',
             'header_css_class'  => 'col-reason',
             'column_css_class'  => 'col-reason'
@@ -180,7 +205,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
             'header'=> __('Item Condition'),
             'getter'   => array($this, 'getConditionOptionStringValue'),
             'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textselect',
-            'options' => Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('condition'),
+            'options' => $this->_rmaEav->getAttributeOptionValues('condition'),
             'index' => 'condition',
             'header_css_class'  => 'col-condition',
             'column_css_class'  => 'col-condition'
@@ -191,7 +216,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
             'index' => 'resolution',
             'getter'   => array($this, 'getResolutionOptionStringValue'),
             'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Textselect',
-            'options' => Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionValues('resolution'),
+            'options' => $this->_rmaEav->getAttributeOptionValues('resolution'),
             'header_css_class'  => 'col-resolution',
             'column_css_class'  => 'col-resolution'
         ));
@@ -309,7 +334,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Adm
     protected function _getAttributeOptionStringValue($value)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = $this->_rmaEav->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$value])) {
             return $this->escapeHtml($this->_attributeOptionValues[$value]);

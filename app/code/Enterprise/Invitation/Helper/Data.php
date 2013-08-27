@@ -19,6 +19,35 @@ class Enterprise_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_isRegistrationAllowed = null;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_customerData = $customerData;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Return text for invetation status
      *
      * @return Enterprise_Invitation_Model_Invitation $invitation
@@ -39,7 +68,7 @@ class Enterprise_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     {
         return Mage::getModel('Magento_Core_Model_Url')->setStore($invitation->getStoreId())
             ->getUrl('enterprise_invitation/customer_account/create', array(
-                'invitation' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($invitation->getInvitationCode()),
+                'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,
                 '_nosid' => true
             ));
@@ -74,7 +103,7 @@ class Enterprise_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed();
+            $result = $this->_customerData->isRegistrationAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }

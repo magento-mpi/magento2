@@ -28,6 +28,37 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_template = 'product/edit/downloadable/samples.phtml';
 
     /**
+     * Downloadable file
+     *
+     * @var Magento_Downloadable_Helper_File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var Magento_Core_Helper_File_Storage_Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Downloadable_Helper_File $downloadableFile
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Downloadable_Helper_File $downloadableFile,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_downloadableFile = $downloadableFile;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get model of the product that is being edited
      *
      * @return Magento_Catalog_Model_Product
@@ -76,7 +107,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             return $samplesArr;
         }
         $samples = $this->getProduct()->getTypeInstance()->getSamples($this->getProduct());
-        $fileHelper = Mage::helper('Magento_Downloadable_Helper_File');
+        $fileHelper = $this->_downloadableFile;
         foreach ($samples as $item) {
             $tmpSampleItem = array(
                 'sample_id' => $item->getId(),
@@ -89,7 +120,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                 Magento_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                $this->_coreFileStorageDatabase->saveFileToFilesystem($file);
             }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
@@ -176,7 +207,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return $this->_coreData->jsonEncode($this->getConfig()->getData());
     }
 
     /**

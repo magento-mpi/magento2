@@ -33,6 +33,27 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     protected $_resPrices   = array();
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get allowed attributes
      *
      * @return array
@@ -71,7 +92,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
-            $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
+            $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
             $allProducts = $this->getProduct()->getTypeInstance()
                 ->getUsedProducts($this->getProduct(), null);
             foreach ($allProducts as $product) {
@@ -114,7 +135,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $taxHelper  = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper  = $this->_taxData;
         $currentProduct = $this->getProduct();
 
         $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
@@ -252,7 +273,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**

@@ -31,11 +31,23 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     protected $_attribute;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
      * Initialize object
      *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Helper_Data $coreData
+    ) {
+        $this->_coreData = $coreData;
         parent::__construct();
         $this->setIdFieldName('visibility_id');
     }
@@ -140,7 +152,7 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {

@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backend_Block_Abstract
 {
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return product custom options in JSON format
      *
      * @return string
@@ -48,6 +69,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
             $output[] = $resultObject->getData();
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($output);
+        return $this->_coreData->jsonEncode($output);
     }
 }

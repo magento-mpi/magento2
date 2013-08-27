@@ -21,6 +21,29 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Rma eav
+     *
+     * @var Enterprise_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($eavData, $context, $data);
+    }
+
+    /**
      * Preparing global layout
      *
      * @return Magento_Core_Block_Abstract
@@ -48,7 +71,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
         /* @var $helper Enterprise_Rma_Helper_Eav */
-        $helper     = Mage::helper('Enterprise_Rma_Helper_Eav');
+        $helper     = $this->_rmaEav;
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');

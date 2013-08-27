@@ -18,6 +18,31 @@
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml_Block_Widget_Grid
 {
 
+    /**
+     * Sales reorder
+     *
+     * @var Magento_Sales_Helper_Reorder
+     */
+    protected $_salesReorder = null;
+
+    /**
+     * @param Magento_Sales_Helper_Reorder $salesReorder
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Reorder $salesReorder,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_salesReorder = $salesReorder;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -94,7 +119,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
             ));
         }
 
-        if (Mage::helper('Magento_Sales_Helper_Reorder')->isAllow()) {
+        if ($this->_salesReorder->isAllow()) {
             $this->addColumn('action', array(
                 'header'    => ' ',
                 'filter'    => false,

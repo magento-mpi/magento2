@@ -63,6 +63,22 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_viewFileSystem;
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Widget data
+     *
+     * @var Magento_Widget_Helper_Data
+     */
+    protected $_widgetData = null;
+
+    /**
+     * @param Magento_Widget_Helper_Data $widgetData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -70,12 +86,16 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Widget_Helper_Data $widgetData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_widgetData = $widgetData;
+        $this->_coreData = $coreData;
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
     }
@@ -409,7 +429,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        $hash = $this->_coreData->uniqHash();
         $xml .= '<block type="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
@@ -418,7 +438,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             if ($name && strlen((string)$value)) {
                 $xml .= '<action method="setData">'
                     . '<name>' . $name . '</name>'
-                    . '<value>' . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</value>'
+                    . '<value>' . $this->_widgetData->escapeHtml($value) . '</value>'
                     . '</action>';
             }
         }

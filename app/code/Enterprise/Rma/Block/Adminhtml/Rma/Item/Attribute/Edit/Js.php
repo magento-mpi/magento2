@@ -20,14 +20,35 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js
     extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Rma eav
+     *
+     * @var Enterprise_Rma_Helper_Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param Enterprise_Rma_Helper_Eav $rmaEav
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Rma_Helper_Eav $rmaEav,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve allowed Input Validate Filters in JSON format
      *
      * @return string
      */
     public function getValidateFiltersJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
-            Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeValidateFilters()
+        return $this->_coreData->jsonEncode(
+            $this->_rmaEav->getAttributeValidateFilters()
         );
     }
 
@@ -38,8 +59,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js
      */
     public function getFilteTypesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
-            Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeFilterTypes()
+        return $this->_coreData->jsonEncode(
+            $this->_rmaEav->getAttributeFilterTypes()
         );
     }
 
@@ -50,6 +71,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js
      */
     public function getAttributeInputTypes()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeInputTypes();
+        return $this->_rmaEav->getAttributeInputTypes();
     }
 }

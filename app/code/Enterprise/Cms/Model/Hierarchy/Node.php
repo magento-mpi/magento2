@@ -91,17 +91,27 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
     const META_NODE_TYPE_PREVIOUS = 'prev';
 
     /**
+     * Cms hierarchy
+     *
+     * @var Enterprise_Cms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_cmsHierarchy = $cmsHierarchy;
         parent::__construct($context, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -192,7 +202,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
                 'identifier'        => $item->getIdentifier(),
                 'page_id'           => $item->getPageId()
             );
-            $nodes[] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')->copyMetaData($item->getData(), $node);
+            $nodes[] = $this->_cmsHierarchy->copyMetaData($item->getData(), $node);
         }
 
         return $nodes;
@@ -278,7 +288,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
                 'scope_id'           => $this->_scopeId,
             );
 
-            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('Enterprise_Cms_Helper_Hierarchy')
+            $nodes[$parentNodeId][$v['node_id']] = $this->_cmsHierarchy
                 ->copyMetaData($v, $_node);
         }
 
@@ -742,7 +752,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
     {
         parent::_afterSave();
         // we save to metadata table not only metadata :(
-        //if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled()) {
+        //if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $this->_getResource()->saveMetaData($this);
         //}
 
@@ -804,7 +814,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
     public function getHeritage()
     {
         if ($this->getIsInherited()) {
-            $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
+            $helper = $this->_cmsHierarchy;
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
             $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
                 array(

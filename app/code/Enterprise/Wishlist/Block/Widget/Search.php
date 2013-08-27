@@ -24,6 +24,11 @@ class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Templat
      */
     protected $_selectOptions;
 
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve form types list
      *
@@ -120,7 +125,7 @@ class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Templat
     public function getBlockId()
     {
         if ($this->getData('id') === null) {
-            $this->setData('id', Mage::helper('Magento_Core_Helper_Data')->uniqHash());
+            $this->setData('id', $this->_coreData->uniqHash());
         }
         return $this->getData('id');
     }

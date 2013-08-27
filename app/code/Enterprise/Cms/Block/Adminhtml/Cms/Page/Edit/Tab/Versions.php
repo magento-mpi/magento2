@@ -26,6 +26,31 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected $_usersHash = null;
 
+    /**
+     * Cms data
+     *
+     * @var Enterprise_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Data $cmsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Cms_Helper_Data $cmsData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -87,7 +112,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
-            'options' => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionsArray($this->getPage())
+            'options' => $this->_cmsData->getVersionsArray($this->getPage())
         ));
 */
         $this->addColumn('label', array(
@@ -111,7 +136,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::helper('Enterprise_Cms_Helper_Data')->getVersionAccessLevels()
+            'options' => $this->_cmsData->getVersionAccessLevels()
         ));
 
         $this->addColumn('revisions', array(

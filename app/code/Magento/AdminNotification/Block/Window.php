@@ -43,18 +43,21 @@ class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Templ
     protected $_latestItem;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection
+     * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical
+     * $criticalCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Backend_Model_Auth_Session $authSession,
         Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_authSession = $authSession;
         $this->_criticalCollection = $criticalCollection;
     }

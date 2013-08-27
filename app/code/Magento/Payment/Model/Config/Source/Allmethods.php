@@ -10,9 +10,25 @@
 
 class Magento_Payment_Model_Config_Source_Allmethods implements Magento_Core_Model_Option_ArrayInterface
 {
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData
+    ) {
+        $this->_paymentData = $paymentData;
+    }
+
     public function toOptionArray()
     {
-        $methods = Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true, true, true);
+        $methods = $this->_paymentData->getPaymentMethodList(true, true, true);
         return $methods;
     }
 }

@@ -22,6 +22,11 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     protected $_address;
 
+    public function __construct(Magento_Core_Block_Template_Context $context, Magento_Core_Model_Cache_Type_Config $configCacheType, array $data = array())
+    {
+        parent::__construct($context, $configCacheType, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->setTitle(__('Create New Customer Account'));
@@ -111,7 +116,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     public function isNewsletterEnabled()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Newsletter');
+        return $this->_coreData->isModuleOutputEnabled('Magento_Newsletter');
     }
 
     /**

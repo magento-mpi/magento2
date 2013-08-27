@@ -23,6 +23,11 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Magento_B
      */
     const END_OF_DAY_IN_SECONDS = 86399;
 
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getValue($index = null)
     {
         if ($index) {
@@ -91,7 +96,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Magento_B
      */
     public function getHtml()
     {
-        $htmlId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($this->_getHtmlId());
+        $htmlId = $this->_coreData->uniqHash($this->_getHtmlId());
         $format = $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $timeFormat = '';
 

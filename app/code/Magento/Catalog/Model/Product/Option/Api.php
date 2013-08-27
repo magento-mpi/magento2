@@ -23,11 +23,21 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     protected $_request = null;
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Controller_Request_Http $request
     ) {
+        $this->_catalogData = $catalogData;
         $this->_request = $request;
     }
 
@@ -120,7 +130,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
                         $this->_fault('invalid_data');
                     } else {
                         foreach ($row as $key => $value) {
-                            $row[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                            $row[$key] = $this->_catalogData->stripTags($value);
                         }
                         if (!empty($row['value_id'])) {
                             // map 'value_id' to 'option_type_id'
@@ -148,7 +158,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     {
         foreach ($data as $key => $value) {
             if (is_string($value)) {
-                $data[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                $data[$key] = $this->_catalogData->stripTags($value);
             }
         }
 

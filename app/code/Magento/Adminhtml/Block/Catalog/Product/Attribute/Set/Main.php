@@ -20,6 +20,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     protected $_template = 'catalog/product/attribute/set/main.phtml';
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare Global Layout
      *
      * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main
@@ -145,7 +166,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
         $configurable = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute')
             ->getUsedAttributes($setId);
 
-        $unassignableAttributes = Mage::helper('Magento_Catalog_Helper_Product')->getUnassignableAttributes();
+        $unassignableAttributes = $this->_catalogProduct->getUnassignableAttributes();
 
         /* @var $node Magento_Eav_Model_Entity_Attribute_Group */
         foreach ($groups as $node) {
@@ -188,7 +209,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             $items[] = $item;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($items);
+        return $this->_coreData->jsonEncode($items);
     }
 
     /**
@@ -242,7 +263,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             );
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($items);
+        return $this->_coreData->jsonEncode($items);
     }
 
     /**

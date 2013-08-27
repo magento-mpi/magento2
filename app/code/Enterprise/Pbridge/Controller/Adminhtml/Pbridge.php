@@ -53,7 +53,7 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get('Magento_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -77,7 +77,7 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_
     public function resultAction()
     {
         if ($this->getRequest()->getParam('store')) {
-            Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId($this->getRequest()->getParam('store'));
+            $this->_objectManager->get('Enterprise_Pbridge_Helper_Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
         $this->renderLayout();

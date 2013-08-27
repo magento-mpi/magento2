@@ -57,11 +57,11 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
      */
     protected function _processDatabaseFile($filePath)
     {
-        if (!Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+        if (!$this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
             return false;
         }
 
-        $relativePath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
+        $relativePath = $this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
         $file = Mage::getModel('Magento_Core_Model_File_Storage_Database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {

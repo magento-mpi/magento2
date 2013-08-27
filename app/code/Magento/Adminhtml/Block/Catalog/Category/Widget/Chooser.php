@@ -26,6 +26,11 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
 
     protected $_template = 'catalog/category/widget/tree.phtml';
 
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -63,7 +68,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
      */
     public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
 
         $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')

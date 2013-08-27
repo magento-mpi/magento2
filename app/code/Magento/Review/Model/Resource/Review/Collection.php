@@ -60,6 +60,31 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     protected $_addStoreDataFlag   = false;
 
     /**
+     * Review data
+     *
+     * @var Magento_Review_Helper_Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * Collection constructor
+     *
+     *
+     *
+     * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Review_Helper_Data $reviewData,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($fetchStrategy, $resource);
+    }
+
+    /**
      * Define module
      *
      */
@@ -167,7 +192,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     public function addStatusFilter($status)
     {
         if (is_string($status)) {
-            $statuses = array_flip(Mage::helper('Magento_Review_Helper_Data')->getReviewStatuses());
+            $statuses = array_flip($this->_reviewData->getReviewStatuses());
             $status = isset($statuses[$status]) ? $statuses[$status] : 0;
         }
         if (is_numeric($status)) {

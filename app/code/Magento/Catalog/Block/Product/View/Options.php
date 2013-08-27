@@ -22,6 +22,29 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
 
     protected $_optionRenders = array();
 
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -128,12 +151,12 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price']      = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(true), false, false);
-        $data['oldPrice']   = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(false), false, false);
+        $data['price']      = $this->_coreData->currency($option->getPrice(true), false, false);
+        $data['oldPrice']   = $this->_coreData->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type']       = $option->getPriceType();
-        $data['excludeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], true);
+        $data['excludeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
+        $data['includeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 
@@ -163,7 +186,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
             $config[$option->getId()] = $priceValue;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**

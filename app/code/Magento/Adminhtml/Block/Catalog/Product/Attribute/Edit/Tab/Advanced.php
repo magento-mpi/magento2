@@ -19,6 +19,27 @@
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Magento_Backend_Block_Widget_Form
 {
     /**
+     * Eav data
+     *
+     * @var Magento_Eav_Helper_Data
+     */
+    protected $_eavData = null;
+
+    /**
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavData = $eavData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Adding product form elements for editing attribute
      *
      * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
@@ -129,7 +150,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'name' => 'frontend_class',
                 'label' => __('Input Validation for Store Owner'),
                 'title' => __('Input Validation for Store Owner'),
-                'values' => Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
+                'values' => $this->_eavData->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
             )

@@ -13,6 +13,11 @@
  */
 class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Magento_Backend_Block_Template
 {
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Check whether role assumes all websites permissions
      *
@@ -67,6 +72,6 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
                 }
             }
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }

@@ -65,6 +65,25 @@ class Enterprise_Search_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrive text field types
      *
      * @return array
@@ -351,7 +370,7 @@ class Enterprise_Search_Helper_Data extends Magento_Core_Helper_Abstract
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) Mage::helper('Magento_Tax_Helper_Data')->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool) $this->_taxData->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;

@@ -190,7 +190,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
         }
         if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl()) {
             // Set default URL to redirect customer to
-            $session->setBeforeAuthUrl(Mage::helper('Magento_Customer_Helper_Data')->getAccountUrl());
+            $session->setBeforeAuthUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($session->isLoggedIn()) {
                 if (!Mage::getStoreConfigFlag(
@@ -198,7 +198,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                 )) {
                     $referer = $this->getRequest()->getParam(Magento_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
-                        $referer = Mage::helper('Magento_Core_Helper_Data')->urlDecode($referer);
+                        $referer = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($referer);
                         if ($this->_isUrlInternal($referer)) {
                             $session->setBeforeAuthUrl($referer);
                         }
@@ -207,10 +207,10 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                     $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
                 }
             } else {
-                $session->setBeforeAuthUrl(Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl());
+                $session->setBeforeAuthUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl());
             }
-        } elseif ($session->getBeforeAuthUrl() == Mage::helper('Magento_Customer_Helper_Data')->getLogoutUrl()) {
-            $session->setBeforeAuthUrl(Mage::helper('Magento_Customer_Helper_Data')->getDashboardUrl());
+        } elseif ($session->getBeforeAuthUrl() == $this->_objectManager->get('Magento_Customer_Helper_Data')->getLogoutUrl()) {
+            $session->setBeforeAuthUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getDashboardUrl());
         } else {
             if (!$session->getAfterAuthUrl()) {
                 $session->setAfterAuthUrl($session->getBeforeAuthUrl());
@@ -297,7 +297,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                     $session->getBeforeAuthUrl(),
                     Mage::app()->getStore()->getId()
                 );
-                $email = Mage::helper('Magento_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
+                $email = $this->_objectManager->get('Magento_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
                 $session->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
                 );
@@ -429,7 +429,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
         );
         if ($this->_isVatValidationEnabled()) {
             // Show corresponding VAT message to customer
-            $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
+            $configAddressType = $this->_objectManager->get('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
             $editAddersUrl = Mage::getUrl('customer/address/edit');
             switch ($configAddressType) {
                 case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
@@ -598,7 +598,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
 
             if ($customer->getId()) {
                 try {
-                    $newPasswordToken = Mage::helper('Magento_Customer_Helper_Data')
+                    $newPasswordToken = $this->_objectManager->get('Magento_Customer_Helper_Data')
                         ->generateResetPasswordLinkToken();
                     $customer->changeResetPasswordLinkToken($newPasswordToken);
                     $customer->sendPasswordResetConfirmationEmail();
@@ -608,7 +608,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                     return;
                 }
             }
-            $email = Mage::helper('Magento_Customer_Helper_Data')->escapeHtml($email);
+            $email = $this->_objectManager->get('Magento_Customer_Helper_Data')->escapeHtml($email);
             $this->_getSession()->addSuccess(
                 __('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );
@@ -824,7 +824,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                 $confPass   = $this->getRequest()->getPost('confirmation');
 
                 $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
-                if (Mage::helper('Magento_Core_Helper_String')->strpos($oldPass, ':')) {
+                if ($this->_objectManager->get('Magento_Core_Helper_String')->strpos($oldPass, ':')) {
                     list(, $salt) = explode(':', $oldPass);
                 } else {
                     $salt = false;
@@ -904,6 +904,6 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
      */
     protected function _isVatValidationEnabled($store = null)
     {
-        return Mage::helper('Magento_Customer_Helper_Address')->isVatValidationEnabled($store);
+        return $this->_objectManager->get('Magento_Customer_Helper_Address')->isVatValidationEnabled($store);
     }
 }

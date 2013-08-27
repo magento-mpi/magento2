@@ -63,12 +63,25 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     protected $_roundingDeltas = array();
 
     /**
-     * Class constructor
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
      */
-    public function __construct()
-    {
+    protected $_taxData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Tax_Helper_Data $taxData
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData
+    ) {
+        $this->_taxData = $taxData;
         $this->setCode('tax_subtotal');
-        $this->_helper      = Mage::helper('Magento_Tax_Helper_Data');
+        $this->_helper      = $this->_taxData;
         $this->_calculator  = Mage::getSingleton('Magento_Tax_Model_Calculation');
         $this->_config      = Mage::getSingleton('Magento_Tax_Model_Config');
     }

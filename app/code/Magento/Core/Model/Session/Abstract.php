@@ -63,6 +63,27 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Helper_Http $coreHttp
+     */
+    public function __construct(
+        Magento_Core_Helper_Http $coreHttp
+    ) {
+        $this->_coreHttp = $coreHttp;
+    }
+
+    /**
      * This method needs to support sessions with APC enabled
      */
     public function __destruct()
@@ -334,8 +355,8 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         );
 
         // collect ip data
-        if (Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) {
-            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+        if ($this->_coreHttp->getRemoteAddr()) {
+            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = $this->_coreHttp->getRemoteAddr();
         }
         if (isset($_ENV['HTTP_VIA'])) {
             $parts[self::VALIDATOR_HTTP_VIA_KEY] = (string)$_ENV['HTTP_VIA'];

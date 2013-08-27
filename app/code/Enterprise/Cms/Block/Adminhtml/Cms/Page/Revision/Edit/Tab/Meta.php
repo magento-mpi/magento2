@@ -21,6 +21,27 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
     extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 {
     /**
+     * Cms data
+     *
+     * @var Enterprise_Cms_Helper_Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Data $cmsData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Cms_Helper_Data $cmsData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Adding onchange js call
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
@@ -29,7 +50,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
     {
         parent::_prepareForm();
 
-        Mage::helper('Enterprise_Cms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         return $this;
     }

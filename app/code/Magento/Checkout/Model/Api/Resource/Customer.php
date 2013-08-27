@@ -32,6 +32,29 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
 
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Initialize dependencies.
+     *
+     *
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Api_Helper_Data $apiHelper
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Api_Helper_Data $apiHelper
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($apiHelper);
+    }
+
+    /**
      *
      */
     protected function _getCustomer($customerId)
@@ -131,7 +154,7 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $this->_coreData->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)

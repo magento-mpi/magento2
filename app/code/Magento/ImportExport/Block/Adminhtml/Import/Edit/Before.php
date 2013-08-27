@@ -43,7 +43,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Ba
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreHelper, $context, $data);
         $this->_coreHelper = $coreHelper;
         $this->_importModel = $importModel;
     }

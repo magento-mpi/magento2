@@ -18,6 +18,32 @@
 class Enterprise_Search_Model_Observer
 {
     /**
+     * Search data
+     *
+     * @var Enterprise_Search_Helper_Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Enterprise_Search_Helper_Data $searchData
+     */
+    public function __construct(
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Enterprise_Search_Helper_Data $searchData
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        $this->_searchData = $searchData;
+    }
+
+    /**
      * Add search weight field to attribute edit form (only for quick search)
      * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
      *
@@ -25,7 +51,7 @@ class Enterprise_Search_Model_Observer
      */
     public function eavAttributeEditFormInit(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -78,7 +104,7 @@ class Enterprise_Search_Model_Observer
      */
     public function customerGroupSaveAfter(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -96,11 +122,11 @@ class Enterprise_Search_Model_Observer
      */
     public function holdCommit(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
-        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+        $engine = $this->_catalogSearchData->getEngine();
         if (!$engine->holdCommit()) {
             return;
         }
@@ -123,11 +149,11 @@ class Enterprise_Search_Model_Observer
      */
     public function applyIndexChanges(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
-        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+        $engine = $this->_catalogSearchData->getEngine();
         if (!$engine->allowCommit()) {
             return;
         }
@@ -154,7 +180,7 @@ class Enterprise_Search_Model_Observer
     {
         $engine     = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
-        if (!$engine || !$attributes || !Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$engine || !$attributes || !$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -199,7 +225,7 @@ class Enterprise_Search_Model_Observer
      */
     public function clearIndexForStores(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -215,7 +241,7 @@ class Enterprise_Search_Model_Observer
         }
 
         if (!empty($storeIds)) {
-            $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+            $engine = $this->_catalogSearchData->getEngine();
             $engine->cleanIndex($storeIds);
         }
     }
@@ -227,7 +253,7 @@ class Enterprise_Search_Model_Observer
      */
     public function resetCurrentCatalogLayer(Magento_Event_Observer $observer)
     {
-        if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
+        if ($this->_searchData->getIsEngineAvailableForNavigation()) {
             Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer'));
         }
     }
@@ -239,7 +265,7 @@ class Enterprise_Search_Model_Observer
      */
     public function resetCurrentSearchLayer(Magento_Event_Observer $observer)
     {
-        if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
+        if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
             Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Search_Layer'));
         }
     }
@@ -251,7 +277,7 @@ class Enterprise_Search_Model_Observer
      */
     public function runFulltextReindexAfterPriceReindex(Magento_Event_Observer $observer)
     {
-        if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
         }
 

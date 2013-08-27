@@ -270,7 +270,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                 );
             }
             if (is_array($response)) {
-                $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+                $response = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response);
                 $this->getResponse()->setBody($response);
             }
         }

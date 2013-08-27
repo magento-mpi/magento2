@@ -99,6 +99,25 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     );
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_ModuleListInterface $moduleList
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($moduleList);
+    }
+
+    /**
      * Check whether payment method can be used
      *
      * @param Magento_Sales_Model_Quote
@@ -463,7 +482,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
       */
     protected function _generateRequestId()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
      /**

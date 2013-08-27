@@ -25,6 +25,27 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     protected $_template = 'sku/errors/grid/description.phtml';
 
     /**
+     * Checkout data
+     *
+     * @var Enterprise_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Enterprise_Checkout_Helper_Data $checkoutData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Checkout_Helper_Data $checkoutData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieves HTML code of "Configure" button
      *
      * @return string
@@ -32,8 +53,8 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
     public function getConfigureButtonHtml()
     {
         $canConfigure = $this->getProduct()->canConfigure() && !$this->getItem()->getIsConfigureDisabled();
-        $productId = $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getProduct()->getId()));
-        $itemSku = $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getItem()->getSku()));
+        $productId = $this->escapeHtml($this->_coreData->jsonEncode($this->getProduct()->getId()));
+        $itemSku = $this->escapeHtml($this->_coreData->jsonEncode($this->getItem()->getSku()));
 
         /* @var $button Magento_Adminhtml_Block_Widget_Button */
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
@@ -66,6 +87,6 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
      */
     public function getErrorMessage($item)
     {
-        return Mage::helper('Enterprise_Checkout_Helper_Data')->getMessageByItem($item);
+        return $this->_checkoutData->getMessageByItem($item);
     }
 }

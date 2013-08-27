@@ -40,6 +40,27 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected $_buttonsHtml;
 
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare URL rewrite editing layout
      *
      * @return Magento_Adminhtml_Block_Urlrewrite_Edit
@@ -60,7 +81,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected function _prepareLayoutFeatures()
     {
         /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        $helper = $this->_adminhtmlData;
 
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = __('Edit URL Rewrite');
@@ -107,7 +128,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected function _addBackButton()
     {
         /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        $helper = $this->_adminhtmlData;
 
         $this->_addButton('back', array(
             'label'   => __('Back'),
@@ -133,7 +154,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected function _addDeleteButton()
     {
         /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        $helper = $this->_adminhtmlData;
 
         $this->_addButton('delete', array(
             'label'   => __('Delete'),

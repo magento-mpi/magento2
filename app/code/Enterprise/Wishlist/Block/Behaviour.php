@@ -18,13 +18,36 @@
 class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
 {
     /**
+     * Wishlist data
+     *
+     * @var Enterprise_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Enterprise_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve wishlists items
      *
      * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getWishlists()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getCustomerWishlists();
+        return $this->_wishlistData->getCustomerWishlists();
     }
 
     /**
@@ -54,7 +77,7 @@ class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
      */
     public function getDefaultWishlist()
     {
-        return Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlist();
+        return $this->_wishlistData->getDefaultWishlist();
     }
 
     /**
@@ -66,7 +89,7 @@ class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
     public function canCreateWishlists($wishlistList)
     {
         $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
-        return !Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlistList) && $customerId;
+        return !$this->_wishlistData->isWishlistLimitReached($wishlistList) && $customerId;
     }
 
     /**
@@ -90,7 +113,7 @@ class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             return parent::_toHtml();
         }
         return '';

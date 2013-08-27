@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
 {
     /**
+     * Adminhtml data
+     *
+     * @var Magento_Adminhtml_Helper_Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Adminhtml_Helper_Data $adminhtmlData
+     */
+    public function __construct(
+        Magento_Adminhtml_Helper_Data $adminhtmlData
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+    }
+
+    /**
      * Load search results
      *
      * @return Magento_Adminhtml_Model_Search_Customer
@@ -47,7 +68,7 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
                 'type'          => __('Customer'),
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
-                'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+                'url' => $this->_adminhtmlData->getUrl(
                     '*/customer/edit',
                     array(
                         'id' => $customer->getId()

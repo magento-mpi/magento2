@@ -21,6 +21,29 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Customer data
+     *
+     * @var Enterprise_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Enterprise_Customer_Helper_Data $customerData
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Customer_Helper_Data $customerData,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($eavData, $context, $data);
+    }
+
+    /**
      * Preparing global layout
      *
      * @return Magento_Core_Block_Abstract
@@ -48,7 +71,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
         /* @var $helper Enterprise_Customer_Helper_Data */
-        $helper     = Mage::helper('Enterprise_Customer_Helper_Data');
+        $helper     = $this->_customerData;
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');

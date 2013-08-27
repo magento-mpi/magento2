@@ -17,6 +17,22 @@
  */
 class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
 {
+    /**
+     * Api data
+     *
+     * @var Magento_Api_Helper_Data
+     */
+    protected $_apiData = null;
+
+    /**
+     * @param Magento_Api_Helper_Data $apiData
+     */
+    public function __construct(
+        Magento_Api_Helper_Data $apiData
+    ) {
+        $this->_apiData = $apiData;
+    }
+
     public function extend($source, $overwrite = false)
     {
         if (!$source instanceof Magento_Simplexml_Element) {
@@ -159,7 +175,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
         $namespaces = $source->getNamespaces(true);
 
         /** @var Magento_Api_Helper_Data $helper */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = $this->_apiData;
         $isWsi = $helper->isWsiCompliant();
 
         foreach ($namespaces as $key => $value) {

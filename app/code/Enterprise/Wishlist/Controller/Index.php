@@ -31,7 +31,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
         $protectedActions = array(
             'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
         );
-        if (!Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled() && in_array($action, $protectedActions)) {
+        if (!$this->_objectManager->get('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled() && in_array($action, $protectedActions)) {
             $this->norouteAction();
         }
 
@@ -61,7 +61,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
             try {
                 $wishlist = $this->_editWishlist($customerId, $name, $visibility);
                 $this->_getSession()->addSuccess(
-                    __('Wish List "%1" was saved.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
+                    __('Wish List "%1" was saved.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
                 );
                 $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
             } catch (Magento_Core_Exception $e) {
@@ -82,7 +82,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
     public function indexAction()
     {
         /* @var $helper Enterprise_Wishlist_Helper_Data */
-        $helper = Mage::helper('Enterprise_Wishlist_Helper_Data');
+        $helper = $this->_objectManager->get('Enterprise_Wishlist_Helper_Data');
         if (!$helper->isMultipleEnabled() ) {
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId && $wishlistId != $helper->getDefaultWishlist()->getId() ) {
@@ -129,8 +129,8 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
         } else {
             $wishlistCollection = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
                 ->filterByCustomerId($customerId);
-            $limit = Mage::helper('Enterprise_Wishlist_Helper_Data')->getWishlistLimit();
-            if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlistCollection)) {
+            $limit = $this->_objectManager->get('Enterprise_Wishlist_Helper_Data')->getWishlistLimit();
+            if ($this->_objectManager->get('Enterprise_Wishlist_Helper_Data')->isWishlistLimitReached($wishlistCollection)) {
                 Mage::throwException(
                     __('Only %1 wish lists can be created.', $limit)
                 );
@@ -160,7 +160,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
             $wishlist = $this->_editWishlist($customerId, $wishlistName, $visibility, $wishlistId);
 
             $this->_getSession()->addSuccess(
-                __('Wish List "%1" was saved.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
+                __('Wish List "%1" was saved.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
             );
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -183,7 +183,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
             } else {
                 $params = array('wishlist_id' => $wishlist->getId());
             }
-            return $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($params));
+            return $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($params));
         } else {
             if (!$wishlist || !$wishlist->getId()) {
                 return $this->_redirect('*/*');
@@ -205,15 +205,15 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
             if (!$wishlist) {
                 return $this->norouteAction();
             }
-            if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistDefault($wishlist)) {
+            if ($this->_objectManager->get('Enterprise_Wishlist_Helper_Data')->isWishlistDefault($wishlist)) {
                 Mage::throwException(
                     __('The default wish list cannot be deleted.')
                 );
             }
             $wishlist->delete();
-            Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
+            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
             Mage::getSingleton('Magento_Wishlist_Model_Session')->addSuccess(
-                __('Wish list "%1" has been deleted.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
+                __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
             );
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -296,14 +296,14 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
                 $item = Mage::getModel('Magento_Wishlist_Model_Item');
                 $item->loadWithOptions($itemId);
 
-                $wishlistName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
-                $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
+                $wishlistName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
+                $productName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
 
                 $this->_copyItem($item, $wishlist, $qty);
                 $this->_getSession()->addSuccess(
                     __('"%1" was copied to %2.', $productName, $wishlistName)
                 );
-                Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
+                $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
             } catch (InvalidArgumentException $e) {
                 $this->_getSession->addError(
                     __('The item was not found.')
@@ -370,7 +370,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
                 }
             }
         }
-        $wishlistName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
+        $wishlistName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
 
         $wishlist->save();
 
@@ -387,15 +387,15 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
         }
 
         if (count($alreadyPresent)) {
-            $names = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($alreadyPresent));
+            $names = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->_getSession()->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );
         }
 
         if (count($copied)) {
-            Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
-            $names = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($copied));
+            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+            $names = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($copied));
             $this->_getSession()->addSuccess(
                 __('%1 items were copied to %2: %3.', count($copied), $wishlistName, $names)
             );
@@ -465,14 +465,14 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
                 $item = Mage::getModel('Magento_Wishlist_Model_Item');
                 $item->loadWithOptions($itemId);
 
-                $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
-                $wishlistName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
+                $productName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
+                $wishlistName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
 
                 $this->_moveItem($item, $wishlist, $wishlists, $this->getRequest()->getParam('qty', null));
                 $this->_getSession()->addSuccess(
                     __('"%1" was moved to %2.', $productName, $wishlistName)
                 );
-                Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
+                $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
             } catch (InvalidArgumentException $e) {
                 $this->_getSession()->addError(
                     __("An item with this ID doesn't exist.")
@@ -542,7 +542,7 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
             }
         }
 
-        $wishlistName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
+        $wishlistName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
 
         if (count($notFound)) {
             $this->_getSession()->addError(
@@ -551,14 +551,14 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
         }
 
         if (count($notAllowed)) {
-            $names = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($notAllowed));
+            $names = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($notAllowed));
             $this->_getSession()->addError(
                 __('%1 items cannot be moved: %2.', count($notAllowed), $names)
             );
         }
 
         if (count($alreadyPresent)) {
-            $names = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($alreadyPresent));
+            $names = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->_getSession()->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );
@@ -571,8 +571,8 @@ class Enterprise_Wishlist_Controller_Index extends Magento_Wishlist_Controller_I
         }
 
         if (count($moved)) {
-            Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
-            $names = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($moved));
+            $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
+            $names = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($this->_joinProductNames($moved));
             $this->_getSession()->addSuccess(
                 __('%1 items were moved to %2: %3.', count($moved), $wishlistName, $names)
             );

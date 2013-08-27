@@ -20,6 +20,27 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
 {
     protected $_rates;
 
+    /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -124,7 +145,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
+            $this->_taxData->getShippingPrice(
                 $price,
                 $flag,
                 $this->getAddress(),

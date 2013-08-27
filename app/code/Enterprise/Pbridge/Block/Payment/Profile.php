@@ -25,6 +25,11 @@ class Enterprise_Pbridge_Block_Payment_Profile extends Enterprise_Pbridge_Block_
      */
     protected $_iframeHeight = '600';
 
+    public function __construct(Enterprise_Pbridge_Helper_Data $pbridgeData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($pbridgeData, $context, $data);
+    }
+
     /**
      * Getter for Payment Profiles Iframe source URL.
      * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
@@ -34,7 +39,7 @@ class Enterprise_Pbridge_Block_Payment_Profile extends Enterprise_Pbridge_Block_
      */
     public function getSourceUrl()
     {
-        return Mage::helper('Enterprise_Pbridge_Helper_Data')->getPaymentProfileUrl(
+        return $this->_pbridgeData->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => $this->getCssUrl(),

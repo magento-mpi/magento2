@@ -30,10 +30,25 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
     protected $_entityTypeId;
 
     /**
-     * Constructor. Initializes default values.
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
      */
-    public function __construct(Magento_Cache_FrontendInterface $attributeLabelCache)
-    {
+    protected $_catalogData = null;
+
+    /**
+     * Constructor. Initializes default values.
+     *
+     *
+     *
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param  $attributeLabelCache
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Cache_FrontendInterface $attributeLabelCache
+    ) {
+        $this->_catalogData = $catalogData;
         $this->_attributeLabelCache = $attributeLabelCache;
         $this->_storeIdSessionField = 'product_store_id';
         $this->_ignoredAttributeCodes[] = 'type_id';
@@ -138,7 +153,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         /** @var $model Magento_Catalog_Model_Resource_Eav_Attribute */
         $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
         /** @var $helper Magento_Catalog_Helper_Product */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product');
+        $helper = $this->_catalogProduct;
 
         if (empty($data['attribute_code']) || !is_array($data['frontend_label'])) {
             $this->_fault('invalid_parameters');
@@ -357,7 +372,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         }
 
         /** @var $helperCatalog Magento_Catalog_Helper_Data */
-        $helperCatalog = Mage::helper('Magento_Catalog_Helper_Data');
+        $helperCatalog = $this->_catalogData;
 
         $optionLabels = array();
         foreach ($data['label'] as $label) {
@@ -445,7 +460,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
     protected function _prepareDataForSave(&$data)
     {
         /** @var $helperCatalog Magento_Catalog_Helper_Data */
-        $helperCatalog = Mage::helper('Magento_Catalog_Helper_Data');
+        $helperCatalog = $this->_catalogData;
 
         if ($data['scope'] == 'global') {
             $data['is_global'] = Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL;

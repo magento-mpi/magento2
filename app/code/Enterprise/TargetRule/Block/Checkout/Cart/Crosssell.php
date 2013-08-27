@@ -50,6 +50,11 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      */
     protected $_index;
 
+    public function __construct(Enterprise_TargetRule_Helper_Data $targetRuleData, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($targetRuleData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /**
      * Retrieve Catalog Product List Type identifier
      *
@@ -158,7 +163,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      */
     public function getTargetRuleHelper()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data');
+        return $this->_targetRuleData;
     }
 
     /**

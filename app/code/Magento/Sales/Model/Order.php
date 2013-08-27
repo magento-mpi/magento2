@@ -390,6 +390,51 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     protected $_historyEntityName = self::HISTORY_ENTITY_NAME;
 
     /**
+     * Sales data
+     *
+     * @var Magento_Sales_Helper_Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Sales_Helper_Data $salesData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -1228,14 +1273,14 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     {
         $storeId = $this->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendNewOrderEmail($storeId)) {
+        if (!$this->_salesData->canSendNewOrderEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
         $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
 
-        $paymentBlockHtml = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlockHtml($this->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($this->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($this->getCustomerIsGuest()) {
@@ -1295,7 +1340,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     {
         $storeId = $this->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendOrderCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendOrderCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -1971,7 +2016,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     public function getEmailCustomerNote()

@@ -19,7 +19,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('Magento_Customer_Helper_Data')->getLoginUrl();
+        $loginUrl = $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl();
 
         if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
@@ -169,7 +169,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
      */
     protected function _loadOrderItems($orderId)
     {
-        if (Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($orderId)) {
+        if ($this->_objectManager->get('Enterprise_Rma_Helper_Data')->canCreateRma($orderId)) {
             return true;
         }
 
@@ -298,7 +298,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
                 $number    = $this->getRequest()->getPost('number');
                 $number    = trim(strip_tags($number));
                 $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers($rma->getStoreId());
+                $carriers  = $this->_objectManager->get('Enterprise_Rma_Helper_Data')->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
                     Mage::throwException(__('Please select a valid carrier.'));
@@ -402,6 +402,6 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
      */
     protected function _isEnabledOnFront()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled();
+        return $this->_objectManager->get('Enterprise_Rma_Helper_Data')->isEnabled();
     }
 }

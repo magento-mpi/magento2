@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_Helper_Abstract
 {
      /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($context);
+    }
+
+    /**
      * Init layout of product configuration update result
      *
      * @param Magento_Adminhtml_Controller_Action $controller
@@ -119,7 +138,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
             // Prepare buy request values
             $buyRequest = $configureResult->getBuyRequest();
             if ($buyRequest) {
-                Mage::helper('Magento_Catalog_Helper_Product')->prepareProductOptions($product, $buyRequest);
+                $this->_catalogProduct->prepareProductOptions($product, $buyRequest);
             }
 
             $isOk = true;

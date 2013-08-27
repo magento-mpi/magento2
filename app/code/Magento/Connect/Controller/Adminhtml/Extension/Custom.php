@@ -61,7 +61,7 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
         if ($packageName) {
             $session = Mage::getSingleton('Magento_Connect_Model_Session');
             try {
-                $data = Mage::helper('Magento_Connect_Helper_Data')->loadLocalPackage($packageName);
+                $data = $this->_objectManager->get('Magento_Connect_Helper_Data')->loadLocalPackage($packageName);
                 if (!$data) {
                     Mage::throwException(__('Something went wrong loading the package data.'));
                 }

@@ -18,6 +18,11 @@
 class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
     extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
 {
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+    }
+
     /**
      * Get Tab Label
      *
@@ -71,7 +76,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
                 }
             }
             foreach ($temp as $key => $value) {
-                $authors[$key] = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($value);
+                $authors[$key] = $this->_coreData->jsonEncode($value);
             }
         }
         return $authors;

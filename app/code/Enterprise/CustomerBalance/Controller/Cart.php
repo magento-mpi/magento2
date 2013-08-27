@@ -34,7 +34,7 @@ class Enterprise_CustomerBalance_Controller_Cart extends Magento_Core_Controller
      */
     public function removeAction()
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!$this->_objectManager->get('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }

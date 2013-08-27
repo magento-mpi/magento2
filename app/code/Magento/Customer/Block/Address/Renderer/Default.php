@@ -28,6 +28,27 @@ class Magento_Customer_Block_Address_Renderer_Default
     protected $_type;
 
     /**
+     * Customer address
+     *
+     * @var Magento_Customer_Helper_Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerAddress = $customerAddress;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrive format type object
      *
      * @return Magento_Object
@@ -82,7 +103,7 @@ class Magento_Customer_Block_Address_Renderer_Default
         }
 
         $formater   = new Magento_Filter_Template();
-        $attributes = Mage::helper('Magento_Customer_Helper_Address')->getAttributes();
+        $attributes = $this->_customerAddress->getAttributes();
 
         $data = array();
         foreach ($attributes as $attribute) {

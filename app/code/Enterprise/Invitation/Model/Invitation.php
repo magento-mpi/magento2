@@ -57,6 +57,41 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     protected $_eventObject = 'invitation';
 
     /**
+     * Core data
+     *
+     * @var Magento_Core_Helper_Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Invitation data
+     *
+     * @var Enterprise_Invitation_Helper_Data
+     */
+    protected $_invitationData = null;
+
+    /**
+     * @param Enterprise_Invitation_Helper_Data $invitationData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Invitation_Helper_Data $invitationData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_invitationData = $invitationData;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Intialize resource
      */
     protected function _construct()
@@ -108,7 +143,7 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => Mage::helper('Magento_Core_Helper_Data')->uniqHash(),
+                'protection_code' => $this->_coreData->uniqHash(),
                 'status'          => self::STATUS_NEW,
                 'invitation_date' => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),
@@ -173,7 +208,7 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
             ->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
-                    'url'           => Mage::helper('Enterprise_Invitation_Helper_Data')->getInvitationUrl($this),
+                    'url'           => $this->_invitationData->getInvitationUrl($this),
                     'allow_message' => Mage::app()->getStore()->isAdmin()
                         || Mage::getSingleton('Enterprise_Invitation_Model_Config')->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),

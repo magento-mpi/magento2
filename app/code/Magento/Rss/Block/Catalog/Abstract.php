@@ -42,6 +42,27 @@ class Magento_Rss_Block_Catalog_Abstract extends Magento_Rss_Block_Abstract
     protected $_mapRenderer = 'msrp_rss';
 
     /**
+     * Catalog data
+     *
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Return Price Block renderer for specified product type
      *
      * @param string $productTypeId Catalog Product type
@@ -88,7 +109,7 @@ class Magento_Rss_Block_Catalog_Abstract extends Magento_Rss_Block_Abstract
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix='')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+        if ($this->_catalogData->canApplyMsrp($product)) {
             $type_id = $this->_mapRenderer;
         }
 

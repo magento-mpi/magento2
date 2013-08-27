@@ -38,7 +38,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
             $blocks = array($blocks);
         }
 
-        $requestData = Mage::helper('Magento_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new Magento_Object();

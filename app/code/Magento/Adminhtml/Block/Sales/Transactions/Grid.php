@@ -18,6 +18,31 @@
 class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid params
      *
      */
@@ -95,8 +120,8 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
             'header' => __('Payment Method'),
             'index' => 'method',
             'type' => 'options',
-            'options' => Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true),
-            'option_groups' => Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true, true, true),
+            'options' => $this->_paymentData->getPaymentMethodList(true),
+            'option_groups' => $this->_paymentData->getPaymentMethodList(true, true, true),
             'header_css_class' => 'col-method',
             'column_css_class' => 'col-method'
         ));

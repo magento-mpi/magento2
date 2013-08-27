@@ -77,8 +77,20 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      */
     protected $_debugReplacePrivateDataKeys = array();
 
-    public function __construct()
-    {
+    /**
+     * Payment data
+     *
+     * @var Magento_Payment_Helper_Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData
+    ) {
+        $this->_paymentData = $paymentData;
 
     }
 
@@ -305,7 +317,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_Payment_Helper_Data');
+        return $this->_paymentData;
     }
 
     /**

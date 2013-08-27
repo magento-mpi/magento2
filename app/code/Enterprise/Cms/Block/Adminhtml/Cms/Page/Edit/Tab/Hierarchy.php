@@ -25,6 +25,27 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     protected $_nodes = null;
     /**
+     * Cms hierarchy
+     *
+     * @var Enterprise_Cms_Helper_Hierarchy
+     */
+    protected $_cmsHierarchy = null;
+
+    /**
+     * @param Enterprise_Cms_Helper_Hierarchy $cmsHierarchy
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_Cms_Helper_Hierarchy $cmsHierarchy,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsHierarchy = $cmsHierarchy;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve current page instance
      *
      * @return Magento_Cms_Model_Page
@@ -41,7 +62,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getNodesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getNodes());
+        return $this->_coreData->jsonEncode($this->getNodes());
     }
 
     /**
@@ -53,7 +74,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
+                $data = $this->_coreData->jsonDecode($this->getPage()->getNodesData());
             }catch (Zend_Json_Exception $e){
                 $data = null;
             }
@@ -168,7 +189,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**
@@ -199,7 +220,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     public function canShowTab()
     {
         if (!$this->getPage()->getId()
-            || !Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isEnabled()
+            || !$this->_cmsHierarchy->isEnabled()
             || !$this->_authorization->isAllowed('Enterprise_Cms::hierarchy'))
         {
             return false;

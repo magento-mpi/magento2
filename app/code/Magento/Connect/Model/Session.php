@@ -20,10 +20,23 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
 {
 
     /**
-    * Contructor
-    */
-    public function __construct()
-    {
+     * Connect data
+     *
+     * @var Magento_Connect_Helper_Data
+     */
+    protected $_connectData = null;
+
+    /**
+     * Contructor
+     *
+     *
+     *
+     * @param Magento_Connect_Helper_Data $connectData
+     */
+    public function __construct(
+        Magento_Connect_Helper_Data $connectData
+    ) {
+        $this->_connectData = $connectData;
         $this->init('adminhtml');
     }
 
@@ -54,7 +67,7 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
                     array_push($data['authors']['email'], $data['maintainers']['email'][$i]);
                 }
                 // Convert channel from previous version for entire package
-                $helper = Mage::helper('Magento_Connect_Helper_Data');
+                $helper = $this->_connectData;
                 if (isset($data['channel'])) {
                     $data['channel'] = $helper->convertChannelFromV1x($data['channel']);
                 }

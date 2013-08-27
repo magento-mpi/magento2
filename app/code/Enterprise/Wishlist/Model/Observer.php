@@ -18,18 +18,44 @@
 class Enterprise_Wishlist_Model_Observer
 {
     /**
+     * Wishlist data
+     *
+     * @var Enterprise_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Enterprise_Wishlist_Helper_Data $wishlistData
+     */
+    public function __construct(
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Enterprise_Wishlist_Helper_Data $wishlistData
+    ) {
+        $this->_wishlistData = $wishlistData;
+        $this->_wishlistData = $wishlistData;
+    }
+
+    /**
      * Set collection of all items from all wishlists to wishlist helper
      * So all the information about number of items in wishlists will take all wishlist into account
      */
     public function initHelperItemCollection()
     {
-        if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
                 ->addCustomerIdFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
                 ->setVisibilityFilter()
                 ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
-            Mage::helper('Magento_Wishlist_Helper_Data')->setWishlistItemCollection($collection);
+            $this->_wishlistData->setWishlistItemCollection($collection);
         }
     }
 }
