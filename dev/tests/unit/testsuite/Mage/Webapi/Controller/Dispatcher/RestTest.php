@@ -87,9 +87,6 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
      */
     public function testDispatchException()
     {
-        $this->markTestIncomplete(
-            "Test should be fixed after Mage_Webapi_Controller_Dispatcher_Rest::dispatch() is complete"
-        );
         /** Init logical Exception. */
         $logicalException = new LogicException();
         /** Mock authenticate method to throw Exception. */
