@@ -95,6 +95,7 @@ class Mage_Widget_Model_Widget
         if ($widget === null) {
             return $object;
         }
+        $widget = $this->_getAsCanonicalArray($widget);
 
         // Save all nodes to object data
         $object->setType($type);
@@ -291,6 +292,27 @@ class Mage_Widget_Model_Widget
             }
         }
         return $result;
+    }
+
+    /**
+     * Remove attributes from wisget array so that emulates how Magento_Simplexml_Element::asCanonicalArray works
+     *
+     * @param $inputArray
+     * @return mixed
+     */
+    protected function _getAsCanonicalArray($inputArray)
+    {
+        if (array_key_exists('@', $inputArray)) {
+            unset($inputArray['@']);
+        }
+        foreach ($inputArray as $key => $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            $inputArray[$key] = $this->_getAsCanonicalArray($value);
+        }
+        return $inputArray;
+
     }
 
     /**
