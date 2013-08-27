@@ -12,7 +12,7 @@ class Mage_Customer_Block_Account_Authorization extends Mage_Page_Block_Link
      *
      * @var Mage_Customer_Model_Session
      */
-    protected $_session;
+    protected $_customerSession;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
@@ -26,7 +26,7 @@ class Mage_Customer_Block_Account_Authorization extends Mage_Page_Block_Link
     )
     {
         parent::__construct($context, $data);
-        $this->_session = $session;
+        $this->_customerSession = $session;
     }
 
     /**
@@ -35,7 +35,7 @@ class Mage_Customer_Block_Account_Authorization extends Mage_Page_Block_Link
     public function getHref()
     {
         $helper = $this->_helperFactory->get('Mage_Customer_Helper_Data');
-        return $this->_session->isLoggedIn() ? $helper->getLogoutUrl() : $helper->getLoginUrl();
+        return $this->_customerSession->isLoggedIn() ? $helper->getLogoutUrl() : $helper->getLoginUrl();
     }
 
     /**
@@ -43,14 +43,7 @@ class Mage_Customer_Block_Account_Authorization extends Mage_Page_Block_Link
      */
     public function getLabel()
     {
-        return $this->_session->isLoggedIn() ? 'Log Out' : 'Log In';
+        return $this->_customerSession->isLoggedIn() ? $this->__('Log Out') : $this->__('Log In');
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->_session->isLoggedIn() ? 'Log Out' : 'Log In';
-    }
 }

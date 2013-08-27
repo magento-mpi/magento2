@@ -17,11 +17,44 @@
 class Enterprise_Invitation_Block_Link extends Mage_Page_Block_Link
 {
     /**
+     * @var Enterprise_Invitation_Helper_Data
+     */
+    protected $_invitationConfiguration;
+    /**
+     * @var Mage_Customer_Model_Session
+     */
+    protected $_customerSession;
+    /**
+     * @var Enterprise_Invitation_Helper_Data
+     */
+    protected $_invitationHelper;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Customer_Model_Session $customerSession
+     * @param Enterprise_Invitation_Helper_Data $invitationHelper
+     * @param Enterprise_Invitation_Model_Config $invitationConfiguration
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Customer_Model_Session $customerSession,
+        Enterprise_Invitation_Helper_Data $invitationHelper,
+        Enterprise_Invitation_Model_Config $invitationConfiguration,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_customerSession = $customerSession;
+        $this->_invitationConfiguration = $invitationConfiguration;
+        $this->_invitationHelper = $invitationHelper;
+    }
+
+    /**
      * @return string
      */
     public function getHref()
     {
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationFormUrl();
+        return $this->_invitationHelper->getCustomerInvitationFormUrl();
     }
 
     /**
@@ -31,8 +64,8 @@ class Enterprise_Invitation_Block_Link extends Mage_Page_Block_Link
      */
     protected function _toHtml()
     {
-        if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()
-            && Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
+        if ($this->_invitationConfiguration->isEnabledOnFront()
+            && $this->_customerSession->isLoggedIn()
         ) {
             return parent::_toHtml();
         }

@@ -12,7 +12,7 @@ class Mage_Customer_Block_Account_Register extends Mage_Page_Block_Link
      *
      * @var Mage_Customer_Model_Session
      */
-    protected $_session;
+    protected $_customerSession;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
@@ -26,7 +26,7 @@ class Mage_Customer_Block_Account_Register extends Mage_Page_Block_Link
     )
     {
         parent::__construct($context, $data);
-        $this->_session = $session;
+        $this->_customerSession = $session;
     }
 
     /**
@@ -44,7 +44,7 @@ class Mage_Customer_Block_Account_Register extends Mage_Page_Block_Link
      */
     protected function _toHtml()
     {
-        if ($this->_session->isLoggedIn()) {
+        if ($this->_customerSession->isLoggedIn()) {
             return '';
         }
         return parent::_toHtml();

@@ -9,7 +9,8 @@ class Enterprise_Customer_Block_Account_Register extends Mage_Customer_Block_Acc
 {
     public function _toHtml()
     {
-        if (Mage::getStoreConfigFlag('enterprise_invitation/general/registration_required_invitation')) {
+        $key = 'enterprise_invitation/general/registration_required_invitation';
+        if ($this->_storeConfig->getConfigFlag($key)) {
             return '';
         }
         return parent::_toHtml();

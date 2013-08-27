@@ -23,7 +23,7 @@ class Mage_Checkout_Block_Link extends Mage_Page_Block_Link
     protected function _toHtml()
     {
         if (!$this->helper('Mage_Checkout_Helper_Data')->canOnepageCheckout()
-            || !Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')
+            || !$this->helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')
         ) {
             return '';
         }

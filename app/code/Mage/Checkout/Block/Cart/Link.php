@@ -38,7 +38,7 @@ class Mage_Checkout_Block_Cart_Link extends Mage_Page_Block_Link
      */
     protected function _toHtml()
     {
-        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
+        if ($this->helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
             return '';
         }
         return parent::_toHtml();

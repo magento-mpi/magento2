@@ -12,6 +12,6 @@ class Mage_Customer_Block_Account_Link extends Mage_Page_Block_Link
      */
     public function getHref()
     {
-        return $this->_helperFactory->get('Mage_Customer_Helper_Data')->getAccountUrl();
+        return $this->helper('Mage_Customer_Helper_Data')->getAccountUrl();
     }
 }
