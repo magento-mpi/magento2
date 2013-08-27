@@ -31,14 +31,37 @@ class Mage_Page_Block_Link_Current extends Mage_Core_Block_Template
     }
 
     /**
+     * Get current mca
+     *
+     * @return string
+     */
+    private function getMca()
+    {
+        $routeParts = array(
+            'module' => $this->_request->getModuleName(),
+            'controller' => $this->_request->getControllerName(),
+            'action' => $this->_request->getActionName(),
+        );
+
+        $parts = array();
+        foreach ($this->_frontController->getDefault() as $key => $defaultValue) {
+            $value = isset($routeParts[$key]) ? $routeParts[$key] : $this->_request->getParam($key);
+            if (!empty($value) && $value != $defaultValue) {
+                $parts[] = $value;
+            }
+        }
+        return implode('/', $parts);
+    }
+
+    /**
      * Check if link leads to URL equivalent to URL of currently displayed page
      *
      * @return bool
      */
     public function isCurrent()
     {
-        $currentMca = $this->_frontController->getAction()->getFullActionName('/');
+        $currentMca = $this->getMca();
         return $this->getCurrent()
-            || $this->getUrl($this->getPath()) === $this->getUrl($currentMca);
+            || $this->getUrl($this->getPath()) == $this->getUrl($currentMca);
     }
 }
