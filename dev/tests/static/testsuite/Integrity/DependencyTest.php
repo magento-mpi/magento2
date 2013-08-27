@@ -611,6 +611,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * Initialise map of dependencies
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected static function _initDependencies()
     {
