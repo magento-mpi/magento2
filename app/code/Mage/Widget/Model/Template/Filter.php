@@ -32,15 +32,18 @@ class Mage_Widget_Model_Template_Filter extends Mage_Cms_Model_Template_Filter
      * @param Mage_Widget_Model_Widget $widget
      * @param Mage_Widget_Model_Resource_Widget $widgetResource
      * @param Mage_Core_Model_App $coreApp
+     * @param Mage_Core_Model_View_Url $viewUrl
      */
     public function __construct(
         Mage_Widget_Model_Widget $widget,
         Mage_Widget_Model_Resource_Widget $widgetResource,
-        Mage_Core_Model_App $coreApp
+        Mage_Core_Model_App $coreApp,
+        Mage_Core_Model_View_Url $viewUrl
     ) {
         $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;
         $this->_coreApp = $coreApp;
+        parent::__construct($viewUrl);
     }
     /**
      * Generate widget

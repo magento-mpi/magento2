@@ -164,10 +164,14 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $viewUrl = $this->getMock('Mage_Core_Model_View_Url', array(), array(), '', false);
-
         $template->expects($this->any())
             ->method('getTemplateFilter')
-            ->will($this->returnValue(new Mage_Widget_Model_Template_Filter($viewUrl)));
+            ->will($this->returnValue(new Mage_Widget_Model_Template_Filter(
+                $this->getMockBuilder('Mage_Widget_Model_Widget')->disableOriginalConstructor()->getMock(),
+                $this->getMockBuilder('Mage_Widget_Model_Resource_Widget')->disableOriginalConstructor()->getMock(),
+                $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock(),
+                $viewUrl
+            )));
 
         $template->expects($this->any())
             ->method('getDesignConfig')
