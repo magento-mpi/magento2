@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Primary DI configs from app/etc
