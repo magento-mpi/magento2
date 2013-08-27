@@ -23,7 +23,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         /** Prepare mocks for request constructor arguments. */
-        $this->_interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
+        $this->_interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request_Interpreter_Factory')
             ->setMethods(array('interpret', 'get'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -36,7 +36,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock(
-            'Mage_Webapi_Controller_Request_Rest',
+            'Mage_Webapi_Controller_Rest_Request',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
             array($configMock, $this->_interpreterFactory, $helper)
         );
@@ -62,7 +62,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             ->method('getHeader')
             ->with('Accept')
             ->will($this->returnValue($acceptHeader));
-        /** @var Mage_Webapi_Controller_Request_Rest _requestMock */
+        /** @var Mage_Webapi_Controller_Rest_Request _requestMock */
         $this->assertSame($expectedResult, $this->_request->getAcceptTypes());
     }
 
@@ -97,7 +97,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentType));
-        $interpreter = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Json')
+        $interpreter = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request_Interpreter_Json')
             ->disableOriginalConstructor()
             ->setMethods(array('interpret'))
             ->getMock();

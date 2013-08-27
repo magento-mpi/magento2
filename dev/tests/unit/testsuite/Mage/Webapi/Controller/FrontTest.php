@@ -20,7 +20,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Dispatcher_Factory. */
     protected $_dispatcherFactory;
 
-    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor. */
+    /** @var Mage_Webapi_Controller_ErrorProcessor. */
     protected $_errorProcessorMock;
 
     /** @var Mage_Core_Model_Config */
@@ -49,7 +49,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 
         $this->_routeFactoryMock = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
             ->disableOriginalConstructor()->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_ErrorProcessor')
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
@@ -98,7 +98,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     public function testDispatch()
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
+        $this->_createMockForApiRouteAndFactory(array('request_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
         $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
             ->disableOriginalConstructor()
             ->getMock();
@@ -115,7 +115,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     public function testDispatchException()
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
+        $this->_createMockForApiRouteAndFactory(array('request_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
         $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
             ->disableOriginalConstructor()
             ->getMock();
@@ -136,7 +136,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
      */
     public function testDetermineApiTypeNotDefined()
     {
-        $apiType = array('api_type' => 'invalidApiType');
+        $apiType = array('request_type' => 'invalidApiType');
         $this->_createMockForApiRouteAndFactory($apiType);
         /** Assert Mage_Webapi_Exception type and message. */
         $this->setExpectedException(
@@ -179,7 +179,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     public function testDeterminateApiTypeApiIsSet()
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_SOAP));
+        $this->_createMockForApiRouteAndFactory(array('request_type' => Mage_Webapi_Controller_Front::API_TYPE_SOAP));
         /** Assert that createRoute method will be executed only once */
         $this->_routeFactoryMock->expects($this->once())->method('createRoute');
         /** The first method call will set apiType property using createRoute method. */

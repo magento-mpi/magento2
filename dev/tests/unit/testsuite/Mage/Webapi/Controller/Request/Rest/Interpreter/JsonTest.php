@@ -12,7 +12,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
-    /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Json */
+    /** @var Mage_Webapi_Controller_Rest_Request_Interpreter_Json */
     protected $_jsonInterpreter;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -44,7 +44,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_jsonInterpreter = new Mage_Webapi_Controller_Request_Rest_Interpreter_Json(
+        $this->_jsonInterpreter = new Mage_Webapi_Controller_Rest_Request_Interpreter_Json(
             $this->_helperFactoryMock,
             $this->_appMock
         );

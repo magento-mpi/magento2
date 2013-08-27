@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Mage_Webapi_Controller_Dispatcher_Soap_Handler.
+ * Test for Mage_Webapi_Controller_Soap_Handler.
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Handler */
+    /** @var Mage_Webapi_Controller_Soap_Handler */
     protected $_handler;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -56,7 +56,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
             ->setMethods(array('__', 'prepareMethodParams'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Soap_Authentication')
+        $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Authentication')
             ->setMethods(array('authenticate'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -68,16 +68,16 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
             ->setMethods(array('checkServiceAcl'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Request')
             ->setMethods(array('getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_ErrorProcessor')
             ->setMethods(array('maskException'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_handler = new Mage_Webapi_Controller_Dispatcher_Soap_Handler(
+        $this->_handler = new Mage_Webapi_Controller_Soap_Handler(
             $this->_apiConfigMock,
             $this->_helperMock,
             $this->_authenticationMock,
@@ -254,7 +254,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
 
         /** Execute SUT. */
         $this->assertEquals(
-            (object)array(Mage_Webapi_Controller_Dispatcher_Soap_Handler::RESULT_NODE_NAME => $expectedResult),
+            (object)array(Mage_Webapi_Controller_Soap_Handler::RESULT_NODE_NAME => $expectedResult),
             $this->_handler->__call($operation, $this->_arguments)
         );
     }
@@ -265,7 +265,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
     protected function _prepareSoapRequest()
     {
         /** Process security header by __call() method. */
-        $this->_handler->setRequestHeaders(array(Mage_Webapi_Controller_Dispatcher_Soap_Security::HEADER_SECURITY));
+        $this->_handler->setRequestHeaders(array(Mage_Webapi_Controller_Soap_Security::HEADER_SECURITY));
         $usernameToken = new stdClass();
         // @codingStandardsIgnoreStart
         $usernameToken->UsernameToken = new stdClass();
@@ -275,7 +275,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
         $usernameToken->UsernameToken->Created = 'created';
         // @codingStandardsIgnoreEnd
         $this->_handler->__call(
-            Mage_Webapi_Controller_Dispatcher_Soap_Security::HEADER_SECURITY,
+            Mage_Webapi_Controller_Soap_Security::HEADER_SECURITY,
             array($usernameToken)
         );
 

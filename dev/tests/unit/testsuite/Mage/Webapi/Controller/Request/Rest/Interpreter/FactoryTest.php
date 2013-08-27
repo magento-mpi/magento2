@@ -21,7 +21,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
-    /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Factory */
+    /** @var Mage_Webapi_Controller_Rest_Request_Interpreter_Factory */
     protected $_interpreterFactory;
 
     protected function setUp()
@@ -44,7 +44,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_interpreterFactory = new Mage_Webapi_Controller_Request_Rest_Interpreter_Factory(
+        $this->_interpreterFactory = new Mage_Webapi_Controller_Rest_Request_Interpreter_Factory(
             $this->_objectManagerMock,
             $this->_applicationConfig,
             $this->_helperFactoryMock
@@ -77,7 +77,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $validInterpreterMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Xml')
+        $validInterpreterMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request_Interpreter_Xml')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
@@ -117,7 +117,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $invalidInterpreter = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest_Renderer_Json')
+        $invalidInterpreter = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response_Renderer_Json')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
@@ -126,7 +126,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->will($this->returnValue($invalidInterpreter));
         $this->setExpectedException(
             'LogicException',
-            'The interpreter must implement "Mage_Webapi_Controller_Request_Rest_InterpreterInterface".'
+            'The interpreter must implement "Mage_Webapi_Controller_Rest_Request_InterpreterInterface".'
         );
         /** Initialize SUT. */
         $this->_interpreterFactory->get('text/xml');

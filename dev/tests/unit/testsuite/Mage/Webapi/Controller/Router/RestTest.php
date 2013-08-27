@@ -11,10 +11,10 @@
 
 class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Router_Route_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Router_Route */
     protected $_routeMock;
 
-    /** @var Mage_Webapi_Controller_Request_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Request */
     protected $_request;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -23,7 +23,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Model_Rest_Config */
     protected $_apiConfigMock;
 
-    /** @var Mage_Webapi_Controller_Router_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Router */
     protected $_router;
 
     protected function setUp()
@@ -32,7 +32,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
         $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Rest_Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
+        $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request_Interpreter_Factory')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
@@ -40,14 +40,14 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('__'))
             ->getMock();
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $this->_routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')
+        $this->_routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')
             ->disableOriginalConstructor()
             ->setMethods(array('match'))
             ->getMock();
         $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
-        $this->_request = new Mage_Webapi_Controller_Request_Rest($configMock, $interpreterFactory, $this->_helperMock);
+        $this->_request = new Mage_Webapi_Controller_Rest_Request($configMock, $interpreterFactory, $this->_helperMock);
         /** Initialize SUT. */
-        $this->_router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
+        $this->_router = new Mage_Webapi_Controller_Rest_Router($this->_helperMock, $this->_apiConfigMock);
     }
 
     protected function tearDown()
@@ -100,7 +100,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     {
         $methodName = 'foo';
         $version = 'bar';
-        $request = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
+        $request = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
             ->disableOriginalConstructor()
             ->setMethods(array('getServiceName'))
             ->getMock();

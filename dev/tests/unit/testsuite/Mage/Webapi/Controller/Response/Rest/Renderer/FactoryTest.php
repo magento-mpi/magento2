@@ -9,10 +9,10 @@
  */
 class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Factory */
+    /** @var Mage_Webapi_Controller_Rest_Response_Renderer_Factory */
     protected $_factory;
 
-    /** @var Mage_Webapi_Controller_Request_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Request */
     protected $_requestMock;
 
     /** @var Mage_Core_Model_Config */
@@ -33,10 +33,10 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         $helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')->disableOriginalConstructor()
             ->getMock();
         $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($helperDataMock));
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')->disableOriginalConstructor()
             ->getMock();
         /** Init SUT. */
-        $this->_factory = new Mage_Webapi_Controller_Response_Rest_Renderer_Factory(
+        $this->_factory = new Mage_Webapi_Controller_Rest_Response_Renderer_Factory(
             $this->_objectManagerMock,
             $this->_applicationMock,
             $helperFactoryMock,
@@ -68,12 +68,12 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock renderer. */
-        $rendererMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest_Renderer_Json')
+        $rendererMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response_Renderer_Json')
             ->disableOriginalConstructor()
             ->getMock();
         /** Mock object to return mocked renderer. */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            'Mage_Webapi_Controller_Response_Rest_Renderer_Json'
+            'Mage_Webapi_Controller_Rest_Response_Renderer_Json'
         )->will($this->returnValue($rendererMock));
         $this->_factory->get();
     }
@@ -85,11 +85,11 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         <renders>
             <default>
                 <type>*/*</type>
-                <model>Mage_Webapi_Controller_Response_Rest_Renderer_Json</model>
+                <model>Mage_Webapi_Controller_Rest_Response_Renderer_Json</model>
             </default>
             <application_json>
                 <type>application/json</type>
-                <model>Mage_Webapi_Controller_Response_Rest_Renderer_Json</model>
+                <model>Mage_Webapi_Controller_Rest_Response_Renderer_Json</model>
             </application_json>
         </renders>
 XML;
@@ -127,12 +127,12 @@ XML;
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock object to return Varien_Object */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            'Mage_Webapi_Controller_Response_Rest_Renderer_Json'
+            'Mage_Webapi_Controller_Rest_Response_Renderer_Json'
         )->will($this->returnValue(new Varien_Object()));
 
         $this->setExpectedException(
             'LogicException',
-            'The renderer must implement "Mage_Webapi_Controller_Response_Rest_RendererInterface".'
+            'The renderer must implement "Mage_Webapi_Controller_Rest_Response_RendererInterface".'
         );
         $this->_factory->get();
     }

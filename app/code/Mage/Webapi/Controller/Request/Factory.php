@@ -9,53 +9,55 @@
  */
 class Mage_Webapi_Controller_Request_Factory
 {
-    /**
-     * List of request classes corresponding to API types.
-     *
-     * @var array
-     */
-    protected $_apiTypeToRequestMap = array(
-        Mage_Webapi_Controller_Front::API_TYPE_REST => 'Mage_Webapi_Controller_Request_Rest',
-        Mage_Webapi_Controller_Front::API_TYPE_SOAP => 'Mage_Webapi_Controller_Request_Soap',
-    );
-
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var Mage_Webapi_Controller_Front */
-    protected $_apiFrontController;
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
+    /** @var Mage_Core_Model_Config */
+    protected $_config;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Controller_Front $apiFrontController
+     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_Config $config
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Webapi_Controller_Front $apiFrontController,
+        Mage_Core_Model_App $application,
+        Mage_Core_Model_Config $config,
         Magento_ObjectManager $objectManager
     ) {
-        $this->_apiFrontController = $apiFrontController;
+        $this->_application = $application;
+        $this->_config = $config;
         $this->_objectManager = $objectManager;
     }
 
     /**
-     * Create request object.
-     *
-     * Use current API type to define proper request class.
+     * Determine request type (e.g. SOAP or REST) and return request object.
      *
      * @return Mage_Webapi_Controller_Request
-     * @throws LogicException If there is no corresponding request class for current API type.
+     * @throws LogicException If there is no corresponding request class for current request type.
      */
     public function get()
     {
-        $apiType = $this->_apiFrontController->determineApiType();
-        if (!isset($this->_apiTypeToRequestMap[$apiType])) {
-            throw new LogicException(
-                sprintf('There is no corresponding request class for the "%s" API type.', $apiType)
+        $pathInfo = ltrim($this->_application->getRequest()->getOriginalPathInfo(), '/');
+
+        if (!preg_match('/\w+/', $pathInfo, $matches)) {
+            throw new \LogicException('Invalid request: valid request type expected.');
+        }
+
+        $requestType = strtolower($matches[0]);
+        $requestClass = sprintf('Mage_Webapi_Controller_%s_Request', ucfirst($requestType));
+
+        if (!class_exists($requestClass)) {
+            throw new \LogicException(
+                sprintf('No corresponding handler class found for "%s" request type', $requestType)
             );
         }
-        $requestClass = $this->_apiTypeToRequestMap[$apiType];
+
         return $this->_objectManager->get($requestClass);
     }
 }

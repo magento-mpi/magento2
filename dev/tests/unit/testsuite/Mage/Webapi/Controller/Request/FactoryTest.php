@@ -60,7 +60,7 @@ class Mage_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_TestC
         $this->_apiFrontMock->expects($this->once())
             ->method('determineApiType')
             ->will($this->returnValue(Mage_Webapi_Controller_Front::API_TYPE_REST));
-        $expectedController = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
+        $expectedController = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManager->expects($this->once())->method('get')->will($this->returnValue($expectedController));

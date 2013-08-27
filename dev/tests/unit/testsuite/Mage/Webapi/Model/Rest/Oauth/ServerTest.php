@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')
             ->setMethods(array('getHeader', 'getScheme', 'getHttpHost', 'getRequestUri'))
             ->disableOriginalConstructor()
             ->getMock();

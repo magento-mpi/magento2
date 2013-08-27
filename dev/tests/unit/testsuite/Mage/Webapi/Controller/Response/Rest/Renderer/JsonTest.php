@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Response_Rest_Renderer_JsonTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Json */
+    /** @var Mage_Webapi_Controller_Rest_Response_Renderer_Json */
     protected $_restJsonRenderer;
 
     /** @var Mage_Core_Helper_Data */
@@ -22,7 +22,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_JsonTest extends PHPUnit_Fra
         $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
         $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
         /** Initialize SUT. */
-        $this->_restJsonRenderer = new Mage_Webapi_Controller_Response_Rest_Renderer_Json($helperFactoryMock);
+        $this->_restJsonRenderer = new Mage_Webapi_Controller_Rest_Response_Renderer_Json($helperFactoryMock);
         parent::setUp();
     }
 

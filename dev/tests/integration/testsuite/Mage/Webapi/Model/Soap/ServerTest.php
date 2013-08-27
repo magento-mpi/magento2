@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_App */
     protected $_applicationMock;
 
-    /** @var Mage_Webapi_Controller_Request_Soap */
+    /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_requestMock;
 
     /** @var Magento_DomDocument_Factory */
@@ -27,7 +27,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->_storeMock = $this->getMockBuilder('Mage_Core_Model_Store')->disableOriginalConstructor()->getMock();
         $this->_applicationMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_applicationMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')->disableOriginalConstructor()
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Request')->disableOriginalConstructor()
             ->getMock();
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();

@@ -16,7 +16,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_xmlParserMock;
 
-    /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Xml */
+    /** @var Mage_Webapi_Controller_Rest_Request_Interpreter_Xml */
     protected $_xmlInterpreter;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -39,7 +39,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_xmlInterpreter = new Mage_Webapi_Controller_Request_Rest_Interpreter_Xml(
+        $this->_xmlInterpreter = new Mage_Webapi_Controller_Rest_Request_Interpreter_Xml(
             $this->_xmlParserMock,
             $this->_helperFactoryMock,
             $this->_appMock

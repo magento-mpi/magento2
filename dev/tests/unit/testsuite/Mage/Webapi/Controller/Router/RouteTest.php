@@ -15,7 +15,7 @@ class Mage_Webapi_Controller_Router_RouteTest extends PHPUnit_Framework_TestCase
     {
         $areaName = 'webapi';
         $route = new Mage_Webapi_Controller_Router_Route(
-            $areaName . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
+            $areaName . '/:' . Mage_Webapi_Controller_Request::PARAM_REQUEST_TYPE
         );
 
         $testApiType = 'test_api';
@@ -24,6 +24,6 @@ class Mage_Webapi_Controller_Router_RouteTest extends PHPUnit_Framework_TestCase
         $request->setRequestUri($testUri);
 
         $match = $route->match($request);
-        $this->assertEquals($testApiType, $match['api_type']);
+        $this->assertEquals($testApiType, $match['request_type']);
     }
 }

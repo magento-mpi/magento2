@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessor;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -31,7 +31,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_loggerMock = $this->getMockBuilder('Mage_Core_Model_Logger')->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
-        $this->_errorProcessor = new Mage_Webapi_Controller_Dispatcher_ErrorProcessor(
+        $this->_errorProcessor = new Mage_Webapi_Controller_ErrorProcessor(
             $helperFactoryMock,
             $this->_appMock,
             $this->_loggerMock

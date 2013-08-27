@@ -49,13 +49,13 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
      *      'serviceMethod' => 'item'
      *      'secure' => true
      *  );</pre>
-     * @return Mage_Webapi_Controller_Router_Route_Rest
+     * @return Mage_Webapi_Controller_Rest_Router_Route
      */
     protected function _createRoute($routeData)
     {
-        /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
+        /** @var $route Mage_Webapi_Controller_Rest_Router_Route */
         $route = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route_Rest',
+            'Mage_Webapi_Controller_Rest_Router_Route',
             strtolower($routeData['routePath'])
         );
 
@@ -70,12 +70,12 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
     /**
      * Get service base URL
      *
-     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @param Mage_Webapi_Controller_Rest_Request $request
      * @return string|null
      */
     protected function _getServiceBaseUrl($request)
     {
-        $baseUrlRegExp = '#^/\w+/\w+#';
+        $baseUrlRegExp = '#^/?\w+/\w+#';
         $serviceBaseUrl = preg_match($baseUrlRegExp, $request->getPathInfo(), $matches) ? $matches[0] : null;
 
         return $serviceBaseUrl;
@@ -84,19 +84,21 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
     /**
      * Generate the list of available REST routes.
      *
-     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @param Mage_Webapi_Controller_Rest_Request $request
      * @return array
      * @throws Mage_Webapi_Exception
      */
-    public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
+    public function getRestRoutes(Mage_Webapi_Controller_Rest_Request $request)
     {
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
         $httpMethod = $request->getHttpMethod();
         $routes = array();
         foreach ($this->getRestServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
-            if (!isset($serviceData['baseUrl'])
-                || (isset($serviceBaseUrl) && (strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])))
+            if (
+                !isset($serviceData['baseUrl'])
+                || !$serviceBaseUrl
+                || strcasecmp(trim($serviceBaseUrl, '/'), trim($serviceData['baseUrl'], '/')) !== 0
             ) {
                 // baseurl does not match, just skip this service
                 continue;

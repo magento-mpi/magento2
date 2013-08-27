@@ -9,13 +9,13 @@
  */
 class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Router_Route_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Router_Route */
     protected $_restRoute;
 
     protected function setUp()
     {
         /** Init SUT. */
-        $this->_restRoute = new Mage_Webapi_Controller_Router_Route_Rest('route');
+        $this->_restRoute = new Mage_Webapi_Controller_Rest_Router_Route('route');
         parent::setUp();
     }
 

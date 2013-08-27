@@ -12,13 +12,13 @@ class Mage_Webapi_Model_Rest_Oauth_Server extends Mage_Oauth_Model_Server
     /**
      * Construct server.
      *
-     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @param Mage_Webapi_Controller_Rest_Request $request
      * @param Mage_Oauth_Model_Token_Factory $tokenFactory
      * @param Mage_Webapi_Model_Acl_User_Factory $consumerFactory
      * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
      */
     public function __construct(
-        Mage_Webapi_Controller_Request_Rest $request,
+        Mage_Webapi_Controller_Rest_Request $request,
         Mage_Oauth_Model_Token_Factory $tokenFactory,
         Mage_Webapi_Model_Acl_User_Factory $consumerFactory,
         Mage_Oauth_Model_Nonce_Factory $nonceFactory

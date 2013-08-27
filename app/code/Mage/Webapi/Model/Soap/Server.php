@@ -29,19 +29,19 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
-    /** @var Mage_Webapi_Controller_Request_Soap */
+    /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_request;
 
     /**
      * Initialize dependencies.
      *
      * @param Mage_Core_Model_App $application
-     * @param Mage_Webapi_Controller_Request_Soap $request
+     * @param Mage_Webapi_Controller_Soap_Request $request
      * @param Magento_DomDocument_Factory $domDocumentFactory
      */
     public function __construct(
         Mage_Core_Model_App $application,
-        Mage_Webapi_Controller_Request_Soap $request,
+        Mage_Webapi_Controller_Soap_Request $request,
         Magento_DomDocument_Factory $domDocumentFactory
     ) {
         parent::__construct();
@@ -181,6 +181,6 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
         return $this->_application->getStore()->getBaseUrl()
         . $this->_application->getConfig()->getAreaFrontName() . '/'
-        . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
+        . Mage_Webapi_Controller_Soap::REQUEST_TYPE;
     }
 }

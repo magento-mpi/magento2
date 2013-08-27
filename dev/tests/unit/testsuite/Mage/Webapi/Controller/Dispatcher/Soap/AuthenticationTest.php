@@ -18,7 +18,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_roleLocatorMock;
 
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Authentication */
+    /** @var Mage_Webapi_Controller_Soap_Authentication */
     protected $_soapAuthentication;
 
     /** @var stdClass */
@@ -58,7 +58,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_soapAuthentication = new Mage_Webapi_Controller_Dispatcher_Soap_Authentication(
+        $this->_soapAuthentication = new Mage_Webapi_Controller_Soap_Authentication(
             $this->_helperMock,
             $this->_tokenFactoryMock,
             $this->_roleLocatorMock

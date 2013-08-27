@@ -9,33 +9,33 @@
  */
 class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Response_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Response */
     protected $_responseRest;
 
     /** @var Mage_Core_Model_App */
     protected $_appMock;
 
-    /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Xml */
+    /** @var Mage_Webapi_Controller_Rest_Response_Renderer_Xml */
     protected $_rendererMock;
 
-    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessorMock;
 
     protected function setUp()
     {
         /** Mock all objects required for SUT. */
-        $this->_rendererMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest_Renderer_Json')
+        $this->_rendererMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response_Renderer_Json')
             ->disableOriginalConstructor()->getMock();
-        $rendererFactoryMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest_Renderer_Factory')
+        $rendererFactoryMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response_Renderer_Factory')
             ->disableOriginalConstructor()->getMock();
         $rendererFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_rendererMock));
-        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_ErrorProcessor')
             ->disableOriginalConstructor()->getMock();
         $helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
 
         /** Init SUP. */
-        $this->_responseRest = new Mage_Webapi_Controller_Response_Rest(
+        $this->_responseRest = new Mage_Webapi_Controller_Rest_Response(
             $rendererFactoryMock,
             $this->_errorProcessorMock,
             $helperMock,
@@ -219,7 +219,7 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
     public function testSendResponseSuccessHandling()
     {
         $this->_responseRest->sendResponse();
-        $this->assertTrue($this->_responseRest->getHttpResponseCode() == Mage_Webapi_Controller_Response_Rest::HTTP_OK);
+        $this->assertTrue($this->_responseRest->getHttpResponseCode() == Mage_Webapi_Controller_Rest_Response::HTTP_OK);
     }
 
     /**

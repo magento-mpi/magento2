@@ -15,7 +15,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_oauthServerMock;
 
-    /** @var Mage_Webapi_Controller_Dispatcher_Rest_Authentication */
+    /** @var Mage_Webapi_Controller_Rest_Authentication */
     protected $_restAuthentication;
 
     protected function setUp()
@@ -30,7 +30,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_restAuthentication = new Mage_Webapi_Controller_Dispatcher_Rest_Authentication(
+        $this->_restAuthentication = new Mage_Webapi_Controller_Rest_Authentication(
             $this->_oauthServerMock,
             $this->_roleLocatorMock
         );

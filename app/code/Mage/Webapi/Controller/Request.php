@@ -9,45 +9,22 @@
  */
 class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
 {
-    const PARAM_API_TYPE = 'api_type';
+    const PARAM_REQUEST_TYPE = 'request_type';
     const VERSION_NUMBER_PREFIX = 'V';
 
-    /** @var string */
-    protected $_apiType;
-
     /**
-     * Set current API type.
+     * Modify pathInfo: strip down the request type and query.
      *
      * @param Mage_Core_Model_Config $config
-     * @param string $apiType
+     * @param string $requestType
      * @param null|string|Zend_Uri $uri
+     * @throws LogicException
      */
-    public function __construct(Mage_Core_Model_Config $config, $apiType, $uri = null)
+    public function __construct(Mage_Core_Model_Config $config, $requestType, $uri = null)
     {
-        $this->setApiType($apiType);
         parent::__construct($uri);
-        $pattern = '#.*?/' . $config->getNode('global/areas/webapi/frontName') . '/\w+#';
+        $pattern = '#.*?/' . $requestType . '/#';
         /** Set path info without area, API type and GET query params */
-        $this->_pathInfo = preg_replace(array($pattern, '/\?.*/'), array('', ''), $this->_requestUri);
-    }
-
-    /**
-     * Get current API type.
-     *
-     * @return string
-     */
-    public function getApiType()
-    {
-        return $this->_apiType;
-    }
-
-    /**
-     * Set current API type.
-     *
-     * @param string $apiType
-     */
-    public function setApiType($apiType)
-    {
-        $this->_apiType = $apiType;
+        $this->_pathInfo = '/' . preg_replace(array($pattern, '/\?.*/'), array('', ''), $this->_requestUri);
     }
 }

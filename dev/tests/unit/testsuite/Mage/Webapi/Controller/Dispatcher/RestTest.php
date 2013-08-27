@@ -12,19 +12,19 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     /** @var Mage_Webapi_Controller_Dispatcher_Rest */
     protected $_restDispatcher;
 
-    /** @var Mage_Webapi_Controller_Dispatcher_Rest_Authentication */
+    /** @var Mage_Webapi_Controller_Rest_Authentication */
     protected $_authenticationMock;
 
-    /** @var Mage_Webapi_Controller_Request_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Request */
     protected $_requestMock;
 
-    /** @var Mage_Webapi_Controller_Response_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Response */
     protected $_responseMock;
 
-    /** @var Mage_Webapi_Controller_Router_Rest */
+    /** @var Mage_Webapi_Controller_Rest_Router */
     protected $_routerMock;
 
-    /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
+    /** @var Mage_Webapi_Controller_Rest_Presentation */
     protected $_restPresentation;
 
     /** @var Magento_ObjectManager */
@@ -40,15 +40,15 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         );
 
         /** Init dependencies for SUT. */
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Request')->disableOriginalConstructor()
             ->getMock();
-        $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest')
+        $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Response')
             ->disableOriginalConstructor()->getMock();
-        $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest_Presentation')
+        $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Presentation')
             ->disableOriginalConstructor()->getMock();
-        $this->_routerMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Rest')->disableOriginalConstructor()
+        $this->_routerMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router')->disableOriginalConstructor()
             ->getMock();
-        $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest_Authentication')
+        $this->_authenticationMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Authentication')
             ->disableOriginalConstructor()->getMock();
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()->getMock();
@@ -106,7 +106,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     {
         //$this->_authenticationMock->expects($this->once())->method('authenticate');
         /** Init route mock. */
-        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
+        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')->disableOriginalConstructor()
             ->getMock();
         $routeMock->expects($this->any())->method('getServiceId');
         $serviceMethodName = 'getServiceMethod';
@@ -136,7 +136,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         $serviceMethodName = 'someMethod';
         //$this->_authenticationMock->expects($this->once())->method('authenticate');
         /** Init route mock. */
-        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
+        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')->disableOriginalConstructor()
             ->getMock();
 
         $serviceMock = $this->getMock('StdClass', array($serviceMethodName));
@@ -169,7 +169,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     {
         //$this->_authenticationMock->expects($this->once())->method('authenticate');
         /** Init route mock. */
-        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
+        $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Rest_Router_Route')->disableOriginalConstructor()
             ->getMock();
         $routeMock->expects($this->any())->method('getServiceId');
         $routeMock->expects($this->any())->method('getServiceMethod');

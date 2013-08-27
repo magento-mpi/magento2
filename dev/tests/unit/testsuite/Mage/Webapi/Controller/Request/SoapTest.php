@@ -15,7 +15,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_Config */
     protected $_configMock;
 
-    /** @var Mage_Webapi_Controller_Request_Soap */
+    /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_soapRequest;
 
     protected function setUp()
@@ -37,7 +37,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('testNode'));
 
         /** Initialize SUT. */
-        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap($this->_configMock, $this->_helperMock);
+        $this->_soapRequest = new Mage_Webapi_Controller_Soap_Request($this->_configMock, $this->_helperMock);
         parent::setUp();
     }
 
@@ -59,7 +59,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             'param_1' => 'foo',
             'param_2' => 'bar',
             $wsdlParam => true,
-            Mage_Webapi_Controller_Request::PARAM_API_TYPE => true,
+            Mage_Webapi_Controller_Request::PARAM_REQUEST_TYPE => true,
             $servicesParam => true
         );
         $this->_soapRequest->setParams($requestParams);

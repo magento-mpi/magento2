@@ -50,7 +50,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->setMethods(array('handle'))
             ->getMock();
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Request')
             ->setMethods(array('getParam', 'getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -62,11 +62,11 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->setMethods(array('getSoapFaultMessage', 'getLanguage'))
             ->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_ErrorProcessor')
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
-        $soapHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Soap_Handler')
+        $soapHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Soap_Handler')
             ->disableOriginalConstructor()
             ->getMock();
 
