@@ -22,7 +22,7 @@ class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework
         /** @var SimpleXMLElement $node */
         foreach ($nodes as $node) {
             $class = (string)$node;
-            if (!Utility_Files::init()->classFileExists($class, $path)) {
+            if (!Magento_TestFramework_Utility_Files::init()->classFileExists($class, $path)) {
                 $errors[] = "'{$class}' => '{$path}'";
             }
         }
@@ -38,6 +38,6 @@ class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework
      */
     public function layoutFileDataProvider()
     {
-        return Utility_Files::init()->getLayoutFiles();
+        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
     }
 }
