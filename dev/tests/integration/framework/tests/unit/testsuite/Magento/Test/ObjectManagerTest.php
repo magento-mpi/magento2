@@ -40,7 +40,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             'Magento_Core_Model_ObjectManager_ConfigLoader_Primary', array(), array(), '', false
         );
 
-        $model = new Magento_Test_ObjectManager(
+        $model = new Magento_TestFramework_ObjectManager(
             $primaryConfig, $instanceConfig,
             array(
                 'Magento_Core_Model_Dir_Verification' => $verification,
