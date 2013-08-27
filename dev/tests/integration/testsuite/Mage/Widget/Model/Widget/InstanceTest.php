@@ -39,9 +39,9 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
     /**
      * @return Mage_Widget_Model_Widget_Instance
      */
-    public function testGetWidgetConfig()
+    public function testGetWidgetConfigInArray()
     {
-        $config = $this->_model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfig();
+        $config = $this->_model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfigInArray();
         $this->assertTrue(is_array($config));
         $element = null;
         if (isset($config['parameters']) && isset($config['parameters']['template'])
@@ -92,7 +92,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param Mage_Widget_Model_Widget_Instance $model
-     * @depends testGetWidgetConfig
+     * @depends testGetWidgetConfigInArray
      */
     public function testGenerateLayoutUpdateXml(Mage_Widget_Model_Widget_Instance $model)
     {

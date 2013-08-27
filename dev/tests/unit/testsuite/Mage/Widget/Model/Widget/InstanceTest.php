@@ -65,7 +65,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetWidgetConfig()
+    public function testGetWidgetConfigInArray()
     {
         $widget = array(
             '@' => array(
@@ -112,7 +112,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         $this->_readerMock->expects($this->once())->method('readFile')->with($this->equalTo($xmlFile))
             ->will($this->returnValue($themeConfig));
 
-        $result = $this->_model->getWidgetConfig();
+        $result = $this->_model->getWidgetConfigInArray();
 
         $expectedConfigFile = __DIR__ . '/../_files/mappedConfigArray1.php';
         $expectedConfig = include $expectedConfigFile;

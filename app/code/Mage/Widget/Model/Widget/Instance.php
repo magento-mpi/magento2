@@ -310,7 +310,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      *
      * @return array|null
      */
-    public function getWidgetConfig()
+    public function getWidgetConfigInArray()
     {
         if ($this->_widgetConfigXml === null) {
             $this->_widgetConfigXml = $this->_widgetModel->getWidgetByClassType($this->getType());
@@ -352,7 +352,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetTemplates()
     {
         $templates = array();
-        $widgetConfig = $this->getWidgetConfig();
+        $widgetConfig = $this->getWidgetConfigInArray();
         if ($widgetConfig && isset($widgetConfig['parameters'])
             && isset($widgetConfig['parameters']['template'])) {
             $configTemplates = $widgetConfig['parameters']['template'];
@@ -381,7 +381,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetSupportedContainers()
     {
         $containers = array();
-        $widgetConfig = $this->getWidgetConfig();
+        $widgetConfig = $this->getWidgetConfigInArray();
         if (isset($widgetConfig) && isset($widgetConfig['supported_containers'])) {
             $configNodes = $widgetConfig['supported_containers'];
             foreach ($configNodes as $node) {
@@ -403,7 +403,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         $templates = array();
         $widgetTemplates = $this->getWidgetTemplates();
-        $widgetConfig = $this->getWidgetConfig();
+        $widgetConfig = $this->getWidgetConfigInArray();
         if (isset($widgetConfig)) {
             if (!isset($widgetConfig['supported_containers'])) {
                 return $widgetTemplates;

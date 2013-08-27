@@ -16,7 +16,7 @@ return array(
     'parameters' => array(
         'types' => array(
             'type' => 'multiselect',
-            'visible' => 'true', // verify default value is injected
+            'visible' => '1',
             'source_model' => 'Magento_GiftRegistry_Model_Source_Search',
         ),
     ),
