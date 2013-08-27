@@ -9,6 +9,6 @@
 -->
 <layout version="0.1.0">
     <default>
-        <block name="formkey" type="Magento_Core_Block_Template" template="Magento_Core::formkey.phtml"/>
+        <block name="formkey" type="Magento_Core_Block_Formkey" template="Magento_Core::formkey.phtml"/>
     </default>
 </layout>
