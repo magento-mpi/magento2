@@ -25,7 +25,7 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
     protected function setUp()
     {
         $filesystem =  new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
-        $dirs = new Magento_Core_Model_Dir($filesystem->normalizePath(__DIR__ . '/../../../..'));
+        $dirs = new Magento_Core_Model_Dir($filesystem->normalizePath(__DIR__ . '/../../../../../../'));
         $this->_cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
         mkdir($this->_tmpDir);
