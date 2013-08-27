@@ -1,0 +1,13 @@
+app/autoload.php
+app/bootstrap.php
+app/code/Magento
+app/design
+app/etc
+dev/tests/integration
+dev/tests/performance
+dev/tests/static
+dev/tests/unit
+dev/tools/Magento
+dev/shell
+lib/Magento
+downloader/lib/Magento
