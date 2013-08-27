@@ -195,10 +195,10 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         foreach ($classes as $class) {
             try {
                 foreach ($invalidNamespaces as $invalidNamespace) {
-                    if(substr_count($class, $invalidNamespace) != 0){
-                        if(substr_count($class, $exceptions[0]) == 0
-                            && substr_count($class, $exceptions[1]) == 0){
-                            if(!isset(self::$_existingNamespaceViolations[$class])){
+                    if (substr_count($class, $invalidNamespace) != 0) {
+                        if (substr_count($class, $exceptions[0]) == 0
+                            && substr_count($class, $exceptions[1]) == 0) {
+                            if (!isset(self::$_existingNamespaceViolations[$class])) {
                                 self::$_existingNamespaceViolations[$class] = 1;
                                 $this->assertTrue(false);
                             }
@@ -210,7 +210,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             }
         }
         if ($badClasses) {
-            $this->fail("These usages of classes have invalid vendor name from \"('Mage_', 'Enterprise_')\" as root namespaces: \n" . implode("\n", $badClasses));
+            $this->fail("Invalid vendor name \"('Mage_', 'Enterprise_')\" detected: \n" . implode("\n", $badClasses));
         }
     }
 }
