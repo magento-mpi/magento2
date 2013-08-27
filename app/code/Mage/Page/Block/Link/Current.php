@@ -42,11 +42,11 @@ class Mage_Page_Block_Link_Current extends Mage_Core_Block_Template
             'controller' => $this->_request->getControllerName(),
             'action' => $this->_request->getActionName(),
         );
+        $dafaultsParams = $this->_frontController->getDefault();
 
         $parts = array();
-        foreach ($this->_frontController->getDefault() as $key => $defaultValue) {
-            $value = isset($routeParts[$key]) ? $routeParts[$key] : $this->_request->getParam($key);
-            if (!empty($value) && $value != $defaultValue) {
+        foreach ($routeParts as $key => $value) {
+            if (!empty($value) && (!isset($dafaultsParams[$key]) || $value != $dafaultsParams[$key])) {
                 $parts[] = $value;
             }
         }
@@ -60,8 +60,7 @@ class Mage_Page_Block_Link_Current extends Mage_Core_Block_Template
      */
     public function isCurrent()
     {
-        $currentMca = $this->getMca();
         return $this->getCurrent()
-            || $this->getUrl($this->getPath()) == $this->getUrl($currentMca);
+            || $this->getUrl($this->getPath()) == $this->getUrl($this->getMca());
     }
 }
