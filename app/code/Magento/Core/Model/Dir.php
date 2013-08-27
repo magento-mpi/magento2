@@ -127,7 +127,6 @@ class Magento_Core_Model_Dir
         self::THEMES        => 'app/design',
         self::CONFIG        => 'app/etc',
         self::LIB           => 'lib',
-        self::LOCALE        => 'app/locale',
         self::VAR_DIR       => 'var',
         self::TMP           => 'var/tmp',
         self::CACHE         => 'var/cache',

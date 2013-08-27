@@ -21,7 +21,7 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
             $config = simplexml_load_file($configFile);
             $nodes = $config->xpath("/config/*/translate/modules/{$moduleName}/files/*") ?: array();
             foreach ($nodes as $node) {
-                $localeFile = dirname($configFile) . '/../locale/en_US/' . (string)$node;
+                $localeFile = dirname($configFile) . '/../i18n/en_US/' . (string)$node;
                 $this->assertFileExists($localeFile);
                 $verifiedFiles[realpath($localeFile)] = $moduleName;
             }
@@ -37,7 +37,7 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
         $root = Utility_Files::init()->getPathToSource();
         $failures = array();
         foreach (glob("{$root}/app/code/*/*", GLOB_ONLYDIR) as $modulePath) {
-            $localeFiles = glob("{$modulePath}/locale/*/*.csv");
+            $localeFiles = glob("{$modulePath}/i18n/*/*.csv");
             foreach ($localeFiles as $file) {
                 $file = realpath($file);
                 $assertFile = dirname(dirname($file)) . DIRECTORY_SEPARATOR . 'en_US' . DIRECTORY_SEPARATOR

@@ -141,7 +141,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'static/frontend/test_default/locale/fr_FR/logo.gif',
+                'static/frontend/test_default/i18n/fr_FR/logo.gif',
                 'fr_FR',
             )
         );

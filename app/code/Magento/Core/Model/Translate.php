@@ -304,7 +304,7 @@ class Magento_Core_Model_Translate
     /**
      * Load data from module translation files
      *
-     * @param $moduleName string
+     * @param string $moduleName
      * @return $this
      */
     protected function _loadModuleTranslation($moduleName)
@@ -394,7 +394,7 @@ class Magento_Core_Model_Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_viewFileSystem->getLocaleFileName($locale . '.csv');
+            $file = $this->_viewFileSystem->getFilename('locale/' . $locale . '.csv');
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -429,7 +429,7 @@ class Magento_Core_Model_Translate
      */
     protected function _getModuleFilePath($moduleName, $locale)
     {
-        $file = $this->_configObject->getModuleDir('i18n', $moduleName);
+        $file = $this->_configObject->getModuleDir(Magento_Core_Model_Dir::LOCALE, $moduleName);
         $file .= DS . $locale . '.csv';
         return $file;
     }
