@@ -49,7 +49,9 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
             );
         $domConfig->expects($this->any())
             ->method('loadXml')
-            ->with('<layout><handle id="handleId">' . trim($value) . '</handle></layout>')
+            ->with('<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . '<handle id="handleId">' . trim($value) . '</handle>'
+            . '</layout>')
             ->will($this->returnSelf());
 
         $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
