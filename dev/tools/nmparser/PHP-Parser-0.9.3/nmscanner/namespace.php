@@ -40,6 +40,9 @@ class namespacer
     private $allowedFileExtensions = array('php', 'phtml', 'html', 'sql');
     private $ignoreFile="blacklist.txt";
     private $blackListArray=array();
+    private $addSlashArray= array("Zend_","Twig_", "Apache_Solrs", "PHPUnit_","CentinelClient","Exception","LogicException","Mage::");
+    private $libSearch =array();
+    private $libReplace = array();
 
     public function __construct($path, $rootDirectory, $def = false)
     {
@@ -79,30 +82,6 @@ class namespacer
         }
     }
 
-    private function checkClassFile($file)
-    {
-        $classes = array();
-        $default = false;
-        $php_code = file_get_contents($file);
-        $tokens = token_get_all($php_code);
-        $count = count($tokens);
-
-        for ($i = 2; $i < $count; $i++) {
-
-            if ($tokens[$i - 2][0]==T_INTERFACE||($tokens[$i - 2][0] == T_CLASS
-                && $tokens[$i - 1][0] == T_WHITESPACE
-                && $tokens[$i][0] == T_STRING)
-            ) {
-
-                $class_name = $tokens[$i][1];
-                $classes[] = $class_name;
-            }
-        }
-        if (count($classes)) {
-            $default = true;
-        }
-        return $default;
-    }
 
     protected function scanDirectory($path, $onlyPhp = true,$blackList=false)
     {
@@ -152,10 +131,10 @@ class namespacer
                 continue;
             }
 
-           /* if(!$this->checkClassFile($file)){
-                echo "$file Not a clas file \n";
-                continue;
-            }*/
+            /* if(!$this->checkClassFile($file)){
+                 echo "$file Not a clas file \n";
+                 continue;
+             }*/
 
             clearstatcache();
             $lines = file($file);
@@ -166,39 +145,39 @@ class namespacer
             echo "$file psr1 process started \n";
             foreach ($lines as $line) {
                 $trimLine = trim($line);
-               if($this->compareInString($trimLine, 0, 12, 'require_once')){
-                   $this->requireOnce=$count;
-                   $parsedLine[] = $line;
-               }else{
-                   if ($this->compareInString($trimLine, 0, 5, 'class')
-                   ) {
-                       if ($this->compareInString($line, 0, 5, 'class')) {
-                           $this->splitLine = $count;
-                       }
-                       $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                   } else {
-                       if ($this->compareInString($line, 0, 14, 'abstract class')) {
-                           $this->splitLine = $count;
+                if($this->compareInString($trimLine, 0, 12, 'require_once')){
+                    $this->requireOnce=$count;
+                    $parsedLine[] = $line;
+                }else{
+                    if ($this->compareInString($trimLine, 0, 5, 'class')
+                    ) {
+                        if ($this->compareInString($line, 0, 5, 'class')) {
+                            $this->splitLine = $count;
+                        }
+                        $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                    } else {
+                        if ($this->compareInString($line, 0, 14, 'abstract class')) {
+                            $this->splitLine = $count;
 
-                           $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                       } else {
-                           if ($this->compareInString($line, 0, 9, "interface")) {
+                            $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                        } else {
+                            if ($this->compareInString($line, 0, 9, "interface")) {
 
-                               $this->splitLine = $count;
-                               $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                           } else {
-                               if ($this->compareInString($line, 0, 11, "final class")) {
+                                $this->splitLine = $count;
+                                $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                            } else {
+                                if ($this->compareInString($line, 0, 11, "final class")) {
 
-                                   $this->splitLine = $count;
-                                   $parsedLine = $this->scanClass($line, $parsedLine, $file);
-                               } else {
-                                   $parsedLine[] = $line;
+                                    $this->splitLine = $count;
+                                    $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                                } else {
+                                    $parsedLine[] = $line;
 
-                               }
-                           }
-                       }
-                   }
-               }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 $count++;
 
@@ -209,6 +188,8 @@ class namespacer
 
         }
         $this->globalClassnameScanner();
+
+        $this->replaceThirdParty($this->path);
     }
 
     private function globalClassnameScanner()
@@ -220,6 +201,7 @@ class namespacer
             foreach ($this->classSearch as $searchKey) {
                 $search[] = "/\\" . $searchKey . "\\b/";
             }
+
             if (count($search) === count($this->classReplace) && count($search) === count($this->classSearch)) {
                 $this->classSearch = $search;
                 foreach ($files as $file) {
@@ -323,7 +305,7 @@ class namespacer
                         }else{
                             if(in_Array($file,$this->reservedKeyWords)){
                                 $baseFileName = basename($file);
-                                       $newClass=trim($newClass);// $file is set to "index.php";
+                                $newClass=trim($newClass);// $file is set to "index.php";
                                 if($baseFileName!=$newClass && !empty($newClass)){
                                     $newFileName = dirname($file) . "\\" . $newClass . '.php';
                                     $this->fileMapper[$file] = $newFileName;
@@ -466,6 +448,23 @@ class namespacer
         ) == '#' || ($first_two_chars == '/*' && $last_two_chars == '*/');
     }
 
+    public function replaceThirdParty($path)
+    {
+        foreach($this->addSlashArray as  $key){
+            $this->libSearch[]="/\\b".$key."/";
+            $this->libReplace[]="\\$key";
+        }
+        $files=$this->scanDirectory($path);
+        echo "=====================\n";
+        echo "Started ThirdParty ReplaceMent";
+        foreach($files as $file){
+            if(file_exists($file)){
+                $contents = preg_replace($this->libSearch, $this->libReplace, file_get_contents($file));
+                file_put_contents($file,$contents);
+            }
+        }
+
+    }
 }
 
 
@@ -504,3 +503,4 @@ if (isset($argv[1])) {
 } else {
     echo "Please provide the arguments";
 }
+
