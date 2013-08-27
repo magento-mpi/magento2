@@ -13,13 +13,18 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
 
     protected $methodsVolatile = true;
 
-    protected function pCommaSeparatedMethodParams(array $nodes) {
-        if(count($nodes) > 2) {
-            return "\n" . str_repeat('    ', $this->indent_level) .
-            $this->pImplode($nodes, ",\n" . str_repeat('    ', $this->indent_level)) . "\n";
+    protected function pCommaSeparatedMethodParams(array $nodes)
+    {
+        ++$this->indent_level;
+
+        if (count($nodes) > 2) {
+            $result =  "\n" . str_repeat('    ', $this->indent_level) .
+                $this->pImplode($nodes, ",\n" . str_repeat('    ', $this->indent_level)) . "\n";
         } else {
-            return $this->pImplode($nodes, ', ');
+            $result = $this->pImplode($nodes, ', ');
         }
+        --$this->indent_level;
+        return $result;
     }
 
     public function pStmt_ClassMethod(PHPParser_Node_Stmt_ClassMethod $node)
@@ -29,7 +34,6 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         } else {
             $method_name = $this->patchMethodName($node->name);
         }
-
         $method_params = $this->pCommaSeparatedMethodParams($node->params);
 
         if (isset($method_params{0}) && $method_params{0} == "\n") {
@@ -89,9 +93,7 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         } else {
             $method_name = $this->patchMethodName($this->pObjectProperty($node->name));
         }
-        ++$this->indent_level;
         $method_params = $this->pCommaSeparatedMethodParams($node->args);
-        --$this->indent_level;
         return $this->pVarOrNewExpr($node->var) . '->' . $method_name
         . '(' . $method_params . ')';
     }
@@ -108,7 +110,8 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
         . 'class ' . $node->name
         . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
         . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-        . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+        //. "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+        . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . '}';
     }
 
     public function pStmt_Class(PHPParser_Node_Stmt_Class $node)
@@ -117,7 +120,7 @@ class PSR2 extends PHPParser_PrettyPrinter_Default
             . 'class ' . $node->name
             . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
             . (!empty($node->implements) ? ' implements' . $this->implementsSeparated($node->implements) : '')
-            . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+            . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . '}';
 
         ++$this->classCount;
 
