@@ -102,7 +102,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
             $this->_soapFault->getSoapFaultMessage(
                 $message,
                 Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
-                'en',
+                $this->_soapFault->getLanguage(),
                 $details
             )
         );

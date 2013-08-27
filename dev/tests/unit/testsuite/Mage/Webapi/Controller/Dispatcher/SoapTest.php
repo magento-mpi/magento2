@@ -37,10 +37,6 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
     {
         parent::setUp();
 
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Config')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getAllServicesVersions'))
-            ->getMock();
         $this->_soapServerMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Server')
             ->disableOriginalConstructor()
             ->getMock();
@@ -64,7 +60,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->getMock();
         $this->_soapFaultMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Fault')
             ->disableOriginalConstructor()
-            ->setMethods(array('getSoapFaultMessage'))
+            ->setMethods(array('getSoapFaultMessage', 'getLanguage'))
             ->getMock();
         $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
             ->disableOriginalConstructor()
@@ -184,6 +180,9 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($expectedUrl));
 
         $expectedFault = '<?xml version="1.0" encoding="utf8"?><root>SOAP_FAULT</root>';
+        $this->_soapFaultMock->expects($this->once())
+            ->method('getLanguage')
+            ->will($this->returnValue('en'));
         $this->_soapFaultMock->expects($this->once())
             ->method('getSoapFaultMessage')
             ->with(

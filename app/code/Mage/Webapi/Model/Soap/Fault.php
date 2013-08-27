@@ -35,6 +35,9 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     /** @var array */
     protected $_parameters;
 
+    /** @var string */
+    protected $_language;
+
     /**
      * Details that are used to generate 'Detail' node of SoapFault.
      *
@@ -47,6 +50,7 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
      *
      * @param string $reason
      * @param string $faultCode
+     * @param string $language
      * @param Exception $previous
      * @param array $parameters
      * @param string|null $errorCode
@@ -54,12 +58,14 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     public function __construct(
         $reason = self::FAULT_REASON_INTERNAL,
         $faultCode = self::FAULT_CODE_RECEIVER,
+        $language = 'en',
         Exception $previous = null,
         $parameters = array(),
         $errorCode = null
     ) {
         parent::__construct($reason, 0, $previous);
         $this->_soapCode = $faultCode;
+        $this->_language = $language;
         $this->_parameters = $parameters;
         $this->_errorCode = $errorCode;
     }
@@ -82,9 +88,8 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
             $this->addDetails(array(self::NODE_ERROR_DETAIL_CODE => $this->getErrorCode()));
         }
 
-        // TODO: Implement Current language definition
-        $language = 'en';
-        return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $language, $this->getDetails());
+        return $this->getSoapFaultMessage(
+            $this->getMessage(), $this->getSoapCode(), $this->getLanguage(), $this->getDetails());
     }
 
     /**
@@ -137,6 +142,16 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     public function getSoapCode()
     {
         return $this->_soapCode;
+    }
+
+    /**
+     * Retrieve SOAP fault language.
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->_language;
     }
 
     /**

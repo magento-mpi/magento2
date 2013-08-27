@@ -17,7 +17,7 @@ return array(
                     <env:Value>env:Sender</env:Value>
                 </env:Code>
                 <env:Reason>
-                    <env:Text xml:lang="cn">Fault reason</env:Text>
+                    <env:Text xml:lang="en">Fault reason</env:Text>
                 </env:Reason>
                 <env:Detail>
                     <m:ErrorDetails>

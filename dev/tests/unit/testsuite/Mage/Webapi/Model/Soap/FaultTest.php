@@ -92,7 +92,7 @@ XML;
             array(
                 'Fault reason',
                 'Sender',
-                'cn',
+                'en',
                 array('key1' => 'value1', 'key2' => 'value2'),
                 $expectedXmls['expectedResultArrayDataDetails'],
                 'SOAP fault message with associated array data details is invalid.'
@@ -138,6 +138,7 @@ XML;
         $soapFault = new Mage_Webapi_Model_Soap_Fault(
             $message,
             Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
+            'en',
             null,
             array('param1' => 'value1', 'param2' => 2),
             111

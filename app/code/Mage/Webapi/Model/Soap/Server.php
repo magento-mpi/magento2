@@ -23,7 +23,7 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     const REQUEST_PARAM_SERVICES = 'services';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var Mage_Core_Model_Store */
+    /** @var Mage_Core_Model_App */
     protected $_application;
 
     /** @var Magento_DomDocument_Factory */
@@ -81,7 +81,8 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
         } catch (Exception $e) {
             $fault = new Mage_Webapi_Model_Soap_Fault(
                 $e->getMessage(),
-                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
+                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
+                $this->_application->getLocale()->getLocale()->getLanguage()
             );
             die($fault->toXml($this->_application->isDeveloperMode()));
         }

@@ -13,6 +13,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 {
     const RESULT_NODE_NAME = 'result';
 
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
     /** @var Mage_Webapi_Controller_Dispatcher_Soap_Security */
     protected $_security;
 
@@ -34,6 +37,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Initialize dependencies.
      *
+     * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Magento_ObjectManager $objectManager
@@ -42,6 +46,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
+        Mage_Core_Model_App $application,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
@@ -49,6 +54,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Controller_Dispatcher_Soap_Security $security,
         Mage_Webapi_Helper_Data $helper
     ) {
+        $this->_application = $application;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
         $this->_objectManager = $objectManager;
@@ -128,6 +134,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         throw new Mage_Webapi_Model_Soap_Fault(
             $exception->getMessage(),
             $originator,
+            $this->_application->getLocale()->getLocale()->getLanguage(),
             $exception,
             isset($parameters) ? $parameters : array(),
             $exception->getCode()
