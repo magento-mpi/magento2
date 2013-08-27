@@ -92,7 +92,7 @@ if (isset($argv[1])) {
         throw new exception("src parameter cannot be empty");
     }
 
-    $shell = new \Magento\Shell(null);
+    $shell = new Magento_Shell(null);
     $src = str_replace('\\','/', $src);
     $params = array(
         '../../../../../app/code/Magento/Tax/Model/Class',
