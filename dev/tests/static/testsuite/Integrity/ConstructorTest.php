@@ -558,15 +558,15 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
 
             $parentClass = $this->_getParentClass($content);
             if (!$parentClass) {
-                echo sprintf('* Class "%s" has no parent', $this->_getClass($content, false)).PHP_EOL;
+                //echo sprintf('* Class "%s" has no parent', $this->_getClass($content, false)).PHP_EOL;
                 return null;
             }
 
             if (class_exists($parentClass, false)) {
                 // Class file is included or is original PHP. Use reflection or just skip.
-                echo sprintf('* Class "%s" exists. It\'s either internal PHP class or was already included. ',
+                /*echo sprintf('* Class "%s" exists. It\'s either internal PHP class or was already included. ',
                     $parentClass
-                ).PHP_EOL;
+                ).PHP_EOL;*/
                 $reflection = new MethodReflection($parentClass, '__construct');
                 return $reflection;
             }
@@ -916,9 +916,9 @@ class Integrity_ConstructorTest extends PHPUnit_Framework_TestCase
                 $array['value'] = $param->getDefaultValue();
             } catch (ReflectionException $e) {
                 $array['value'] = '__internal__';
-                echo sprintf('* Cannot determine default value for internal function "%s::%s()',
+                /*echo sprintf('* Cannot determine default value for internal function "%s::%s()',
                     $parentSignature->class, $parentSignature->getName()
-                ).PHP_EOL;
+                ).PHP_EOL;*/
             }
             $array['is_optional'] = $param->isOptional();
 
