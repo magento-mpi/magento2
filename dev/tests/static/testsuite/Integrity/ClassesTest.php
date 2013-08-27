@@ -18,7 +18,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected static $_existingClasses = array();
-    protected static $_existingNamespaceViolations = array();
 
     /**
      * @param string $file
@@ -195,14 +194,15 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         foreach ($classes as $class) {
             try {
                 foreach ($invalidNamespaces as $invalidNamespace) {
-                    if (substr_count($class, $invalidNamespace) != 0) {
-                        if (substr_count($class, $exceptions[0]) == 0
-                            && substr_count($class, $exceptions[1]) == 0) {
-                            if (!isset(self::$_existingNamespaceViolations[$class])) {
-                                self::$_existingNamespaceViolations[$class] = 1;
-                                $this->assertTrue(false);
+                    if (substr_count($class, $invalidNamespace) > 0) {
+                        $excludedNamespace = false;
+                        foreach ($exceptions as $exception) {
+                            if (substr_count($class, $exception) > 0) {
+                                $excludedNamespace = true;
+                                break;
                             }
                         }
+                        $this->assertTrue($excludedNamespace == true);
                     }
                 }
             } catch (PHPUnit_Framework_AssertionFailedError $e) {
