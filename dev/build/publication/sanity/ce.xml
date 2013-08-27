@@ -142,5 +142,13 @@
             <word>enterprise</word>
             <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
         </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Integrity/ClassesTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Legacy/ClassesTest.php</path>
+        </item>
     </whitelist>
 </config>
