@@ -12,15 +12,15 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Sales::sales">
-                    <resource id="Mage_Sales::sales_operation">
-                        <resource id="Enterprise_Rma::enterprise_rma" module="Enterprise_Rma" title="Returns" sortOrder="50" />
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Enterprise_Rma::enterprise_rma" title="Returns" sortOrder="50" />
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_attributes">
-                        <resource id="Enterprise_Rma::rma_attribute" module="Enterprise_Rma" title="Returns" sortOrder="50" />
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_attributes">
+                        <resource id="Enterprise_Rma::rma_attribute" title="Returns" sortOrder="50" />
                     </resource>
                 </resource>
             </resource>

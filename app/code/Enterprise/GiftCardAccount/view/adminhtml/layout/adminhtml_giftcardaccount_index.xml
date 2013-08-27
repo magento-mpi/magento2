@@ -13,7 +13,7 @@
         <update handle="adminhtml_giftcardaccount_block"/>
         <reference name="content">
             <block type="Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount" name="adminhtml.gift.card.account.grid.container" as="giftcardaccount_list">
-                <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
+                <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm">
                         <params>0</params>
                     </action>

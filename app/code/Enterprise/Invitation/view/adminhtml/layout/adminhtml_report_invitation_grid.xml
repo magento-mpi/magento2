@@ -17,9 +17,9 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="sent">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Sent</header>
+                    <header translate="true">Sent</header>
                     <type>number</type>
                     <index>sent</index>
                     <id>sent</id>
@@ -27,9 +27,9 @@
                     <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Accepted</header>
+                    <header translate="true">Accepted</header>
                     <type>number</type>
                     <index>accepted</index>
                     <id>accepted</id>
@@ -37,9 +37,9 @@
                     <column_css_class>col-inv-acc</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="canceled">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Discarded</header>
+                    <header translate="true">Discarded</header>
                     <type>number</type>
                     <index>canceled</index>
                     <id>canceled</id>
@@ -47,9 +47,9 @@
                     <column_css_class>col-inv-disc</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted_rate">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accepted_rate">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Accept Rate</header>
+                    <header translate="true">Accept Rate</header>
                     <type>string</type>
                     <index>accepted_rate</index>
                     <id>accepted_rated</id>
@@ -59,9 +59,9 @@
                     <column_css_class>col-inv-acc-rate</column_css_class>
                 </arguments>
             </block>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="canceled_rate">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="canceled_rate">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Discard Rate</header>
+                    <header translate="true">Discard Rate</header>
                     <type>number</type>
                     <index>canceled_rate</index>
                     <id>canceled_rate</id>

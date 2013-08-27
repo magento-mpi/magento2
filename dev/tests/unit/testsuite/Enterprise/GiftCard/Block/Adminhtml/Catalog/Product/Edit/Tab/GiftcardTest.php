@@ -22,30 +22,18 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest 
         $methods = array('getHelperFactory', 'getRequest', 'getLayout', 'getEventManager', 'getUrlBuilder',
             'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
             'getDirs', 'getLogger', 'getFilesystem');
-        $contextMock = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
+        $contextMock = $this->getMockBuilder('Magento_Backend_Block_Template_Context')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();
 
-        $helperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
-            ->setMethods(array('__'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array('get'));
-        $helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('Mage_Backend_Helper_Data'))
-            ->will($this->returnValue($helperMock));
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
 
         $contextMock->expects($this->any())
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactoryMock));
 
-        $storeManagerMock = $this->getMockBuilder('Mage_Core_Model_StoreManager')
+        $storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('isSingleStoreMode'))
             ->getMock();

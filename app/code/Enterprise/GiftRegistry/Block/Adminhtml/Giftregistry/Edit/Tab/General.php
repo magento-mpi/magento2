@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Return current gift registry type instance
@@ -52,7 +52,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $form->setFieldNameSuffix('type');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('General Information')
+            'legend'  => __('General Information')
         ));
 
         if ($this->getType()->getId()) {
@@ -63,28 +63,28 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
 
         $fieldset->addField('code', 'text', array(
             'name'     => 'code',
-            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code'),
+            'label'    => __('Code'),
             'required' => true,
             'class'    => 'validate-code'
         ));
 
         $fieldset->addField('label', 'text', array(
             'name'     => 'label',
-            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label'),
+            'label'    => __('Label'),
             'required' => true,
             'scope'    => 'store'
         ));
 
         $fieldset->addField('sort_order', 'text', array(
             'name'     => 'sort_order',
-            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Sort Order'),
+            'label'    => __('Sort Order'),
             'scope'    => 'store'
         ));
 
         $fieldset->addField('is_listed', 'select', array(
-            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Listed'),
+            'label'    => __('Is Listed'),
             'name'     => 'is_listed',
-            'values'   => Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'   => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
             'scope'    => 'store'
         ));
 

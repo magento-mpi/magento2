@@ -15,9 +15,9 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  *
- * @method Mage_Sales_Model_Quote_Item getItem()
+ * @method Magento_Sales_Model_Quote_Item getItem()
  */
-class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Template
 {
     /**
      * Helper instance
@@ -57,7 +57,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                 $message = $this->_getHelper()->getMessage(
                     Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
                 );
-                $message .= '<br/>' . $this->__("Only %s%g%s left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
+                $message .= '<br/>' . __("Only %1%2%3 left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
                 return $message;
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
@@ -66,9 +66,9 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                 );
                 $message .= '<br/>';
                 if ($item->getQtyMaxAllowed()) {
-                    $message .= Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
+                    $message .= __('The maximum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
                 } else if ($item->getQtyMinAllowed()) {
-                    $message .= Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
+                    $message .= __('The minimum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
             default:
@@ -114,18 +114,18 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
                     'sku' => $item->getSku()
                 ));
                 return '<a href="' . $link . '" class="configure-popup">'
-                        . $this->__("Specify the product's options")
+                        . __("Specify the product's options")
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                /** @var $helper Mage_ProductAlert_Helper_Data */
-                $helper = Mage::helper('Mage_ProductAlert_Helper_Data');
+                /** @var $helper Magento_ProductAlert_Helper_Data */
+                $helper = Mage::helper('Magento_ProductAlert_Helper_Data');
 
                 if (!$helper->isStockAlertAllowed()) {
                     return '';
                 }
 
                 $helper->setProduct($this->getItem()->getProduct());
-                $signUpLabel = $this->escapeHtml($this->__('Receive notice when item is restocked.'));
+                $signUpLabel = $this->escapeHtml(__('Receive notice when item is restocked.'));
                 return '<a href="'
                     . $this->escapeHtml($helper->getSaveUrl('stock'))
                     . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
      */
     public function getTierPriceHtml()
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $this->getItem()->getProduct();
         if (!$product || !$product->getId()) {
             return '';
@@ -151,7 +151,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
         if (!is_array($productTierPrices)) {
             $productAttributes = $product->getAttributes();
             if (!isset($productAttributes['tier_price'])
-                || !($productAttributes['tier_price'] instanceof Mage_Catalog_Model_Resource_Eav_Attribute)
+                || !($productAttributes['tier_price'] instanceof Magento_Catalog_Model_Resource_Eav_Attribute)
             ) {
                 return '';
             }
@@ -161,7 +161,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Templa
         Mage::unregister('product');
         Mage::register('product', $product);
         if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('Mage_Catalog_Block_Product_View'));
+            $this->setProductViewBlock($this->getLayout()->createBlock('Magento_Catalog_Block_Product_View'));
         }
         return $this->getProductViewBlock()->getTierPriceHtml();
     }

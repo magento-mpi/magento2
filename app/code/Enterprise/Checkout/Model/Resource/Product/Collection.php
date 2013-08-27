@@ -14,12 +14,12 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Enterprise_Checkout_Model_Resource_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Join Product Price Table using left-join
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     protected function _productLimitationJoinPrice()
     {

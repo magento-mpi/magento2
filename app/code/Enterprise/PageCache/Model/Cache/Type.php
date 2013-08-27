@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
+ * @category    Magento
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,9 +26,9 @@ class Enterprise_PageCache_Model_Cache_Type extends Magento_Cache_Frontend_Decor
     const CACHE_TAG = 'FPC';
 
     /**
-     * @param Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
+     * @param Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
      */
-    public function __construct(Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
+    public function __construct(Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

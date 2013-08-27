@@ -60,19 +60,20 @@ class Magento_Data_Form_Element_Checkboxes extends Magento_Data_Form_Element_Abs
             $options = $this->getOptions();
         }
         foreach ($options as $k => $v) {
-            if (is_string($v)) {
+            if (is_array($v)) {
+                if (isset($v['value'])) {
+                    if (!isset($v['label'])) {
+                        $v['label'] = $v['value'];
+                    }
+                    $values[] = array(
+                        'label' => $v['label'],
+                        'value' => $v['value']
+                    );
+                }
+            } else {
                 $values[] = array(
                     'label' => $v,
                     'value' => $k
-                );
-            }
-            elseif (isset($v['value'])) {
-                if (!isset($v['label'])) {
-                    $v['label'] = $v['value'];
-                }
-                $values[] = array(
-                    'label' => $v['label'],
-                    'value' => $v['value']
                 );
             }
         }

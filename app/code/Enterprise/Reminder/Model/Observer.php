@@ -46,7 +46,7 @@ class Enterprise_Reminder_Model_Observer
         if ($fieldset = $form->getElements()->searchById('base_fieldset')) {
             if ($couponTypeFiled = $fieldset->getElements()->searchById('coupon_type')) {
                 $couponTypeFiled->setNote(
-                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('You can create auto-generated coupons using reminder promotion rules.'));
+                    __('You can create auto-generated coupons using reminder promotion rules.'));
             }
         }
         return $this;
@@ -60,9 +60,9 @@ class Enterprise_Reminder_Model_Observer
     public function getCronFrequencyTypes()
     {
         return array(
-            self::CRON_MINUTELY => Mage::helper('Mage_Cron_Helper_Data')->__('Minute Intervals'),
-            self::CRON_HOURLY   => Mage::helper('Mage_Cron_Helper_Data')->__('Hourly'),
-            self::CRON_DAILY    => Mage::helper('Mage_Cron_Helper_Data')->__('Daily')
+            self::CRON_MINUTELY => __('Minute Intervals'),
+            self::CRON_HOURLY   => __('Hourly'),
+            self::CRON_DAILY    => __('Daily')
         );
     }
 
@@ -74,11 +74,11 @@ class Enterprise_Reminder_Model_Observer
     public function getCronMinutes()
     {
         return array(
-            5  => Mage::helper('Mage_Cron_Helper_Data')->__('5 minutes'),
-            10 => Mage::helper('Mage_Cron_Helper_Data')->__('10 minutes'),
-            15 => Mage::helper('Mage_Cron_Helper_Data')->__('15 minutes'),
-            20 => Mage::helper('Mage_Cron_Helper_Data')->__('20 minutes'),
-            30 => Mage::helper('Mage_Cron_Helper_Data')->__('30 minutes')
+            5  => __('5 minutes'),
+            10 => __('10 minutes'),
+            15 => __('15 minutes'),
+            20 => __('20 minutes'),
+            30 => __('30 minutes')
         );
     }
 
@@ -107,7 +107,7 @@ class Enterprise_Reminder_Model_Observer
         $couponType = $rule->getCouponType();
         $autoGeneration = $rule->getUseAutoGeneration();
 
-        if ($couponType == Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
+        if ($couponType == Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
             $model = Mage::getModel('Enterprise_Reminder_Model_Rule');
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);
@@ -136,7 +136,7 @@ class Enterprise_Reminder_Model_Observer
         $checkbox = $form->getElement('use_auto_generation');
         $checkbox->setNote($checkbox->getNote()
             . '<br />'
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('<b>Important</b>: If you select "Use Auto Generation", this rule will no longer be used in any automated email reminder rules for abandoned carts')
+            . __('<b>Important</b>: If you select "Use Auto Generation", this rule will no longer be used in any automated email reminder rules for abandoned carts')
         );
     }
 }

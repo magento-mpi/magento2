@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Adminhtml_Search_Edit extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Search_Block_Adminhtml_Search_Edit extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Enable grid container
@@ -25,8 +25,8 @@ class Enterprise_Search_Block_Adminhtml_Search_Edit extends Mage_Adminhtml_Block
     {
         $this->_blockGroup = 'Enterprise_Search';
         $this->_controller = 'adminhtml_search';
-        $this->_headerText = Mage::helper('Enterprise_Search_Helper_Data')->__('Related Search Terms');
-        $this->_addButtonLabel = Mage::helper('Enterprise_Search_Helper_Data')->__('Add New Search Term');
+        $this->_headerText = __('Related Search Terms');
+        $this->_addButtonLabel = __('Add New Search Term');
         parent::_construct();
         $this->_removeButton('add');
     }

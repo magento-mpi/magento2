@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Init total model, set total code
@@ -21,9 +21,9 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Mage_
     /**
      * Collect giftcertificate totals for specified address
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         $this->_collectQuoteGiftCards($address->getQuote());
         $baseAmountLeft = $address->getQuote()->getBaseGiftCardsAmount()
@@ -132,10 +132,10 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Mage_
     /**
      * Return shopping cart total row items
      *
-     * @param Mage_Sales_Model_Quote_Address $address
+     * @param Magento_Sales_Model_Quote_Address $address
      * @return Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount
      */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         if ($address->getQuote()->isVirtual()) {
             $giftCards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($address->getQuote()->getBillingAddress());
@@ -144,7 +144,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Mage_
         }
         $address->addTotal(array(
             'code'=>$this->getCode(),
-            'title'=>Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Cards'),
+            'title'=>__('Gift Cards'),
             'value'=>-$address->getGiftCardsAmount(),
             'gift_cards'=>$giftCards,
         ));

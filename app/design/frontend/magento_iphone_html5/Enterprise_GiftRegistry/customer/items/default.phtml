@@ -21,8 +21,8 @@
     </h2>
 
     <div class="product-info">
-        <label><?php echo $this->__('Qty:') ?> <input class="input-text qty" name="items[<?php echo $_item->getId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/></label>
-        <p><?php echo $this->__('Qty Fulfilled:') ?> <?php echo $_item->getQtyFulfilled()*1 ?></p>
+        <label><?php echo __('Qty:') ?> <input class="input-text qty" name="items[<?php echo $_item->getId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/></label>
+        <p><?php echo __('Qty Fulfilled:') ?> <?php echo $_item->getQtyFulfilled()*1 ?></p>
     </div>
 
     <?php if ($_options = $this->getOptionList()):?>
@@ -50,5 +50,5 @@
     <?php endforeach; ?>
     <?php endif; ?>
 
-    <textarea name="items[<?php echo $_item->getId() ?>][note]" rows="3" cols="5" placeholder="<?php echo $this->__('Note') ?>"><?php echo $this->escapeHtml($_item->getNote()) ?></textarea>
+    <textarea name="items[<?php echo $_item->getId() ?>][note]" rows="3" cols="5" placeholder="<?php echo __('Note') ?>"><?php echo $this->escapeHtml($_item->getNote()) ?></textarea>
 </li>

@@ -15,7 +15,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Controller_Action
+class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Load only action layout handles
@@ -29,7 +29,7 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Con
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+        $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
         return $this;
     }
 
@@ -53,7 +53,7 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Con
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
+            $methodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -65,7 +65,7 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Con
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
+            Mage::throwException(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -90,6 +90,6 @@ class Enterprise_Pbridge_Controller_Adminhtml_Pbridge extends Mage_Adminhtml_Con
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Sales::sales_order');
+        return $this->_authorization->isAllowed('Magento_Sales::sales_order');
     }
 }

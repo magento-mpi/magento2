@@ -35,26 +35,26 @@ class Enterprise_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_registry = $this->getMock('Mage_Core_Model_Registry', array('registry'), array(), '', false);
+        $this->_registry = $this->getMock('Magento_Core_Model_Registry', array('registry'), array(), '', false);
 
         $website = new Magento_Object(array('id' => 5));
         $storeManager = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array('getWebsite'), '', false
+            'Magento_Core_Model_StoreManagerInterface', array('getWebsite'), '', false
         );
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
-            'Mage_Customer_Model_Session', array('getCustomer'), array(), '', false
+            'Magento_Customer_Model_Session', array('getCustomer'), array(), '', false
         );
 
         $this->_resource = $this->getMock(
             'Enterprise_CustomerSegment_Model_Resource_Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
-            array($this->getMock('Mage_Core_Model_Resource', array(), array(), '', false))
+            array($this->getMock('Magento_Core_Model_Resource', array(), array(), '', false))
         );
 
         $this->_model = new Enterprise_CustomerSegment_Model_Customer(
-            $this->getMock('Mage_Core_Model_Context', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
             $this->_registry,
             $storeManager,
             $this->_customerSession,

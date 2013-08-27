@@ -17,8 +17,8 @@
                 <action method="setWrapperClass">
                     <class>reward-newsletter</class>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
-                    <message>Subscribe to our newsletter now and earn %s.</message>
+                <action method="setRewardMessage" translate="message">
+                    <message>Subscribe to our newsletter now and earn %1.</message>
                 </action>
             </block>
         </reference>

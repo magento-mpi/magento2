@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist
-    extends Mage_Backend_Block_Widget_Grid_Container
+    extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Constructor
@@ -25,7 +25,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist
     {
         $this->_blockGroup = 'Enterprise_Wishlist';
         $this->_controller = 'adminhtml_report_customer_wishlist';
-        $this->_headerText = Mage::helper('Enterprise_Wishlist_Helper_Data')->__("Customer's Wish List Report");
+        $this->_headerText = __("Customer's Wish List Report");
         parent::_construct();
         $this->_removeButton('add');
     }

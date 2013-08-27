@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Product_Source extends Mage_Eav_Model_Entity_Attribute_Source_Boolean
+class Enterprise_Rma_Model_Product_Source extends Magento_Eav_Model_Entity_Attribute_Source_Boolean
 {
     /**
      * XML configuration path allow RMA on product level
@@ -39,15 +39,15 @@ class Enterprise_Rma_Model_Product_Source extends Mage_Eav_Model_Entity_Attribut
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Yes'),
+                    'label' => __('Yes'),
                     'value' => self::ATTRIBUTE_ENABLE_RMA_YES
                 ),
                 array(
-                    'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('No'),
+                    'label' => __('No'),
                     'value' => self::ATTRIBUTE_ENABLE_RMA_NO
                 ),
                 array(
-                    'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Use config'),
+                    'label' => __('Use config'),
                     'value' => self::ATTRIBUTE_ENABLE_RMA_USE_CONFIG
                 )
             );

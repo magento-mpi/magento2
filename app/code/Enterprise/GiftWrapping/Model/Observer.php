@@ -150,13 +150,13 @@ class Enterprise_GiftWrapping_Model_Observer
      */
     public function addPaypalGiftWrappingItem(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Paypal_Model_Cart $paypalCart */
+        /** @var Magento_Paypal_Model_Cart $paypalCart */
         $paypalCart = $observer->getEvent()->getPaypalCart();
         $totalWrapping = 0;
         $totalCard = 0;
         if ($paypalCart) {
             $salesEntity = $paypalCart->getSalesEntity();
-            if ($salesEntity instanceof Mage_Sales_Model_Order) {
+            if ($salesEntity instanceof Magento_Sales_Model_Order) {
                 foreach ($salesEntity->getAllItems() as $_item) {
                     if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
                         $totalWrapping += $_item->getGwBasePrice();
@@ -182,10 +182,10 @@ class Enterprise_GiftWrapping_Model_Observer
                 }
             }
             if ($totalWrapping) {
-                $paypalCart->addItem(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Gift Wrapping'),1,$totalWrapping);
+                $paypalCart->addItem(__('Gift Wrapping'),1,$totalWrapping);
             }
             if ($totalCard) {
-                $paypalCart->addItem(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Printed Card'),1,$totalCard);
+                $paypalCart->addItem(__('Printed Card'),1,$totalCard);
             }
         }
     }
@@ -254,7 +254,7 @@ class Enterprise_GiftWrapping_Model_Observer
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {
-        // @var $orderItem Mage_Sales_Model_Order_Item
+        // @var $orderItem Magento_Sales_Model_Order_Item
         $orderItem = $observer->getEvent()->getOrderItem();
         // Do not import giftwrapping data if order is reordered or GW is not available for items
         $order = $orderItem->getOrder();

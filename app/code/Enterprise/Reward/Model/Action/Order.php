@@ -26,7 +26,7 @@ class Enterprise_Reward_Model_Action_Order extends Enterprise_Reward_Model_Actio
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Redeemed for order #%s', $incrementId);
+        return __('Redeemed for order #%1', $incrementId);
     }
 
     /**

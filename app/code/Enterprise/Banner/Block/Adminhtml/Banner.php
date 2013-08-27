@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Banner_Block_Adminhtml_Banner extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
 
     /**
@@ -20,8 +20,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner extends Mage_Adminhtml_Block_Widg
     {
         $this->_controller = 'adminhtml_banner';
         $this->_blockGroup = 'Enterprise_Banner';
-        $this->_headerText = Mage::helper('Enterprise_Banner_Helper_Data')->__('Banners');
-        $this->_addButtonLabel = Mage::helper('Enterprise_Banner_Helper_Data')->__('Add Banner');
+        $this->_headerText = __('Banners');
+        $this->_addButtonLabel = __('Add Banner');
         parent::_construct();
     }
 }

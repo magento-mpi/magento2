@@ -20,10 +20,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     protected $_inputType = 'numeric';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit');
@@ -49,7 +49,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     {
         return array(array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Store Credit')
+            'label' => __('Store Credit')
          ));
     }
 
@@ -62,8 +62,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     {
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml() . Mage::helper('Enterprise_CustomerSegment_Helper_Data')
-            ->__('Customer Store Credit Amount %s %s:', $operator, $element) . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __('Customer Store Credit Amount %1 %2:', $operator, $element)
+            . $this->getRemoveLinkHtml();
     }
 
     /**

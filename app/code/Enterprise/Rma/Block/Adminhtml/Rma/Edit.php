@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
 
     /**
@@ -43,7 +43,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
 
         if (!$statusIsClosed) {
             $this->_addButton('save_and_edit_button', array(
-                    'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Save and Continue Edit'),
+                    'label'   => __('Save and Continue Edit'),
                     'class'   => 'save',
                     'data_attribute'  => array(
                         'mage-init' => array(
@@ -54,9 +54,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
             );
 
             $this->_addButton('close', array(
-                'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Close'),
+                'label'     => __('Close'),
                 'onclick'   => 'confirmSetLocation(\''
-                                . Mage::helper('Enterprise_Rma_Helper_Data')->__('Are you sure you want to close this returns request?')
+                                . __('Are you sure you want to close this returns request?')
                                 .'\', \'' . $this->getCloseUrl().'\')'
                 )
             );
@@ -66,7 +66,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
         }
 
         $this->_addButton('print', array(
-            'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print'),
+            'label'     => __('Print'),
             'class'     => 'save',
             'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
             ), 101
@@ -124,7 +124,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
     public function getHeaderText()
     {
         if ($this->getRma()->getId()) {
-            return Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s - %s', intval($this->getRma()->getIncrementId()), $this->getRma()->getStatusLabel());
+            return __('Return #%1 - %2', intval($this->getRma()->getIncrementId()), $this->getRma()->getStatusLabel());
         }
 
         return '';

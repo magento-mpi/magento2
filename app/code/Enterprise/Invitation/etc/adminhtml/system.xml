@@ -11,32 +11,32 @@
 -->
 <config>
     <system>
-        <section id="enterprise_invitation" translate="label" module="Enterprise_Invitation" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="enterprise_invitation" translate="label" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Invitations</label>
             <class>separator-top</class>
             <tab>customer</tab>
             <resource>Enterprise_Invitation::config_enterprise_invitation</resource>
-            <group id="email" translate="label" module="Enterprise_Invitation" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="email" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Email</label>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Customer Invitation Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Customer Invitation Email Template</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
             </group>
-            <group id="general" translate="label" module="Enterprise_Invitation" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="general" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
                 <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Invitations Functionality</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <backend_model>Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Cache</backend_model>
                 </field>
                 <field id="enabled_on_front" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Invitations on Frontend</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <backend_model>Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Cache</backend_model>
                 </field>
                 <field id="registration_use_inviter_group" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -49,7 +49,7 @@
                 </field>
                 <field id="allow_customer_message" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allow Customers to Add Custom Message to Invitation Email</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="max_invitation_amount_per_send" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Max Invitations Allowed to be Sent at One Time</label>

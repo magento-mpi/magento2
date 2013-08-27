@@ -15,10 +15,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection');
@@ -53,8 +53,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('found'),
-            '!=' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('not found')
+            '==' => __('found'),
+            '!=' => __('not found')
         ));
         return $this;
     }
@@ -67,7 +67,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %s in the shopping cart with %s of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('If an item is %1 in the shopping cart with %2 of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

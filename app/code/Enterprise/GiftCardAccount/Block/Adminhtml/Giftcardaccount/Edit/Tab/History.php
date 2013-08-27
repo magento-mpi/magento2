@@ -9,7 +9,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected $_collection;
 
@@ -34,14 +34,14 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'index'     => 'history_id',
             'type'      => 'int',
             'width'     => 50,
         ));
 
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Date'),
+            'header'    => __('Date'),
             'index'     => 'updated_at',
             'type'      => 'datetime',
             'filter'    => false,
@@ -49,7 +49,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Action'),
+            'header'    => __('Action'),
             'width'     => 100,
             'index'     => 'action',
             'sortable'  => false,
@@ -59,7 +59,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
 
         $currency = Mage::app()->getWebsite(Mage::registry('current_giftcardaccount')->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn('balance_delta', array(
-            'header'        => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance Change'),
+            'header'        => __('Balance Change'),
             'width'         => 50,
             'index'         => 'balance_delta',
             'sortable'      => false,
@@ -69,7 +69,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
         ));
 
         $this->addColumn('balance_amount', array(
-            'header'        => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance'),
+            'header'        => __('Balance'),
             'width'         => 50,
             'index'         => 'balance_amount',
             'sortable'      => false,
@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
         ));
 
         $this->addColumn('additional_info', array(
-            'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('More Information'),
+            'header'    => __('More Information'),
             'index'     => 'additional_info',
             'sortable'  => false,
         ));

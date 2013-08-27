@@ -17,15 +17,15 @@ $customerLink = $this->getCustomerLink();
 ?>
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
-        <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Request Details') ?></span>
+        <span class="title"><?php echo __('Request Details') ?></span>
     </div>
     <table cellspacing="0" class="data-table">
         <tr>
-            <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Order ID') ?></th>
-            <td><a href="<?php echo $this->getOrderLink() ?>"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('#') . $this->getOrderIncrementId() ?></a></td>
+            <th><?php echo __('Order ID') ?></th>
+            <td><a href="<?php echo $this->getOrderLink() ?>"><?php echo __('#') . $this->getOrderIncrementId() ?></a></td>
         </tr>
         <tr>
-            <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Customer Name') ?></th>
+            <th><?php echo __('Customer Name') ?></th>
             <td>
                 <?php
                     if ($customerLink) {
@@ -39,11 +39,11 @@ $customerLink = $this->getCustomerLink();
             </td>
         </tr>
         <tr>
-            <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Email Address') ?></th>
+            <th><?php echo __('Email Address') ?></th>
             <td><a href="mailto:<?php echo $this->getCustomerEmail() ?>"><?php echo $this->getCustomerEmail() ?></a></td>
         </tr>
         <tr>
-            <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Contact Email Address') ?></th>
+            <th><?php echo __('Contact Email Address') ?></th>
             <td><input type="text" class="input-text validate-email" name="contact_email" id="contact_email"/></td>
         </tr>
     </table>

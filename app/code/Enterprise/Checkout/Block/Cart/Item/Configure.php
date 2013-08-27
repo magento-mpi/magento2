@@ -15,12 +15,12 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Cart_Item_Configure extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Cart_Item_Configure extends Magento_Core_Block_Template
 {
     /**
      * Configure product view blocks
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

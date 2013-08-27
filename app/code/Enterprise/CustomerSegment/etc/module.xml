@@ -10,13 +10,13 @@
 <config>
     <module name="Enterprise_CustomerSegment" version="1.11.0.0.4" active="false">
         <depends>
-            <module name="Mage_Customer" />
+            <module name="Magento_Customer" />
             <module name="Enterprise_Customer" />
-            <module name="Mage_Adminhtml" />
-            <module name="Mage_Catalog" />
-            <module name="Mage_CatalogRule" />
-            <module name="Mage_Rule" />
-            <module name="Mage_Log" />
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Catalog" />
+            <module name="Magento_CatalogRule" />
+            <module name="Magento_Rule" />
+            <module name="Magento_Log" />
         </depends>
     </module>
 </config>

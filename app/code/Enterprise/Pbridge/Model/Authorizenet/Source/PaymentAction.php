@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Enterprise_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
@@ -17,31 +17,18 @@
 class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction
 {
     /**
-     * @var Enterprise_Pbridge_Helper_Data
-     */
-    protected $_helper = null;
-
-    /**
-     * @param Enterprise_Pbridge_Helper_Data $helper
-     */
-    public function __construct(Enterprise_Pbridge_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
-    /**
      * @return array
      */
     public function toOptionArray()
     {
         return array(
             array(
-                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => $this->_helper->__('Authorize Only')
+                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'label' => __('Authorize Only')
             ),
             array(
-                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => $this->_helper->__('Authorize and Capture')
+                'value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'label' => __('Authorize and Capture')
             ),
         );
     }

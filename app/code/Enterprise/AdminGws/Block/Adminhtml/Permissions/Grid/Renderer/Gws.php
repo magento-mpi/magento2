@@ -12,7 +12,7 @@
  * Website permissions column grid
  *
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * @var array
@@ -33,13 +33,13 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends 
     public function render(Magento_Object $row)
     {
         if ($row->getData('gws_is_all')) {
-            return $this->__('All');
+            return __('All');
         }
 
         // lookup websites and store groups in system
         if (!self::$websites) {
-            foreach (Mage::getResourceSingleton('Mage_Core_Model_Resource_Store_Group_Collection') as $storeGroup) {
-                /* @var $storeGroup Mage_Core_Model_Store_Group */
+            foreach (Mage::getResourceSingleton('Magento_Core_Model_Resource_Store_Group_Collection') as $storeGroup) {
+                /* @var $storeGroup Magento_Core_Model_Store_Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();
@@ -79,7 +79,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends 
                 }
             }
         }
-        return $output ? implode('<br />', $output) : $this->__('None');
+        return $output ? implode('<br />', $output) : __('None');
     }
 
     /**

@@ -31,8 +31,8 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
-    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
+class Enterprise_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
+    implements Magento_Catalog_Model_Product_Configuration_Item_Interface
 {
 
     /**
@@ -79,12 +79,12 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws Mage_Core_Exception
-     * @param Mage_Checkout_Model_Cart $cart
+     * @throws Magento_Core_Exception
+     * @param Magento_Checkout_Model_Cart $cart
      * @param int $qty
      * @return bool
      */
-    public function addToCart(Mage_Checkout_Model_Cart $cart, $qty)
+    public function addToCart(Magento_Checkout_Model_Cart $cart, $qty)
     {
         $product = $this->_getProduct();
         $storeId = $this->getStoreId();
@@ -93,7 +93,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             $qty = $this->getQty() - $this->getQtyFulfilled();
         }
 
-        if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($product->getStatus() != Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
             return false;
         }
 
@@ -101,7 +101,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
+            $urlData = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -115,7 +115,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 
         if (!$product->isSalable()) {
             Mage::throwException(
-                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('This product(s) is out of stock.'));
+                __('This product(s) is out of stock.'));
         }
 
         $product->setGiftregistryItemId($this->getId());
@@ -137,7 +137,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  bool
      */
     public function isRepresentProduct($product)
@@ -185,7 +185,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Set product attributes to item
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_GiftRegistry_Model_Item
      */
     public function setProduct($product)
@@ -208,15 +208,15 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Return item product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getProductId());
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the product for adding the item to the quote.'));
+                    __('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
         }
@@ -226,7 +226,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Return item product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -348,7 +348,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Add option to item
      *
-     * @throws  Mage_Core_Exception
+     * @throws  Magento_Core_Exception
      * @param   Enterprise_GiftRegistry_Model_Item_Option $option
      * @return  Enterprise_GiftRegistry_Model_Item
      */
@@ -357,7 +357,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         if (is_array($option)) {
             $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option)
                 ->setItem($this);
-        } elseif ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+        } elseif ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             // import data from existing quote item option
             $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setProduct($option->getProduct())
                ->setCode($option->getCode())
@@ -372,7 +372,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         } elseif($option instanceof Enterprise_GiftRegistry_Model_Item_Option) {
             $option->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the item option format.'));
+            Mage::throwException(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -388,7 +388,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Register option code
      *
-     * @throws  Mage_Core_Exception
+     * @throws  Magento_Core_Exception
      * @param   Enterprise_GiftRegistry_Model_Item_Option $option
      * @return  Enterprise_GiftRegistry_Model_Item
      */
@@ -397,7 +397,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -449,7 +449,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'
-     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     * Needed to implement Magento_Catalog_Model_Product_Configuration_Item_Interface.
      * Currently returns null, as far as we don't show file options and don't need controllers to give file.
      *
      * @return null|Magento_Object
@@ -463,7 +463,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Validates and sets quantity for the related product
      *
      * @param int|float $quantity New item quantity
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Enterprise_GiftRegistry_Model_Item
      */
     public function setQty($quantity)

@@ -11,7 +11,7 @@
 /**
  * Gift Registry helper
  */
-class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'enterprise_giftregistry/general/enabled';
     const XML_PATH_SEND_LIMIT = 'enterprise_giftregistry/sharing_email/send_limit';
@@ -87,7 +87,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
             if (empty($customValues[$field])) {
                 if ((!empty($data['frontend'])) && is_array($data['frontend'])
                     && (!empty($data['frontend']['is_required']))) {
-                    $errors[] = $this->__('Please enter the "%s".', $data['label']);
+                    $errors[] = __('Please enter the "%1".', $data['label']);
                 }
             } else {
                 if (($data['type']) == 'select' && is_array($data['options'])) {
@@ -99,7 +99,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
                         }
                     }
                     if (!$found) {
-                        $errors[] = $this->__('Please enter the correct "%s".', $data['label']);
+                        $errors[] = __('Please enter the correct "%1".', $data['label']);
                     }
                 }
             }
@@ -119,7 +119,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $result = array();
         $entityCollection = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getCollection()
-            ->filterByCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
+            ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
             ->filterByIsActive(1);
 
         if (count($entityCollection)) {
@@ -198,7 +198,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRegistryLink($entity)
     {
-        return Mage::getModel('Mage_Core_Model_Url')->setStore($entity->getStoreId())
+        return Mage::getModel('Magento_Core_Model_Url')->setStore($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 
@@ -214,15 +214,15 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+        if ($item instanceof Magento_Sales_Model_Quote_Item) {
             $productType = $item->getProductType();
         } else {
             $productType = $item->getTypeId();
         }
 
         if ($productType == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
-            if ($item instanceof Mage_Sales_Model_Quote_Item) {
-                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($item->getProductId());
+            if ($item instanceof Magento_Sales_Model_Quote_Item) {
+                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getProductId());
             } else {
                 $product = $item;
             }

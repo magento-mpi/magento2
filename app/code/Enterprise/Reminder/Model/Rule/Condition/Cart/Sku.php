@@ -15,10 +15,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Sku');
@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('SKU'));
+            'label' => __('SKU'));
     }
 
     /**
@@ -44,7 +44,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item SKU %s %s ', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Item SKU %1 %2 ', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -55,7 +55,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreOptionHash());
+        $this->setValueOption(Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreOptionHash());
         return $this;
     }
 

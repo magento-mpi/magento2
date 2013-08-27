@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage_Directory_Block_Data
+abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Magento_Directory_Block_Data
 {
 
     /**
@@ -149,7 +149,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
         if ($formatType === false) {
-            $formatType = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()
@@ -158,7 +158,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
             ->setName($name)
             ->setValue($this->formatDate($value, $formatType))
             ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
-            ->setImage($this->getViewFileUrl('Mage_Core::calendar.gif'))
+            ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
             ->setDateFormat(Mage::app()->getLocale()->getDateFormat($formatType));
         return $calendar->getHtml();
     }
@@ -170,7 +170,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => $id,
                 'class' => 'select global-scope '. $class
@@ -199,7 +199,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
 
                     if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
                         $regionCode = $field . '_region';
-                        $regionAttribute['label'] = $this->__('State/Province');
+                        $regionAttribute['label'] = __('State/Province');
                         $regionAttribute['group'] = $fdata['group'];
                         $regionAttribute['type'] = 'region';
                         $regionAttribute['id'] = $this->_getElementId($regionCode);
@@ -267,7 +267,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     {
         $data = array();
         if (is_array($selectOptions)) {
-            $data[] = array('label' => $this->__('Please Select'), 'value' => '');
+            $data[] = array('label' => __('Please Select'), 'value' => '');
             foreach ($selectOptions as $option) {
                 $data[] = array('label' => $option['label'], 'value' => $option['code']);
             }

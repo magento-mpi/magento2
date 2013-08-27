@@ -296,7 +296,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $setDisabled = true;
         } else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $path = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category')->getCategoryPathById($categoryId);
+            $path = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category')->getCategoryPathById($categoryId);
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
@@ -343,7 +343,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         if ($this->_role->getIsStoreLevel()) {
             $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-            /* @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+            /* @var $massBlock Magento_Adminhtml_Block_Widget_Grid_Massaction */
             if ($massBlock) {
                 $massBlock->removeItem('delete');
             }
@@ -362,7 +362,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model Mage_Core_Model_Abstract */
+        /* @var $model Magento_Core_Model_Abstract */
         $model = Mage::registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();
@@ -474,7 +474,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function removeGiftWrappingForbiddenMassactions($observer)
     {
         $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-        /** @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+        /** @var $massBlock Magento_Adminhtml_Block_Widget_Grid_Massaction */
         if ($massBlock) {
             $massBlock->removeItem('delete');
         }
@@ -540,7 +540,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             return $this;
         }
         $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-        /* @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+        /* @var $massBlock Magento_Adminhtml_Block_Widget_Grid_Massaction */
         if ($massBlock) {
             $massBlock->removeItem('cancel_order')
                 ->removeItem('hold_order')
@@ -559,10 +559,10 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeRevisionEditButtons($observer)
     {
-        /* @var $model Mage_Cms_Model_Page */
+        /* @var $model Magento_Cms_Model_Page */
         $model = Mage::registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = Mage::getResourceSingleton('Mage_Cms_Model_Resource_Page')
+            $storeIds = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
                 ->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
@@ -583,7 +583,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $model = Mage::registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = Mage::getResourceSingleton('Mage_Cms_Model_Resource_Page')
+            $storeIds = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
                 ->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
@@ -765,7 +765,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeWidgetInstanceButtons($observer)
     {
-        /* @var $block Mage_Widget_Block_Adminhtml_Widget_Instance_Edit */
+        /* @var $block Magento_Widget_Block_Adminhtml_Widget_Instance_Edit */
         $block = $observer->getEvent()->getBlock();
         $widgetInstance = $block->getWidgetInstance();
         if ($widgetInstance->getId()) {
@@ -905,7 +905,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $block = $observer->getEvent()->getBlock();
         $eventCategoryId = $block->getEvent()->getCategoryId();
-        $categoryPath = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')
+        $categoryPath = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')
             ->getCategoryPathById($eventCategoryId);
         if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
             $block->removeButton('save');
@@ -989,7 +989,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeRuleEntityGridButtons($observer)
     {
-        /* @var $block Mage_Adminhtml_Block_Widget_Grid_Container */
+        /* @var $block Magento_Adminhtml_Block_Widget_Grid_Container */
         $block = $observer->getEvent()->getBlock();
         // Remove "Apply Rules" button at catalog rules grid for all GWS limited users
         if ($block) {
@@ -1014,7 +1014,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeRuleEntityEditButtons($observer)
     {
-        /* @var $block Mage_Adminhtml_Block_Widget_Grid_Container */
+        /* @var $block Magento_Adminhtml_Block_Widget_Grid_Container */
         $block = $observer->getEvent()->getBlock();
         if (!$block) {
              return true;
@@ -1045,7 +1045,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             return true;
         }
 
-        /** @var $model Mage_Rule_Model_Rule */
+        /** @var $model Magento_Rule_Model_Rule */
         $model = Mage::registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();

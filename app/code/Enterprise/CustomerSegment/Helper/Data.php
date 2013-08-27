@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * XPath where customer segment's on/off status is stored
@@ -13,7 +13,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/enterprise_customersegment/is_enabled';
 
     /**
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     private $_storeConfig;
 
@@ -23,13 +23,13 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
     private $_segmentCollection;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $storeConfig,
         Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
     ) {
         parent::__construct($context);
@@ -60,11 +60,11 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
                 'value' => ''
             ),
             array(
-                'label' => $this->__('Union'),
+                'label' => __('Union'),
                 'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_UNION_CODE
             ),
             array(
-                'label' => $this->__('Intersection'),
+                'label' => __('Intersection'),
                 'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE
             )
         );
@@ -91,12 +91,12 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Magento_Data_Form $form
      * @param Magento_Object $formData
-     * @param Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
+     * @param Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
      */
     public function addSegmentFieldsToForm(
         Magento_Data_Form $form,
         Magento_Object $formData,
-        Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
+        Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
     ) {
         if (!$this->isEnabled()) {
             return;
@@ -111,10 +111,10 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
 
         $fieldset->addField('use_customer_segment', 'select', array(
             'name' => 'use_customer_segment',
-            'label' => $this->__('Customer Segments'),
+            'label' => __('Customer Segments'),
             'options' => array(
-                '0' => $this->__('All'),
-                '1' => $this->__('Specified'),
+                '0' => __('All'),
+                '1' => __('Specified'),
             ),
             'note' => $formData->getUseCustomerSegment()
                 ? $this->_getSpecificSegmentMessage()  : $this->_getAllSegmentsMessage(),
@@ -168,7 +168,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getAllSegmentsMessage()
     {
-        return $this->__('Applies to All of the Specified Customer Segments');
+        return __('Applies to All of the Specified Customer Segments');
     }
 
     /**
@@ -178,6 +178,6 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getSpecificSegmentMessage()
     {
-        return $this->__('Apply to the Selected Customer Segments');
+        return __('Apply to the Selected Customer Segments');
     }
 }

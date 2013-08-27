@@ -16,13 +16,13 @@
  * @package    Enterprise_Customer
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Retrieve current form type instance
      *
-     * @return Mage_Eav_Model_Form_Type
+     * @return Magento_Eav_Model_Form_Type
      */
     protected function _getFormType()
     {
@@ -33,32 +33,32 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     {
         $addButtonData = array(
             'id'        => 'add_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('New Fieldset'),
+            'label'     => __('New Fieldset'),
             'onclick'   => 'formType.newFieldset()',
             'class'     => 'add',
         );
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData($addButtonData)->toHtml();
     }
 
     public function getFieldsetButtonsHtml()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save'),
+            'label'     => __('Save'),
             'onclick'   => 'formType.saveFieldset()',
             'class'     => 'save',
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'delete_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Remove'),
+            'label'     => __('Remove'),
             'onclick'   => 'formType.deleteFieldset()',
             'class'     => 'delete',
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'cancel_node_button',
-            'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Cancel'),
+            'label'     => __('Cancel'),
             'onclick'   => 'formType.cancelFieldset()',
             'class'     => 'cancel',
         ))->toHtml();
@@ -92,7 +92,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             $result[$stores->getId()] = $stores->getName();
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
@@ -104,14 +104,14 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     {
         $nodes = array();
 
-        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
-        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
+        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
         foreach ($fieldsetCollection as $fieldset) {
-            /* @var $fieldset Mage_Eav_Model_Form_Fieldset */
+            /* @var $fieldset Magento_Eav_Model_Form_Fieldset */
             $node = array(
                 'node_id'   => $fieldset->getId(),
                 'parent'    => null,
@@ -128,7 +128,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
         }
 
         foreach ($elementCollection as $element) {
-            /* @var $element Mage_Eav_Model_Form_Element */
+            /* @var $element Magento_Eav_Model_Form_Element */
             $nodes[] = array(
                 'node_id'   => 'a_' . $element->getId(),
                 'parent'    => $element->getFieldsetId(),
@@ -138,7 +138,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             );
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($nodes);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($nodes);
     }
 
     /**
@@ -148,7 +148,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Attributes');
+        return __('Attributes');
     }
 
     /**
@@ -158,7 +158,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Attributes');
+        return __('Attributes');
     }
 
     /**

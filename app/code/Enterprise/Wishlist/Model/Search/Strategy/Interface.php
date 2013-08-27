@@ -21,8 +21,8 @@ interface Enterprise_Wishlist_Model_Search_Strategy_Interface
      * Filter given wishlist collection
      *
      * @abstract
-     * @param Mage_Wishlist_Model_Resource_Wishlist_Collection $collection
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
-    public function filterCollection(Mage_Wishlist_Model_Resource_Wishlist_Collection $collection);
+    public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection);
 }

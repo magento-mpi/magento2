@@ -12,10 +12,10 @@
     $wishlistItems = $this->getWishlistItems();
 ?>
 <div class="page-title title-buttons">
-    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
-        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && count($this->getWishlistItems())): ?>
+        <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
     <?php endif; ?>
-    <h1><?php echo $this->__('Wish List Info') ?></h1>
+    <h1><?php echo __('Wish List Info') ?></h1>
 </div>
 <?php echo $this->getLayout()->renderElement('messages');?>
 <div class="info-box">
@@ -25,29 +25,29 @@
             <col />
             <tbody>
                 <tr>
-                    <th><span class="nobr"><?php echo $this->__('Owner');?></span></th>
+                    <th><span class="nobr"><?php echo __('Owner');?></span></th>
                     <td><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></td>
                 </tr>
                 <tr>
-                    <th><span class="nobr"><?php echo $this->__('Name');?></span></th>
+                    <th><span class="nobr"><?php echo __('Name');?></span></th>
                     <td><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></td>
                 </tr>
                 <tr>
-                    <th><span class="nobr"><?php echo $this->__('Updated at');?></span></th>
-                    <td><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
+                    <th><span class="nobr"><?php echo __('Updated at');?></span></th>
+                    <td><?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);?></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<h2 class="subtitle"><?php echo $this->__('Wish List Items') ?></h2>
+<h2 class="subtitle"><?php echo __('Wish List Items') ?></h2>
 <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form">
     <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
     <?php echo $this->getChildHtml('items');?>
     <?php if (count($wishlistItems) && $this->isSaleable()): ?>
         <div class="buttons-set buttons-set2">
-            <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-add"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+            <button type="submit" title="<?php echo __('Add to Cart') ?>" class="button btn-add"><span><span><?php echo __('Add to Cart') ?></span></span></button>
         </div>
     <?php endif; ?>
 </form>
@@ -57,14 +57,14 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Mage_Wishlist::wishlist.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>", function() {
                 $('#wishlist-info-form').wishlist({
                     infoList: true,
-                    checkBoxValidationMessage: '<?php echo $this->__('You must select items to add to the cart.');?>'
+                    checkBoxValidationMessage: '<?php echo __('You must select items to add to the cart.');?>'
                 });
             });
     })(jQuery);
 </script>
 <div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
 </div>

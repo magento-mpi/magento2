@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_Block_Template
+class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Core_Block_Template
 {
     /**
      * Id of current customer
@@ -27,12 +27,12 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     /**
      * Wishlist Collection
      *
-     * @var Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @var Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     protected $_collection;
 
     /**
-     * @var Mage_Wishlist_Model_Wishlist
+     * @var Magento_Wishlist_Model_Wishlist
      */
     protected $_current = null;
 
@@ -57,7 +57,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+            $this->_customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         }
         return $this->_customerId;
     }
@@ -65,7 +65,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     /**
      * Retrieve wishlist collection
      *
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getWishlists()
     {
@@ -75,7 +75,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -85,7 +85,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     /**
      * Retrieve currently selected wishlist
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     public function getCurrentWishlist()
     {
@@ -103,26 +103,26 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     /**
      * Build string that displays the number of items in wishlist
      *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
+     * @param Magento_Wishlist_Model_Wishlist $wishlist
      * @return string
      */
-    public function getItemCount(Mage_Wishlist_Model_Wishlist $wishlist)
+    public function getItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
     {
         $count = Mage::helper('Enterprise_Wishlist_Helper_Data')->getWishlistItemCount($wishlist);
         if ($count == 1) {
-            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('1 item');
+            return __('1 item');
         } else {
-            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('%d items', $count);
+            return __('%1 items', $count);
         }
     }
 
     /**
      * Build wishlist management page url
      *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
+     * @param Magento_Wishlist_Model_Wishlist $wishlist
      * @return string
      */
-    public function getWishlistManagementUrl(Mage_Wishlist_Model_Wishlist $wishlist)
+    public function getWishlistManagementUrl(Magento_Wishlist_Model_Wishlist $wishlist)
     {
         return $this->getUrl('wishlist/*/*', array('wishlist_id' => $wishlist->getId()));
     }

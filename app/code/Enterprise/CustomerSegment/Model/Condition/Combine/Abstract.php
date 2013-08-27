@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
+abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Magento_Rule_Model_Condition_Combine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
@@ -140,7 +140,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
     /**
      * Get SQL select for matching customer to segment condition
      *
-     * @param Mage_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
+     * @param Magento_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
      * @param int | Zend_Db_Expr $website
      * @return Magento_DB_Select
      */

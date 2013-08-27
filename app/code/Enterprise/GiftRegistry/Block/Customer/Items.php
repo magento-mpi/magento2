@@ -11,7 +11,7 @@
 /**
  * Customer gift registry view items block
  */
-class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Product_Abstract
+class Enterprise_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Product_Abstract
 {
 
     /**
@@ -19,7 +19,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
      */
     public function getFormHeader()
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('View Gift Registry %s', $this->getEntity()->getTitle());
+        return __('View Gift Registry %1', $this->getEntity()->getTitle());
     }
 
     /**
@@ -30,7 +30,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     public function getItemCollection()
     {
          if (!$this->hasItemCollection()) {
-             $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+             $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
              $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -122,6 +122,6 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     {
         $product = $item->getProduct();
         $product->setCustomOptions($item->getOptionsByCode());
-        return Mage::helper('Mage_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
+        return Mage::helper('Magento_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
     }
 }

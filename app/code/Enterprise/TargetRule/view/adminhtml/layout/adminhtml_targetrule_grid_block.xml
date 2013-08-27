@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_targetrule_grid_block>
         <reference name="adminhtml.targetrule.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.targetrule.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.targetrule.grid" as="grid">
                 <arguments>
                     <id>TargetRuleGrid</id>
                     <dataSource type="object">Enterprise_TargetRule_Model_Resource_Rule_Collection</dataSource>
@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.targetrule.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.targetrule.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -34,51 +34,51 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="rule_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="rule_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">ID</header>
+                            <header translate="true">ID</header>
                             <index>rule_id</index>
                             <type>text</type>
                             <width>20px</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">Rule</header>
+                            <header translate="true">Rule</header>
                             <index>name</index>
                             <type>text</type>
                             <escape>1</escape>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="from_date">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="from_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">Start on</header>
+                            <header translate="true">Start on</header>
                             <index>from_date</index>
                             <type>date</type>
                             <default>--</default>
                             <width>160px</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="to_date">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="to_date">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">End on</header>
+                            <header translate="true">End on</header>
                             <index>to_date</index>
                             <type>date</type>
                             <default>--</default>
                             <width>160px</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sort_order">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">Priority</header>
+                            <header translate="true">Priority</header>
                             <index>sort_order</index>
                             <type>text</type>
                             <width>1px</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="apply_to">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="apply_to">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">Applies To</header>
+                            <header translate="true">Applies To</header>
                             <index>apply_to</index>
                             <align>left</align>
                             <type>options</type>
@@ -86,20 +86,20 @@
                             <width>150px</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true" module="Enterprise_TargetRule">Status</header>
+                            <header translate="true">Status</header>
                             <index>is_active</index>
                             <align>left</align>
                             <type>options</type>
                             <options>
                                 <active>
                                     <value>1</value>
-                                    <label translate="true" module="Enterprise_TargetRule">Active</label>
+                                    <label translate="true">Active</label>
                                 </active>
                                 <inactive>
                                     <value>0</value>
-                                    <label translate="true" module="Enterprise_TargetRule">Inactive</label>
+                                    <label translate="true">Inactive</label>
                                 </inactive>
                             </options>
                             <width>1px</width>

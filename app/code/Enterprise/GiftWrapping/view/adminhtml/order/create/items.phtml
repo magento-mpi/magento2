@@ -13,22 +13,22 @@
 <div id="wrapping-item-container">
     <h4>Gift Wrapping</h4>
     <div class="gift-wrapping-form">
-        <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
+        <label><?php echo __('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
         <div class="gift-wrapping-design no-display">
             <img id="wrapping-item-image-box" class="image-box no-display" height="75" width="75" alt="" src="" />
             <div id="wrapping-item-price-box" class="no-display">
                 <?php if ($this->getDisplayWrappingBothPrices()): ?>
                 <div>
-                    <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                    <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
                     <span class="price" id="wrapping-item-price-excl-tax"></span>
                 </div>
                 <div>
-                    <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                    <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
                     <span class="price" id="wrapping-item-price-incl-tax"></span>
                 </div>
                 <?php else: ?>
                 <div>
-                    <span class="label"><?php echo $this->__('Price') ?>:</span>
+                    <span class="label"><?php echo __('Price') ?>:</span>
                     <span class="price" id="wrapping-item-price"></span>
                 </div>
                 <?php endif; ?>

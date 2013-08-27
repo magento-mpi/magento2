@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Configuration of ACL for Webapi module.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::system">
+                    <resource id="Magento_Webapi::webapi" title="Rest" sortOrder="40">
+                        <resource id="Magento_Webapi::webapi_users" title="Users" sortOrder="10"/>
+                        <resource id="Magento_Webapi::webapi_roles" title="Roles" sortOrder="20"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

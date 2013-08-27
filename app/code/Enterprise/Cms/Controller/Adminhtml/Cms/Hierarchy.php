@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_Controller_Action
+class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Current Scope
@@ -95,10 +95,10 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
     {
         $this->loadLayout()
             ->_setActiveMenu('Enterprise_Cms::cms_enterprise_page_hierarchy')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'),
-                Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS Page Trees'),
-                Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS Page Trees'));
+            ->_addBreadcrumb(__('CMS'),
+                __('CMS'))
+            ->_addBreadcrumb(__('CMS Page Trees'),
+                __('CMS Page Trees'));
         return $this;
     }
 
@@ -119,7 +119,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
             $scopeId = (int)str_replace(Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE, '', $value);
             $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
         }
-        if (!$scopeId || $scopeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+        if (!$scopeId || $scopeId == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
             $scopeId = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID;
             $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT;
         }
@@ -133,7 +133,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
      */
     public function indexAction()
     {
-        $this->_title($this->__('Hierarchy'));
+        $this->_title(__('Hierarchy'));
 
         $this->_initScope();
 
@@ -165,7 +165,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
         if (empty($scopes) || ($this->getRequest()->isPost() && !is_array($scopes))
             || $this->getRequest()->isGet() && !is_string($scopes)
         ) {
-            $this->_getSession()->addError($this->__('Please correct the scope.'));
+            $this->_getSession()->addError(__('Please correct the scope.'));
         } else {
             if (!is_array($scopes)) {
                 $scopes = array($scopes);
@@ -180,12 +180,12 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
                     $nodeModel->deleteByScope($scope, $scopeId);
                     $nodeModel->collectTree(array(), array());
                 }
-                $this->_getSession()->addSuccess($this->__('You deleted the pages hierarchy from the selected scopes.'));
-            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while deleting the hierarchy.')
+                    __('Something went wrong while deleting the hierarchy.')
                 );
             }
         }
@@ -215,12 +215,12 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
-                $this->_getSession()->addSuccess($this->__('You copied the pages hierarchy to the selected scopes.'));
-            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while copying the hierarchy.')
+                    __('Something went wrong while copying the hierarchy.')
                 );
             }
         }
@@ -261,7 +261,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data['nodes_data']);
+                            $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
                         }catch (Zend_Json_Exception $e){
                             $nodesData = array();
                         }
@@ -294,13 +294,13 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Mage_Adminhtml_C
 
                 $hasError = false;
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_Cms_Helper_Data')->__('You have saved the hierarchy.')
+                    __('You have saved the hierarchy.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while saving the hierarchy.')
+                    __('Something went wrong while saving the hierarchy.')
                 );
             }
 

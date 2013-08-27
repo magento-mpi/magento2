@@ -15,12 +15,12 @@
 <div class="fieldset file-upload">
     <ul class="form-list">
         <li>
-            <label for="customer_sku_csv"><?php echo Mage::helper('Enterprise_Checkout_Helper_Data')->__('File'); ?></label>
+            <label for="customer_sku_csv"><?php echo __('File'); ?></label>
             <div class="input-box">
                 <input id="customer_sku_csv" type="file" name="<?php echo Enterprise_Checkout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" class="customer-sku-csv"/>
-                <p class="btn-reset"><span onclick="resetUploadField()"><?php echo $this->__('Reset')?></span></p>
-                <p class="note"><span><?php echo Mage::helper('Enterprise_Checkout_Helper_Data')->__('File extensions allowed: .csv'); ?></span></p>
-                <p class="note"><span><?php echo Mage::helper('Enterprise_Checkout_Helper_Data')->__('File must contain two columns, with "sku" and "qty" in the header row.'); ?></span></p>
+                <p class="btn-reset"><span onclick="resetUploadField()"><?php echo __('Reset')?></span></p>
+                <p class="note"><span><?php echo __('File extensions allowed: .csv'); ?></span></p>
+                <p class="note"><span><?php echo __('File must contain two columns, with "sku" and "qty" in the header row.'); ?></span></p>
             </div>
         </li>
     </ul>

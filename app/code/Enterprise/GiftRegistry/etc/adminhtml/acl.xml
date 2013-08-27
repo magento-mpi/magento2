@@ -12,15 +12,15 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
-                            <resource id="Enterprise_GiftRegistry::enterprise_giftregistry" module="Enterprise_GiftRegistry" title="Gift Registry Section" />
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
+                            <resource id="Enterprise_GiftRegistry::enterprise_giftregistry" title="Gift Registry Section" />
                         </resource>
                     </resource>
-                    <resource id="Mage_Adminhtml::stores_other_settings">
-                        <resource id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" module="Enterprise_GiftRegistry" title="Gift Registry" sortOrder="40" />
+                    <resource id="Magento_Adminhtml::stores_other_settings">
+                        <resource id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" title="Gift Registry" sortOrder="40" />
                     </resource>
                 </resource>
             </resource>

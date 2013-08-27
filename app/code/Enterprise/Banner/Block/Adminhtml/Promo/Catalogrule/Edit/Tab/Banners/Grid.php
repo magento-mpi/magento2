@@ -29,7 +29,7 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
     /**
      * Create grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -127,7 +127,7 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
     /**
      * Get current catalog rule model
      *
-     * @return Mage_CatalogRule_Model_Rule
+     * @return Magento_CatalogRule_Model_Rule
      */
     protected function _getRule()
     {

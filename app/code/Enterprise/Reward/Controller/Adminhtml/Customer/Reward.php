@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Mage_Adminhtml_Controller_Action
+class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check if module functionality enabled
@@ -64,7 +64,7 @@ class Enterprise_Reward_Controller_Adminhtml_Customer_Reward extends Mage_Adminh
                 Mage::getModel('Enterprise_Reward_Model_Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('You removed the orphan points.'));
+                    ->addSuccess(__('You removed the orphan points.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }

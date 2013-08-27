@@ -16,8 +16,8 @@
  * @package    Enterprise_Banner
  */
 class Enterprise_Banner_Block_Widget_Banner
-    extends Mage_Core_Block_Template
-    implements Mage_Widget_Block_Interface
+    extends Magento_Core_Block_Template
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Display mode "fixed" flag
@@ -69,22 +69,22 @@ class Enterprise_Banner_Block_Widget_Banner
     protected $_bannerResource;
 
     /**
-     * @var Mage_Core_Model_Session
+     * @var Magento_Core_Model_Session
      */
     protected $_coreSession;
 
     /**
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Mage_Customer_Model_Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
     /**
-     * @var Mage_Cms_Helper_Data
+     * @var Magento_Cms_Helper_Data
      */
     protected $_cmsHelper;
 
@@ -105,13 +105,13 @@ class Enterprise_Banner_Block_Widget_Banner
     protected $_renderedParams = array();
 
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Enterprise_Banner_Model_Resource_Banner $resource,
-        Mage_Core_Model_Session $coreSession,
-        Mage_Checkout_Model_Session $checkoutSession,
-        Mage_Customer_Model_Session $customerSession,
-        Mage_Cms_Helper_Data $cmsHelper,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Session $coreSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Cms_Helper_Data $cmsHelper,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);

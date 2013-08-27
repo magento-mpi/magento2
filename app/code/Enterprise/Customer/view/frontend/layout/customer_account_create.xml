@@ -15,7 +15,7 @@
                     <code>customer_account_create</code>
                 </action>
                 <action method="setEntityModelClass">
-                    <code>Mage_Customer_Model_Customer</code>
+                    <code>Magento_Customer_Model_Customer</code>
                 </action>
             </block>
             <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
@@ -23,7 +23,7 @@
                     <code>customer_register_address</code>
                 </action>
                 <action method="setEntityModelClass">
-                    <code>Mage_Customer_Model_Address</code>
+                    <code>Magento_Customer_Model_Address</code>
                 </action>
             </block>
         </reference>

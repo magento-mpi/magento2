@@ -74,7 +74,7 @@
                 <field id="solr_server_suggestion_enabled" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Search Suggestions</label>
                     <comment>When you enable this option your site may slow down.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="engine">Enterprise_Search_Model_Resource_Engine</field>
                     </depends>
@@ -88,7 +88,7 @@
                 </field>
                 <field id="solr_server_suggestion_count_results_enabled" translate="label" type="select" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Results Count for Each Suggestion</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <comment>When you enable this option your site may slow down.</comment>
                     <depends>
                         <field id="engine">Enterprise_Search_Model_Resource_Engine</field>
@@ -98,7 +98,7 @@
                 <field id="search_recommendations_enabled" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Search Recommendations</label>
                     <comment>When you enable this option your site may slow down.</comment>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="search_recommendations_count" translate="label" type="text" sortOrder="81" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Search Recommendations Count</label>
@@ -109,26 +109,26 @@
                 </field>
                 <field id="search_recommendations_count_results_enabled" translate="label" type="select" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Results Count for Each Recommendation</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="search_recommendations_enabled">1</field>
                     </depends>
                 </field>
                 <field id="solr_server_use_in_catalog_navigation" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Solr Engine for Catalog Navigation</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="engine">Enterprise_Search_Model_Resource_Engine</field>
                     </depends>
                 </field>
                 <field id="search_type">
                     <depends>
-                        <field id="engine">Mage_CatalogSearch_Model_Resource_Fulltext_Engine</field>
+                        <field id="engine">Magento_CatalogSearch_Model_Resource_Fulltext_Engine</field>
                     </depends>
                 </field>
                 <field id="use_layered_navigation_count">
                     <depends>
-                        <field id="engine">Mage_CatalogSearch_Model_Resource_Fulltext_Engine</field>
+                        <field id="engine">Magento_CatalogSearch_Model_Resource_Fulltext_Engine</field>
                     </depends>
                 </field>
             </group>

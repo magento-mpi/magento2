@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_edit>
+        <reference name="content">
+            <block type="Magento_Adminhtml_Block_Customer_Edit" name="customer_edit"/>
+        </reference>
+        <reference name="head">
+            <block type="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
+            <action method="addJs">
+                <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
+            </action>
+            <action method="addJs">
+                <file>varien/configurable.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_Adminhtml::customer/edit/tab/js/addresses.js</file>
+            </action>
+        </reference>
+        <reference name="left">
+            <block type="Magento_Adminhtml_Block_Customer_Edit_Tabs" name="customer_edit_tabs">
+                <block type="Magento_Adminhtml_Block_Customer_Edit_Tab_View" name="customer_edit_tab_view" template="customer/tab/view.phtml">
+                    <block type="Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales" name="sales" template="customer/tab/view/sales.phtml" before="-"/>
+                    <block type="Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion" name="accordion"/>
+                </block>
+                <action method="addTab">
+                    <name>customer_edit_tab_view</name>
+                    <block>customer_edit_tab_view</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="js">
+            <block type="Magento_Adminhtml_Block_Template" template="customer/edit/js.phtml" name="customer.edit.js" as="customer_edit_js"/>
+        </reference>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>customer_edit_tab_agreements</name>
+                <block>Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement</block>
+            </action>
+            <action method="addTab">
+                <name>customer_edit_tab_recurring_profile</name>
+                <block>Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

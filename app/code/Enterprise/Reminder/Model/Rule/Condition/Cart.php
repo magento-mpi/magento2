@@ -15,18 +15,18 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * @var Mage_Core_Model_Date
+     * @var Magento_Core_Model_Date
      */
     protected $_dateModel;
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
-     * @param Mage_Core_Model_Date $dateModel
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Core_Model_Date $dateModel
      * @param array $data
      */
     public function __construct(
-        Mage_Rule_Model_Condition_Context $context,
-        Mage_Core_Model_Date $dateModel,
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Core_Model_Date $dateModel,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -74,9 +74,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
-            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
-            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
+            '==' => __('for'),
+            '>'  => __('for greater than'),
+            '>=' => __('for or greater than')
         ));
         return $this;
     }
@@ -99,7 +99,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart is not empty and abandoned %s %s days and %s of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -114,7 +114,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('The root shopping cart condition should have a days value of 0 or greater.'));
+            Mage::throwException(__('The root shopping cart condition should have a days value of 0 or greater.'));
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');
@@ -126,8 +126,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var Mage_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
-        $resourceHelper = Mage::getResourceHelper('Mage_Core');
+        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
+        $resourceHelper = Mage::getResourceHelper('Magento_Core');
         $daysDiffSql = $resourceHelper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
         );

@@ -10,7 +10,7 @@
  */
 -->
 <jstranslator>
-    <sales-order-create-addproducts translate="message" module="Enterprise_Checkout">
+    <sales-order-create-addproducts translate="message">
         <message>Add Products By SKU</message>
     </sales-order-create-addproducts>
 </jstranslator>

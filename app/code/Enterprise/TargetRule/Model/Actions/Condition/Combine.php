@@ -9,15 +9,15 @@
  */
 
 
-class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Model_Condition_Combine
+class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Model_Condition_Combine
 {
     /**
      * Set condition type
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Combine');
@@ -32,7 +32,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     {
         $conditions = array(
             array('value'=>$this->getType(),
-                'label'=>Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Conditions Combination')),
+                'label'=>__('Conditions Combination')),
             Mage::getModel('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes')
                 ->getNewChildSelectOptions(),
             Mage::getModel('Enterprise_TargetRule_Model_Actions_Condition_Product_Special')
@@ -45,7 +45,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index $object
      * @param array $bind
      * @return Zend_Db_Expr

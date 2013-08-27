@@ -13,10 +13,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview');
@@ -31,7 +31,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Store View'));
+            'label' => __('Store View'));
     }
 
     /**
@@ -42,7 +42,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('The item was added to wish list %s, store view %s.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('The item was added to wish list %1, store view %2.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -53,7 +53,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm());
+        $this->setValueOption(Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm());
         return $this;
     }
 
@@ -86,8 +86,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('from'),
-            '!=' => Mage::helper('Mage_Rule_Helper_Data')->__('not from')
+            '==' => __('from'),
+            '!=' => __('not from')
         ));
         return $this;
     }

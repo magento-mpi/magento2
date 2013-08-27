@@ -23,7 +23,7 @@
  * @package     Enterprise_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
+class Enterprise_Banner_Model_Banner extends Magento_Core_Model_Abstract
 {
     /**
      * Representation value of enabled banner
@@ -182,7 +182,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please enter a name.'));
+            Mage::throwException(__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
         $flag = false;
@@ -194,7 +194,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         if (!$flag) {
             // @codingStandardsIgnoreStart
-            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please specify default content for at least one store view.'));
+            Mage::throwException(__('Please specify default content for at least one store view.'));
             // @codingStandardsIgnoreEnd
         }
         return parent::_beforeSave();

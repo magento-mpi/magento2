@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Checkout_Exception extends Mage_Core_Exception
+class Enterprise_Checkout_Exception extends Magento_Core_Exception
 {
 
 }

@@ -13,7 +13,7 @@
     <tag translate="label">
         <label>Catalog Tags</label>
         <expected_models>
-            <Mage_Tag_Model_Tag/>
+            <Magento_Tag_Model_Tag/>
         </expected_models>
         <actions>
             <adminhtml_tag_edit>

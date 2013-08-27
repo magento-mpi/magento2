@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category     Mage
+ * @category     Magento
  * @package      Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
@@ -77,13 +77,13 @@ class Magento_Backup_Db extends Magento_Backup_Abstract
 
         $this->_lastOperationSucceed = false;
 
-        $backup = Mage::getModel('Mage_Backup_Model_Backup')
+        $backup = Mage::getModel('Magento_Backup_Model_Backup')
             ->setTime($this->getTime())
             ->setType($this->getType())
             ->setPath($this->getBackupsDir())
             ->setName($this->getName());
 
-        $backupDb = Mage::getModel('Mage_Backup_Model_Db');
+        $backupDb = Mage::getModel('Magento_Backup_Model_Db');
         $backupDb->createBackup($backup);
 
         $this->_lastOperationSucceed = true;

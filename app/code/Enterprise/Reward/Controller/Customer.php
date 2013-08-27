@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_Action
+class Enterprise_Reward_Controller_Customer extends Magento_Core_Controller_Front_Action
 {
     /**
      * Predispatch
@@ -26,7 +26,7 @@ class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this)) {
+        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
@@ -42,10 +42,10 @@ class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_A
     {
         Mage::register('current_reward', $this->_getReward());
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points'));
+            $headBlock->setTitle(__('Reward Points'));
         }
         $this->renderLayout();
     }
@@ -67,7 +67,7 @@ class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_A
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
             $this->_getSession()->addSuccess(
-                $this->__('You saved the settings.')
+                __('You saved the settings.')
             );
         }
         $this->_redirect('*/*/info');
@@ -84,7 +84,7 @@ class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_A
         }
 
         try {
-            /* @var $customer Mage_Customer_Model_Session */
+            /* @var $customer Magento_Customer_Model_Session */
             $customer = $this->_getCustomer();
             if ($customer->getId()) {
                 if ($notification == 'update') {
@@ -95,11 +95,11 @@ class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_A
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('You have been unsubscribed.')
+                    __('You have been unsubscribed.')
                 );
             }
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Failed to unsubscribe'));
+            $this->_getSession()->addError(__('Failed to unsubscribe'));
         }
 
         $this->_redirect('*/*/info');
@@ -108,17 +108,17 @@ class Enterprise_Reward_Controller_Customer extends Mage_Core_Controller_Front_A
     /**
      * Retrieve customer session model object
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
      * Retrieve customer session model object
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getCustomer()
     {

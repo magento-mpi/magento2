@@ -12,7 +12,7 @@
  * Reminder rules edit form email templates and labels fields
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
-    extends Mage_Adminhtml_Block_Widget_Form
+    extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare general properties form
@@ -25,9 +25,9 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('email_fieldset', array(
-            'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Templates'),
+            'legend' => __('Email Templates'),
             'class'  => 'tree-store-scope',
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Only customers who registered on a store view will receive emails related to that store view.'),
+            'comment' => __('Only customers who registered on a store view will receive emails related to that store view.'),
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
@@ -57,26 +57,26 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         }
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(
-            'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Default Titles and Description'),
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('You can find and edit rule label and descriptions, per store view, in email templates.'),
+            'legend' => __('Default Titles and Description'),
+            'comment' => __('You can find and edit rule label and descriptions, per store view, in email templates.'),
         ));
 
         $fieldset->addField('default_label', 'text', array(
             'name'      => 'default_label',
             'required'  => false,
-            'label'     => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule Title for All Store Views')
+            'label'     => __('Rule Title for All Store Views')
         ));
 
         $fieldset->addField('default_description', 'textarea', array(
             'name'     => 'default_description',
             'required' => false,
-            'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Rule Description for All Store Views'),
+            'label'    => __('Rule Description for All Store Views'),
             'style'    => 'height: 50px;'
         ));
 
         $fieldset = $form->addFieldset('labels_fieldset', array(
-            'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Titles and Descriptions Per Store View'),
-            'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Overrides default titles and descriptions. Note that if email an template is not specified for this store view, the respective variable values will be deleted.'),
+            'legend' => __('Titles and Descriptions Per Store View'),
+            'comment' => __('Overrides default titles and descriptions. Note that if email an template is not specified for this store view, the respective variable values will be deleted.'),
             'class'  => 'tree-store-scope'
         ));
 
@@ -124,12 +124,12 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template');
+        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
         $template->setPath(Enterprise_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();
         array_unshift($options, array('value'=>'',
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('-- Not Selected --'))
+            'label' => __('-- Not Selected --'))
         );
         return $options;
     }

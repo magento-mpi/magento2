@@ -20,7 +20,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     /**
      * Quote instance, required for estimating checkout reward (order subtotal - discount)
      *
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote = null;
 
@@ -33,7 +33,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Earned points for order #%s', $incrementId);
+        return __('Earned points for order #%1', $incrementId);
     }
 
     /**
@@ -54,10 +54,10 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     /**
      * Quote setter
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_Reward_Model_Action_OrderExtra
      */
-    public function setQuote(Mage_Sales_Model_Quote $quote)
+    public function setQuote(Magento_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
         return $this;

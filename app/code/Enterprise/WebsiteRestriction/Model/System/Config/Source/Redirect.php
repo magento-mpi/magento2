@@ -25,11 +25,11 @@ extends Magento_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LOGIN,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('To login form (302 Found)'),
+                'label' => __('To login form (302 Found)'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LANDING,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('To landing page (302 Found)'),
+                'label' => __('To landing page (302 Found)'),
             ),
         );
     }

@@ -25,6 +25,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order extends Enterprise_Rma_Blo
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Please Select Order');
+        return __('Please Select Order');
     }
 }

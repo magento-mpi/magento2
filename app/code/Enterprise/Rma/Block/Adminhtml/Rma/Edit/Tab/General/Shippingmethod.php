@@ -94,7 +94,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         return Mage::app()
             ->getStore($this->getRma()->getStoreId())
             ->convertPrice(
-                Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
+                Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
                     $price
                 ),
                 true,
@@ -154,9 +154,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printLabel', $data);
 
         return $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
+                'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -170,9 +170,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'),
+                'label'   => __('Show Packages'),
                 'onclick' => 'showPackedWindow();'
             ))
             ->toHtml();
@@ -189,9 +189,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printPackage', $data);
 
         return $this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print'),
+                'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
             ->toHtml();
@@ -276,7 +276,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = Mage::helper('Enterprise_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Magento_Object(array(
                 'method'            => $carrier->getMethod(),

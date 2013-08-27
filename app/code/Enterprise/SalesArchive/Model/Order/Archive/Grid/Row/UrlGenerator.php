@@ -18,7 +18,7 @@
  */
 
 class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator
-    extends Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
+    extends Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
 {
     /**
      * @var $_authorizationModel Magento_AuthorizationInterface

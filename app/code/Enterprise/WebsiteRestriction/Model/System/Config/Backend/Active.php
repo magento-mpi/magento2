@@ -15,7 +15,7 @@
  * @package     Enterprise_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active extends Mage_Core_Model_Config_Data
+class Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active extends Magento_Core_Model_Config_Data
 {
     /**
      * Prefix of model events names
@@ -32,7 +32,7 @@ class Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active extends M
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::app()->cleanCache(array(Mage_Core_Model_Store::CACHE_TAG, Mage_Cms_Model_Block::CACHE_TAG));
+            Mage::app()->cleanCache(array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG));
         }
         return parent::_afterSave();
     }

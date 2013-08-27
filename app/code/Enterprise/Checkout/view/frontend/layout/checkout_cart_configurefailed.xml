@@ -16,12 +16,12 @@
         </reference>
         <reference name="product.info.addtocart">
             <action method="setTemplate">
-                <template>Mage_Checkout::cart/item/configure/updatecart.phtml</template>
+                <template>Magento_Checkout::cart/item/configure/updatecart.phtml</template>
             </action>
         </reference>
         <reference name="product.info.addtocart.additional">
             <action method="setTemplate">
-                <template>Mage_Checkout::cart/item/configure/updatecart.phtml</template>
+                <template>Magento_Checkout::cart/item/configure/updatecart.phtml</template>
             </action>
         </reference>
     </checkout_cart_configurefailed>

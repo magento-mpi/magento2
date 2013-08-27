@@ -11,7 +11,7 @@
 /**
  * Gift registry type edit form block
  */
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Intialize form
@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Mag
     {
         parent::_construct();
         $this->setId('enterprise_giftregistry_form');
-        $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
+        $this->setTitle(__('Gift Registry'));
     }
 
     /**

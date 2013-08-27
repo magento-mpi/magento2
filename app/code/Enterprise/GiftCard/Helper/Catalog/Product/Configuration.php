@@ -15,8 +15,8 @@
  * @package    Enterprise_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_Abstract
-    implements Mage_Catalog_Helper_Product_Configuration_Interface
+class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core_Helper_Abstract
+    implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
      * Prepare custom option for display, returns false if there's no value
@@ -24,7 +24,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
      * @param string $code
      * @return mixed
      */
-    public function prepareCustomOption(Mage_Catalog_Model_Product_Configuration_Item_Interface $item, $code)
+    public function prepareCustomOption(Magento_Catalog_Model_Product_Configuration_Item_Interface $item, $code)
     {
         $option = $item->getOptionByCode($code);
         if ($option) {
@@ -41,7 +41,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
      *
      * @return array
      */
-    public function getGiftcardOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getGiftcardOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         $result = array();
         $value = $this->prepareCustomOption($item, 'giftcard_sender_name');
@@ -51,7 +51,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label' => $this->__('Gift Card Sender'),
+                'label' => __('Gift Card Sender'),
                 'value' => $value
             );
         }
@@ -63,7 +63,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label' => $this->__('Gift Card Recipient'),
+                'label' => __('Gift Card Recipient'),
                 'value' => $value
             );
         }
@@ -71,7 +71,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
         $value = $this->prepareCustomOption($item, 'giftcard_message');
         if ($value) {
             $result[] = array(
-                'label' => $this->__('Gift Card Message'),
+                'label' => __('Gift Card Message'),
                 'value' => $value
             );
         }
@@ -82,14 +82,14 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
     /**
      * Retrieves product options list
      *
-     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return array
      */
-    public function getOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         return array_merge(
             $this->getGiftcardOptions($item),
-            Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
+            Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
         );
     }
 }

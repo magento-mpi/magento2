@@ -84,12 +84,12 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             );
         }
 
-        $store = $this->getMock('Mage_Core_Model_Store', array('getId'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array('getId'), array(), '', false);
         $store->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(self::CURRENT_STORE_ID));
 
-        $application = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
+        $application = $this->getMock('Magento_Core_Model_App', array('getStore'), array(), '', false);
         $application->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));
@@ -119,7 +119,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             ->method('getCheckSql')
             ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
 
-        $resource = $this->getMockForAbstractClass('Mage_Core_Model_Resource_Db_Abstract',
+        $resource = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
             array(), '', false, true, true,
             array(
                 'getReadConnection',

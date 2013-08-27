@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see Magento_Payment_Block_Catalog_Product_View_Profile
+ */
+?>
+<dl>
+<?php foreach($this->getScheduleInfo() as $term => $definitions): ?>
+    <dt><?php echo $this->escapeHtml($term); ?></dt>
+<?php foreach ($definitions as $definition):?>
+    <dd><?php echo $this->escapeHtml($definition)?></dd>
+<?php endforeach;?>
+<?php endforeach;?>
+</dl>

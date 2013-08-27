@@ -20,21 +20,21 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
     /**
      * Return available customer attribute form as select options
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getAttributeFormOptions()
     {
-        Mage::throwException(Mage::helper('Enterprise_Customer_Helper_Data')->__('Use helper with defined EAV entity.'));
+        Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**
      * Default attribute entity type code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(Mage::helper('Enterprise_Customer_Helper_Data')->__('Use helper with defined EAV entity.'));
+        Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**

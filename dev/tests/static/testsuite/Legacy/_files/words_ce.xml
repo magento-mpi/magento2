@@ -13,17 +13,17 @@
 <!-- These are the settings for legacy testing of Magento 2 Community Edition -->
 <config>
     <words>
-        <!-- Mage_XmlConnect -->
+        <!-- Magento_XmlConnect -->
         <word>xmlconnect</word>
-        <!-- Mage_Dataflow -->
+        <!-- Magento_Dataflow -->
         <word>dataflow</word>
         <word>current_convert_profile</word>
         <word>system_convert_gui</word>
         <word>system_convert_profile</word>
         <word>system/convert/gui</word>
         <word>system/convert/profiles</word>
-        <word>Mage_Adminhtml::gui</word>
-        <word>Mage_Adminhtml::profiles</word>
+        <word>Magento_Adminhtml::gui</word>
+        <word>Magento_Adminhtml::profiles</word>
         <word>secure_base_url}}js/</word>
         <word>secure_base_url}}skin/</word>
         <word>secure_base_url}}media/</word>
@@ -33,20 +33,20 @@
             <path>CHANGELOG.markdown</path>
         </item>
         <item>
-            <path>app/code/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
+            <path>app/code/Magento/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
             <word>xmlconnect</word>
             <word>system/convert/gui</word>
             <word>system/convert/profiles</word>
-            <word>Mage_Adminhtml::gui</word>
-            <word>Mage_Adminhtml::profiles</word>
+            <word>Magento_Adminhtml::gui</word>
+            <word>Magento_Adminhtml::profiles</word>
         </item>
         <item>
-            <path>app/code/Mage/User/sql/user_setup/upgrade-1.6.1.2-1.6.1.3.php</path>
+            <path>app/code/Magento/User/sql/user_setup/upgrade-1.6.1.2-1.6.1.3.php</path>
             <word>xmlconnect</word>
             <word>system/convert/gui</word>
             <word>system/convert/profiles</word>
-            <word>Mage_Adminhtml::gui</word>
-            <word>Mage_Adminhtml::profiles</word>
+            <word>Magento_Adminhtml::gui</word>
+            <word>Magento_Adminhtml::profiles</word>
         </item>
         <item>
             <path>dev/tests/static/testsuite/Php/Exemplar/_files/phpmd_ruleset.xsd</path>

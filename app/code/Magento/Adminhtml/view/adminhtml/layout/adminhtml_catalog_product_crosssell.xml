@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_catalog_product_crosssell>
+        <container name="root" label="Root" output="1">
+            <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
+            <block type="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="crosssell_grid_serializer">
+                <reference name="crosssell_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.crosssell</grid_block_name>
+                        <data_callback>getSelectedCrossSellProducts</data_callback>
+                        <hidden_input_name>links[crosssell]</hidden_input_name>
+                        <reload_param_name>products_crosssell</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </container>
+    </adminhtml_catalog_product_crosssell>
+</layout>

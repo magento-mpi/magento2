@@ -16,7 +16,7 @@
  * @package     Enterprise_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerBalance_Model_Resource_Balance extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_CustomerBalance_Model_Resource_Balance extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize table name and primary key name

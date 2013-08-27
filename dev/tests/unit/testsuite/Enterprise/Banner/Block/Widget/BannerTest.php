@@ -48,31 +48,31 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
         );
 
         $this->_checkoutSession = $this->getMock(
-            'Mage_Checkout_Model_Session', array('getQuoteId', 'getQuote'), array(), '', false
+            'Magento_Checkout_Model_Session', array('getQuoteId', 'getQuote'), array(), '', false
         );
 
         $this->_customerSession = $this->getMock(
-            'Mage_Customer_Model_Session', array('getCustomerGroupId'), array(), '', false
+            'Magento_Customer_Model_Session', array('getCustomerGroupId'), array(), '', false
         );
         $this->_customerSession->expects($this->any())->method('getCustomerGroupId')->will($this->returnValue(4));
 
         $filter = $this->getMockForAbstractClass('Zend_Filter_Interface');
         $filter->expects($this->any())->method('filter')->will($this->returnArgument(0));
-        $cmsHelper = $this->getMock('Mage_Cms_Helper_Data', array('getPageTemplateProcessor'), array(), '', false);
+        $cmsHelper = $this->getMock('Magento_Cms_Helper_Data', array('getPageTemplateProcessor'), array(), '', false);
         $cmsHelper->expects($this->any())->method('getPageTemplateProcessor')->will($this->returnValue($filter));
 
         $currentStore = new Magento_Object(array('id' => 42));
         $currentWebsite = new Magento_Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
+            'Magento_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
         );
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($currentStore));
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($currentWebsite));
 
         $this->_block = new Enterprise_Banner_Block_Widget_Banner(
-            $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false),
+            $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false),
             $this->_bannerResource,
-            $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),
             $this->_checkoutSession,
             $this->_customerSession,
             $cmsHelper,

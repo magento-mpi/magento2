@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_import_start>
+        <block type="Magento_ImportExport_Block_Adminhtml_Import_Frame_Result" template="import/frame/result.phtml" name="import.frame.result" alias="import_frame_result" output="1"/>
+    </adminhtml_import_start>
+</layout>

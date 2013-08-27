@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Users
+ * @category    Magento
+ * @package     Magento_Users
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,23 +15,8 @@
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Model_MassOptions implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_GiftWrapping_Model_MassOptions implements Magento_Core_Model_Option_ArrayInterface
 {
-    /**
-     * Backend Helper
-     *
-     * @var Enterprise_GiftWrapping_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_GiftWrapping_Helper_Data $helper
-     */
-    public function __construct(Enterprise_GiftWrapping_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
     /**
      * Return statuses array
      * @return array
@@ -40,8 +25,8 @@ class Enterprise_GiftWrapping_Model_MassOptions implements Mage_Core_Model_Optio
     {
         return array(
             array('label' => '', 'value' => ''),
-            array('label' => $this->_helper->__('Enabled'), 'value' => '1'),
-            array('label' => $this->_helper->__('Disabled'), 'value' => '0')
+            array('label' => __('Enabled'), 'value' => '1'),
+            array('label' => __('Disabled'), 'value' => '0')
         );
     }
 }

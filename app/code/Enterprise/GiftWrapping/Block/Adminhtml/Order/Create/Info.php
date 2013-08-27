@@ -35,7 +35,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'giftwrapping_design',
                 'class' => 'select'

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="header">
+            <block type="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+        </reference>
+        <reference name="footer_links">
+            <action method="addLink" translate="label title" ifconfig="catalog/seo/search_terms">
+                <label>Search Terms</label>
+                <url helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
+                <title>Search Terms</title>
+            </action>
+            <action method="addLink" translate="label title">
+                <label>Advanced Search</label>
+                <url helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
+                <title>Advanced Search</title>
+            </action>
+        </reference>
+    </default>
+</layout>

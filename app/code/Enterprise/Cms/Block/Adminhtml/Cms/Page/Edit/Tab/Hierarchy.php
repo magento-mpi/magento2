@@ -16,8 +16,8 @@
  * @package    Enterprise_Cms
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
-    extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Array of nodes for tree
@@ -27,7 +27,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     /**
      * Retrieve current page instance
      *
-     * @return Mage_Cms_Model_Page
+     * @return Magento_Cms_Model_Page
      */
     public function getPage()
     {
@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getNodesJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getNodes());
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getNodes());
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
+                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
             }catch (Zend_Json_Exception $e){
                 $data = null;
             }
@@ -168,7 +168,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -178,7 +178,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Hierarchy');
+        return __('Hierarchy');
     }
 
     /**
@@ -188,7 +188,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Hierarchy');
+        return __('Hierarchy');
     }
 
     /**

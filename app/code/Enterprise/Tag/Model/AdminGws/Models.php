@@ -16,7 +16,7 @@ class Enterprise_Tag_Model_AdminGws_Models extends Enterprise_AdminGws_Model_Mod
     /**
      * Validate if user has exclusive access to tag
      *
-     * @param Mage_Tag_Model_Tag $model
+     * @param Magento_Tag_Model_Tag $model
      */
     public function tagSaveBefore($model)
     {
@@ -31,7 +31,7 @@ class Enterprise_Tag_Model_AdminGws_Models extends Enterprise_AdminGws_Model_Mod
     /**
      * Disallow remove tag for user with limited access
      *
-     * @param Mage_Tag_Model_Tag $model
+     * @param Magento_Tag_Model_Tag $model
      */
     public function tagDeleteBefore($model)
     {

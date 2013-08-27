@@ -11,6 +11,6 @@
 /**
  * Gift wrapping resource setup
  */
-class Enterprise_GiftWrapping_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
+class Enterprise_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
 }

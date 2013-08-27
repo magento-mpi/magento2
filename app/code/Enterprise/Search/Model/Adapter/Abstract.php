@@ -137,7 +137,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @abstract
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
      * @param string $target
      *
      * @return string|bool
@@ -241,7 +241,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
         if ($customerGroupId === null) {
-            $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();
@@ -363,7 +363,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
             // Prepare processing attribute info
             if (isset($this->_indexableAttributeParams[$attributeCode])) {
-                /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                 $attribute = $this->_indexableAttributeParams[$attributeCode];
             } else {
                 $attribute = null;
@@ -536,7 +536,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
 
-        $this->_separator = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
+        $this->_separator = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
@@ -1127,7 +1127,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+            $attributeCollection = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
                     ->addToIndexFilter()
                     ->getItems();
 

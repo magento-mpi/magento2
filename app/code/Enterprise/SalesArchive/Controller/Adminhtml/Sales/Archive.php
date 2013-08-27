@@ -12,7 +12,7 @@
  * Archive controller
  *
  */
-class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Adminhtml_Controller_Action
+class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Render archive grid
@@ -31,7 +31,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
      */
     public function ordersAction()
     {
-        $this->_title($this->__('Orders'));
+        $this->_title(__('Orders'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_orders');
@@ -51,7 +51,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
      */
     public function invoicesAction()
     {
-        $this->_title($this->__('Invoices'));
+        $this->_title(__('Invoices'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_invoices');
@@ -72,7 +72,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
      */
     public function creditmemosAction()
     {
-        $this->_title($this->__('Credit Memos'));
+        $this->_title(__('Credit Memos'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_creditmemos');
@@ -92,7 +92,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
      */
     public function shipmentsAction()
     {
-        $this->_title($this->__('Shipments'));
+        $this->_title(__('Shipments'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_shipments');
@@ -145,7 +145,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
             $this->_getSession()
-                ->addSuccess($this->__('We removed %s order(s) from the archive.', $removedFromArchiveCount));
+                ->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
         } else {
             // selected orders is not available for removing from archive
         }
@@ -164,9 +164,9 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
 
         $archivedCount = count($archivedIds);
         if ($archivedCount>0) {
-            $this->_getSession()->addSuccess($this->__('We archived %s order(s).', $archivedCount));
+            $this->_getSession()->addSuccess(__('We archived %1 order(s).', $archivedCount));
         } else {
-            $this->_getSession()->addWarning($this->__("We can't archive the selected order(s)."));
+            $this->_getSession()->addWarning(__("We can't archive the selected order(s)."));
         }
         $this->_redirect('*/sales_order/');
     }
@@ -180,10 +180,10 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
         if ($orderId) {
             $archivedIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
                 ->archiveOrdersById($orderId);
-            $this->_getSession()->addSuccess($this->__('We have archived the order.'));
+            $this->_getSession()->addSuccess(__('We have archived the order.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
         } else {
-            $this->_getSession()->addError($this->__('Please specify the order ID to be archived.'));
+            $this->_getSession()->addError(__('Please specify the order ID to be archived.'));
             $this->_redirect('*/sales_order');
         }
     }
@@ -197,10 +197,10 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
         if ($orderId) {
             $orderIds = Mage::getSingleton('Enterprise_SalesArchive_Model_Archive')
                 ->removeOrdersFromArchiveById($orderId);
-            $this->_getSession()->addSuccess($this->__('We have removed the order from the archive.'));
+            $this->_getSession()->addSuccess(__('We have removed the order from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
         } else {
-            $this->_getSession()->addError($this->__('Please specify the order ID to be removed from archive.'));
+            $this->_getSession()->addError(__('Please specify the order ID to be removed from archive.'));
             $this->_redirect('*/sales_order');
         }
     }
@@ -287,7 +287,7 @@ class Enterprise_SalesArchive_Controller_Adminhtml_Sales_Archive extends Mage_Ad
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;
-                /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $grid  */
+                /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $grid  */
                 $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
                 break;
         }

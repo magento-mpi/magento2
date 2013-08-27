@@ -34,8 +34,8 @@ class Enterprise_PageCache_Helper_Url
         if (!$content) {
             return false;
         }
-        /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session');
+        /** @var $session Magento_Core_Model_Session */
+        $session = Mage::getSingleton('Magento_Core_Model_Session');
         $replacementCount = 0;
         $content = str_replace(
             $session->getSessionIdQueryParam() . '=' . $session->getSessionId(),
@@ -70,10 +70,10 @@ class Enterprise_PageCache_Helper_Url
     public static function replaceUenc($content)
     {
         /**
-         * @var $urlHelper Mage_Core_Helper_Url
+         * @var $urlHelper Magento_Core_Helper_Url
          */
-        $urlHelper = Mage::getObjectManager()->create('Mage_Core_Helper_Url');
-        $search = '/\/(' . Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
+        $urlHelper = Mage::getObjectManager()->create('Magento_Core_Helper_Url');
+        $search = '/\/(' . Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
         $replace = '/$1/' . $urlHelper->getEncodedUrl() . '/';
         $content = preg_replace($search, $replace, $content);
         return $content;

@@ -25,15 +25,15 @@ extends Magento_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::ALLOW_NONE,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('Website Closed'),
+                'label' => __('Website Closed'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('Private Sales: Login Only'),
+                'label' => __('Private Sales: Login Only'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
-                'label' => Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->__('Private Sales: Login and Register'),
+                'label' => __('Private Sales: Login and Register'),
             ),
         );
     }

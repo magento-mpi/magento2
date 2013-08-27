@@ -15,18 +15,18 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
-    extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Adminhtml_Block_Template
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     protected $_template = 'view/tab/history.phtml';
 
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status History');
+        return __('Status History');
     }
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status History');
+        return __('Status History');
     }
 
     public function canShowTab()

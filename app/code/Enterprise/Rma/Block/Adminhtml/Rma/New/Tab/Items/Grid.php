@@ -17,7 +17,7 @@
  */
 
 class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 //    extends Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
 {
     /**
@@ -79,12 +79,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
         $this->addColumn('product_name', array(
-            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product'),
+            'header'   => __('Product'),
             'type'     => 'text',
             'index'    => 'product_name',
             'sortable' => false,
@@ -94,7 +94,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         ));
 
         $this->addColumn('product_sku', array(
-            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
+            'header'   => __('SKU'),
             'type'     => 'text',
             'index'    => 'product_sku',
             'sortable' => false,
@@ -105,7 +105,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         //Renderer puts available quantity instead of order_item_id
         $this->addColumn('qty_ordered', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining'),
+            'header'=> __('Remaining'),
             'getter'   => array($this, 'getQtyOrdered'),
             'type'  => 'text',
             'index' => 'qty_ordered',
@@ -117,7 +117,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         ));
 
         $this->addColumn('qty_requested', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested'),
+            'header'=> __('Requested'),
             'index' => 'qty_requested',
             'type'  => 'input',
             'sortable' => false,
@@ -127,7 +127,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $this->addColumn('reason', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Reason'),
+            'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('reason'),
@@ -138,7 +138,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         ));
 
         $this->addColumn('condition', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Item Condition'),
+            'header'=> __('Item Condition'),
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'index' => 'condition',
@@ -148,7 +148,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         ));
 
         $this->addColumn('resolution', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
+            'header'=> __('Resolution'),
             'index' => 'resolution',
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
@@ -159,13 +159,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $actionsArray = array(
             array(
-                'caption'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Delete'),
+                'caption'   => __('Delete'),
                 'url'       => array('base'=> '*/*/delete'),
                 'field'     => 'id',
                 'onclick'  => 'alert(\'Delete\');return false;'
             ),
             array(
-                'caption'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Add Details'),
+                'caption'   => __('Add Details'),
                 'url'       => array('base'=> '*/*/edit'),
                 'field'     => 'id',
                 'onclick'  => 'alert(\'Details\');return false;'
@@ -174,7 +174,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Action'),
+                'header'    =>  __('Action'),
                 'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
@@ -272,7 +272,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|Magento_Object
      * @return string
      */
     public function getRowUrl($item)

@@ -1,0 +1,41 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var $this Magento_Tax_Block_Checkout_Subtotal
+ * @see Magento_Tax_Block_Checkout_Subtotal
+ */
+?>
+<?php if ($this->displayBoth()):?>
+<tr>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo __('Subtotal (Excl. Tax)') ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueExclTax()) ?>
+    </td>
+</tr>
+<tr>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo __('Subtotal (Incl. Tax)') ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValueInclTax()) ?>
+    </td>
+</tr>
+<?php else : ?>
+<tr>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getTotal()->getTitle() ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+        <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?>
+    </td>
+</tr>
+<?php endif;?>

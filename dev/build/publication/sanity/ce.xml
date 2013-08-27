@@ -20,6 +20,7 @@
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
+        <word>Magento_JobQueue</word>
     </words>
     <whitelist>
         <item>
@@ -136,6 +137,10 @@
         <item>
             <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Legacy/FilesystemEnterpriseTest.php</path>
         </item>
     </whitelist>
 </config>

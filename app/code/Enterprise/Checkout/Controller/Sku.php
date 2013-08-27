@@ -16,7 +16,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Controller_Sku extends Mage_Core_Controller_Front_Action
+class Enterprise_Checkout_Controller_Sku extends Magento_Core_Controller_Front_Action
 {
 
     /**
@@ -29,8 +29,8 @@ class Enterprise_Checkout_Controller_Sku extends Mage_Core_Controller_Front_Acti
         parent::preDispatch();
 
         // guest redirected to "Login or Create an Account" page
-        /** @var $customerSession Mage_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+        /** @var $customerSession Magento_Customer_Model_Session */
+        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
         if (!$customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             return $this;
@@ -53,10 +53,10 @@ class Enterprise_Checkout_Controller_Sku extends Mage_Core_Controller_Front_Acti
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Order by SKU'));
+            $headBlock->setTitle(__('Order by SKU'));
         }
         $this->renderLayout();
     }
@@ -89,10 +89,10 @@ class Enterprise_Checkout_Controller_Sku extends Mage_Core_Controller_Front_Acti
     /**
      * Get checkout session model instance
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 }

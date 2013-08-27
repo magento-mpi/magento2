@@ -15,7 +15,7 @@
  * @package    Enterprise_ImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends Mage_Core_Model_Config_Data
+class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends Magento_Core_Model_Config_Data
 {
     /**
      * Cron expression configuration path
@@ -32,9 +32,9 @@ class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends 
         $time = $this->getData('groups/enterprise_import_export_log/fields/time/value');
         $frequency = $this->getData('groups/enterprise_import_export_log/fields/frequency/value');
 
-        $frequencyDaily   = Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY;
-        $frequencyWeekly  = Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyDaily   = Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY;
+        $frequencyWeekly  = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
+        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
             intval($time[1]),                                   # Minute
@@ -47,13 +47,13 @@ class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('Mage_Cron_Helper_Data')->__('We were unable to save the cron expression.'));
+            throw new Exception(__('We were unable to save the cron expression.'));
         }
     }
 

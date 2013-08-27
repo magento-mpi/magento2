@@ -60,7 +60,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Ma
      */
     protected function _getDeleteCheckboxLabel()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Image');
+        return __('Delete Image');
     }
 
     /**
@@ -118,8 +118,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Ma
             $url = $this->_getPreviewUrl();
             $imageId = sprintf('%s_image', $this->getHtmlId());
             $image   = array(
-                'alt'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('View Full Size'),
-                'title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('View Full Size'),
+                'alt'    => __('View Full Size'),
+                'title'  => __('View Full Size'),
                 'src'    => $url,
                 'class'  => 'small-image-preview v-middle',
                 'height' => 22,
@@ -149,8 +149,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Ma
         if (is_array($this->getValue())) {
             return false;
         }
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getValue()),
+        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/rma/viewfile', array(
+            'image'      => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
         ));
     }
 

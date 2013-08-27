@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <cms_hierarchy_node type="Enterprise_Cms_Block_Widget_Node" translate="name description" module="Enterprise_Cms">
+    <cms_hierarchy_node type="Enterprise_Cms_Block_Widget_Node" translate="name description">
         <name>CMS Hierarchy Node Link</name>
         <description>Link to Specified CMS Hierarchy Node</description>
         <is_email_compatible>1</is_email_compatible>

@@ -20,10 +20,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address');
@@ -58,7 +58,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Order Addresses match %s of these Conditions:', $this->getAggregatorElement()->getHtml())
+            . __('If Order Addresses match %1 of these Conditions:', $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

@@ -11,10 +11,10 @@
 -->
 <logging>
     <actions>
-        <preview translate="label" module="Enterprise_Cms">
+        <preview translate="label">
             <label>Preview</label>
         </preview>
-        <publish translate="label" module="Enterprise_Cms">
+        <publish translate="label">
             <label>Publish</label>
         </publish>
     </actions>

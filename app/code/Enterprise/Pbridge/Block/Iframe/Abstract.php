@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Block_Form
+abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Block_Form
 {
     /**
      * Default iframe width
@@ -37,7 +37,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Mage_Core_Block_Template';
+    protected $_iframeBlockType = 'Magento_Core_Block_Template';
 
     /**
      * Default iframe template
@@ -106,7 +106,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
                 $result['street2'] = $street2;
             }
             //Region code lookup
-            $region = Mage::getModel('Mage_Directory_Model_Region')->load($address->getData('region_id'));
+            $region = Mage::getModel('Magento_Directory_Model_Region')->load($address->getData('region_id'));
             if ($region && $region->getId()) {
                 $result['region'] = $region->getCode();
             }
@@ -117,7 +117,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     /**
      * Create and return iframe block
      *
-     * @return Mage_Core_Block_Template
+     * @return Magento_Core_Block_Template
      */
     public function getIframeBlock()
     {
@@ -296,12 +296,12 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     /**
      * Get current customer object
      *
-     * @return null|Mage_Customer_Model_Customer
+     * @return null|Magento_Customer_Model_Customer
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
         }
 
         return null;
@@ -310,7 +310,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     /**
      * Return store for current context
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getCurrentStore()
     {

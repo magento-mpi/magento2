@@ -16,7 +16,7 @@
  * @package     Enterprise_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reminder_Model_Resource_Customer_Collection extends Mage_Customer_Model_Resource_Customer_Collection
+class Enterprise_Reminder_Model_Resource_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
 {
     /**
      * Instantiate select to get matched customers

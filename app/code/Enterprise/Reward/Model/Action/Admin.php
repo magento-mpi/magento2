@@ -35,6 +35,6 @@ class Enterprise_Reward_Model_Action_Admin extends Enterprise_Reward_Model_Actio
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Updated by moderator');
+        return __('Updated by moderator');
     }
 }

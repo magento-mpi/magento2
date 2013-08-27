@@ -15,7 +15,7 @@
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Model_Resource_Scheduled_Operation extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_ImportExport_Model_Resource_Scheduled_Operation extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource operation model

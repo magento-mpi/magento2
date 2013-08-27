@@ -15,10 +15,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     extends Enterprise_Reminder_Model_Rule_Condition_Combine
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Combine_Root');
@@ -27,7 +27,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | Mage_Customer_Model_Customer $customer
+     * @param   null | array | int | Magento_Customer_Model_Customer $customer
      * @param   int | Zend_Db_Expr $website
      * @return  Magento_DB_Select
      */
@@ -46,7 +46,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
         );
 
         if ($customer === null) {
-            if (Mage::getSingleton('Mage_Customer_Model_Config_Share')->isWebsiteScope()) {
+            if (Mage::getSingleton('Magento_Customer_Model_Config_Share')->isWebsiteScope()) {
                 $select->where('website_id=?', $website);
             }
         }
@@ -57,7 +57,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
      * Get SQL select.
      * Rewrited for cover root conditions combination with additional condition by customer
      *
-     * @param   Mage_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
+     * @param   Magento_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
      * @param   int | Zend_Db_Expr $website
      * @return  Magento_DB_Select
      */

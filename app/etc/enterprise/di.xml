@@ -16,7 +16,7 @@
     </type>
     <type name="Enterprise_PageCache_Model_Processor">
         <param name="storeManager">
-            <instance type="Mage_Core_Model_StoreManager_Proxy" />
+            <instance type="Magento_Core_Model_StoreManager_Proxy" />
         </param>
         <param name="metadata">
             <instance type="Enterprise_PageCache_Model_Metadata_Proxy" />
@@ -27,10 +27,10 @@
     </type>
     <type name="Enterprise_PageCache_Model_DesignPackage_Rules">
         <param name="designChange">
-            <instance type="Mage_Core_Model_Design_Proxy" />
+            <instance type="Magento_Core_Model_Design_Proxy" />
         </param>
         <param name="design">
-            <instance type="Mage_Core_Model_View_Design_Proxy" />
+            <instance type="Magento_Core_Model_View_Design_Proxy" />
         </param>
     </type>
     <type name="Magento_HTTP_Handler_Composite">
@@ -53,7 +53,7 @@
             </value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Frontend_Pool">
+    <type name="Magento_Core_Model_Cache_Frontend_Pool">
         <param name="advancedSettings">
             <value>
                 <full_page>

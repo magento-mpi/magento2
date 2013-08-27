@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
-    extends Mage_Adminhtml_Block_Widget_Form_Container
+    extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Intialize form
@@ -26,8 +26,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
         $this->_removeButton('reset');
         $this->_removeButton('save');
 
-        $confirmMessage = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Are you sure you want to delete this gift registry?');
-        $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Registry'));
+        $confirmMessage = __('Are you sure you want to delete this gift registry?');
+        $this->_updateButton('delete', 'label', __('Delete Registry'));
         $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
@@ -44,7 +44,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
         if ($entity->getId()) {
             return $this->escapeHtml($entity->getTitle());
         }
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Entity');
+        return __('Gift Registry Entity');
     }
 
     /**

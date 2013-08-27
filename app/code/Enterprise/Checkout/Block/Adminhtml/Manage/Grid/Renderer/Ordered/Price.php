@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Price
-    extends Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price
+    extends Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price
 {
     /**
      * Render price for last ordered item

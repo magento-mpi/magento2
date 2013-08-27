@@ -20,11 +20,11 @@
                 <action method="setHideBalance">
                     <value>1</value>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
-                    <message>Send this invitation now and earn %s when your invitee signs up on our site.</message>
+                <action method="setRewardMessage" translate="message">
+                    <message>Send this invitation now and earn %1 when your invitee signs up on our site.</message>
                 </action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Reward">
-                    <message>You can reward up to %s invitee registration(s).</message>
+                <action method="setRewardQtyLimitationMessage" translate="message">
+                    <message>You can reward up to %1 invitee registration(s).</message>
                 </action>
             </block>
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
@@ -37,11 +37,11 @@
                 <action method="setHideLink">
                     <value>1</value>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
-                    <message>Earn %s for purchases your invitees make.</message>
+                <action method="setRewardMessage" translate="message">
+                    <message>Earn %1 for purchases your invitees make.</message>
                 </action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Reward">
-                    <message>You can reward up to %s invitee purchase(s).</message>
+                <action method="setRewardQtyLimitationMessage" translate="message">
+                    <message>You can reward up to %1 invitee purchase(s).</message>
                 </action>
             </block>
         </reference>

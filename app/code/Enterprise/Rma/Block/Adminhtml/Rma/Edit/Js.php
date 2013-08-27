@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Js extends Mage_Adminhtml_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Js extends Magento_Adminhtml_Block_Template
 {
 
     public function _construct()

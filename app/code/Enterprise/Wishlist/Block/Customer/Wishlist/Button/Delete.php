@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Customer_Wishlist_Button_Delete extends Mage_Wishlist_Block_Abstract
+class Enterprise_Wishlist_Block_Customer_Wishlist_Button_Delete extends Magento_Wishlist_Block_Abstract
 {
     /**
      * Build block html

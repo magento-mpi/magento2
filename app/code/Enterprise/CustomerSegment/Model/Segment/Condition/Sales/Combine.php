@@ -20,10 +20,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     protected $_inputType = 'numeric';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine');
@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
                     Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
                     Mage::getModel('Enterprise_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
                 ),
-                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Ranges')
+                'label' => __('Date Ranges')
             ),
         ));
     }
@@ -57,8 +57,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'total'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Total'),
-            'average' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Average'),
+            'total'   => __('Total'),
+            'average' => __('Average'),
         ));
         return $this;
     }

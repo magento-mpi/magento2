@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  */
 class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Intialize collection
@@ -75,7 +75,7 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
     /**
      * Limit gift wrapping collection by specific website
      *
-     * @param  int|array|Mage_Core_Model_Website $websiteId
+     * @param  int|array|Magento_Core_Model_Website $websiteId
      * @return Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
      */
     public function applyWebsiteFilter($websiteId)
@@ -89,7 +89,7 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
             );
         }
 
-        if ($websiteId instanceof Mage_Core_Model_Website) {
+        if ($websiteId instanceof Magento_Core_Model_Website) {
             $websiteId = $websiteId->getId();
         }
         $this->getSelect()->where('website.website_id IN (?)', $websiteId);
@@ -134,7 +134,7 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
     {
         return array_merge(array(array(
             'value' => '',
-            'label' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Please select')
+            'label' => __('Please select')
         )), $this->_toOptionArray('wrapping_id', 'design'));
     }
 

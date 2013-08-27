@@ -58,7 +58,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
-        /** @var $categoryCollection Mage_Catalog_Model_Resource_Category_Collection */
+        /** @var $categoryCollection Magento_Catalog_Model_Resource_Category_Collection */
 
         $categoryIds = array();
 
@@ -113,7 +113,7 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Applies event to product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_CatalogEvent_Model_Observer
      */
     protected function _applyEventToProduct($product)
@@ -132,7 +132,7 @@ class Enterprise_CatalogEvent_Model_Observer
      *
      * @param Magento_Event_Observer $observer
      * @return void
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function applyEventOnQuoteItemSetProduct(Magento_Event_Observer $observer)
     {
@@ -141,9 +141,9 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $product = $observer->getEvent()->getProduct();
-        /* @var $product Mage_Catalog_Model_Product */
+        /* @var $product Magento_Catalog_Model_Product */
         $quoteItem = $observer->getEvent()->getQuoteItem();
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
 
         $this->_applyEventToProduct($product);
 
@@ -160,7 +160,7 @@ class Enterprise_CatalogEvent_Model_Observer
      *
      * @param Magento_Event_Observer $observer
      * @return void
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function applyEventOnQuoteItemSetQty(Magento_Event_Observer $observer)
     {
@@ -169,7 +169,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $item = $observer->getEvent()->getItem();
-        /* @var $item Mage_Sales_Model_Quote_Item */
+        /* @var $item Magento_Sales_Model_Quote_Item */
         if ($item->getQuote()) {
             $this->_initializeEventsForQuoteItems($item->getQuote());
         }
@@ -179,11 +179,11 @@ class Enterprise_CatalogEvent_Model_Observer
                 if ($event->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
                     $item->setHasError(true)
                         ->setMessage(
-                            Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('The sale for this product is closed.')
+                            __('The sale for this product is closed.')
                         );
                     $item->getQuote()->setHasError(true)
                         ->addMessage(
-                            Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Some of these products can no longer be sold.')
+                            __('Some of these products can no longer be sold.')
                         );
                 }
             } else {
@@ -219,12 +219,12 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Get event for product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_CatalogEvent_Model_Event
      */
     protected function _getProductEvent($product)
     {
-        if (!$product instanceof Mage_Catalog_Model_Product) {
+        if (!$product instanceof Magento_Catalog_Model_Product) {
             return false;
         }
 
@@ -313,10 +313,10 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Initialize events for quote items
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return Enterprise_CatalogEvent_Model_Observer
      */
-    protected function _initializeEventsForQuoteItems(Mage_Sales_Model_Quote $quote)
+    protected function _initializeEventsForQuoteItems(Magento_Sales_Model_Quote $quote)
     {
         if (!$quote->getEventInitialized()) {
              $quote->setEventInitialized(true);
@@ -355,7 +355,7 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Apply event to category
      *
-     * @param Magento_Data_Tree_Node|Mage_Catalog_Model_Category $category
+     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category $category
      * @param Magento_Data_Collection $eventCollection
      * @return Enterprise_CatalogEvent_Model_Observer
      */

@@ -58,7 +58,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     /**
      * Logger
      *
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_log;
 
@@ -73,14 +73,14 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      * Initialize connect to Solr Client
      *
      * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      * @param Enterprise_Search_Helper_ClientInterface $clientHelper
      * @param array $options
      * @throws Exception
      */
     public function __construct(
         Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Logger $logger,
         Enterprise_Search_Helper_ClientInterface $clientHelper,
         $options = array()
     ) {
@@ -92,7 +92,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         } catch (Exception $e) {
             $this->_log->logException($e);
             Mage::throwException(
-                $this->_clientHelper->__('We were unable to perform the search because a search engine misconfiguration.')
+                __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }
     }
@@ -164,8 +164,8 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
+            $locale   = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
             $locale   = new Zend_Locale($locale);
 
             $dateObj  = new Zend_Date(null, null, $locale);
@@ -321,7 +321,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     {
         $result = array();
 
-        $localeCode = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -336,7 +336,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $sortBy = 'position_category_' . Mage::registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
 
                 $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -391,7 +391,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -404,7 +404,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool
@@ -416,7 +416,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 return $this->getPriceFieldName();
             }
 
-            $eavConfig  = Mage::getSingleton('Mage_Eav_Model_Config');
+            $eavConfig  = Mage::getSingleton('Magento_Eav_Model_Config');
             $entityType = $eavConfig->getEntityType('catalog_product');
             $attribute  = $eavConfig->getAttribute($entityType, $attribute);
         }
@@ -456,7 +456,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         if ($fieldType == 'text') {
             $localeCode     = Mage::app()->getStore($attribute->getStoreId())
-                ->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+                ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {

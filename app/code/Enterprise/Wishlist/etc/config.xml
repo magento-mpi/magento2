@@ -25,7 +25,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_wishlist before="Mage_Adminhtml">Enterprise_Wishlist_Adminhtml</enterprise_wishlist>
+                        <enterprise_wishlist before="Magento_Adminhtml">Enterprise_Wishlist_Adminhtml</enterprise_wishlist>
                     </modules>
                 </args>
             </adminhtml>
@@ -47,7 +47,7 @@
             <wishlist>
                 <args>
                     <modules>
-                        <enterprise_wishlist before="Mage_Wishlist">Enterprise_Wishlist</enterprise_wishlist>
+                        <enterprise_wishlist before="Magento_Wishlist">Enterprise_Wishlist</enterprise_wishlist>
                     </modules>
                 </args>
             </wishlist>
@@ -98,4 +98,4 @@
             </general>
         </wishlist>
     </default>
-</config>
+</config>

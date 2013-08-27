@@ -11,13 +11,13 @@
 <div class="widget">
 <div class="block block-gr-search">
     <div class="block-title">
-        <strong><span><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search') ?></span></strong>
+        <strong><span><?php echo __('Wish List Search') ?></span></strong>
     </div>
     <div class="block-content">
         <?php if ($this->useSearchFormSelect()) : ?>
         <ul class="form-alt">
             <li>
-                <label for="<?php echo $this->getBlockId();?>-search_by" class="required"><strong><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Search By'); ?></strong> <em>*</em></label>
+                <label for="<?php echo $this->getBlockId();?>-search_by" class="required"><strong><?php echo __('Search By'); ?></strong> <em>*</em></label>
                 <div class="input-box">
                     <?php echo $this->getSearchFormSelect() ?>
                 </div>
@@ -26,7 +26,7 @@
         <?php endif;?>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Mage_Wishlist::js/search.js')?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('Magento_Wishlist::js/search.js')?>", function() {
                     $('#<?php echo $this->getBlockId();?>-search_by').wishlistSearch({
                         nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
                         emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
@@ -39,13 +39,13 @@
     <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="get" class="search-form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
         <ul class="form-alt">
             <li>
-                <label for="<?php echo $this->getBlockId();?>-quick_search_firstname" class="required"><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('First Name') ?> <em>*</em></label>
+                <label for="<?php echo $this->getBlockId();?>-quick_search_firstname" class="required"><?php echo __('First Name') ?> <em>*</em></label>
                 <div class="input-box">
                     <input type="text" class="input-text"  data-validate="{required : true, minlength : 2}" id="<?php echo $this->getBlockId();?>-quick_search_firstname" name="params[firstname]" />
                 </div>
             </li>
             <li>
-                <label for="<?php echo $this->getBlockId();?>-quick_search_lastname" class="required"><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Last Name') ?> <em>*</em></label>
+                <label for="<?php echo $this->getBlockId();?>-quick_search_lastname" class="required"><?php echo __('Last Name') ?> <em>*</em></label>
                 <div class="input-box">
                     <input type="text" class="input-text"  data-validate="{required : true, minlength : 2}" id="<?php echo $this->getBlockId();?>-quick_search_lastname" name="params[lastname]" />
                 </div>
@@ -53,8 +53,8 @@
         </ul>
         <div class="actions">
             <input type="hidden" name="params[search]" value="type" />
-            <p class="note"><em>*</em> <?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please enter at least two letters.') ?></p>
-            <button type="submit" title="<?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Search') ?></span></span></button>
+            <p class="note"><em>*</em> <?php echo __('Please enter at least two letters.') ?></p>
+            <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
         </div>
     </form>
 <?php endif; ?>
@@ -63,7 +63,7 @@
     <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="get" class="search-form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
         <ul class="form-alt">
             <li>
-                <label for="<?php echo $this->getBlockId();?>-quick_search_email" class="required"><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Owner Email') ?> <em>*</em></label>
+                <label for="<?php echo $this->getBlockId();?>-quick_search_email" class="required"><?php echo __('Owner Email') ?> <em>*</em></label>
                 <div class="input-box">
                     <input type="text" class="input-text required-entry validate-email"  id="<?php echo $this->getBlockId();?>-quick_search_email" name="params[email]" />
                 </div>
@@ -71,7 +71,7 @@
         </ul>
         <div class="actions">
             <input type="hidden" name="params[search]" value="email" />
-            <button type="submit" title="<?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Search') ?></span></span></button>
+            <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
         </div>
     </form>
 <?php endif; ?>

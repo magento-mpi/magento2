@@ -19,7 +19,7 @@
                 </field>
                 <field id="enabled" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Scheduled File History Cleaning</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="clean_now" translate="label" type="button" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <frontend_model>Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean</frontend_model>
@@ -30,7 +30,7 @@
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
                 </field>
                 <field id="error_email" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Error Email Recipient</label>
@@ -38,11 +38,11 @@
                 </field>
                 <field id="error_email_identity" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Error Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="error_email_template" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Error Email Template</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
             </group>
         </section>

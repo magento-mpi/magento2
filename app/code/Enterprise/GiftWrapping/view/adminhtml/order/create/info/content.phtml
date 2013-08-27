@@ -11,28 +11,28 @@
 <?php /** @var $this Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info_Content */ ?>
 <fieldset>
     <?php if ($this->isGiftWrappingForEntireOrder()): ?>
-        <legend><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Gift Wrapping for the Entire Order') ?></legend>
+        <legend><?php echo __('Gift Wrapping for the Entire Order') ?></legend>
         <br />
     <?php endif; ?>
     <div id="wrapping-container">
         <?php if ($this->isGiftWrappingForEntireOrder()): ?>
-        <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?></p>
+        <p><?php echo __('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?></p>
         <div class="gift-wrapping-form">
-            <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
+            <label><?php echo __('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
             <div id="wrapping-price-box" class="gift-wrapping-design no-display">
                 <img id="wrapping-image-box" class="image-box no-display" height="75" width="75" alt="" src="" />
                 <?php if ($this->getDisplayWrappingBothPrices()): ?>
                 <div>
-                    <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                    <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
                     <span class="price" id="wrapping-price-excl-tax"></span>
                 </div>
                 <div>
-                    <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                    <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
                     <span class="price" id="wrapping-price-incl-tax"></span>
                 </div>
                 <?php else: ?>
                 <div>
-                    <span class="label"><?php echo $this->__('Price') ?>:</span>
+                    <span class="label"><?php echo __('Price') ?>:</span>
                     <span class="price" id="wrapping-price"></span>
                 </div>
                 <?php endif; ?>
@@ -47,28 +47,28 @@
         <?php if ($this->getAllowGiftReceipt()): ?>
         <p>
             <input type="checkbox" id="allow-gift-receipt" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][allow_gift_receipt]" />
-            <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
+            <label for="allow-gift-receipt"><?php echo __('Send Gift Receipt') ?></label>
         </p>
         <?php endif; ?>
 
         <?php if ($this->getAllowPrintedCard()): ?>
         <p>
             <input type="checkbox" id="add-printed-card" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][add_printed_card]" />
-            <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
+            <label for="add-printed-card"><?php echo __('Add Printed Card') ?></label>
         </p>
         <div id="card-price-box" class="no-display">
         <?php if ($this->getDisplayCardBothPrices()): ?>
             <div>
-                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
                 <span class="price" id="card-price-excl-tax"></span>
             </div>
             <div>
-                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
                 <span class="price" id="card-price-incl-tax"></span>
             </div>
         <?php else: ?>
             <div>
-                <span class="label"><?php echo $this->__('Price') ?>:</span>
+                <span class="label"><?php echo __('Price') ?>:</span>
                 <span class="price" id="card-price"></span>
             </div>
         <?php endif; ?>

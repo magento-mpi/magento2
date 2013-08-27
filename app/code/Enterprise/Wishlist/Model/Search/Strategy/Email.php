@@ -33,7 +33,7 @@ class Enterprise_Wishlist_Model_Search_Strategy_Email implements Enterprise_Wish
     {
         if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
             throw new InvalidArgumentException(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please input a valid email address.')
+                __('Please input a valid email address.')
             );
         }
         $this->_email = $params['email'];
@@ -42,12 +42,12 @@ class Enterprise_Wishlist_Model_Search_Strategy_Email implements Enterprise_Wish
     /**
      * Filter given wishlist collection
      *
-     * @param Mage_Wishlist_Model_Resource_Wishlist_Collection $collection
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
-    public function filterCollection(Mage_Wishlist_Model_Resource_Wishlist_Collection $collection)
+    public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection)
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($this->_email);
 

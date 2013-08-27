@@ -14,19 +14,19 @@
 ?>
 <?php if ($this->isMultipleEnabled() && (count($wishlists) || $this->canCreateWishlists($wishlists))): ?>
     <div class="split-button light" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
-        <strong><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'><?php echo $this->__('Add to Wish List');?></span></strong>
-        <a href="#" class="change"><?php echo $this->__('Add to:') ?></a>
+        <strong><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'><?php echo __('Add to Wish List');?></span></strong>
+        <a href="#" class="change"><?php echo __('Add to:') ?></a>
         <div class="list-container">
             <ul>
                 <?php foreach ($wishlists as $wishlist): ?>
                     <li><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                 <?php endforeach;?>
                 <?php if ($this->canCreateWishlists($wishlists)): ?>
-                    <li class="new"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo $this->__('Create New Wish List')?>"><?php echo $this->__('Create New Wish List')?></span></li>
+                    <li class="new"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo __('Create New Wish List')?>"><?php echo __('Create New Wish List')?></span></li>
                 <?php endif;?>
             </ul>
         </div>
     </div>
 <?php else: ?>
-    <a href="#" onclick="Event.stop(event); Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value)"><?php echo $this->__('Add to Wish List');?></a>
+    <a href="#" onclick="Event.stop(event); Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value)"><?php echo __('Add to Wish List');?></a>
 <?php endif; ?>

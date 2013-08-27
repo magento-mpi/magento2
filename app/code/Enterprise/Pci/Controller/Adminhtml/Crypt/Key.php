@@ -12,7 +12,7 @@
  * Encryption key changer controller
  *
  */
-class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Controller_Action
+class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check whether local.xml is writeable
@@ -23,8 +23,8 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
     {
         $filename = Mage::getBaseDir('etc') . DS . 'local.xml';
         if (!is_writeable($filename)) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('To enable a key change this file must be writable: %s.', realpath($filename))
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                __('To enable a key change this file must be writable: %1.', realpath($filename))
             );
             return false;
         }
@@ -37,14 +37,14 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
      */
     public function indexAction()
     {
-        $this->_title($this->__('Encryption Key'));
+        $this->_title(__('Encryption Key'));
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Pci::system_crypt_key');
 
         if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
-            && $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true)) {
+            && $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true)) {
             /* @var Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form $formBlock */
             $formBlock->setFormData($data);
         }
@@ -66,28 +66,28 @@ class Enterprise_Pci_Controller_Adminhtml_Crypt_Key extends Mage_Adminhtml_Contr
             if (0 == $this->getRequest()->getPost('generate_random')) {
                 $key = $this->getRequest()->getPost('crypt_key');
                 if (empty($key)) {
-                    throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('Please enter an encryption key.'));
+                    throw new Exception(__('Please enter an encryption key.'));
                 }
-                Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
+                Mage::helper('Magento_Core_Helper_Data')->validateKey($key);
             }
 
             $newKey = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Key_Change')
                 ->changeEncryptionKey($key);
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addSuccess(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('The encryption key has been changed.')
+                __('The encryption key has been changed.')
             );
 
             if (!$key) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_Pci_Helper_Data')->__('This is your new encryption key: <span style="font-family:monospace;">%s</span>. Be sure to write it down and take good care of it!', $newKey));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(__('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey));
             }
             Mage::app()->cleanCache();
         }
         catch (Exception $e) {
             if ($message = $e->getMessage()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(array('crypt_key' => $key));
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(array('crypt_key' => $key));
         }
         $this->_redirect('*/*/');
     }

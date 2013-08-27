@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * If the table was joined flag
@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
      * @param int $storeId
      * @return Enterprise_GiftRegistry_Model_Resource_Type_Collection
      */
-    public function addStoreData($storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+    public function addStoreData($storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
     {
         $infoTable = $this->getTable('enterprise_giftregistry_type_info');
         $adapter   = $this->getConnection();
@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
         $select->from(array('m' => $this->getMainTable()))
             ->joinInner(
                 array('d' => $infoTable),
-                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
+                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
                 array())
             ->joinLeft(
                 array('s' => $infoTable),
@@ -105,7 +105,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
         if ($withEmpty) {
             $result = array_merge(array(array(
                 'value' => '',
-                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('-- All --')
+                'label' => __('-- All --')
             )), $result);
         }
         return $result;

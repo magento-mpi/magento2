@@ -44,20 +44,7 @@ class Magento_Outbound_Message_Factory implements Magento_Outbound_Message_Facto
     }
 
     /**
-     * Create a message for a given subscription and event
-     *
-     * @param Magento_Outbound_EndpointInterface $endpoint
-     * @param Magento_PubSub_EventInterface      $event
-     *
-     * @return Magento_Outbound_Message
-     */
-    public function create(Magento_Outbound_EndpointInterface $endpoint, Magento_PubSub_EventInterface $event)
-    {
-        return $this->createByData($endpoint, $event->getTopic(), $event->getBodyData());
-    }
-
-    /**
-     * Create a message for a given subscription and message data
+     * Create a message for a given endpoint, topic and message data
      *
      * @param Magento_Outbound_EndpointInterface $endpoint
      * @param string                             $topic topic of the message
@@ -65,7 +52,7 @@ class Magento_Outbound_Message_Factory implements Magento_Outbound_Message_Facto
      *
      * @return Magento_Outbound_Message
      */
-    public function createByData(Magento_Outbound_EndpointInterface $endpoint, $topic, array $bodyData)
+    public function create(Magento_Outbound_EndpointInterface $endpoint, $topic, array $bodyData)
     {
         // Format first since that should turn the body from an array into a string
         $formatter = $this->_formatterFactory->getFormatter($endpoint->getFormat());

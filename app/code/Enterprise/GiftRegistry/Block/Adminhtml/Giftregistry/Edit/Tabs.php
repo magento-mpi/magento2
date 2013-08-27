@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
-    extends Mage_Adminhtml_Block_Widget_Tabs
+    extends Magento_Adminhtml_Block_Widget_Tabs
 {
     /**
      * Intialize form
@@ -21,7 +21,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
         parent::_construct();
         $this->setId('enterprise_giftregistry_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
+        $this->setTitle(__('Gift Registry'));
     }
 
     /**
@@ -32,14 +32,14 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
-            'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('General Information'),
+            'label'   => __('General Information'),
             'content' => $this->getLayout()->createBlock(
                 'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General'
             )->toHtml()
         ));
 
         $this->addTab('registry_attributes', array(
-            'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Attributes'),
+            'label'   => __('Attributes'),
             'content' => $this->getLayout()->createBlock(
                 'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry'
             )->toHtml()

@@ -12,7 +12,7 @@
  * Gift wrapping total block for checkout
  *
  */
-class Enterprise_GiftWrapping_Block_Checkout_Totals extends Mage_Checkout_Block_Total_Default
+class Enterprise_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_Total_Default
 {
     /**
      * Template file path

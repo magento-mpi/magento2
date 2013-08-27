@@ -31,7 +31,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
         $this->_authorizationMock = $this->getMockBuilder('Magento_AuthorizationInterface')
             ->getMock();
 
-        $this->_urlModelMock = $this->getMockBuilder('Mage_Backend_Model_Url')
+        $this->_urlModelMock = $this->getMockBuilder('Magento_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();
 

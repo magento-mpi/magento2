@@ -17,8 +17,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
-    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Return Tab label
@@ -27,7 +27,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Label / Options');
+        return __('Manage Label / Options');
     }
 
     /**
@@ -37,7 +37,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Customer_Helper_Data')->__('Properties');
+        return __('Properties');
     }
 
     /**

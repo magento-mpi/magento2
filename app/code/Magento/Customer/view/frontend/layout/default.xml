@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="top.links">
+            <block type="Magento_Customer_Block_Account_Link" name="account_links">
+                <action method="addAccountLink">
+                    <target>top.links</target>
+                    <position>10</position>
+                </action>
+                <action method="addAuthLink">
+                    <target>top.links</target>
+                    <position>100</position>
+                </action>
+            </block>
+        </reference>
+    </default>
+</layout>

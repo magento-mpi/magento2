@@ -12,16 +12,16 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
-                            <resource id="Enterprise_CatalogPermissions::enterprise_catalogpermissions" module="Enterprise_CatalogPermissions" title="Category Permissions Section" />
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
+                            <resource id="Enterprise_CatalogPermissions::enterprise_catalogpermissions" title="Category Permissions Section" />
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Mage_Catalog::catalog">
-                    <resource id="Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions" module="Enterprise_CatalogPermissions" title="Category Permissions" />
+                <resource id="Magento_Catalog::catalog">
+                    <resource id="Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions" title="Category Permissions" />
                 </resource>
             </resource>
         </resources>

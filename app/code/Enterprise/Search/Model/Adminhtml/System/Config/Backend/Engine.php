@@ -16,7 +16,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Adminhtml_System_Config_Backend_Engine extends Mage_Core_Model_Config_Data
+class Enterprise_Search_Model_Adminhtml_System_Config_Backend_Engine extends Magento_Core_Model_Config_Data
 {
     /**
      * After save call
@@ -29,8 +29,8 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Backend_Engine extends Mag
         parent::_afterSave();
 
         if ($this->isValueChanged()) {
-            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
+                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
 
         return $this;

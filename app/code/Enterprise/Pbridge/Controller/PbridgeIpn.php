@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Controller_PbridgeIpn extends Mage_Core_Controller_Front_Action
+class Enterprise_Pbridge_Controller_PbridgeIpn extends Magento_Core_Controller_Front_Action
 {
     /**
      * Index Action.

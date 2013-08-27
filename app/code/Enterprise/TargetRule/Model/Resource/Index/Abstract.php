@@ -16,7 +16,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Product List Type identifier
@@ -28,7 +28,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     /**
      * Retrieve Product List Type identifier
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      *
      * @return int
      */
@@ -36,7 +36,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     {
         if (is_null($this->_listType)) {
             Mage::throwException(
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('The product list type identifier is not defined.')
+                __('The product list type identifier is not defined.')
             );
         }
         return $this->_listType;
@@ -57,11 +57,11 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     /**
      * Retrieve Product Resource instance
      *
-     * @return Mage_Catalog_Model_Resource_Product
+     * @return Magento_Catalog_Model_Resource_Product
      */
     public function getProductResource()
     {
-        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
+        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
     }
 
     public function loadProductIdsBySegmentId($object, $segmentId)
@@ -175,7 +175,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     /**
      * Remove all data from index
      *
-     * @param Mage_Core_Model_Store|int|array $store
+     * @param Magento_Core_Model_Store|int|array $store
      * @return Enterprise_TargetRule_Model_Resource_Index_Abstract
      */
     public function cleanIndex($store = null)
@@ -184,7 +184,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
             $this->_getWriteAdapter()->delete($this->getMainTable());
             return $this;
         }
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = $store->getId();
         }
         $where = array('store_id IN(?)' => $store);

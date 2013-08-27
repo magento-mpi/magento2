@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $coreHelper Mage_Core_Helper_Data */
-$coreHelper = Mage::helper('Mage_Core_Helper_Data');
+/* @var $coreHelper Magento_Core_Helper_Data */
+$coreHelper = Mage::helper('Magento_Core_Helper_Data');
 ?>
 
 <div class="fieldset-wrapper custom-options attribute-custom-options">
@@ -27,19 +27,19 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         '<div class="fieldset-wrapper opened option-box collapsable-wrapper" id="{{prefix}}_option_{{id}}">'+
             '<div class="fieldset-wrapper-title">'+
                 '<strong class="title" data-toggle="collapse" data-target="#{{prefix}}_option_{{id}}-content"><span>New Attribute</span></strong>'+
-                '<div class="actions">'+ <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> +'</div>'+
+                '<div class="actions">'+ <?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> +'</div>'+
             '</div>'+
             '<div class="fieldset-wrapper-content in collapse" id="{{prefix}}_option_{{id}}-content">'+
                 '<fieldset class="fieldset">'+
                     '<table id="{{prefix}}_attribute_{{id}}" class="data-table table-fieldset-alt">'+
                         '<thead>'+
                             '<tr>'+
-                                '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code') ?> <span class="required">*</span></th>'+
-                                '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Input Type') ?> <span class="required">*</span></th>'+
-                                '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Attribute Group') ?> <span class="required">*</span></th>'+
-                                '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label') ?> <span class="required">*</span></th>'+
-                                '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Required') ?></th>'+
-                                '<th><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Sort Order') ?></th>'+
+                                '<th><?php echo __('Code') ?> <span class="required">*</span></th>'+
+                                '<th><?php echo __('Input Type') ?> <span class="required">*</span></th>'+
+                                '<th><?php echo __('Attribute Group') ?> <span class="required">*</span></th>'+
+                                '<th><?php echo __('Label') ?> <span class="required">*</span></th>'+
+                                '<th><?php echo __('Is Required') ?></th>'+
+                                '<th><?php echo __('Sort Order') ?></th>'+
                             '</tr>'+
                         '</thead>'+
                         '<tbody>'+
@@ -61,11 +61,11 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 
                     '<div class="giftregistry-custom-attributes"  id="{{prefix}}_option_ext_{{id}}">'+
                         '<div class="field field-searcheable">'+
-                            '<label class="label" for=""><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Searcheable') ?></span></label>'+
+                            '<label class="label" for=""><span><?php echo __('Is Searcheable') ?></span></label>'+
                             '<div class="control"><?php echo $this->getSearcheableSelectHtml() ?></div>'+
                         '</div>'+
                         '<div class="field field-listed">'+
-                            '<label class="label" for=""><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Listed') ?></span></label>'+
+                            '<label class="label" for=""><span><?php echo __('Is Listed') ?></span></label>'+
                             '<div class="control"><?php echo $this->getListedSelectHtml() ?></div>'+
                         '</div>'+
                     '</div>'+
@@ -81,7 +81,7 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         templateText : attributeTemplate,
         attributeId : 0,
         prefix : '<?php echo $this->getFieldPrefix() ?>',
-        usedMessage : '<?php echo $this->__('We found an attribute with this static input type already in the gift registry type. Please select a different input type.') ?>',
+        usedMessage : '<?php echo __('We found an attribute with this static input type already in the gift registry type. Please select a different input type.') ?>',
         add : function(data) {
             if(data.id == undefined){
                 data = {};

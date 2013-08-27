@@ -40,7 +40,7 @@
                                             <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
                                         </p>
                                     </div>
-                                    <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Preview Sale') ?></span></a>
+                                    <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo __('Preview Sale') ?></span></a>
 
                                     <?php break;
                                 case 'open': ?>
@@ -49,7 +49,7 @@
                                             <span data-container="days" class="days">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="hour" class="hour">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="minute" class="minute">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="second" class="second">00</span>
                                         </div>
                                     </div>
-                                    <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Go To Sale') ?></span></a>
+                                    <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo __('Go To Sale') ?></span></a>
 
                                     <?php break;
                                 case 'closed': ?>
@@ -64,7 +64,7 @@
                                             <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
                                         </p>
                                     </div>
-                                    <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('View Sale') ?></span></a>
+                                    <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo __('View Sale') ?></span></a>
 
                                     <?php break; ?>
                                 <?php endswitch; ?>

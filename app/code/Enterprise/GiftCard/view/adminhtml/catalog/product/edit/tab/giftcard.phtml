@@ -13,16 +13,16 @@
     <div class="fieldset-wrapper collapsable-wrapper" id="giftcard_info-wrapper">
         <div class="fieldset-wrapper-title">
             <strong class="title" data-toggle="collapse" data-target="#giftcard_info-content">
-                <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Messaging and Lifetime') ?></span>
+                <span><?php echo __('Messaging and Lifetime') ?></span>
             </strong>
         </div>
         <div class="fieldset-wrapper-content collapse" id="giftcard_info-content">
             <fieldset class="fieldset">
-                <h4 class="title"><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Information') ?></h4>
+                <h4 class="title"><?php echo __('Gift Card Information') ?></h4>
 
                 <div class="field">
                     <label class="label" for="giftcard_is_redeemable">
-                        <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Treat Balance as Store Credit') ?>
+                        <?php echo __('Treat Balance as Store Credit') ?>
                     </label>
                     <div class="control">
                         <select
@@ -31,10 +31,10 @@
                                   name="<?php echo $this->getFieldPrefix() ?>[is_redeemable]"
                                   class="select">
                             <option value="1">
-                                <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Yes') ?>
+                                <?php echo __('Yes') ?>
                             </option>
                             <option value="0"<?php if ($this->getFieldValue('is_redeemable') == 0): ?> selected="selected"<?php endif; ?>>
-                                <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('No') ?>
+                                <?php echo __('No') ?>
                             </option>
                         </select>
                         <input
@@ -59,7 +59,7 @@
                             onclick="toggleValueElements(this, this.up('.field'));toggleDefault('is_redeemable');"
                             />
                         <label for="giftcard_use_config_is_redeemable" class="normal">
-                            <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Use Config Settings') ?>
+                            <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">
                             toggleValueElements($('giftcard_use_config_is_redeemable'), $('giftcard_use_config_is_redeemable').up('.field'));
@@ -69,7 +69,7 @@
 
                 <div class="field">
                     <label class="label" for="giftcard_lifetime">
-                        <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Lifetime (days)') ?>
+                        <?php echo __('Lifetime (days)') ?>
                     </label>
                     <div class="control">
                         <input
@@ -101,7 +101,7 @@
                             <?php echo $_checked ?>
                             onclick="toggleValueElements(this, this.up('.field')); toggleDefault('lifetime');" />
                         <label for="giftcard_use_config_lifetime" class="normal">
-                            <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Use Config Settings') ?>
+                            <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">
                             toggleValueElements($('giftcard_use_config_lifetime'), $('giftcard_use_config_lifetime').up('.field'));
@@ -111,7 +111,7 @@
 
                 <div class="field">
                     <label class="label" for="giftcard_allow_message">
-                        <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Allow Message') ?>
+                        <?php echo __('Allow Message') ?>
                     </label>
                     <div class="control">
                         <select
@@ -119,10 +119,10 @@
                             id="giftcard_allow_message" name="<?php echo $this->getFieldPrefix() ?>[allow_message]"
                             class="select">
                             <option value="1">
-                                <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Yes') ?>
+                                <?php echo __('Yes') ?>
                             </option>
                             <option value="0"<?php if ($this->getFieldValue('allow_message') == 0): ?> selected="selected"<?php endif; ?>>
-                                <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('No') ?>
+                                <?php echo __('No') ?>
                             </option>
                         </select>
                         <input
@@ -146,7 +146,7 @@
                             <?php echo $_checked ?>
                             onclick="toggleValueElements(this, this.up('.field')); toggleDefault('allow_message');" />
                         <label for="giftcard_use_config_allow_message" class="normal">
-                            <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Use Config Settings') ?>
+                            <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">
                             toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').up('.field'));
@@ -156,7 +156,7 @@
 
                 <div class="field">
                     <label class="label" for="giftcard_email_template">
-                        <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Email Template') ?>
+                        <?php echo __('Email Template') ?>
                     </label>
                     <div class="control">
                         <select
@@ -190,7 +190,7 @@
                             value="1" <?php echo $_checked ?>
                             onclick="toggleValueElements(this, this.up('.field')); toggleDefault('email_template');"/>
                         <label for="giftcard_use_config_email_template" class="normal">
-                            <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Use Config Settings') ?>
+                            <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">toggleValueElements($('giftcard_use_config_email_template'), $('giftcard_use_config_email_template').up('.field'));</script>
                     </div>

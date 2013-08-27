@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="tags">
+    <h2 class="sub-title"><?php echo __('My Recent Tags') ?> <span class="separator">|</span> <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo __('View All Tags') ?></a></h2>
+    <ol id="my_recent_tags">
+        <?php $iterator = 0; ?>
+        <?php foreach( $this->getCollection()->getItems() as $_item ): ?>
+            <li class="item">
+                <span class="number"><?php echo ++$iterator ?></span>
+                <div class="details">
+                    <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></h3>
+                    <p><?php echo __('Tags:') ?> </p>
+                        <?php $_i = 0; ?>
+                        <?php foreach( $_item->getProductTags() as $_tag ): ?>
+                            <a href="<?php echo $_tag->getViewTagUrl() ?>"><?php echo $this->escapeHtml($_tag->getName()) ?></a><?php if(++$_i != sizeof($_item->getProductTags()->getItems())): ?>,<?php endif; ?>
+                        <?php endforeach; ?>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">(function($) {$('#my_recent_tags').decorate('list', false)})(jQuery)</script>
+</div>

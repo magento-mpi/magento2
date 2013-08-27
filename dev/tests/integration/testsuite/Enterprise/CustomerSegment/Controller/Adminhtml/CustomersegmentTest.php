@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Mage_Backend_Utility_Controller
+class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
@@ -39,7 +39,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extend
 
     /**
      * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testMatchActionLogging()
     {
@@ -54,7 +54,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extend
 
         $result = $loggingModel->load('enterprise_customersegment', 'event_code');
         $this->assertNotEmpty($result->getId());
-        $expected = serialize(array('general' => 'Matched 1 Customers of Segment '. $segment->getId()));
-        $this->assertSame($expected, $result->getInfo());
+        $expected = serialize(array('general' => __('Matched %1 Customers of Segment %2', 1, $segment->getId())));
+        $this->assertEquals($expected, $result->getInfo());
     }
 }

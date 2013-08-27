@@ -12,11 +12,11 @@
 <div class="order-comments-history rma-comments-history">
 <div class="fieldset-wrapper" id="rma-history-block">
     <div class="fieldset-wrapper-title">
-        <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA History') ?></span>
+        <span class="title"><?php echo __('RMA History') ?></span>
     </div>
     <div id="history_form" class="rma-history-form">
         <div>
-            <label class="normal" for="history_comment"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Comment Text') ?></label>
+            <label class="normal" for="history_comment"><?php echo __('Comment Text') ?></label>
             <textarea name="comment[comment]" rows="3" cols="5" id="history_comment"></textarea>
         </div>
         <div class="clearfix">
@@ -25,28 +25,28 @@
             </div>
             <div class="order-history-comments-options">
                 <?php if ($this->canSendCommentEmail()): ?>
-                    <input name="comment[is_customer_notified]" type="checkbox" id="history_notify" value="1" /><label class="normal" for="history_notify"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Notify Customer by Email') ?></label><br />
+                    <input name="comment[is_customer_notified]" type="checkbox" id="history_notify" value="1" /><label class="normal" for="history_notify"><?php echo __('Notify Customer by Email') ?></label><br />
                 <?php endif; ?>
-                <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Visible on Frontend') ?></label>
+                <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo __('Visible on Frontend') ?></label>
             </div>
         </div>
         <?php if($this->getComments()): ?>
             <ul class="note-list">
             <?php foreach ($this->getComments() as $_item): ?>
                 <li>
-                    <span class="note-list-date"><?php echo $this->helper('Mage_Core_Helper_Data')->formatDate($_item->getCreatedAt(), 'medium') ?></span>
-                    <span class="note-list-time"><?php echo $this->helper('Mage_Core_Helper_Data')->formatTime($_item->getCreatedAt(), 'medium') ?></span>
+                    <span class="note-list-date"><?php echo $this->helper('Magento_Core_Helper_Data')->formatDate($_item->getCreatedAt(), 'medium') ?></span>
+                    <span class="note-list-time"><?php echo $this->helper('Magento_Core_Helper_Data')->formatTime($_item->getCreatedAt(), 'medium') ?></span>
                     <?php if ($_item->getIsAdmin()): ?>
-                        <span class="note-list-status"><?php echo $this->__('Customer Service')?></span>
+                        <span class="note-list-status"><?php echo __('Customer Service')?></span>
                     <?php else: ?>
                         <span class="note-list-status"><?php echo $this->escapeHtml($this->getCustomerName())?></span>
                     <?php endif; ?>
                     <span class="note-list-customer">
-                        <?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Customer') ?>
+                        <?php echo __('Customer') ?>
                         <?php if ($_item->getIsCustomerNotified()): ?>
-                            <span class="note-list-customer-notified"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Notified') ?></span>
+                            <span class="note-list-customer-notified"><?php echo __('Notified') ?></span>
                         <?php else: ?>
-                            <span class="note-list-customer-not-notified"><?php echo $this->helper('Enterprise_Rma_Helper_Data')->__('Not Notified') ?></span>
+                            <span class="note-list-customer-not-notified"><?php echo __('Not Notified') ?></span>
                         <?php endif; ?>
                     </span>
                     <?php if ($_item->getComment()): ?>

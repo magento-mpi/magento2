@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Front_Action
 {
     /**
      * No index action, forward to 404
@@ -30,23 +30,23 @@ class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Fr
             $code = $data['giftcard_code'];
             try {
                 if (strlen($code) > Enterprise_GiftCardAccount_Helper_Data::GIFT_CARD_CODE_MAX_LENGTH) {
-                    Mage::throwException(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Please correct the gift card code.'));
+                    Mage::throwException(__('Please correct the gift card code.'));
                 }
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code))
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
+                    __('Gift Card "%1" was added.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_eventManager->dispatch(
                     'enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code)
                 );
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e, $this->__('We cannot apply this gift card.'));
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addException($e, __('We cannot apply this gift card.'));
             }
         }
         $this->_redirect('checkout/cart');
@@ -59,15 +59,15 @@ class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Fr
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code))
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
+                    __('Gift Card "%1" was removed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
+            } catch (Magento_Core_Exception $e) {
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                     $e->getMessage()
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e, $this->__('We cannot remove this gift card.'));
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addException($e, __('We cannot remove this gift card.'));
             }
             $this->_redirect('checkout/cart');
         } else {
@@ -88,7 +88,7 @@ class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Fr
         try {
             $card->isValid(true, true, true, false);
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $card->unsetData();
         }
 

@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <wishlist_search type="Enterprise_Wishlist_Block_Widget_Search" translate="name description" module="Enterprise_Wishlist">
+    <wishlist_search type="Enterprise_Wishlist_Block_Widget_Search" translate="name description">
         <name>Wishlist Search</name>
         <description>Wish List Search Description</description>
         <is_email_compatible>0</is_email_compatible>

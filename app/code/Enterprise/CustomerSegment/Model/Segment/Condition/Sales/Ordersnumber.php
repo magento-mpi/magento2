@@ -15,10 +15,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber');
@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Orders %s %s while %s of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('Number of Orders %1 %2 while %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

@@ -15,56 +15,56 @@
  */
 ?>
 <div class="failed-products">
-    <h2 class="sub-title"><?php echo $this->__('Products Requiring Attention') ?></h2>
+    <h2 class="sub-title"><?php echo __('Products Requiring Attention') ?></h2>
     <form action="<?php echo $this->getFormActionUrl() ?>" method="post">
         <fieldset>
             <table id="failed-products-table" class="data-table cart-table">
                 <col width="1" />
                 <col />
                 <col width="1" />
-            <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
+            <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?>
                 <col width="1" />
             <?php endif ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
                 <col width="1" />
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
                 <col width="1" />
 
-            <?php $mergedCells = ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
+            <?php $mergedCells = ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
                 <thead>
                     <tr>
                         <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
-                        <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+                        <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo __('Product Name') ?></span></th>
                         <th rowspan="<?php echo $mergedCells; ?>"></th>
-                        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
+                        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><span class="nobr"></span></th>
                         <?php endif ?>
-                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
-                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
-                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Remove') ?></th>
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo __('Unit Price') ?></span></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo __('Qty') ?></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo __('Remove') ?></th>
                     </tr>
-                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                     <tr>
-                        <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
                     </tr>
                     <?php endif; ?>
                 </thead>
                 <tfoot>
                     <tr>
                         <td colspan="50" class="a-right">
-                            <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
-                            <button id="remove_all_failed_items" type="button" title="<?php echo $this->__('Remove All') ?>" class="button"><span><span><?php echo $this->__('Remove All') ?></span></span></button>
+                            <button type="submit" title="<?php echo __('Add to Cart') ?>" class="button btn-update"><span><span><?php echo __('Add to Cart') ?></span></span></button>
+                            <button id="remove_all_failed_items" type="button" title="<?php echo __('Remove All') ?>" class="button"><span><span><?php echo __('Remove All') ?></span></span></button>
                         </td>
                     </tr>
                 </tfoot>

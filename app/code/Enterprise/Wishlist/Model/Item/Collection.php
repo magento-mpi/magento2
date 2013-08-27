@@ -16,7 +16,7 @@ class Enterprise_Wishlist_Model_Item_Collection extends Enterprise_Wishlist_Mode
     /**
      * Initialize db select
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

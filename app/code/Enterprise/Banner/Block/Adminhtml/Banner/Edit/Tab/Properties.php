@@ -15,8 +15,8 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_Adminhtml_Block_Widget_Form
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Set form id prefix, declare fields for banner properties
@@ -32,7 +32,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
         $model = Mage::registry('current_banner');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Properties'))
+            array('legend'=>__('Banner Properties'))
         );
 
         if ($model->getBannerId()) {
@@ -42,22 +42,22 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
         }
 
         $fieldset->addField('name', 'text', array(
-            'label'     => Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Name'),
+            'label'     => __('Banner Name'),
             'name'      => 'name',
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly()
         ));
 
         $fieldset->addField('is_enabled', 'select', array(
-            'label'     => Mage::helper('Enterprise_Banner_Helper_Data')->__('Active'),
+            'label'     => __('Active'),
             'name'      => 'is_enabled',
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
                 Enterprise_Banner_Model_Banner::STATUS_ENABLED  =>
-                    Mage::helper('Enterprise_Banner_Helper_Data')->__('Yes'),
+                    __('Yes'),
                 Enterprise_Banner_Model_Banner::STATUS_DISABLED =>
-                    Mage::helper('Enterprise_Banner_Helper_Data')->__('No'),
+                    __('No'),
             ),
         ));
         if (!$model->getId()) {
@@ -66,24 +66,24 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
 
         // whether to specify banner types - for UI design purposes only
         $fieldset->addField('is_types', 'select', array(
-            'label'     => Mage::helper('Enterprise_Banner_Helper_Data')->__('Applies To'),
+            'label'     => __('Applies To'),
             'options'   => array(
-                    '0' => Mage::helper('Enterprise_Banner_Helper_Data')->__('Any Banner Type'),
-                    '1' => Mage::helper('Enterprise_Banner_Helper_Data')->__('Specified Banner Types'),
+                    '0' => __('Any Banner Type'),
+                    '1' => __('Specified Banner Types'),
                 ),
             'disabled'  => (bool)$model->getIsReadonly(),
         ));
         $model->setIsTypes((string)(int)$model->getTypes()); // see $form->setValues() below
 
         $fieldset->addField('types', 'multiselect', array(
-            'label'     => Mage::helper('Enterprise_Banner_Helper_Data')->__('Specify Types'),
+            'label'     => __('Specify Types'),
             'name'      => 'types',
             'disabled'  => (bool)$model->getIsReadonly(),
             'values'    => Mage::getSingleton('Enterprise_Banner_Model_Config')->toOptionArray(false, false),
             'can_be_empty' => true,
         ));
 
-        $afterFormBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
+        $afterFormBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
             ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');
@@ -106,7 +106,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Properties');
+        return __('Banner Properties');
     }
 
     /**

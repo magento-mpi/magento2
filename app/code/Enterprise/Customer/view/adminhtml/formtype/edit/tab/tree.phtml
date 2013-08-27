@@ -20,7 +20,7 @@
             </div>
             <div id="fieldset_prop_container">
                 <div class="entry-edit-head">
-                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Fieldset Properties')?></h4>
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo __('Fieldset Properties')?></h4>
                 </div>
                 <div id="fieldset_properties_fieldset" class="fieldset">
                     <div class="hor-scroll">
@@ -31,16 +31,16 @@
                                 <td><?php echo $this->getFieldsetButtonsHtml();?></td>
                             </tr>
                             <tr>
-                                <td class="label"><label for="fieldset_label"><?php echo $this->__('Fieldset Title')?> <span class="required">*</span></label></td>
+                                <td class="label"><label for="fieldset_label"><?php echo __('Fieldset Title')?> <span class="required">*</span></label></td>
                                 <td class="value"><input id="fieldset_label" value="" class="input-text" type="text"/></td>
                             </tr>
                             <tr>
-                                <td class="label"><label for="fieldset_code"><?php echo $this->__('Fieldset Code')?> <span class="required">*</span></label></td>
+                                <td class="label"><label for="fieldset_code"><?php echo __('Fieldset Code')?> <span class="required">*</span></label></td>
                                 <td class="value"><input id="fieldset_code" value="" class="input-text validate-code" type="text"/></td>
                             </tr>
                             <?php foreach ($this->getStores() as $store):?>
                             <tr>
-                                <td class="label"><label for="fieldset_label_<?php echo $store->getId();?>"><?php echo $this->__('Fieldset Title')?> (<?php echo $this->escapeHtml($store->getName());?>)</label></td>
+                                <td class="label"><label for="fieldset_label_<?php echo $store->getId();?>"><?php echo __('Fieldset Title')?> (<?php echo $this->escapeHtml($store->getName());?>)</label></td>
                                 <td class="value"><input id="fieldset_label_<?php echo $store->getId();?>" value="" class="input-text" type="text"/></td>
                             </tr>
                             <?php endforeach;?>
@@ -150,7 +150,7 @@ var formType = {
             var code = node.attributes.code;
             for(var i=0, l = parent.childNodes.length; i < l; i++) {
                 if (parent.childNodes[i].attributes.type == 'fieldset' && code == parent.childNodes[i].attributes.code) {
-                    alert('<?php echo $this->jsQuoteEscape($this->__("A fieldset with the same code alredy exists."))?>');
+                    alert('<?php echo $this->jsQuoteEscape(__("A fieldset with the same code alredy exists."))?>');
                     return false;
                 }
             }
@@ -236,7 +236,7 @@ var formType = {
         var node = this.tree.getNodeById($('node_id').value);
         if (node) {
             if (node.childNodes.length) {
-                alert('<?php echo $this->jsQuoteEscape($this->__('This fieldset is not empty!'))?>');
+                alert('<?php echo $this->jsQuoteEscape(__('This fieldset is not empty!'))?>');
             } else {
                 node.parentNode.select();
                 node.parentNode.removeChild(node);

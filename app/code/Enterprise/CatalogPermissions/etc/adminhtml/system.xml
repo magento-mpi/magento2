@@ -12,11 +12,11 @@
 <config>
     <system>
         <section id="catalog">
-            <group id="enterprise_catalogpermissions" translate="label" module="Enterprise_CatalogPermissions" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="enterprise_catalogpermissions" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category Permissions</label>
                 <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <comment>
                         <![CDATA[<strong style="color:red">Warning!</strong> By default this feature restricts all categories.]]>
                     </comment>
@@ -53,7 +53,7 @@
                 </field>
                 <field id="restricted_landing_page" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Landing Page</label>
-                    <source_model>Mage_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
                 </field>
                 <field id="deny_catalog_search" translate="label" type="multiselect" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Disallow Catalog Search By</label>

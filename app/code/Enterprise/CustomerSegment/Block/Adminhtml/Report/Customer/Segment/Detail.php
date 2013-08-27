@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
-    extends Mage_Adminhtml_Block_Widget_Grid_Container
+    extends Magento_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Constructor
@@ -27,9 +27,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
         $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
         if ($this->getCustomerSegment() && $name = $this->getCustomerSegment()->getName()) {
-            $title = $this->__('Customer Segment Report \'%s\'', $this->escapeHtml($name));
+            $title = __('Customer Segment Report \'%1\'', $this->escapeHtml($name));
         } else {
-            $title = $this->__('Customer Segments Report');
+            $title = __('Customer Segments Report');
         }
         $pageTitleBlock = $this->getLayout()->getBlock('page-title');
         if ($pageTitleBlock) {
@@ -41,12 +41,12 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
         parent::_construct();
         $this->_removeButton('add');
         $this->addButton('back', array(
-            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Back'),
+            'label'     => __('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() .'\')',
             'class'     => 'back',
         ));
         $this->addButton('refresh', array(
-            'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Refresh Segment Data'),
+            'label'     => __('Refresh Segment Data'),
             'onclick'   => 'setLocation(\'' . $this->getRefreshUrl() .'\')',
         ));
     }

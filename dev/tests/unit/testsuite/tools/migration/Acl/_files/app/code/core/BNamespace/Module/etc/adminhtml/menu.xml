@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Some_Module::area_config_design" title="Title 1" module="Some_Module" sortOrder="50" parent="Mage_Module::area_config" action="adminhtml/level_one" />
+        <add id="Some_Module::area_config_design" title="Title 1" module="Some_Module" sortOrder="50" parent="Magento_Module::area_config" action="adminhtml/level_one" />
     </menu>
 </config>

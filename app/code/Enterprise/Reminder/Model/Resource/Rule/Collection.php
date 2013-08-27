@@ -16,7 +16,7 @@
  * @package     Enterprise_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Rule_Model_Resource_Rule_Collection_Abstract
+class Enterprise_Reminder_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
 {
     /**
      * Store associated with rule entities information map

@@ -22,16 +22,16 @@
  * @method Enterprise_CustomerBalance_Model_Balance setBaseCurrencyCode(string $value)
  * @method Enterprise_CustomerBalance_Model_Balance setAmountDelta() setAmountDelta(float $value)
  * @method Enterprise_CustomerBalance_Model_Balance setComment() setComment(string $value)
- * @method Enterprise_CustomerBalance_Model_Balance setCustomer() setCustomer(Mage_Customer_Model_Customer $customer)
+ * @method Enterprise_CustomerBalance_Model_Balance setCustomer() setCustomer(Magento_Customer_Model_Customer $customer)
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
+class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
 {
     /**
-     * @var Mage_Customer_Model_Customer
+     * @var Magento_Customer_Model_Customer
      */
     protected $_customer;
 
@@ -62,7 +62,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      * Website id should either be set or not admin
      *
      * @return Enterprise_CustomerBalance_Model_Balance
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function loadByCustomer()
     {
@@ -72,7 +72,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         }
         else {
             if (Mage::app()->getStore()->isAdmin()) {
-                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A website ID must be set.'));
+                Mage::throwException(__('A website ID must be set.'));
             }
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
@@ -86,14 +86,14 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      * @param bool $shouldNotify
      * @param int $storeId
      * @return Enterprise_CustomerBalance_Model_Balance
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Please also set the Store ID.'));
+                Mage::throwException(__('Please also set the Store ID.'));
             }
             $this->setStoreId($storeId);
         }
@@ -111,7 +111,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         $this->_ensureCustomer();
 
         if (0 == $this->getWebsiteId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A website ID must be set.'));
+            Mage::throwException(__('A website ID must be set.'));
         }
 
         // check history action
@@ -131,7 +131,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('The Store ID must be set to send email notifications.'));
+            Mage::throwException(__('The Store ID must be set to send email notifications.'));
         }
 
         return parent::_beforeSave();
@@ -159,7 +159,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     /**
      * Make sure proper customer information is set. Load customer if required
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _ensureCustomer()
     {
@@ -167,13 +167,13 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('A customer ID must be specified.'));
+            Mage::throwException(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(Mage::getModel('Mage_Customer_Model_Customer')->load($this->getCustomerId()));
+            $this->setCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('This customer is not set or does not exist.'));
+            Mage::throwException(__('This customer is not set or does not exist.'));
         }
     }
 
@@ -209,10 +209,10 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     /**
      * Check whether balance completely covers specified quote
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote $quote
      * @return bool
      */
-    public function isFullAmountCovered(Mage_Sales_Model_Quote $quote, $isEstimation = false)
+    public function isFullAmountCovered(Magento_Sales_Model_Quote $quote, $isEstimation = false)
     {
         if (!$isEstimation && !$quote->getUseCustomerBalance()) {
             return false;
@@ -259,7 +259,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     /**
      * Public version of afterLoad
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function afterLoad()
     {

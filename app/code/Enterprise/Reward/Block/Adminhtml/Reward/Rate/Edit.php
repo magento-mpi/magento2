@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Internal constructor
@@ -38,9 +38,9 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit extends Mage_Adminhtml_
     public function getHeaderText()
     {
         if (Mage::registry('current_reward_rate')->getId()) {
-            return Mage::helper('Enterprise_Reward_Helper_Data')->__('Edit Reward Exchange Rate');
+            return __('Edit Reward Exchange Rate');
         } else {
-            return Mage::helper('Enterprise_Reward_Helper_Data')->__('New Reward Exchange Rate');
+            return __('New Reward Exchange Rate');
         }
     }
 

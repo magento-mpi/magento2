@@ -9,7 +9,7 @@
  */
 
 class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
-    extends Mage_Catalog_Model_Product_Attribute_Backend_Price
+    extends Magento_Catalog_Model_Product_Attribute_Backend_Price
 {
     /**
      * Retrieve resource model
@@ -24,7 +24,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Validate data
      *
-     * @param   Mage_Catalog_Model_Product $object
+     * @param   Magento_Catalog_Model_Product $object
      * @return  Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function validate($object)
@@ -44,7 +44,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
 
             if (!empty($dup[$key1])) {
                 Mage::throwException(
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate amount found.')
+                    __('Duplicate amount found.')
                 );
             }
             $dup[$key1] = 1;
@@ -55,7 +55,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Assign amounts to product data
      *
-     * @param   Mage_Catalog_Model_Product $object
+     * @param   Magento_Catalog_Model_Product $object
      * @return  Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function afterLoad($object)
@@ -82,7 +82,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Save amounts data
      *
-     * @param Mage_Catalog_Model_Product $object
+     * @param Magento_Catalog_Model_Product $object
      * @return Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function afterSave($object)
@@ -122,7 +122,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Delete amounts data
      *
-     * @param Mage_Catalog_Model_Product $object
+     * @param Magento_Catalog_Model_Product $object
      * @return Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function afterDelete($object)

@@ -16,8 +16,8 @@
  * @package    Enterprise_Cms
  */
 class Enterprise_Cms_Block_Widget_Node
-    extends Mage_Core_Block_Html_Link
-    implements Mage_Widget_Block_Interface
+    extends Magento_Core_Block_Html_Link
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -121,7 +121,7 @@ class Enterprise_Cms_Block_Widget_Node
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+            $key . '_' . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
             $key,
         );
         foreach($dataKeys as $value) {

@@ -16,7 +16,7 @@
  * @package     Enterprise_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstract
+class Enterprise_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
 {
     /**
      * Store associated with rule entities information map
@@ -54,11 +54,11 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     /**
      * Add website ids to rule data after load
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -70,10 +70,10 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      * Bind reminder rule to and website(s).
      * Save store templates data.
      *
-     * @param Mage_Core_Model_Abstract $rule
+     * @param Magento_Core_Model_Abstract $rule
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $rule)
+    protected function _afterSave(Magento_Core_Model_Abstract $rule)
     {
         if ($rule->hasWebsiteIds()) {
             $websiteIds = $rule->getWebsiteIds();
@@ -216,7 +216,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      * If customer was added earlier, update is_active column.
      *
      * @param Enterprise_Reminder_Model_Rule $rule
-     * @param Mage_SalesRule_Model_Rule $salesRule
+     * @param Magento_SalesRule_Model_Rule $salesRule
      * @param int $websiteId
      * @param int $threshold
      * @return Enterprise_Reminder_Model_Resource_Rule
@@ -325,8 +325,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper Mage_Core_Model_Resource_Helper_Mysql4 */
-        $helper = Mage::getResourceHelper('Mage_Core');
+        /** @var $helper Magento_Core_Model_Resource_Helper_Mysql4 */
+        $helper = Mage::getResourceHelper('Magento_Core');
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
         ));
@@ -439,9 +439,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(
-                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown operator specified.')
-                );
+                Mage::throwException(__('Unknown operator specified.'));
         }
     }
 

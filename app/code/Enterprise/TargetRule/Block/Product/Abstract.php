@@ -15,12 +15,12 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog_Block_Product_Abstract
+abstract class Enterprise_TargetRule_Block_Product_Abstract extends Magento_Catalog_Block_Product_Abstract
 {
     /**
      * Link collection
      *
-     * @var null|Mage_Catalog_Model_Resource_Product_Collection
+     * @var null|Magento_Catalog_Model_Resource_Product_Collection
      */
     protected $_linkCollection = null;
 
@@ -35,7 +35,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
      * Get link collection for specific target
      *
      * @abstract
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     abstract protected function _getTargetLinkCollection();
 
@@ -107,7 +107,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
     /**
      * Get link collection
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection|null
+     * @return Magento_Catalog_Model_Resource_Product_Collection|null
      */
     public function getLinkCollection()
     {

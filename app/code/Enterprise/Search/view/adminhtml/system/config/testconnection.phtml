@@ -10,7 +10,7 @@
 ?>
 <?php
 /**http://localhost:8983/solr/admin/ping
- * @see Mage_Paypal_Block_Adminhtml_System_Config_ApiWizard
+ * @see Magento_Paypal_Block_Adminhtml_System_Config_ApiWizard
  */
 ?>
 <script type="text/javascript">
@@ -27,11 +27,11 @@
         new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
             parameters: params,
             onSuccess: function(response) {
-                result = '<?php echo $this->__('Connection failed! Test again?') ?>';
+                result = '<?php echo __('Connection failed! Test again?') ?>';
                 try {
                     response = response.responseText;
                     if (response == 1) {
-                        result = '<?php echo $this->__('Successful! Test again?') ?>';
+                        result = '<?php echo __('Successful! Test again?') ?>';
                         elem.removeClassName('fail').addClassName('success')
                     } else {
                         elem.removeClassName('success').addClassName('fail')

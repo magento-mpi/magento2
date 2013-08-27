@@ -43,7 +43,7 @@ return array(
     array('updateCategoryIndexData', 'Enterprise_Search_Model_Resource_Index'),
     array('updatePriceIndexData', 'Enterprise_Search_Model_Resource_Index'),
     array('_changeIndexesStatus', 'Enterprise_Search_Model_Indexer_Indexer'),
-    array('cmsPageBlockLoadAfter', 'Enterprise_AdminGws_Model_Models'),
+    array('cmsPageBlockLoadAfter', 'Magento_AdminGws_Model_Models'),
     array('applyEventStatus', 'Enterprise_CatalogEvent_Model_Observer'),
     array('checkQuoteItem', 'Enterprise_CatalogPermissions_Model_Observer'),
     array('increaseOrderInvoicedAmount', 'Enterprise_GiftCardAccount_Model_Observer'),

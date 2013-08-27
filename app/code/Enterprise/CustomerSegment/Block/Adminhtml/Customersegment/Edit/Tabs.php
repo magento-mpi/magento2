@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
 {
 
     /**
@@ -21,7 +21,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
         parent::_construct();
         $this->setId('enterprise_customersegment_segment_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Information'));
+        $this->setTitle(__('Segment Information'));
     }
 
     /**
@@ -36,8 +36,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
             ->toHtml();
 
         $this->addTab('general_section', array(
-            'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties'),
-            'title'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('General Properties'),
+            'label'   => __('General Properties'),
+            'title'   => __('General Properties'),
             'content' => $generalSectionContent,
             'active'  => true
         ));
@@ -50,8 +50,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
                 ->toHtml();
 
             $this->addTab('conditions_section', array(
-                'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
-                'title'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+                'label'   => __('Conditions'),
+                'title'   => __('Conditions'),
                 'content' => $conditionsSectionContent,
             ));
 
@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
                 $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
-                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched Customers (%d)', $customersQty),
+                    'label' => __('Matched Customers (%1)', $customersQty),
                     'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
                         array('segment_id' => $segment->getId())),
                     'class' => 'ajax',

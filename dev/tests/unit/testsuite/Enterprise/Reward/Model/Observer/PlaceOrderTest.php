@@ -46,7 +46,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     public function setUp()
     {
         $this->_restrictionMock = $this->getMock('Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface');
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock
             = $this->getMock('Enterprise_Reward_Model_RewardFactory', array('create'), array(), '', false);
         $this->_resourceFactoryMock
@@ -74,7 +74,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     public function testDispatchIfRewardCurrencyAmountAboveNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Mage_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
         $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
@@ -82,7 +82,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
             ->method('getBaseRewardCurrencyAmount', 'getCustomerId')->will($this->returnValue(1));
         $model = $this->getMock('Enterprise_Reward_Model_Reward', array(), array(), '', false);
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($model));
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $resource = $this->getMock('Enterprise_Reward_Model_Resource_Reward', array(), array(), '', false);
@@ -95,7 +95,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     public function testDispatchIfRewardCurrencyAmountBelowNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Mage_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $order = $this->getMock('Magento_Sales_Model_Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
         $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
@@ -110,7 +110,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     {
         $data = array('key1' => array('points_delta' => 60), 'key2' => array('points_delta' => 45));
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Mage_Sales_Model_Order',
+        $order = $this->getMock('Magento_Sales_Model_Order',
             array('getBaseRewardCurrencyAmount', 'setRewardSalesrulePoints'), array(), '', false
         );
         $event = $this->getMock('Magento_Event', array('getOrder'), array(), '', false);

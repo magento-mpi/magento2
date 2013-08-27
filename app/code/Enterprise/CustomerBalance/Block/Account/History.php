@@ -12,7 +12,7 @@
  * Customer balance history block
  *
  */
-class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_Template
+class Enterprise_CustomerBalance_Block_Account_History extends Magento_Core_Block_Template
 {
     /**
      * Balance history action names
@@ -38,7 +38,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
      */
     public function getEvents()
     {
-        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
+        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
         if (!$customerId) {
             return false;
         }

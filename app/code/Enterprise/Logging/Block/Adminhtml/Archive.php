@@ -12,7 +12,7 @@
  * Admin Actions Log grid container
  *
  */
-class Enterprise_Logging_Block_Adminhtml_Archive extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Logging_Block_Adminhtml_Archive extends Magento_Adminhtml_Block_Widget_Container
 {
     /**
      * Header text getter
@@ -21,7 +21,7 @@ class Enterprise_Logging_Block_Adminhtml_Archive extends Mage_Adminhtml_Block_Wi
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Logging_Helper_Data')->__('Admin Actions Log Archive');
+        return __('Admin Actions Log Archive');
     }
 
     /**

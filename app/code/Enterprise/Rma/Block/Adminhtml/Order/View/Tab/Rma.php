@@ -17,7 +17,7 @@
  */
 class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
     extends Enterprise_Rma_Block_Adminhtml_Rma_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     public function _construct()
     {
@@ -85,7 +85,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
     /**
      * Retrieve order model instance
      *
-     * @return Mage_Sales_Model_Order
+     * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -102,7 +102,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Returns');
+        return __('Returns');
     }
 
     /**
@@ -112,7 +112,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Returns');
+        return __('Returns');
     }
 
     /**

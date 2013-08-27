@@ -11,7 +11,7 @@
 /**
  * Reminder Cron Backend Model
  */
-class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Model_Config_Data
+class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Model_Config_Data
 {
     const CRON_STRING_PATH  = 'crontab/jobs/send_notification/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/send_notification/run/model';
@@ -42,7 +42,7 @@ class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Mod
                     $cronExprString = "{$minutes} * * * *";
                 }
                 else {
-                    Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Please specify a valid number of minute.'));
+                    Mage::throwException(__('Please specify a valid number of minute.'));
                 }
             }
             elseif ($frequency == $daily) {
@@ -54,13 +54,13 @@ class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Mod
         }
 
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Data')
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string) Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
@@ -68,7 +68,7 @@ class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Mod
         }
 
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unable to save Cron expression'));
+            Mage::throwException(__('Unable to save Cron expression'));
         }
     }
 }

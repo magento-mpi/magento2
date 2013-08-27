@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
+class Enterprise_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
 {
     /**
      * View all returns
@@ -16,12 +16,12 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
     public function returnsAction()
     {
         if (!Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled()
-            || !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+            || !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             $this->_forward('noRoute');
             return;
         }
         $this->loadLayout();
-        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
+        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -51,10 +51,10 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
         }
 
         $this->loadLayout();
-        Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
+        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->getLayout()
             ->getBlock('head')
-            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
+            ->setTitle(__('Return #%1', Mage::registry('current_rma')->getIncrementId()));
         $this->renderLayout();
     }
 
@@ -67,7 +67,7 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
     protected function _loadValidRma($entityId = null)
     {
         if (!Mage::helper('Enterprise_Rma_Helper_Data')->isEnabled() ||
-            !Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+            !Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
 
@@ -96,7 +96,7 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        if (!Mage::helper('Mage_Sales_Helper_Guest')->loadValidOrder()) {
+        if (!Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder()) {
             return;
         }
         $order      = Mage::registry('current_order');
@@ -111,7 +111,7 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                 $rmaModel = Mage::getModel('Enterprise_Rma_Model_Rma');
                 $rmaData = array(
                     'status'                => Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING,
-                    'date_requested'        => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
+                    'date_requested'        => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
                     'order_id'              => $order->getId(),
                     'order_increment_id'    => $order->getIncrementId(),
                     'store_id'              => $order->getStoreId(),
@@ -132,24 +132,24 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                         ->setComment($post['rma_comment'])
                         ->setIsVisibleOnFront(true)
                         ->setStatus($rmaModel->getStatus())
-                        ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+                        ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
                         ->save();
                 }
-                Mage::getSingleton('Mage_Core_Model_Session')->addSuccess(
-                    Mage::helper('Enterprise_Rma_Helper_Data')->__('You submitted Return #%s.', $rmaModel->getIncrementId())
+                Mage::getSingleton('Magento_Core_Model_Session')->addSuccess(
+                    __('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
                 $this->_redirectSuccess(Mage::getUrl('*/*/returns'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Core_Model_Session')->addError(
-                    Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot create a new return transaction. Please try again later.')
+                Mage::getSingleton('Magento_Core_Model_Session')->addError(
+                    __('We cannot create a new return transaction. Please try again later.')
                 );
                 Mage::logException($e);
             }
         }
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Core_Model_Session');
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Create New Return'));
+        $this->_initLayoutMessages('Magento_Core_Model_Session');
+        $this->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -169,8 +169,8 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
         }
 
         $incrementId = Mage::registry('current_order')->getIncrementId();
-        $message = Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot create a return transaction for order #%s.', $incrementId);
-        Mage::getSingleton('Mage_Core_Model_Session')->addError($message);
+        $message = __('We cannot create a return transaction for order #%1.', $incrementId);
+        Mage::getSingleton('Magento_Core_Model_Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -192,14 +192,14 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
                         ->setStatus(Mage::registry('current_rma')->getStatus())
-                        ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+                        ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
                         ->save();
                     $result->setStoreId(Mage::registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please enter a valid message.'));
+                    Mage::throwException(__('Please enter a valid message.'));
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => $e->getMessage(),
@@ -207,11 +207,11 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot add a message.')
+                    'message'   => __('We cannot add a message.')
                 );
             }
             if (is_array($response)) {
-               Mage::getSingleton('Mage_Core_Model_Session')->addError($response['message']);
+               Mage::getSingleton('Magento_Core_Model_Session')->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;
@@ -228,7 +228,7 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                 $rma = Mage::registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Labels are not allowed.'));
+                    Mage::throwException(__('Shipping Labels are not allowed.'));
                 }
 
                 $response   = false;
@@ -238,11 +238,11 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                 $carriers  = Mage::helper('Enterprise_Rma_Helper_Data')->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please select a valid carrier.'));
+                    Mage::throwException(__('Please select a valid carrier.'));
                 }
 
                 if (empty($number)) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please enter a valid tracking number.'));
+                    Mage::throwException(__('Please enter a valid tracking number.'));
                 }
 
                 Mage::getModel('Enterprise_Rma_Model_Shipping')
@@ -252,7 +252,7 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                     ->setCarrierTitle($carriers[$carrier])
                     ->save();
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => $e->getMessage(),
@@ -260,17 +260,17 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot add a label.')
+                    'message'   => __('We cannot add a label.')
                 );
             }
         } else {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('The wrong RMA was selected.')
+                'message'   => __('The wrong RMA was selected.')
             );
         }
         if (is_array($response)) {
-            Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
+            Mage::getSingleton('Magento_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();
@@ -288,24 +288,24 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
                 $rma = Mage::registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Labels are not allowed.'));
+                    Mage::throwException(__('Shipping Labels are not allowed.'));
                 }
 
                 $response   = false;
                 $number    = intval($this->getRequest()->getPost('number'));
 
                 if (empty($number)) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Please enter a valid tracking number.'));
+                    Mage::throwException(__('Please enter a valid tracking number.'));
                 }
 
                 $trackingNumber = Mage::getModel('Enterprise_Rma_Model_Shipping')
                     ->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
-                    Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('The wrong RMA was selected.'));
+                    Mage::throwException(__('The wrong RMA was selected.'));
                 }
                 $trackingNumber->delete();
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => $e->getMessage(),
@@ -313,17 +313,17 @@ class Enterprise_Rma_Controller_Guest extends Mage_Core_Controller_Front_Action
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot delete the label.')
+                    'message'   => __('We cannot delete the label.')
                 );
             }
         } else {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('The wrong RMA was selected.')
+                'message'   => __('The wrong RMA was selected.')
             );
         }
         if (is_array($response)) {
-            Mage::getSingleton('Mage_Core_Model_Session')->setErrorMessage($response['message']);
+            Mage::getSingleton('Magento_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();

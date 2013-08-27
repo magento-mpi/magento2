@@ -16,7 +16,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Cms_Model_Resource_Page_Revision extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Name of page table from config
@@ -62,10 +62,10 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     /**
      * Process page data before saving
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_Cms_Model_Resource_Page_Revision
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getCopiedFromOriginal()) {
             /*
@@ -87,10 +87,10 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     /**
      * Process data after save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_Cms_Model_Resource_Page_Revision
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -101,10 +101,10 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
      * Process data after delete
      * Validate if this revision can be removed
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Enterprise_Cms_Model_Resource_Page_Revision
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    protected function _afterDelete(Magento_Core_Model_Abstract $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -115,10 +115,10 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
      * Checking if revision was published
      *
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return bool
      */
-    public function isRevisionPublished(Mage_Core_Model_Abstract $object)
+    public function isRevisionPublished(Magento_Core_Model_Abstract $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->_pageTable, 'published_revision_id')

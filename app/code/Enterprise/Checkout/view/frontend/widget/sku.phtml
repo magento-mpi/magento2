@@ -14,7 +14,7 @@
  *
  * @var $this Enterprise_Checkout_Block_Widget_Sku
  */
-$uniqueSuffix = '_' . $this->helper('Mage_Core_Helper_Data')->getRandomString(20);
+$uniqueSuffix = '_' . $this->helper('Magento_Core_Helper_Data')->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
 $qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
     . ' validate-number-range number-range-0.0001-99999999.9999';
@@ -23,7 +23,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
     <div class="block block-addbysku">
         <?php if (!$this->getIsTitleHidden()): ?>
         <div class="block-title">
-            <strong><span><?php echo $this->__('Order by SKU') ?></span></strong>
+            <strong><span><?php echo __('Order by SKU') ?></span></strong>
         </div>
         <?php endif ?>
         <form id="<?php echo $skuFormId; ?>" action="<?php echo $this->getFormAction(); ?>" method="post" <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -35,14 +35,14 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                     </colgroup>
                     <thead>
                         <tr>
-                            <th><?php echo $this->__('SKU') ?></th>
-                            <th class="last"><?php echo $this->__('Qty') ?></th>
+                            <th><?php echo __('SKU') ?></th>
+                            <th class="last"><?php echo __('Qty') ?></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr class="last">
                             <td colspan="2" class="last">
-                                <span href="#" id="add_new_item_button<?php echo $uniqueSuffix; ?>" title="<?php echo $this->__('Add Row') ?>" class="add-row"><?php echo $this->__('Add Row') ?></span>
+                                <span href="#" id="add_new_item_button<?php echo $uniqueSuffix; ?>" title="<?php echo __('Add Row') ?>" class="add-row"><?php echo __('Add Row') ?></span>
                             </td>
                         </tr>
                     </tfoot>
@@ -55,7 +55,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                 </table>
                 <?php echo $this->getChildHtml(); ?>
                 <div class="actions">
-                    <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit" title="<?php echo __('Add to Cart') ?>" class="button"><span><span><?php echo __('Add to Cart') ?></span></span></button>
                 </div>
                 <?php if ($this->getLink()): ?>
                     <p class="link-widget-sku"><?php echo $this->getLink(); ?></p>
@@ -75,7 +75,7 @@ itemOptions["<?php echo $uniqueSuffix; ?>"] = {
     templateText:
         '<tr class="order-row">'
             + '<td><div class="input-box"><input type="text" name="items[{{id}}][sku]" class="input-text" /></div></td>'
-            + '<td class="last"><div class="input-box"><input type="text" name="items[{{id}}][qty]" class="input-text qty" maxlength="13" /></div><span class="btn-remove" title="<?php echo $this->__('Remove Row') ?>"></span></td>'
+            + '<td class="last"><div class="input-box"><input type="text" name="items[{{id}}][qty]" class="input-text qty" maxlength="13" /></div><span class="btn-remove" title="<?php echo __('Remove Row') ?>"></span></td>'
         + '</tr>',
     itemCount: 1,
 

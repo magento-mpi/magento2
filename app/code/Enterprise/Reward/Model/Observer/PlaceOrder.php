@@ -23,7 +23,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrder
     protected $_resourceFactory;
 
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
@@ -34,14 +34,14 @@ class Enterprise_Reward_Model_Observer_PlaceOrder
 
     /**
      * @param Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface $restriction
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Enterprise_Reward_Model_RewardFactory $modelFactory
      * @param Enterprise_Reward_Model_Resource_RewardFactory $resourceFactory
      * @param Enterprise_Reward_Model_Reward_Balance_Validator $validator
      */
     public function __construct(
         Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface $restriction,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManager $storeManager,
         Enterprise_Reward_Model_RewardFactory $modelFactory,
         Enterprise_Reward_Model_Resource_RewardFactory $resourceFactory,
         Enterprise_Reward_Model_Reward_Balance_Validator $validator
@@ -64,7 +64,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrder
             return;
         }
 
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getBaseRewardCurrencyAmount() > 0) {

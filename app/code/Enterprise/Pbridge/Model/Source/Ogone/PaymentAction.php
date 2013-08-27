@@ -21,8 +21,8 @@ class Enterprise_Pbridge_Model_Source_Ogone_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Authorization')),
-            array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Direct Sale')),
+            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => __('Authorization')),
+            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Direct Sale')),
         );
     }
 }

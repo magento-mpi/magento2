@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <paypaluk_express_review_details translate="label" type="fragment" owner="checkout_onepage_index">
+        <label>Paypal UK Express Review Details</label>
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml"/>
+    </paypaluk_express_review_details>
+</layout>

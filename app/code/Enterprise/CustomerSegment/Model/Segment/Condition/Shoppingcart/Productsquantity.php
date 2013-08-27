@@ -20,10 +20,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
     protected $_inputType = 'numeric';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquantity');
@@ -48,7 +48,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Products Quantity'),
+            'label' => __('Products Quantity'),
             'available_in_guest_mode' => true);
     }
 
@@ -60,7 +60,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart Products Qty %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Shopping Cart Products Qty %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

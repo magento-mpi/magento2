@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Initialize Form Container
@@ -32,7 +32,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
         $this->_updateButton('save', 'onclick', 'hierarchyNodes.save()');
         $this->_removeButton('back');
         $this->_addButton('delete', array(
-            'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete Current Hierarchy'),
+            'label'     => __('Delete Current Hierarchy'),
             'class'     => 'delete',
             'onclick'   => 'deleteCurrentHierarchy()',
         ), -1, 1);
@@ -44,7 +44,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
                 'onclick'   => "openHierarchyDialog('delete')",
             ), -1, 7);
             $this->_addButton('copy', array(
-                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Copy'),
+                'label'     => __('Copy'),
                 'class'     => 'add',
                 'onclick'   => "openHierarchyDialog('copy')",
             ), -1, 14);
@@ -58,6 +58,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('Pages Hierarchy');
+        return __('Pages Hierarchy');
     }
 }

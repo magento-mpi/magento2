@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if( $this->getCollection() && $this->count()): ?>
+<div class="reviews">
+    <h2 class="sub-title"><?php echo __('My Recent Reviews') ?> <span class="separator">|</span> <a href="<?php echo $this->getAllReviewsUrl() ?>"><?php echo __('View All Reviews') ?></a></h2>
+
+    <ol id="my_recent_reviews">
+    <?php $iterator = 0 ?>
+    <?php foreach ($this->getCollection() as $_review): ?>
+        <li class="item">
+            <span class="number"><?php echo ++$iterator ?></span>
+            <div class="details">
+                <h3 class="product-name"><a href="<?php echo $this->getReviewUrl($_review->getReviewId()) ?>"><?php echo $this->escapeHtml($_review->getName()) ?></a></h3>
+                <?php if($_review->getSum()): ?>
+                <p><?php echo __('Rating:') ?></p>
+                <div class="rating-box">
+                    <div class="rating" style="width:<?php echo ( $_review->getSum() / $_review->getCount() ) ?>%;"></div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </li>
+    <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">(function($) {$('#my_recent_reviews').decorate('list', false)})(jQuery)</script>
+</div>
+<?php endif; ?>

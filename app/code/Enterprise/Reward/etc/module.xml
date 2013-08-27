@@ -10,8 +10,8 @@
 <config>
     <module name="Enterprise_Reward" version="1.11.0.2" active="false">
         <depends>
-            <module name="Mage_Customer" />
-            <module name="Mage_Checkout" />
+            <module name="Magento_Customer" />
+            <module name="Magento_Checkout" />
         </depends>
     </module>
 </config>

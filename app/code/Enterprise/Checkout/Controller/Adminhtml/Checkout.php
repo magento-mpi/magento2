@@ -15,7 +15,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_Controller_Action
+class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -33,7 +33,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
     public function getCartModel()
     {
         return Mage::getSingleton('Enterprise_Checkout_Model_Cart')
-            ->setSession(Mage::getSingleton('Mage_Adminhtml_Model_Session'))
+            ->setSession(Mage::getSingleton('Magento_Adminhtml_Model_Session'))
             ->setContext(Enterprise_Checkout_Model_Cart::CONTEXT_ADMIN_CHECKOUT)
             ->setCurrentStore($this->getRequest()->getPost('store'));
     }
@@ -44,29 +44,29 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
      *
      * @param bool $useRedirects
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @throws Enterprise_Checkout_Exception
      * @return Enterprise_Checkout_Controller_Adminhtml_Checkout
      */
     protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
         if (!$customer->getId()) {
-            throw new Enterprise_Checkout_Exception(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Customer not found'));
+            throw new Enterprise_Checkout_Exception(__('Customer not found'));
         }
 
         if (Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             if ($useRedirects) {
                 $this->_getSession()->addError(
-                    Mage::helper('Enterprise_Checkout_Helper_Data')->__('Shopping cart management disabled for this customer.')
+                    __('Shopping cart management disabled for this customer.')
                 );
                 $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
                 return $this;
             } else {
                 throw new Enterprise_Checkout_Exception(
-                    $this->__('Shopping cart management is disabled for this customer.')
+                    __('Shopping cart management is disabled for this customer.')
                 );
             }
         }
@@ -81,7 +81,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                    $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                    $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                         'url' => $this->getUrl('*/*/index', array('store' => $storeId, 'customer' => $customerId))
                     )));
                 } else {
@@ -90,7 +90,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new Enterprise_Checkout_Exception($this->__('We could not find this store.'));
+                throw new Enterprise_Checkout_Exception(__('We could not find this store.'));
             }
         } else {
             // try to find quote for selected store
@@ -103,7 +103,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != Mage::app()->getStore($storeId)->getCurrentCurrencyCode()) {
-                $quoteCurrency = Mage::getModel('Mage_Directory_Model_Currency')->load($quoteCurrencyCode);
+                $quoteCurrency = Mage::getModel('Magento_Directory_Model_Currency')->load($quoteCurrencyCode);
                 $quote->setForcedCurrency($quoteCurrency);
                 Mage::app()->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
             }
@@ -126,16 +126,16 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
     /**
      * Renderer for page title
      *
-     * @return Mage_Adminhtml_Controller_Action
+     * @return Magento_Adminhtml_Controller_Action
      */
     protected function _initTitle()
     {
-        $this->_title($this->__('Customers'))
-             ->_title($this->__('Customers'));
+        $this->_title(__('Customers'))
+             ->_title(__('Customers'));
         if ($customer = Mage::registry('checkout_current_customer')) {
             $this->_title($customer->getName());
         }
-        $this->_title($this->__('Shopping Cart'));
+        $this->_title(__('Shopping Cart'));
         return $this;
     }
 
@@ -163,12 +163,12 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             $this->_initTitle();
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
+                __('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -209,12 +209,12 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             $customer = Mage::registry('checkout_current_customer');
             $store = Mage::registry('checkout_current_store');
 
-            $source = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
                 foreach ($source['source_ordered'] as $orderItemId => $qty) {
-                    $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')->load($orderItemId);
+                    $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($orderItemId);
                     $cart->reorderItem($orderItem, $qty);
                 }
                 unset($source['source_ordered']);
@@ -236,7 +236,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($customer)
+                $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($customer)
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
@@ -246,7 +246,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')->loadByProductWishlist(
+                            $wishlistItem = Mage::getModel('Magento_Wishlist_Model_Item')->loadByProductWishlist(
                                 $wishlist->getId(),
                                 $productId,
                                 $wishlist->getSharedStoreIds()
@@ -344,8 +344,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
      */
     public function createOrderAction()
     {
-        if (!$this->_authorization->isAllowed('Mage_Sales::create')) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('You do not have access to this.'));
+        if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
+            Mage::throwException(__('You do not have access to this.'));
         }
         try {
             $this->_initData();
@@ -355,7 +355,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->getSession();
+                $session = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
@@ -366,12 +366,12 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                 'store_id' => Mage::registry('checkout_current_store')->getId(),
             ));
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
+                __('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -436,8 +436,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         $customer   = Mage::registry('checkout_current_customer');
         $store      = Mage::registry('checkout_current_store');
 
-        $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
-        $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+        $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
+        $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
 
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
@@ -449,8 +449,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             ->setCurrentCustomerId($customerId);
 
         // Render page
-        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -469,19 +469,19 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             $this->_initData();
 
             $customer   = Mage::registry('checkout_current_customer');
-            $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
             $store      = Mage::registry('checkout_current_store');
-            $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                Mage::throwException($this->__('The wish list item id is not received.'));
+                Mage::throwException(__('The wish list item id is not received.'));
             }
 
-            $item = Mage::getModel('Mage_Wishlist_Model_Item')
+            $item = Mage::getModel('Magento_Wishlist_Model_Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
-                Mage::throwException($this->__('The wish list item is not loaded.'));
+                Mage::throwException(__('The wish list item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -495,8 +495,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         }
 
         // Render page
-        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -514,19 +514,19 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             $this->_initData();
 
             $customer   = Mage::registry('checkout_current_customer');
-            $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
             $store      = Mage::registry('checkout_current_store');
-            $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                Mage::throwException($this->__('Ordered item id is not received.'));
+                Mage::throwException(__('Ordered item id is not received.'));
             }
 
-            $item = Mage::getModel('Mage_Sales_Model_Order_Item')
+            $item = Mage::getModel('Magento_Sales_Model_Order_Item')
                 ->load($itemId);
             if (!$item->getId()) {
-                Mage::throwException($this->__('Ordered item is not loaded.'));
+                Mage::throwException(__('Ordered item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -540,8 +540,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         }
 
         // Render page
-        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
         return $this;
     }
@@ -553,15 +553,15 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
      */
     protected function _processException(Exception $e)
     {
-        if ($e instanceof Mage_Core_Exception) {
+        if ($e instanceof Magento_Core_Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof Exception) {
             Mage::logException($e);
             $result = array(
-                'error' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
+                'error' => __('An error has occurred. See error log for details.')
             );
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -572,7 +572,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
     protected function _isModificationAllowed()
     {
         if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
-            Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('You do not have access to this.'));
+            Mage::throwException(__('You do not have access to this.'));
         }
     }
 
@@ -602,23 +602,23 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
             if (!$quoteItemId) {
-                Mage::throwException($this->__('Quote item id is not received.'));
+                Mage::throwException(__('Quote item id is not received.'));
             }
 
-            $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                Mage::throwException($this->__('Quote item is not loaded.'));
+                Mage::throwException(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = Mage::getSingleton('Mage_Adminhtml_Model_Session_Quote');
+            $sessionQuote = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
         } catch (Exception $e) {
             $configureResult->setError(true);
@@ -626,8 +626,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         }
 
         // Render page
-        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -656,7 +656,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         } catch (Enterprise_Checkout_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $criticalException = true;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_reloadQuote();
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
@@ -691,7 +691,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUpdateResult($result);
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -715,7 +715,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
         $buyRequest = new Magento_Object();
         switch ($listType) {
             case 'wishlist':
-                $item = Mage::getModel('Mage_Wishlist_Model_Item')
+                $item = Mage::getModel('Magento_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -723,7 +723,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                 }
                 break;
             case 'ordered':
-                $item = Mage::getModel('Mage_Sales_Model_Order_Item')
+                $item = Mage::getModel('Magento_Sales_Model_Order_Item')
                     ->load($itemId);
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -793,8 +793,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()){
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error Mage_Core_Model_Message_Error */
-                        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($error->getCode());
+                        /* @var $error Magento_Core_Model_Message_Error */
+                        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($error->getCode());
                     }
                 }
             }
@@ -819,8 +819,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                 Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE,
                 Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE,
             );
-            /* @var $productHelper Mage_Catalog_Helper_Product */
-            $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
+            /* @var $productHelper Magento_Catalog_Helper_Product */
+            $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
             $listTypes = array_filter(explode(',', $listTypes));
             if (in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE, $listTypes)) {
                 // If results came from SKU error grid - clean them (submitted results are going to be re-checked)
@@ -870,8 +870,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
                     } else {
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                        } catch (Mage_Core_Exception $e){
-                            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                        } catch (Magento_Core_Exception $e){
+                            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                         } catch (Exception $e){
                             Mage::logException($e);
                         }
@@ -919,8 +919,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
      */
     protected function _processFiles($items)
     {
-        /* @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
+        /* @var $productHelper Magento_Catalog_Helper_Product */
+        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
@@ -939,7 +939,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())){
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();
@@ -956,7 +956,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Mage_Adminhtml_C
     {
         try {
             $this->_initData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             $this->_redirect('*/customer');
             $this->_redirectFlag = true;

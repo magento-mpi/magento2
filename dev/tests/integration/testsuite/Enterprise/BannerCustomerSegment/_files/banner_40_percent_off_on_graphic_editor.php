@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Mage/SalesRule/_files/cart_rule_40_percent_off.php';
+require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_40_percent_off.php';
 require __DIR__ . '/../../../Enterprise/CustomerSegment/_files/segment_designers.php';
 
-/** @var Mage_SalesRule_Model_Rule $rule */
-$rule = Mage::getModel('Mage_SalesRule_Model_Rule');
+/** @var Magento_SalesRule_Model_Rule $rule */
+$rule = Mage::getModel('Magento_SalesRule_Model_Rule');
 $rule->load('40% Off on Large Orders', 'name');
 
 /** @var $segment Enterprise_CustomerSegment_Model_Segment */

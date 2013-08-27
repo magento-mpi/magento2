@@ -47,7 +47,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors
     /**
      * Returns current store model
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -61,6 +61,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku_Errors
      */
     public function getAddButtonTitle()
     {
-        return $this->__('Add to Shopping Cart');
+        return __('Add to Shopping Cart');
     }
 }

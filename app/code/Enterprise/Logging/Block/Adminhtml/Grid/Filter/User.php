@@ -11,7 +11,7 @@
 /**
  * User column filter for Event Log grid
  */
-class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
     /**
      * Build filter options list
@@ -20,7 +20,7 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Mage_Adminhtml
      */
     public function _getOptions()
     {
-        $options = array(array('value' => '', 'label' => Mage::helper('Enterprise_Logging_Helper_Data')->__('All Users')));
+        $options = array(array('value' => '', 'label' => __('All Users')));
         foreach (Mage::getResourceModel('Enterprise_Logging_Model_Resource_Event')->getUserNames() as $username) {
             $options[] = array('value' => $username, 'label' => $username);
         }

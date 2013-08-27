@@ -12,35 +12,35 @@
         <label>Customer My Account Order Returns View</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Mage_Sales_Block_Order_Info" as="info" name="sales.order.info">
-                <block type="Mage_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
+            <block type="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
+                <block type="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
                     <block type="Enterprise_Rma_Block_Order_Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
                 </block>
             </block>
             <block type="Enterprise_Rma_Block_Return_Returns" name="rma.return.returns"/>
         </reference>
         <reference name="sales.order.info">
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>view</name>
                 <path>sales/order/view</path>
                 <label>Order Information</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>invoice</name>
                 <path>sales/order/invoice</path>
                 <label>Invoices</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>shipment</name>
                 <path>sales/order/shipment</path>
                 <label>Shipments</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>creditmemo</name>
                 <path>sales/order/creditmemo</path>
                 <label>Refunds</label>
             </action>
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>returns</name>
                 <path/>
                 <label>Returns</label>

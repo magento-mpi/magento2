@@ -15,8 +15,8 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Mage_Adminhtml_Block_Widget
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Magento_Adminhtml_Block_Widget
+    implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Get Header Text for Order Selection
@@ -25,7 +25,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Mage_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Items');
+        return __('Items');
     }
 
     /**
@@ -35,7 +35,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items extends Mage_Adminhtml_B
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Items');
+        return __('Return Items');
     }
 
     /**

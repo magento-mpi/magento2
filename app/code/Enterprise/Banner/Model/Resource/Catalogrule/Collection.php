@@ -9,7 +9,7 @@
 /**
  * Collection of banner <-> catalog rule associations
  */
-class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * @var string
@@ -26,14 +26,14 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Object', 'Mage_CatalogRule_Model_Resource_Rule');
+        $this->_init('Magento_Object', 'Magento_CatalogRule_Model_Resource_Rule');
         $this->setMainTable('enterprise_banner_catalogrule');
     }
 
     /**
      * Filter out disabled banners
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

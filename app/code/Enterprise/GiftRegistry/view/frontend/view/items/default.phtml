@@ -58,15 +58,15 @@
             <?php if ($_item->getCanApplyMsrp()): ?>
                 <?php echo $this->getMsrpHtml($_item); ?>
             <?php else: ?>
-                <?php echo $this->helper('Mage_Core_Helper_Data')->currency($_item->getGiftRegistryPrice()) ?>
+                <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_item->getGiftRegistryPrice()) ?>
             <?php endif; ?>
         </span>
     </td>
     <td class="a-center">
         <?php if ($_item->getRemainingQty() < 1):?>
-            <?php echo $this->__('Fulfilled')?>
+            <?php echo __('Fulfilled')?>
         <?php else:?>
-            <input name="items[<?php echo $_item->getItemId() ?>][qty]" value="0" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+            <input name="items[<?php echo $_item->getItemId() ?>][qty]" value="0" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" />
         <?php endif;?>
     </td>
 </tr>

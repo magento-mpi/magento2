@@ -57,7 +57,7 @@ abstract class Enterprise_PageCache_Model_Container_Advanced_Abstract
     {
         $additionalCacheId = $this->_getAdditionalCacheId();
         if (!$additionalCacheId) {
-            Mage::throwException(Mage::helper('Enterprise_PageCache_Helper_Data')->__('Please enter an additional ID.'));
+            Mage::throwException(__('Please enter an additional ID.'));
         }
 
         $tags[] = Enterprise_PageCache_Model_Processor::CACHE_TAG;

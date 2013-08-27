@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Condition_Abstract extends Magento_Rule_Model_Condition_Abstract
 {
     /**
      * Get array of event names where segment with such conditions combine can be matched
@@ -47,8 +47,8 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = parent::getDefaultOperatorOptions();
 
-            $this->_defaultOperatorOptions['[]'] = Mage::helper('Mage_Rule_Helper_Data')->__('contains');
-            $this->_defaultOperatorOptions['![]'] = Mage::helper('Mage_Rule_Helper_Data')->__('does not contains');
+            $this->_defaultOperatorOptions['[]'] = __('contains');
+            $this->_defaultOperatorOptions['![]'] = __('does not contains');
         }
         return $this->_defaultOperatorOptions;
     }

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_Catalog" version="1.6.0.0.23" active="true">
+        <depends>
+            <module name="Magento_Eav" />
+            <module name="Magento_Cms" />
+            <module name="Magento_Index" />
+            <module name="Magento_Customer" />
+        </depends>
+    </module>
+</config>

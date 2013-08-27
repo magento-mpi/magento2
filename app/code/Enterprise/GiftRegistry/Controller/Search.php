@@ -11,7 +11,7 @@
 /**
  * Gift registry frontend search controller
  */
-class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_Front_Action
 {
     /**
      * Check if gift registry is enabled on current store before all other actions
@@ -29,11 +29,11 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     /**
      * Get current customer session
      *
-     * @return Mage_Customer_Model_Session
+     * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Customer_Model_Session');
+        return Mage::getSingleton('Magento_Customer_Model_Session');
     }
 
     /**
@@ -96,7 +96,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     {
         if (empty($params) || !is_array($params) || empty($params['search'])) {
             $this->_getSession()->addNotice(
-                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct search options.')
+                __('Please enter correct search options.')
             );
             return false;
         }
@@ -105,13 +105,13 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
             case 'type':
                 if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter at least 2 letters of the first name.')
+                        __('Please enter at least 2 letters of the first name.')
                     );
                     return false;
                 }
                 if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter at least 2 letters of the last name.')
+                        __('Please enter at least 2 letters of the last name.')
                     );
                     return false;
                 }
@@ -120,7 +120,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
             case 'email':
                 if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a valid email address.')
+                        __('Please enter a valid email address.')
                     );
                     return false;
                 }
@@ -129,7 +129,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
             case 'id':
                 if (empty($params['id'])) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter a gift registry ID.')
+                        __('Please enter a gift registry ID.')
                     );
                     return false;
                 }
@@ -137,7 +137,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
 
             default:
                 $this->_getSession()->addNotice(
-                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter correct search options.')
+                    __('Please enter correct search options.')
                 );
                 return false;
         }
@@ -157,7 +157,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
             return $array;
         }
         if (is_null($format)) {
-            $format = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
+            $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
         }
 
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
@@ -183,10 +183,10 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search'));
+            $headBlock->setTitle(__('Gift Registry Search'));
         }
         $this->renderLayout();
     }
@@ -197,7 +197,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
     public function resultsAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Customer_Model_Session');
+        $this->_initLayoutMessages('Magento_Customer_Model_Session');
 
         if ($params = $this->getRequest()->getParam('params')) {
             $this->_getSession()->setRegistrySearchData($params);
@@ -217,7 +217,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search'));
+            $headBlock->setTitle(__('Gift Registry Search'));
         }
         $this->renderLayout();
     }

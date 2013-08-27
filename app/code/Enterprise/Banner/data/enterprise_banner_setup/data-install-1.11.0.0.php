@@ -27,8 +27,8 @@ $banners = array(
     )
 );
 
-/** @var $theme Mage_Core_Model_Theme */
-$theme = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection')
+/** @var $theme Magento_Core_Model_Theme */
+$theme = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection')
     ->getThemeByFullPath('frontend/magento_fixed_width');
 
 foreach ($banners as $sortOrder => $bannerData) {
@@ -38,7 +38,7 @@ foreach ($banners as $sortOrder => $bannerData) {
         ->setStoreContents(array(0 => $bannerData[2]))
         ->save();
 
-    $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance')
+    $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance')
         ->setData('page_groups', array(
             array(
                 'page_group' => 'pages',
@@ -56,7 +56,7 @@ foreach ($banners as $sortOrder => $bannerData) {
             'types'        => array(''),
             'rotate'       => '',
             'banner_ids'   => $banner->getId(),
-            'unique_id'    => Mage::helper('Mage_Core_Helper_Data')->uniqHash()
+            'unique_id'    => Mage::helper('Magento_Core_Helper_Data')->uniqHash()
         ))
         ->addData(array(
             'instance_type' => 'Enterprise_Banner_Block_Widget_Banner',

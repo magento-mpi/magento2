@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Customer_Reward extends Magento_Core_Block_Template
 {
     /**
      * Set template variables

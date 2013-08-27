@@ -20,10 +20,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     protected $_inputType = 'numeric';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Amount');
@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Total Amount'));
+            'label' => __('Total Amount'));
     }
 
     /**
@@ -49,8 +49,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'subtotal' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('subtotal'),
-            'grand_total' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('grand total')
+            'subtotal' => __('subtotal'),
+            'grand_total' => __('grand total')
         ));
         return $this;
     }
@@ -63,7 +63,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart %s amount %s %s:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Shopping cart %1 amount %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -91,7 +91,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown quote total specified')
+                    __('Unknown quote total specified')
                 );
         }
 

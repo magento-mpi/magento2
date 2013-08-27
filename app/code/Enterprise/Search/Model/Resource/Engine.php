@@ -205,7 +205,7 @@ class Enterprise_Search_Model_Resource_Engine
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
             $storeIds = array_keys(Mage::app()->getStores());
         } else {
             $storeIds = (array) $storeIds;
@@ -280,7 +280,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function getAllowedVisibility()
     {
-        return Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds();
+        return Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds();
     }
 
     /**
@@ -436,7 +436,7 @@ class Enterprise_Search_Model_Resource_Engine
         }
 
         if (!empty($productIds)) {
-            Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->rebuildIndex(null, $productIds);
+            Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext')->rebuildIndex(null, $productIds);
         }
 
         return $this;
@@ -459,7 +459,7 @@ class Enterprise_Search_Model_Resource_Engine
      *
      * @deprecated after 1.11.2.0
      *
-     * @see Mage_CatalogSearch_Model_Resource_Fulltext->_getSearchableProducts()
+     * @see Magento_CatalogSearch_Model_Resource_Fulltext->_getSearchableProducts()
      *
      * @param array $index
      * @param int $storeId

@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Results extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Search_Results extends Magento_Core_Block_Template
 {
     /**
      * Set search results and create html pager block
@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Search_Results extends Mage_Core_Block_Templ
     public function setSearchResults($results)
     {
         $this->setData('search_results', $results);
-        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'giftregistry.search.pager')
+        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'giftregistry.search.pager')
             ->setCollection($results)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
     }
@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Block_Search_Results extends Mage_Core_Block_Templ
     public function getFormattedDate($item)
     {
         if ($item->getEventDate()) {
-            return $this->formatDate($item->getEventDate(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($item->getEventDate(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
     }
 }

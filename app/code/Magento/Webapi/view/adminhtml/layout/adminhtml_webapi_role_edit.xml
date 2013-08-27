@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_webapi_role_edit>
+        <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
+        <reference name="content">
+            <block type="Magento_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit"/>
+        </reference>
+        <reference name="left">
+            <block type="Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
+                <block type="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
+                <block type="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource" template="Magento_Webapi::rolesedit.phtml"/>
+                <block type="Magento_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container"/>
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+        <reference name="js">
+            <block type="Magento_Core_Block_Template" template="Magento_Webapi::rolesusersgridjs.phtml"/>
+        </reference>
+    </adminhtml_webapi_role_edit>
+</layout>

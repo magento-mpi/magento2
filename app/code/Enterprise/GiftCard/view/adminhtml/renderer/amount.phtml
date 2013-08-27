@@ -16,7 +16,7 @@
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
 <div id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>" class="field"
      data-apply-to="<?php echo $this->escapeHtml(
-         $this->helper('Mage_Core_Helper_Data')->jsonEncode(
+         $this->helper('Magento_Core_Helper_Data')->jsonEncode(
              $this->getElement()->hasEntityAttribute() ? $this->getElement()->getEntityAttribute()->getApplyTo() : array()
          )
      )?>">
@@ -26,13 +26,13 @@
             <thead>
                 <tr class="headings">
                     <th class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
-                        <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?>
+                        <?php echo __('Website') ?>
                     </th>
                     <th class="col-amount required-entry">
-                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?>
+                        <?php echo __('Amount') ?>
                     </th>
                     <th class="col-actions">
-                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?>
+                        <?php echo __('Action') ?>
                     </th>
                 </tr>
                 <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
@@ -65,11 +65,11 @@
                             id="#{prefix}_giftcard_amounts_row___index___delete" />
 
                         <button
-                            title="<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete Amount'); ?>"
+                            title="<?php echo __('Delete Amount'); ?>"
                             class="action-delete delete-product-option"
                             onclick="giftcardAmountsControl.deleteItem('<?php echo $_htmlId ?>', event);return false">
 
-                            <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete'); ?></span>
+                            <span><?php echo __('Delete'); ?></span>
                         </button>
                     </td>
                 </tr>

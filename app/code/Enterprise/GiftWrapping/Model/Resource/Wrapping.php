@@ -14,7 +14,7 @@
  * @category    Enterprise
  * @package     Enterprise_GiftWrapping
  */
-class Enterprise_GiftWrapping_Model_Resource_Wrapping extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_GiftWrapping_Model_Resource_Wrapping extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Wrapping websites table name
@@ -45,10 +45,10 @@ class Enterprise_GiftWrapping_Model_Resource_Wrapping extends Mage_Core_Model_Re
     /**
      * Add store data to wrapping data
      *
-     * @param  Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param  Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()

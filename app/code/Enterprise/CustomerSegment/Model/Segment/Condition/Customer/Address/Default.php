@@ -20,10 +20,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Default');
@@ -53,7 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Default Address')
+            'label' => __('Default Address')
         );
     }
 
@@ -65,8 +65,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'default_billing'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Billing'),
-            'default_shipping' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shipping'),
+            'default_billing'  => __('Billing'),
+            'default_shipping' => __('Shipping'),
         ));
         return $this;
     }
@@ -89,7 +89,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %s Default %s Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
+            . __('Customer Address %1 Default %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -103,7 +103,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function getConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->getValue());
+        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->getValue());
         $select->from(array('default'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
         $select->where('default.attribute_id = ?', $attribute->getId())
             ->where('default.value=customer_address.entity_id')

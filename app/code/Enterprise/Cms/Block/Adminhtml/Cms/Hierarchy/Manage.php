@@ -15,7 +15,7 @@
  * @package    Enterprise_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminhtml_Block_Widget_Form
 {
 
     /**
@@ -68,7 +68,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
         $form->addField('scopes', 'multiselect', array(
             'name'      => 'scopes[]',
             'class'     => 'manage-select',
-            'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Manage Hierarchies'),
+            'title'     => __('Manage Hierarchies'),
             'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
         ));
 
@@ -100,7 +100,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
      */
     protected function _prepareOptions($all = false, $excludeScopes)
     {
-        $storeStructure = Mage::getSingleton('Mage_Core_Model_System_Store')
+        $storeStructure = Mage::getSingleton('Magento_Core_Model_System_Store')
                 ->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $options = array();
@@ -133,9 +133,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
                         }
                     }
                 }
-            } elseif ($website['value'] == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+            } elseif ($website['value'] == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
                 $website['value'] = Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE
-                                    . Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+                                    . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],

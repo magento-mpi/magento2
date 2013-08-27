@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form extends
-    Mage_Adminhtml_Block_Widget_Form
+    Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form fields
@@ -30,34 +30,34 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
+        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
-            array('legend' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'))
+            array('legend' => __('Update Balance'))
         );
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('website_id', 'select', array(
                 'name'     => 'website_id',
-                'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
-                'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'label'    => __('Website'),
+                'title'    => __('Website'),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }
 
         $fieldset->addField('amount_delta', 'text', array(
             'name'     => 'amount_delta',
-            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'),
-            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Update Balance'),
-            'comment'  => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('An amount on which to change the balance'),
+            'label'    => __('Update Balance'),
+            'title'    => __('Update Balance'),
+            'comment'  => __('An amount on which to change the balance'),
         ));
 
         $fieldset->addField('notify_by_email', 'checkbox', array(
             'name'     => 'notify_by_email',
-            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Notify Customer by Email'),
-            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Notify Customer by Email'),
+            'label'    => __('Notify Customer by Email'),
+            'title'    => __('Notify Customer by Email'),
             'after_element_html' => !Mage::app()->isSingleStoreMode() ? '<script type="text/javascript">'
                 . "
                 $('{$prefix}notify_by_email').disableSendemail = function() {
@@ -72,19 +72,19 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'  => 'store_id',
-                'label' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email Notification From the Following Store View'),
-                'title' => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email Notification From the Following Store View'),
+                'label' => __('Send Email Notification From the Following Store View'),
+                'title' => __('Send Email Notification From the Following Store View'),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
         $fieldset->addField('comment', 'text', array(
             'name'     => 'comment',
-            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Comment'),
-            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Comment'),
-            'comment'  => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Comment'),
+            'label'    => __('Comment'),
+            'title'    => __('Comment'),
+            'comment'  => __('Comment'),
         ));
 
         if ($customer->isReadonly()) {

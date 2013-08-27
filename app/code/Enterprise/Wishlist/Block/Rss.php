@@ -15,17 +15,17 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Rss extends Mage_Rss_Block_Wishlist
+class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
 {
     /**
      * Retrieve Wishlist model
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
+            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -47,14 +47,14 @@ class Enterprise_Wishlist_Block_Rss extends Mage_Rss_Block_Wishlist
     {
         $customer = $this->_getCustomer();
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_getWishlist()->getCustomerId());
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_getWishlist()->getCustomerId());
         }
         if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistDefault($this->_getWishlist())
             && $this->_getWishlist()->getName() == Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlistName()
         ) {
-            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__("%s's Wish List", $customer->getName());
+            return __("%1's Wish List", $customer->getName());
         } else {
-            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__("%s's Wish List (%s)", $customer->getName(), $this->_getWishlist()->getName());
+            return __("%1's Wish List (%2)", $customer->getName(), $this->_getWishlist()->getName());
         }
     }
 }

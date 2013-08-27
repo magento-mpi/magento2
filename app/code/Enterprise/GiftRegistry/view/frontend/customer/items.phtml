@@ -9,7 +9,7 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo $this->__('Gift Registry Items') ?></h1>
+    <h1><?php echo __('Gift Registry Items') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
@@ -27,13 +27,13 @@
             <col width="1" />
             <thead>
                 <tr>
-                    <th><span class="nobr"><?php echo $this->__('Product') ?></span></th>
-                    <th><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
-                    <th><span class="nobr"><?php echo $this->__('Note') ?></span></th>
-                    <th><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
-                    <th class="a-center"><span class="nobr"><?php echo $this->__('Qty') ?></span></th>
-                    <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Fulfilled') ?></span></th>
-                    <th class="a-center"><?php echo $this->__('Delete') ?></th>
+                    <th><span class="nobr"><?php echo __('Product') ?></span></th>
+                    <th><span class="nobr"><?php echo __('Product Name') ?></span></th>
+                    <th><span class="nobr"><?php echo __('Note') ?></span></th>
+                    <th><span class="nobr"><?php echo __('Added On') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo __('Qty') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo __('Qty Fulfilled') ?></span></th>
+                    <th class="a-center"><?php echo __('Delete') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
         </table>
         <script type="text/javascript">(function($) {$('#shopping-cart-table').decorate('table')})(jQuery)</script>
         <div class="buttons-set2">
-            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Update Gift Registry') ?></span></span></button>
+            <button type="submit" class="button btn-update"><span><span><?php echo __('Update Gift Registry') ?></span></span></button>
         </div>
     </fieldset>
 </form>
@@ -59,8 +59,8 @@
     })(jQuery);
 </script>
 <?php else: ?>
-    <p><?php echo $this->__('This gift registry has no items.') ?></p>
+    <p><?php echo __('This gift registry has no items.') ?></p>
 <?php endif ?>
 <div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
 </div>

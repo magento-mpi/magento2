@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_create_index>
         <reference name="js">
-            <block type="Mage_Adminhtml_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::sales/order/create/js.phtml"/>
+            <block type="Magento_Adminhtml_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::sales/order/create/js.phtml"/>
         </reference>
     </adminhtml_sales_order_create_index>
 </layout>

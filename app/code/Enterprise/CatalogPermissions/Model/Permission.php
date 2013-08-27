@@ -30,7 +30,7 @@
  * @package     Enterprise_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogPermissions_Model_Permission extends Mage_Core_Model_Abstract
+class Enterprise_CatalogPermissions_Model_Permission extends Magento_Core_Model_Abstract
 {
     const PERMISSION_ALLOW = -1;
     const PERMISSION_DENY = -2;

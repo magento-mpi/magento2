@@ -33,7 +33,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
         $this->setId('source_rcompared');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Recently Compared Products (%s)', $this->getItemsCount())
+                __('Recently Compared Products (%1)', $this->getItemsCount())
             );
         }
     }
@@ -41,13 +41,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     /**
      * Return items collection
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = Mage::getModel('Mage_Catalog_Model_Product_Compare_List')
+            $collection = Mage::getModel('Magento_Catalog_Model_Product_Compare_List')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -58,23 +58,23 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             }
 
             // prepare products collection and apply visitors log to it
-            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
             if (!in_array('status', $attributes)) {
                 // Status attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
             }
-            $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
-            Mage::getResourceSingleton('Mage_Reports_Model_Resource_Event')->applyLogToCollection(
+            Mage::getResourceSingleton('Magento_Reports_Model_Resource_Event')->applyLogToCollection(
                 $productCollection,
-                Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
+                Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
                 $this->_getCustomer()->getId(),
                 0,
                 $skipProducts
             );
-            $productCollection = Mage::helper('Mage_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
             // Remove disabled and out of stock products from the grid
             foreach ($productCollection as $product) {
                 if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {

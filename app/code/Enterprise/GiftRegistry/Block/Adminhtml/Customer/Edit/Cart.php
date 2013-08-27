@@ -12,7 +12,7 @@
  * Adminhtml customer cart items grid block
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
-    extends Mage_Adminhtml_Block_Widget_Grid
+    extends Magento_Adminhtml_Block_Widget_Grid
 {
     protected function _construct()
     {
@@ -25,9 +25,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Mage_Sales_Model_Quote');
+        $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer(Mage::getModel('Mage_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
+        $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : new Magento_Data_Collection();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
@@ -39,44 +39,44 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product ID'),
+            'header' => __('Product ID'),
             'index'  => 'product_id',
             'type'   => 'number',
             'width'  => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product'),
+            'header' => __('Product'),
             'index' => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('SKU'),
+            'header' => __('SKU'),
             'index' => 'sku',
             'width' => '200px',
         ));
 
         $this->addColumn('price', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Price'),
+            'header' => __('Price'),
             'index' => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Quantity'),
+            'header' => __('Quantity'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '120px',
         ));
 
         $this->addColumn('total', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Total'),
+            'header' => __('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         return parent::_prepareColumns();
@@ -92,9 +92,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $this->setMassactionIdField('item_id');
         $this->getMassactionBlock()->setFormFieldName('products');
         $this->getMassactionBlock()->addItem('add', array(
-            'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add to Gift Registry'),
+            'label'    => __('Add to Gift Registry'),
             'url'      => $this->getUrl('*/*/add', array('id' => $this->getEntity()->getId())),
-            'confirm'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Are you sure you want to add these products?')
+            'confirm'  => __('Are you sure you want to add these products?')
         ));
 
         return $this;

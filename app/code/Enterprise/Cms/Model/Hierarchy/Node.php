@@ -33,7 +33,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Hierarchy_Node extends Magento_Core_Model_Abstract
 {
     /**
      * Whether the hierarchy is inherited from parent scope
@@ -91,14 +91,14 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     const META_NODE_TYPE_PREVIOUS = 'prev';
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -139,8 +139,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function setScopeId($scopeId)
     {
-        /** @var $storeModel Mage_Core_Model_System_Store */
-        $storeModel = Mage::getSingleton('Mage_Core_Model_System_Store');
+        /** @var $storeModel Magento_Core_Model_System_Store */
+        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
         $collection = array();
         if ($this->_scope == self::NODE_SCOPE_STORE) {
             $collection = $storeModel->getStoreCollection();
@@ -258,7 +258,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
                     Mage::throwException(
-                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Please correct the node data.')
+                        __('Please correct the node data.')
                     );
                 }
             }
@@ -460,10 +460,10 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     /**
      * Update rewrite for page (if identifier changed)
      *
-     * @param Mage_Cms_Model_Page $page
+     * @param Magento_Cms_Model_Page $page
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    public function updateRewriteUrls(Mage_Cms_Model_Page $page)
+    public function updateRewriteUrls(Magento_Cms_Model_Page $page)
     {
         $xpaths = $this->_getResource()->getTreeXpathsByPage($page->getId());
         foreach ($xpaths as $xpath) {
@@ -481,7 +481,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      * Return true if a page binded to a tree node
      *
      * @param string $identifier
-     * @param int|Mage_Core_Model_Store $storeId
+     * @param int|Magento_Core_Model_Store $storeId
      * @return bool
      */
     public function checkIdentifier($identifier, $storeId = null)
@@ -610,7 +610,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      * Appending passed page as child node for specified nodes and set it specified sort order.
      * Parent nodes specified as array (parentNodeId => sortOrder)
      *
-     * @param Mage_Cms_Model_Page $page
+     * @param Magento_Cms_Model_Page $page
      * @param array $nodes
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */

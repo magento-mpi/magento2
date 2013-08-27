@@ -30,10 +30,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List');
@@ -79,8 +79,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            self::CART      => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart'),
-            self::WISHLIST  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wish List'),
+            self::CART      => __('Shopping Cart'),
+            self::WISHLIST  => __('Wish List'),
         ));
         return $this;
     }
@@ -90,7 +90,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      *
      * Modify value_option array if needed
      *
-     * @param Mage_Rule_Model_Rule $rule
+     * @param Magento_Rule_Model_Rule $rule
      * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      */
     public function setRule($rule)
@@ -128,8 +128,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('found'),
-            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('not found')
+            '=='  => __('found'),
+            '!='  => __('not found')
         ));
         return $this;
     }
@@ -142,7 +142,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product is %s in the %s with %s of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('If Product is %1 in the %2 with %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

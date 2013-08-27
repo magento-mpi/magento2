@@ -15,6 +15,6 @@
  * @category   Enterprise
  * @package    Enterprise_Enterprise
  */
-class Enterprise_Enterprise_Helper_Data extends Mage_Core_Helper_Data
+class Enterprise_Enterprise_Helper_Data extends Magento_Core_Helper_Data
 {
 }

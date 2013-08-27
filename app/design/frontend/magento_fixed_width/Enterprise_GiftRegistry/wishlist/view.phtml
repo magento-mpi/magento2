@@ -18,10 +18,10 @@ $entityValues = $this->getEntityValues();
 ?>
 <div class="my-wishlist">
     <div class="page-title title-buttons">
-        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
-            <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+            <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo __('RSS Feed') ?></a>
         <?php endif; ?>
-        <h1><?php echo $this->__('My Wish List') ?></h1>
+        <h1><?php echo __('My Wish List') ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
@@ -40,13 +40,13 @@ $entityValues = $this->getEntityValues();
             <col width="1" />
                 <thead>
                     <tr>
-                        <th><?php echo $this->__('Product') ?></th>
-                        <th><?php echo $this->__('Comment') ?></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
+                        <th><?php echo __('Product') ?></th>
+                        <th><?php echo __('Comment') ?></th>
+                        <th class="a-center"><span class="nobr"><?php echo __('Added On') ?></span></th>
                         <?php if ($this->getEnabled() && $entityValues): ?>
-                            <th class="a-center"><span class="nobr"><?php echo $this->__('Add to Gift Registry') ?></span></th>
+                            <th class="a-center"><span class="nobr"><?php echo __('Add to Gift Registry') ?></span></th>
                         <?php endif; ?>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Add to Cart') ?></span></th>
+                        <th class="a-center"><span class="nobr"><?php echo __('Add to Cart') ?></span></th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -58,11 +58,11 @@ $entityValues = $this->getEntityValues();
                     <tbody>
                         <tr>
                             <td>
-                                <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+                                <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                                 <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h2>
                             </td>
                             <td>
-                                <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->getCommentValue($item); ?></textarea>
+                                <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo __('Comment') ?>"><?php echo $this->getCommentValue($item); ?></textarea>
                             </td>
                             <td>
                                 <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
@@ -72,13 +72,13 @@ $entityValues = $this->getEntityValues();
                                 <?php if ($this->checkProductType($product)): ?>
                                 <div class="btn-gift-registry">
                                     <div class="input-box">
-                                        <select id="giftregistry_entity_<?php echo $item->getId() ?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
+                                        <select id="giftregistry_entity_<?php echo $item->getId() ?>" name="entity" title="<?php echo __('Gift Registry') ?>" >
                                             <?php foreach ($entityValues as $_entity):?>
-                                                <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
+                                                <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
                                             <?php endforeach;?>
                                         </select>
                                     </div>
-                                    <button type="button" onclick="addProductToGiftregistry('<?php echo $item->getId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                                    <button type="button" onclick="addProductToGiftregistry('<?php echo $item->getId() ?>')" class="button btn-cart"><span><span><?php echo __('Add to Gift Registry') ?></span></span></button>
                                 </div>
                                 <?php endif;?>
                             </td>
@@ -89,17 +89,17 @@ $entityValues = $this->getEntityValues();
                             <?php endif; ?>
                             <?php if ($product->isSaleable()): ?>
                                 <?php if ($isVisibleProduct): ?>
-                                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="addWItemToCart(<?php echo $item->getId(); ?>)" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <button type="button" title="<?php echo __('Add to Cart') ?>" onclick="addWItemToCart(<?php echo $item->getId(); ?>)" class="button btn-cart"><span><span><?php echo __('Add to Cart') ?></span></span></button>
                                 <?php endif ?>
                             <?php else: ?>
-                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                             <?php endif; ?>
                                 <?php if ($isVisibleProduct): ?>
-                                <p><a href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('Edit') ?></a></p>
+                                <p><a href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo __('Edit') ?></a></p>
                                 <?php endif ?>
                             </td>
                             <td>
-                                <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove Item') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove btn-remove2"><?php echo $this->__('Remove item')?></a>
+                                <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo __('Remove Item') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove btn-remove2"><?php echo __('Remove item')?></a>
                             </td>
                         </tr>
                         <tr>
@@ -113,16 +113,16 @@ $entityValues = $this->getEntityValues();
             </table>
             <script type="text/javascript">(function($) {$('#wishlist-table').decorate('table', {'tbody': ['odd','even','first','last'], 'tbody tr': ['first','last']})})(jQuery)</script>
             <div class="buttons-set buttons-set2">
-                <button type="submit" onclick="this.name='save_and_share'" title="<?php echo $this->__('Share Wishlist') ?>" class="button btn-share"><span><span><?php echo $this->__('Share Wishlist') ?></span></span></button>
+                <button type="submit" onclick="this.name='save_and_share'" title="<?php echo __('Share Wishlist') ?>" class="button btn-share"><span><span><?php echo __('Share Wishlist') ?></span></span></button>
                 <?php if($this->isSaleable()):?>
-                    <button type="button" title="<?php echo $this->__('Add All to Cart') ?>" onclick="addAllWItemsToCart()" class="button btn-add"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>
+                    <button type="button" title="<?php echo __('Add All to Cart') ?>" onclick="addAllWItemsToCart()" class="button btn-add"><span><span><?php echo __('Add All to Cart') ?></span></span></button>
                 <?php endif;?>
-                <button type="submit" title="<?php echo $this->__('Update Wish List') ?>" onclick="this.name='do'" class="button btn-update"><span><span><?php echo $this->__('Update Wish List') ?></span></span></button>
+                <button type="submit" title="<?php echo __('Update Wish List') ?>" onclick="this.name='do'" class="button btn-update"><span><span><?php echo __('Update Wish List') ?></span></span></button>
             </div>
         </fieldset>
     </form>
     <?php else: ?>
-        <p><?php echo $this->__('You have no items in your wish list.') ?></p>
+        <p><?php echo __('You have no items in your wish list.') ?></p>
     <?php endif ?>
     <form action="<?php echo $this->getAddUrl();?>" method="post" id="giftregistry-form">
         <div class="no-display">
@@ -146,14 +146,14 @@ $entityValues = $this->getEntityValues();
     }
 
     function confirmRemoveWishlistItem() {
-        return confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>');
+        return confirm('<?php echo __('Are you sure you want to remove this product from your wishlist?') ?>');
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 
@@ -192,5 +192,5 @@ $entityValues = $this->getEntityValues();
     </script>
 </div>
 <div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
 </div>

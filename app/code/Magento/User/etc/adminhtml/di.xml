@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Acl_Builder">
+        <param name="ruleLoader">
+            <instance type="Magento_User_Model_Acl_Loader_Rule" />
+        </param>
+        <param name="roleLoader">
+            <instance type="Magento_User_Model_Acl_Loader_Role" />
+        </param>
+    </type>
+</config>

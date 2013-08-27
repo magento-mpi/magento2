@@ -20,10 +20,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
     protected $_inputType = 'numeric';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity');
@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Items Quantity'));
+            'label' => __('Items Quantity'));
     }
 
     /**
@@ -49,7 +49,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Total shopping cart items quantity %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Total shopping cart items quantity %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

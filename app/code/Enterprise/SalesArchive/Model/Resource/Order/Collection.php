@@ -16,7 +16,7 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Mage_Sales_Model_Resource_Order_Grid_Collection
+class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Magento_Sales_Model_Resource_Order_Grid_Collection
 {
     /**
      * Collection initialization

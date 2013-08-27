@@ -15,10 +15,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
@@ -54,11 +54,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve attribute object
      *
-     * @return Mage_Eav_Model_Entity_Attribute
+     * @return Magento_Eav_Model_Entity_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
     }
 
     /**
@@ -68,7 +68,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer')
+        $productAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -251,11 +251,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return array(
             array(
                 'value' => 'is_exists',
-                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('exists')
+                'label' => __('exists')
             ),
             array(
                 'value' => 'is_not_exists',
-                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not exist')
+                'label' => __('does not exist')
             ),
         );
     }
@@ -267,7 +267,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer %s', parent::asHtml());
+        return __('Customer %1', parent::asHtml());
     }
 
     /**

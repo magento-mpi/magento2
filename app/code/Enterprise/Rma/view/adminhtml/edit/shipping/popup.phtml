@@ -28,21 +28,21 @@ document.observe("dom:loaded", function() {
         <div class="popup-window-title">
             <div class="actions">
                 <button type="button" class="scalable AddPackageBtn" onclick="packaging.newPackage();">
-                    <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Add Package') ?></span>
+                    <span><?php echo __('Add Package') ?></span>
                 </button>
             </div>
-            <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Create Packages') ?></span>
+            <span class="title"><?php echo __('Create Packages') ?></span>
         </div>
         <div class="packaging-content">
             <div class="popup-window-content">
                 <div class="messages" style="display:none;"></div>
                 <div id="package_template" style="display:none;">
                     <div class="package-number popup-fieldset-title">
-                        <div class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') ?><span></span></div>
+                        <div class="title"><?php echo __('Package') ?><span></span></div>
                     </div>
                     <table class="data-table" cellspacing="0">
                         <thead>
-                            <th class="col-type"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Type') ?></th>
+                            <th class="col-type"><?php echo __('Type') ?></th>
                             <?php if ($this->isGirthEnabled()): ?>
                                 <?php
                                     list($girthEnabled, $sizeEnabled) = $this->checkSizeAndGirthParameter();
@@ -59,20 +59,20 @@ document.observe("dom:loaded", function() {
                                         $sizeDisable    = 'disabled="disabled"';
                                     }
                                 ?>
-                                <th class="col-size"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Size') ?></th>
-                                <th class="col-girth"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Girth') ?></th>
+                                <th class="col-size"><?php echo __('Size') ?></th>
+                                <th class="col-girth"><?php echo __('Girth') ?></th>
                                 <th>&nbsp;</th>
                             <?php endif; ?>
                             <th class="col-custom" <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?>>
-                                <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Customs Value') ?>
+                                <?php echo __('Customs Value') ?>
                             </th>
-                            <th class="col-total-weight"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Total Weight') ?></th>
-                            <th class="col-length"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Length') ?></th>
-                            <th class="col-width"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Width') ?></th>
-                            <th class="col-height"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Height') ?></th>
+                            <th class="col-total-weight"><?php echo __('Total Weight') ?></th>
+                            <th class="col-length"><?php echo __('Length') ?></th>
+                            <th class="col-width"><?php echo __('Width') ?></th>
+                            <th class="col-height"><?php echo __('Height') ?></th>
                             <th>&nbsp;</th>
                             <?php if ($this->getDeliveryConfirmationTypes()): ?>
-                                <th class="col-signature"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Signature Confirmation') ?></th>
+                                <th class="col-signature"><?php echo __('Signature Confirmation') ?></th>
                             <?php endif; ?>
                             <th class="col-actions">&nbsp;</th>
                         </thead>
@@ -103,8 +103,8 @@ document.observe("dom:loaded", function() {
                                 <td><input type="text" class="input-text validate-greater-than-zero<?php echo ' '.$girthClass?>" name="container_girth" <?php echo $girthDisable?>/></td>
                                 <td>
                                     <select name="container_girth_dimension_units" class="options-units-dimensions measures<?php echo ' '.$girthClass?>" onchange="packaging.changeMeasures(this);" <?php echo $girthDisable?>>
-                                        <option value="<?php echo Zend_Measure_Length::INCH ?>" selected="selected" ><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('in') ?></option>
-                                        <option value="<?php echo Zend_Measure_Length::CENTIMETER ?>" ><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('cm') ?></option>
+                                        <option value="<?php echo Zend_Measure_Length::INCH ?>" selected="selected" ><?php echo __('in') ?></option>
+                                        <option value="<?php echo Zend_Measure_Length::CENTIMETER ?>" ><?php echo __('cm') ?></option>
                                     </select>
                                 </td>
                             <?php endif; ?>
@@ -123,8 +123,8 @@ document.observe("dom:loaded", function() {
                             <td class="col-total-weight">
                                 <input type="text" class="options-weight input-text required-entry validate-greater-than-zero" name="container_weight" />
                                 <select name="container_weight_units" class="options-units-weight measures" onchange="packaging.changeMeasures(this);">
-                                    <option value="<?php echo Zend_Measure_Weight::POUND ?>" selected="selected"  ><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('lb') ?></option>
-                                    <option value="<?php echo Zend_Measure_Weight::KILOGRAM ?>" ><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('kg') ?></option>
+                                    <option value="<?php echo Zend_Measure_Weight::POUND ?>" selected="selected"  ><?php echo __('lb') ?></option>
+                                    <option value="<?php echo Zend_Measure_Weight::KILOGRAM ?>" ><?php echo __('kg') ?></option>
                                 </select>
                             </td>
                             <?php
@@ -146,8 +146,8 @@ document.observe("dom:loaded", function() {
                             </td>
                             <td class="col-measure">
                                 <select name="container_dimension_units" class="options-units-dimensions measures" onchange="packaging.changeMeasures(this);">
-                                    <option value="<?php echo Zend_Measure_Length::INCH ?>" selected="selected" ><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('in') ?></option>
-                                    <option value="<?php echo Zend_Measure_Length::CENTIMETER ?>" ><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('cm') ?></option>
+                                    <option value="<?php echo Zend_Measure_Length::INCH ?>" selected="selected" ><?php echo __('in') ?></option>
+                                    <option value="<?php echo Zend_Measure_Length::CENTIMETER ?>" ><?php echo __('cm') ?></option>
                                 </select>
                             </td>
                             <?php if ($this->getDeliveryConfirmationTypes()): ?>
@@ -163,10 +163,10 @@ document.observe("dom:loaded", function() {
                             <?php endif; ?>
                             <td class="col-actions">
                                 <button type="button" class="action-add AddItemsBtn" onclick="packaging.getItemsForPack(this);">
-                                    <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Add Products') ?></span>
+                                    <span><?php echo __('Add Products') ?></span>
                                 </button>
                                 <button type="button" class="action-delete DeletePackageBtn" onclick="packaging.deletePackage(this);">
-                                    <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Delete Package') ?></span>
+                                    <span><?php echo __('Delete Package') ?></span>
                                 </button>
                             </td>
                         </tbody>
@@ -175,8 +175,8 @@ document.observe("dom:loaded", function() {
                     <?php if ($this->getContentTypes()): ?>
                     <table class="package-options package-options-contents data-table" cellspacing="0">
                         <thead>
-                            <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Contents') ?></th>
-                            <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Explanation') ?></th>
+                            <th><?php echo __('Contents') ?></th>
+                            <th><?php echo __('Explanation') ?></th>
                         </thead>
                         <tbody>
                             <td>
@@ -200,10 +200,10 @@ document.observe("dom:loaded", function() {
                             <div class="popup-fieldset-title">
                                 <div class="actions">
                                     <button type="button" class="action-add AddSelectedBtn" onclick="packaging.packItems(this);">
-                                        <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Add Selected Product(s) to Package') ?></span>
+                                        <span><?php echo __('Add Selected Product(s) to Package') ?></span>
                                     </button>
                                 </div>
-                                <div class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Please select products.') ?></div>
+                                <div class="title"><?php echo __('Please select products.') ?></div>
                             </div>
                             <div class="grid_prepare"></div>
                         </div>
@@ -213,11 +213,11 @@ document.observe("dom:loaded", function() {
             </div>
         </div>
         <div class="popup-window-buttons-set">
-            <button type="button" class="action-ok disabled SavePackagesBtn" disabled="disabled" onclick="packaging.confirmPackaging();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
-                <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('OK') ?></span>
+            <button type="button" class="action-ok disabled SavePackagesBtn" disabled="disabled" onclick="packaging.confirmPackaging();" title="<?php echo __('Products should be added to package(s)')?>">
+                <span><?php echo __('OK') ?></span>
             </button>
             <button type="button" class="action-cancel" onclick="packaging.cancelPackaging();">
-                <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Cancel') ?></span>
+                <span><?php echo __('Cancel') ?></span>
             </button>
         </div>
     </div>

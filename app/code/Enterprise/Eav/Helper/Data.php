@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Eav
  */
-class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Eav_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Array of User Defined attribute codes per entity type code
@@ -27,11 +27,11 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Default attribute entity type code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('Use helper with defined EAV entity.'));
+        Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -43,7 +43,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return array(
             array(
-                'label' => Mage::helper('Enterprise_Eav_Helper_Data')->__('Default EAV Form'),
+                'label' => __('Default EAV Form'),
                 'value' => 'default'
             )
         );
@@ -67,7 +67,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $minTextLength = (int) $validateRules['min_text_length'];
                     $maxTextLength = (int) $validateRules['max_text_length'];
                     if ($minTextLength > $maxTextLength) {
-                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Please correct the values for minimum and maximum text length validation rules.');
+                        $errors[] = __('Please correct the values for minimum and maximum text length validation rules.');
                     }
                 }
                 break;
@@ -76,7 +76,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                     $minValue = (int) $validateRules['date_range_min'];
                     $maxValue = (int) $validateRules['date_range_max'];
                     if ($minValue > $maxValue) {
-                        $errors[] = Mage::helper('Enterprise_Eav_Helper_Data')->__('Please correct the values for minimum and maximum date validation rules.');
+                        $errors[] = __('Please correct the values for minimum and maximum date validation rules.');
                     }
                 }
                 break;
@@ -97,7 +97,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $inputTypes = array(
             'text'          => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Text Field'),
+                'label'             => __('Text Field'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -118,7 +118,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => 'text',
             ),
             'textarea'      => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Text Area'),
+                'label'             => __('Text Area'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -133,7 +133,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => 'textarea',
             ),
             'multiline'     => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Multiple Line'),
+                'label'             => __('Multiple Line'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -154,7 +154,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => 'text',
             ),
             'date'          => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Date'),
+                'label'             => __('Date'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'date_range_min',
@@ -166,45 +166,45 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'filter_types'      => array(
                     'date'
                 ),
-                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime',
+                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Datetime',
                 'backend_type'      => 'datetime',
                 'default_value'     => 'date',
             ),
             'select'        => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Dropdown'),
+                'label'             => __('Dropdown'),
                 'manage_options'    => true,
                 'option_default'    => 'radio',
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
             'multiselect'   => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Multiple Select'),
+                'label'             => __('Multiple Select'),
                 'manage_options'    => true,
                 'option_default'    => 'checkbox',
                 'validate_types'    => array(),
                 'filter_types'      => array(),
                 'validate_filters'  => array(),
-                'backend_model'     => 'Mage_Eav_Model_Entity_Attribute_Backend_Array',
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Array',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'varchar',
                 'default_value'     => false,
             ),
             'boolean'       => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Yes/No'),
+                'label'             => __('Yes/No'),
                 'manage_options'    => false,
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
                 'backend_type'      => 'int',
                 'default_value'     => 'yesno',
             ),
             'file'          => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('File (attachment)'),
+                'label'             => __('File (attachment)'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',
@@ -216,7 +216,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
                 'default_value'     => false,
             ),
             'image'         => array(
-                'label'             => Mage::helper('Enterprise_Eav_Helper_Data')->__('Image File'),
+                'label'             => __('Image File'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',
@@ -265,12 +265,12 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAttributeValidateFilters()
     {
         return array(
-            'alphanumeric'  => Mage::helper('Enterprise_Eav_Helper_Data')->__('Alphanumeric'),
-            'numeric'       => Mage::helper('Enterprise_Eav_Helper_Data')->__('Numeric Only'),
-            'alpha'         => Mage::helper('Enterprise_Eav_Helper_Data')->__('Alpha Only'),
-            'url'           => Mage::helper('Enterprise_Eav_Helper_Data')->__('URL'),
-            'email'         => Mage::helper('Enterprise_Eav_Helper_Data')->__('Email'),
-            'date'          => Mage::helper('Enterprise_Eav_Helper_Data')->__('Date'),
+            'alphanumeric'  => __('Alphanumeric'),
+            'numeric'       => __('Numeric Only'),
+            'alpha'         => __('Alpha Only'),
+            'url'           => __('URL'),
+            'email'         => __('Email'),
+            'date'          => __('Date'),
         );
     }
 
@@ -282,9 +282,9 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAttributeFilterTypes()
     {
         return array(
-            'striptags'     => Mage::helper('Enterprise_Eav_Helper_Data')->__('Strip HTML Tags'),
-            'escapehtml'    => Mage::helper('Enterprise_Eav_Helper_Data')->__('Escape HTML Entities'),
-            'date'          => Mage::helper('Enterprise_Eav_Helper_Data')->__('Normalize Date')
+            'striptags'     => __('Strip HTML Tags'),
+            'escapehtml'    => __('Escape HTML Entities'),
+            'date'          => __('Normalize Date')
         );
     }
 
@@ -417,8 +417,8 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
-            /* @var $config Mage_Eav_Model_Config */
-            $config = Mage::getSingleton('Mage_Eav_Model_Config');
+            /* @var $config Magento_Eav_Model_Config */
+            $config = Mage::getSingleton('Magento_Eav_Model_Config');
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {
@@ -446,14 +446,14 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
      * Filter post data
      *
      * @param array $data
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array
      */
     public function filterPostData($data)
@@ -470,7 +470,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
             if (isset($data['attribute_code'])) {
                 $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    Mage::throwException(Mage::helper('Enterprise_Eav_Helper_Data')->__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
+                    Mage::throwException(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
                 }
             }
         }

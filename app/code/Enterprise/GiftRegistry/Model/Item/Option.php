@@ -15,8 +15,8 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
-    implements Mage_Catalog_Model_Product_Configuration_Item_Option_Interface
+class Enterprise_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
+    implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     /**
      * Related gift registry item
@@ -28,7 +28,7 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
     /**
      * Product related to option
      *
-     * @var Mage_Catalog_Model_Product $product
+     * @var Magento_Catalog_Model_Product $product
      */
     protected $_product;
 
@@ -81,7 +81,7 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
     /**
      * Set product related to option
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  Enterprise_GiftRegistry_Model_Item_Option
      */
     public function setProduct($product)
@@ -96,7 +96,7 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
     /**
      * Retrieve product related to option
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

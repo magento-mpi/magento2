@@ -9,7 +9,7 @@
 /**
  * Collection of banner <-> sales rule associations
  */
-class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * @var string
@@ -26,14 +26,14 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Object', 'Mage_SalesRule_Model_Resource_Rule');
+        $this->_init('Magento_Object', 'Magento_SalesRule_Model_Resource_Rule');
         $this->setMainTable('enterprise_banner_salesrule');
     }
 
     /**
      * Filter out disabled banners
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

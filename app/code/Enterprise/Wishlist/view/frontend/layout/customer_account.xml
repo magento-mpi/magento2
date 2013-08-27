@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Enterprise_Wishlist" ifconfig="wishlist/general/multiple_enabled">
+            <action method="addLink" translate="label" ifconfig="wishlist/general/multiple_enabled">
                 <name>wishlist</name>
                 <path>wishlist/</path>
                 <label>My Wish Lists</label>

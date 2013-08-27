@@ -24,9 +24,9 @@ class Enterprise_CustomerBalance_Model_Observer
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
-        /* @var $customer Mage_Customer_Model_Customer */
+        /* @var $customer Magento_Customer_Model_Customer */
         $customer = $observer->getCustomer();
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
         if ($data) {
@@ -87,10 +87,10 @@ class Enterprise_CustomerBalance_Model_Observer
     /**
      * Check store credit balance
      *
-     * @param   Mage_Sales_Model_Order $order
+     * @param   Magento_Sales_Model_Order $order
      * @return  Enterprise_CustomerBalance_Model_Observer
      */
-    protected function _checkStoreCreditBalance(Mage_Sales_Model_Order $order)
+    protected function _checkStoreCreditBalance(Magento_Sales_Model_Order $order)
     {
         if ($order->getBaseCustomerBalanceAmount() > 0) {
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
@@ -102,12 +102,12 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->getAmount();
 
             if (($order->getBaseCustomerBalanceAmount() - $balance) >= 0.0001) {
-                Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')
+                Mage::getSingleton('Magento_Checkout_Model_Type_Onepage')
                     ->getCheckout()
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('You do not have enough store credit to complete this order.'));
+                Mage::throwException(__('You do not have enough store credit to complete this order.'));
             }
         }
 
@@ -162,10 +162,10 @@ class Enterprise_CustomerBalance_Model_Observer
     /**
      * Revert authorized store credit amount for order
      *
-     * @param   Mage_Sales_Model_Order $order
+     * @param   Magento_Sales_Model_Order $order
      * @return  Enterprise_CustomerBalance_Model_Observer
      */
-    protected function _revertStoreCreditForOrder(Mage_Sales_Model_Order $order)
+    protected function _revertStoreCreditForOrder(Magento_Sales_Model_Order $order)
     {
         if (!$order->getCustomerId() || !$order->getBaseCustomerBalanceAmount()) {
             return $this;
@@ -190,7 +190,7 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     public function revertStoreCredit(Magento_Event_Observer $observer)
     {
-        /* @var $order Mage_Sales_Model_Order */
+        /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
         if ($order) {
             $this->_revertStoreCreditForOrder($order);
@@ -238,8 +238,8 @@ class Enterprise_CustomerBalance_Model_Observer
     /**
      * Analyze payment data for quote and set free shipping if grand total is covered by balance
      *
-     * @param Mage_Sales_Model_Quote $quote
-     * @param Magento_Object|Mage_Sales_Model_Quote_Payment $payment
+     * @param Magento_Sales_Model_Quote $quote
+     * @param Magento_Object|Magento_Sales_Model_Quote_Payment $payment
      * @param bool $shouldUseBalance
      */
     protected function _importPaymentData($quote, $payment, $shouldUseBalance)
@@ -382,7 +382,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $creditmemo->getCustomerBalanceReturnMax();
 
         if ((float)(string)$creditmemo->getCustomerBalTotalRefunded() > (float)(string)$customerBalanceReturnMax) {
-            Mage::throwException(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('The store credit used cannot exceed order amount.'));
+            Mage::throwException(__('The store credit used cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
@@ -471,7 +471,7 @@ class Enterprise_CustomerBalance_Model_Observer
         }
 
         if ($order->isCanceled() ||
-            $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
+            $order->getState() === Magento_Sales_Model_Order::STATE_CLOSED ) {
             return $this;
         }
 
@@ -575,9 +575,9 @@ class Enterprise_CustomerBalance_Model_Observer
         $paypalCart = $observer->getEvent()->getPaypalCart();
         if ($paypalCart) {
             $salesEntity = $paypalCart->getSalesEntity();
-            if ($salesEntity instanceof Mage_Sales_Model_Quote) {
+            if ($salesEntity instanceof Magento_Sales_Model_Quote) {
                 $balanceField = 'base_customer_bal_amount_used';
-            } elseif ($salesEntity instanceof Mage_Sales_Model_Order) {
+            } elseif ($salesEntity instanceof Magento_Sales_Model_Order) {
                 $balanceField = 'base_customer_balance_amount';
             } else {
                 return;
@@ -585,8 +585,8 @@ class Enterprise_CustomerBalance_Model_Observer
 
             $value = abs($salesEntity->getDataUsingMethod($balanceField));
             if ($value > 0.0001) {
-                $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
-                    Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                $paypalCart->updateTotal(Magento_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
+                    __('Store Credit (%1)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }
         }

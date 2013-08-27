@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
-    extends Mage_Adminhtml_Block_Sales_Order_Abstract
+    extends Magento_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _prepareLayout()
     {
@@ -37,7 +37,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
             );
             if ($this->_authorization->isAllowed('Enterprise_SalesArchive::remove')) {
                 $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                    'label' => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Order Managment'),
+                    'label' => __('Move to Order Managment'),
                     'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
                     'class' => 'cancel'
                 ));
@@ -51,7 +51,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
                 );
                 if ($this->_authorization->isAllowed('Enterprise_SalesArchive::add')) {
                     $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                        'label' => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Archive'),
+                        'label' => __('Move to Archive'),
                         'onclick' => 'setLocation(\'' . $archiveUrl . '\')',
                     ));
                 }

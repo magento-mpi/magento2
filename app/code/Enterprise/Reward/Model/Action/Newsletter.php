@@ -37,15 +37,15 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
     {
         $subscriber = $this->getEntity();
         $subscriberStatuses = array(
-            Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED,
-            Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED
+            Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED,
+            Magento_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED
         );
         if (!in_array($subscriber->getData('subscriber_status'), $subscriberStatuses)) {
             return false;
         }
 
-        /* @var $subscribers Mage_Newsletter_Model_Resource_Subscriber_Collection */
-        $subscribers = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Subscriber_Collection')
+        /* @var $subscribers Magento_Newsletter_Model_Resource_Subscriber_Collection */
+        $subscribers = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Subscriber_Collection')
             ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
             ->load();
         // check for existing customer subscribtions
@@ -69,7 +69,7 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Signed up for newsletter with email %s', $email);
+        return __('Signed up for newsletter with email %1', $email);
     }
 
     /**

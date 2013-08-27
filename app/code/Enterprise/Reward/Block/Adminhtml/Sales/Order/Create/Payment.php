@@ -16,22 +16,22 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_Backend_Block_Template
+class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Backend_Block_Template
 {
     /**
      * Getter
      *
-     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
+        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -89,7 +89,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
         $rewardFormatted = Mage::helper('Enterprise_Reward_Helper_Data')
             ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
         $this->setPointsBalance($points)->setCurrencyAmount($amount)
-            ->setUseLabel($this->__('Use my reward points; %s are available.', $rewardFormatted))
+            ->setUseLabel(__('Use my reward points; %1 are available.', $rewardFormatted))
         ;
         return parent::_toHtml();
     }

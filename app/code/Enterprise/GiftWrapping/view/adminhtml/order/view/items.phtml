@@ -15,20 +15,20 @@
     <div class="gift-wrapping-form">
         <div class="gift-wrapping-design">
             <img class="image-box no-display" id="item-image-box" height="75" width="75" alt="" src=""/>
-            <?php echo $this->__('Gift Wrapping Design') ?>: <span id="item-design"></span>
+            <?php echo __('Gift Wrapping Design') ?>: <span id="item-design"></span>
             <div id="item-price-box" class="no-display">
             <?php if ($this->getDisplayWrappingBothPrices()): ?>
             <div>
-                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
                 <span class="price" id="item-price-excl-tax"></span>
             </div>
             <div>
-                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
                 <span class="price" id="item-price-incl-tax"></span>
             </div>
             <?php else: ?>
             <div>
-                <span class="label"><?php echo $this->__('Price') ?>:</span>
+                <span class="label"><?php echo __('Price') ?>:</span>
                 <span class="price" id="item-price"></span>
             </div>
             <?php endif; ?>

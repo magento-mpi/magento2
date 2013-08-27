@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label">
+                <name>OAuth Customer Tokens</name>
+                <path>oauth/customer_token</path>
+                <label>My Applications</label>
+            </action>
+        </reference>
+    </customer_account>
+</layout>

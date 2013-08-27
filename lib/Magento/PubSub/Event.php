@@ -12,7 +12,7 @@
 class Magento_PubSub_Event implements Magento_PubSub_EventInterface
 {
     /** @var int */
-    protected $_status = Magento_PubSub_EventInterface::PREPARING;
+    protected $_status = Magento_PubSub_EventInterface::STATUS_READY_TO_SEND;
 
     /** @var array */
     protected $_bodyData;
@@ -75,22 +75,24 @@ class Magento_PubSub_Event implements Magento_PubSub_EventInterface
     }
 
     /**
-     * Mark event as ready to send
+     * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Magento_PubSub_Event
      */
-    public function markAsReadyToSend()
+    public function complete()
     {
-        $this->_status = Magento_PubSub_EventInterface::READY_TO_SEND;
+        $this->_status = Magento_PubSub_EventInterface::STATUS_PROCESSED;
+        return $this;
     }
 
     /**
      * Mark event as processed
      *
-     * @return Magento_PubSub_EventInterface
+     * @return Magento_PubSub_Event
      */
-    public function markAsProcessed()
+    public function markAsInProgress()
     {
-        $this->_status = Magento_PubSub_EventInterface::PROCESSED;
+        $this->_status = Magento_PubSub_EventInterface::STATUS_IN_PROGRESS;
+        return $this;
     }
 }

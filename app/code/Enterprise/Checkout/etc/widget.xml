@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <order_by_sku type="Enterprise_Checkout_Block_Widget_Sku" translate="name description" module="Enterprise_Checkout">
+    <order_by_sku type="Enterprise_Checkout_Block_Widget_Sku" translate="name description">
         <name>Order by SKU</name>
         <description>Order by SKU Description</description>
         <is_email_compatible>0</is_email_compatible>
@@ -21,7 +21,7 @@
                 <description>Defines whether a link to My Account &amp;gt; Order by SKU page will be displayed on the widget</description>
                 <type>select</type>
                 <sort_order>10</sort_order>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
             </link_display>
             <link_text translate="label description value">
                 <required>1</required>

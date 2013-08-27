@@ -12,23 +12,23 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::marketing">
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Adminhtml::marketing">
                     <resource id="Enterprise_Enterprise::marketing_private_sales">
-                        <resource id="Enterprise_Invitation::enterprise_invitation" module="Enterprise_Invitation" title="Invitations" sortOrder="20" />
+                        <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitations" sortOrder="20" />
                     </resource>
                 </resource>
-                <resource id="Mage_Reports::report">
-                    <resource id="Enterprise_Invitation::report_enterprise_invitation" module="Enterprise_Invitation" title="Private Sales" sortOrder="70">
-                        <resource id="Enterprise_Invitation::general" module="Enterprise_Invitation" title="Invitations" sortOrder="10" />
-                        <resource id="Enterprise_Invitation::enterprise_invitation_customer" module="Enterprise_Invitation" title="Invited Customers" sortOrder="20" />
-                        <resource id="Enterprise_Invitation::order" module="Enterprise_Invitation" title="Conversion" sortOrder="30" />
+                <resource id="Magento_Reports::report">
+                    <resource id="Enterprise_Invitation::report_enterprise_invitation" title="Private Sales" sortOrder="70">
+                        <resource id="Enterprise_Invitation::general" title="Invitations" sortOrder="10" />
+                        <resource id="Enterprise_Invitation::enterprise_invitation_customer" title="Invited Customers" sortOrder="20" />
+                        <resource id="Enterprise_Invitation::order" title="Conversion" sortOrder="30" />
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_settings">
-                        <resource id="Mage_Adminhtml::config">
-                            <resource id="Enterprise_Invitation::config_enterprise_invitation" module="Enterprise_Invitation" title="Invitation Section" />
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
+                            <resource id="Enterprise_Invitation::config_enterprise_invitation" title="Invitation Section" />
                         </resource>
                     </resource>
                 </resource>

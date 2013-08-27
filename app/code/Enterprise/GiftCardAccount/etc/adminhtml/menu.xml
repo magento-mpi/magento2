@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_GiftCardAccount::customer_giftcardaccount" title="Gift Card Accounts" module="Enterprise_GiftCardAccount" sortOrder="40" parent="Mage_CatalogRule::promo" action="adminhtml/giftcardaccount" dependsOnModule="Enterprise_GiftCardAccount" resource="Enterprise_GiftCardAccount::customer_giftcardaccount"/>
+        <add id="Enterprise_GiftCardAccount::customer_giftcardaccount" title="Gift Card Accounts" module="Enterprise_GiftCardAccount" sortOrder="40" parent="Magento_CatalogRule::promo" action="adminhtml/giftcardaccount" dependsOnModule="Enterprise_GiftCardAccount" resource="Enterprise_GiftCardAccount::customer_giftcardaccount"/>
     </menu>
 </config>

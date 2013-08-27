@@ -15,7 +15,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Controller_Payment_Profile extends Mage_Core_Controller_Front_Action
+class Enterprise_Pbridge_Controller_Payment_Profile extends Magento_Core_Controller_Front_Action
 {
     /**
      * Check whether Payment Profiles functionality enabled
@@ -38,8 +38,8 @@ class Enterprise_Pbridge_Controller_Payment_Profile extends Mage_Core_Controller
      */
     public function indexAction()
     {
-        if(!Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) {
-            Mage::getSingleton('Mage_Customer_Model_Session')->authenticate($this);
+        if(!Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
+            Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this);
             return;
         }
 

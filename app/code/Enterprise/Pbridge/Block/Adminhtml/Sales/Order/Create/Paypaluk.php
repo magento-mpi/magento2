@@ -23,5 +23,5 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypaluk extends Ent
      *
      * @var string
      */
-    protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
+    protected $_code = Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
 }

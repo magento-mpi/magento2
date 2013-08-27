@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Tooltip extends Magento_Core_Block_Template
 {
     /**
      * Reward instance
@@ -37,7 +37,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
             if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
                 return $this;
             }
-            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
+            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
             $this->_rewardInstance = Mage::getSingleton('Enterprise_Reward_Model_Reward')
                 ->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
@@ -62,7 +62,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
 
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
     {
-        $anchorText = null === $anchorText ? Mage::helper('Enterprise_Reward_Helper_Data')->__('Learn more...') : $anchorText;
+        $anchorText = null === $anchorText ? __('Learn more...') : $anchorText;
         return sprintf($format, $this->getLandingPageUrl(), $anchorText);
     }
 
@@ -99,7 +99,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
                 }
             } else {
                 if ($this->hasIsGuestNote() && !$this->hasGuestNote()) {
-                    $this->setGuestNote(Mage::helper('Enterprise_Reward_Helper_Data')->__('This applies only to registered users and may vary when a user is logged in.'));
+                    $this->setGuestNote(__('This applies only to registered users and may vary when a user is logged in.'));
                 }
             }
         }

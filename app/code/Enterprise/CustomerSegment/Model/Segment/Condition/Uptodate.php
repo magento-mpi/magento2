@@ -19,10 +19,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     /**
      * Initialize model
      *
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate');
@@ -55,10 +55,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     {
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = array(
-                '<='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or greater than'),
-                '>='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or less than'),
-                '<'   => Mage::helper('Mage_Rule_Helper_Data')->__('greater than'),
-                '>'   => Mage::helper('Mage_Rule_Helper_Data')->__('less than')
+                '<='  => __('equals or greater than'),
+                '>='  => __('equals or less than'),
+                '<'   => __('greater than'),
+                '>'   => __('less than')
             );
         }
         return $this->_defaultOperatorOptions;
@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     {
         return array(
             'value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Up To Date'),
+            'label' => __('Up To Date'),
         );
     }
 
@@ -95,7 +95,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Period %s %s Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Period %1 %2 Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

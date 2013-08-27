@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_ImportExport" version="1.11.0.3" active="false">
         <depends>
-            <module name="Mage_ImportExport" />
+            <module name="Magento_ImportExport" />
         </depends>
     </module>
 </config>

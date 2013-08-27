@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Model_Source_Format extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_Source_Format extends Magento_Core_Model_Abstract
 {
     /**
      * Return list of gift card account code formats
@@ -19,11 +19,11 @@ class Enterprise_GiftCardAccount_Model_Source_Format extends Mage_Core_Model_Abs
     {
         return array(
             Enterprise_GiftCardAccount_Model_Pool::CODE_FORMAT_ALPHANUM
-                => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Alphanumeric'),
+                => __('Alphanumeric'),
             Enterprise_GiftCardAccount_Model_Pool::CODE_FORMAT_ALPHA
-                => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Alphabetical'),
+                => __('Alphabetical'),
             Enterprise_GiftCardAccount_Model_Pool::CODE_FORMAT_NUM
-                => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Numeric'),
+                => __('Numeric'),
         );
     }
 

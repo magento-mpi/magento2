@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>downloadable</type>
+                <block>Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default</block>
+                <template>Magento_Downloadable::sales/order/view/items/renderer/downloadable.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>downloadable</column>
+                <block>Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name</block>
+                <template>sales/items/column/downloadable/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

@@ -15,7 +15,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Price
+class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Model_Layer_Filter_Price
 {
     const CACHE_TAG = 'MAXPRICE';
 
@@ -214,8 +214,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
         $cachedData = Mage::app()->loadCache($cacheKey);
         if (!$cachedData) {
-            /** @var $algorithmModel Mage_Catalog_Model_Layer_Filter_Price_Algorithm */
-            $algorithmModel = Mage::getSingleton('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
+            /** @var $algorithmModel Magento_Catalog_Model_Layer_Filter_Price_Algorithm */
+            $algorithmModel = Mage::getSingleton('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
             $statistics = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
             $statistics = $statistics[$this->_getFilterField()];
 
@@ -274,17 +274,17 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         // rounding issue
         if ($this->getCurrencyRate() > 1) {
             if ($decrease) {
-                $value -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+                $value -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
             } else {
-                $value += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+                $value += Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
             }
             $value /= $this->getCurrencyRate();
         } else {
             $value /= $this->getCurrencyRate();
             if ($decrease) {
-                $value -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+                $value -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
             } else {
-                $value += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+                $value += Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
             }
         }
         return round($value, 3);
@@ -373,13 +373,13 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      * @deprecated since 1.12.0.0
      * @param int $range
      * @param int $index
-     * @return Mage_Catalog_Model_Layer_Filter_Price
+     * @return Magento_Catalog_Model_Layer_Filter_Price
      */
     protected function _applyToCollection($range, $index)
     {
         $to = $range * $index;
         if ($to < $this->getMaxPriceInt()) {
-            $to -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            $to -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
         }
 
         $value = array(
@@ -397,7 +397,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     /**
      * Apply price range filter to collection
      *
-     * @return Mage_Catalog_Model_Layer_Filter_Price
+     * @return Magento_Catalog_Model_Layer_Filter_Price
      */
     protected function _applyPriceRange()
     {
@@ -423,9 +423,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         }
 
         if ($decrease) {
-            $value -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 2;
+            $value -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 2;
         } else {
-            $value += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 2;
+            $value += Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 2;
         }
 
         $value /= $this->getCurrencyRate();
@@ -450,7 +450,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $lowerPrice = $this->_prepareComparingValue($lowerPrice);
         $upperPrice = $this->_prepareComparingValue($upperPrice);
         if (!is_null($upperPrice)) {
-            $upperPrice -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            $upperPrice -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
         }
         $result = $this->getLayer()->getProductCollection()->getPriceData($lowerPrice, $upperPrice, $limit, $offset);
         if (!$result) {
@@ -476,7 +476,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $lowerPrice = $this->_prepareComparingValue($lowerPrice);
         $price = $this->_prepareComparingValue($price);
         if (!is_null($price)) {
-            $price -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            $price -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
         }
         $countLess = $this->getLayer()->getProductCollection()->getPriceData($lowerPrice, $price, null, null, true);
         if (!$countLess) {
@@ -500,10 +500,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $price = $this->_prepareComparingValue($price, false);
         $upperPrice = $this->_prepareComparingValue($upperPrice);
         if (!is_null($price)) {
-            $price += Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            $price += Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
         }
         if (!is_null($upperPrice)) {
-            $upperPrice -= Mage_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
+            $upperPrice -= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10;
         }
         $countGreater = $this->getLayer()->getProductCollection()->getPriceData($price, $upperPrice, null, null, true);
         if (!$countGreater) {

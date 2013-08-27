@@ -57,7 +57,7 @@ class Magento_Outbound_Transport_Http implements Magento_Outbound_TransportInter
             $message->getBody()
         );
 
-        return new Magento_Outbound_Transport_Http_Response(Zend_Http_Response::fromString($this->_curl->read()));
+        return new Magento_Outbound_Transport_Http_Response($this->_curl->read());
     }
 
     /**

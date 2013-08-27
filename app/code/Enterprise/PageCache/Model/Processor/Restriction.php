@@ -15,7 +15,7 @@ class Enterprise_PageCache_Model_Processor_Restriction
 {
 
     /**
-     * @var Mage_Core_Model_Cache_StateInterface
+     * @var Magento_Core_Model_Cache_StateInterface
      */
     protected $_cacheState;
 
@@ -34,11 +34,11 @@ class Enterprise_PageCache_Model_Processor_Restriction
     protected $_environment;
 
     /**
-     * @param Mage_Core_Model_Cache_StateInterface $cacheState
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Enterprise_PageCache_Model_Environment $environment
      */
     public function __construct(
-        Mage_Core_Model_Cache_StateInterface $cacheState,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         Enterprise_PageCache_Model_Environment $environment
     ) {
         $this->_cacheState = $cacheState;
@@ -69,7 +69,7 @@ class Enterprise_PageCache_Model_Processor_Restriction
             return false;
         }
 
-        if ($this->_environment->hasQuery(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
+        if ($this->_environment->hasQuery(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
             return false;
         }
 

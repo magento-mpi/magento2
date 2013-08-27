@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
 
     /**
@@ -36,8 +36,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Mage_Sales_Model_Resource_Order_Grid_Collection */
-        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection')
+        /** @var $collection Magento_Sales_Model_Resource_Order_Grid_Collection */
+        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -46,12 +46,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
     /**
      * Prepare columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Magento_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
         $this->addColumn('real_order_id', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Order'),
+            'header' => __('Order'),
             'width' => '80px',
             'type' => 'text',
             'index' => 'increment_id',
@@ -59,7 +59,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Purchase Point'),
+                'header' => __('Purchase Point'),
                 'index' => 'store_id',
                 'type' => 'store',
                 'store_view' => true,
@@ -68,42 +68,42 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
         }
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Purchase Date'),
+            'header' => __('Purchase Date'),
             'index' => 'created_at',
             'type' => 'datetime',
             'width' => '100px',
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => __('Bill-to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship-to Name'),
+            'header' => __('Ship-to Name'),
             'index' => 'shipping_name',
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Grand Total (Base)'),
+            'header' => __('Grand Total (Base)'),
             'index' => 'base_grand_total',
             'type' => 'currency',
             'currency' => 'base_currency_code',
         ));
 
         $this->addColumn('grand_total', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Grand Total (Purchased)'),
+            'header' => __('Grand Total (Purchased)'),
             'index' => 'grand_total',
             'type' => 'currency',
             'currency' => 'order_currency_code',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header' => __('Status'),
             'index' => 'status',
             'type' => 'options',
             'width' => '70px',
-            'options' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses(),
+            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses(),
         ));
 
         return parent::_prepareColumns();

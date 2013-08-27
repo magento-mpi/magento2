@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_Block_Sales_Order_View
+class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtml_Block_Sales_Order_View
 {
     const CREATE_RMA_BUTTON_DEFAULT_SORT_ORDER = 35;
 
@@ -30,7 +30,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_B
             $parentBlock = $this->getParentBlock();
             $buttonUrl = $this->_urlBuilder->getUrl('*/rma/new', array('order_id' => $parentBlock->getOrderId()));
             $parentBlock->addButton('create_rma', array(
-                'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Returns'),
+                'label' => __('Create Returns'),
                 'onclick' => 'setLocation(\'' . $buttonUrl . '\')',
             ), 0, $this->_getCreateRmaButtonSortOrder());
         }
@@ -45,7 +45,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_B
     protected function _isCreateRmaButtonRequired()
     {
         $parentBlock = $this->getParentBlock();
-        return $parentBlock instanceof Mage_Backend_Block_Template
+        return $parentBlock instanceof Magento_Backend_Block_Template
             && $parentBlock->getOrderId()
             && Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($parentBlock->getOrder(), true);
     }

@@ -25,9 +25,9 @@ class Enterprise_Cms_Model_Source_Hierarchy_Visibility
     public function toOptionArray()
     {
         return array(
-            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT => Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent'),
-            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES => Mage::helper('Enterprise_Cms_Helper_Data')->__('Yes'),
-            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO => Mage::helper('Enterprise_Cms_Helper_Data')->__('No'),
+            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
+            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
+            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO => __('No'),
         );
     }
 }

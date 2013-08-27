@@ -12,7 +12,7 @@
  * WebsiteRestriction helper for translations
  *
  */
-class Enterprise_WebsiteRestriction_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Website restriction settings
@@ -28,7 +28,7 @@ class Enterprise_WebsiteRestriction_Helper_Data extends Mage_Core_Helper_Abstrac
     /**
      * Define if restriction is active
      *
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return bool
      */
     public function getIsRestrictionEnabled($store = null)

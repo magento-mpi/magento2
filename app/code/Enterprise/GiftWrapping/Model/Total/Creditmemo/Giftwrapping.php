@@ -13,15 +13,15 @@
  * GiftWrapping total calculator for creditmemo
  *
  */
-class Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract
+class Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
 {
     /**
      * Collect gift wrapping totals
      *
-     * @param   Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
      * @return  Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping
      */
-    public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
 

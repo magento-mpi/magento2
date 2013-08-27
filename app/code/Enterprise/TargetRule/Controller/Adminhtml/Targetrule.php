@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminhtml_Controller_Action
+class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Adminhtml_Controller_Action
 {
 
     /**
@@ -28,7 +28,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
      */
     public function indexAction()
     {
-        $this->_title($this->__('Related Products Rules'));
+        $this->_title(__('Related Products Rules'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -58,7 +58,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
      */
     public function editAction()
     {
-        $this->_title($this->__('Related Products Rule'));
+        $this->_title(__('Related Products Rule'));
 
         /* @var $model Enterprise_TargetRule_Model_Rule */
         $model  = Mage::getModel('Enterprise_TargetRule_Model_Rule');
@@ -67,15 +67,15 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
         if ($ruleId) {
             $model->load($ruleId);
             if (!$model->getId()) {
-                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('This rule no longer exists.'));
+                $this->_getSession()->addError(__('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Related Products Rule'));
+        $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
+        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -122,7 +122,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        Mage::throwException(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please specify a correct rule.'));
+                        Mage::throwException(__('Please specify a correct rule.'));
                     }
                 }
 
@@ -145,7 +145,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 $model->save();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('You saved the rule.')
+                    __('You saved the rule.')
                 );
 
                 if ($redirectBack) {
@@ -155,19 +155,19 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                     ));
                     return;
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
             } catch (Zend_Date_Exception $e) {
-                $this->_getSession()->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Invalid date.'));
+                $this->_getSession()->addError(__('Invalid date.'));
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Enterprise_TargetRule_Helper_Data')->__('An error occurred while saving Product Rule.')
+                    __('An error occurred while saving Product Rule.')
                 );
 
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData($data);
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -194,19 +194,19 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
                 $model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
                 $model->load($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addSuccess(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('You deleted the rule.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                    ->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')
-            ->addError(Mage::helper('Enterprise_TargetRule_Helper_Data')->__("We can't find a page to delete."));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            ->addError(__("We can't find a page to delete."));
         $this->_redirect('*/*/');
     }
 
@@ -230,7 +230,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Mage_Adminht
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {

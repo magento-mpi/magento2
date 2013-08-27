@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Abstract
+class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Abstract
 {
     /**
      * Categories first and second level for admin
@@ -39,11 +39,11 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
     public function getCategories()
     {
         if ($this->_categories === null) {
-            $tree = Mage::getModel('Mage_Catalog_Model_Category')->getTreeModel();
-            /** @var $tree Mage_Catalog_Model_Resource_Category_Tree */
+            $tree = Mage::getModel('Magento_Catalog_Model_Category')->getTreeModel();
+            /** @var $tree Magento_Catalog_Model_Resource_Category_Tree */
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
-            $this->_categories = $tree->getNodeById(Mage_Catalog_Model_Category::TREE_ROOT_ID)->getChildren();
+            $this->_categories = $tree->getNodeById(Magento_Catalog_Model_Category::TREE_ROOT_ID)->getChildren();
         }
         return $this->_categories;
     }

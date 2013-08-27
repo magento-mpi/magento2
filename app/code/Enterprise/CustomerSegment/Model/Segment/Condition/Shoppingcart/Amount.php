@@ -20,10 +20,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     protected $_inputType = 'numeric';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount');
@@ -48,7 +48,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart Total'),
+            'label' => __('Shopping Cart Total'),
             'available_in_guest_mode' => true);
     }
 
@@ -60,12 +60,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'subtotal'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Subtotal'),
-            'grand_total'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Grand Total'),
-            'tax'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Tax'),
-            'shipping'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shipping'),
-            'store_credit'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Store Credit'),
-            'gift_card'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Gift Card'),
+            'subtotal'  => __('Subtotal'),
+            'grand_total'  => __('Grand Total'),
+            'tax'  => __('Tax'),
+            'shipping'  => __('Shipping'),
+            'store_credit'  => __('Store Credit'),
+            'gift_card'  => __('Gift Card'),
         ));
         return $this;
     }
@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
      *
      * Modify attribute_option array if needed
      *
-     * @param Mage_Rule_Model_Rule $rule
+     * @param Magento_Rule_Model_Rule $rule
      * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      */
     public function setRule($rule)
@@ -106,7 +106,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart %s Amount %s %s:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Shopping Cart %1 Amount %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -152,7 +152,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Unknown quote total specified.')
+                    __('Unknown quote total specified.')
                 );
         }
 

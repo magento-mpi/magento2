@@ -15,7 +15,7 @@
  * @package    Enterprise_CatalogPermissions
  */
 
-class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'catalog/enterprise_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/enterprise_catalogpermissions/grant_catalog_category_view';
@@ -41,7 +41,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
     /**
      * Check category permission is allowed
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Magento_Catalog_Model_Category $category
      * @return boolean
      */
     public function isAllowedCategory($category)
@@ -108,7 +108,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
 
         $groups = explode(',', $groups);
 
-        return !in_array(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(), $groups);
+        return !in_array(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(), $groups);
     }
 
     /**
@@ -139,7 +139,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
             $groups = explode(',', $groups);
 
             if ($customerGroupId === null) {
-                $customerGroupId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
             }
 
             return in_array(

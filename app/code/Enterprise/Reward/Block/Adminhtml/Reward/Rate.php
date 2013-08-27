@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Reward_Rate extends Mage_Backend_Block_Widget_Grid_Container
+class Enterprise_Reward_Block_Adminhtml_Reward_Rate extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Block constructor
@@ -25,8 +25,8 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate extends Mage_Backend_Block_W
     {
         $this->_blockGroup = 'Enterprise_Reward';
         $this->_controller = 'adminhtml_reward_rate';
-        $this->_headerText = Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Exchange Rates');
+        $this->_headerText = __('Reward Exchange Rates');
         parent::_construct();
-        $this->_updateButton('add', 'label', Mage::helper('Enterprise_Reward_Helper_Data')->__('Add New Rate'));
+        $this->_updateButton('add', 'label', __('Add New Rate'));
     }
 }

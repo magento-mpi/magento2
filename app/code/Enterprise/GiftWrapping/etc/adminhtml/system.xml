@@ -13,52 +13,52 @@
     <system>
         <section id="sales">
             <group id="gift_options">
-                <field id="wrapping_allow_order" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="wrapping_allow_order" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Gift Wrapping on Order Level</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
-                <field id="wrapping_allow_items" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="wrapping_allow_items" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Gift Wrapping for Order Items</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
-                <field id="allow_gift_receipt" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="allow_gift_receipt" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Gift Receipt</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
-                <field id="allow_printed_card" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="allow_printed_card" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Printed Card</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
-                <field id="printed_card_price" translate="label" module="Enterprise_GiftWrapping" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="printed_card_price" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Default Price for Printed Card</label>
                 </field>
             </group>
         </section>
         <section id="tax">
             <group id="classes">
-                <field id="wrapping_tax_class" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="wrapping_tax_class" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Tax Class for Gift Options</label>
-                    <source_model>Mage_Tax_Model_Config_Source_Class_Product</source_model>
+                    <source_model>Magento_Tax_Model_Config_Source_Class_Product</source_model>
                 </field>
             </group>
             <group id="cart_display">
-                <field id="gift_wrapping" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="gift_wrapping" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Gift Wrapping Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
-                <field id="printed_card" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="printed_card" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Printed Card Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
             </group>
             <group id="sales_display">
-                <field id="gift_wrapping" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="gift_wrapping" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Gift Wrapping Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
-                <field id="printed_card" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="printed_card" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Printed Card Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
             </group>
         </section>

@@ -14,6 +14,6 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
 {
 }

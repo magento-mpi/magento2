@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Reminder::promo_reminder" title="Email Reminders" module="Enterprise_Reminder" sortOrder="60" parent="Mage_Adminhtml::marketing_communications" action="adminhtml/reminder" resource="Enterprise_Reminder::enterprise_reminder" dependsOnModule="Enterprise_Reminder" dependsOnConfig="promo/enterprise_reminder/enabled"/>
+        <add id="Enterprise_Reminder::promo_reminder" title="Email Reminders" module="Enterprise_Reminder" sortOrder="60" parent="Magento_Adminhtml::marketing_communications" action="adminhtml/reminder" resource="Enterprise_Reminder::enterprise_reminder" dependsOnModule="Enterprise_Reminder" dependsOnConfig="promo/enterprise_reminder/enabled"/>
     </menu>
 </config>

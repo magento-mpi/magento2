@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_Controller_Action
+class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Check if module functionality enabled
@@ -43,10 +43,10 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
     {
         $this->loadLayout()
             ->_setActiveMenu('Enterprise_Reward::customer_reward')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Reward_Helper_Data')->__('Customers'),
-                Mage::helper('Enterprise_Reward_Helper_Data')->__('Customers'))
-            ->_addBreadcrumb(Mage::helper('Enterprise_Reward_Helper_Data')->__('Manage Reward Exchange Rates'),
-                Mage::helper('Enterprise_Reward_Helper_Data')->__('Manage Reward Exchange Rates'));
+            ->_addBreadcrumb(__('Customers'),
+                __('Customers'))
+            ->_addBreadcrumb(__('Manage Reward Exchange Rates'),
+                __('Manage Reward Exchange Rates'));
         return $this;
     }
 
@@ -57,7 +57,7 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
      */
     protected function _initRate()
     {
-        $this->_title($this->__('Reward Exchange Rates'));
+        $this->_title(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
         $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
@@ -73,7 +73,7 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Reward Exchange Rates'));
+        $this->_title(__('Reward Exchange Rates'));
 
         $this->_initAction()
             ->renderLayout();
@@ -95,7 +95,7 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
     {
         $rate = $this->_initRate();
 
-        $this->_title($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : $this->__('New Reward Exchange Rate'));
+        $this->_title($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
 
         $this->_initAction()
             ->renderLayout();
@@ -119,10 +119,10 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
 
             try {
                 $rate->save();
-                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('You saved the rate.'));
+                $this->_getSession()->addSuccess(__('You saved the rate.'));
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('We cannot save Rate.'));
+                $this->_getSession()->addError(__('We cannot save Rate.'));
                 return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
         }
@@ -139,7 +139,7 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
         if ($rate->getId()) {
             try {
                 $rate->delete();
-                $this->_getSession()->addSuccess(Mage::helper('Enterprise_Reward_Helper_Data')->__('You deleted the rate.'));
+                $this->_getSession()->addSuccess(__('You deleted the rate.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -168,20 +168,20 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
             || !isset($post['direction'])
             || !isset($post['value'])
             || !isset($post['equal_value'])) {
-            $message = $this->__('Please enter all Rate information.');
+            $message = __('Please enter all Rate information.');
         } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                   && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
               if ((int) $post['value'] <= 0) {
-                  $message = $this->__('Please enter a positive integer number in the left rate field.');
+                  $message = __('Please enter a positive integer number in the left rate field.');
               } else {
-                  $message = $this->__('Please enter a positive number in the right rate field.');
+                  $message = __('Please enter a positive number in the right rate field.');
               }
         } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
                   && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
               if ((int) $post['equal_value'] <= 0) {
-                  $message = $this->__('Please enter a positive integer number in the right rate field.');
+                  $message = __('Please enter a positive integer number in the right rate field.');
               } else {
-                  $message = $this->__('Please enter a positive number in the left rate field.');
+                  $message = __('Please enter a positive number in the left rate field.');
               }
         } else {
             $rate       = $this->_initRate();
@@ -192,13 +192,13 @@ class Enterprise_Reward_Controller_Adminhtml_Reward_Rate extends Mage_Adminhtml_
             );
 
             if (!$isRateUnique) {
-                $message = $this->__('Sorry, but a rate with the same website, customer group and direction or covering rate already exists.');
+                $message = __('Sorry, but a rate with the same website, customer group and direction or covering rate already exists.');
             }
         }
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<label>
+    <?php echo __('Export to:') ?>
+    <select name="<?php echo $this->getId() ?>_export" id="<?php echo $this->getId() ?>_export" style="width:8em;">
+        <?php foreach ($this->getExportTypes() as $_type): ?>
+            <option value="<?php echo $_type->getUrl() ?>"><?php echo $_type->getLabel() ?></option>
+        <?php endforeach; ?>
+    </select>
+</label>
+<?php echo $this->getExportButtonHtml() ?>

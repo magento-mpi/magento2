@@ -36,15 +36,15 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     protected $_orderField;
 
     /**
-     * @var Mage_Eav_Model_AttributeFactory
+     * @var Magento_Eav_Model_AttributeFactory
      */
     protected $_attributeFactory;
 
     /**
      * Class constructor
-     * @param Mage_Eav_Model_AttributeFactory $attributeFactory
+     * @param Magento_Eav_Model_AttributeFactory $attributeFactory
      */
-    public function __construct(Mage_Eav_Model_AttributeFactory $attributeFactory)
+    public function __construct(Magento_Eav_Model_AttributeFactory $attributeFactory)
     {
         $this->_attributeFactory = $attributeFactory;
 
@@ -55,12 +55,12 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
             $storeCreditData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
-                'frontend_label' => $helper->__('Store Credit'),
+                'frontend_label' => __('Store Credit'),
                 'backend_type'   => 'decimal',
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('Mage_Eav_Model_Entity_Attribute', $storeCreditData)
+                $this->_attributeFactory->createAttribute('Magento_Eav_Model_Entity_Attribute', $storeCreditData)
             );
         }
 
@@ -68,12 +68,12 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
             $rewardPointsData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,
-                'frontend_label' => $helper->__('Reward Points'),
+                'frontend_label' => __('Reward Points'),
                 'backend_type'   => 'int',
                 'is_required'    => false,
             );
             $this->addItem(
-                $this->_attributeFactory->createAttribute('Mage_Eav_Model_Entity_Attribute', $rewardPointsData)
+                $this->_attributeFactory->createAttribute('Magento_Eav_Model_Entity_Attribute', $rewardPointsData)
             );
         }
     }

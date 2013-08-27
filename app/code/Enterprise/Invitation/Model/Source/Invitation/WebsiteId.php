@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Source_Invitation_WebsiteId implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_Invitation_Model_Source_Invitation_WebsiteId implements Magento_Core_Model_Option_ArrayInterface
 
 {
     /**
@@ -24,6 +24,6 @@ class Enterprise_Invitation_Model_Source_Invitation_WebsiteId implements Mage_Co
      */
     public function toOptionArray()
     {
-        return  Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash();
+        return  Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash();
     }
 }

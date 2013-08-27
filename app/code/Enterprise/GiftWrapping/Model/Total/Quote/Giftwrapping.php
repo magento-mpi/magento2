@@ -13,20 +13,20 @@
  * GiftWrapping total calculator for quote
  *
  */
-class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
     /**
-     * @var Mage_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote
      */
     protected $_quote;
 
     /**
-     * @var Mage_Sales_Model_Quote|Mage_Sales_Model_Quote_Address
+     * @var Magento_Sales_Model_Quote|Magento_Sales_Model_Quote_Address
      */
     protected $_quoteEntity;
 
@@ -41,13 +41,13 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
     /**
      * Collect gift wrapping totals
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping
      */
-    public function collect(Mage_Sales_Model_Quote_Address $address)
+    public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
-        if ($address->getAddressType() != Mage_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+        if ($address->getAddressType() != Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
             return $this;
         }
 
@@ -99,7 +99,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
     /**
      * Collect wrapping total for items
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping
      */
     protected function _collectWrappingForItems($address)
@@ -133,7 +133,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
     /**
      * Collect wrapping total for quote
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping
      */
     protected function _collectWrappingForQuote($address)
@@ -153,7 +153,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
     /**
      * Collect printed card total for quote
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Magento_Sales_Model_Quote_Address $address
      * @return  Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping
      */
     protected function _collectPrintedCard($address)
@@ -173,7 +173,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
      * Return wrapping model for wrapping ID
      *
      * @param  int $wrappingId
-     * @param  Mage_Core_Model_Store $store
+     * @param  Magento_Core_Model_Store $store
      * @return Enterprise_GiftWrapping_Model_Wrapping
      */
     protected function _getWrapping($wrappingId, $store)
@@ -187,10 +187,10 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
     /**
      * Assign wrapping totals and labels to address object
      *
-     * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Mage_Sales_Model_Quote_Address_Total_Subtotal
+     * @param   Magento_Sales_Model_Quote_Address $address
+     * @return  Magento_Sales_Model_Quote_Address_Total_Subtotal
      */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
+    public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),

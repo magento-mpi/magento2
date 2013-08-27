@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_PricePermissions_Block_Adminhtml_Catalog_Product_Price_Default
-    extends Mage_Backend_Block_System_Config_Form_Field
+    extends Magento_Backend_Block_System_Config_Form_Field
 {
     /**
      * Render Default Product Price field as disabled if user does not have enough permissions

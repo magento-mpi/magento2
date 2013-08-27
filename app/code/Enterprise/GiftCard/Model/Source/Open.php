@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Enterprise_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Get all options
@@ -50,8 +50,8 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
     protected function _getValues()
     {
         return array(
-            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('No'),
-            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Yes'),
+            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => __('No'),
+            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => __('Yes'),
         );
     }
 
@@ -73,11 +73,11 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
             'default'  => $isNullable ? null : $attributeDefaultValue
         );
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {
-            $column['type']     = Mage::getResourceHelper('Mage_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = $isNullable;
             $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
         }
@@ -93,7 +93,7 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
+        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

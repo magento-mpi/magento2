@@ -9,19 +9,19 @@
  */
 
 //Add Product's Attribute
-$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 
-$installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable');
-$installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'use_config_is_returnable');
+$installer->removeAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable');
+$installer->removeAttribute(Magento_Catalog_Model_Product::ENTITY, 'use_config_is_returnable');
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable', array(
     'group'             => 'General',
     'frontend'          => '',
     'label'             => 'Enable RMA',
     'input'             => 'select',
     'class'             => '',
     'source'            => 'Enterprise_Rma_Model_Product_Source',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'           => true,
     'required'          => false,
     'user_defined'      => false,
@@ -32,10 +32,10 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'is_returnable', ar
     'visible_on_front'  => false,
     'unique'            => false,
     'apply_to'          =>
-        Mage_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
-        Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
+        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_GROUPED . ',' .
+        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
     'is_configurable'   => false,
     'input_renderer'    => 'Enterprise_Rma_Block_Adminhtml_Product_Renderer',
 ));

@@ -71,7 +71,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_Pbridge after="Mage_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
+                        <Enterprise_Pbridge after="Magento_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
                     </modules>
                 </args>
             </adminhtml>
@@ -79,7 +79,7 @@
     </admin>
     <default>
         <payment>
-            <pbridge translate="title" module="Enterprise_Pbridge">
+            <pbridge translate="title">
                 <model>Enterprise_Pbridge_Model_Payment_Method_Pbridge</model>
                 <title>Payment Bridge</title>
                 <debug>0</debug>
@@ -121,9 +121,9 @@
             <pbridge_ogone_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Ogone</model>
                 <title>Ogone Direct Link</title>
-                <userid backend_model="Mage_Backend_Model_Config_Backend_Encrypted" />
-                <password backend_model="Mage_Backend_Model_Config_Backend_Encrypted" />
-                <passphrase backend_model="Mage_Backend_Model_Config_Backend_Encrypted" />
+                <userid backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <password backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <passphrase backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>

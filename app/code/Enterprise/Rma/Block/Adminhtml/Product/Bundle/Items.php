@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Items extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Items extends Magento_Core_Block_Template
 {
 
     public function _construct()

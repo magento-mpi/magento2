@@ -24,7 +24,7 @@ class Enterprise_Customer_Model_Resource_Sales_Quote_Address
      *
      * @var string
      */
-    protected $_parentResourceModelName = 'Mage_Sales_Model_Resource_Quote_Address';
+    protected $_parentResourceModelName = 'Magento_Sales_Model_Resource_Quote_Address';
 
     /**
      * Initialize resource
