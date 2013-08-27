@@ -51,16 +51,6 @@ class Mage_Widget_Model_Widget
     }
 
     /**
-     * Get all widgets configuration
-     *
-     * @return array
-     */
-    public function getWidgets()
-    {
-        return $config = $this->_dataStorage->get();
-    }
-
-    /**
      * Return widget config based on its class type
      *
      * @param string $type Widget type
@@ -157,9 +147,9 @@ class Mage_Widget_Model_Widget
      * @param array $filters Key-value array of filters for widget node properties
      * @return array
      */
-    public function getWidgetsByFilters($filters = array())
+    public function getWidgets($filters = array())
     {
-        $widgets = $this->getWidgets();
+        $widgets = $this->_dataStorage->get();
         $result = $widgets;
 
         // filter widgets by params
@@ -191,7 +181,7 @@ class Mage_Widget_Model_Widget
     {
         if (empty($this->_widgetsArray)) {
             $result = array();
-            foreach ($this->getWidgetsByFilters($filters) as $code => $widget) {
+            foreach ($this->getWidgets($filters) as $code => $widget) {
                 if (isset($widget['@']) && isset($widget['@']['module'])) {
                     $helper = $widget['@']['module'];
                 } else {

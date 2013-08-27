@@ -40,6 +40,33 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testGetWidgetsWithFilter()
+    {
+        $configFile = __DIR__ . '/_files/mappedConfigArrayAll.php';
+        $widgets = include $configFile;
+        $this->_storage->expects($this->once())->method('get')
+            ->will($this->returnValue($widgets));
+        $result = $this->_model->getWidgets(array(
+            'name' => 'CMS Page Link',
+            'description' => 'Link to a CMS Page',));
+        $configFile1 = __DIR__ . '/_files/mappedConfigArray1.php';
+        $expected = array('cms_page_link' => include $configFile1);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testGetWidgetsWithUnknownFilter()
+    {
+        $configFile = __DIR__ . '/_files/mappedConfigArrayAll.php';
+        $widgets = include $configFile;
+        $this->_storage->expects($this->once())->method('get')
+            ->will($this->returnValue($widgets));
+        $result = $this->_model->getWidgets(array(
+            'name' => 'unknown',
+            'description' => 'unknown',));
+        $expected = array();
+        $this->assertEquals($expected, $result);
+    }
+
     public function testGetWidgetByClassType()
     {
         $widget1 = array(

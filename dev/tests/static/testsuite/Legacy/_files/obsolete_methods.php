@@ -459,7 +459,7 @@ return array(
     array('getWebsite', 'Mage_Captcha_Helper_Data'),
     array('getWidgetConfig', 'Mage_Widget_Model_Widget_Instance', 'getWidgetConfigInArray'),
     array('getWidgetsRequiredJsFiles','Mage_Widget_Model_Widget'),
-    array('getWidgetsXml','Mage_Widget_Model_Widget', 'getWidgetsByFilters'),
+    array('getWidgetsXml','Mage_Widget_Model_Widget', 'getWidgets'),
     array('getWidgetSupportedBlocks', 'Mage_Widget_Model_Widget_Instance'),
     array('getWidgetSupportedTemplatesByBlock', 'Mage_Widget_Model_Widget_Instance'),
     array('getWinProcessMemoryUsage', 'Magento_Test_Helper_Memory', 'getRealMemoryUsage'),

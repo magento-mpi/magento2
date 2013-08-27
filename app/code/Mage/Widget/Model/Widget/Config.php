@@ -81,8 +81,8 @@ class Mage_Widget_Model_Widget_Config
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = $this->_widget->getWidgetsByFilters();
-            $filtered = $this->_widget->getWidgetsByFilters($config->getData('widget_filters'));
+            $all = $this->_widget->getWidgets();
+            $filtered = $this->_widget->getWidgets($config->getData('widget_filters'));
             foreach ($all as $code => $widget) {
                 if (!isset($filtered[$code])) {
                     $skipped[] = $widget['@']['type'];
