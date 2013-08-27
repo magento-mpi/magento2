@@ -7,8 +7,8 @@
  */
 return array(
     '@' => array(
-        'type' => 'Enterprise_GiftRegistry_Block_Search_Widget_Form',
-        'module' => 'Enterprise_GiftRegistry',
+        'type' => 'Magento_GiftRegistry_Block_Search_Widget_Form',
+        'module' => 'Magento_GiftRegistry',
         'translate' => 'name description',
     ),
     'name' => 'Gift Registry Search',
@@ -17,7 +17,7 @@ return array(
         'types' => array(
             'type' => 'multiselect',
             'visible' => 'true', // verify default value is injected
-            'source_model' => 'Enterprise_GiftRegistry_Model_Source_Search',
+            'source_model' => 'Magento_GiftRegistry_Model_Source_Search',
         ),
     ),
 );

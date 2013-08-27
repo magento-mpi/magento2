@@ -11,5 +11,5 @@ $array2File = __DIR__ . DIRECTORY_SEPARATOR . 'mappedConfigArray2.php';
 $array2 = include $array2File;
 return array(
     'cms_page_link' => $array1,
-    'enterprise_giftregistry_search' => $array2
+    'magento_giftregistry_search' => $array2
 );
