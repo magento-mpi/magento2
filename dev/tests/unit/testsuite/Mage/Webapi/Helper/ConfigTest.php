@@ -49,13 +49,13 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function serviceNamePartsDataProvider()
     {
         return array(
-            array('Mage_Customer_Service_Customer_AddressInterfaceV1', false, array('Customer', 'Address')),
+            array('Mage_Customer_Service_Customer_AddressV1Interface', false, array('Customer', 'Address')),
             array(
-                'Vendor_Customer_Service_Customer_AddressInterfaceV1',
+                'Vendor_Customer_Service_Customer_AddressV1Interface',
                 true,
                 array('VendorCustomer', 'Address', 'V1')
             ),
-            array('Mage_Catalog_Service_ProductInterfaceV2', true, array('CatalogProduct', 'V2'))
+            array('Mage_Catalog_Service_ProductV2Interface', true, array('CatalogProduct', 'V2'))
         );
     }
 
