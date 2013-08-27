@@ -22,8 +22,10 @@ class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_In
                 $this->addError($phrase);
             }
         }
-        $message = $this->_prepareErrorMessage('%d usages of the old translation method call were discovered: %s',
-            $this->_errors);
-        $this->assertEmpty($this->_errors, $message);
+        $this->assertEmpty(
+            $this->_errors,
+            $this->_prepareErrorMessage('%d usages of the old translation method call were discovered: %s',
+                $this->_errors)
+        );
     }
 }

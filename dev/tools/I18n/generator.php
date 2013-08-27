@@ -2,37 +2,54 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    I18n
  * @copyright  {copyright}
  * @license    {license_link}
  */
 require __DIR__ . '/../bootstrap.php';
-$baseDir = realpath(BP);
-use Magento\Tools\I18n\Code,
-    Magento\Tools\I18n\Code\Dictionary,
-    Magento\Tools\I18n\Code\Dictionary\Scanner;
+$baseDirectory = realpath(BP);
+use Magento\Tools\I18n\Code\Dictionary;
 
 try {
     $options = new Zend_Console_Getopt(array(
-        'scan_directory|sd=s' => 'Absolute path to scan directory, Magento code base by default',
+        'directory|bd=s' => 'Absolute path to base directory, Magento code base by default',
         'with_context|wc=s' => 'Whether to infuse output with additional meta-information, by default "yes"',
         'output|o=s' => 'Path to output file name, by default output the results into standard output stream',
     ));
     $options->parse();
-    $scanDirectory = $options->getOption('scan_directory') ? $options->getOption('scan_directory') : null;
-    $outputFilename = $options->getOption('output') ? $options->getOption('output') : null;
-    $withContext = in_array($options->getOption('with_context'), array('n', 'no', 'N', 'No', 'NO')) ? false : true;
+    $specificDirectory = $options->getOption('directory') ? : null;
+    $outputFilename = $options->getOption('output') ? : null;
+    $withContext = !in_array($options->getOption('with_context'), array('n', 'no', 'N', 'No', 'NO'));
 
-    $scanner = new Dictionary\ScannerComposite($baseDir, $scanDirectory);
-    $scanner->addChild(new Scanner\PhpScanner());
-    $scanner->addChild(new Scanner\XmlScanner());
-    $scanner->addChild(new Scanner\JsScanner());
+    $options = array(
+        'php' => array(
+            'paths' => $specificDirectory ? array($specificDirectory) : array(
+                $baseDirectory . '/app/code/',
+                $baseDirectory . '/app/design/',
+            ),
+            'fileMask' => '/\.(php|phtml)$/',
+        ),
+        'js' => array(
+            'paths' => $specificDirectory ? array($specificDirectory) : array(
+                $baseDirectory . '/app/code/',
+                $baseDirectory . '/app/design/',
+                $baseDirectory . '/pub/lib/mage/',
+                $baseDirectory . '/pub/lib/varien/',
+            ),
+            'fileMask' => '/\.(js|phtml)$/',
+        ),
+        'xml' => array(
+            'paths' => $specificDirectory ? array($specificDirectory) : array(
+                $baseDirectory . '/app/code/',
+                $baseDirectory . '/app/design/',
+            ),
+            'fileMask' => '/\.xml$/',
+        ),
+        'outputFilename' => $outputFilename,
+    );
 
-    $dictionaryGenerator = new Code\Dictionary($scanner);
-    $dictionaryGenerator->setOutputFilename($outputFilename);
-    $dictionaryGenerator->setWithContext($withContext);
-    $dictionaryGenerator->generate();
+    $generatorFactory = new Dictionary\Generator\Factory();
+    $generatorFactory->create($options)->generate($withContext);
+
 } catch (Zend_Console_Getopt_Exception $e) {
     echo $e->getUsageMessage();
     exit(1);
