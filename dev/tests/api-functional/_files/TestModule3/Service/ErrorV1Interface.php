@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_TestModule3_Service_ErrorInterfaceV1
+interface Mage_TestModule3_Service_ErrorV1Interface
 {
     public function success();
     public function resourceNotFoundException();

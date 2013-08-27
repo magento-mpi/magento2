@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule2_Service_NoWebApiXmlV1 implements Mage_TestModule2_Service_NoWebApiXmlInterfaceV1
+class Mage_TestModule2_Service_NoWebApiXmlV1 implements Mage_TestModule2_Service_NoWebApiXmlV1Interface
 {
     /**
      * @param array $request

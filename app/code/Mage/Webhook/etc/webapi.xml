@@ -10,7 +10,7 @@
  */
 -->
 <config>
-    <service class="Mage_Webhook_Service_SubscriptionInterfaceV1" baseUrl="/V1/subscriptions">
+    <service class="Mage_Webhook_Service_SubscriptionV1Interface" baseUrl="/V1/subscriptions">
         <rest-route httpMethod="GET" method="getAll" secure="true"/>
         <rest-route httpMethod="POST" method="create" secure="true"/>
         <rest-route httpMethod="PUT" method="update" secure="true">/:subscriptionId</rest-route>

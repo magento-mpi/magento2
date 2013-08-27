@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_TestModule2_Service_AllSoapNoRestInterfaceV1
+interface Mage_TestModule2_Service_AllSoapNoRestV1Interface
 {
     /**
      * Return a single item.

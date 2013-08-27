@@ -7,7 +7,7 @@
  */
 
 class Mage_TestModule1_Service_AllSoapAndRestV2 extends Mage_TestModule1_Service_AllSoapAndRestV1 implements
-    Mage_TestModule1_Service_AllSoapAndRestInterfaceV2
+    Mage_TestModule1_Service_AllSoapAndRestV2Interface
 {
 
     const ERROR_INTERNAL_DELETE = '03';

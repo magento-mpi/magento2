@@ -19,7 +19,7 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
+            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestV1Interface',
             'method' => 'item'
         );
         $requestData = array('id' => $itemId);
@@ -90,7 +90,7 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
     public function testWsdlGenerationWithNestedTypes()
     {
         $serviceInfo = array(
-            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
+            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestV1Interface',
             'method' => 'items'
         );
         $actualResult = $this->_webApiCall($serviceInfo);

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_TestModule2_Service_SubsetRestV1 implements Mage_TestModule2_Service_SubsetRestInterfaceV1
+class Mage_TestModule2_Service_SubsetRestV1 implements Mage_TestModule2_Service_SubsetRestV1Interface
 {
     /**
      * @param array $request

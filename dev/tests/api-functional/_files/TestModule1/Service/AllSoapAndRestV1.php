@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Service_AllSoapAndRestInterfaceV1
+class Mage_TestModule1_Service_AllSoapAndRestV1 implements Mage_TestModule1_Service_AllSoapAndRestV1Interface
 {
     const ERROR_INTERNAL_LOAD = '01';
     const ERROR_INTERNAL_SAVE = '02';

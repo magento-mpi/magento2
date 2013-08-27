@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_TestModule2_Service_NoWebApiXmlInterfaceV1
+interface Mage_TestModule2_Service_NoWebApiXmlV1Interface
 {
     /**
      * Return a single item.

@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Config
     /**
      * Pattern for Web API interface name.
      */
-    const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+Interface(V\d+)$/';
+    const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+(V\d+)Interface$/';
 
     /**
      * @var Mage_Core_Model_Config

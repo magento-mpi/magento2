@@ -18,9 +18,9 @@
     <global>
         <di>
             <preferences>
-                <Mage_TestModule2_Service_SubsetRestInterfaceV1>Mage_TestModule2_Service_SubsetRestV1</Mage_TestModule2_Service_SubsetRestInterfaceV1>
-                <Mage_TestModule2_Service_AllSoapNoRestInterfaceV1>Mage_TestModule2_Service_AllSoapNoRestV1</Mage_TestModule2_Service_AllSoapNoRestInterfaceV1>
-                <Mage_TestModule2_Service_NoWebApiXmlInterfaceV1>Mage_TestModule2_Service_NoWebApiXmlV1</Mage_TestModule2_Service_NoWebApiXmlInterfaceV1>
+                <Mage_TestModule2_Service_SubsetRestV1Interface>Mage_TestModule2_Service_SubsetRestV1</Mage_TestModule2_Service_SubsetRestV1Interface>
+                <Mage_TestModule2_Service_AllSoapNoRestV1Interface>Mage_TestModule2_Service_AllSoapNoRestV1</Mage_TestModule2_Service_AllSoapNoRestV1Interface>
+                <Mage_TestModule2_Service_NoWebApiXmlV1Interface>Mage_TestModule2_Service_NoWebApiXmlV1</Mage_TestModule2_Service_NoWebApiXmlV1Interface>
             </preferences>
         </di>
     </global>

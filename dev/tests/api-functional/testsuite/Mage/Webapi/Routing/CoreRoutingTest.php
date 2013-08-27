@@ -15,7 +15,7 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestInterfaceV1',
+            'serviceInterface' => 'Mage_TestModule1_Service_AllSoapAndRestV1Interface',
             'method' => 'item',
             'entityId' => $itemId
         );
@@ -48,7 +48,7 @@ class Mage_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAb
         $this->markTestIncomplete("Uncomment test when TestModule3 WSDL is generated correctly");
         $this->_markTestAsSoapOnly();
         $serviceInfo = array(
-            'serviceInterface' => 'Mage_TestModule3_Service_ErrorInterfaceV1',
+            'serviceInterface' => 'Mage_TestModule3_Service_ErrorV1Interface',
             'method' => 'serviceException',
         );
         $this->setExpectedException(

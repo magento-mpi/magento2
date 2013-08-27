@@ -11,7 +11,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_Webhook_Service_SubscriptionInterfaceV1
+interface Mage_Webhook_Service_SubscriptionV1Interface
 {
 
     /**

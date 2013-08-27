@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Mage_TestModule2_Service_SubsetRestInterfaceV1
+interface Mage_TestModule2_Service_SubsetRestV1Interface
 {
     /**
      * Return a single item.

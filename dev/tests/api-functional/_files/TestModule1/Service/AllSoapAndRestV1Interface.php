@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-interface Mage_TestModule1_Service_AllSoapAndRestInterfaceV1
+interface Mage_TestModule1_Service_AllSoapAndRestV1Interface
 {
 
     /**

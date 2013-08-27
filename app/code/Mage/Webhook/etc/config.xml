@@ -78,7 +78,7 @@
                 <Magento_Outbound_TransportInterface>Magento_Outbound_Transport_Http</Magento_Outbound_TransportInterface>
                 <Magento_Outbound_MessageInterface>Magento_Outbound_Message</Magento_Outbound_MessageInterface>
                 <Magento_PubSub_Message_DispatcherAsyncInterface>Magento_PubSub_Message_DispatcherAsync</Magento_PubSub_Message_DispatcherAsyncInterface>
-                <Mage_Webhook_Service_SubscriptionInterfaceV1>Mage_Webhook_Service_SubscriptionV1</Mage_Webhook_Service_SubscriptionInterfaceV1>
+                <Mage_Webhook_Service_SubscriptionV1Interface>Mage_Webhook_Service_SubscriptionV1</Mage_Webhook_Service_SubscriptionV1Interface>
             </preferences>
         </di>
         <events>
