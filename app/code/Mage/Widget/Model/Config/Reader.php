@@ -58,6 +58,6 @@ class Mage_Widget_Model_Config_Reader extends Magento_Config_Reader_Filesystem
      */
     public function readFile($file)
     {
-        return readFile(array($file));
+        return $this->_readFiles(array($file));
     }
 }
