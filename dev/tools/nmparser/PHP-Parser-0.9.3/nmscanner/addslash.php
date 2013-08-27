@@ -31,6 +31,7 @@ class addSlash
     private $errorLog = "error.txt";
     private $fileChanged = array();
     private $rootDirectory = null;
+    private $braceStarted=false;
 
     public function  __construct($dir)
     {
@@ -62,7 +63,6 @@ class addSlash
             $lines = file($file);
             $parsedLine = null;
             $count = 0;
-            $braceStarted = false;
             $starBraceCheck = false;
             echo "$file psr1 process started \n";
             foreach ($lines as $line) {
@@ -95,11 +95,11 @@ class addSlash
                                 $this->splitLine = $count;
                                 $parsedLine = $this->scanClass($line, $parsedLine, $file);
                             } else {
-                                if ($trimLine === '{') {
-                                    $braceStarted = true;
+                                if ($trimLine == '{') {
+                                    $this->braceStarted = true;
                                     $parsedLine[] = $line;
                                 } else {
-                                    if ($braceStarted == false && $starBraceCheck == true) {
+                                    if ($this->braceStarted == false && $starBraceCheck == true) {
                                         $parsedLine = $this->scanClass($line, $parsedLine, $file, true);
                                         } else {
                                         $parsedLine[] = $line;
@@ -141,6 +141,9 @@ class addSlash
                     $val
                 ) == '' || $val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface' || $val === 'extends' || $val === 'implements'
                 || $val=='{'  || $val=='}'  || $val=='{}' ) {
+                if($val='{'){
+                    $this->braceStarted = true;
+                }
                 $parse = true;
                 if ($val === 'abstract' || $val === 'class' || $val === 'final' || $val === 'interface'||$val=='{'  || $val=='}'  || $val=='{}') {
                     $this->reserveCheck = true;
@@ -159,12 +162,12 @@ class addSlash
 
             if ($parse) {
                 $vals = explode(",", $value);
-                print_r($vals);
 
                 $multipleImplements = false;
                 if (count($vals) > 1) {
                     $multipleImplements = true;
                 }
+
                 foreach ($vals as $val) {
                     //fix for the global scanner
                     $val=trim($val);
