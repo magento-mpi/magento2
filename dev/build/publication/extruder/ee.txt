@@ -13,7 +13,6 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/RenderersTest.php
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
 dev/tests/integration/testsuite/Magento/Test/Theme
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/view_files_ee.php
-dev/tests/static/testsuite/Magento/Test/Integrity/Magento/AdminGws
 dev/tests/static/testsuite/Magento/Test/Integrity/Enterprise
 dev/tests/static/testsuite/Magento/Test/Js/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_classes_ee.php
@@ -22,7 +21,6 @@ dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_constants_ee.php
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_methods_ee.php
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_properties_ee.php
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_ee.xml
-dev/tests/static/testsuite/Magento/Test/Legacy/Magento/AdminGws
 dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/ee_additional.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/ee.txt
@@ -40,7 +38,8 @@ pub/errors/enterprise
 app/code/Magento/AdminGws
 dev/tests/unit/testsuite/Magento/AdminGws
 dev/tests/integration/testsuite/Magento/AdminGws
-dev/tests/static/testsuite/Legacy/Magento/AdminGws
+dev/tests/static/testsuite/Magento/Test/Legacy/Magento/AdminGws
+dev/tests/static/testsuite/Magento/Test/Integrity/Magento/AdminGws
 app/code/Magento/Banner
 dev/tests/unit/testsuite/Magento/Banner
 dev/tests/integration/testsuite/Magento/Banner
@@ -64,7 +63,7 @@ dev/tests/integration/testsuite/Magento/Enterprise
 app/code/Magento/GiftCard
 dev/tests/unit/testsuite/Magento/GiftCard
 dev/tests/integration/testsuite/Magento/GiftCard
-dev/tests/static/testsuite/Legacy/Magento/GiftCard
+dev/tests/static/testsuite/Magento/Test/Legacy/Magento/GiftCard
 app/code/Magento/GiftCardAccount
 dev/tests/integration/testsuite/Magento/GiftCardAccount
 app/code/Magento/GiftRegistry
@@ -74,7 +73,7 @@ app/code/Magento/GiftWrapping
 dev/tests/integration/testsuite/Magento/GiftWrapping
 app/code/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
-dev/tests/static/testsuite/Legacy/Magento/Invitation
+dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Invitation
 app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
