@@ -52,8 +52,8 @@ class Mage_Page_Block_LinksTest extends PHPUnit_Framework_TestCase
         $blockHtml = 'test';
         $name = 'test_name';
         $this->_context->getLayout()->expects($this->once())->method('renderElement')->with($name)->will(
-                $this->returnValue($blockHtml)
-            );
+            $this->returnValue($blockHtml)
+        );
 
         /** @var Mage_Core_Block_Abstract $link */
         $link = $this->getMockBuilder('Mage_Core_Block_Abstract')->disableOriginalConstructor()->getMock();

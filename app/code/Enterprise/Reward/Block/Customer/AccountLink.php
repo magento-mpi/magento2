@@ -17,12 +17,31 @@
  */
 class Enterprise_Reward_Block_Customer_AccountLink extends Mage_Page_Block_Link_Current
 {
+    /** @var Enterprise_Reward_Helper_Data */
+    protected $_rewardHelper;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Enterprise_Reward_Helper_Data $rewardHelper
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Enterprise_Reward_Helper_Data $rewardHelper,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_rewardHelper = $rewardHelper;
+    }
+
     /**
      * @inheritdoc
      */
     protected function _toHtml()
     {
-        if (Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()) {
+        if ($this->_rewardHelper->isEnabledOnFront()) {
             return parent::_toHtml();
         } else {
             return '';
