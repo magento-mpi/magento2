@@ -38,7 +38,7 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
-    public function testGetLocaleFileName()
+    public function testGetFileNameAccordingToLocale()
     {
         $expected = '%s/frontend/test_default/i18n/fr_FR/logo.gif';
         $actual = $this->_model->getLocaleFileName('logo.gif', array('locale' => 'fr_FR'));
