@@ -93,7 +93,7 @@ class Mage_Webapi_Model_Rest_Config extends Mage_Webapi_Model_Config
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
         $httpMethod = $request->getHttpMethod();
         $routes = array();
-        foreach ($this->getRestServices() as $serviceName => $serviceData) {
+        foreach ($this->getServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
             if (
                 !isset($serviceData['baseUrl'])

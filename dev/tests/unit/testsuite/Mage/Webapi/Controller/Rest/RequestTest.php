@@ -16,7 +16,7 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
      */
     protected $_request;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Controller_Rest_Request_Interpreter_Factory */
     protected $_interpreterFactory;
 
     protected function setUp()
@@ -62,7 +62,6 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
             ->method('getHeader')
             ->with('Accept')
             ->will($this->returnValue($acceptHeader));
-        /** @var Mage_Webapi_Controller_Rest_Request _requestMock */
         $this->assertSame($expectedResult, $this->_request->getAcceptTypes());
     }
 
@@ -209,14 +208,13 @@ class Mage_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->_request->getServiceVersion(), 'Version number was missed.');
     }
 
-    public function testGetServiceVersionVersionIsNotSpecifiedException()
+    public function testSetServiceVersionVersionIsNotSpecifiedException()
     {
-        $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'Resource version is not specified or invalid one is specified',
+            'Service version is not specified or invalid one is specified.',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
-        $this->_request->getServiceVersion();
+        $this->_request->setServiceVersion('x1');
     }
 }

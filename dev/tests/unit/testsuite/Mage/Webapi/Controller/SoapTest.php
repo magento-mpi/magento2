@@ -9,25 +9,25 @@
  */
 class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap */
+    /** @var Mage_Webapi_Controller_Soap */
     protected $_dispatcher;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Model_Soap_AutoDiscover */
     protected $_autoDiscoverMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Controller_Soap_Request */
     protected $_requestMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Model_Soap_Fault */
     protected $_soapFaultMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Controller_Response */
     protected $_responseMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var Mage_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessorMock;
 
     /** @var Mage_Core_Model_StoreManager */
@@ -120,7 +120,6 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchWsdl()
     {
-        $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
         $this->_mockGetParam(1);
 
         $charset = 'utf8';
@@ -129,7 +128,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
 
         $expectedWsdl = '<?xml version="1.0" encoding="' . $charset .'"?><root>WSDL_CONTENT</root>';
         $expectedResources = array('foo' => 'v1');
-        $expectedUrl = 'http://magento.host/api/soap?resources[foo]=v1';
+        $expectedUrl = 'http://magento.host/soap?wsdl=1&services=testModule3ErrorV1';
         $this->_requestMock->expects($this->once())
             ->method('getRequestedServices')
             ->will($this->returnValue($expectedResources));
@@ -191,7 +190,7 @@ class Mage_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->method('setHttpResponseCode')
             ->with(400);
 
-        $expectedUrl = 'http://magento.host/api/soap/';
+        $expectedUrl = 'http://magento.host/soap';
 
         $this->_soapServerMock->expects($this->any())
             ->method('getEndpointUri')
