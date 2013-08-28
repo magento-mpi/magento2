@@ -20,7 +20,7 @@ class Legacy_FilesystemEnterpriseTest extends PHPUnit_Framework_TestCase
      */
     public function testRelocations($path)
     {
-        //$this->markTestSkipped('Skipping test until all references to Enterprise have been removed');
+        $this->markTestSkipped('Skipping test until all references to Enterprise have been removed');
         $this->assertFileNotExists(Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path);
     }
 
