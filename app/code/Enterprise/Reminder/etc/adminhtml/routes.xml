@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="admin">
+        <route id="adminhtml">
+            <module name="Enterprise_Reminder_Adminhtml" before="Mage_Adminhtml" />
+        </route>
+    </router>
+</config>

@@ -29,17 +29,6 @@
             </email>
         </template>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_reminder before="Mage_Adminhtml">Enterprise_Reminder_Adminhtml</enterprise_reminder>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

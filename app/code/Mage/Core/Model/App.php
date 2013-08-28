@@ -224,9 +224,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     protected function _initFrontController()
     {
         $this->_frontController = $this->_getFrontControllerByCurrentArea();
-        Magento_Profiler::start('init_front_controller');
-        $this->_frontController->init();
-        Magento_Profiler::stop('init_front_controller');
         return $this;
     }
 

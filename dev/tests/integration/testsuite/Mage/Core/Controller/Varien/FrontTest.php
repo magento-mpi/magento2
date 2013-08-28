@@ -51,28 +51,19 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());
     }
 
-    public function testAddGetRouter()
+    public function testGetRouter()
     {
-        $router = Mage::getModel('Mage_Core_Controller_Varien_Router_Default');
-        $this->assertNull($router->getFront());
-        $this->_model->addRouter('test', $router);
-        $this->assertSame($this->_model, $router->getFront());
-        $this->assertSame($router, $this->_model->getRouter('test'));
-        $this->assertEmpty($this->_model->getRouter('tt'));
+        $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Default', $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()
     {
-        $this->assertEmpty($this->_model->getRouters());
-        $this->_model->addRouter('test', Mage::getModel('Mage_Core_Controller_Varien_Router_Default'));
-        $this->assertNotEmpty($this->_model->getRouters());
-    }
-
-    public function testInit()
-    {
-        $this->assertEmpty($this->_model->getRouters());
-        $this->_model->init();
-        $this->assertNotEmpty($this->_model->getRouters());
+        $routers = $this->_model->getRouters();
+        $routerIds = array_keys($routers);
+        foreach (array('admin', 'standard', 'default', 'cms', 'vde') as $routerId) {
+            $this->assertContains($routerId, $routerIds);
+            $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Abstract', $routers[$routerId]);
+        }
     }
 
     public function testDispatch()
@@ -81,39 +72,10 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_model->init();
         /* empty action */
         $this->_model->getRequest()->setRequestUri('core/index/index');
         $this->_model->dispatch();
         $this->assertEmpty($this->_model->getResponse()->getBody());
-    }
-
-    public function testGetRouterByRoute()
-    {
-        $this->_model->init();
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Base', $this->_model->getRouterByRoute(''));
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByRoute('checkout')
-        );
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Default', $this->_model->getRouterByRoute('test'));
-    }
-
-    public function testGetRouterByFrontName()
-    {
-        $this->_model->init();
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByFrontName('')
-        );
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Base',
-            $this->_model->getRouterByFrontName('checkout')
-        );
-        $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Default',
-            $this->_model->getRouterByFrontName('test')
-        );
     }
 
     /**

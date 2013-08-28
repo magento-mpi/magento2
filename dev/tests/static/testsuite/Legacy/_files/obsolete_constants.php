@@ -104,6 +104,7 @@ return array(
         'Mage_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
+    array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_CHECK_EXTENSIONS', 'Mage_Install_Model_Config'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Mage_Paypal_Model_System_Config_Backend_MerchantCountry'),
@@ -129,5 +130,6 @@ return array(
     array('XML_PATH_THEME_ID', 'Mage_Core_Model_Design_PackageInterface',
         'Mage_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
+    array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
 );
 

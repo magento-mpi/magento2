@@ -49,15 +49,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <giftmessage>
-                <use>standard</use>
-                <args>
-                    <module>Mage_GiftMessage</module>
-                    <frontName>giftmessage</frontName>
-                </args>
-            </giftmessage>
-        </routers>
         <translate>
             <modules>
                 <Mage_GiftMessage>

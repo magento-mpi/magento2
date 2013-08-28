@@ -39,19 +39,6 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
     }
 
     /**
-     * Initialize Controller Router
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function initControllerRouters($observer)
-    {
-        /* @var $front Mage_Core_Controller_Varien_Front */
-        $front = $observer->getEvent()->getFront();
-
-        $front->addRouter('cms', $this);
-    }
-
-    /**
      * Validate and Match Cms Page and modify request
      *
      * @param Mage_Core_Controller_Request_Http $request

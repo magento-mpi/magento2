@@ -30,17 +30,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <adminnotification before="Mage_Adminhtml">Mage_AdminNotification_Adminhtml</adminnotification>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <system>
             <adminnotification>

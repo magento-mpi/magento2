@@ -36,22 +36,6 @@
         </session>
     </global>
     <frontend>
-        <routers>
-            <rss>
-                <args>
-                    <modules>
-                        <tag before="Mage_Rss">Mage_Tag_Rss</tag>
-                    </modules>
-                </args>
-            </rss>
-            <tag>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Tag</module>
-                    <frontName>tag</frontName>
-                </args>
-            </tag>
-        </routers>
         <translate>
             <modules>
                 <Mage_Tag>
@@ -65,17 +49,6 @@
             <tag_customer>/tag/customer/</tag_customer>
         </secure_url>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Tag before="Mage_Adminhtml">Mage_Tag_Adminhtml</Mage_Tag>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

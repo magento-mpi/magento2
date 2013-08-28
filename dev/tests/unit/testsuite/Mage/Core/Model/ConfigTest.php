@@ -104,18 +104,4 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('getCurrentScope')->will($this->returnValue($areaCode));
         $this->assertEquals($expected, $this->_model->getAreas());
     }
-
-    public function testGetRouters()
-    {
-        $expected = array(
-            'admin' => array(
-                'class' => 'class',
-                'base_controller' => 'base_controller',
-                'frontName' => 'backend',
-                'area' => 'adminhtml',
-            ),
-        );
-
-        $this->assertEquals($expected, $this->_model->getRouters());
-    }
 }

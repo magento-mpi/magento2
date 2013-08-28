@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <router id="standard">
+        <route id="checkout" frontName="checkout">
+            <module name="Mage_Checkout" />
+        </route>
+    </router>
+</config>

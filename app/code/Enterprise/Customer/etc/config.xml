@@ -31,15 +31,4 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_customer before="Mage_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

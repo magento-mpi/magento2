@@ -22,10 +22,13 @@ class Mage_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Frame
      */
     public function testConstructWithEmptyAreaFrontName()
     {
+        $dataHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $dataHelperMock->expects($this->once())->method('getAreaFrontName')->will($this->returnValue(null));
+
         $options = array(
             'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController' => 'Mage_Backend_Controller_ActionAbstract',
-            'frontName' => 'backend'
+            'dataHelper' => $dataHelperMock,
         );
         Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
     }

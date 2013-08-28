@@ -8,12 +8,15 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_BACKEND_FRONTNAME            = 'global/areas/adminhtml/frontName';
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
+    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
     protected $_pageHelpUrl;
@@ -23,16 +26,34 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected $_config;
 
+    /**
+     * @var string
+     */
+    protected $_defaultAreaFrontName;
+
     protected $_areaFrontName = null;
+
+    /**
+     * @var Mage_Core_Model_RouterList
+     */
+    protected $_routerList;
 
     /**
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Helper_Context $context
+     * @param Mage_Core_Model_RouterList $routerList
+     * @param string $defaultAreaFrontName
      */
-    public function __construct(Mage_Core_Model_Config $applicationConfig, Mage_Core_Helper_Context $context)
-    {
+    public function __construct(
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Helper_Context $context,
+        Mage_Core_Model_RouterList $routerList,
+        $defaultAreaFrontName
+    ) {
         parent::__construct($context);
         $this->_config = $applicationConfig;
+        $this->_defaultAreaFrontName = $defaultAreaFrontName;
+        $this->_routerList = $routerList;
     }
 
     public function getPageHelpUrl()
@@ -50,7 +71,7 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontName = $request->getModuleName();
-                $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
+                $router = $this->_routerList->getRouterByFrontName($frontName);
 
                 $frontModule = $router->getModulesByFrontName($frontName);
                 if (empty($frontModule) === false) {
@@ -154,11 +175,13 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
+            $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, false);
             $this->_areaFrontName = $isCustomPathUsed
-                ? (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
+                ? (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, $this->_defaultAreaFrontName)
                 : (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
+
         }
+
         return $this->_areaFrontName;
     }
 

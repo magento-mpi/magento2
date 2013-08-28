@@ -106,17 +106,6 @@
             </collection>
         </product>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Bundle before="Mage_Adminhtml">Mage_Bundle_Adminhtml</Mage_Bundle>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>

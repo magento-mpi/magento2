@@ -64,19 +64,9 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
         $this->_application = $application;
         $this->_routeFactory = $routeFactory;
         $this->_errorProcessor = $errorProcessor;
-    }
 
-    /**
-     * Prepare environment, initialize dispatcher.
-     *
-     * @return Mage_Webapi_Controller_Front
-     */
-    public function init()
-    {
         ini_set('display_startup_errors', 0);
         ini_set('display_errors', 0);
-
-        return $this;
     }
 
     /**

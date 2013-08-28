@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <connect before="Mage_Adminhtml">Mage_Connect_Adminhtml</connect>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -32,4 +21,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

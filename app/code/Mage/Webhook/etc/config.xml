@@ -19,28 +19,6 @@
             </webhook_setup>
         </resources>
     </global>
-    <frontend>
-        <routers>
-            <webhook>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Webhook</module>
-                    <frontName>webhook</frontName>
-                </args>
-            </webhook>
-        </routers>
-    </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <webhook before="Mage_Adminhtml">Mage_Webhook_Adminhtml</webhook>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <crontab>
         <jobs>
             <webhook_process_messages>

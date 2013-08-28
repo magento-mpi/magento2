@@ -23,15 +23,6 @@
         <secure_url>
             <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
         </secure_url>
-        <routers>
-            <persistent>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Persistent</module>
-                    <frontName>persistent</frontName>
-                </args>
-            </persistent>
-        </routers>
         <translate>
             <modules>
                 <Mage_Persistent>

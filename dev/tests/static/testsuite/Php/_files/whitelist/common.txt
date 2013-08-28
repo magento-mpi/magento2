@@ -35,7 +35,6 @@ app/code/Mage/Cms/Controller/Router.php
 app/code/Mage/Core/Block/Abstract.php
 app/code/Mage/Core/Controller/Varien/ActionAbstract.php
 app/code/Mage/Core/Controller/Varien/Action/Factory.php
-app/code/Mage/Core/Controller/Varien/Router/Factory.php
 app/code/Mage/Core/Controller/Varien/Action/Forward.php
 app/code/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/Mage/Core/Controller/Varien/Router/Abstract.php
@@ -59,6 +58,7 @@ app/code/Mage/Core/Model/Layout/Update.php
 app/code/Mage/Core/Model/Layout/Argument
 app/code/Mage/Core/Model/Locale/Validator.php
 app/code/Mage/Core/Model/LocaleInterface.php
+app/code/Mage/Core/Model/NoRouteHandlerList.php
 app/code/Mage/Core/Model/ObjectManager
 app/code/Mage/Core/Model/Observer.php
 app/code/Mage/Core/Model/Page
@@ -66,6 +66,9 @@ app/code/Mage/Core/Model/Page.php
 app/code/Mage/Core/Model/Resource/Setup/Migration.php
 app/code/Mage/Core/Model/Resource/Theme
 app/code/Mage/Core/Model/Resource/Theme.php
+app/code/Mage/Core/Model/Route
+app/code/Mage/Core/Model/Router
+app/code/Mage/Core/Model/RouterList.php
 app/code/Mage/Core/Model/Sender.php
 app/code/Mage/Core/Model/ShellAbstract.php
 app/code/Mage/Core/Model/TemplateEngine

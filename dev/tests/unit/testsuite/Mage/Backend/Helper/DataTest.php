@@ -25,7 +25,9 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
         $this->_helper = new Mage_Backend_Helper_Data($this->_configMock,
-            $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false)
+            $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_RouterList', array(), array(), '', false),
+            'backend'
         );
     }
 
@@ -35,39 +37,33 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
-        $this->_configMock->expects($this->at(1))->method('getNode')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME)
-            ->will($this->returnValue('backend'));
-
         $this->assertEquals('backend', $this->_helper->getAreaFrontName());
     }
 
-    public function testGetAreaFrontNameReturnsDefaultValueWhenCustomIsSet()
-    {
-        $this->_configMock->expects($this->at(0))->method('getValue')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
-            ->will($this->returnValue(true));
-
-        $this->_configMock->expects($this->at(1))->method('getValue')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
-            ->will($this->returnValue('control'));
-
-        $this->assertEquals('control', $this->_helper->getAreaFrontName());
-    }
-
-    public function testGetAreaFrontNameReturnsEmptyStringIfAreaFrontNameDoesntExist()
+    public function testGetAreaFrontNameLocalConfigCustomFrontName()
     {
         $this->_configMock->expects($this->at(0))->method('getValue')
             ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
+        $this->_configMock->expects($this->at(1))->method('getValue')
+            ->with(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
+            ->will($this->returnValue('backend_custom'));
+
+        $this->assertEquals('backend_custom', $this->_helper->getAreaFrontName());
+    }
+
+    public function testGetAreaFrontNameAdminConfigCustomFrontName()
+    {
+        $this->_configMock->expects($this->at(0))->method('getValue')
+            ->with(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
+            ->will($this->returnValue(true));
+
         $this->_configMock->expects($this->at(1))->method('getNode')
-            ->with(Mage_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME)
-            ->will($this->returnValue(null));
+            ->with(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH)
+            ->will($this->returnValue('control'));
 
-
-        $this->assertNotNull($this->_helper->getAreaFrontName());
-        $this->assertEmpty($this->_helper->getAreaFrontName());
+        $this->assertEquals('control', $this->_helper->getAreaFrontName());
     }
 
     public function testClearAreaFrontName()

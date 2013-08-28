@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Mage_Core_Model_RouterList">
+        <param name="routerList">
+            <value>
+                <cms>
+                    <class>Mage_Cms_Controller_Router</class>
+                    <disable type="bool">false</disable>
+                    <sortOrder>60</sortOrder>
+                </cms>
+            </value>
+        </param>
+    </type>
+</config>

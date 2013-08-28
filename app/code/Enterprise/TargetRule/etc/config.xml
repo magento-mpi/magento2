@@ -38,17 +38,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <catalog>
             <enterprise_targetrule>

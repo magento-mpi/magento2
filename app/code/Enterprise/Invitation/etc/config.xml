@@ -28,17 +28,6 @@
             </email>
         </template>
     </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_invitation before="Mage_Adminhtml">Enterprise_Invitation_Adminhtml</enterprise_invitation>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -70,15 +59,6 @@
                 </Enterprise_Invitation>
             </modules>
         </translate>
-        <routers>
-            <enterprise_invitation>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_Invitation</module>
-                    <frontName>invitation</frontName>
-                </args>
-            </enterprise_invitation>
-        </routers>
         <secure_url>
             <invitation>/invitation/</invitation>
         </secure_url>

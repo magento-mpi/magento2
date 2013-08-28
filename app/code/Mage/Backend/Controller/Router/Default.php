@@ -31,25 +31,44 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     protected $_areaFrontName;
 
     /**
+     * Default routeId for router
+     *
+     * @var string
+     */
+    protected $_defaultRouteId;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config_Scope $configScope
+     * @param Mage_Core_Model_Route_Config $routeConfig
+     * @param Mage_Backend_Helper_Data $dataHelper
      * @param string $areaCode
      * @param string $baseController
+     * @param string $routerId
+     * @param string $defaultRouteId
      * @throws InvalidArgumentException
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config_Scope $configScope,
+        Mage_Core_Model_Route_Config $routeConfig,
+        Mage_Backend_Helper_Data $dataHelper,
         $areaCode,
-        $baseController
+        $baseController,
+        $routerId,
+        $defaultRouteId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $areaCode, $baseController);
+        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
+            $baseController, $routerId);
 
-        $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+        $this->_areaFrontName = $dataHelper->getAreaFrontName();
+        $this->_defaultRouteId = $defaultRouteId;
+
         if (empty($this->_areaFrontName)) {
             throw new InvalidArgumentException('Area Front Name should be defined');
         }
@@ -60,9 +79,11 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     public function fetchDefault()
     {
-        $moduleFrontName = (string) Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
         // set defaults
         $pathParts = explode('/', $this->_getDefaultPath());
+        $backendRoutes = $this->_getRoutes();
+        $moduleFrontName = $backendRoutes[$this->_defaultRouteId]['frontName'];
+
         $this->getFront()->setDefault(array(
             'area'       => $this->_getParamWithDefaultValue($pathParts, 0, ''),
             'module'     => $this->_getParamWithDefaultValue($pathParts, 1, $moduleFrontName),
@@ -155,18 +176,6 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     {
         return Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
-    }
-
-    /**
-     * Emulate custom admin url
-     *
-     * @param string $configArea
-     * @param bool $useRouterName
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function collectRoutes($configArea, $useRouterName)
-    {
-        parent::collectRoutes('admin', $useRouterName);
     }
 
     /**

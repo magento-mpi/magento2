@@ -112,17 +112,6 @@
             </enterprise_rma_customer_comment>
         </sales_email>
     </default>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_rma>Enterprise_Rma_Adminhtml</enterprise_rma>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -144,14 +133,5 @@
                 </Enterprise_Rma>
             </modules>
         </translate>
-        <routers>
-            <enterprise_rma>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_Rma</module>
-                    <frontName>rma</frontName>
-                </args>
-            </enterprise_rma>
-        </routers>
     </frontend>
 </config>

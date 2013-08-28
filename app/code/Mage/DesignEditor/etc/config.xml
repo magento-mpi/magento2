@@ -21,32 +21,12 @@
         </resources>
     </global>
     <default>
-        <web>
-            <routers>
-                <vde>
-                    <area>frontend</area>
-                    <class>Mage_DesignEditor_Controller_Varien_Router_Standard</class>
-                    <base_controller>Mage_Core_Controller_Varien_Action</base_controller>
-                </vde>
-            </routers>
-        </web>
         <theme>
             <customization>
                 <quick_style_css>Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss</quick_style_css>
             </customization>
         </theme>
     </default>
-    <frontend>
-        <routers>
-            <designeditor>
-                <use>standard</use>
-                <args>
-                    <module>Mage_DesignEditor</module>
-                    <frontName>design</frontName>
-                </args>
-            </designeditor>
-        </routers>
-    </frontend>
     <vde>
         <design_editor>
             <frontName>vde</frontName>
@@ -56,15 +36,4 @@
             </disabledCacheTypes>
         </design_editor>
     </vde>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <mage_designeditor before="Mage_Adminhtml">Mage_DesignEditor_Adminhtml</mage_designeditor>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-</config>
+</config>

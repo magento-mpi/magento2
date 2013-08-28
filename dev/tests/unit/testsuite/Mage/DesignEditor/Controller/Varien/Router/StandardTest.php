@@ -200,8 +200,10 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
             $filesystem,
             $app,
             $this->getMock('Mage_Core_Model_Config_Scope', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Route_Config', array(), array(), '', false),
             'frontend',
-            'Mage_Core_Controller_Varien_Action'
+            'Mage_Core_Controller_Varien_Action',
+            'vde'
         );
         $router->setFront($frontController);
         return $router;

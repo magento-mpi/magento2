@@ -198,4 +198,39 @@
             <instance type="Mage_Core_Model_Config_SectionPool_Proxy" />
         </param>
     </type>
+    <type name="Mage_Core_Model_RouterList" shared="true">
+        <param name="routerList">
+            <value>
+                <standard>
+                    <class>Mage_Core_Controller_Varien_Router_Base</class>
+                    <disable type="bool">false</disable>
+                    <sortOrder>20</sortOrder>
+                </standard>
+                <default>
+                    <class>Mage_Core_Controller_Varien_Router_Default</class>
+                    <disable type="bool">false</disable>
+                    <sortOrder>100</sortOrder>
+                </default>
+            </value>
+        </param>
+    </type>
+    <type name="Mage_Core_Controller_Varien_Router_Base">
+        <param name="areaCode">
+            <value>frontend</value>
+        </param>
+        <param name="baseController">
+            <value>Mage_Core_Controller_Varien_Action</value>
+        </param>
+        <param name="routerId">
+            <value>standard</value>
+        </param>
+    </type>
+    <type name="Mage_Core_Model_NoRouteHandlerList">
+        <param name="handlerClassesList">
+            <default>
+                <instance>Mage_Core_Model_Router_NoRouteHandler</instance>
+                <sortOrder>100</sortOrder>
+            </default>
+        </param>
+    </type>
 </config>

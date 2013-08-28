@@ -9,14 +9,37 @@
 -->
 <config>
     <preference for="Mage_Core_Model_Config_Storage_WriterInterface" type="Mage_Core_Model_Config_Storage_Writer_Db" />
-    <type name="Mage_Backend_Controller_Context">
-        <param name="translator">
-            <instance type="Mage_Core_Model_Translate_Proxy" />
+    <type name="Mage_Core_Model_RouterList">
+        <param name="routerList">
+            <value>
+                <admin>
+                    <class>Mage_Backend_Controller_Router_Default</class>
+                    <disable type="bool">false</disable>
+                    <sortOrder>10</sortOrder>
+                </admin>
+            </value>
         </param>
     </type>
     <type name="Mage_Backend_Controller_Router_Default">
         <param name="controllerFactory">
             <instance type="Mage_Backend_Controller_Factory" />
+        </param>
+        <param name="areaCode">
+            <value>adminhtml</value>
+        </param>
+        <param name="baseController">
+            <value>Mage_Backend_Controller_ActionAbstract</value>
+        </param>
+        <param name="routerId">
+            <value>admin</value>
+        </param>
+        <param name="defaultRouteId">
+            <value>adminhtml</value>
+        </param>
+    </type>
+    <type name="Mage_Backend_Controller_Context">
+        <param name="translator">
+            <instance type="Mage_Core_Model_Translate_Proxy" />
         </param>
     </type>
     <type name="Mage_Backend_Controller_Adminhtml_System_Config_Save">
@@ -26,5 +49,18 @@
     </type>
     <type name="Mage_Backend_Model_Menu_Config">
         <param name="menuDirector"><instance type="Mage_Backend_Model_Menu_Director_Director"/></param>
+    </type>
+    <type name="Mage_Backend_Helper_Data">
+        <param name="defaultAreaFrontName">
+            <value>backend</value>
+        </param>
+    </type>
+    <type name="Mage_Core_Model_NoRouteHandlerList">
+        <param name="handlerClassesList">
+            <default>
+                <instance>Mage_Backend_Model_Router_NoRouteHandler</instance>
+                <sortOrder>10</sortOrder>
+            </default>
+        </param>
     </type>
 </config>

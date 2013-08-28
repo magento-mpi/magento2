@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <enterprise_checkout before="Mage_Adminhtml">Enterprise_Checkout_Adminhtml</enterprise_checkout>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -33,22 +22,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <routers>
-            <checkout>
-                <args>
-                    <modules>
-                        <enterprise_checkout before="Mage_Checkout">Enterprise_Checkout</enterprise_checkout>
-                    </modules>
-                </args>
-            </checkout>
-            <enterprise_checkout>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_Checkout</module>
-                    <frontName>customer_order</frontName>
-                </args>
-            </enterprise_checkout>
-        </routers>
         <translate>
             <modules>
                 <Enterprise_Checkout>

@@ -24,13 +24,20 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
      */
     protected $_frontMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_routeConfigMock;
+
     protected function setUp()
     {
         parent::setUp();
 
+        $this->_routeConfigMock = $this->getMock('Mage_Core_Model_Route_Config', array(), array(), '', false);
         $options = array(
             'areaCode'        => Mage_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
+            'routeConfig' => $this->_routeConfigMock
         );
         $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
         $this->_model = Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
@@ -56,24 +63,27 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue('backend/admin/dashboard'));
         $this->_frontMock->expects($this->once())
             ->method('setDefault');
+
+        $adminRoute = array(
+            'adminhtml' => array(
+                'id'        => 'adminhtml',
+                'frontName' => 'admin',
+                'modules'   => array(
+                    'Mage_Adminhtml'
+                )
+            )
+        );
+
+        $this->_routeConfigMock->expects($this->once())
+            ->method('getRoutes')
+            ->will($this->returnValue($adminRoute));
         $this->_model->match($request);
     }
 
 
     /**
-     * @covers Mage_Backend_Controller_Router_Default::collectRoutes
-     */
-    public function testCollectRoutes()
-    {
-        $this->_model->collectRoutes(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(), 'admin');
-        $this->assertEquals(
-            'admin',
-            $this->_model->getFrontNameByRoute('adminhtml')
-        );
-    }
-
-    /**
      * @covers Mage_Backend_Controller_Router_Default::fetchDefault
+     * @covers Mage_Backend_Controller_Router_Default::getDefaultModuleFrontName
      */
     public function testFetchDefault()
     {
@@ -83,6 +93,18 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             'controller' => 'index',
             'action' => 'index'
         );
+        $routes = array(
+            'adminhtml' => array(
+                'id' => 'adminhtml',
+                'frontName' => 'admin',
+                'modules' => array()
+            ),
+            'key1' => array('frontName' => 'something'),
+        );
+
+        $this->_routeConfigMock->expects($this->once())->method('getRoutes')
+            ->will($this->returnValue($routes));
+
         $this->_frontMock->expects($this->once())
             ->method('setDefault')
             ->with($this->equalTo($default));

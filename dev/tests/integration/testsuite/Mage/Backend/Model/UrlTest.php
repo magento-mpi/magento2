@@ -62,7 +62,6 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
      * @covers Mage_Backend_Model_Url::getSecure
-     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
      * @magentoAppIsolation enabled
      */
     public function testGetUrl()

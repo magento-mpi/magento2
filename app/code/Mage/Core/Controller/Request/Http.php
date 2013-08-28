@@ -229,7 +229,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::app()->getFrontController()->getRouterByRoute($route);
+        $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
         }
@@ -375,9 +375,9 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         }
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
-                $fronName = $this->_rewritedPathInfo[0];
-                $router = Mage::app()->getFrontController()->getRouterByFrontName($fronName);
-                $this->_requestedRouteName = $router->getRouteByFrontName($fronName);
+                $frontName = $this->_rewritedPathInfo[0];
+                $router = Mage::app()->getFrontController()->getRouterList()->getRouterByFrontName($frontName);
+                $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {
                 // no rewritten path found, use default route name
                 return $this->getRouteName();

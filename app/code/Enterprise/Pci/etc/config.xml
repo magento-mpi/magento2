@@ -36,17 +36,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_Pci before="Mage_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <frontend>
         <translate>
             <modules>

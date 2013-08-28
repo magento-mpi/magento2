@@ -140,20 +140,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $nodeAreas = $this->getNode('global/areas');
         if (is_object($nodeAreas)) {
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
-                if (empty($areaCode)
-                    || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
-                ) {
+                if (empty($areaCode)) {
                     continue;
                 }
-                /**
-                 * TODO: Check of 'routers' nodes existence is excessive:
-                 * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
-                 */
-
-                /**
-                 * TODO: Routers are not required in API.
-                 * TODO: That is why Check for empty router class moved to Mage_Core_Model_Config::getRouters()
-                 */
                 $this->_allowedAreas[$areaCode] = $areaInfo;
             }
         }
@@ -259,30 +248,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             ));
         }
         return $areaConfig['frontName'];
-    }
-
-    /**
-     * Get routers from config
-     *
-     * @return array
-     */
-    public function getRouters()
-    {
-        $routers = array();
-        foreach ($this->getAreas() as $areaCode => $areaInfo) {
-            if (isset($areaInfo['routers']) && is_array($areaInfo['routers'])) {
-                foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
-                    if (!isset($routerInfo['class']) || empty($routerInfo['class'])) {
-                        continue;
-                    }
-                    $routerInfo = array_merge($routerInfo, $areaInfo);
-                    unset($routerInfo['routers']);
-                    $routerInfo['area'] = $areaCode;
-                    $routers[$routerKey] = $routerInfo;
-                }
-            }
-        }
-        return $routers;
     }
 
     /**

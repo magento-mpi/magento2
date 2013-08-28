@@ -26,8 +26,6 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
             ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_helper = Mage::helper('Mage_Backend_Helper_Data');
@@ -122,9 +120,6 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
-     */
     public function testGetHomePageUrl()
     {
         $this->assertStringEndsWith(

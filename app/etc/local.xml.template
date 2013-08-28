@@ -57,11 +57,11 @@
         </resources>
         <!-- Session storage method. Can be 'files' (default), 'db', 'memcache', 'memcached', 'eaccelerator'. -->
         <session_save>{{session_save}}</session_save>
-        <areas>
-            <adminhtml>
-                <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
-                <frontName>{{backend_frontname}}</frontName>
-            </adminhtml>
-        </areas>
     </global>
+    <default>
+        <backend>
+            <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
+            <frontName>{{backend_frontname}}</frontName>
+        </backend>
+    </default>
 </config>
