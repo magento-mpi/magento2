@@ -8,7 +8,8 @@
  * @license    {license_link}
  */
 
-class Magento_Tools_Migration_System_Configuration_Mapper_Tab extends Magento_Tools_Migration_System_Configuration_Mapper_Abstract
+class Magento_Tools_Migration_System_Configuration_Mapper_Tab
+    extends Magento_Tools_Migration_System_Configuration_Mapper_Abstract
 {
     /**
      * Attribute maps

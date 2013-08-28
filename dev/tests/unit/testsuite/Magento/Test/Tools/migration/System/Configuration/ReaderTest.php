@@ -42,9 +42,12 @@ class Magento_Test_Tools_Migration_System_Configuration_ReaderTest extends PHPUn
 
     protected function setUp()
     {
-        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
-        $this->_parserMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Parser', array(), array(), '', false);
-        $this->_mapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper', array(), array(), '', false);
+        $this->_fileManagerMock = $this->getMock(
+            'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+        $this->_parserMock = $this->getMock(
+            'Magento_Tools_Migration_System_Configuration_Parser', array(), array(), '', false);
+        $this->_mapperMock = $this->getMock(
+            'Magento_Tools_Migration_System_Configuration_Mapper', array(), array(), '', false);
 
         $this->_model = new Magento_Tools_Migration_System_Configuration_Reader(
             $this->_fileManagerMock, $this->_parserMock, $this->_mapperMock

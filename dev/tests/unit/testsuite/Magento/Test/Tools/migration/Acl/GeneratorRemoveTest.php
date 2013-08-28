@@ -8,9 +8,12 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Generator.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
 
 /**
  * Tools_Migration_Acl_Generator remove test case

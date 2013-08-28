@@ -54,7 +54,8 @@ try {
     $themes->addDefaultPattern('*');
 
     $fallbackFactory = new Magento_Core_Model_Design_Fallback_Factory($dirs);
-    $generator = new Magento_Tools_View_Generator_CopyRule($filesystem, $themes, $fallbackFactory->createViewFileRule());
+    $generator = new Magento_Tools_View_Generator_CopyRule($filesystem, $themes,
+        $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
     $cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);

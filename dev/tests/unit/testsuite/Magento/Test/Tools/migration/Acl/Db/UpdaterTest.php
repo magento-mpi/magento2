@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase
 {
@@ -74,7 +75,8 @@ class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_
     public function testMigrateInRealModeWritesToDb()
     {
         $model = new Magento_Tools_Migration_Acl_Db_Updater(
-            $this->_readerMock, $this->_writerMock, $this->_loggerMock, Magento_Tools_Migration_Acl_Db_Updater::WRITE_MODE
+            $this->
+                _readerMock, $this->_writerMock, $this->_loggerMock, Magento_Tools_Migration_Acl_Db_Updater::WRITE_MODE
         );
 
         $this->_writerMock->expects($this->at(0))->method('update')->with('oldResource1', 'Test::newResource1');

@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/FileReader.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+    . '/tools/Magento/Tools/Migration/Acl/Db/FileReader.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framework_TestCase
 {

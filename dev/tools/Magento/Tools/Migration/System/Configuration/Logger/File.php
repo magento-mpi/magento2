@@ -11,7 +11,8 @@
 /**
  * Migration logger. Output result put to file
  */
-class Magento_Tools_Migration_System_Configuration_Logger_File extends Magento_Tools_Migration_System_Configuration_LoggerAbstract
+class Magento_Tools_Migration_System_Configuration_Logger_File
+    extends Magento_Tools_Migration_System_Configuration_LoggerAbstract
 {
     /**
      * Path to log file
