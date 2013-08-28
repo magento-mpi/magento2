@@ -81,15 +81,15 @@
             placeholder_image="Mage_Catalog::images/product_widget_link.gif" translate="label description">
         <label>Catalog Product Link</label>
         <description>Link to a Specified Product</description>
-        <parameter name="id_path" xsi:type="value_renderer" visible="true" required="true" sort_order="10" translate="label">
+        <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Product</label>
-            <renderer class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
+            <block class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
                 <data>
                     <item name="button" xsi:type="array">
                         <item name="open" xsi:type="string">Select Product...</item>
                     </item>
                 </data>
-            </renderer>
+            </block>
         </parameter>
         <parameter name="anchor_text" xsi:type="text" visible="true" translate="label description">
             <label>Anchor Custom Text</label>
@@ -113,15 +113,15 @@
             placeholder_image="Mage_Catalog::images/category_widget_link.gif" translate="label description">
         <label>Catalog Category Link</label>
         <description>Link to a Specified Category</description>
-        <parameter name="id_path" xsi:type="value_renderer" visible="true" required="true" sort_order="10" translate="label">
+        <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Category</label>
-            <renderer class="Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser">
+            <block class="Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser">
                 <data>
                     <item name="button" xsi:type="array">
                         <item name="open" xsi:type="string">Select Category...</item>
                     </item>
                 </data>
-            </renderer>
+            </block>
         </parameter>
         <parameter name="anchor_text" xsi:type="text" visible="true" translate="label description">
             <label>Anchor Custom Text</label>

@@ -16,16 +16,16 @@
             placeholder_image="Mage_Cms::images/widget_page_link.gif">
         <label>CMS Page Link</label>
         <description>Link to a CMS Page</description>
-        <parameter name="page_id" xsi:type="value_renderer" visible='true' required="true"
+        <parameter name="page_id" xsi:type="block" visible='true' required="true"
                    translate="label">
             <label>CMS Page</label>
-            <renderer class="Mage_Adminhtml_Block_Cms_Page_Widget_Chooser">
+            <block class="Mage_Adminhtml_Block_Cms_Page_Widget_Chooser">
                 <data>
                     <item name="button" xsi:type="array">
                         <item name="open" xsi:type="string">Select Page...</item>
                     </item>
                 </data>
-            </renderer>
+            </block>
         </parameter>
         <parameter name="anchor_text" xsi:type="text" translate="label description" visible="true">
             <label>Anchor Custom Text</label>
@@ -49,16 +49,16 @@
             module="Mage_Cms" placeholder_image="Mage_Cms::images/widget_block.gif">
         <label>CMS Static Block</label>
         <description>Contents of a Static Block</description>
-        <parameter name="block_id" xsi:type="value_renderer" translate="label" visible="true"
+        <parameter name="block_id" xsi:type="block" translate="label" visible="true"
                    required="true" sort_order="20">
             <label>Block</label>
-            <renderer class="Mage_Adminhtml_Block_Cms_Block_Widget_Chooser">
+            <block class="Mage_Adminhtml_Block_Cms_Block_Widget_Chooser">
                 <data>
                     <item name="button" xsi:type="array">
                         <item name="open" xsi:type="string">Select Block...</item>
                     </item>
                 </data>
-            </renderer>
+            </block>
         </parameter>
         <parameter name="template" xsi:type="select" translate="label" visible="true" required="true"
                    sort_order="10">

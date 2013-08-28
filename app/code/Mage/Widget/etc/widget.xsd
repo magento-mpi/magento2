@@ -78,7 +78,7 @@
         <xs:attribute name="value" type="xs:string" use="required" />
     </xs:complexType>
 
-    <xs:complexType name="value_renderer">
+    <xs:complexType name="block">
         <xs:annotation>
             <xs:documentation>Parameter type which supplies a renderer.
             </xs:documentation>
@@ -86,7 +86,7 @@
         <xs:complexContent>
             <xs:extension base="parameterType">
                 <xs:sequence>
-                    <xs:element name="renderer" type="rendererType" />
+                    <xs:element name="block" type="blockType" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -101,7 +101,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="rendererType">
+    <xs:complexType name="blockType">
         <xs:annotation>
             <xs:documentation>Class and data needed to render the
                 parameter.</xs:documentation>

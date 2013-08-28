@@ -43,16 +43,16 @@
             </depends>
             <value>Load a list of SKUs</value>
         </parameter>
-        <!-- value_renderer -->
-        <parameter name="id_path" xsi:type="value_renderer" visible="true" required="true" sort_order="10" translate="label">
+        <!-- block -->
+        <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10" translate="label">
             <label>Product</label>
-            <renderer class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
+            <block class="Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser">
                 <data>
                     <item name="button" xsi:type="array">
                         <item name="open" xsi:type="string">Select Product...</item>
                     </item>
                 </data>
-            </renderer>
+            </block>
         </parameter>
         <!-- container -->
         <container section="left_column" name="left">

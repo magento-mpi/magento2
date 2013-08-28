@@ -16,16 +16,16 @@
             placeholder_image="Enterprise_Cms::widget_node.gif">
         <label>CMS Hierarchy Node Link</label>
         <description>Link to Specified CMS Hierarchy Node</description>
-        <parameter name="node_id" xsi:type="value_renderer" translate="label" visible="true"
+        <parameter name="node_id" xsi:type="block" translate="label" visible="true"
                    required="true" sort_order="10">
             <label>Node</label>
-            <renderer class="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
+            <block class="Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser">
                 <data>
                     <item name="button" xsi:type="array">
                         <item name="open" xsi:type="string">Select a page or node.</item>
                     </item>
                 </data>
-            </renderer>
+            </block>
         </parameter>
         <parameter name="anchor_text" xsi:type="text" translate="label description" visible="true">
             <label>Anchor Custom Text</label>

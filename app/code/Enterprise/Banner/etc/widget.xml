@@ -46,12 +46,12 @@
                 <label>One at the time, Shuffle</label>
             </option>
         </parameter>
-        <parameter xsi:type="value_renderer" name="banner_ids" translate="label" visible="true">
+        <parameter xsi:type="block" name="banner_ids" translate="label" visible="true">
             <label>Specify Banners</label>
             <depends>
                 <parameter name="display_mode" value="fixed" />
             </depends>
-            <renderer class="Enterprise_Banner_Block_Adminhtml_Widget_Chooser" />
+            <block class="Enterprise_Banner_Block_Adminhtml_Widget_Chooser" />
         </parameter>
         <parameter xsi:type="select" name="template" required="true" visible="false">
             <option name="block" translate="label" value="widget/block.phtml" selected="true">

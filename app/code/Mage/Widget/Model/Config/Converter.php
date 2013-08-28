@@ -16,7 +16,6 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
     {
         $widgets = array();
         $xpath = new DOMXPath($source);
-        //$xpath->registerNamespace('x', $source->lookupNamespaceUri($source->namespaceURI));
         /** @var $widget DOMNode */
         foreach ($xpath->query('/widgets/widget') as $widget) {
             $widgetAttributes = $widget->attributes;
@@ -124,13 +123,13 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
         $parameter = array();
         $sourceAttributes = $source->attributes;
         $xsiType = $sourceAttributes->getNamedItem('type')->nodeValue;
-        if ($xsiType == 'value_renderer') {
+        if ($xsiType == 'block') {
             $parameter['type'] = 'label';
             $parameter['@'] = array();
             $parameter['@']['type'] = 'complex';
-            foreach ($source->childNodes as $rendererSubNode) {
-                if ($rendererSubNode->nodeName == 'renderer') {
-                    $parameter['helper_block'] = $this->_convertRenderer($rendererSubNode);
+            foreach ($source->childNodes as $blockSubNode) {
+                if ($blockSubNode->nodeName == 'block') {
+                    $parameter['helper_block'] = $this->_convertBlock($blockSubNode);
                     break;
                 }
             }
@@ -239,23 +238,23 @@ class Mage_Widget_Model_Config_Converter implements Magento_Config_ConverterInte
      * @return array
      * @throws LogicException
      */
-    protected function _convertRenderer($source)
+    protected function _convertBlock($source)
     {
         $helperBlock = array();
         $helperBlock['type'] = $source->attributes->getNamedItem('class')->nodeValue;
-        foreach ($source->childNodes as $rendererSubNode) {
-            if ($rendererSubNode->nodeName == '#text') {
+        foreach ($source->childNodes as $blockSubNode) {
+            if ($blockSubNode->nodeName == '#text') {
                 continue;
             }
-            if ($rendererSubNode->nodeName !== 'data') {
+            if ($blockSubNode->nodeName !== 'data') {
                 throw new LogicException(
                     sprintf(
-                        "Only 'data' node can be child of 'renderer' node, %s found",
-                        $rendererSubNode->nodeName
+                        "Only 'data' node can be child of 'block' node, %s found",
+                        $blockSubNode->nodeName
                     )
                 );
             }
-            $helperBlock['data'] = $this->_convertData($rendererSubNode);
+            $helperBlock['data'] = $this->_convertData($blockSubNode);
         }
         return $helperBlock;
     }
