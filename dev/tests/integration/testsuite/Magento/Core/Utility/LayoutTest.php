@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,18 +33,38 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }
 
-    public function testGetLayoutUpdateFromFixture()
+    /**
+     * @dataProvider getLayoutFromFixtureDataProvider
+     * @param string|array $inputFiles
+     * @param string $expectedFile
+     */
+    public function testGetLayoutUpdateFromFixture($inputFiles, $expectedFile)
     {
-        $layoutUpdateFile = __DIR__ . '/_files/_layout_update.xml';
-        $layoutUpdate = $this->_utility->getLayoutUpdateFromFixture($layoutUpdateFile);
-        $this->_assertLayoutUpdate($layoutUpdate, $layoutUpdateFile);
+        $layoutUpdate = $this->_utility->getLayoutUpdateFromFixture($inputFiles);
+        $this->_assertLayoutUpdate($layoutUpdate, $expectedFile);
     }
 
-    public function testGetLayoutFromFixture()
+    /**
+     * @dataProvider getLayoutFromFixtureDataProvider
+     * @param string|array $inputFiles
+     * @param string $expectedFile
+     */
+    public function testGetLayoutFromFixture($inputFiles, $expectedFile)
     {
-        $layoutUpdateFile = __DIR__ . '/_files/_layout_update.xml';
-        $layout = $this->_utility->getLayoutFromFixture($layoutUpdateFile, $this->_utility->getLayoutDependencies());
+        $layout = $this->_utility->getLayoutFromFixture($inputFiles, $this->_utility->getLayoutDependencies());
         $this->assertInstanceOf('Magento_Core_Model_Layout', $layout);
-        $this->_assertLayoutUpdate($layout->getUpdate(), $layoutUpdateFile);
+        $this->_assertLayoutUpdate($layout->getUpdate(), $expectedFile);
+    }
+
+    public function getLayoutFromFixtureDataProvider()
+    {
+        return array(
+            'single fixture file' => array(
+                __DIR__ . '/_files/layout/handle_two.xml', __DIR__ . '/_files/layout_merged/single_handle.xml'
+            ),
+            'multiple fixture files' => array(
+                glob(__DIR__ . '/_files/layout/*.xml'), __DIR__ . '/_files/layout_merged/multiple_handles.xml'
+            ),
+        );
     }
 }
