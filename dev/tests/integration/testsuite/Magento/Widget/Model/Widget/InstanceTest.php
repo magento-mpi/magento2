@@ -38,7 +38,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     /**
      * @return Magento_Widget_Model_Widget_Instance
      */
-    public function testGetWidgetConfigInArray()
+    public function testGetWidgetConfigAsArray()
     {
         $config = $this->_model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfigAsArray();
         $this->assertTrue(is_array($config));
@@ -91,7 +91,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     /**
      * @param Magento_Widget_Model_Widget_Instance $model
-     * @depends testGetWidgetConfigInArray
+     * @depends testGetWidgetConfigAsArray
      */
     public function testGenerateLayoutUpdateXml(Magento_Widget_Model_Widget_Instance $model)
     {
