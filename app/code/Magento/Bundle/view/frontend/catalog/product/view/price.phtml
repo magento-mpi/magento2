@@ -28,7 +28,7 @@ $canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_prod
         <span class="price-label"><?php echo __('Price as configured') ?>:</span>
         <?php if (!$this->getWithoutPrice()): ?>
         <span<?php if (!$isMAPTypeOnGesture && $canApplyMAP): ?> style="display:none"<?php endif ?> class="full-product-price">
-        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
+        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
         <span class="price-tax">
             <span class="price-excluding-tax">
                 <span class="label"><?php echo __('Excl. Tax:') ?></span>

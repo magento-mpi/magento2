@@ -74,7 +74,7 @@ class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->_checkoutCart->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);

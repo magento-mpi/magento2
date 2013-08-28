@@ -27,15 +27,25 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
     protected $_adminhtmlAddresses = null;
 
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Helper_Data $customerData,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_customerData = $customerData;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
         parent::__construct($context, $data);
     }
@@ -156,7 +166,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->_customerData->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -170,7 +180,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->_customerData->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),

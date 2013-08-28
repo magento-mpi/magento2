@@ -106,20 +106,32 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     protected $_urlModel;
 
     /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
+        $this->_backendData = $backendData;
         $this->_storeManager = $storeManager;
         $this->_urlModel = $urlModel;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -325,7 +337,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
             }
 
             if (is_string($filter)) {
-                $data = $this->helper('Magento_Backend_Helper_Data')->prepareFilterString($filter);
+                $data = $this->_backendData->prepareFilterString($filter);
                 $data = array_merge($data, (array)$this->getRequest()->getPost($this->getVarNameFilter()));
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
@@ -351,7 +363,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      */
     protected function _decodeFilter(&$value)
     {
-        $value = $this->helper('Magento_Backend_Helper_Data')->decodeFilter($value);
+        $value = $this->_backendData->decodeFilter($value);
     }
 
     /**

@@ -17,8 +17,36 @@
  */
 class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
 {
-    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
+    /**
+     * Checkout cart
+     *
+     * @var Magento_Checkout_Helper_Cart
+     */
+    protected $_checkoutCart = null;
+
+    /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Magento_Checkout_Helper_Data $checkoutData
+     * @param Magento_Checkout_Helper_Cart $checkoutCart
+     * @param  $coreData
+     * @param  $context
+     * @param  $data
+     */
+    public function __construct(
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Checkout_Helper_Cart $checkoutCart,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        $this->_checkoutCart = $checkoutCart;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -33,7 +61,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
         $parentBlock = $this->getParentBlock();
         if ($parentBlock && $this->_coreData->isModuleOutputEnabled('Magento_Checkout')) {
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
-                : $this->helper('Magento_Checkout_Helper_Cart')->getSummaryCount();
+                : $this->_checkoutCart->getSummaryCount();
             if ($count == 1) {
                 $text = __('My Cart (%1 item)', $count);
             } elseif ($count > 0) {
@@ -66,7 +94,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
      */
     public function addCheckoutLink()
     {
-        if (!$this->helper('Magento_Checkout_Helper_Data')->canOnepageCheckout()) {
+        if (!$this->_checkoutData->canOnepageCheckout()) {
             return $this;
         }
 

@@ -17,6 +17,11 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Magento_Catalog_Block_Product_View_Type_Grouped
 {
+    public function __construct(Magento_Catalog_Helper_Image $catalogImage, Magento_Page_Helper_Layout $pageLayout, Magento_Catalog_Helper_Product_Compare $catalogProductCompare, Magento_Wishlist_Helper_Data $wishlistData, Magento_Checkout_Helper_Cart $checkoutCart, Magento_Tax_Helper_Data $taxData, Magento_Catalog_Helper_Data $catalogData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($catalogImage, $pageLayout, $catalogProductCompare, $wishlistData, $checkoutCart, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /**
      * Redefine default price block
      * Set current customer to tax calculation
@@ -125,6 +130,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->_coreData->currencyByStore($price, $store, false);
     }
 }

@@ -18,21 +18,10 @@
 class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
 {
     /**
-     * Api data
-     *
-     * @var Magento_Api_Helper_Data
+     * @param Magento_Simplexml_Element $source
+     * @param bool $overwrite
+     * @return Magento_Api_Model_Wsdl_Config_Element
      */
-    protected $_apiData = null;
-
-    /**
-     * @param Magento_Api_Helper_Data $apiData
-     */
-    public function __construct(
-        Magento_Api_Helper_Data $apiData
-    ) {
-        $this->_apiData = $apiData;
-    }
-
     public function extend($source, $overwrite = false)
     {
         if (!$source instanceof Magento_Simplexml_Element) {
@@ -52,8 +41,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
      * Extends one node
      *
      * @param Magento_Simplexml_Element $source
-     * @param boolean $overwrite
-     * @return Magento_Simplexml_Element
+     * @param bool $overwrite
+     * @param string $elmNamespace
+     * @return $this|Magento_Simplexml_Element
      */
     public function extendChild($source, $overwrite = false, $elmNamespace = '')
     {
@@ -143,7 +133,8 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
      *   )
      * )
      *
-     * @param Magento_Simplexml_Element $source
+     * @param $source
+     * @param null $namespace
      * @return array
      */
     public function getAttributes($source, $namespace = null)
@@ -175,7 +166,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
         $namespaces = $source->getNamespaces(true);
 
         /** @var Magento_Api_Helper_Data $helper */
-        $helper = $this->_apiData;
+        $helper = Mage::helper('Magento_Api_Helper_Data');
         $isWsi = $helper->isWsiCompliant();
 
         foreach ($namespaces as $key => $value) {
@@ -211,9 +202,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
     /**
      * Return element by tag name, and checking attributes with namespaces
      *
-     * @param Magento_Simplexml_Element $source
-     * @param string $namespace
-     * @return null|Magento_Simplexml_Element
+     * @param $source
+     * @param string $elmNamespace
+     * @return null
      */
     public function getElementByName($source, $elmNamespace = '')
     {
@@ -235,9 +226,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
 //                    }
                     foreach ($attributes as $key => $value) {
                         if (is_null($child->getAttribute($key, $namespace)) || $child->getAttribute(
-                            $key,
-                            $namespace
-                        ) != $value
+                                $key,
+                                $namespace
+                            ) != $value
                         ) {
                             $elm = false;
                         }
@@ -261,7 +252,9 @@ class Magento_Api_Model_Wsdl_Config_Element extends Magento_Simplexml_Element
     /**
      * Returns attribute value by attribute name
      *
-     * @return string
+     * @param string $name
+     * @param string $namespace
+     * @return null|string
      */
     public function getAttribute($name, $namespace = '')
     {

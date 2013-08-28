@@ -20,6 +20,11 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Grouped extends Magento_Checkout
     const GROUPED_PRODUCT_IMAGE = 'checkout/cart/grouped_product_image';
     const USE_PARENT_IMAGE      = 'parent';
 
+    public function __construct(Magento_Core_Helper_Url $coreUrl, Magento_Catalog_Helper_Image $catalogImage, Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreUrl, $catalogImage, $catalogProductConfiguration, $coreData, $context, $data);
+    }
+
     /**
      * Get item grouped product
      *
@@ -47,7 +52,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Grouped extends Magento_Checkout
             || (Mage::getStoreConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getGroupedProduct();
         }
-        return $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');
+        return $this->_catalogImage->init($product, 'thumbnail');
     }
 
     /**

@@ -18,6 +18,8 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
     protected $_giftCardCatalogProductConfiguration = null;
 
     /**
+     * @param Magento_Catalog_Helper_Image $catalogImage
+     * @param Magento_Core_Helper_Url $coreUrl
      * @param Enterprise_GiftCard_Helper_Catalog_Product_Configuration
      * $giftCardCatalogProductConfiguration
      * @param Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration
@@ -26,6 +28,8 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Image $catalogImage,
+        Magento_Core_Helper_Url $coreUrl,
         Enterprise_GiftCard_Helper_Catalog_Product_Configuration $giftCardCatalogProductConfiguration,
         Magento_Catalog_Helper_Product_Configuration $catalogProductConfiguration,
         Magento_Core_Helper_Data $coreData,
@@ -33,7 +37,7 @@ class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Chec
         array $data = array()
     ) {
         $this->_giftCardCatalogProductConfiguration = $giftCardCatalogProductConfiguration;
-        parent::__construct($catalogProductConfiguration, $coreData, $context, $data);
+        parent::__construct($coreUrl, $catalogImage, $catalogProductConfiguration, $coreData, $context, $data);
     }
 
     /**

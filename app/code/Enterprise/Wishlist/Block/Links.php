@@ -45,7 +45,7 @@ class Enterprise_Wishlist_Block_Links extends Magento_Wishlist_Block_Links
      */
     protected function _getItemCount()
     {
-        return $this->helper('Enterprise_Wishlist_Helper_Data')->getItemCount();
+        return $this->_wishlistData->getItemCount();
     }
 
     /**

@@ -78,6 +78,46 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected $_taxData = null;
 
     /**
+     * Checkout cart
+     *
+     * @var Magento_Checkout_Helper_Cart
+     */
+    protected $_checkoutCart = null;
+
+    /**
+     * Wishlist data
+     *
+     * @var Magento_Wishlist_Helper_Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Catalog product compare
+     *
+     * @var Magento_Catalog_Helper_Product_Compare
+     */
+    protected $_catalogProductCompare = null;
+
+    /**
+     * Page layout
+     *
+     * @var Magento_Page_Helper_Layout
+     */
+    protected $_pageLayout = null;
+
+    /**
+     * Catalog image
+     *
+     * @var Magento_Catalog_Helper_Image
+     */
+    protected $_catalogImage = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Image $catalogImage
+     * @param Magento_Page_Helper_Layout $pageLayout
+     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Checkout_Helper_Cart $checkoutCart
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -85,12 +125,22 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Image $catalogImage,
+        Magento_Page_Helper_Layout $pageLayout,
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Checkout_Helper_Cart $checkoutCart,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_catalogImage = $catalogImage;
+        $this->_pageLayout = $pageLayout;
+        $this->_catalogProductCompare = $catalogProductCompare;
+        $this->_wishlistData = $wishlistData;
+        $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $data);
@@ -117,7 +167,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
 
             return $this->getProductUrl($product, $additional);
         }
-        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->_checkoutCart->getAddUrl($product, $additional);
     }
 
     /**
@@ -150,7 +200,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getAddToWishlistUrl($product)
     {
-        return $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($product);
+        return $this->_wishlistData->getAddUrl($product);
     }
 
     /**
@@ -161,7 +211,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getAddToCompareUrl($product)
     {
-        return $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddUrl($product);
+        return $this->_catalogProductCompare->getAddUrl($product);
     }
 
     /**
@@ -569,7 +619,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getPageLayout()
     {
-        return $this->helper('Magento_Page_Helper_Layout')->getCurrentPageLayout();
+        return $this->_pageLayout->getCurrentPageLayout();
     }
 
     /**
@@ -623,7 +673,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string)$this->_catalogImage->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 
@@ -645,7 +695,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getThumbnailSidebarUrl($product)
     {
-        return (string) $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string) $this->_catalogImage->init($product, 'thumbnail')
             ->resize($this->getThumbnailSidebarSize());
     }
 
@@ -667,7 +717,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getSmallImageUrl($product)
     {
-        return (string) $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')
+        return (string) $this->_catalogImage->init($product, 'small_image')
             ->resize($this->getSmallImageSize());
     }
 
@@ -689,7 +739,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getSmallImageSidebarUrl($product)
     {
-        return (string) $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')
+        return (string) $this->_catalogImage->init($product, 'small_image')
             ->resize($this->getSmallImageSidebarSize());
     }
 
@@ -711,7 +761,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getBaseImageUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'image')
+        return (string)$this->_catalogImage->init($product, 'image')
             ->resize($this->getBaseImageSize());
     }
 
@@ -733,7 +783,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getBaseImageIconUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'image')
+        return (string)$this->_catalogImage->init($product, 'image')
             ->resize($this->getBaseImageIconSize());
     }
 

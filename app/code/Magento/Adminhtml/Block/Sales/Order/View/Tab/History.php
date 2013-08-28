@@ -22,6 +22,11 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
 
     protected $_template = 'sales/order/view/tab/history.phtml';
 
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve order model instance
      *
@@ -129,9 +134,9 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
             return '';
         }
         if ('date' === $dateType) {
-            return $this->helper('Magento_Core_Helper_Data')->formatDate($item['created_at'], $format);
+            return $this->_coreData->formatDate($item['created_at'], $format);
         }
-        return $this->helper('Magento_Core_Helper_Data')->formatTime($item['created_at'], $format);
+        return $this->_coreData->formatTime($item['created_at'], $format);
     }
 
     /**

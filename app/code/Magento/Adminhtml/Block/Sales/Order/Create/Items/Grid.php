@@ -32,15 +32,25 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     protected $_taxData = null;
 
     /**
+     * Gift message message
+     *
+     * @var Magento_GiftMessage_Helper_Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_GiftMessage_Helper_Message $giftMessageMessage,
         Magento_Tax_Helper_Data $taxData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
         $this->_taxData = $taxData;
         parent::__construct($context, $data);
     }
@@ -112,12 +122,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+            return $this->_giftMessageMessage->getIsMessagesAvailable(
                 'items', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->_giftMessageMessage->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }

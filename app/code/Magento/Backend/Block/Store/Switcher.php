@@ -83,10 +83,18 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     protected $_storeFactory;
 
     /**
+     * Core hint
+     *
+     * @var Magento_Core_Helper_Hint
+     */
+    protected $_coreHint = null;
+
+    /**
      * Constructor
      *
      *
      *
+     * @param Magento_Core_Helper_Hint $coreHint
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
@@ -96,6 +104,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Hint $coreHint,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
@@ -104,6 +113,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
         Magento_Core_Model_StoreFactory $storeFactory,
         array $data = array()
     ) {
+        $this->_coreHint = $coreHint;
         parent::__construct($coreData, $context, $data);
         $this->_application = $application;
         $this->_websiteFactory = $websiteFactory;
@@ -323,7 +333,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     public function getHintUrl()
     {
         if (null === $this->_hintUrl) {
-            $this->_hintUrl = $this->helper('Magento_Core_Helper_Hint')->getHintByCode(self::XPATH_HINT_KEY);
+            $this->_hintUrl = $this->_coreHint->getHintByCode(self::XPATH_HINT_KEY);
         }
         return $this->_hintUrl;
     }

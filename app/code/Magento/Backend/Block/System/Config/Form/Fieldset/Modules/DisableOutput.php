@@ -34,16 +34,20 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected $_moduleList;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Js $coreJs
      * @param Magento_Backend_Block_Context $context
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Js $coreJs,
         Magento_Backend_Block_Context $context,
         Magento_Core_Model_ModuleListInterface $moduleList,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreJs, $coreData, $context, $data);
         $this->_moduleList = $moduleList;
     }
 

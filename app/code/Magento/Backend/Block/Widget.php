@@ -19,10 +19,15 @@
  */
 class Magento_Backend_Block_Widget extends Magento_Backend_Block_Template
 {
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getId()
     {
         if (null === $this->getData('id')) {
-            $this->setData('id', $this->helper('Magento_Core_Helper_Data')->uniqHash('id_'));
+            $this->setData('id', $this->_coreData->uniqHash('id_'));
         }
         return $this->getData('id');
     }

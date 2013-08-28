@@ -19,8 +19,24 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
 {
     protected $_template = 'catalog/product/edit.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param  $context
+     * @param  $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
         parent::__construct($context, $data);
     }
 
@@ -213,7 +229,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getFieldsAutogenerationMasks()
     {
-        return $this->helper('Magento_Catalog_Helper_Product')->getFieldsAutogenerationMasks();
+        return $this->_catalogProduct->getFieldsAutogenerationMasks();
     }
 
     /**
@@ -223,7 +239,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return $this->helper('Magento_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
+        return $this->_catalogProduct->getAttributesAllowedForAutogeneration();
     }
 
     /**

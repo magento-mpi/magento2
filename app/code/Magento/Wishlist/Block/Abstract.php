@@ -421,7 +421,7 @@ abstract class Magento_Wishlist_Block_Abstract extends Magento_Catalog_Block_Pro
      */
     public function getImageUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')
+        return (string)$this->_catalogImage->init($product, 'small_image')
             ->resize($this->getImageSize());
     }
 

@@ -40,7 +40,7 @@
             <?php echo $addInfoBlock->setItem($_item->getOrderItem())->toHtml(); ?>
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
-        <?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $_item->getOrderItem()) && $_item->getGiftMessageId()): ?>
+        <?php if (Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $_item->getOrderItem()) && $_item->getGiftMessageId()): ?>
             <a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $_item->getId()?>" data-item-id="<?php echo $_item->getId()?>"><?php echo __('Gift Message') ?></a>
         <?php endif; ?>
     </td>

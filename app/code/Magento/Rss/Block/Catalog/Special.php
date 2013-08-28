@@ -24,8 +24,36 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
      */
     protected static $_currentDate = null;
 
-    public function __construct(Magento_Catalog_Helper_Data $catalogData, Magento_Core_Block_Template_Context $context, array $data = array())
-    {
+    /**
+     * Catalog image
+     *
+     * @var Magento_Catalog_Helper_Image
+     */
+    protected $_catalogImage = null;
+
+    /**
+     * Catalog output
+     *
+     * @var Magento_Catalog_Helper_Output
+     */
+    protected $_catalogOutput = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Output $catalogOutput
+     * @param Magento_Catalog_Helper_Image $catalogImage
+     * @param  $catalogData
+     * @param  $context
+     * @param  $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Output $catalogOutput,
+        Magento_Catalog_Helper_Image $catalogImage,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogOutput = $catalogOutput;
+        $this->_catalogImage = $catalogImage;
         parent::__construct($catalogData, $context, $data);
     }
 
@@ -99,8 +127,8 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
                     <td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>
                     <td style="text-decoration:none;">%s',
                     $product->getProductUrl(),
-                    $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75),
-                    $this->helper('Magento_Catalog_Helper_Output')->productAttribute(
+                    $this->_catalogImage->init($product, 'thumbnail')->resize(75, 75),
+                    $this->_catalogOutput->productAttribute(
                         $product,
                         $product->getDescription(),
                         'description'

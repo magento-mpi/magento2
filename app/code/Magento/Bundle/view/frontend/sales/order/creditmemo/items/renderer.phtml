@@ -19,7 +19,7 @@
 
 <?php foreach ($items as $_item): ?>
 
-<?php if($this->getItemOptions() || $parentItem->getDescription() || $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+<?php if($this->getItemOptions() || $parentItem->getDescription() || Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
     <?php $_showlastRow = true ?>
 <?php else: ?>
     <?php $_showlastRow = false ?>
@@ -50,9 +50,9 @@
     <td><?php echo $this->escapeHtml($_item->getSku()) ?></td>
     <td class="a-right">
         <?php if ($this->canShowPriceInfo($_item)): ?>
-        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
+        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
-                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <?php if (!Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($this->getItem(), array(1, 4), 'sales') && (float)$this->getItem()->getWeeeTaxAppliedAmount()): ?>
                         <span class="cart-price">
                     <?php endif; ?>
@@ -107,9 +107,9 @@
             </span>
             <br />
         <?php endif; ?>
-        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
+        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
             <span class="price-incl-tax">
-                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                    <?php if (!Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($this->getItem(), array(1, 4), 'sales') && (float)$this->getItem()->getWeeeTaxAppliedAmount()): ?>
                         <span class="cart-price">
                     <?php endif; ?>
@@ -118,7 +118,7 @@
                         </span>
                     <?php endif; ?>
                 <?php endif; ?>
-                <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($this->getItem()); ?>
+                <?php $_incl = Mage::helper('Magento_Checkout_Helper_Data')->getPriceInclTax($this->getItem()); ?>
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($this->getItem(), array(1, 4), 'sales') && (float)$this->getItem()->getWeeeTaxAppliedAmount()): ?>
                     <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $this->getItem()->getId(); ?>"}'
                 <?php else: ?>
@@ -177,9 +177,9 @@
     </td>
     <td class="a-right">
         <?php if ($this->canShowPriceInfo($_item)): ?>
-            <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
+            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                 <span class="price-excl-tax">
-                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                         <?php if (!Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($this->getItem(), array(1, 4), 'sales') && (float)$this->getItem()->getWeeeTaxAppliedAmount()): ?>
                             <span class="cart-price">
                         <?php endif; ?>
@@ -234,9 +234,9 @@
                 </span>
                 <br />
             <?php endif; ?>
-            <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
+            <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || Mage::helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
                 <span class="price-incl-tax">
-                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                        <?php if (!Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($this->getItem(), array(1, 4), 'sales') && (float)$this->getItem()->getWeeeTaxAppliedAmount()): ?>
                             <span class="cart-price">
                         <?php endif; ?>
@@ -244,7 +244,7 @@
                         <?php if (!Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($this->getItem(), array(1, 4), 'sales') && (float)$this->getItem()->getWeeeTaxAppliedAmount()): ?>
                             </span>
                         <?php endif; ?>
-                        <?php echo $this->getOrder()->formatPrice($this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item)); ?>
+                        <?php echo $this->getOrder()->formatPrice(Mage::helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item)); ?>
                     <?php endif; ?>
                  </span>
             <?php else: ?>
@@ -298,7 +298,7 @@
         </dl>
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
-        <?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+        <?php if (Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
             <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>" data-item-id="<?php echo $parentItem->getId() ?>"><?php echo __('Gift Message') ?></a>
         <?php endif; ?>
     </td>

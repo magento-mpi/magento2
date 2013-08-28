@@ -17,7 +17,7 @@
     var checkBoxes = $H({});
     var warning = false;
     var inRoleUsers = $H(arrayToObject(
-        <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>)
+        <?php echo Mage::helper('Magento_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>)
     );
     if (inRoleUsers.size() > 0) {
         warning = true;

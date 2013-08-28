@@ -18,6 +18,29 @@
 class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_Items_Abstract
 {
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize default item renderer for row-level items output
      */
     protected function _construct()
@@ -224,7 +247,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     public function renderTotals($totals, $colspan=null)
     {
         if ($colspan === null) {
-            $colspan = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices() ? 5 : 3;
+            $colspan = $this->_taxData->displayCartBothPrices() ? 5 : 3;
         }
         $totals = $this->getChildBlock('totals')->setTotals($totals)->renderTotals('', $colspan)
             . $this->getChildBlock('totals')->setTotals($totals)->renderTotals('footer', $colspan);

@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
      */
     protected function _getHelper()
     {
-        return $this->helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        return $this->_adminhtmlCatalogProductEditActionAttribute;
     }
 
     /**

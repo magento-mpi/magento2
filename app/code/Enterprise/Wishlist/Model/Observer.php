@@ -25,21 +25,12 @@ class Enterprise_Wishlist_Model_Observer
     protected $_wishlistData = null;
 
     /**
-     * Wishlist data
-     *
-     * @var Magento_Wishlist_Helper_Data
-     */
-    protected $_wishlistData = null;
-
-    /**
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Enterprise_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Wishlist_Helper_Data $mWishlistData
+     * @param Enterprise_Wishlist_Helper_Data $eWishlistData
      */
     public function __construct(
-        Magento_Wishlist_Helper_Data $wishlistData,
         Enterprise_Wishlist_Helper_Data $wishlistData
     ) {
-        $this->_wishlistData = $wishlistData;
         $this->_wishlistData = $wishlistData;
     }
 

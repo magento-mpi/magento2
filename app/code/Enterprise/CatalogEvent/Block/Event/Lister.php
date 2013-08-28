@@ -32,16 +32,27 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     protected $_catalogEventData = null;
 
     /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Enterprise_CatalogEvent_Helper_Data $catalogEventData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
+     * @param Magento_Core_Block_Template_Context $coreData
+     * @param array $context
+     * @param  $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Category $catalogCategory,
         Enterprise_CatalogEvent_Helper_Data $catalogEventData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_catalogCategory = $catalogCategory;
         $this->_catalogEventData = $catalogEventData;
         parent::__construct($coreData, $context, $data);
     }
@@ -81,7 +92,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     {
         if ($this->_events === null) {
             $this->_events = array();
-            $categories = $this->helper('Magento_Catalog_Helper_Category')->getStoreCategories('position', true, false);
+            $categories = $this->_catalogCategory->getStoreCategories('position', true, false);
             if (($categories instanceof Magento_Eav_Model_Entity_Collection_Abstract) ||
                 ($categories instanceof Magento_Core_Model_Resource_Db_Collection_Abstract)) {
                 $allIds = $categories->getAllIds();
@@ -130,7 +141,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function getCategoryUrl($category)
     {
-        return $this->helper('Magento_Catalog_Helper_Category')->getCategoryUrl($category);
+        return $this->_catalogCategory->getCategoryUrl($category);
     }
 
     /**
@@ -141,7 +152,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function getEventImageUrl($event)
     {
-        return $this->helper('Enterprise_CatalogEvent_Helper_Data')->getEventImageUrl($event);
+        return $this->_catalogEventData->getEventImageUrl($event);
     }
 
     /**

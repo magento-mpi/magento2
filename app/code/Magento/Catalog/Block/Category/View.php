@@ -17,6 +17,29 @@
  */
 class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
 {
+    /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Helper_Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Category $catalogCategory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogCategory = $catalogCategory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -34,7 +57,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
             if ($keywords = $category->getMetaKeywords()) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()) {
+            if ($this->_catalogCategory->canUseCanonicalTag()) {
                 $headBlock->addLinkRel('canonical', $category->getUrl());
             }
             /*

@@ -31,10 +31,10 @@
                         <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/>
                         <?php endif; ?>
                         <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), Mage::helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
                         <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                         <?php echo $_excl; ?>
-                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                             (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                         <?php endif; ?>
                         </label>

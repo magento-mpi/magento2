@@ -18,6 +18,35 @@
 class Magento_Tag_Block_Adminhtml_Grid_Pending extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Tag data
+     *
+     * @var Magento_Tag_Helper_Data
+     */
+    protected $_tagData = null;
+
+    /**
+     * @param Magento_Tag_Helper_Data $tagData
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tag_Helper_Data $tagData,
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_tagData = $tagData;
+        parent::__construct($backendData, $coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Constructor
      *
      * @return void
@@ -120,7 +149,7 @@ class Magento_Tag_Block_Adminhtml_Grid_Pending extends Magento_Adminhtml_Block_W
              'confirm' => __('Are you sure?')
         ));
 
-        $statuses = $this->helper('Magento_Tag_Helper_Data')->getStatusesOptionsArray();
+        $statuses = $this->_tagData->getStatusesOptionsArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
 

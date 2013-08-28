@@ -34,6 +34,19 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     protected $_coreString = null;
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Helper_Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Checkout_Helper_Cart $checkoutCart
+     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     * @param Magento_Page_Helper_Layout $pageLayout
+     * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -42,6 +55,12 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Checkout_Helper_Cart $checkoutCart,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Page_Helper_Layout $pageLayout,
+        Magento_Catalog_Helper_Image $catalogImage,
         Magento_Core_Helper_String $coreString,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -49,8 +68,9 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_catalogProduct = $catalogProduct;
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($catalogImage, $pageLayout, $catalogProductCompare, $wishlistData, $checkoutCart, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**
@@ -81,7 +101,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             } else {
                 $headBlock->setDescription($this->_coreString->substr($product->getDescription(), 0, 255));
             }
-            if ($this->helper('Magento_Catalog_Helper_Product')->canUseCanonicalTag()) {
+            if ($this->_catalogProduct->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
                 $headBlock->addLinkRel('canonical', $product->getUrlModel()->getUrl($product, $params));
             }
@@ -140,7 +160,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
 
-        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->_checkoutCart->getAddUrl($product, $additional);
     }
 
     /**

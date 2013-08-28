@@ -14,7 +14,7 @@
 
 /** @var $this Magento_Checkout_Block_Cart_Item_Renderer */
 $_item = $this->getItem();
-$displayBothPrices = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices();
+$displayBothPrices = Mage::helper('Magento_Tax_Helper_Data')->displayCartBothPrices();
 $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
 ?>
 <tr>
@@ -28,7 +28,7 @@ $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
         <?php endif;?>
     </td>
     <td class="a-center"></td>
-    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
+    <?php if (Mage::helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
     <td class="a-right"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
     <td class="a-center">
         <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo __('Qty') ?>" class="input-text qty disabled" maxlength="12" disabled="disabled" />

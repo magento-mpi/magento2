@@ -135,13 +135,13 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
         $_priceInclTax = $this->getPrice($value['pricing_value'], true);
         $_priceExclTax = $this->getPrice($value['pricing_value']);
         if ($taxHelper->displayPriceIncludingTax()) {
-            $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
+            $priceStr .= $this->_coreData->currencyByStore($_priceInclTax, $store, true, $flag);
         } elseif ($taxHelper->displayPriceExcludingTax()) {
-            $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
+            $priceStr .= $this->_coreData->currencyByStore($_priceExclTax, $store, true, $flag);
         } elseif ($taxHelper->displayBothPrices()) {
-            $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
+            $priceStr .= $this->_coreData->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' ('.$sign.$this->helper('Magento_Core_Helper_Data')
+                $priceStr .= ' ('.$sign.$this->_coreData
                     ->currencyByStore($_priceInclTax, $store, true, $flag).' '.__('Incl. Tax').')';
             }
         }
@@ -179,6 +179,6 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->_coreData->currencyByStore($price, $store, false);
     }
 }

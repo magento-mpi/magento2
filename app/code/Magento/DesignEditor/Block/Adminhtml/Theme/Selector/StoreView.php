@@ -196,7 +196,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
         $options['afterAssignOpen']  = false;
 
         /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->helper('Magento_Core_Helper_Data');
+        $helper = $this->_coreData;
 
         return $helper->jsonEncode($options);
     }

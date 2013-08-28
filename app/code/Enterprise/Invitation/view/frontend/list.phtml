@@ -44,7 +44,7 @@
                 <?php echo $this->escapeHtml($invitation->getEmail()); ?>
             </td>
             <td>
-                <?php echo $this->helper('Enterprise_Invitation_Helper_Data')->getInvitationStatusText($invitation);?>
+                <?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->getInvitationStatusText($invitation);?>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -64,5 +64,5 @@
 
 <div class="buttons-set">
     <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo __('Back') ?></a></p>
-    <a href="<?php echo $this->helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationFormUrl(); ?>" class="button"><span><?php echo __('Send Invitations') ?></span></a>
+    <a href="<?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->getCustomerInvitationFormUrl(); ?>" class="button"><span><?php echo __('Send Invitations') ?></span></a>
 </div>

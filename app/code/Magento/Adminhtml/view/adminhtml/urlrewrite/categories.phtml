@@ -13,7 +13,7 @@
         <input type="hidden" name="categories" id="product_categories" value="" />
         <?php if ($this->getRoot()): ?>
         <div data-mage-init="<?php
-            echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 "categoryTree" => array(
                     "data" => $this->getTreeArray(null),
                     "url" => $this->getLoadTreeUrl(),

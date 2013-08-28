@@ -59,12 +59,12 @@
 
                     <?php $_excl = $this->getShippingPriceExclTax(); ?>
                     <?php $_incl = $this->getShippingPriceInclTax(); ?>
-                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                         <?php echo $_incl; ?>
                     <?php else: ?>
                         <?php echo $_excl; ?>
                     <?php endif; ?>
-                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
 

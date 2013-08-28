@@ -27,17 +27,21 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtm
     protected $_rmaData = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Sales_Helper_Reorder $salesReorder
      * @param Enterprise_Rma_Helper_Data $rmaData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Sales_Helper_Reorder $salesReorder,
         Enterprise_Rma_Helper_Data $rmaData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $data);
+        parent::__construct($salesReorder, $coreData, $context, $data);
     }
 
     /**

@@ -18,6 +18,29 @@
 class Magento_Oauth_Block_Authorize extends Magento_Oauth_Block_AuthorizeBaseAbstract
 {
     /**
+     * Customer data
+     *
+     * @var Magento_Customer_Helper_Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve customer form posting url
      *
      * @return string
@@ -25,7 +48,7 @@ class Magento_Oauth_Block_Authorize extends Magento_Oauth_Block_AuthorizeBaseAbs
     public function getPostActionUrl()
     {
         /** @var $helper Magento_Customer_Helper_Data */
-        $helper = $this->helper('Magento_Customer_Helper_Data');
+        $helper = $this->_customerData;
         $url = $helper->getLoginPostUrl();
         if ($this->getIsSimple()) {
             if (strstr($url, '?')) {

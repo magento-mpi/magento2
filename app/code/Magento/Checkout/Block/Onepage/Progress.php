@@ -17,6 +17,29 @@
  */
 class Magento_Checkout_Block_Onepage_Progress extends Magento_Checkout_Block_Onepage_Abstract
 {
+    /**
+     * Checkout data
+     *
+     * @var Magento_Checkout_Helper_Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param Magento_Checkout_Helper_Data $checkoutData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
     public function getBilling()
     {
         return $this->getQuote()->getBillingAddress();
@@ -42,7 +65,7 @@ class Magento_Checkout_Block_Onepage_Progress extends Magento_Checkout_Block_One
         /*$amount = $this->getQuote()->getShippingAddress()->getShippingAmount();
         $filter = Mage::app()->getStore()->getPriceFilter();
         return $filter->filter($amount);*/
-        //return $this->helper('Magento_Checkout_Helper_Data')->formatPrice(
+        //return $this->_checkoutData->formatPrice(
         //    $this->getQuote()->getShippingAddress()->getShippingAmount()
         //);
         return $this->getQuote()->getShippingAddress()->getShippingAmount();

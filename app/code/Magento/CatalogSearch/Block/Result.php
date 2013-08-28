@@ -55,7 +55,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
      */
     protected function _getQuery()
     {
-        return $this->helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+        return $this->_catalogSearchData->getQuery();
     }
 
     /**
@@ -68,7 +68,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $title = __("Search results for: '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getQueryText());
+            $title = __("Search results for: '%1'", $this->_catalogSearchData->getQueryText());
 
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
@@ -81,7 +81,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
         }
 
         // modify page title
-        $title = __("Search results for: '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText());
+        $title = __("Search results for: '%1'", $this->_catalogSearchData->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         return parent::_prepareLayout();

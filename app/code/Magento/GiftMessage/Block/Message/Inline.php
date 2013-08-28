@@ -33,17 +33,27 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     protected $_giftMessageMessage = null;
 
     /**
+     * Catalog image
+     *
+     * @var Magento_Catalog_Helper_Image
+     */
+    protected $_catalogImage = null;
+
+    /**
+     * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Helper_Image $catalogImage,
         Magento_GiftMessage_Helper_Message $giftMessageMessage,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_catalogImage = $catalogImage;
         $this->_giftMessageMessage = $giftMessageMessage;
         parent::__construct($coreData, $context, $data);
     }
@@ -108,7 +118,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->_giftMessageMessage->getGiftMessage(
             $this->getEntity()->getGiftMessageId()
         );
         return $this;
@@ -157,7 +167,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
         if ($entity) {
             if (!$entity->getGiftMessage()) {
                 $entity->setGiftMessage(
-                    $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($entity->getGiftMessageId())
+                    $this->_giftMessageMessage->getGiftMessage($entity->getGiftMessageId())
                 );
             }
             return $entity->getGiftMessage();
@@ -288,7 +298,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string)$this->_catalogImage->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 

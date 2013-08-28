@@ -66,9 +66,9 @@
                             regionInputId: '#region',
                             postcodeId: '#postcode',
                             form: $('#shipping-zip-form').validation(),
-                            regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
+                            regionJson: <?php echo Mage::helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
                             defaultRegion: "<?php echo $this->getEstimateRegionId() ?>",
-                            countriesWithOptionalZip: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                            countriesWithOptionalZip: <?php echo Mage::helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
                         });
                     });
             })(jQuery);
@@ -88,10 +88,10 @@
                                <?php else: ?>
                                     <input name="estimate_method" type="radio" value="<?php echo $this->escapeHtml($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
                                     <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                                    <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
+                                    <?php $_excl = $this->getShippingPrice($_rate->getPrice(), Mage::helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
                                     <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                                     <?php echo $_excl; ?>
-                                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                    <?php if (Mage::helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                                         (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                                     <?php endif; ?>
                                     </label>

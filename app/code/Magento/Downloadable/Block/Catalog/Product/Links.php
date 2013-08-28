@@ -86,7 +86,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         }
 
         $taxHelper = $this->_taxData;
-        $coreHelper = $this->helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->_coreData;
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
 
@@ -116,7 +116,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->_coreData->currencyByStore($price, $store, false);
     }
 
     /**

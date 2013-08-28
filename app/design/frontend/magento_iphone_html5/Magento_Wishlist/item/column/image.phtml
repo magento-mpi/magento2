@@ -14,7 +14,7 @@ $product = $item->getProduct();
 ?>
 <div class="product-image">
     <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>">
-        <img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')->resize(226); ?>" width="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" />
+        <img src="<?php echo Mage::helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')->resize(226); ?>" width="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" />
     </a>
     <?php if ($product->isVisibleInSiteVisibility()): ?>
         <a class="link-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo __('Edit') ?></a>

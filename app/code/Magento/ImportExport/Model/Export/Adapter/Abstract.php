@@ -37,28 +37,8 @@ abstract class Magento_ImportExport_Model_Export_Adapter_Abstract
      * @param string $destination OPTIONAL Destination file path.
      * @throws Exception
      */
-    final /**
-     * Adapter object constructor.
-     *
-     *
-     *
-     * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param string $destination
-     */
-    /**
-     * Import export data
-     *
-     * @var Magento_ImportExport_Helper_Data
-     */
-    protected $_importExportData = null;
-
-    public function __construct(
-        Magento_ImportExport_Helper_Data $importExportData,
-        $destination = null
-    ) {
-        $this->_importExportData = $importExportData;
-        /** @var $helper Magento_ImportExport_Helper_Data */
-        $helper = $this->_importExportData;
+    public function __construct($destination = null)
+    {
         if (!$destination) {
             $destination = tempnam(sys_get_temp_dir(), 'importexport_');
         }

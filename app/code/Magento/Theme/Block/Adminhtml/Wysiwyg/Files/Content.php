@@ -16,6 +16,29 @@
 class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backend_Block_Widget_Container
 {
     /**
+     * Theme storage
+     *
+     * @var Magento_Theme_Helper_Storage
+     */
+    protected $_themeStorage = null;
+
+    /**
+     * @param Magento_Theme_Helper_Storage $themeStorage
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Theme_Helper_Storage $themeStorage,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_themeStorage = $themeStorage;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Block construction
      */
     protected function _construct()
@@ -63,7 +86,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
     public function getContentsUrl()
     {
         return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
-            + $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+            + $this->_themeStorage->getRequestParams());
     }
 
     /**
@@ -89,7 +112,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
             'showBreadcrumbs' => true
         ));
 
-        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->_coreData->jsonEncode($setupObject);
     }
 
     /**
@@ -99,7 +122,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getNewfolderUrl()
     {
-        return $this->getUrl('*/*/newFolder', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/newFolder', $this->_themeStorage->getRequestParams());
     }
 
     /**
@@ -109,7 +132,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     protected function getDeletefolderUrl()
     {
-        return $this->getUrl('*/*/deleteFolder', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/deleteFolder', $this->_themeStorage->getRequestParams());
     }
 
     /**
@@ -119,7 +142,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getDeleteFilesUrl()
     {
-        return $this->getUrl('*/*/deleteFiles', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/deleteFiles', $this->_themeStorage->getRequestParams());
     }
 
     /**
@@ -129,7 +152,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getOnInsertUrl()
     {
-        return $this->getUrl('*/*/onInsert', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/onInsert', $this->_themeStorage->getRequestParams());
     }
 
     /**

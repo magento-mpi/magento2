@@ -18,6 +18,29 @@
 class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magento_Adminhtml_Block_Template
 {
     /**
+     * Gift message message
+     *
+     * @var Magento_GiftMessage_Helper_Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftMessage_Helper_Message $giftMessageMessage,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get order item
      *
      * @return Magento_Sales_Model_Quote_Item
@@ -38,7 +61,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magen
         if (!$item) {
             return false;
         }
-        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->_giftMessageMessage->getIsMessagesAvailable(
             'item', $item, $item->getStoreId()
         );
     }
@@ -64,7 +87,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Items extends Magen
     public function getMessageText()
     {
         if ($this->getItem()->getGiftMessageId()) {
-            $model = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $model = $this->_giftMessageMessage->getGiftMessage($this->getItem()->getGiftMessageId());
             return $this->escapeHtml($model->getMessage());
         }
         return '';

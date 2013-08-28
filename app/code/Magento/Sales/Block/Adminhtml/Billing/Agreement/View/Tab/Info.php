@@ -18,6 +18,11 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
 {
     protected $_template = 'billing/agreement/view/tab/info.phtml';
 
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Return Tab label
      *
@@ -84,11 +89,11 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
         $this->setCustomerEmail($customer->getEmail());
         $this->setStatus($agreement->getStatusLabel());
         $this->setCreatedAt(
-            $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getCreatedAt(), 'short', true)
+            $this->_coreData->formatDate($agreement->getCreatedAt(), 'short', true)
         );
         $this->setUpdatedAt(
              ($agreement->getUpdatedAt())
-                ? $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
+                ? $this->_coreData->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
         );
 
         return parent::_toHtml();

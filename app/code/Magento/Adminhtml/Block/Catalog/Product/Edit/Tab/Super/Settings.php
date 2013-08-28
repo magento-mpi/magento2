@@ -18,6 +18,11 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Magento_Adminhtml_Block_Widget_Form
 {
+    public function __construct(Magento_Core_Helper_Data $coreData, Magento_Backend_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Prepare block children and data
      *
@@ -25,7 +30,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     protected function _prepareLayout()
     {
         $onclick = "jQuery('[data-form=edit-product]').attr('action', "
-            . $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
+            . $this->_coreData->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
         $this->addChild('continue_button', 'Magento_Backend_Block_Widget_Button', array(
             'label'   => __('Generate Variations'),

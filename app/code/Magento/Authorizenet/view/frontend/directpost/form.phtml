@@ -16,8 +16,8 @@
 $_form = $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
-$_controller = $this->helper('Magento_Authorizenet_Helper_Data')->getControllerName();
-$_orderUrl = $this->helper('Magento_Authorizenet_Helper_Data')->getPlaceOrderFrontUrl();
+$_controller = Mage::helper('Magento_Authorizenet_Helper_Data')->getControllerName();
+$_orderUrl = Mage::helper('Magento_Authorizenet_Helper_Data')->getPlaceOrderFrontUrl();
 ?>
 <div class="buttons-set">
 <!-- IFRAME for request to Authorize.net -->

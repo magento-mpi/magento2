@@ -18,7 +18,7 @@
         <strong><?php echo __('Grand Total Excl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotalExclTax()) ?></strong>
+        <strong><?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotalExclTax()) ?></strong>
     </td>
 </tr>
 <?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
@@ -27,7 +27,7 @@
         <strong><?php echo __('Grand Total Incl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
+        <strong><?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
 <?php else:?>
@@ -36,7 +36,7 @@
         <strong><?php echo $this->getTotal()->getTitle() ?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
+        <strong><?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
 <?php endif;?>

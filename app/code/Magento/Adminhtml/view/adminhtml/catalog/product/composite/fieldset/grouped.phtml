@@ -44,7 +44,7 @@
             <?php if ($_hasAssociatedProducts): ?>
                 <?php $i = 0 ?>
             <?php foreach ($_associatedProducts as $_item): ?>
-                <?php $_finalPriceInclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+                <?php $_finalPriceInclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($_item, $_item->getFinalPrice(), true) ?>
                 <tr class="<?php echo (++$i % 2) ? 'even' : 'odd' ?>">
                     <td><?php echo $_item->getId() ?></td>
                     <td><?php echo $this->escapeHtml($_item->getSku()) ?></td>

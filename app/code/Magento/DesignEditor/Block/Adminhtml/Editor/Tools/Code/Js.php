@@ -127,7 +127,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
     {
         $customization = $this->_themeContext->getStagingTheme()->getCustomization();
         $jsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
-        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($customization->generateFileInfo($jsFiles));
+        return $this->_coreData->jsonEncode($customization->generateFileInfo($jsFiles));
     }
 
     /**

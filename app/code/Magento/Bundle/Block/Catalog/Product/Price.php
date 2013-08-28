@@ -49,7 +49,7 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
             $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false) {
             return false;
         }
-        return $this->helper('Magento_Tax_Helper_Data')->displayBothPrices();
+        return $this->_taxData->displayBothPrices();
     }
 
     /**

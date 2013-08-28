@@ -19,6 +19,30 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magent
     protected $_template = 'categories.phtml';
 
     /**
+     * Catalog event adminhtml event
+     *
+     * @var Enterprise_CatalogEvent_Helper_Adminhtml_Event
+     */
+    protected $_catalogEventAdminhtmlEvent = null;
+
+    /**
+     * @param Enterprise_CatalogEvent_Helper_Adminhtml_Event
+     * $catalogEventAdminhtmlEvent
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Enterprise_CatalogEvent_Helper_Adminhtml_Event $catalogEventAdminhtmlEvent,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogEventAdminhtmlEvent = $catalogEventAdminhtmlEvent;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get categories tree as recursive array
      *
      * @param int $parentId
@@ -72,7 +96,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magent
      */
     protected function _getNodesArray($node)
     {
-        $eventHelper = $this->helper('Enterprise_CatalogEvent_Helper_Adminhtml_Event');
+        $eventHelper = $this->_catalogEventAdminhtmlEvent;
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),

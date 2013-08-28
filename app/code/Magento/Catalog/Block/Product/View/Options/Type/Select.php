@@ -19,6 +19,11 @@
 class Magento_Catalog_Block_Product_View_Options_Type_Select
     extends Magento_Catalog_Block_Product_View_Options_Abstract
 {
+    public function __construct(Magento_Tax_Helper_Data $taxData, Magento_Core_Helper_Data $coreData, Magento_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($taxData, $coreData, $context, $data);
+    }
+
     /**
      * Return html for control element
      *
@@ -57,7 +62,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                     $_value->getOptionTypeId(),
                     $_value->getTitle() . ' ' . $priceStr . '',
                     array(
-                        'price' => $this->helper('Magento_Core_Helper_Data')->currencyByStore(
+                        'price' => $this->_coreData->currencyByStore(
                             $_value->getPrice(true),
                             $store,
                             false
@@ -125,7 +130,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Select
                     . ($this->getSkipJsReloadPrice() ? '' : ' onclick="opConfig.reloadPrice()"')
                     . ' name="options[' . $_option->getId() . ']' . $arraySign . '" id="options_' . $_option->getId()
                     . '_' . $count . '" value="' . $htmlValue . '" ' . $checked . ' price="'
-                    . $this->helper('Magento_Core_Helper_Data')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
+                    . $this->_coreData->currencyByStore($_value->getPrice(true), $store, false) . '" />'
                     . '<label class="label" for="options_' . $_option->getId() . '_' . $count . '"><span>'
                     . $_value->getTitle() . '</span>' . $priceStr . '</label>';
                 $selectHtml .= '</div>';

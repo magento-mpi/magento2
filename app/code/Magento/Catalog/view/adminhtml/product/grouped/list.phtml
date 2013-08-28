@@ -35,7 +35,7 @@
 </script>
 <div class="grid-container" class="no-display">
     <table class="data-table" data-role="grouped-product-grid"
-        data-products="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode(
+        data-products="<?php echo $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
                 $this->getAssociatedProducts()
         )); ?>">
         <thead>

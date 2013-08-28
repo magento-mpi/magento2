@@ -13,6 +13,11 @@
   */
 class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_Block_Sales_Order_Totals
 {
+    public function __construct(array $data = array(), Magento_Core_Block_Template_Context $context, Magento_Core_Helper_Data $coreData, Magento_Adminhtml_Helper_Sales $adminhtmlSales)
+    {
+        parent::__construct($data, $context, $coreData, $adminhtmlSales, $coreData, $context, $data);
+    }
+
     /**
      * Determine display parameters before rendering HTML
      *
@@ -59,7 +64,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
      */
     public function displayPrices($baseAmount, $amount)
     {
-        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices($this->getOrder(), $baseAmount, $amount);
+        return $this->_adminhtmlSales->displayPrices($this->getOrder(), $baseAmount, $amount);
     }
 
     /**
@@ -72,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Item extends Magento_Adminhtml_
      */
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
-        return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
+        return $this->_adminhtmlSales->displayPriceAttribute($this->getSource(), $code, $strong, $separator);
     }
 
     /**

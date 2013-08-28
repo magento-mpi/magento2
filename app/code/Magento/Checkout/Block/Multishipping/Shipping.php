@@ -18,6 +18,29 @@
 class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_Items_Abstract
 {
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get multishipping checkout model
      *
      * @return Magento_Checkout_Model_Type_Multishipping
@@ -106,6 +129,6 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
 
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $address), true);
+        return $address->getQuote()->getStore()->convertPrice($this->_taxData->getShippingPrice($price, $flag, $address), true);
     }
 }

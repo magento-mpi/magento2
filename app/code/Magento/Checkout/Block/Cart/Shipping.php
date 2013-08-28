@@ -31,6 +31,31 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     protected $_address = array();
 
     /**
+     * Tax data
+     *
+     * @var Magento_Tax_Helper_Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Get Estimate Rates
      *
      * @return array
@@ -174,7 +199,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice(
+        return $this->formatPrice($this->_taxData->getShippingPrice(
             $price,
             $flag,
             $this->getAddress(),

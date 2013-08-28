@@ -49,6 +49,29 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
     protected $_template = 'hss/js.phtml';
 
     /**
+     * Paypal hss
+     *
+     * @var Magento_Paypal_Helper_Hss
+     */
+    protected $_paypalHss = null;
+
+    /**
+     * @param Magento_Paypal_Helper_Hss $paypalHss
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Paypal_Helper_Hss $paypalHss,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_paypalHss = $paypalHss;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Internal constructor
      *
      */
@@ -59,7 +82,7 @@ class Magento_Paypal_Block_Iframe extends Magento_Payment_Block_Form
             ->getQuote()
             ->getPayment()
             ->getMethod();
-        if (in_array($paymentCode, $this->helper('Magento_Paypal_Helper_Hss')->getHssMethods())) {
+        if (in_array($paymentCode, $this->_paypalHss->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
             $templatePath = str_replace('_', '', $paymentCode);
             $templateFile = "{$templatePath}/iframe.phtml";

@@ -18,6 +18,29 @@
 class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_Widget_Form_Container
 {
 
+    /**
+     * Sales reorder
+     *
+     * @var Magento_Sales_Helper_Reorder
+     */
+    protected $_salesReorder = null;
+
+    /**
+     * @param Magento_Sales_Helper_Reorder $salesReorder
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Helper_Reorder $salesReorder,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_salesReorder = $salesReorder;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId    = 'order_id';
@@ -155,7 +178,7 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
         }
 
         if ($this->_isAllowedAction('Magento_Sales::reorder')
-            && $this->helper('Magento_Sales_Helper_Reorder')->isAllowed($order->getStore())
+            && $this->_salesReorder->isAllowed($order->getStore())
             && $order->canReorderIgnoreSalable()
         ) {
             $this->_addButton('order_reorder', array(

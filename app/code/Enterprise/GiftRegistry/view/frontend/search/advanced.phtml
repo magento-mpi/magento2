@@ -28,7 +28,7 @@
                     optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,
                     regionListId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegion()?>',
                     regionInputId: '#<?php echo $this->getFieldIdPrefix() . $this->getElementRegionText()?>',
-                    regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>,
+                    regionJson: <?php echo Mage::helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>,
                     isRegionRequired: false,
                     isZipRequired: false,
                     isCountryRequired: false

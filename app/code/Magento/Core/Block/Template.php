@@ -98,7 +98,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_tmplEngineFactory = $context->getEngineFactory();
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

@@ -41,9 +41,19 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
     /** @var string */
     protected $_template = 'Magento_Backend::widget/tabs.phtml';
 
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    /**
+     * @param array $data
+     * @param Magento_Core_Helper_Data $coreData
+     * @param  $context
+     * @param  $data
+     */
+    public function __construct(
+        array $data,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $data, $context, $data);
     }
 
     /**

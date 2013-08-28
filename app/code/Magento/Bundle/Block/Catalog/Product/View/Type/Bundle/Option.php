@@ -192,7 +192,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
             $price = $this->getProduct()->getPriceModel()
                 ->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
             if (is_numeric($price)) {
-                $price = $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+                $price = $this->_coreData->currencyByStore($price, $store, false);
             }
         }
         return is_numeric($price) ? $price : 0;
@@ -238,7 +238,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Magen
     public function formatPriceString($price, $includeContainer = true)
     {
         $taxHelper  = $this->_taxData;
-        $coreHelper = $this->helper('Magento_Core_Helper_Data');
+        $coreHelper = $this->_coreData;
         $currentProduct = $this->getProduct();
         if ($currentProduct->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
                 && $this->getFormatProduct()

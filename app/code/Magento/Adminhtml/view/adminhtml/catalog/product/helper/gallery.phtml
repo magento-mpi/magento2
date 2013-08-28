@@ -15,7 +15,7 @@ $elementName = $this->getElement()->getName() . '[images]';
      data-mage-init="{'productGallery':{template:'#<?php echo $this->getHtmlId() ?>-template'}}"
      data-images="<?php echo $this->escapeHtml($this->getImagesJson()) ?>"
      data-types="<?php echo $this->escapeHtml(
-         $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getImageTypes())
+         Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getImageTypes())
      ) ?>"
     >
     <?php if (!$this->getElement()->getReadonly()) { ?>

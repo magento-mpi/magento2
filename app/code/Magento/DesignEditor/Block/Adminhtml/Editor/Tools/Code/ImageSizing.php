@@ -29,6 +29,14 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
     protected $_themeContext;
 
     /**
+     * Backend data
+     *
+     * @var Magento_Backend_Helper_Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
@@ -36,12 +44,14 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Helper_Data $backendData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Eav_Model_Config $eavConfig,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
+        $this->_backendData = $backendData;
         parent::__construct($context, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
@@ -141,7 +151,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
                 'name'  => 'save_image_sizing',
                 'title' => __('Update'),
                 'value' => __('Update'),
-                'data-mage-init' => $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode(array(
+                'data-mage-init' => $this->_backendData->escapeHtml(json_encode(array(
                     'button' => array(
                         'event'  => 'saveForm',
                         'target' => 'body'
@@ -335,7 +345,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
             'title' => __('Reset to Original'),
             'value' => __('Reset to Original'),
             'class' => 'action-reset',
-            'data-mage-init' => $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode(array(
+            'data-mage-init' => $this->_backendData->escapeHtml(json_encode(array(
                 'button' => array(
                     'event'     => 'restoreDefaultData',
                     'target'    => 'body',
