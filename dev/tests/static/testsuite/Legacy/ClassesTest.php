@@ -185,7 +185,7 @@ class Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         $obsoleteClasses = array();
         foreach ($names as $name) {
             try {
-                $this->assertStringStartsNotWith('Mage_',$name);
+                $this->assertStringStartsNotWith('Mage_', $name);
             }
             catch (PHPUnit_Framework_AssertionFailedError $e) {
                 $obsoleteClasses[] = $name;
