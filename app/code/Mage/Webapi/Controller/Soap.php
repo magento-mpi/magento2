@@ -32,6 +32,12 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Webapi_Controller_Soap_Handler */
     protected $_soapHandler;
 
+    /** @var Mage_Core_Model_StoreManagerInterface */
+    protected $_storeManager;
+
+    /** @var Mage_Core_Model_App_State */
+    protected $_appState;
+
     /**
      * Initialize dependencies.
      *
@@ -42,6 +48,8 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
      * @param Mage_Webapi_Controller_ErrorProcessor $errorProcessor
      * @param Mage_Webapi_Controller_Soap_Handler $soapHandler
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Webapi_Controller_Soap_Request $request,
@@ -50,7 +58,9 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         Mage_Webapi_Model_Soap_Server $soapServer,
         Mage_Webapi_Model_Soap_Fault $soapFault,
         Mage_Webapi_Controller_ErrorProcessor $errorProcessor,
-        Mage_Webapi_Controller_Soap_Handler $soapHandler
+        Mage_Webapi_Controller_Soap_Handler $soapHandler,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_App_State $appState
     ) {
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
@@ -59,6 +69,8 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
         $this->_response = $response;
         $this->_errorProcessor = $errorProcessor;
         $this->_soapHandler = $soapHandler;
+        $this->_storeManager = $storeManager;
+        $this->_appState = $appState;
     }
 
     /**
@@ -81,23 +93,26 @@ class Mage_Webapi_Controller_Soap implements Mage_Core_Controller_FrontInterface
      */
     public function dispatch()
     {
-        try {
-            if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
-                $responseBody = $this->_autoDiscover->handle(
-                    $this->_request->getRequestedServices(),
-                    $this->_soapServer->generateUri()
-                );
-                $this->_setResponseContentType('text/xml');
-            } else {
-                $responseBody = $this->_initSoapServer()->handle();
-                $this->_setResponseContentType('application/soap+xml');
+        if (!$this->_appState->isInstalled()) {
+            $this->_response->setRedirect($this->_storeManager->getStore()->getBaseUrl() . 'install')->sendHeaders();
+        } else {
+            try {
+                if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
+                    $responseBody = $this->_autoDiscover->handle(
+                        $this->_request->getRequestedServices(),
+                        $this->_soapServer->generateUri()
+                    );
+                    $this->_setResponseContentType('text/xml');
+                } else {
+                    $responseBody = $this->_initSoapServer()->handle();
+                    $this->_setResponseContentType('application/soap+xml');
+                }
+                $this->_setResponseBody($responseBody);
+            } catch (Exception $e) {
+                $maskedException = $this->_errorProcessor->maskException($e);
+                $this->_processBadRequest($maskedException->getMessage());
             }
-            $this->_setResponseBody($responseBody);
-        } catch (Exception $e) {
-            $maskedException = $this->_errorProcessor->maskException($e);
-            $this->_processBadRequest($maskedException->getMessage());
         }
-
         $this->_response->sendResponse();
         return $this;
     }

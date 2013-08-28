@@ -35,6 +35,12 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_StoreManagerInterface */
+    protected $_storeManager;
+
+    /** @var Mage_Core_Model_App_State */
+    protected $_appState;
+
     /**
      * Initialize dependencies.
      *
@@ -54,7 +60,9 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
         // TODO: Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Rest_Authentication $authentication,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Helper_Data $helper
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_App_State $appState
     ) {
         $this->_restPresentation = $restPresentation;
         $this->_router = $router;
@@ -64,6 +72,8 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;
+        $this->_storeManager = $storeManager;
+        $this->_appState = $appState;
     }
 
     /**
@@ -86,32 +96,36 @@ class Mage_Webapi_Controller_Rest implements Mage_Core_Controller_FrontInterface
      */
     public function dispatch()
     {
-        try {
-            // TODO: $this->_authentication->authenticate();
-            $route = $this->_router->match($this->_request);
+        if (!$this->_appState->isInstalled()) {
+            $this->_response->setRedirect($this->_storeManager->getStore()->getBaseUrl() . 'install')->sendHeaders();
+        } else {
+            try {
+                // TODO: $this->_authentication->authenticate();
+                $route = $this->_router->match($this->_request);
 
-            // check if the operation is a secure operation & whether the request was made in HTTPS
-            if ($route->isSecure() && !$this->_request->isSecure()) {
-                throw new Mage_Webapi_Exception(
-                    $this->_helper->__('Operation allowed only in HTTPS'),
-                    Mage_Webapi_Exception::HTTP_FORBIDDEN
-                );
+                // check if the operation is a secure operation & whether the request was made in HTTPS
+                if ($route->isSecure() && !$this->_request->isSecure()) {
+                    throw new Mage_Webapi_Exception(
+                        $this->_helper->__('Operation allowed only in HTTPS'),
+                        Mage_Webapi_Exception::HTTP_FORBIDDEN
+                    );
+                }
+                /** @var Mage_Webapi_Controller_Rest_Presentation $inputData */
+                $inputData = $this->_restPresentation->getRequestData();
+                // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
+                $serviceMethod = $route->getServiceMethod();
+                $service = $this->_objectManager->get($route->getServiceId());
+                $outputData = $service->$serviceMethod($inputData);
+                if (!is_array($outputData)) {
+                    throw new LogicException(
+                        $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
+                            $route->getServiceId())
+                    );
+                }
+                $this->_restPresentation->prepareResponse($outputData);
+            } catch (Exception $e) {
+                $this->_response->setException($e);
             }
-            /** @var Mage_Webapi_Controller_Rest_Presentation $inputData */
-            $inputData = $this->_restPresentation->getRequestData();
-            // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
-            $serviceMethod = $route->getServiceMethod();
-            $service = $this->_objectManager->get($route->getServiceId());
-            $outputData = $service->$serviceMethod($inputData);
-            if (!is_array($outputData)) {
-                throw new LogicException(
-                    $this->_helper->__('The method "%s" of service "%s" must return an array.', $serviceMethod,
-                        $route->getServiceId())
-                );
-            }
-            $this->_restPresentation->prepareResponse($outputData);
-        } catch (Exception $e) {
-            $this->_response->setException($e);
         }
         $this->_response->sendResponse();
         return $this;
