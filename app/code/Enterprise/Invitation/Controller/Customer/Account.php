@@ -80,7 +80,7 @@ class Enterprise_Invitation_Controller_Customer_Account extends Magento_Customer
     public function createAction()
     {
         try {
-            $invitation = $this->_initInvitation();
+            $this->_initInvitation();
             $this->loadLayout();
             $this->_initLayoutMessages('Magento_Customer_Model_Session');
             $this->renderLayout();
@@ -136,8 +136,8 @@ class Enterprise_Invitation_Controller_Customer_Account extends Magento_Customer
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
-                    $this->_getSession()->addError(
-                        __('Your invitation is not valid. Please contact us at %1.', Mage::getStoreConfig('trans_email/ident_support/email'))
+                    $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
+                            Mage::getStoreConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;

@@ -136,6 +136,7 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     /**
      * Model before save
      *
+     * @throws Magento_Core_Exception
      * @return Enterprise_Invitation_Model_Invitation
      */
     protected function _beforeSave()
@@ -157,10 +158,10 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
                     $this->setGroupId($inviter->getGroupId());
                 }
                 if (!$this->hasGroupId()) {
-                    throw new Magento_Core_Exception(__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
+                    throw new Magento_Core_Exception(__('You need to specify a customer ID group.'),
+                        self::ERROR_INVALID_DATA);
                 }
-            }
-            else {
+            } else {
                 $this->unsetData('group_id');
             }
 
@@ -168,8 +169,7 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
                 throw new Magento_Core_Exception(__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
             }
             $this->makeSureCustomerNotExists();
-        }
-        else {
+        } else {
             if ($this->dataHasChangedFor('message') && !$this->canMessageBeUpdated()) {
                 throw new Magento_Core_Exception(__("You can't update this message."), self::ERROR_STATUS);
             }
@@ -204,8 +204,10 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
         $this->makeSureCanBeSent();
         $store = Mage::app()->getStore($this->getStoreId());
         $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
-        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $this->getStoreId()))
-            ->sendTransactional(
+        $mail->setDesignConfig(array(
+            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+            'store' => $this->getStoreId()
+        ))->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
                     'url'           => $this->_invitationData->getInvitationUrl($this),
@@ -258,7 +260,8 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
     public function makeSureCanBeSent()
     {
         if (!$this->getId()) {
-            throw new Magento_Core_Exception(__("We couldn't find an ID for this invitation."), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__("We couldn't find an ID for this invitation."),
+                self::ERROR_INVALID_DATA);
         }
         if ($this->getStatus() !== self::STATUS_NEW) {
             throw new Magento_Core_Exception(
@@ -266,7 +269,8 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
             );
         }
         if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            throw new Magento_Core_Exception(__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
+            throw new Magento_Core_Exception(__('Please correct the invalid or empty invitation email.'),
+                self::ERROR_INVALID_DATA);
         }
         $this->makeSureCustomerNotExists();
     }
@@ -295,7 +299,8 @@ class Enterprise_Invitation_Model_Invitation extends Magento_Core_Model_Abstract
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            $customer = Mage::getModel('Magento_Customer_Model_Customer')
+                ->setWebsiteId($websiteId)->loadByEmail($email);
             self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {

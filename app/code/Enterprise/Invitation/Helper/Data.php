@@ -48,14 +48,15 @@ class Enterprise_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Return text for invetation status
+     * Return text for invitation status
      *
-     * @return Enterprise_Invitation_Model_Invitation $invitation
-     * @return string
+     * @param $invitation
+     * @return \Enterprise_Invitation_Model_Invitation
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptionText($invitation->getStatus());
+        return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')
+            ->getOptionText($invitation->getStatus());
     }
 
     /**

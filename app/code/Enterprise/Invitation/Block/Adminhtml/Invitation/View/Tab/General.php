@@ -28,16 +28,18 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
 
     /**
      * @param Enterprise_Invitation_Helper_Data $invitationData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Enterprise_Invitation_Helper_Data $invitationData,
+        Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_invitationData = $invitationData;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
